@@ -9,7 +9,6 @@ package nexus
 import (
 	reflect "reflect"
 	sync "sync"
-	unsafe "unsafe"
 
 	v11 "go.temporal.io/api/common/v1"
 	v1 "go.temporal.io/api/enums/v1"
@@ -31,22 +30,25 @@ const (
 // A general purpose failure message.
 // See: https://github.com/nexus-rpc/api/blob/main/SPEC.md#failure
 type Failure struct {
-	state      protoimpl.MessageState `protogen:"open.v1"`
-	Message    string                 `protobuf:"bytes,1,opt,name=message,proto3" json:"message,omitempty"`
-	StackTrace string                 `protobuf:"bytes,4,opt,name=stack_trace,json=stackTrace,proto3" json:"stack_trace,omitempty"`
-	Metadata   map[string]string      `protobuf:"bytes,2,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
-	// UTF-8 encoded JSON serializable details.
-	Details       []byte   `protobuf:"bytes,3,opt,name=details,proto3" json:"details,omitempty"`
-	Cause         *Failure `protobuf:"bytes,5,opt,name=cause,proto3" json:"cause,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Message    string            `protobuf:"bytes,1,opt,name=message,proto3" json:"message,omitempty"`
+	StackTrace string            `protobuf:"bytes,4,opt,name=stack_trace,json=stackTrace,proto3" json:"stack_trace,omitempty"`
+	Metadata   map[string]string `protobuf:"bytes,2,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
+	// UTF-8 encoded JSON serializable details.
+	Details []byte   `protobuf:"bytes,3,opt,name=details,proto3" json:"details,omitempty"`
+	Cause   *Failure `protobuf:"bytes,5,opt,name=cause,proto3" json:"cause,omitempty"`
 }
 
 func (x *Failure) Reset() {
 	*x = Failure{}
-	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[0]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[0]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *Failure) String() string {
@@ -57,7 +59,7 @@ func (*Failure) ProtoMessage() {}
 
 func (x *Failure) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[0]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -108,21 +110,24 @@ func (x *Failure) GetCause() *Failure {
 }
 
 type HandlerError struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// See https://github.com/nexus-rpc/api/blob/main/SPEC.md#predefined-handler-errors.
 	ErrorType string   `protobuf:"bytes,1,opt,name=error_type,json=errorType,proto3" json:"error_type,omitempty"`
 	Failure   *Failure `protobuf:"bytes,2,opt,name=failure,proto3" json:"failure,omitempty"`
 	// Retry behavior, defaults to the retry behavior of the error type as defined in the spec.
 	RetryBehavior v1.NexusHandlerErrorRetryBehavior `protobuf:"varint,3,opt,name=retry_behavior,json=retryBehavior,proto3,enum=temporal.api.enums.v1.NexusHandlerErrorRetryBehavior" json:"retry_behavior,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
 }
 
 func (x *HandlerError) Reset() {
 	*x = HandlerError{}
-	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[1]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[1]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *HandlerError) String() string {
@@ -133,7 +138,7 @@ func (*HandlerError) ProtoMessage() {}
 
 func (x *HandlerError) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[1]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -170,19 +175,22 @@ func (x *HandlerError) GetRetryBehavior() v1.NexusHandlerErrorRetryBehavior {
 }
 
 type UnsuccessfulOperationError struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// See https://github.com/nexus-rpc/api/blob/main/SPEC.md#operationinfo.
 	OperationState string   `protobuf:"bytes,1,opt,name=operation_state,json=operationState,proto3" json:"operation_state,omitempty"`
 	Failure        *Failure `protobuf:"bytes,2,opt,name=failure,proto3" json:"failure,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
 }
 
 func (x *UnsuccessfulOperationError) Reset() {
 	*x = UnsuccessfulOperationError{}
-	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[2]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[2]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *UnsuccessfulOperationError) String() string {
@@ -193,7 +201,7 @@ func (*UnsuccessfulOperationError) ProtoMessage() {}
 
 func (x *UnsuccessfulOperationError) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[2]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -223,19 +231,22 @@ func (x *UnsuccessfulOperationError) GetFailure() *Failure {
 }
 
 type Link struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// See https://github.com/nexus-rpc/api/blob/main/SPEC.md#links.
-	Url           string `protobuf:"bytes,1,opt,name=url,proto3" json:"url,omitempty"`
-	Type          string `protobuf:"bytes,2,opt,name=type,proto3" json:"type,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// See https://github.com/nexus-rpc/api/blob/main/SPEC.md#links.
+	Url  string `protobuf:"bytes,1,opt,name=url,proto3" json:"url,omitempty"`
+	Type string `protobuf:"bytes,2,opt,name=type,proto3" json:"type,omitempty"`
 }
 
 func (x *Link) Reset() {
 	*x = Link{}
-	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[3]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[3]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *Link) String() string {
@@ -246,7 +257,7 @@ func (*Link) ProtoMessage() {}
 
 func (x *Link) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[3]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -277,7 +288,10 @@ func (x *Link) GetType() string {
 
 // A request to start an operation.
 type StartOperationRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Name of service to start the operation in.
 	Service string `protobuf:"bytes,1,opt,name=service,proto3" json:"service,omitempty"`
 	// Type of operation to start.
@@ -289,18 +303,18 @@ type StartOperationRequest struct {
 	// Full request body from the incoming HTTP request.
 	Payload *v11.Payload `protobuf:"bytes,5,opt,name=payload,proto3" json:"payload,omitempty"`
 	// Header that is expected to be attached to the callback request when the operation completes.
-	CallbackHeader map[string]string `protobuf:"bytes,6,rep,name=callback_header,json=callbackHeader,proto3" json:"callback_header,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	CallbackHeader map[string]string `protobuf:"bytes,6,rep,name=callback_header,json=callbackHeader,proto3" json:"callback_header,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 	// Links contain caller information and can be attached to the operations started by the handler.
-	Links         []*Link `protobuf:"bytes,7,rep,name=links,proto3" json:"links,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Links []*Link `protobuf:"bytes,7,rep,name=links,proto3" json:"links,omitempty"`
 }
 
 func (x *StartOperationRequest) Reset() {
 	*x = StartOperationRequest{}
-	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[4]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[4]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *StartOperationRequest) String() string {
@@ -311,7 +325,7 @@ func (*StartOperationRequest) ProtoMessage() {}
 
 func (x *StartOperationRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[4]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -377,7 +391,10 @@ func (x *StartOperationRequest) GetLinks() []*Link {
 
 // A request to cancel an operation.
 type CancelOperationRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Service name.
 	Service string `protobuf:"bytes,1,opt,name=service,proto3" json:"service,omitempty"`
 	// Type of operation to cancel.
@@ -390,15 +407,15 @@ type CancelOperationRequest struct {
 	OperationId string `protobuf:"bytes,3,opt,name=operation_id,json=operationId,proto3" json:"operation_id,omitempty"`
 	// Operation token as originally generated by a Handler.
 	OperationToken string `protobuf:"bytes,4,opt,name=operation_token,json=operationToken,proto3" json:"operation_token,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
 }
 
 func (x *CancelOperationRequest) Reset() {
 	*x = CancelOperationRequest{}
-	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[5]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[5]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *CancelOperationRequest) String() string {
@@ -409,7 +426,7 @@ func (*CancelOperationRequest) ProtoMessage() {}
 
 func (x *CancelOperationRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[5]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -455,33 +472,36 @@ func (x *CancelOperationRequest) GetOperationToken() string {
 
 // A Nexus request.
 type Request struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Headers extracted from the original request in the Temporal frontend.
 	// When using Nexus over HTTP, this includes the request's HTTP headers ignoring multiple values.
-	Header map[string]string `protobuf:"bytes,1,rep,name=header,proto3" json:"header,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	Header map[string]string `protobuf:"bytes,1,rep,name=header,proto3" json:"header,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 	// The timestamp when the request was scheduled in the frontend.
 	// (-- api-linter: core::0142::time-field-names=disabled
 	//
 	//	aip.dev/not-precedent: Not following linter rules. --)
 	ScheduledTime *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=scheduled_time,json=scheduledTime,proto3" json:"scheduled_time,omitempty"`
 	Capabilities  *Request_Capabilities  `protobuf:"bytes,100,opt,name=capabilities,proto3" json:"capabilities,omitempty"`
-	// Types that are valid to be assigned to Variant:
+	// Types that are assignable to Variant:
 	//
 	//	*Request_StartOperation
 	//	*Request_CancelOperation
 	Variant isRequest_Variant `protobuf_oneof:"variant"`
 	// The endpoint this request was addressed to before forwarding to the worker.
 	// Supported from server version 1.30.0.
-	Endpoint      string `protobuf:"bytes,10,opt,name=endpoint,proto3" json:"endpoint,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Endpoint string `protobuf:"bytes,10,opt,name=endpoint,proto3" json:"endpoint,omitempty"`
 }
 
 func (x *Request) Reset() {
 	*x = Request{}
-	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[6]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[6]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *Request) String() string {
@@ -492,7 +512,7 @@ func (*Request) ProtoMessage() {}
 
 func (x *Request) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[6]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -528,27 +548,23 @@ func (x *Request) GetCapabilities() *Request_Capabilities {
 	return nil
 }
 
-func (x *Request) GetVariant() isRequest_Variant {
-	if x != nil {
-		return x.Variant
+func (m *Request) GetVariant() isRequest_Variant {
+	if m != nil {
+		return m.Variant
 	}
 	return nil
 }
 
 func (x *Request) GetStartOperation() *StartOperationRequest {
-	if x != nil {
-		if x, ok := x.Variant.(*Request_StartOperation); ok {
-			return x.StartOperation
-		}
+	if x, ok := x.GetVariant().(*Request_StartOperation); ok {
+		return x.StartOperation
 	}
 	return nil
 }
 
 func (x *Request) GetCancelOperation() *CancelOperationRequest {
-	if x != nil {
-		if x, ok := x.Variant.(*Request_CancelOperation); ok {
-			return x.CancelOperation
-		}
+	if x, ok := x.GetVariant().(*Request_CancelOperation); ok {
+		return x.CancelOperation
 	}
 	return nil
 }
@@ -578,23 +594,26 @@ func (*Request_CancelOperation) isRequest_Variant() {}
 
 // Response variant for StartOperationRequest.
 type StartOperationResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// Types that are valid to be assigned to Variant:
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// Types that are assignable to Variant:
 	//
 	//	*StartOperationResponse_SyncSuccess
 	//	*StartOperationResponse_AsyncSuccess
 	//	*StartOperationResponse_OperationError
 	//	*StartOperationResponse_Failure
-	Variant       isStartOperationResponse_Variant `protobuf_oneof:"variant"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Variant isStartOperationResponse_Variant `protobuf_oneof:"variant"`
 }
 
 func (x *StartOperationResponse) Reset() {
 	*x = StartOperationResponse{}
-	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[7]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[7]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *StartOperationResponse) String() string {
@@ -605,7 +624,7 @@ func (*StartOperationResponse) ProtoMessage() {}
 
 func (x *StartOperationResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[7]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -620,46 +639,38 @@ func (*StartOperationResponse) Descriptor() ([]byte, []int) {
 	return file_temporal_api_nexus_v1_message_proto_rawDescGZIP(), []int{7}
 }
 
-func (x *StartOperationResponse) GetVariant() isStartOperationResponse_Variant {
-	if x != nil {
-		return x.Variant
+func (m *StartOperationResponse) GetVariant() isStartOperationResponse_Variant {
+	if m != nil {
+		return m.Variant
 	}
 	return nil
 }
 
 func (x *StartOperationResponse) GetSyncSuccess() *StartOperationResponse_Sync {
-	if x != nil {
-		if x, ok := x.Variant.(*StartOperationResponse_SyncSuccess); ok {
-			return x.SyncSuccess
-		}
+	if x, ok := x.GetVariant().(*StartOperationResponse_SyncSuccess); ok {
+		return x.SyncSuccess
 	}
 	return nil
 }
 
 func (x *StartOperationResponse) GetAsyncSuccess() *StartOperationResponse_Async {
-	if x != nil {
-		if x, ok := x.Variant.(*StartOperationResponse_AsyncSuccess); ok {
-			return x.AsyncSuccess
-		}
+	if x, ok := x.GetVariant().(*StartOperationResponse_AsyncSuccess); ok {
+		return x.AsyncSuccess
 	}
 	return nil
 }
 
 // Deprecated: Marked as deprecated in temporal/api/nexus/v1/message.proto.
 func (x *StartOperationResponse) GetOperationError() *UnsuccessfulOperationError {
-	if x != nil {
-		if x, ok := x.Variant.(*StartOperationResponse_OperationError); ok {
-			return x.OperationError
-		}
+	if x, ok := x.GetVariant().(*StartOperationResponse_OperationError); ok {
+		return x.OperationError
 	}
 	return nil
 }
 
 func (x *StartOperationResponse) GetFailure() *v12.Failure {
-	if x != nil {
-		if x, ok := x.Variant.(*StartOperationResponse_Failure); ok {
-			return x.Failure
-		}
+	if x, ok := x.GetVariant().(*StartOperationResponse_Failure); ok {
+		return x.Failure
 	}
 	return nil
 }
@@ -700,16 +711,18 @@ func (*StartOperationResponse_Failure) isStartOperationResponse_Variant() {}
 
 // Response variant for CancelOperationRequest.
 type CancelOperationResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
 }
 
 func (x *CancelOperationResponse) Reset() {
 	*x = CancelOperationResponse{}
-	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[8]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[8]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *CancelOperationResponse) String() string {
@@ -720,7 +733,7 @@ func (*CancelOperationResponse) ProtoMessage() {}
 
 func (x *CancelOperationResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[8]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -737,23 +750,26 @@ func (*CancelOperationResponse) Descriptor() ([]byte, []int) {
 
 // A response indicating that the handler has successfully processed a request.
 type Response struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Variant must correlate to the corresponding Request's variant.
 	//
-	// Types that are valid to be assigned to Variant:
+	// Types that are assignable to Variant:
 	//
 	//	*Response_StartOperation
 	//	*Response_CancelOperation
-	Variant       isResponse_Variant `protobuf_oneof:"variant"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Variant isResponse_Variant `protobuf_oneof:"variant"`
 }
 
 func (x *Response) Reset() {
 	*x = Response{}
-	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[9]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[9]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *Response) String() string {
@@ -764,7 +780,7 @@ func (*Response) ProtoMessage() {}
 
 func (x *Response) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[9]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -779,27 +795,23 @@ func (*Response) Descriptor() ([]byte, []int) {
 	return file_temporal_api_nexus_v1_message_proto_rawDescGZIP(), []int{9}
 }
 
-func (x *Response) GetVariant() isResponse_Variant {
-	if x != nil {
-		return x.Variant
+func (m *Response) GetVariant() isResponse_Variant {
+	if m != nil {
+		return m.Variant
 	}
 	return nil
 }
 
 func (x *Response) GetStartOperation() *StartOperationResponse {
-	if x != nil {
-		if x, ok := x.Variant.(*Response_StartOperation); ok {
-			return x.StartOperation
-		}
+	if x, ok := x.GetVariant().(*Response_StartOperation); ok {
+		return x.StartOperation
 	}
 	return nil
 }
 
 func (x *Response) GetCancelOperation() *CancelOperationResponse {
-	if x != nil {
-		if x, ok := x.Variant.(*Response_CancelOperation); ok {
-			return x.CancelOperation
-		}
+	if x, ok := x.GetVariant().(*Response_CancelOperation); ok {
+		return x.CancelOperation
 	}
 	return nil
 }
@@ -822,7 +834,10 @@ func (*Response_CancelOperation) isResponse_Variant() {}
 
 // A cluster-global binding from an endpoint ID to a target for dispatching incoming Nexus requests.
 type Endpoint struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Data version for this endpoint, incremented for every update issued via the UpdateNexusEndpoint API.
 	Version int64 `protobuf:"varint,1,opt,name=version,proto3" json:"version,omitempty"`
 	// Unique server-generated endpoint ID.
@@ -843,16 +858,16 @@ type Endpoint struct {
 	// Server exposed URL prefix for invocation of operations on this endpoint.
 	// This doesn't include the protocol, hostname or port as the server does not know how it should be accessed
 	// publicly. The URL is stable in the face of endpoint renames.
-	UrlPrefix     string `protobuf:"bytes,6,opt,name=url_prefix,json=urlPrefix,proto3" json:"url_prefix,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	UrlPrefix string `protobuf:"bytes,6,opt,name=url_prefix,json=urlPrefix,proto3" json:"url_prefix,omitempty"`
 }
 
 func (x *Endpoint) Reset() {
 	*x = Endpoint{}
-	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[10]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[10]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *Endpoint) String() string {
@@ -863,7 +878,7 @@ func (*Endpoint) ProtoMessage() {}
 
 func (x *Endpoint) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[10]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -922,7 +937,10 @@ func (x *Endpoint) GetUrlPrefix() string {
 
 // Contains mutable fields for an Endpoint.
 type EndpointSpec struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Endpoint name, unique for this cluster. Must match `[a-zA-Z_][a-zA-Z0-9_]*`.
 	// Renaming an endpoint breaks all workflow callers that reference this endpoint, causing operations to fail.
 	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
@@ -931,16 +949,16 @@ type EndpointSpec struct {
 	// By default, the server enforces a limit of 20,000 bytes for this entire payload.
 	Description *v11.Payload `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
 	// Target to route requests to.
-	Target        *EndpointTarget `protobuf:"bytes,3,opt,name=target,proto3" json:"target,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Target *EndpointTarget `protobuf:"bytes,3,opt,name=target,proto3" json:"target,omitempty"`
 }
 
 func (x *EndpointSpec) Reset() {
 	*x = EndpointSpec{}
-	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[11]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[11]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *EndpointSpec) String() string {
@@ -951,7 +969,7 @@ func (*EndpointSpec) ProtoMessage() {}
 
 func (x *EndpointSpec) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[11]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -989,21 +1007,24 @@ func (x *EndpointSpec) GetTarget() *EndpointTarget {
 
 // Target to route requests to.
 type EndpointTarget struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// Types that are valid to be assigned to Variant:
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// Types that are assignable to Variant:
 	//
 	//	*EndpointTarget_Worker_
 	//	*EndpointTarget_External_
-	Variant       isEndpointTarget_Variant `protobuf_oneof:"variant"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Variant isEndpointTarget_Variant `protobuf_oneof:"variant"`
 }
 
 func (x *EndpointTarget) Reset() {
 	*x = EndpointTarget{}
-	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[12]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[12]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *EndpointTarget) String() string {
@@ -1014,7 +1035,7 @@ func (*EndpointTarget) ProtoMessage() {}
 
 func (x *EndpointTarget) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[12]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1029,27 +1050,23 @@ func (*EndpointTarget) Descriptor() ([]byte, []int) {
 	return file_temporal_api_nexus_v1_message_proto_rawDescGZIP(), []int{12}
 }
 
-func (x *EndpointTarget) GetVariant() isEndpointTarget_Variant {
-	if x != nil {
-		return x.Variant
+func (m *EndpointTarget) GetVariant() isEndpointTarget_Variant {
+	if m != nil {
+		return m.Variant
 	}
 	return nil
 }
 
 func (x *EndpointTarget) GetWorker() *EndpointTarget_Worker {
-	if x != nil {
-		if x, ok := x.Variant.(*EndpointTarget_Worker_); ok {
-			return x.Worker
-		}
+	if x, ok := x.GetVariant().(*EndpointTarget_Worker_); ok {
+		return x.Worker
 	}
 	return nil
 }
 
 func (x *EndpointTarget) GetExternal() *EndpointTarget_External {
-	if x != nil {
-		if x, ok := x.Variant.(*EndpointTarget_External_); ok {
-			return x.External
-		}
+	if x, ok := x.GetVariant().(*EndpointTarget_External_); ok {
+		return x.External
 	}
 	return nil
 }
@@ -1070,9 +1087,12 @@ func (*EndpointTarget_Worker_) isEndpointTarget_Variant() {}
 
 func (*EndpointTarget_External_) isEndpointTarget_Variant() {}
 
-// NexusOperationExecutionCancellationInfo contains the state of a Nexus operation cancellation.
-type NexusOperationExecutionCancellationInfo struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+// NexusOperationCancellationInfo contains the state of a Nexus operation cancellation.
+type NexusOperationCancellationInfo struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The time when cancellation was requested.
 	RequestedTime *timestamppb.Timestamp             `protobuf:"bytes,1,opt,name=requested_time,json=requestedTime,proto3" json:"requested_time,omitempty"`
 	State         v1.NexusOperationCancellationState `protobuf:"varint,2,opt,name=state,proto3,enum=temporal.api.enums.v1.NexusOperationCancellationState" json:"state,omitempty"`
@@ -1088,27 +1108,27 @@ type NexusOperationExecutionCancellationInfo struct {
 	// If the state is BLOCKED, blocked reason provides additional information.
 	BlockedReason string `protobuf:"bytes,7,opt,name=blocked_reason,json=blockedReason,proto3" json:"blocked_reason,omitempty"`
 	// A reason that may be specified in the CancelNexusOperationRequest.
-	Reason        string `protobuf:"bytes,8,opt,name=reason,proto3" json:"reason,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Reason string `protobuf:"bytes,8,opt,name=reason,proto3" json:"reason,omitempty"`
 }
 
-func (x *NexusOperationExecutionCancellationInfo) Reset() {
-	*x = NexusOperationExecutionCancellationInfo{}
-	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[13]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+func (x *NexusOperationCancellationInfo) Reset() {
+	*x = NexusOperationCancellationInfo{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[13]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
-func (x *NexusOperationExecutionCancellationInfo) String() string {
+func (x *NexusOperationCancellationInfo) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*NexusOperationExecutionCancellationInfo) ProtoMessage() {}
+func (*NexusOperationCancellationInfo) ProtoMessage() {}
 
-func (x *NexusOperationExecutionCancellationInfo) ProtoReflect() protoreflect.Message {
+func (x *NexusOperationCancellationInfo) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[13]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1118,61 +1138,61 @@ func (x *NexusOperationExecutionCancellationInfo) ProtoReflect() protoreflect.Me
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use NexusOperationExecutionCancellationInfo.ProtoReflect.Descriptor instead.
-func (*NexusOperationExecutionCancellationInfo) Descriptor() ([]byte, []int) {
+// Deprecated: Use NexusOperationCancellationInfo.ProtoReflect.Descriptor instead.
+func (*NexusOperationCancellationInfo) Descriptor() ([]byte, []int) {
 	return file_temporal_api_nexus_v1_message_proto_rawDescGZIP(), []int{13}
 }
 
-func (x *NexusOperationExecutionCancellationInfo) GetRequestedTime() *timestamppb.Timestamp {
+func (x *NexusOperationCancellationInfo) GetRequestedTime() *timestamppb.Timestamp {
 	if x != nil {
 		return x.RequestedTime
 	}
 	return nil
 }
 
-func (x *NexusOperationExecutionCancellationInfo) GetState() v1.NexusOperationCancellationState {
+func (x *NexusOperationCancellationInfo) GetState() v1.NexusOperationCancellationState {
 	if x != nil {
 		return x.State
 	}
 	return v1.NexusOperationCancellationState(0)
 }
 
-func (x *NexusOperationExecutionCancellationInfo) GetAttempt() int32 {
+func (x *NexusOperationCancellationInfo) GetAttempt() int32 {
 	if x != nil {
 		return x.Attempt
 	}
 	return 0
 }
 
-func (x *NexusOperationExecutionCancellationInfo) GetLastAttemptCompleteTime() *timestamppb.Timestamp {
+func (x *NexusOperationCancellationInfo) GetLastAttemptCompleteTime() *timestamppb.Timestamp {
 	if x != nil {
 		return x.LastAttemptCompleteTime
 	}
 	return nil
 }
 
-func (x *NexusOperationExecutionCancellationInfo) GetLastAttemptFailure() *v12.Failure {
+func (x *NexusOperationCancellationInfo) GetLastAttemptFailure() *v12.Failure {
 	if x != nil {
 		return x.LastAttemptFailure
 	}
 	return nil
 }
 
-func (x *NexusOperationExecutionCancellationInfo) GetNextAttemptScheduleTime() *timestamppb.Timestamp {
+func (x *NexusOperationCancellationInfo) GetNextAttemptScheduleTime() *timestamppb.Timestamp {
 	if x != nil {
 		return x.NextAttemptScheduleTime
 	}
 	return nil
 }
 
-func (x *NexusOperationExecutionCancellationInfo) GetBlockedReason() string {
+func (x *NexusOperationCancellationInfo) GetBlockedReason() string {
 	if x != nil {
 		return x.BlockedReason
 	}
 	return ""
 }
 
-func (x *NexusOperationExecutionCancellationInfo) GetReason() string {
+func (x *NexusOperationCancellationInfo) GetReason() string {
 	if x != nil {
 		return x.Reason
 	}
@@ -1180,8 +1200,11 @@ func (x *NexusOperationExecutionCancellationInfo) GetReason() string {
 }
 
 // Full current state of a standalone Nexus operation, as of the time of the request.
-type NexusOperationExecutionInfo struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+type NexusOperationInfo struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Unique identifier of this Nexus operation within its namespace along with run ID (below).
 	OperationId string `protobuf:"bytes,1,opt,name=operation_id,json=operationId,proto3" json:"operation_id,omitempty"`
 	RunId       string `protobuf:"bytes,2,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
@@ -1193,8 +1216,8 @@ type NexusOperationExecutionInfo struct {
 	Operation string `protobuf:"bytes,5,opt,name=operation,proto3" json:"operation,omitempty"`
 	// A general status for this operation, indicates whether it is currently running or in one of the terminal statuses.
 	// Updated once when the operation is originally scheduled, and again when it reaches a terminal status.
-	Status v1.NexusOperationExecutionStatus `protobuf:"varint,6,opt,name=status,proto3,enum=temporal.api.enums.v1.NexusOperationExecutionStatus" json:"status,omitempty"`
-	// More detailed breakdown of NEXUS_OPERATION_EXECUTION_STATUS_RUNNING.
+	Status v1.NexusOperationStatus `protobuf:"varint,6,opt,name=status,proto3,enum=temporal.api.enums.v1.NexusOperationStatus" json:"status,omitempty"`
+	// More detailed breakdown of NEXUS_OPERATION_STATUS_RUNNING.
 	State v1.PendingNexusOperationState `protobuf:"varint,7,opt,name=state,proto3,enum=temporal.api.enums.v1.PendingNexusOperationState" json:"state,omitempty"`
 	// Schedule-to-close timeout for this operation.
 	// (-- api-linter: core::0140::prepositions=disabled
@@ -1228,8 +1251,8 @@ type NexusOperationExecutionInfo struct {
 	NextAttemptScheduleTime *timestamppb.Timestamp `protobuf:"bytes,17,opt,name=next_attempt_schedule_time,json=nextAttemptScheduleTime,proto3" json:"next_attempt_schedule_time,omitempty"`
 	// Elapsed time from schedule_time to now for running operations or to close_time for closed
 	// operations, including all attempts and backoff between attempts.
-	ExecutionDuration *durationpb.Duration                     `protobuf:"bytes,18,opt,name=execution_duration,json=executionDuration,proto3" json:"execution_duration,omitempty"`
-	CancellationInfo  *NexusOperationExecutionCancellationInfo `protobuf:"bytes,19,opt,name=cancellation_info,json=cancellationInfo,proto3" json:"cancellation_info,omitempty"`
+	ExecutionDuration *durationpb.Duration            `protobuf:"bytes,18,opt,name=execution_duration,json=executionDuration,proto3" json:"execution_duration,omitempty"`
+	CancellationInfo  *NexusOperationCancellationInfo `protobuf:"bytes,19,opt,name=cancellation_info,json=cancellationInfo,proto3" json:"cancellation_info,omitempty"`
 	// If the state is BLOCKED, blocked reason provides additional information.
 	BlockedReason string `protobuf:"bytes,20,opt,name=blocked_reason,json=blockedReason,proto3" json:"blocked_reason,omitempty"`
 	// Server-generated request ID used as an idempotency token when submitting start requests to
@@ -1242,31 +1265,31 @@ type NexusOperationExecutionInfo struct {
 	StateTransitionCount int64                 `protobuf:"varint,23,opt,name=state_transition_count,json=stateTransitionCount,proto3" json:"state_transition_count,omitempty"`
 	SearchAttributes     *v11.SearchAttributes `protobuf:"bytes,24,opt,name=search_attributes,json=searchAttributes,proto3" json:"search_attributes,omitempty"`
 	// Header for context propagation and tracing purposes.
-	NexusHeader map[string]string `protobuf:"bytes,25,rep,name=nexus_header,json=nexusHeader,proto3" json:"nexus_header,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	NexusHeader map[string]string `protobuf:"bytes,25,rep,name=nexus_header,json=nexusHeader,proto3" json:"nexus_header,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 	// Metadata for use by user interfaces to display the fixed as-of-start summary and details of the operation.
 	UserMetadata *v13.UserMetadata `protobuf:"bytes,26,opt,name=user_metadata,json=userMetadata,proto3" json:"user_metadata,omitempty"`
 	// Links attached by the handler of this operation on start or completion.
-	Links         []*v11.Link `protobuf:"bytes,27,rep,name=links,proto3" json:"links,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Links []*v11.Link `protobuf:"bytes,27,rep,name=links,proto3" json:"links,omitempty"`
 }
 
-func (x *NexusOperationExecutionInfo) Reset() {
-	*x = NexusOperationExecutionInfo{}
-	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[14]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+func (x *NexusOperationInfo) Reset() {
+	*x = NexusOperationInfo{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[14]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
-func (x *NexusOperationExecutionInfo) String() string {
+func (x *NexusOperationInfo) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*NexusOperationExecutionInfo) ProtoMessage() {}
+func (*NexusOperationInfo) ProtoMessage() {}
 
-func (x *NexusOperationExecutionInfo) ProtoReflect() protoreflect.Message {
+func (x *NexusOperationInfo) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[14]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1276,194 +1299,194 @@ func (x *NexusOperationExecutionInfo) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use NexusOperationExecutionInfo.ProtoReflect.Descriptor instead.
-func (*NexusOperationExecutionInfo) Descriptor() ([]byte, []int) {
+// Deprecated: Use NexusOperationInfo.ProtoReflect.Descriptor instead.
+func (*NexusOperationInfo) Descriptor() ([]byte, []int) {
 	return file_temporal_api_nexus_v1_message_proto_rawDescGZIP(), []int{14}
 }
 
-func (x *NexusOperationExecutionInfo) GetOperationId() string {
+func (x *NexusOperationInfo) GetOperationId() string {
 	if x != nil {
 		return x.OperationId
 	}
 	return ""
 }
 
-func (x *NexusOperationExecutionInfo) GetRunId() string {
+func (x *NexusOperationInfo) GetRunId() string {
 	if x != nil {
 		return x.RunId
 	}
 	return ""
 }
 
-func (x *NexusOperationExecutionInfo) GetEndpoint() string {
+func (x *NexusOperationInfo) GetEndpoint() string {
 	if x != nil {
 		return x.Endpoint
 	}
 	return ""
 }
 
-func (x *NexusOperationExecutionInfo) GetService() string {
+func (x *NexusOperationInfo) GetService() string {
 	if x != nil {
 		return x.Service
 	}
 	return ""
 }
 
-func (x *NexusOperationExecutionInfo) GetOperation() string {
+func (x *NexusOperationInfo) GetOperation() string {
 	if x != nil {
 		return x.Operation
 	}
 	return ""
 }
 
-func (x *NexusOperationExecutionInfo) GetStatus() v1.NexusOperationExecutionStatus {
+func (x *NexusOperationInfo) GetStatus() v1.NexusOperationStatus {
 	if x != nil {
 		return x.Status
 	}
-	return v1.NexusOperationExecutionStatus(0)
+	return v1.NexusOperationStatus(0)
 }
 
-func (x *NexusOperationExecutionInfo) GetState() v1.PendingNexusOperationState {
+func (x *NexusOperationInfo) GetState() v1.PendingNexusOperationState {
 	if x != nil {
 		return x.State
 	}
 	return v1.PendingNexusOperationState(0)
 }
 
-func (x *NexusOperationExecutionInfo) GetScheduleToCloseTimeout() *durationpb.Duration {
+func (x *NexusOperationInfo) GetScheduleToCloseTimeout() *durationpb.Duration {
 	if x != nil {
 		return x.ScheduleToCloseTimeout
 	}
 	return nil
 }
 
-func (x *NexusOperationExecutionInfo) GetScheduleToStartTimeout() *durationpb.Duration {
+func (x *NexusOperationInfo) GetScheduleToStartTimeout() *durationpb.Duration {
 	if x != nil {
 		return x.ScheduleToStartTimeout
 	}
 	return nil
 }
 
-func (x *NexusOperationExecutionInfo) GetStartToCloseTimeout() *durationpb.Duration {
+func (x *NexusOperationInfo) GetStartToCloseTimeout() *durationpb.Duration {
 	if x != nil {
 		return x.StartToCloseTimeout
 	}
 	return nil
 }
 
-func (x *NexusOperationExecutionInfo) GetAttempt() int32 {
+func (x *NexusOperationInfo) GetAttempt() int32 {
 	if x != nil {
 		return x.Attempt
 	}
 	return 0
 }
 
-func (x *NexusOperationExecutionInfo) GetScheduleTime() *timestamppb.Timestamp {
+func (x *NexusOperationInfo) GetScheduleTime() *timestamppb.Timestamp {
 	if x != nil {
 		return x.ScheduleTime
 	}
 	return nil
 }
 
-func (x *NexusOperationExecutionInfo) GetExpirationTime() *timestamppb.Timestamp {
+func (x *NexusOperationInfo) GetExpirationTime() *timestamppb.Timestamp {
 	if x != nil {
 		return x.ExpirationTime
 	}
 	return nil
 }
 
-func (x *NexusOperationExecutionInfo) GetCloseTime() *timestamppb.Timestamp {
+func (x *NexusOperationInfo) GetCloseTime() *timestamppb.Timestamp {
 	if x != nil {
 		return x.CloseTime
 	}
 	return nil
 }
 
-func (x *NexusOperationExecutionInfo) GetLastAttemptCompleteTime() *timestamppb.Timestamp {
+func (x *NexusOperationInfo) GetLastAttemptCompleteTime() *timestamppb.Timestamp {
 	if x != nil {
 		return x.LastAttemptCompleteTime
 	}
 	return nil
 }
 
-func (x *NexusOperationExecutionInfo) GetLastAttemptFailure() *v12.Failure {
+func (x *NexusOperationInfo) GetLastAttemptFailure() *v12.Failure {
 	if x != nil {
 		return x.LastAttemptFailure
 	}
 	return nil
 }
 
-func (x *NexusOperationExecutionInfo) GetNextAttemptScheduleTime() *timestamppb.Timestamp {
+func (x *NexusOperationInfo) GetNextAttemptScheduleTime() *timestamppb.Timestamp {
 	if x != nil {
 		return x.NextAttemptScheduleTime
 	}
 	return nil
 }
 
-func (x *NexusOperationExecutionInfo) GetExecutionDuration() *durationpb.Duration {
+func (x *NexusOperationInfo) GetExecutionDuration() *durationpb.Duration {
 	if x != nil {
 		return x.ExecutionDuration
 	}
 	return nil
 }
 
-func (x *NexusOperationExecutionInfo) GetCancellationInfo() *NexusOperationExecutionCancellationInfo {
+func (x *NexusOperationInfo) GetCancellationInfo() *NexusOperationCancellationInfo {
 	if x != nil {
 		return x.CancellationInfo
 	}
 	return nil
 }
 
-func (x *NexusOperationExecutionInfo) GetBlockedReason() string {
+func (x *NexusOperationInfo) GetBlockedReason() string {
 	if x != nil {
 		return x.BlockedReason
 	}
 	return ""
 }
 
-func (x *NexusOperationExecutionInfo) GetRequestId() string {
+func (x *NexusOperationInfo) GetRequestId() string {
 	if x != nil {
 		return x.RequestId
 	}
 	return ""
 }
 
-func (x *NexusOperationExecutionInfo) GetOperationToken() string {
+func (x *NexusOperationInfo) GetOperationToken() string {
 	if x != nil {
 		return x.OperationToken
 	}
 	return ""
 }
 
-func (x *NexusOperationExecutionInfo) GetStateTransitionCount() int64 {
+func (x *NexusOperationInfo) GetStateTransitionCount() int64 {
 	if x != nil {
 		return x.StateTransitionCount
 	}
 	return 0
 }
 
-func (x *NexusOperationExecutionInfo) GetSearchAttributes() *v11.SearchAttributes {
+func (x *NexusOperationInfo) GetSearchAttributes() *v11.SearchAttributes {
 	if x != nil {
 		return x.SearchAttributes
 	}
 	return nil
 }
 
-func (x *NexusOperationExecutionInfo) GetNexusHeader() map[string]string {
+func (x *NexusOperationInfo) GetNexusHeader() map[string]string {
 	if x != nil {
 		return x.NexusHeader
 	}
 	return nil
 }
 
-func (x *NexusOperationExecutionInfo) GetUserMetadata() *v13.UserMetadata {
+func (x *NexusOperationInfo) GetUserMetadata() *v13.UserMetadata {
 	if x != nil {
 		return x.UserMetadata
 	}
 	return nil
 }
 
-func (x *NexusOperationExecutionInfo) GetLinks() []*v11.Link {
+func (x *NexusOperationInfo) GetLinks() []*v11.Link {
 	if x != nil {
 		return x.Links
 	}
@@ -1471,10 +1494,13 @@ func (x *NexusOperationExecutionInfo) GetLinks() []*v11.Link {
 }
 
 // Limited Nexus operation information returned in the list response.
-// When adding fields here, ensure that it is also present in NexusOperationExecutionInfo (note that it may already be present in
-// NexusOperationExecutionInfo but not at the top-level).
-type NexusOperationExecutionListInfo struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+// When adding fields here, ensure that it is also present in NexusOperationInfo (note that it may already be present in
+// NexusOperationInfo but not at the top-level).
+type NexusOperationListInfo struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// A unique identifier of this operation within its namespace along with run ID (below).
 	OperationId string `protobuf:"bytes,1,opt,name=operation_id,json=operationId,proto3" json:"operation_id,omitempty"`
 	// The run ID of the standalone Nexus operation.
@@ -1490,7 +1516,7 @@ type NexusOperationExecutionListInfo struct {
 	// If the operation is in a terminal status, this field represents the time the operation transitioned to that status.
 	CloseTime *timestamppb.Timestamp `protobuf:"bytes,7,opt,name=close_time,json=closeTime,proto3" json:"close_time,omitempty"`
 	// The status is updated once, when the operation is originally scheduled, and again when the operation reaches a terminal status.
-	Status v1.NexusOperationExecutionStatus `protobuf:"varint,8,opt,name=status,proto3,enum=temporal.api.enums.v1.NexusOperationExecutionStatus" json:"status,omitempty"`
+	Status v1.NexusOperationStatus `protobuf:"varint,8,opt,name=status,proto3,enum=temporal.api.enums.v1.NexusOperationStatus" json:"status,omitempty"`
 	// Search attributes from the start request.
 	SearchAttributes *v11.SearchAttributes `protobuf:"bytes,9,opt,name=search_attributes,json=searchAttributes,proto3" json:"search_attributes,omitempty"`
 	// Updated on terminal status.
@@ -1500,26 +1526,26 @@ type NexusOperationExecutionListInfo struct {
 	// The difference between close time and scheduled time.
 	// This field is only populated if the operation is closed.
 	ExecutionDuration *durationpb.Duration `protobuf:"bytes,12,opt,name=execution_duration,json=executionDuration,proto3" json:"execution_duration,omitempty"`
-	unknownFields     protoimpl.UnknownFields
-	sizeCache         protoimpl.SizeCache
 }
 
-func (x *NexusOperationExecutionListInfo) Reset() {
-	*x = NexusOperationExecutionListInfo{}
-	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[15]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+func (x *NexusOperationListInfo) Reset() {
+	*x = NexusOperationListInfo{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[15]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
-func (x *NexusOperationExecutionListInfo) String() string {
+func (x *NexusOperationListInfo) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*NexusOperationExecutionListInfo) ProtoMessage() {}
+func (*NexusOperationListInfo) ProtoMessage() {}
 
-func (x *NexusOperationExecutionListInfo) ProtoReflect() protoreflect.Message {
+func (x *NexusOperationListInfo) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[15]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1529,89 +1555,89 @@ func (x *NexusOperationExecutionListInfo) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use NexusOperationExecutionListInfo.ProtoReflect.Descriptor instead.
-func (*NexusOperationExecutionListInfo) Descriptor() ([]byte, []int) {
+// Deprecated: Use NexusOperationListInfo.ProtoReflect.Descriptor instead.
+func (*NexusOperationListInfo) Descriptor() ([]byte, []int) {
 	return file_temporal_api_nexus_v1_message_proto_rawDescGZIP(), []int{15}
 }
 
-func (x *NexusOperationExecutionListInfo) GetOperationId() string {
+func (x *NexusOperationListInfo) GetOperationId() string {
 	if x != nil {
 		return x.OperationId
 	}
 	return ""
 }
 
-func (x *NexusOperationExecutionListInfo) GetRunId() string {
+func (x *NexusOperationListInfo) GetRunId() string {
 	if x != nil {
 		return x.RunId
 	}
 	return ""
 }
 
-func (x *NexusOperationExecutionListInfo) GetEndpoint() string {
+func (x *NexusOperationListInfo) GetEndpoint() string {
 	if x != nil {
 		return x.Endpoint
 	}
 	return ""
 }
 
-func (x *NexusOperationExecutionListInfo) GetService() string {
+func (x *NexusOperationListInfo) GetService() string {
 	if x != nil {
 		return x.Service
 	}
 	return ""
 }
 
-func (x *NexusOperationExecutionListInfo) GetOperation() string {
+func (x *NexusOperationListInfo) GetOperation() string {
 	if x != nil {
 		return x.Operation
 	}
 	return ""
 }
 
-func (x *NexusOperationExecutionListInfo) GetScheduleTime() *timestamppb.Timestamp {
+func (x *NexusOperationListInfo) GetScheduleTime() *timestamppb.Timestamp {
 	if x != nil {
 		return x.ScheduleTime
 	}
 	return nil
 }
 
-func (x *NexusOperationExecutionListInfo) GetCloseTime() *timestamppb.Timestamp {
+func (x *NexusOperationListInfo) GetCloseTime() *timestamppb.Timestamp {
 	if x != nil {
 		return x.CloseTime
 	}
 	return nil
 }
 
-func (x *NexusOperationExecutionListInfo) GetStatus() v1.NexusOperationExecutionStatus {
+func (x *NexusOperationListInfo) GetStatus() v1.NexusOperationStatus {
 	if x != nil {
 		return x.Status
 	}
-	return v1.NexusOperationExecutionStatus(0)
+	return v1.NexusOperationStatus(0)
 }
 
-func (x *NexusOperationExecutionListInfo) GetSearchAttributes() *v11.SearchAttributes {
+func (x *NexusOperationListInfo) GetSearchAttributes() *v11.SearchAttributes {
 	if x != nil {
 		return x.SearchAttributes
 	}
 	return nil
 }
 
-func (x *NexusOperationExecutionListInfo) GetStateTransitionCount() int64 {
+func (x *NexusOperationListInfo) GetStateTransitionCount() int64 {
 	if x != nil {
 		return x.StateTransitionCount
 	}
 	return 0
 }
 
-func (x *NexusOperationExecutionListInfo) GetStateSizeBytes() int64 {
+func (x *NexusOperationListInfo) GetStateSizeBytes() int64 {
 	if x != nil {
 		return x.StateSizeBytes
 	}
 	return 0
 }
 
-func (x *NexusOperationExecutionListInfo) GetExecutionDuration() *durationpb.Duration {
+func (x *NexusOperationListInfo) GetExecutionDuration() *durationpb.Duration {
 	if x != nil {
 		return x.ExecutionDuration
 	}
@@ -1619,19 +1645,22 @@ func (x *NexusOperationExecutionListInfo) GetExecutionDuration() *durationpb.Dur
 }
 
 type Request_Capabilities struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// If set, handlers may use temporal.api.failure.v1.Failure instances to return failures to the server.
 	// This also allows handler and operation errors to have their own messages and stack traces.
 	TemporalFailureResponses bool `protobuf:"varint,1,opt,name=temporal_failure_responses,json=temporalFailureResponses,proto3" json:"temporal_failure_responses,omitempty"`
-	unknownFields            protoimpl.UnknownFields
-	sizeCache                protoimpl.SizeCache
 }
 
 func (x *Request_Capabilities) Reset() {
 	*x = Request_Capabilities{}
-	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[18]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[18]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *Request_Capabilities) String() string {
@@ -1642,7 +1671,7 @@ func (*Request_Capabilities) ProtoMessage() {}
 
 func (x *Request_Capabilities) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[18]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1666,18 +1695,21 @@ func (x *Request_Capabilities) GetTemporalFailureResponses() bool {
 
 // An operation completed successfully.
 type StartOperationResponse_Sync struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Payload       *v11.Payload           `protobuf:"bytes,1,opt,name=payload,proto3" json:"payload,omitempty"`
-	Links         []*Link                `protobuf:"bytes,2,rep,name=links,proto3" json:"links,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Payload *v11.Payload `protobuf:"bytes,1,opt,name=payload,proto3" json:"payload,omitempty"`
+	Links   []*Link      `protobuf:"bytes,2,rep,name=links,proto3" json:"links,omitempty"`
 }
 
 func (x *StartOperationResponse_Sync) Reset() {
 	*x = StartOperationResponse_Sync{}
-	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[20]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[20]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *StartOperationResponse_Sync) String() string {
@@ -1688,7 +1720,7 @@ func (*StartOperationResponse_Sync) ProtoMessage() {}
 
 func (x *StartOperationResponse_Sync) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[20]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1720,22 +1752,25 @@ func (x *StartOperationResponse_Sync) GetLinks() []*Link {
 // The operation will complete asynchronously.
 // The returned ID can be used to reference this operation.
 type StartOperationResponse_Async struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Deprecated. Renamed to operation_token.
 	//
 	// Deprecated: Marked as deprecated in temporal/api/nexus/v1/message.proto.
 	OperationId    string  `protobuf:"bytes,1,opt,name=operation_id,json=operationId,proto3" json:"operation_id,omitempty"`
 	Links          []*Link `protobuf:"bytes,2,rep,name=links,proto3" json:"links,omitempty"`
 	OperationToken string  `protobuf:"bytes,3,opt,name=operation_token,json=operationToken,proto3" json:"operation_token,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
 }
 
 func (x *StartOperationResponse_Async) Reset() {
 	*x = StartOperationResponse_Async{}
-	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[21]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[21]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *StartOperationResponse_Async) String() string {
@@ -1746,7 +1781,7 @@ func (*StartOperationResponse_Async) ProtoMessage() {}
 
 func (x *StartOperationResponse_Async) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[21]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1785,20 +1820,23 @@ func (x *StartOperationResponse_Async) GetOperationToken() string {
 
 // Target a worker polling on a Nexus task queue in a specific namespace.
 type EndpointTarget_Worker struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Namespace to route requests to.
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// Nexus task queue to route requests to.
-	TaskQueue     string `protobuf:"bytes,2,opt,name=task_queue,json=taskQueue,proto3" json:"task_queue,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	TaskQueue string `protobuf:"bytes,2,opt,name=task_queue,json=taskQueue,proto3" json:"task_queue,omitempty"`
 }
 
 func (x *EndpointTarget_Worker) Reset() {
 	*x = EndpointTarget_Worker{}
-	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[22]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[22]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *EndpointTarget_Worker) String() string {
@@ -1809,7 +1847,7 @@ func (*EndpointTarget_Worker) ProtoMessage() {}
 
 func (x *EndpointTarget_Worker) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[22]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1842,18 +1880,21 @@ func (x *EndpointTarget_Worker) GetTaskQueue() string {
 // At a later point, this will support providing credentials, in the meantime, an http.RoundTripper can be injected
 // into the server to modify the request.
 type EndpointTarget_External struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// URL to call.
-	Url           string `protobuf:"bytes,1,opt,name=url,proto3" json:"url,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// URL to call.
+	Url string `protobuf:"bytes,1,opt,name=url,proto3" json:"url,omitempty"`
 }
 
 func (x *EndpointTarget_External) Reset() {
 	*x = EndpointTarget_External{}
-	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[23]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[23]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *EndpointTarget_External) String() string {
@@ -1864,7 +1905,7 @@ func (*EndpointTarget_External) ProtoMessage() {}
 
 func (x *EndpointTarget_External) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[23]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1888,211 +1929,484 @@ func (x *EndpointTarget_External) GetUrl() string {
 
 var File_temporal_api_nexus_v1_message_proto protoreflect.FileDescriptor
 
-const file_temporal_api_nexus_v1_message_proto_rawDesc = "" +
-	"\n" +
-	"#temporal/api/nexus/v1/message.proto\x12\x15temporal.api.nexus.v1\x1a\x1egoogle/protobuf/duration.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a$temporal/api/common/v1/message.proto\x1a\"temporal/api/enums/v1/common.proto\x1a!temporal/api/enums/v1/nexus.proto\x1a%temporal/api/failure/v1/message.proto\x1a'temporal/api/sdk/v1/user_metadata.proto\"\x9b\x02\n" +
-	"\aFailure\x12\x18\n" +
-	"\amessage\x18\x01 \x01(\tR\amessage\x12\x1f\n" +
-	"\vstack_trace\x18\x04 \x01(\tR\n" +
-	"stackTrace\x12H\n" +
-	"\bmetadata\x18\x02 \x03(\v2,.temporal.api.nexus.v1.Failure.MetadataEntryR\bmetadata\x12\x18\n" +
-	"\adetails\x18\x03 \x01(\fR\adetails\x124\n" +
-	"\x05cause\x18\x05 \x01(\v2\x1e.temporal.api.nexus.v1.FailureR\x05cause\x1a;\n" +
-	"\rMetadataEntry\x12\x10\n" +
-	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xc5\x01\n" +
-	"\fHandlerError\x12\x1d\n" +
-	"\n" +
-	"error_type\x18\x01 \x01(\tR\terrorType\x128\n" +
-	"\afailure\x18\x02 \x01(\v2\x1e.temporal.api.nexus.v1.FailureR\afailure\x12\\\n" +
-	"\x0eretry_behavior\x18\x03 \x01(\x0e25.temporal.api.enums.v1.NexusHandlerErrorRetryBehaviorR\rretryBehavior\"\x7f\n" +
-	"\x1aUnsuccessfulOperationError\x12'\n" +
-	"\x0foperation_state\x18\x01 \x01(\tR\x0eoperationState\x128\n" +
-	"\afailure\x18\x02 \x01(\v2\x1e.temporal.api.nexus.v1.FailureR\afailure\",\n" +
-	"\x04Link\x12\x10\n" +
-	"\x03url\x18\x01 \x01(\tR\x03url\x12\x12\n" +
-	"\x04type\x18\x02 \x01(\tR\x04type\"\xa6\x03\n" +
-	"\x15StartOperationRequest\x12\x18\n" +
-	"\aservice\x18\x01 \x01(\tR\aservice\x12\x1c\n" +
-	"\toperation\x18\x02 \x01(\tR\toperation\x12\x1d\n" +
-	"\n" +
-	"request_id\x18\x03 \x01(\tR\trequestId\x12\x1a\n" +
-	"\bcallback\x18\x04 \x01(\tR\bcallback\x129\n" +
-	"\apayload\x18\x05 \x01(\v2\x1f.temporal.api.common.v1.PayloadR\apayload\x12i\n" +
-	"\x0fcallback_header\x18\x06 \x03(\v2@.temporal.api.nexus.v1.StartOperationRequest.CallbackHeaderEntryR\x0ecallbackHeader\x121\n" +
-	"\x05links\x18\a \x03(\v2\x1b.temporal.api.nexus.v1.LinkR\x05links\x1aA\n" +
-	"\x13CallbackHeaderEntry\x12\x10\n" +
-	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xa0\x01\n" +
-	"\x16CancelOperationRequest\x12\x18\n" +
-	"\aservice\x18\x01 \x01(\tR\aservice\x12\x1c\n" +
-	"\toperation\x18\x02 \x01(\tR\toperation\x12%\n" +
-	"\foperation_id\x18\x03 \x01(\tB\x02\x18\x01R\voperationId\x12'\n" +
-	"\x0foperation_token\x18\x04 \x01(\tR\x0eoperationToken\"\xc6\x04\n" +
-	"\aRequest\x12B\n" +
-	"\x06header\x18\x01 \x03(\v2*.temporal.api.nexus.v1.Request.HeaderEntryR\x06header\x12A\n" +
-	"\x0escheduled_time\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\rscheduledTime\x12O\n" +
-	"\fcapabilities\x18d \x01(\v2+.temporal.api.nexus.v1.Request.CapabilitiesR\fcapabilities\x12W\n" +
-	"\x0fstart_operation\x18\x03 \x01(\v2,.temporal.api.nexus.v1.StartOperationRequestH\x00R\x0estartOperation\x12Z\n" +
-	"\x10cancel_operation\x18\x04 \x01(\v2-.temporal.api.nexus.v1.CancelOperationRequestH\x00R\x0fcancelOperation\x12\x1a\n" +
-	"\bendpoint\x18\n" +
-	" \x01(\tR\bendpoint\x1aL\n" +
-	"\fCapabilities\x12<\n" +
-	"\x1atemporal_failure_responses\x18\x01 \x01(\bR\x18temporalFailureResponses\x1a9\n" +
-	"\vHeaderEntry\x12\x10\n" +
-	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01B\t\n" +
-	"\avariant\"\xfb\x04\n" +
-	"\x16StartOperationResponse\x12W\n" +
-	"\fsync_success\x18\x01 \x01(\v22.temporal.api.nexus.v1.StartOperationResponse.SyncH\x00R\vsyncSuccess\x12Z\n" +
-	"\rasync_success\x18\x02 \x01(\v23.temporal.api.nexus.v1.StartOperationResponse.AsyncH\x00R\fasyncSuccess\x12`\n" +
-	"\x0foperation_error\x18\x03 \x01(\v21.temporal.api.nexus.v1.UnsuccessfulOperationErrorB\x02\x18\x01H\x00R\x0eoperationError\x12<\n" +
-	"\afailure\x18\x04 \x01(\v2 .temporal.api.failure.v1.FailureH\x00R\afailure\x1at\n" +
-	"\x04Sync\x129\n" +
-	"\apayload\x18\x01 \x01(\v2\x1f.temporal.api.common.v1.PayloadR\apayload\x121\n" +
-	"\x05links\x18\x02 \x03(\v2\x1b.temporal.api.nexus.v1.LinkR\x05links\x1a\x8a\x01\n" +
-	"\x05Async\x12%\n" +
-	"\foperation_id\x18\x01 \x01(\tB\x02\x18\x01R\voperationId\x121\n" +
-	"\x05links\x18\x02 \x03(\v2\x1b.temporal.api.nexus.v1.LinkR\x05links\x12'\n" +
-	"\x0foperation_token\x18\x03 \x01(\tR\x0eoperationTokenB\t\n" +
-	"\avariant\"\x19\n" +
-	"\x17CancelOperationResponse\"\xcc\x01\n" +
-	"\bResponse\x12X\n" +
-	"\x0fstart_operation\x18\x01 \x01(\v2-.temporal.api.nexus.v1.StartOperationResponseH\x00R\x0estartOperation\x12[\n" +
-	"\x10cancel_operation\x18\x02 \x01(\v2..temporal.api.nexus.v1.CancelOperationResponseH\x00R\x0fcancelOperationB\t\n" +
-	"\avariant\"\x95\x02\n" +
-	"\bEndpoint\x12\x18\n" +
-	"\aversion\x18\x01 \x01(\x03R\aversion\x12\x0e\n" +
-	"\x02id\x18\x02 \x01(\tR\x02id\x127\n" +
-	"\x04spec\x18\x03 \x01(\v2#.temporal.api.nexus.v1.EndpointSpecR\x04spec\x12=\n" +
-	"\fcreated_time\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\vcreatedTime\x12H\n" +
-	"\x12last_modified_time\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\x10lastModifiedTime\x12\x1d\n" +
-	"\n" +
-	"url_prefix\x18\x06 \x01(\tR\turlPrefix\"\xa4\x01\n" +
-	"\fEndpointSpec\x12\x12\n" +
-	"\x04name\x18\x01 \x01(\tR\x04name\x12A\n" +
-	"\vdescription\x18\x02 \x01(\v2\x1f.temporal.api.common.v1.PayloadR\vdescription\x12=\n" +
-	"\x06target\x18\x03 \x01(\v2%.temporal.api.nexus.v1.EndpointTargetR\x06target\"\x96\x02\n" +
-	"\x0eEndpointTarget\x12F\n" +
-	"\x06worker\x18\x01 \x01(\v2,.temporal.api.nexus.v1.EndpointTarget.WorkerH\x00R\x06worker\x12L\n" +
-	"\bexternal\x18\x02 \x01(\v2..temporal.api.nexus.v1.EndpointTarget.ExternalH\x00R\bexternal\x1aE\n" +
-	"\x06Worker\x12\x1c\n" +
-	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12\x1d\n" +
-	"\n" +
-	"task_queue\x18\x02 \x01(\tR\ttaskQueue\x1a\x1c\n" +
-	"\bExternal\x12\x10\n" +
-	"\x03url\x18\x01 \x01(\tR\x03urlB\t\n" +
-	"\avariant\"\x99\x04\n" +
-	"'NexusOperationExecutionCancellationInfo\x12A\n" +
-	"\x0erequested_time\x18\x01 \x01(\v2\x1a.google.protobuf.TimestampR\rrequestedTime\x12L\n" +
-	"\x05state\x18\x02 \x01(\x0e26.temporal.api.enums.v1.NexusOperationCancellationStateR\x05state\x12\x18\n" +
-	"\aattempt\x18\x03 \x01(\x05R\aattempt\x12W\n" +
-	"\x1alast_attempt_complete_time\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\x17lastAttemptCompleteTime\x12R\n" +
-	"\x14last_attempt_failure\x18\x05 \x01(\v2 .temporal.api.failure.v1.FailureR\x12lastAttemptFailure\x12W\n" +
-	"\x1anext_attempt_schedule_time\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\x17nextAttemptScheduleTime\x12%\n" +
-	"\x0eblocked_reason\x18\a \x01(\tR\rblockedReason\x12\x16\n" +
-	"\x06reason\x18\b \x01(\tR\x06reason\"\xf6\r\n" +
-	"\x1bNexusOperationExecutionInfo\x12!\n" +
-	"\foperation_id\x18\x01 \x01(\tR\voperationId\x12\x15\n" +
-	"\x06run_id\x18\x02 \x01(\tR\x05runId\x12\x1a\n" +
-	"\bendpoint\x18\x03 \x01(\tR\bendpoint\x12\x18\n" +
-	"\aservice\x18\x04 \x01(\tR\aservice\x12\x1c\n" +
-	"\toperation\x18\x05 \x01(\tR\toperation\x12L\n" +
-	"\x06status\x18\x06 \x01(\x0e24.temporal.api.enums.v1.NexusOperationExecutionStatusR\x06status\x12G\n" +
-	"\x05state\x18\a \x01(\x0e21.temporal.api.enums.v1.PendingNexusOperationStateR\x05state\x12T\n" +
-	"\x19schedule_to_close_timeout\x18\b \x01(\v2\x19.google.protobuf.DurationR\x16scheduleToCloseTimeout\x12T\n" +
-	"\x19schedule_to_start_timeout\x18\t \x01(\v2\x19.google.protobuf.DurationR\x16scheduleToStartTimeout\x12N\n" +
-	"\x16start_to_close_timeout\x18\n" +
-	" \x01(\v2\x19.google.protobuf.DurationR\x13startToCloseTimeout\x12\x18\n" +
-	"\aattempt\x18\v \x01(\x05R\aattempt\x12?\n" +
-	"\rschedule_time\x18\f \x01(\v2\x1a.google.protobuf.TimestampR\fscheduleTime\x12C\n" +
-	"\x0fexpiration_time\x18\r \x01(\v2\x1a.google.protobuf.TimestampR\x0eexpirationTime\x129\n" +
-	"\n" +
-	"close_time\x18\x0e \x01(\v2\x1a.google.protobuf.TimestampR\tcloseTime\x12W\n" +
-	"\x1alast_attempt_complete_time\x18\x0f \x01(\v2\x1a.google.protobuf.TimestampR\x17lastAttemptCompleteTime\x12R\n" +
-	"\x14last_attempt_failure\x18\x10 \x01(\v2 .temporal.api.failure.v1.FailureR\x12lastAttemptFailure\x12W\n" +
-	"\x1anext_attempt_schedule_time\x18\x11 \x01(\v2\x1a.google.protobuf.TimestampR\x17nextAttemptScheduleTime\x12H\n" +
-	"\x12execution_duration\x18\x12 \x01(\v2\x19.google.protobuf.DurationR\x11executionDuration\x12k\n" +
-	"\x11cancellation_info\x18\x13 \x01(\v2>.temporal.api.nexus.v1.NexusOperationExecutionCancellationInfoR\x10cancellationInfo\x12%\n" +
-	"\x0eblocked_reason\x18\x14 \x01(\tR\rblockedReason\x12\x1d\n" +
-	"\n" +
-	"request_id\x18\x15 \x01(\tR\trequestId\x12'\n" +
-	"\x0foperation_token\x18\x16 \x01(\tR\x0eoperationToken\x124\n" +
-	"\x16state_transition_count\x18\x17 \x01(\x03R\x14stateTransitionCount\x12U\n" +
-	"\x11search_attributes\x18\x18 \x01(\v2(.temporal.api.common.v1.SearchAttributesR\x10searchAttributes\x12f\n" +
-	"\fnexus_header\x18\x19 \x03(\v2C.temporal.api.nexus.v1.NexusOperationExecutionInfo.NexusHeaderEntryR\vnexusHeader\x12F\n" +
-	"\ruser_metadata\x18\x1a \x01(\v2!.temporal.api.sdk.v1.UserMetadataR\fuserMetadata\x122\n" +
-	"\x05links\x18\x1b \x03(\v2\x1c.temporal.api.common.v1.LinkR\x05links\x1a>\n" +
-	"\x10NexusHeaderEntry\x12\x10\n" +
-	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xfa\x04\n" +
-	"\x1fNexusOperationExecutionListInfo\x12!\n" +
-	"\foperation_id\x18\x01 \x01(\tR\voperationId\x12\x15\n" +
-	"\x06run_id\x18\x02 \x01(\tR\x05runId\x12\x1a\n" +
-	"\bendpoint\x18\x03 \x01(\tR\bendpoint\x12\x18\n" +
-	"\aservice\x18\x04 \x01(\tR\aservice\x12\x1c\n" +
-	"\toperation\x18\x05 \x01(\tR\toperation\x12?\n" +
-	"\rschedule_time\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\fscheduleTime\x129\n" +
-	"\n" +
-	"close_time\x18\a \x01(\v2\x1a.google.protobuf.TimestampR\tcloseTime\x12L\n" +
-	"\x06status\x18\b \x01(\x0e24.temporal.api.enums.v1.NexusOperationExecutionStatusR\x06status\x12U\n" +
-	"\x11search_attributes\x18\t \x01(\v2(.temporal.api.common.v1.SearchAttributesR\x10searchAttributes\x124\n" +
-	"\x16state_transition_count\x18\n" +
-	" \x01(\x03R\x14stateTransitionCount\x12(\n" +
-	"\x10state_size_bytes\x18\v \x01(\x03R\x0estateSizeBytes\x12H\n" +
-	"\x12execution_duration\x18\f \x01(\v2\x19.google.protobuf.DurationR\x11executionDurationB\x84\x01\n" +
-	"\x18io.temporal.api.nexus.v1B\fMessageProtoP\x01Z!go.temporal.io/api/nexus/v1;nexus\xaa\x02\x17Temporalio.Api.Nexus.V1\xea\x02\x1aTemporalio::Api::Nexus::V1b\x06proto3"
+var file_temporal_api_nexus_v1_message_proto_rawDesc = []byte{
+	0x0a, 0x23, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x6e,
+	0x65, 0x78, 0x75, 0x73, 0x2f, 0x76, 0x31, 0x2f, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x2e,
+	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x15, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e,
+	0x61, 0x70, 0x69, 0x2e, 0x6e, 0x65, 0x78, 0x75, 0x73, 0x2e, 0x76, 0x31, 0x1a, 0x1e, 0x67, 0x6f,
+	0x6f, 0x67, 0x6c, 0x65, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2f, 0x64, 0x75,
+	0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x1f, 0x67, 0x6f,
+	0x6f, 0x67, 0x6c, 0x65, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2f, 0x74, 0x69,
+	0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x24, 0x74,
+	0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x63, 0x6f, 0x6d, 0x6d,
+	0x6f, 0x6e, 0x2f, 0x76, 0x31, 0x2f, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x2e, 0x70, 0x72,
+	0x6f, 0x74, 0x6f, 0x1a, 0x22, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2f, 0x61, 0x70,
+	0x69, 0x2f, 0x65, 0x6e, 0x75, 0x6d, 0x73, 0x2f, 0x76, 0x31, 0x2f, 0x63, 0x6f, 0x6d, 0x6d, 0x6f,
+	0x6e, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x21, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61,
+	0x6c, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x65, 0x6e, 0x75, 0x6d, 0x73, 0x2f, 0x76, 0x31, 0x2f, 0x6e,
+	0x65, 0x78, 0x75, 0x73, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x25, 0x74, 0x65, 0x6d, 0x70,
+	0x6f, 0x72, 0x61, 0x6c, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x66, 0x61, 0x69, 0x6c, 0x75, 0x72, 0x65,
+	0x2f, 0x76, 0x31, 0x2f, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74,
+	0x6f, 0x1a, 0x27, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2f, 0x61, 0x70, 0x69, 0x2f,
+	0x73, 0x64, 0x6b, 0x2f, 0x76, 0x31, 0x2f, 0x75, 0x73, 0x65, 0x72, 0x5f, 0x6d, 0x65, 0x74, 0x61,
+	0x64, 0x61, 0x74, 0x61, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0x9b, 0x02, 0x0a, 0x07, 0x46,
+	0x61, 0x69, 0x6c, 0x75, 0x72, 0x65, 0x12, 0x18, 0x0a, 0x07, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67,
+	0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65,
+	0x12, 0x1f, 0x0a, 0x0b, 0x73, 0x74, 0x61, 0x63, 0x6b, 0x5f, 0x74, 0x72, 0x61, 0x63, 0x65, 0x18,
+	0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x73, 0x74, 0x61, 0x63, 0x6b, 0x54, 0x72, 0x61, 0x63,
+	0x65, 0x12, 0x48, 0x0a, 0x08, 0x6d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0x18, 0x02, 0x20,
+	0x03, 0x28, 0x0b, 0x32, 0x2c, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61,
+	0x70, 0x69, 0x2e, 0x6e, 0x65, 0x78, 0x75, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x46, 0x61, 0x69, 0x6c,
+	0x75, 0x72, 0x65, 0x2e, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0x45, 0x6e, 0x74, 0x72,
+	0x79, 0x52, 0x08, 0x6d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0x12, 0x18, 0x0a, 0x07, 0x64,
+	0x65, 0x74, 0x61, 0x69, 0x6c, 0x73, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0c, 0x52, 0x07, 0x64, 0x65,
+	0x74, 0x61, 0x69, 0x6c, 0x73, 0x12, 0x34, 0x0a, 0x05, 0x63, 0x61, 0x75, 0x73, 0x65, 0x18, 0x05,
+	0x20, 0x01, 0x28, 0x0b, 0x32, 0x1e, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e,
+	0x61, 0x70, 0x69, 0x2e, 0x6e, 0x65, 0x78, 0x75, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x46, 0x61, 0x69,
+	0x6c, 0x75, 0x72, 0x65, 0x52, 0x05, 0x63, 0x61, 0x75, 0x73, 0x65, 0x1a, 0x3b, 0x0a, 0x0d, 0x4d,
+	0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x12, 0x10, 0x0a, 0x03,
+	0x6b, 0x65, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6b, 0x65, 0x79, 0x12, 0x14,
+	0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x76,
+	0x61, 0x6c, 0x75, 0x65, 0x3a, 0x02, 0x38, 0x01, 0x22, 0xc5, 0x01, 0x0a, 0x0c, 0x48, 0x61, 0x6e,
+	0x64, 0x6c, 0x65, 0x72, 0x45, 0x72, 0x72, 0x6f, 0x72, 0x12, 0x1d, 0x0a, 0x0a, 0x65, 0x72, 0x72,
+	0x6f, 0x72, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x65,
+	0x72, 0x72, 0x6f, 0x72, 0x54, 0x79, 0x70, 0x65, 0x12, 0x38, 0x0a, 0x07, 0x66, 0x61, 0x69, 0x6c,
+	0x75, 0x72, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1e, 0x2e, 0x74, 0x65, 0x6d, 0x70,
+	0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x6e, 0x65, 0x78, 0x75, 0x73, 0x2e, 0x76,
+	0x31, 0x2e, 0x46, 0x61, 0x69, 0x6c, 0x75, 0x72, 0x65, 0x52, 0x07, 0x66, 0x61, 0x69, 0x6c, 0x75,
+	0x72, 0x65, 0x12, 0x5c, 0x0a, 0x0e, 0x72, 0x65, 0x74, 0x72, 0x79, 0x5f, 0x62, 0x65, 0x68, 0x61,
+	0x76, 0x69, 0x6f, 0x72, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x35, 0x2e, 0x74, 0x65, 0x6d,
+	0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x65, 0x6e, 0x75, 0x6d, 0x73, 0x2e,
+	0x76, 0x31, 0x2e, 0x4e, 0x65, 0x78, 0x75, 0x73, 0x48, 0x61, 0x6e, 0x64, 0x6c, 0x65, 0x72, 0x45,
+	0x72, 0x72, 0x6f, 0x72, 0x52, 0x65, 0x74, 0x72, 0x79, 0x42, 0x65, 0x68, 0x61, 0x76, 0x69, 0x6f,
+	0x72, 0x52, 0x0d, 0x72, 0x65, 0x74, 0x72, 0x79, 0x42, 0x65, 0x68, 0x61, 0x76, 0x69, 0x6f, 0x72,
+	0x22, 0x7f, 0x0a, 0x1a, 0x55, 0x6e, 0x73, 0x75, 0x63, 0x63, 0x65, 0x73, 0x73, 0x66, 0x75, 0x6c,
+	0x4f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x45, 0x72, 0x72, 0x6f, 0x72, 0x12, 0x27,
+	0x0a, 0x0f, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x73, 0x74, 0x61, 0x74,
+	0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0e, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69,
+	0x6f, 0x6e, 0x53, 0x74, 0x61, 0x74, 0x65, 0x12, 0x38, 0x0a, 0x07, 0x66, 0x61, 0x69, 0x6c, 0x75,
+	0x72, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1e, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f,
+	0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x6e, 0x65, 0x78, 0x75, 0x73, 0x2e, 0x76, 0x31,
+	0x2e, 0x46, 0x61, 0x69, 0x6c, 0x75, 0x72, 0x65, 0x52, 0x07, 0x66, 0x61, 0x69, 0x6c, 0x75, 0x72,
+	0x65, 0x22, 0x2c, 0x0a, 0x04, 0x4c, 0x69, 0x6e, 0x6b, 0x12, 0x10, 0x0a, 0x03, 0x75, 0x72, 0x6c,
+	0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x75, 0x72, 0x6c, 0x12, 0x12, 0x0a, 0x04, 0x74,
+	0x79, 0x70, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x74, 0x79, 0x70, 0x65, 0x22,
+	0xa6, 0x03, 0x0a, 0x15, 0x53, 0x74, 0x61, 0x72, 0x74, 0x4f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69,
+	0x6f, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x18, 0x0a, 0x07, 0x73, 0x65, 0x72,
+	0x76, 0x69, 0x63, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x73, 0x65, 0x72, 0x76,
+	0x69, 0x63, 0x65, 0x12, 0x1c, 0x0a, 0x09, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e,
+	0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f,
+	0x6e, 0x12, 0x1d, 0x0a, 0x0a, 0x72, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x5f, 0x69, 0x64, 0x18,
+	0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x72, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x49, 0x64,
+	0x12, 0x1a, 0x0a, 0x08, 0x63, 0x61, 0x6c, 0x6c, 0x62, 0x61, 0x63, 0x6b, 0x18, 0x04, 0x20, 0x01,
+	0x28, 0x09, 0x52, 0x08, 0x63, 0x61, 0x6c, 0x6c, 0x62, 0x61, 0x63, 0x6b, 0x12, 0x39, 0x0a, 0x07,
+	0x70, 0x61, 0x79, 0x6c, 0x6f, 0x61, 0x64, 0x18, 0x05, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1f, 0x2e,
+	0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x63, 0x6f, 0x6d,
+	0x6d, 0x6f, 0x6e, 0x2e, 0x76, 0x31, 0x2e, 0x50, 0x61, 0x79, 0x6c, 0x6f, 0x61, 0x64, 0x52, 0x07,
+	0x70, 0x61, 0x79, 0x6c, 0x6f, 0x61, 0x64, 0x12, 0x69, 0x0a, 0x0f, 0x63, 0x61, 0x6c, 0x6c, 0x62,
+	0x61, 0x63, 0x6b, 0x5f, 0x68, 0x65, 0x61, 0x64, 0x65, 0x72, 0x18, 0x06, 0x20, 0x03, 0x28, 0x0b,
+	0x32, 0x40, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e,
+	0x6e, 0x65, 0x78, 0x75, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x53, 0x74, 0x61, 0x72, 0x74, 0x4f, 0x70,
+	0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x2e, 0x43,
+	0x61, 0x6c, 0x6c, 0x62, 0x61, 0x63, 0x6b, 0x48, 0x65, 0x61, 0x64, 0x65, 0x72, 0x45, 0x6e, 0x74,
+	0x72, 0x79, 0x52, 0x0e, 0x63, 0x61, 0x6c, 0x6c, 0x62, 0x61, 0x63, 0x6b, 0x48, 0x65, 0x61, 0x64,
+	0x65, 0x72, 0x12, 0x31, 0x0a, 0x05, 0x6c, 0x69, 0x6e, 0x6b, 0x73, 0x18, 0x07, 0x20, 0x03, 0x28,
+	0x0b, 0x32, 0x1b, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69,
+	0x2e, 0x6e, 0x65, 0x78, 0x75, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69, 0x6e, 0x6b, 0x52, 0x05,
+	0x6c, 0x69, 0x6e, 0x6b, 0x73, 0x1a, 0x41, 0x0a, 0x13, 0x43, 0x61, 0x6c, 0x6c, 0x62, 0x61, 0x63,
+	0x6b, 0x48, 0x65, 0x61, 0x64, 0x65, 0x72, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x12, 0x10, 0x0a, 0x03,
+	0x6b, 0x65, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6b, 0x65, 0x79, 0x12, 0x14,
+	0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x76,
+	0x61, 0x6c, 0x75, 0x65, 0x3a, 0x02, 0x38, 0x01, 0x22, 0xa0, 0x01, 0x0a, 0x16, 0x43, 0x61, 0x6e,
+	0x63, 0x65, 0x6c, 0x4f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x71, 0x75,
+	0x65, 0x73, 0x74, 0x12, 0x18, 0x0a, 0x07, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x18, 0x01,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x1c, 0x0a,
+	0x09, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09,
+	0x52, 0x09, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x25, 0x0a, 0x0c, 0x6f,
+	0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x18, 0x03, 0x20, 0x01, 0x28,
+	0x09, 0x42, 0x02, 0x18, 0x01, 0x52, 0x0b, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e,
+	0x49, 0x64, 0x12, 0x27, 0x0a, 0x0f, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f,
+	0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0e, 0x6f, 0x70, 0x65,
+	0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x22, 0xc6, 0x04, 0x0a, 0x07,
+	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x42, 0x0a, 0x06, 0x68, 0x65, 0x61, 0x64, 0x65,
+	0x72, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x2a, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72,
+	0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x6e, 0x65, 0x78, 0x75, 0x73, 0x2e, 0x76, 0x31, 0x2e,
+	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x2e, 0x48, 0x65, 0x61, 0x64, 0x65, 0x72, 0x45, 0x6e,
+	0x74, 0x72, 0x79, 0x52, 0x06, 0x68, 0x65, 0x61, 0x64, 0x65, 0x72, 0x12, 0x41, 0x0a, 0x0e, 0x73,
+	0x63, 0x68, 0x65, 0x64, 0x75, 0x6c, 0x65, 0x64, 0x5f, 0x74, 0x69, 0x6d, 0x65, 0x18, 0x02, 0x20,
+	0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f,
+	0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x54, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x52,
+	0x0d, 0x73, 0x63, 0x68, 0x65, 0x64, 0x75, 0x6c, 0x65, 0x64, 0x54, 0x69, 0x6d, 0x65, 0x12, 0x4f,
+	0x0a, 0x0c, 0x63, 0x61, 0x70, 0x61, 0x62, 0x69, 0x6c, 0x69, 0x74, 0x69, 0x65, 0x73, 0x18, 0x64,
+	0x20, 0x01, 0x28, 0x0b, 0x32, 0x2b, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e,
+	0x61, 0x70, 0x69, 0x2e, 0x6e, 0x65, 0x78, 0x75, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x52, 0x65, 0x71,
+	0x75, 0x65, 0x73, 0x74, 0x2e, 0x43, 0x61, 0x70, 0x61, 0x62, 0x69, 0x6c, 0x69, 0x74, 0x69, 0x65,
+	0x73, 0x52, 0x0c, 0x63, 0x61, 0x70, 0x61, 0x62, 0x69, 0x6c, 0x69, 0x74, 0x69, 0x65, 0x73, 0x12,
+	0x57, 0x0a, 0x0f, 0x73, 0x74, 0x61, 0x72, 0x74, 0x5f, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69,
+	0x6f, 0x6e, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x2c, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f,
+	0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x6e, 0x65, 0x78, 0x75, 0x73, 0x2e, 0x76, 0x31,
+	0x2e, 0x53, 0x74, 0x61, 0x72, 0x74, 0x4f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52,
+	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x48, 0x00, 0x52, 0x0e, 0x73, 0x74, 0x61, 0x72, 0x74, 0x4f,
+	0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x5a, 0x0a, 0x10, 0x63, 0x61, 0x6e, 0x63,
+	0x65, 0x6c, 0x5f, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x04, 0x20, 0x01,
+	0x28, 0x0b, 0x32, 0x2d, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70,
+	0x69, 0x2e, 0x6e, 0x65, 0x78, 0x75, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x43, 0x61, 0x6e, 0x63, 0x65,
+	0x6c, 0x4f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
+	0x74, 0x48, 0x00, 0x52, 0x0f, 0x63, 0x61, 0x6e, 0x63, 0x65, 0x6c, 0x4f, 0x70, 0x65, 0x72, 0x61,
+	0x74, 0x69, 0x6f, 0x6e, 0x12, 0x1a, 0x0a, 0x08, 0x65, 0x6e, 0x64, 0x70, 0x6f, 0x69, 0x6e, 0x74,
+	0x18, 0x0a, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x65, 0x6e, 0x64, 0x70, 0x6f, 0x69, 0x6e, 0x74,
+	0x1a, 0x4c, 0x0a, 0x0c, 0x43, 0x61, 0x70, 0x61, 0x62, 0x69, 0x6c, 0x69, 0x74, 0x69, 0x65, 0x73,
+	0x12, 0x3c, 0x0a, 0x1a, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x5f, 0x66, 0x61, 0x69,
+	0x6c, 0x75, 0x72, 0x65, 0x5f, 0x72, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x73, 0x18, 0x01,
+	0x20, 0x01, 0x28, 0x08, 0x52, 0x18, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x46, 0x61,
+	0x69, 0x6c, 0x75, 0x72, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x73, 0x1a, 0x39,
+	0x0a, 0x0b, 0x48, 0x65, 0x61, 0x64, 0x65, 0x72, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x12, 0x10, 0x0a,
+	0x03, 0x6b, 0x65, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6b, 0x65, 0x79, 0x12,
+	0x14, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05,
+	0x76, 0x61, 0x6c, 0x75, 0x65, 0x3a, 0x02, 0x38, 0x01, 0x42, 0x09, 0x0a, 0x07, 0x76, 0x61, 0x72,
+	0x69, 0x61, 0x6e, 0x74, 0x22, 0xfb, 0x04, 0x0a, 0x16, 0x53, 0x74, 0x61, 0x72, 0x74, 0x4f, 0x70,
+	0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12,
+	0x57, 0x0a, 0x0c, 0x73, 0x79, 0x6e, 0x63, 0x5f, 0x73, 0x75, 0x63, 0x63, 0x65, 0x73, 0x73, 0x18,
+	0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x32, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c,
+	0x2e, 0x61, 0x70, 0x69, 0x2e, 0x6e, 0x65, 0x78, 0x75, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x53, 0x74,
+	0x61, 0x72, 0x74, 0x4f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70,
+	0x6f, 0x6e, 0x73, 0x65, 0x2e, 0x53, 0x79, 0x6e, 0x63, 0x48, 0x00, 0x52, 0x0b, 0x73, 0x79, 0x6e,
+	0x63, 0x53, 0x75, 0x63, 0x63, 0x65, 0x73, 0x73, 0x12, 0x5a, 0x0a, 0x0d, 0x61, 0x73, 0x79, 0x6e,
+	0x63, 0x5f, 0x73, 0x75, 0x63, 0x63, 0x65, 0x73, 0x73, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32,
+	0x33, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x6e,
+	0x65, 0x78, 0x75, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x53, 0x74, 0x61, 0x72, 0x74, 0x4f, 0x70, 0x65,
+	0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x2e, 0x41,
+	0x73, 0x79, 0x6e, 0x63, 0x48, 0x00, 0x52, 0x0c, 0x61, 0x73, 0x79, 0x6e, 0x63, 0x53, 0x75, 0x63,
+	0x63, 0x65, 0x73, 0x73, 0x12, 0x60, 0x0a, 0x0f, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f,
+	0x6e, 0x5f, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x31, 0x2e,
+	0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x6e, 0x65, 0x78,
+	0x75, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x55, 0x6e, 0x73, 0x75, 0x63, 0x63, 0x65, 0x73, 0x73, 0x66,
+	0x75, 0x6c, 0x4f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x45, 0x72, 0x72, 0x6f, 0x72,
+	0x42, 0x02, 0x18, 0x01, 0x48, 0x00, 0x52, 0x0e, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f,
+	0x6e, 0x45, 0x72, 0x72, 0x6f, 0x72, 0x12, 0x3c, 0x0a, 0x07, 0x66, 0x61, 0x69, 0x6c, 0x75, 0x72,
+	0x65, 0x18, 0x04, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x20, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72,
+	0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x66, 0x61, 0x69, 0x6c, 0x75, 0x72, 0x65, 0x2e, 0x76,
+	0x31, 0x2e, 0x46, 0x61, 0x69, 0x6c, 0x75, 0x72, 0x65, 0x48, 0x00, 0x52, 0x07, 0x66, 0x61, 0x69,
+	0x6c, 0x75, 0x72, 0x65, 0x1a, 0x74, 0x0a, 0x04, 0x53, 0x79, 0x6e, 0x63, 0x12, 0x39, 0x0a, 0x07,
+	0x70, 0x61, 0x79, 0x6c, 0x6f, 0x61, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1f, 0x2e,
+	0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x63, 0x6f, 0x6d,
+	0x6d, 0x6f, 0x6e, 0x2e, 0x76, 0x31, 0x2e, 0x50, 0x61, 0x79, 0x6c, 0x6f, 0x61, 0x64, 0x52, 0x07,
+	0x70, 0x61, 0x79, 0x6c, 0x6f, 0x61, 0x64, 0x12, 0x31, 0x0a, 0x05, 0x6c, 0x69, 0x6e, 0x6b, 0x73,
+	0x18, 0x02, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x1b, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61,
+	0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x6e, 0x65, 0x78, 0x75, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x4c,
+	0x69, 0x6e, 0x6b, 0x52, 0x05, 0x6c, 0x69, 0x6e, 0x6b, 0x73, 0x1a, 0x8a, 0x01, 0x0a, 0x05, 0x41,
+	0x73, 0x79, 0x6e, 0x63, 0x12, 0x25, 0x0a, 0x0c, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f,
+	0x6e, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x42, 0x02, 0x18, 0x01, 0x52, 0x0b,
+	0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x49, 0x64, 0x12, 0x31, 0x0a, 0x05, 0x6c,
+	0x69, 0x6e, 0x6b, 0x73, 0x18, 0x02, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x1b, 0x2e, 0x74, 0x65, 0x6d,
+	0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x6e, 0x65, 0x78, 0x75, 0x73, 0x2e,
+	0x76, 0x31, 0x2e, 0x4c, 0x69, 0x6e, 0x6b, 0x52, 0x05, 0x6c, 0x69, 0x6e, 0x6b, 0x73, 0x12, 0x27,
+	0x0a, 0x0f, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x74, 0x6f, 0x6b, 0x65,
+	0x6e, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0e, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69,
+	0x6f, 0x6e, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x42, 0x09, 0x0a, 0x07, 0x76, 0x61, 0x72, 0x69, 0x61,
+	0x6e, 0x74, 0x22, 0x19, 0x0a, 0x17, 0x43, 0x61, 0x6e, 0x63, 0x65, 0x6c, 0x4f, 0x70, 0x65, 0x72,
+	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0xcc, 0x01,
+	0x0a, 0x08, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x58, 0x0a, 0x0f, 0x73, 0x74,
+	0x61, 0x72, 0x74, 0x5f, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x01, 0x20,
+	0x01, 0x28, 0x0b, 0x32, 0x2d, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61,
+	0x70, 0x69, 0x2e, 0x6e, 0x65, 0x78, 0x75, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x53, 0x74, 0x61, 0x72,
+	0x74, 0x4f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e,
+	0x73, 0x65, 0x48, 0x00, 0x52, 0x0e, 0x73, 0x74, 0x61, 0x72, 0x74, 0x4f, 0x70, 0x65, 0x72, 0x61,
+	0x74, 0x69, 0x6f, 0x6e, 0x12, 0x5b, 0x0a, 0x10, 0x63, 0x61, 0x6e, 0x63, 0x65, 0x6c, 0x5f, 0x6f,
+	0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x2e,
+	0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x6e, 0x65,
+	0x78, 0x75, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x43, 0x61, 0x6e, 0x63, 0x65, 0x6c, 0x4f, 0x70, 0x65,
+	0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x48, 0x00,
+	0x52, 0x0f, 0x63, 0x61, 0x6e, 0x63, 0x65, 0x6c, 0x4f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f,
+	0x6e, 0x42, 0x09, 0x0a, 0x07, 0x76, 0x61, 0x72, 0x69, 0x61, 0x6e, 0x74, 0x22, 0x95, 0x02, 0x0a,
+	0x08, 0x45, 0x6e, 0x64, 0x70, 0x6f, 0x69, 0x6e, 0x74, 0x12, 0x18, 0x0a, 0x07, 0x76, 0x65, 0x72,
+	0x73, 0x69, 0x6f, 0x6e, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03, 0x52, 0x07, 0x76, 0x65, 0x72, 0x73,
+	0x69, 0x6f, 0x6e, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52,
+	0x02, 0x69, 0x64, 0x12, 0x37, 0x0a, 0x04, 0x73, 0x70, 0x65, 0x63, 0x18, 0x03, 0x20, 0x01, 0x28,
+	0x0b, 0x32, 0x23, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69,
+	0x2e, 0x6e, 0x65, 0x78, 0x75, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x45, 0x6e, 0x64, 0x70, 0x6f, 0x69,
+	0x6e, 0x74, 0x53, 0x70, 0x65, 0x63, 0x52, 0x04, 0x73, 0x70, 0x65, 0x63, 0x12, 0x3d, 0x0a, 0x0c,
+	0x63, 0x72, 0x65, 0x61, 0x74, 0x65, 0x64, 0x5f, 0x74, 0x69, 0x6d, 0x65, 0x18, 0x04, 0x20, 0x01,
+	0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74,
+	0x6f, 0x62, 0x75, 0x66, 0x2e, 0x54, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x52, 0x0b,
+	0x63, 0x72, 0x65, 0x61, 0x74, 0x65, 0x64, 0x54, 0x69, 0x6d, 0x65, 0x12, 0x48, 0x0a, 0x12, 0x6c,
+	0x61, 0x73, 0x74, 0x5f, 0x6d, 0x6f, 0x64, 0x69, 0x66, 0x69, 0x65, 0x64, 0x5f, 0x74, 0x69, 0x6d,
+	0x65, 0x18, 0x05, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65,
+	0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x54, 0x69, 0x6d, 0x65, 0x73, 0x74,
+	0x61, 0x6d, 0x70, 0x52, 0x10, 0x6c, 0x61, 0x73, 0x74, 0x4d, 0x6f, 0x64, 0x69, 0x66, 0x69, 0x65,
+	0x64, 0x54, 0x69, 0x6d, 0x65, 0x12, 0x1d, 0x0a, 0x0a, 0x75, 0x72, 0x6c, 0x5f, 0x70, 0x72, 0x65,
+	0x66, 0x69, 0x78, 0x18, 0x06, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x75, 0x72, 0x6c, 0x50, 0x72,
+	0x65, 0x66, 0x69, 0x78, 0x22, 0xa4, 0x01, 0x0a, 0x0c, 0x45, 0x6e, 0x64, 0x70, 0x6f, 0x69, 0x6e,
+	0x74, 0x53, 0x70, 0x65, 0x63, 0x12, 0x12, 0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x01, 0x20,
+	0x01, 0x28, 0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x12, 0x41, 0x0a, 0x0b, 0x64, 0x65, 0x73,
+	0x63, 0x72, 0x69, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1f,
+	0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x63, 0x6f,
+	0x6d, 0x6d, 0x6f, 0x6e, 0x2e, 0x76, 0x31, 0x2e, 0x50, 0x61, 0x79, 0x6c, 0x6f, 0x61, 0x64, 0x52,
+	0x0b, 0x64, 0x65, 0x73, 0x63, 0x72, 0x69, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x3d, 0x0a, 0x06,
+	0x74, 0x61, 0x72, 0x67, 0x65, 0x74, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x25, 0x2e, 0x74,
+	0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x6e, 0x65, 0x78, 0x75,
+	0x73, 0x2e, 0x76, 0x31, 0x2e, 0x45, 0x6e, 0x64, 0x70, 0x6f, 0x69, 0x6e, 0x74, 0x54, 0x61, 0x72,
+	0x67, 0x65, 0x74, 0x52, 0x06, 0x74, 0x61, 0x72, 0x67, 0x65, 0x74, 0x22, 0x96, 0x02, 0x0a, 0x0e,
+	0x45, 0x6e, 0x64, 0x70, 0x6f, 0x69, 0x6e, 0x74, 0x54, 0x61, 0x72, 0x67, 0x65, 0x74, 0x12, 0x46,
+	0x0a, 0x06, 0x77, 0x6f, 0x72, 0x6b, 0x65, 0x72, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x2c,
+	0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x6e, 0x65,
+	0x78, 0x75, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x45, 0x6e, 0x64, 0x70, 0x6f, 0x69, 0x6e, 0x74, 0x54,
+	0x61, 0x72, 0x67, 0x65, 0x74, 0x2e, 0x57, 0x6f, 0x72, 0x6b, 0x65, 0x72, 0x48, 0x00, 0x52, 0x06,
+	0x77, 0x6f, 0x72, 0x6b, 0x65, 0x72, 0x12, 0x4c, 0x0a, 0x08, 0x65, 0x78, 0x74, 0x65, 0x72, 0x6e,
+	0x61, 0x6c, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x2e, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f,
+	0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x6e, 0x65, 0x78, 0x75, 0x73, 0x2e, 0x76, 0x31,
+	0x2e, 0x45, 0x6e, 0x64, 0x70, 0x6f, 0x69, 0x6e, 0x74, 0x54, 0x61, 0x72, 0x67, 0x65, 0x74, 0x2e,
+	0x45, 0x78, 0x74, 0x65, 0x72, 0x6e, 0x61, 0x6c, 0x48, 0x00, 0x52, 0x08, 0x65, 0x78, 0x74, 0x65,
+	0x72, 0x6e, 0x61, 0x6c, 0x1a, 0x45, 0x0a, 0x06, 0x57, 0x6f, 0x72, 0x6b, 0x65, 0x72, 0x12, 0x1c,
+	0x0a, 0x09, 0x6e, 0x61, 0x6d, 0x65, 0x73, 0x70, 0x61, 0x63, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28,
+	0x09, 0x52, 0x09, 0x6e, 0x61, 0x6d, 0x65, 0x73, 0x70, 0x61, 0x63, 0x65, 0x12, 0x1d, 0x0a, 0x0a,
+	0x74, 0x61, 0x73, 0x6b, 0x5f, 0x71, 0x75, 0x65, 0x75, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09,
+	0x52, 0x09, 0x74, 0x61, 0x73, 0x6b, 0x51, 0x75, 0x65, 0x75, 0x65, 0x1a, 0x1c, 0x0a, 0x08, 0x45,
+	0x78, 0x74, 0x65, 0x72, 0x6e, 0x61, 0x6c, 0x12, 0x10, 0x0a, 0x03, 0x75, 0x72, 0x6c, 0x18, 0x01,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x75, 0x72, 0x6c, 0x42, 0x09, 0x0a, 0x07, 0x76, 0x61, 0x72,
+	0x69, 0x61, 0x6e, 0x74, 0x22, 0x90, 0x04, 0x0a, 0x1e, 0x4e, 0x65, 0x78, 0x75, 0x73, 0x4f, 0x70,
+	0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x43, 0x61, 0x6e, 0x63, 0x65, 0x6c, 0x6c, 0x61, 0x74,
+	0x69, 0x6f, 0x6e, 0x49, 0x6e, 0x66, 0x6f, 0x12, 0x41, 0x0a, 0x0e, 0x72, 0x65, 0x71, 0x75, 0x65,
+	0x73, 0x74, 0x65, 0x64, 0x5f, 0x74, 0x69, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32,
+	0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75,
+	0x66, 0x2e, 0x54, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x52, 0x0d, 0x72, 0x65, 0x71,
+	0x75, 0x65, 0x73, 0x74, 0x65, 0x64, 0x54, 0x69, 0x6d, 0x65, 0x12, 0x4c, 0x0a, 0x05, 0x73, 0x74,
+	0x61, 0x74, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x36, 0x2e, 0x74, 0x65, 0x6d, 0x70,
+	0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x65, 0x6e, 0x75, 0x6d, 0x73, 0x2e, 0x76,
+	0x31, 0x2e, 0x4e, 0x65, 0x78, 0x75, 0x73, 0x4f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e,
+	0x43, 0x61, 0x6e, 0x63, 0x65, 0x6c, 0x6c, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x53, 0x74, 0x61, 0x74,
+	0x65, 0x52, 0x05, 0x73, 0x74, 0x61, 0x74, 0x65, 0x12, 0x18, 0x0a, 0x07, 0x61, 0x74, 0x74, 0x65,
+	0x6d, 0x70, 0x74, 0x18, 0x03, 0x20, 0x01, 0x28, 0x05, 0x52, 0x07, 0x61, 0x74, 0x74, 0x65, 0x6d,
+	0x70, 0x74, 0x12, 0x57, 0x0a, 0x1a, 0x6c, 0x61, 0x73, 0x74, 0x5f, 0x61, 0x74, 0x74, 0x65, 0x6d,
+	0x70, 0x74, 0x5f, 0x63, 0x6f, 0x6d, 0x70, 0x6c, 0x65, 0x74, 0x65, 0x5f, 0x74, 0x69, 0x6d, 0x65,
+	0x18, 0x04, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e,
+	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x54, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61,
+	0x6d, 0x70, 0x52, 0x17, 0x6c, 0x61, 0x73, 0x74, 0x41, 0x74, 0x74, 0x65, 0x6d, 0x70, 0x74, 0x43,
+	0x6f, 0x6d, 0x70, 0x6c, 0x65, 0x74, 0x65, 0x54, 0x69, 0x6d, 0x65, 0x12, 0x52, 0x0a, 0x14, 0x6c,
+	0x61, 0x73, 0x74, 0x5f, 0x61, 0x74, 0x74, 0x65, 0x6d, 0x70, 0x74, 0x5f, 0x66, 0x61, 0x69, 0x6c,
+	0x75, 0x72, 0x65, 0x18, 0x05, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x20, 0x2e, 0x74, 0x65, 0x6d, 0x70,
+	0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x66, 0x61, 0x69, 0x6c, 0x75, 0x72, 0x65,
+	0x2e, 0x76, 0x31, 0x2e, 0x46, 0x61, 0x69, 0x6c, 0x75, 0x72, 0x65, 0x52, 0x12, 0x6c, 0x61, 0x73,
+	0x74, 0x41, 0x74, 0x74, 0x65, 0x6d, 0x70, 0x74, 0x46, 0x61, 0x69, 0x6c, 0x75, 0x72, 0x65, 0x12,
+	0x57, 0x0a, 0x1a, 0x6e, 0x65, 0x78, 0x74, 0x5f, 0x61, 0x74, 0x74, 0x65, 0x6d, 0x70, 0x74, 0x5f,
+	0x73, 0x63, 0x68, 0x65, 0x64, 0x75, 0x6c, 0x65, 0x5f, 0x74, 0x69, 0x6d, 0x65, 0x18, 0x06, 0x20,
+	0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f,
+	0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x54, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x52,
+	0x17, 0x6e, 0x65, 0x78, 0x74, 0x41, 0x74, 0x74, 0x65, 0x6d, 0x70, 0x74, 0x53, 0x63, 0x68, 0x65,
+	0x64, 0x75, 0x6c, 0x65, 0x54, 0x69, 0x6d, 0x65, 0x12, 0x25, 0x0a, 0x0e, 0x62, 0x6c, 0x6f, 0x63,
+	0x6b, 0x65, 0x64, 0x5f, 0x72, 0x65, 0x61, 0x73, 0x6f, 0x6e, 0x18, 0x07, 0x20, 0x01, 0x28, 0x09,
+	0x52, 0x0d, 0x62, 0x6c, 0x6f, 0x63, 0x6b, 0x65, 0x64, 0x52, 0x65, 0x61, 0x73, 0x6f, 0x6e, 0x12,
+	0x16, 0x0a, 0x06, 0x72, 0x65, 0x61, 0x73, 0x6f, 0x6e, 0x18, 0x08, 0x20, 0x01, 0x28, 0x09, 0x52,
+	0x06, 0x72, 0x65, 0x61, 0x73, 0x6f, 0x6e, 0x22, 0xd2, 0x0d, 0x0a, 0x12, 0x4e, 0x65, 0x78, 0x75,
+	0x73, 0x4f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x49, 0x6e, 0x66, 0x6f, 0x12, 0x21,
+	0x0a, 0x0c, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x18, 0x01,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x0b, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x49,
+	0x64, 0x12, 0x15, 0x0a, 0x06, 0x72, 0x75, 0x6e, 0x5f, 0x69, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28,
+	0x09, 0x52, 0x05, 0x72, 0x75, 0x6e, 0x49, 0x64, 0x12, 0x1a, 0x0a, 0x08, 0x65, 0x6e, 0x64, 0x70,
+	0x6f, 0x69, 0x6e, 0x74, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x65, 0x6e, 0x64, 0x70,
+	0x6f, 0x69, 0x6e, 0x74, 0x12, 0x18, 0x0a, 0x07, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x18,
+	0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x1c,
+	0x0a, 0x09, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x05, 0x20, 0x01, 0x28,
+	0x09, 0x52, 0x09, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x43, 0x0a, 0x06,
+	0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x18, 0x06, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x2b, 0x2e, 0x74,
+	0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x65, 0x6e, 0x75, 0x6d,
+	0x73, 0x2e, 0x76, 0x31, 0x2e, 0x4e, 0x65, 0x78, 0x75, 0x73, 0x4f, 0x70, 0x65, 0x72, 0x61, 0x74,
+	0x69, 0x6f, 0x6e, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x52, 0x06, 0x73, 0x74, 0x61, 0x74, 0x75,
+	0x73, 0x12, 0x47, 0x0a, 0x05, 0x73, 0x74, 0x61, 0x74, 0x65, 0x18, 0x07, 0x20, 0x01, 0x28, 0x0e,
+	0x32, 0x31, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e,
+	0x65, 0x6e, 0x75, 0x6d, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x50, 0x65, 0x6e, 0x64, 0x69, 0x6e, 0x67,
+	0x4e, 0x65, 0x78, 0x75, 0x73, 0x4f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x53, 0x74,
+	0x61, 0x74, 0x65, 0x52, 0x05, 0x73, 0x74, 0x61, 0x74, 0x65, 0x12, 0x54, 0x0a, 0x19, 0x73, 0x63,
+	0x68, 0x65, 0x64, 0x75, 0x6c, 0x65, 0x5f, 0x74, 0x6f, 0x5f, 0x63, 0x6c, 0x6f, 0x73, 0x65, 0x5f,
+	0x74, 0x69, 0x6d, 0x65, 0x6f, 0x75, 0x74, 0x18, 0x08, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x19, 0x2e,
+	0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e,
+	0x44, 0x75, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x16, 0x73, 0x63, 0x68, 0x65, 0x64, 0x75,
+	0x6c, 0x65, 0x54, 0x6f, 0x43, 0x6c, 0x6f, 0x73, 0x65, 0x54, 0x69, 0x6d, 0x65, 0x6f, 0x75, 0x74,
+	0x12, 0x54, 0x0a, 0x19, 0x73, 0x63, 0x68, 0x65, 0x64, 0x75, 0x6c, 0x65, 0x5f, 0x74, 0x6f, 0x5f,
+	0x73, 0x74, 0x61, 0x72, 0x74, 0x5f, 0x74, 0x69, 0x6d, 0x65, 0x6f, 0x75, 0x74, 0x18, 0x09, 0x20,
+	0x01, 0x28, 0x0b, 0x32, 0x19, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f,
+	0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x44, 0x75, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x16,
+	0x73, 0x63, 0x68, 0x65, 0x64, 0x75, 0x6c, 0x65, 0x54, 0x6f, 0x53, 0x74, 0x61, 0x72, 0x74, 0x54,
+	0x69, 0x6d, 0x65, 0x6f, 0x75, 0x74, 0x12, 0x4e, 0x0a, 0x16, 0x73, 0x74, 0x61, 0x72, 0x74, 0x5f,
+	0x74, 0x6f, 0x5f, 0x63, 0x6c, 0x6f, 0x73, 0x65, 0x5f, 0x74, 0x69, 0x6d, 0x65, 0x6f, 0x75, 0x74,
+	0x18, 0x0a, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x19, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e,
+	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x44, 0x75, 0x72, 0x61, 0x74, 0x69, 0x6f,
+	0x6e, 0x52, 0x13, 0x73, 0x74, 0x61, 0x72, 0x74, 0x54, 0x6f, 0x43, 0x6c, 0x6f, 0x73, 0x65, 0x54,
+	0x69, 0x6d, 0x65, 0x6f, 0x75, 0x74, 0x12, 0x18, 0x0a, 0x07, 0x61, 0x74, 0x74, 0x65, 0x6d, 0x70,
+	0x74, 0x18, 0x0b, 0x20, 0x01, 0x28, 0x05, 0x52, 0x07, 0x61, 0x74, 0x74, 0x65, 0x6d, 0x70, 0x74,
+	0x12, 0x3f, 0x0a, 0x0d, 0x73, 0x63, 0x68, 0x65, 0x64, 0x75, 0x6c, 0x65, 0x5f, 0x74, 0x69, 0x6d,
+	0x65, 0x18, 0x0c, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65,
+	0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x54, 0x69, 0x6d, 0x65, 0x73, 0x74,
+	0x61, 0x6d, 0x70, 0x52, 0x0c, 0x73, 0x63, 0x68, 0x65, 0x64, 0x75, 0x6c, 0x65, 0x54, 0x69, 0x6d,
+	0x65, 0x12, 0x43, 0x0a, 0x0f, 0x65, 0x78, 0x70, 0x69, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f,
+	0x74, 0x69, 0x6d, 0x65, 0x18, 0x0d, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f,
+	0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x54, 0x69, 0x6d,
+	0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x52, 0x0e, 0x65, 0x78, 0x70, 0x69, 0x72, 0x61, 0x74, 0x69,
+	0x6f, 0x6e, 0x54, 0x69, 0x6d, 0x65, 0x12, 0x39, 0x0a, 0x0a, 0x63, 0x6c, 0x6f, 0x73, 0x65, 0x5f,
+	0x74, 0x69, 0x6d, 0x65, 0x18, 0x0e, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f,
+	0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x54, 0x69, 0x6d,
+	0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x52, 0x09, 0x63, 0x6c, 0x6f, 0x73, 0x65, 0x54, 0x69, 0x6d,
+	0x65, 0x12, 0x57, 0x0a, 0x1a, 0x6c, 0x61, 0x73, 0x74, 0x5f, 0x61, 0x74, 0x74, 0x65, 0x6d, 0x70,
+	0x74, 0x5f, 0x63, 0x6f, 0x6d, 0x70, 0x6c, 0x65, 0x74, 0x65, 0x5f, 0x74, 0x69, 0x6d, 0x65, 0x18,
+	0x0f, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70,
+	0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x54, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d,
+	0x70, 0x52, 0x17, 0x6c, 0x61, 0x73, 0x74, 0x41, 0x74, 0x74, 0x65, 0x6d, 0x70, 0x74, 0x43, 0x6f,
+	0x6d, 0x70, 0x6c, 0x65, 0x74, 0x65, 0x54, 0x69, 0x6d, 0x65, 0x12, 0x52, 0x0a, 0x14, 0x6c, 0x61,
+	0x73, 0x74, 0x5f, 0x61, 0x74, 0x74, 0x65, 0x6d, 0x70, 0x74, 0x5f, 0x66, 0x61, 0x69, 0x6c, 0x75,
+	0x72, 0x65, 0x18, 0x10, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x20, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f,
+	0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x66, 0x61, 0x69, 0x6c, 0x75, 0x72, 0x65, 0x2e,
+	0x76, 0x31, 0x2e, 0x46, 0x61, 0x69, 0x6c, 0x75, 0x72, 0x65, 0x52, 0x12, 0x6c, 0x61, 0x73, 0x74,
+	0x41, 0x74, 0x74, 0x65, 0x6d, 0x70, 0x74, 0x46, 0x61, 0x69, 0x6c, 0x75, 0x72, 0x65, 0x12, 0x57,
+	0x0a, 0x1a, 0x6e, 0x65, 0x78, 0x74, 0x5f, 0x61, 0x74, 0x74, 0x65, 0x6d, 0x70, 0x74, 0x5f, 0x73,
+	0x63, 0x68, 0x65, 0x64, 0x75, 0x6c, 0x65, 0x5f, 0x74, 0x69, 0x6d, 0x65, 0x18, 0x11, 0x20, 0x01,
+	0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74,
+	0x6f, 0x62, 0x75, 0x66, 0x2e, 0x54, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x52, 0x17,
+	0x6e, 0x65, 0x78, 0x74, 0x41, 0x74, 0x74, 0x65, 0x6d, 0x70, 0x74, 0x53, 0x63, 0x68, 0x65, 0x64,
+	0x75, 0x6c, 0x65, 0x54, 0x69, 0x6d, 0x65, 0x12, 0x48, 0x0a, 0x12, 0x65, 0x78, 0x65, 0x63, 0x75,
+	0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x64, 0x75, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x12, 0x20,
+	0x01, 0x28, 0x0b, 0x32, 0x19, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f,
+	0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x44, 0x75, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x11,
+	0x65, 0x78, 0x65, 0x63, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x44, 0x75, 0x72, 0x61, 0x74, 0x69, 0x6f,
+	0x6e, 0x12, 0x62, 0x0a, 0x11, 0x63, 0x61, 0x6e, 0x63, 0x65, 0x6c, 0x6c, 0x61, 0x74, 0x69, 0x6f,
+	0x6e, 0x5f, 0x69, 0x6e, 0x66, 0x6f, 0x18, 0x13, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x35, 0x2e, 0x74,
+	0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x6e, 0x65, 0x78, 0x75,
+	0x73, 0x2e, 0x76, 0x31, 0x2e, 0x4e, 0x65, 0x78, 0x75, 0x73, 0x4f, 0x70, 0x65, 0x72, 0x61, 0x74,
+	0x69, 0x6f, 0x6e, 0x43, 0x61, 0x6e, 0x63, 0x65, 0x6c, 0x6c, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x49,
+	0x6e, 0x66, 0x6f, 0x52, 0x10, 0x63, 0x61, 0x6e, 0x63, 0x65, 0x6c, 0x6c, 0x61, 0x74, 0x69, 0x6f,
+	0x6e, 0x49, 0x6e, 0x66, 0x6f, 0x12, 0x25, 0x0a, 0x0e, 0x62, 0x6c, 0x6f, 0x63, 0x6b, 0x65, 0x64,
+	0x5f, 0x72, 0x65, 0x61, 0x73, 0x6f, 0x6e, 0x18, 0x14, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0d, 0x62,
+	0x6c, 0x6f, 0x63, 0x6b, 0x65, 0x64, 0x52, 0x65, 0x61, 0x73, 0x6f, 0x6e, 0x12, 0x1d, 0x0a, 0x0a,
+	0x72, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x5f, 0x69, 0x64, 0x18, 0x15, 0x20, 0x01, 0x28, 0x09,
+	0x52, 0x09, 0x72, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x49, 0x64, 0x12, 0x27, 0x0a, 0x0f, 0x6f,
+	0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x18, 0x16,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x0e, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x54,
+	0x6f, 0x6b, 0x65, 0x6e, 0x12, 0x34, 0x0a, 0x16, 0x73, 0x74, 0x61, 0x74, 0x65, 0x5f, 0x74, 0x72,
+	0x61, 0x6e, 0x73, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x18, 0x17,
+	0x20, 0x01, 0x28, 0x03, 0x52, 0x14, 0x73, 0x74, 0x61, 0x74, 0x65, 0x54, 0x72, 0x61, 0x6e, 0x73,
+	0x69, 0x74, 0x69, 0x6f, 0x6e, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x12, 0x55, 0x0a, 0x11, 0x73, 0x65,
+	0x61, 0x72, 0x63, 0x68, 0x5f, 0x61, 0x74, 0x74, 0x72, 0x69, 0x62, 0x75, 0x74, 0x65, 0x73, 0x18,
+	0x18, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x28, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c,
+	0x2e, 0x61, 0x70, 0x69, 0x2e, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x2e, 0x76, 0x31, 0x2e, 0x53,
+	0x65, 0x61, 0x72, 0x63, 0x68, 0x41, 0x74, 0x74, 0x72, 0x69, 0x62, 0x75, 0x74, 0x65, 0x73, 0x52,
+	0x10, 0x73, 0x65, 0x61, 0x72, 0x63, 0x68, 0x41, 0x74, 0x74, 0x72, 0x69, 0x62, 0x75, 0x74, 0x65,
+	0x73, 0x12, 0x5d, 0x0a, 0x0c, 0x6e, 0x65, 0x78, 0x75, 0x73, 0x5f, 0x68, 0x65, 0x61, 0x64, 0x65,
+	0x72, 0x18, 0x19, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x3a, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72,
+	0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x6e, 0x65, 0x78, 0x75, 0x73, 0x2e, 0x76, 0x31, 0x2e,
+	0x4e, 0x65, 0x78, 0x75, 0x73, 0x4f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x49, 0x6e,
+	0x66, 0x6f, 0x2e, 0x4e, 0x65, 0x78, 0x75, 0x73, 0x48, 0x65, 0x61, 0x64, 0x65, 0x72, 0x45, 0x6e,
+	0x74, 0x72, 0x79, 0x52, 0x0b, 0x6e, 0x65, 0x78, 0x75, 0x73, 0x48, 0x65, 0x61, 0x64, 0x65, 0x72,
+	0x12, 0x46, 0x0a, 0x0d, 0x75, 0x73, 0x65, 0x72, 0x5f, 0x6d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74,
+	0x61, 0x18, 0x1a, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x21, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72,
+	0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x73, 0x64, 0x6b, 0x2e, 0x76, 0x31, 0x2e, 0x55, 0x73,
+	0x65, 0x72, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0x52, 0x0c, 0x75, 0x73, 0x65, 0x72,
+	0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0x12, 0x32, 0x0a, 0x05, 0x6c, 0x69, 0x6e, 0x6b,
+	0x73, 0x18, 0x1b, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x1c, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72,
+	0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x2e, 0x76, 0x31,
+	0x2e, 0x4c, 0x69, 0x6e, 0x6b, 0x52, 0x05, 0x6c, 0x69, 0x6e, 0x6b, 0x73, 0x1a, 0x3e, 0x0a, 0x10,
+	0x4e, 0x65, 0x78, 0x75, 0x73, 0x48, 0x65, 0x61, 0x64, 0x65, 0x72, 0x45, 0x6e, 0x74, 0x72, 0x79,
+	0x12, 0x10, 0x0a, 0x03, 0x6b, 0x65, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6b,
+	0x65, 0x79, 0x12, 0x14, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28,
+	0x09, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x3a, 0x02, 0x38, 0x01, 0x22, 0xe8, 0x04, 0x0a,
+	0x16, 0x4e, 0x65, 0x78, 0x75, 0x73, 0x4f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x4c,
+	0x69, 0x73, 0x74, 0x49, 0x6e, 0x66, 0x6f, 0x12, 0x21, 0x0a, 0x0c, 0x6f, 0x70, 0x65, 0x72, 0x61,
+	0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0b, 0x6f,
+	0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x49, 0x64, 0x12, 0x15, 0x0a, 0x06, 0x72, 0x75,
+	0x6e, 0x5f, 0x69, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x72, 0x75, 0x6e, 0x49,
+	0x64, 0x12, 0x1a, 0x0a, 0x08, 0x65, 0x6e, 0x64, 0x70, 0x6f, 0x69, 0x6e, 0x74, 0x18, 0x03, 0x20,
+	0x01, 0x28, 0x09, 0x52, 0x08, 0x65, 0x6e, 0x64, 0x70, 0x6f, 0x69, 0x6e, 0x74, 0x12, 0x18, 0x0a,
+	0x07, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07,
+	0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x1c, 0x0a, 0x09, 0x6f, 0x70, 0x65, 0x72, 0x61,
+	0x74, 0x69, 0x6f, 0x6e, 0x18, 0x05, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x6f, 0x70, 0x65, 0x72,
+	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x3f, 0x0a, 0x0d, 0x73, 0x63, 0x68, 0x65, 0x64, 0x75, 0x6c,
+	0x65, 0x5f, 0x74, 0x69, 0x6d, 0x65, 0x18, 0x06, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67,
+	0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x54,
+	0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x52, 0x0c, 0x73, 0x63, 0x68, 0x65, 0x64, 0x75,
+	0x6c, 0x65, 0x54, 0x69, 0x6d, 0x65, 0x12, 0x39, 0x0a, 0x0a, 0x63, 0x6c, 0x6f, 0x73, 0x65, 0x5f,
+	0x74, 0x69, 0x6d, 0x65, 0x18, 0x07, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f,
+	0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x54, 0x69, 0x6d,
+	0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x52, 0x09, 0x63, 0x6c, 0x6f, 0x73, 0x65, 0x54, 0x69, 0x6d,
+	0x65, 0x12, 0x43, 0x0a, 0x06, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x18, 0x08, 0x20, 0x01, 0x28,
+	0x0e, 0x32, 0x2b, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69,
+	0x2e, 0x65, 0x6e, 0x75, 0x6d, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x4e, 0x65, 0x78, 0x75, 0x73, 0x4f,
+	0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x52, 0x06,
+	0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x12, 0x55, 0x0a, 0x11, 0x73, 0x65, 0x61, 0x72, 0x63, 0x68,
+	0x5f, 0x61, 0x74, 0x74, 0x72, 0x69, 0x62, 0x75, 0x74, 0x65, 0x73, 0x18, 0x09, 0x20, 0x01, 0x28,
+	0x0b, 0x32, 0x28, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69,
+	0x2e, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x2e, 0x76, 0x31, 0x2e, 0x53, 0x65, 0x61, 0x72, 0x63,
+	0x68, 0x41, 0x74, 0x74, 0x72, 0x69, 0x62, 0x75, 0x74, 0x65, 0x73, 0x52, 0x10, 0x73, 0x65, 0x61,
+	0x72, 0x63, 0x68, 0x41, 0x74, 0x74, 0x72, 0x69, 0x62, 0x75, 0x74, 0x65, 0x73, 0x12, 0x34, 0x0a,
+	0x16, 0x73, 0x74, 0x61, 0x74, 0x65, 0x5f, 0x74, 0x72, 0x61, 0x6e, 0x73, 0x69, 0x74, 0x69, 0x6f,
+	0x6e, 0x5f, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x18, 0x0a, 0x20, 0x01, 0x28, 0x03, 0x52, 0x14, 0x73,
+	0x74, 0x61, 0x74, 0x65, 0x54, 0x72, 0x61, 0x6e, 0x73, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x43, 0x6f,
+	0x75, 0x6e, 0x74, 0x12, 0x28, 0x0a, 0x10, 0x73, 0x74, 0x61, 0x74, 0x65, 0x5f, 0x73, 0x69, 0x7a,
+	0x65, 0x5f, 0x62, 0x79, 0x74, 0x65, 0x73, 0x18, 0x0b, 0x20, 0x01, 0x28, 0x03, 0x52, 0x0e, 0x73,
+	0x74, 0x61, 0x74, 0x65, 0x53, 0x69, 0x7a, 0x65, 0x42, 0x79, 0x74, 0x65, 0x73, 0x12, 0x48, 0x0a,
+	0x12, 0x65, 0x78, 0x65, 0x63, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x64, 0x75, 0x72, 0x61, 0x74,
+	0x69, 0x6f, 0x6e, 0x18, 0x0c, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x19, 0x2e, 0x67, 0x6f, 0x6f, 0x67,
+	0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x44, 0x75, 0x72, 0x61,
+	0x74, 0x69, 0x6f, 0x6e, 0x52, 0x11, 0x65, 0x78, 0x65, 0x63, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x44,
+	0x75, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x42, 0x84, 0x01, 0x0a, 0x18, 0x69, 0x6f, 0x2e, 0x74,
+	0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x6e, 0x65, 0x78, 0x75,
+	0x73, 0x2e, 0x76, 0x31, 0x42, 0x0c, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x50, 0x72, 0x6f,
+	0x74, 0x6f, 0x50, 0x01, 0x5a, 0x21, 0x67, 0x6f, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61,
+	0x6c, 0x2e, 0x69, 0x6f, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x6e, 0x65, 0x78, 0x75, 0x73, 0x2f, 0x76,
+	0x31, 0x3b, 0x6e, 0x65, 0x78, 0x75, 0x73, 0xaa, 0x02, 0x17, 0x54, 0x65, 0x6d, 0x70, 0x6f, 0x72,
+	0x61, 0x6c, 0x69, 0x6f, 0x2e, 0x41, 0x70, 0x69, 0x2e, 0x4e, 0x65, 0x78, 0x75, 0x73, 0x2e, 0x56,
+	0x31, 0xea, 0x02, 0x1a, 0x54, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x69, 0x6f, 0x3a, 0x3a,
+	0x41, 0x70, 0x69, 0x3a, 0x3a, 0x4e, 0x65, 0x78, 0x75, 0x73, 0x3a, 0x3a, 0x56, 0x31, 0x62, 0x06,
+	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+}
 
 var (
 	file_temporal_api_nexus_v1_message_proto_rawDescOnce sync.Once
-	file_temporal_api_nexus_v1_message_proto_rawDescData []byte
+	file_temporal_api_nexus_v1_message_proto_rawDescData = file_temporal_api_nexus_v1_message_proto_rawDesc
 )
 
 func file_temporal_api_nexus_v1_message_proto_rawDescGZIP() []byte {
 	file_temporal_api_nexus_v1_message_proto_rawDescOnce.Do(func() {
-		file_temporal_api_nexus_v1_message_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_temporal_api_nexus_v1_message_proto_rawDesc), len(file_temporal_api_nexus_v1_message_proto_rawDesc)))
+		file_temporal_api_nexus_v1_message_proto_rawDescData = protoimpl.X.CompressGZIP(file_temporal_api_nexus_v1_message_proto_rawDescData)
 	})
 	return file_temporal_api_nexus_v1_message_proto_rawDescData
 }
 
 var file_temporal_api_nexus_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 25)
-var file_temporal_api_nexus_v1_message_proto_goTypes = []any{
-	(*Failure)(nil),                                 // 0: temporal.api.nexus.v1.Failure
-	(*HandlerError)(nil),                            // 1: temporal.api.nexus.v1.HandlerError
-	(*UnsuccessfulOperationError)(nil),              // 2: temporal.api.nexus.v1.UnsuccessfulOperationError
-	(*Link)(nil),                                    // 3: temporal.api.nexus.v1.Link
-	(*StartOperationRequest)(nil),                   // 4: temporal.api.nexus.v1.StartOperationRequest
-	(*CancelOperationRequest)(nil),                  // 5: temporal.api.nexus.v1.CancelOperationRequest
-	(*Request)(nil),                                 // 6: temporal.api.nexus.v1.Request
-	(*StartOperationResponse)(nil),                  // 7: temporal.api.nexus.v1.StartOperationResponse
-	(*CancelOperationResponse)(nil),                 // 8: temporal.api.nexus.v1.CancelOperationResponse
-	(*Response)(nil),                                // 9: temporal.api.nexus.v1.Response
-	(*Endpoint)(nil),                                // 10: temporal.api.nexus.v1.Endpoint
-	(*EndpointSpec)(nil),                            // 11: temporal.api.nexus.v1.EndpointSpec
-	(*EndpointTarget)(nil),                          // 12: temporal.api.nexus.v1.EndpointTarget
-	(*NexusOperationExecutionCancellationInfo)(nil), // 13: temporal.api.nexus.v1.NexusOperationExecutionCancellationInfo
-	(*NexusOperationExecutionInfo)(nil),             // 14: temporal.api.nexus.v1.NexusOperationExecutionInfo
-	(*NexusOperationExecutionListInfo)(nil),         // 15: temporal.api.nexus.v1.NexusOperationExecutionListInfo
-	nil,                                             // 16: temporal.api.nexus.v1.Failure.MetadataEntry
-	nil,                                             // 17: temporal.api.nexus.v1.StartOperationRequest.CallbackHeaderEntry
-	(*Request_Capabilities)(nil),                    // 18: temporal.api.nexus.v1.Request.Capabilities
-	nil,                                             // 19: temporal.api.nexus.v1.Request.HeaderEntry
-	(*StartOperationResponse_Sync)(nil),             // 20: temporal.api.nexus.v1.StartOperationResponse.Sync
-	(*StartOperationResponse_Async)(nil),            // 21: temporal.api.nexus.v1.StartOperationResponse.Async
-	(*EndpointTarget_Worker)(nil),                   // 22: temporal.api.nexus.v1.EndpointTarget.Worker
-	(*EndpointTarget_External)(nil),                 // 23: temporal.api.nexus.v1.EndpointTarget.External
-	nil,                                             // 24: temporal.api.nexus.v1.NexusOperationExecutionInfo.NexusHeaderEntry
-	(v1.NexusHandlerErrorRetryBehavior)(0),          // 25: temporal.api.enums.v1.NexusHandlerErrorRetryBehavior
-	(*v11.Payload)(nil),                             // 26: temporal.api.common.v1.Payload
-	(*timestamppb.Timestamp)(nil),                   // 27: google.protobuf.Timestamp
-	(*v12.Failure)(nil),                             // 28: temporal.api.failure.v1.Failure
-	(v1.NexusOperationCancellationState)(0),         // 29: temporal.api.enums.v1.NexusOperationCancellationState
-	(v1.NexusOperationExecutionStatus)(0),           // 30: temporal.api.enums.v1.NexusOperationExecutionStatus
-	(v1.PendingNexusOperationState)(0),              // 31: temporal.api.enums.v1.PendingNexusOperationState
-	(*durationpb.Duration)(nil),                     // 32: google.protobuf.Duration
-	(*v11.SearchAttributes)(nil),                    // 33: temporal.api.common.v1.SearchAttributes
-	(*v13.UserMetadata)(nil),                        // 34: temporal.api.sdk.v1.UserMetadata
-	(*v11.Link)(nil),                                // 35: temporal.api.common.v1.Link
+var file_temporal_api_nexus_v1_message_proto_goTypes = []interface{}{
+	(*Failure)(nil),                         // 0: temporal.api.nexus.v1.Failure
+	(*HandlerError)(nil),                    // 1: temporal.api.nexus.v1.HandlerError
+	(*UnsuccessfulOperationError)(nil),      // 2: temporal.api.nexus.v1.UnsuccessfulOperationError
+	(*Link)(nil),                            // 3: temporal.api.nexus.v1.Link
+	(*StartOperationRequest)(nil),           // 4: temporal.api.nexus.v1.StartOperationRequest
+	(*CancelOperationRequest)(nil),          // 5: temporal.api.nexus.v1.CancelOperationRequest
+	(*Request)(nil),                         // 6: temporal.api.nexus.v1.Request
+	(*StartOperationResponse)(nil),          // 7: temporal.api.nexus.v1.StartOperationResponse
+	(*CancelOperationResponse)(nil),         // 8: temporal.api.nexus.v1.CancelOperationResponse
+	(*Response)(nil),                        // 9: temporal.api.nexus.v1.Response
+	(*Endpoint)(nil),                        // 10: temporal.api.nexus.v1.Endpoint
+	(*EndpointSpec)(nil),                    // 11: temporal.api.nexus.v1.EndpointSpec
+	(*EndpointTarget)(nil),                  // 12: temporal.api.nexus.v1.EndpointTarget
+	(*NexusOperationCancellationInfo)(nil),  // 13: temporal.api.nexus.v1.NexusOperationCancellationInfo
+	(*NexusOperationInfo)(nil),              // 14: temporal.api.nexus.v1.NexusOperationInfo
+	(*NexusOperationListInfo)(nil),          // 15: temporal.api.nexus.v1.NexusOperationListInfo
+	nil,                                     // 16: temporal.api.nexus.v1.Failure.MetadataEntry
+	nil,                                     // 17: temporal.api.nexus.v1.StartOperationRequest.CallbackHeaderEntry
+	(*Request_Capabilities)(nil),            // 18: temporal.api.nexus.v1.Request.Capabilities
+	nil,                                     // 19: temporal.api.nexus.v1.Request.HeaderEntry
+	(*StartOperationResponse_Sync)(nil),     // 20: temporal.api.nexus.v1.StartOperationResponse.Sync
+	(*StartOperationResponse_Async)(nil),    // 21: temporal.api.nexus.v1.StartOperationResponse.Async
+	(*EndpointTarget_Worker)(nil),           // 22: temporal.api.nexus.v1.EndpointTarget.Worker
+	(*EndpointTarget_External)(nil),         // 23: temporal.api.nexus.v1.EndpointTarget.External
+	nil,                                     // 24: temporal.api.nexus.v1.NexusOperationInfo.NexusHeaderEntry
+	(v1.NexusHandlerErrorRetryBehavior)(0),  // 25: temporal.api.enums.v1.NexusHandlerErrorRetryBehavior
+	(*v11.Payload)(nil),                     // 26: temporal.api.common.v1.Payload
+	(*timestamppb.Timestamp)(nil),           // 27: google.protobuf.Timestamp
+	(*v12.Failure)(nil),                     // 28: temporal.api.failure.v1.Failure
+	(v1.NexusOperationCancellationState)(0), // 29: temporal.api.enums.v1.NexusOperationCancellationState
+	(v1.NexusOperationStatus)(0),            // 30: temporal.api.enums.v1.NexusOperationStatus
+	(v1.PendingNexusOperationState)(0),      // 31: temporal.api.enums.v1.PendingNexusOperationState
+	(*durationpb.Duration)(nil),             // 32: google.protobuf.Duration
+	(*v11.SearchAttributes)(nil),            // 33: temporal.api.common.v1.SearchAttributes
+	(*v13.UserMetadata)(nil),                // 34: temporal.api.sdk.v1.UserMetadata
+	(*v11.Link)(nil),                        // 35: temporal.api.common.v1.Link
 }
 var file_temporal_api_nexus_v1_message_proto_depIdxs = []int32{
 	16, // 0: temporal.api.nexus.v1.Failure.metadata:type_name -> temporal.api.nexus.v1.Failure.MetadataEntry
@@ -2121,33 +2435,33 @@ var file_temporal_api_nexus_v1_message_proto_depIdxs = []int32{
 	12, // 23: temporal.api.nexus.v1.EndpointSpec.target:type_name -> temporal.api.nexus.v1.EndpointTarget
 	22, // 24: temporal.api.nexus.v1.EndpointTarget.worker:type_name -> temporal.api.nexus.v1.EndpointTarget.Worker
 	23, // 25: temporal.api.nexus.v1.EndpointTarget.external:type_name -> temporal.api.nexus.v1.EndpointTarget.External
-	27, // 26: temporal.api.nexus.v1.NexusOperationExecutionCancellationInfo.requested_time:type_name -> google.protobuf.Timestamp
-	29, // 27: temporal.api.nexus.v1.NexusOperationExecutionCancellationInfo.state:type_name -> temporal.api.enums.v1.NexusOperationCancellationState
-	27, // 28: temporal.api.nexus.v1.NexusOperationExecutionCancellationInfo.last_attempt_complete_time:type_name -> google.protobuf.Timestamp
-	28, // 29: temporal.api.nexus.v1.NexusOperationExecutionCancellationInfo.last_attempt_failure:type_name -> temporal.api.failure.v1.Failure
-	27, // 30: temporal.api.nexus.v1.NexusOperationExecutionCancellationInfo.next_attempt_schedule_time:type_name -> google.protobuf.Timestamp
-	30, // 31: temporal.api.nexus.v1.NexusOperationExecutionInfo.status:type_name -> temporal.api.enums.v1.NexusOperationExecutionStatus
-	31, // 32: temporal.api.nexus.v1.NexusOperationExecutionInfo.state:type_name -> temporal.api.enums.v1.PendingNexusOperationState
-	32, // 33: temporal.api.nexus.v1.NexusOperationExecutionInfo.schedule_to_close_timeout:type_name -> google.protobuf.Duration
-	32, // 34: temporal.api.nexus.v1.NexusOperationExecutionInfo.schedule_to_start_timeout:type_name -> google.protobuf.Duration
-	32, // 35: temporal.api.nexus.v1.NexusOperationExecutionInfo.start_to_close_timeout:type_name -> google.protobuf.Duration
-	27, // 36: temporal.api.nexus.v1.NexusOperationExecutionInfo.schedule_time:type_name -> google.protobuf.Timestamp
-	27, // 37: temporal.api.nexus.v1.NexusOperationExecutionInfo.expiration_time:type_name -> google.protobuf.Timestamp
-	27, // 38: temporal.api.nexus.v1.NexusOperationExecutionInfo.close_time:type_name -> google.protobuf.Timestamp
-	27, // 39: temporal.api.nexus.v1.NexusOperationExecutionInfo.last_attempt_complete_time:type_name -> google.protobuf.Timestamp
-	28, // 40: temporal.api.nexus.v1.NexusOperationExecutionInfo.last_attempt_failure:type_name -> temporal.api.failure.v1.Failure
-	27, // 41: temporal.api.nexus.v1.NexusOperationExecutionInfo.next_attempt_schedule_time:type_name -> google.protobuf.Timestamp
-	32, // 42: temporal.api.nexus.v1.NexusOperationExecutionInfo.execution_duration:type_name -> google.protobuf.Duration
-	13, // 43: temporal.api.nexus.v1.NexusOperationExecutionInfo.cancellation_info:type_name -> temporal.api.nexus.v1.NexusOperationExecutionCancellationInfo
-	33, // 44: temporal.api.nexus.v1.NexusOperationExecutionInfo.search_attributes:type_name -> temporal.api.common.v1.SearchAttributes
-	24, // 45: temporal.api.nexus.v1.NexusOperationExecutionInfo.nexus_header:type_name -> temporal.api.nexus.v1.NexusOperationExecutionInfo.NexusHeaderEntry
-	34, // 46: temporal.api.nexus.v1.NexusOperationExecutionInfo.user_metadata:type_name -> temporal.api.sdk.v1.UserMetadata
-	35, // 47: temporal.api.nexus.v1.NexusOperationExecutionInfo.links:type_name -> temporal.api.common.v1.Link
-	27, // 48: temporal.api.nexus.v1.NexusOperationExecutionListInfo.schedule_time:type_name -> google.protobuf.Timestamp
-	27, // 49: temporal.api.nexus.v1.NexusOperationExecutionListInfo.close_time:type_name -> google.protobuf.Timestamp
-	30, // 50: temporal.api.nexus.v1.NexusOperationExecutionListInfo.status:type_name -> temporal.api.enums.v1.NexusOperationExecutionStatus
-	33, // 51: temporal.api.nexus.v1.NexusOperationExecutionListInfo.search_attributes:type_name -> temporal.api.common.v1.SearchAttributes
-	32, // 52: temporal.api.nexus.v1.NexusOperationExecutionListInfo.execution_duration:type_name -> google.protobuf.Duration
+	27, // 26: temporal.api.nexus.v1.NexusOperationCancellationInfo.requested_time:type_name -> google.protobuf.Timestamp
+	29, // 27: temporal.api.nexus.v1.NexusOperationCancellationInfo.state:type_name -> temporal.api.enums.v1.NexusOperationCancellationState
+	27, // 28: temporal.api.nexus.v1.NexusOperationCancellationInfo.last_attempt_complete_time:type_name -> google.protobuf.Timestamp
+	28, // 29: temporal.api.nexus.v1.NexusOperationCancellationInfo.last_attempt_failure:type_name -> temporal.api.failure.v1.Failure
+	27, // 30: temporal.api.nexus.v1.NexusOperationCancellationInfo.next_attempt_schedule_time:type_name -> google.protobuf.Timestamp
+	30, // 31: temporal.api.nexus.v1.NexusOperationInfo.status:type_name -> temporal.api.enums.v1.NexusOperationStatus
+	31, // 32: temporal.api.nexus.v1.NexusOperationInfo.state:type_name -> temporal.api.enums.v1.PendingNexusOperationState
+	32, // 33: temporal.api.nexus.v1.NexusOperationInfo.schedule_to_close_timeout:type_name -> google.protobuf.Duration
+	32, // 34: temporal.api.nexus.v1.NexusOperationInfo.schedule_to_start_timeout:type_name -> google.protobuf.Duration
+	32, // 35: temporal.api.nexus.v1.NexusOperationInfo.start_to_close_timeout:type_name -> google.protobuf.Duration
+	27, // 36: temporal.api.nexus.v1.NexusOperationInfo.schedule_time:type_name -> google.protobuf.Timestamp
+	27, // 37: temporal.api.nexus.v1.NexusOperationInfo.expiration_time:type_name -> google.protobuf.Timestamp
+	27, // 38: temporal.api.nexus.v1.NexusOperationInfo.close_time:type_name -> google.protobuf.Timestamp
+	27, // 39: temporal.api.nexus.v1.NexusOperationInfo.last_attempt_complete_time:type_name -> google.protobuf.Timestamp
+	28, // 40: temporal.api.nexus.v1.NexusOperationInfo.last_attempt_failure:type_name -> temporal.api.failure.v1.Failure
+	27, // 41: temporal.api.nexus.v1.NexusOperationInfo.next_attempt_schedule_time:type_name -> google.protobuf.Timestamp
+	32, // 42: temporal.api.nexus.v1.NexusOperationInfo.execution_duration:type_name -> google.protobuf.Duration
+	13, // 43: temporal.api.nexus.v1.NexusOperationInfo.cancellation_info:type_name -> temporal.api.nexus.v1.NexusOperationCancellationInfo
+	33, // 44: temporal.api.nexus.v1.NexusOperationInfo.search_attributes:type_name -> temporal.api.common.v1.SearchAttributes
+	24, // 45: temporal.api.nexus.v1.NexusOperationInfo.nexus_header:type_name -> temporal.api.nexus.v1.NexusOperationInfo.NexusHeaderEntry
+	34, // 46: temporal.api.nexus.v1.NexusOperationInfo.user_metadata:type_name -> temporal.api.sdk.v1.UserMetadata
+	35, // 47: temporal.api.nexus.v1.NexusOperationInfo.links:type_name -> temporal.api.common.v1.Link
+	27, // 48: temporal.api.nexus.v1.NexusOperationListInfo.schedule_time:type_name -> google.protobuf.Timestamp
+	27, // 49: temporal.api.nexus.v1.NexusOperationListInfo.close_time:type_name -> google.protobuf.Timestamp
+	30, // 50: temporal.api.nexus.v1.NexusOperationListInfo.status:type_name -> temporal.api.enums.v1.NexusOperationStatus
+	33, // 51: temporal.api.nexus.v1.NexusOperationListInfo.search_attributes:type_name -> temporal.api.common.v1.SearchAttributes
+	32, // 52: temporal.api.nexus.v1.NexusOperationListInfo.execution_duration:type_name -> google.protobuf.Duration
 	26, // 53: temporal.api.nexus.v1.StartOperationResponse.Sync.payload:type_name -> temporal.api.common.v1.Payload
 	3,  // 54: temporal.api.nexus.v1.StartOperationResponse.Sync.links:type_name -> temporal.api.nexus.v1.Link
 	3,  // 55: temporal.api.nexus.v1.StartOperationResponse.Async.links:type_name -> temporal.api.nexus.v1.Link
@@ -2163,21 +2477,275 @@ func file_temporal_api_nexus_v1_message_proto_init() {
 	if File_temporal_api_nexus_v1_message_proto != nil {
 		return
 	}
-	file_temporal_api_nexus_v1_message_proto_msgTypes[6].OneofWrappers = []any{
+	if !protoimpl.UnsafeEnabled {
+		file_temporal_api_nexus_v1_message_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*Failure); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_nexus_v1_message_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*HandlerError); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_nexus_v1_message_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UnsuccessfulOperationError); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_nexus_v1_message_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*Link); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_nexus_v1_message_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*StartOperationRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_nexus_v1_message_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*CancelOperationRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_nexus_v1_message_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*Request); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_nexus_v1_message_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*StartOperationResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_nexus_v1_message_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*CancelOperationResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_nexus_v1_message_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*Response); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_nexus_v1_message_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*Endpoint); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_nexus_v1_message_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*EndpointSpec); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_nexus_v1_message_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*EndpointTarget); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_nexus_v1_message_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*NexusOperationCancellationInfo); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_nexus_v1_message_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*NexusOperationInfo); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_nexus_v1_message_proto_msgTypes[15].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*NexusOperationListInfo); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_nexus_v1_message_proto_msgTypes[18].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*Request_Capabilities); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_nexus_v1_message_proto_msgTypes[20].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*StartOperationResponse_Sync); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_nexus_v1_message_proto_msgTypes[21].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*StartOperationResponse_Async); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_nexus_v1_message_proto_msgTypes[22].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*EndpointTarget_Worker); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_nexus_v1_message_proto_msgTypes[23].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*EndpointTarget_External); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+	}
+	file_temporal_api_nexus_v1_message_proto_msgTypes[6].OneofWrappers = []interface{}{
 		(*Request_StartOperation)(nil),
 		(*Request_CancelOperation)(nil),
 	}
-	file_temporal_api_nexus_v1_message_proto_msgTypes[7].OneofWrappers = []any{
+	file_temporal_api_nexus_v1_message_proto_msgTypes[7].OneofWrappers = []interface{}{
 		(*StartOperationResponse_SyncSuccess)(nil),
 		(*StartOperationResponse_AsyncSuccess)(nil),
 		(*StartOperationResponse_OperationError)(nil),
 		(*StartOperationResponse_Failure)(nil),
 	}
-	file_temporal_api_nexus_v1_message_proto_msgTypes[9].OneofWrappers = []any{
+	file_temporal_api_nexus_v1_message_proto_msgTypes[9].OneofWrappers = []interface{}{
 		(*Response_StartOperation)(nil),
 		(*Response_CancelOperation)(nil),
 	}
-	file_temporal_api_nexus_v1_message_proto_msgTypes[12].OneofWrappers = []any{
+	file_temporal_api_nexus_v1_message_proto_msgTypes[12].OneofWrappers = []interface{}{
 		(*EndpointTarget_Worker_)(nil),
 		(*EndpointTarget_External_)(nil),
 	}
@@ -2185,7 +2753,7 @@ func file_temporal_api_nexus_v1_message_proto_init() {
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_temporal_api_nexus_v1_message_proto_rawDesc), len(file_temporal_api_nexus_v1_message_proto_rawDesc)),
+			RawDescriptor: file_temporal_api_nexus_v1_message_proto_rawDesc,
 			NumEnums:      0,
 			NumMessages:   25,
 			NumExtensions: 0,
@@ -2196,6 +2764,7 @@ func file_temporal_api_nexus_v1_message_proto_init() {
 		MessageInfos:      file_temporal_api_nexus_v1_message_proto_msgTypes,
 	}.Build()
 	File_temporal_api_nexus_v1_message_proto = out.File
+	file_temporal_api_nexus_v1_message_proto_rawDesc = nil
 	file_temporal_api_nexus_v1_message_proto_goTypes = nil
 	file_temporal_api_nexus_v1_message_proto_depIdxs = nil
 }
