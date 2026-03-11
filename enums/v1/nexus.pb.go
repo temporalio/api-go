@@ -109,7 +109,7 @@ const (
 	NEXUS_OPERATION_STATUS_CANCELED NexusOperationStatus = 4
 	// The operation was terminated. Termination happens immediately without notifying the handler.
 	NEXUS_OPERATION_STATUS_TERMINATED NexusOperationStatus = 5
-	// The operation has timed out by reaching the specified schedule-to-close timeout.
+	// The operation has timed out by reaching one of the specified timeouts.
 	NEXUS_OPERATION_STATUS_TIMED_OUT NexusOperationStatus = 6
 )
 
