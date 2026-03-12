@@ -190,21 +190,19 @@ type WorkflowExecutionStartedEventAttributes struct {
 	// eager execution was accepted by the server.
 	// Only populated by server with version >= 1.29.0.
 	EagerExecutionAccepted bool `protobuf:"varint,38,opt,name=eager_execution_accepted,json=eagerExecutionAccepted,proto3" json:"eager_execution_accepted,omitempty"`
-	// During the previous run of this workflow, if it exists, the server may have notified
-	// the SDK that the Target Worker Deployment Version changed, prompting
-	// a pinned workflow to continue-as-new to upgrade on to this latest target. This field records
-	// the last target version that was part of such a notification.
+	// During a previous run of this workflow, the server may have notified the SDK
+	// that the Target Worker Deployment Version changed, but the SDK declined to
+	// upgrade (e.g., by continuing-as-new with PINNED behavior). This field records
+	// the target version that was declined.
 	//
-	// This is a wrapper message to distinguish "never notified" (nil wrapper) from
-	// "notified about an unversioned target" (non-nil wrapper with nil deployment_version).
-	// Without the wrapper, both cases would be represented as nil and the server could
-	// not tell whether a previous run was actually signaled.
+	// This is a wrapper message to distinguish "never declined" (nil wrapper) from
+	// "declined an unversioned target" (non-nil wrapper with nil deployment_version).
 	//
 	// Used internally by the server during continue-as-new and retry.
 	// Should not be read or interpreted by SDKs.
-	LastNotifiedTargetVersion *LastNotifiedTargetVersion `protobuf:"bytes,40,opt,name=last_notified_target_version,json=lastNotifiedTargetVersion,proto3" json:"last_notified_target_version,omitempty"`
-	unknownFields             protoimpl.UnknownFields
-	sizeCache                 protoimpl.SizeCache
+	DeclinedTargetVersionUpgrade *DeclinedTargetVersionUpgrade `protobuf:"bytes,40,opt,name=declined_target_version_upgrade,json=declinedTargetVersionUpgrade,proto3" json:"declined_target_version_upgrade,omitempty"`
+	unknownFields                protoimpl.UnknownFields
+	sizeCache                    protoimpl.SizeCache
 }
 
 func (x *WorkflowExecutionStartedEventAttributes) Reset() {
@@ -506,37 +504,36 @@ func (x *WorkflowExecutionStartedEventAttributes) GetEagerExecutionAccepted() bo
 	return false
 }
 
-func (x *WorkflowExecutionStartedEventAttributes) GetLastNotifiedTargetVersion() *LastNotifiedTargetVersion {
+func (x *WorkflowExecutionStartedEventAttributes) GetDeclinedTargetVersionUpgrade() *DeclinedTargetVersionUpgrade {
 	if x != nil {
-		return x.LastNotifiedTargetVersion
+		return x.DeclinedTargetVersionUpgrade
 	}
 	return nil
 }
 
-// Wrapper for the last Target Deployment Version that the server notified the SDK about
-// via the targetDeploymentVersionChanged flag on a workflow task started event.
-// See last_notified_target_version on WorkflowExecutionStartedEventAttributes.
-type LastNotifiedTargetVersion struct {
+// Wrapper for a target deployment version that the SDK declined to upgrade to.
+// See declined_target_version_upgrade on WorkflowExecutionStartedEventAttributes.
+type DeclinedTargetVersionUpgrade struct {
 	state             protoimpl.MessageState       `protogen:"open.v1"`
 	DeploymentVersion *v15.WorkerDeploymentVersion `protobuf:"bytes,1,opt,name=deployment_version,json=deploymentVersion,proto3" json:"deployment_version,omitempty"`
 	unknownFields     protoimpl.UnknownFields
 	sizeCache         protoimpl.SizeCache
 }
 
-func (x *LastNotifiedTargetVersion) Reset() {
-	*x = LastNotifiedTargetVersion{}
+func (x *DeclinedTargetVersionUpgrade) Reset() {
+	*x = DeclinedTargetVersionUpgrade{}
 	mi := &file_temporal_api_history_v1_message_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *LastNotifiedTargetVersion) String() string {
+func (x *DeclinedTargetVersionUpgrade) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*LastNotifiedTargetVersion) ProtoMessage() {}
+func (*DeclinedTargetVersionUpgrade) ProtoMessage() {}
 
-func (x *LastNotifiedTargetVersion) ProtoReflect() protoreflect.Message {
+func (x *DeclinedTargetVersionUpgrade) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_history_v1_message_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -548,12 +545,12 @@ func (x *LastNotifiedTargetVersion) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use LastNotifiedTargetVersion.ProtoReflect.Descriptor instead.
-func (*LastNotifiedTargetVersion) Descriptor() ([]byte, []int) {
+// Deprecated: Use DeclinedTargetVersionUpgrade.ProtoReflect.Descriptor instead.
+func (*DeclinedTargetVersionUpgrade) Descriptor() ([]byte, []int) {
 	return file_temporal_api_history_v1_message_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *LastNotifiedTargetVersion) GetDeploymentVersion() *v15.WorkerDeploymentVersion {
+func (x *DeclinedTargetVersionUpgrade) GetDeploymentVersion() *v15.WorkerDeploymentVersion {
 	if x != nil {
 		return x.DeploymentVersion
 	}
@@ -6787,7 +6784,7 @@ var File_temporal_api_history_v1_message_proto protoreflect.FileDescriptor
 
 const file_temporal_api_history_v1_message_proto_rawDesc = "" +
 	"\n" +
-	"%temporal/api/history/v1/message.proto\x12\x17temporal.api.history.v1\x1a\x1egoogle/protobuf/duration.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a&temporal/api/enums/v1/event_type.proto\x1a(temporal/api/enums/v1/failed_cause.proto\x1a\"temporal/api/enums/v1/update.proto\x1a$temporal/api/enums/v1/workflow.proto\x1a$temporal/api/common/v1/message.proto\x1a(temporal/api/deployment/v1/message.proto\x1a%temporal/api/failure/v1/message.proto\x1a'temporal/api/taskqueue/v1/message.proto\x1a$temporal/api/update/v1/message.proto\x1a&temporal/api/workflow/v1/message.proto\x1a0temporal/api/sdk/v1/task_complete_metadata.proto\x1a'temporal/api/sdk/v1/user_metadata.proto\"\x8d\x17\n" +
+	"%temporal/api/history/v1/message.proto\x12\x17temporal.api.history.v1\x1a\x1egoogle/protobuf/duration.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a&temporal/api/enums/v1/event_type.proto\x1a(temporal/api/enums/v1/failed_cause.proto\x1a\"temporal/api/enums/v1/update.proto\x1a$temporal/api/enums/v1/workflow.proto\x1a$temporal/api/common/v1/message.proto\x1a(temporal/api/deployment/v1/message.proto\x1a%temporal/api/failure/v1/message.proto\x1a'temporal/api/taskqueue/v1/message.proto\x1a$temporal/api/update/v1/message.proto\x1a&temporal/api/workflow/v1/message.proto\x1a0temporal/api/sdk/v1/task_complete_metadata.proto\x1a'temporal/api/sdk/v1/user_metadata.proto\"\x96\x17\n" +
 	"'WorkflowExecutionStartedEventAttributes\x12I\n" +
 	"\rworkflow_type\x18\x01 \x01(\v2$.temporal.api.common.v1.WorkflowTypeR\fworkflowType\x12:\n" +
 	"\x19parent_workflow_namespace\x18\x02 \x01(\tR\x17parentWorkflowNamespace\x12?\n" +
@@ -6829,9 +6826,9 @@ const file_temporal_api_history_v1_message_proto_rawDesc = "" +
 	"\bpriority\x18# \x01(\v2 .temporal.api.common.v1.PriorityR\bpriority\x12m\n" +
 	"\x18inherited_pinned_version\x18% \x01(\v23.temporal.api.deployment.v1.WorkerDeploymentVersionR\x16inheritedPinnedVersion\x12s\n" +
 	"\x1binherited_auto_upgrade_info\x18' \x01(\v24.temporal.api.deployment.v1.InheritedAutoUpgradeInfoR\x18inheritedAutoUpgradeInfo\x128\n" +
-	"\x18eager_execution_accepted\x18& \x01(\bR\x16eagerExecutionAccepted\x12s\n" +
-	"\x1clast_notified_target_version\x18( \x01(\v22.temporal.api.history.v1.LastNotifiedTargetVersionR\x19lastNotifiedTargetVersionJ\x04\b$\x10%R parent_pinned_deployment_version\"\x7f\n" +
-	"\x19LastNotifiedTargetVersion\x12b\n" +
+	"\x18eager_execution_accepted\x18& \x01(\bR\x16eagerExecutionAccepted\x12|\n" +
+	"\x1fdeclined_target_version_upgrade\x18( \x01(\v25.temporal.api.history.v1.DeclinedTargetVersionUpgradeR\x1cdeclinedTargetVersionUpgradeJ\x04\b$\x10%R parent_pinned_deployment_version\"\x82\x01\n" +
+	"\x1cDeclinedTargetVersionUpgrade\x12b\n" +
 	"\x12deployment_version\x18\x01 \x01(\v23.temporal.api.deployment.v1.WorkerDeploymentVersionR\x11deploymentVersion\"\xde\x01\n" +
 	")WorkflowExecutionCompletedEventAttributes\x128\n" +
 	"\x06result\x18\x01 \x01(\v2 .temporal.api.common.v1.PayloadsR\x06result\x12F\n" +
@@ -7341,7 +7338,7 @@ func file_temporal_api_history_v1_message_proto_rawDescGZIP() []byte {
 var file_temporal_api_history_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 64)
 var file_temporal_api_history_v1_message_proto_goTypes = []any{
 	(*WorkflowExecutionStartedEventAttributes)(nil),                        // 0: temporal.api.history.v1.WorkflowExecutionStartedEventAttributes
-	(*LastNotifiedTargetVersion)(nil),                                      // 1: temporal.api.history.v1.LastNotifiedTargetVersion
+	(*DeclinedTargetVersionUpgrade)(nil),                                   // 1: temporal.api.history.v1.DeclinedTargetVersionUpgrade
 	(*WorkflowExecutionCompletedEventAttributes)(nil),                      // 2: temporal.api.history.v1.WorkflowExecutionCompletedEventAttributes
 	(*WorkflowExecutionFailedEventAttributes)(nil),                         // 3: temporal.api.history.v1.WorkflowExecutionFailedEventAttributes
 	(*WorkflowExecutionTimedOutEventAttributes)(nil),                       // 4: temporal.api.history.v1.WorkflowExecutionTimedOutEventAttributes
@@ -7472,8 +7469,8 @@ var file_temporal_api_history_v1_message_proto_depIdxs = []int32{
 	80,  // 21: temporal.api.history.v1.WorkflowExecutionStartedEventAttributes.priority:type_name -> temporal.api.common.v1.Priority
 	81,  // 22: temporal.api.history.v1.WorkflowExecutionStartedEventAttributes.inherited_pinned_version:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersion
 	82,  // 23: temporal.api.history.v1.WorkflowExecutionStartedEventAttributes.inherited_auto_upgrade_info:type_name -> temporal.api.deployment.v1.InheritedAutoUpgradeInfo
-	1,   // 24: temporal.api.history.v1.WorkflowExecutionStartedEventAttributes.last_notified_target_version:type_name -> temporal.api.history.v1.LastNotifiedTargetVersion
-	81,  // 25: temporal.api.history.v1.LastNotifiedTargetVersion.deployment_version:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersion
+	1,   // 24: temporal.api.history.v1.WorkflowExecutionStartedEventAttributes.declined_target_version_upgrade:type_name -> temporal.api.history.v1.DeclinedTargetVersionUpgrade
+	81,  // 25: temporal.api.history.v1.DeclinedTargetVersionUpgrade.deployment_version:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersion
 	67,  // 26: temporal.api.history.v1.WorkflowExecutionCompletedEventAttributes.result:type_name -> temporal.api.common.v1.Payloads
 	70,  // 27: temporal.api.history.v1.WorkflowExecutionFailedEventAttributes.failure:type_name -> temporal.api.failure.v1.Failure
 	83,  // 28: temporal.api.history.v1.WorkflowExecutionFailedEventAttributes.retry_state:type_name -> temporal.api.enums.v1.RetryState
