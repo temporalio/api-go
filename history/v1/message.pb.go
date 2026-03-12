@@ -190,18 +190,21 @@ type WorkflowExecutionStartedEventAttributes struct {
 	// eager execution was accepted by the server.
 	// Only populated by server with version >= 1.29.0.
 	EagerExecutionAccepted bool `protobuf:"varint,38,opt,name=eager_execution_accepted,json=eagerExecutionAccepted,proto3" json:"eager_execution_accepted,omitempty"`
-	// The previous run's latest target Worker Deployment Version that matching
-	// had resolved before this workflow execution commenced. Populated by the
-	// server during continue-as-new. Used to detect whether the workflow's
-	// Target Version has changed since this run started, preventing infinite
-	// continue-as-new loops for pinned workflows that do not have initial CaN
-	// behavior set as AutoUpgrade. Nil for workflows that are not initiated by
-	// a versioned workflow continuing-as-new.
-	// This field is used internally by the server and should not be read or
-	// interpreted by SDKs.
-	PreviousRunLatestTargetWorkerDeploymentVersion *v15.WorkerDeploymentVersion `protobuf:"bytes,40,opt,name=previous_run_latest_target_worker_deployment_version,json=previousRunLatestTargetWorkerDeploymentVersion,proto3" json:"previous_run_latest_target_worker_deployment_version,omitempty"`
-	unknownFields                                  protoimpl.UnknownFields
-	sizeCache                                      protoimpl.SizeCache
+	// During the previous run of this workflow, if it exists, the server may have notified
+	// the SDK that the Target Worker Deployment Version changed, prompting
+	// a pinned workflow to continue-as-new to upgrade on to this latest target. This field records
+	// the last target version that was part of such a notification.
+	//
+	// Never set when there is no previous run (i.e., not initiated by
+	// continue-as-new or retry). When there is a previous run, the value is
+	// either a non-nil deployment version representing the last notified
+	// target, or nil representing an unversioned target.
+	//
+	// Used internally by the server during continue-as-new and retry.
+	// Should not be read or interpreted by SDKs.
+	LastNotifiedTargetVersion *v15.WorkerDeploymentVersion `protobuf:"bytes,40,opt,name=last_notified_target_version,json=lastNotifiedTargetVersion,proto3" json:"last_notified_target_version,omitempty"`
+	unknownFields             protoimpl.UnknownFields
+	sizeCache                 protoimpl.SizeCache
 }
 
 func (x *WorkflowExecutionStartedEventAttributes) Reset() {
@@ -503,9 +506,9 @@ func (x *WorkflowExecutionStartedEventAttributes) GetEagerExecutionAccepted() bo
 	return false
 }
 
-func (x *WorkflowExecutionStartedEventAttributes) GetPreviousRunLatestTargetWorkerDeploymentVersion() *v15.WorkerDeploymentVersion {
+func (x *WorkflowExecutionStartedEventAttributes) GetLastNotifiedTargetVersion() *v15.WorkerDeploymentVersion {
 	if x != nil {
-		return x.PreviousRunLatestTargetWorkerDeploymentVersion
+		return x.LastNotifiedTargetVersion
 	}
 	return nil
 }
@@ -6737,7 +6740,7 @@ var File_temporal_api_history_v1_message_proto protoreflect.FileDescriptor
 
 const file_temporal_api_history_v1_message_proto_rawDesc = "" +
 	"\n" +
-	"%temporal/api/history/v1/message.proto\x12\x17temporal.api.history.v1\x1a\x1egoogle/protobuf/duration.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a&temporal/api/enums/v1/event_type.proto\x1a(temporal/api/enums/v1/failed_cause.proto\x1a\"temporal/api/enums/v1/update.proto\x1a$temporal/api/enums/v1/workflow.proto\x1a$temporal/api/common/v1/message.proto\x1a(temporal/api/deployment/v1/message.proto\x1a%temporal/api/failure/v1/message.proto\x1a'temporal/api/taskqueue/v1/message.proto\x1a$temporal/api/update/v1/message.proto\x1a&temporal/api/workflow/v1/message.proto\x1a0temporal/api/sdk/v1/task_complete_metadata.proto\x1a'temporal/api/sdk/v1/user_metadata.proto\"\xbc\x17\n" +
+	"%temporal/api/history/v1/message.proto\x12\x17temporal.api.history.v1\x1a\x1egoogle/protobuf/duration.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a&temporal/api/enums/v1/event_type.proto\x1a(temporal/api/enums/v1/failed_cause.proto\x1a\"temporal/api/enums/v1/update.proto\x1a$temporal/api/enums/v1/workflow.proto\x1a$temporal/api/common/v1/message.proto\x1a(temporal/api/deployment/v1/message.proto\x1a%temporal/api/failure/v1/message.proto\x1a'temporal/api/taskqueue/v1/message.proto\x1a$temporal/api/update/v1/message.proto\x1a&temporal/api/workflow/v1/message.proto\x1a0temporal/api/sdk/v1/task_complete_metadata.proto\x1a'temporal/api/sdk/v1/user_metadata.proto\"\x8e\x17\n" +
 	"'WorkflowExecutionStartedEventAttributes\x12I\n" +
 	"\rworkflow_type\x18\x01 \x01(\v2$.temporal.api.common.v1.WorkflowTypeR\fworkflowType\x12:\n" +
 	"\x19parent_workflow_namespace\x18\x02 \x01(\tR\x17parentWorkflowNamespace\x12?\n" +
@@ -6779,8 +6782,8 @@ const file_temporal_api_history_v1_message_proto_rawDesc = "" +
 	"\bpriority\x18# \x01(\v2 .temporal.api.common.v1.PriorityR\bpriority\x12m\n" +
 	"\x18inherited_pinned_version\x18% \x01(\v23.temporal.api.deployment.v1.WorkerDeploymentVersionR\x16inheritedPinnedVersion\x12s\n" +
 	"\x1binherited_auto_upgrade_info\x18' \x01(\v24.temporal.api.deployment.v1.InheritedAutoUpgradeInfoR\x18inheritedAutoUpgradeInfo\x128\n" +
-	"\x18eager_execution_accepted\x18& \x01(\bR\x16eagerExecutionAccepted\x12\xa1\x01\n" +
-	"4previous_run_latest_target_worker_deployment_version\x18( \x01(\v23.temporal.api.deployment.v1.WorkerDeploymentVersionR.previousRunLatestTargetWorkerDeploymentVersionJ\x04\b$\x10%R parent_pinned_deployment_version\"\xde\x01\n" +
+	"\x18eager_execution_accepted\x18& \x01(\bR\x16eagerExecutionAccepted\x12t\n" +
+	"\x1clast_notified_target_version\x18( \x01(\v23.temporal.api.deployment.v1.WorkerDeploymentVersionR\x19lastNotifiedTargetVersionJ\x04\b$\x10%R parent_pinned_deployment_version\"\xde\x01\n" +
 	")WorkflowExecutionCompletedEventAttributes\x128\n" +
 	"\x06result\x18\x01 \x01(\v2 .temporal.api.common.v1.PayloadsR\x06result\x12F\n" +
 	" workflow_task_completed_event_id\x18\x02 \x01(\x03R\x1cworkflowTaskCompletedEventId\x12/\n" +
@@ -7419,7 +7422,7 @@ var file_temporal_api_history_v1_message_proto_depIdxs = []int32{
 	79,  // 21: temporal.api.history.v1.WorkflowExecutionStartedEventAttributes.priority:type_name -> temporal.api.common.v1.Priority
 	80,  // 22: temporal.api.history.v1.WorkflowExecutionStartedEventAttributes.inherited_pinned_version:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersion
 	81,  // 23: temporal.api.history.v1.WorkflowExecutionStartedEventAttributes.inherited_auto_upgrade_info:type_name -> temporal.api.deployment.v1.InheritedAutoUpgradeInfo
-	80,  // 24: temporal.api.history.v1.WorkflowExecutionStartedEventAttributes.previous_run_latest_target_worker_deployment_version:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersion
+	80,  // 24: temporal.api.history.v1.WorkflowExecutionStartedEventAttributes.last_notified_target_version:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersion
 	66,  // 25: temporal.api.history.v1.WorkflowExecutionCompletedEventAttributes.result:type_name -> temporal.api.common.v1.Payloads
 	69,  // 26: temporal.api.history.v1.WorkflowExecutionFailedEventAttributes.failure:type_name -> temporal.api.failure.v1.Failure
 	82,  // 27: temporal.api.history.v1.WorkflowExecutionFailedEventAttributes.retry_state:type_name -> temporal.api.enums.v1.RetryState
