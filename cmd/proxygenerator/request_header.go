@@ -228,7 +228,6 @@ func extractMethodHeaders(service protoreflect.ServiceDescriptor) ([]methodHeade
 			}
 			headerInfos = append(headerInfos, headerInfo{Code: code})
 		}
-
 		methods = append(methods, methodHeaderInfo{
 			PackageAlias: packageAlias,
 			RequestType:  requestTypeName,
