@@ -1421,6 +1421,7 @@ type PollWorkflowTaskQueueRequest struct {
 	// This is guaranteed to be unique, whereas identity is not guaranteed to be unique.
 	WorkerInstanceKey string `protobuf:"bytes,8,opt,name=worker_instance_key,json=workerInstanceKey,proto3" json:"worker_instance_key,omitempty"`
 	// The task queue on which the server will send control tasks to this worker.
+	// Example tasks: Cancel activity, update config, etc.
 	WorkerControlTaskQueue string `protobuf:"bytes,9,opt,name=worker_control_task_queue,json=workerControlTaskQueue,proto3" json:"worker_control_task_queue,omitempty"`
 	// Deprecated. Use deployment_options instead.
 	// Each worker process should provide an ID unique to the specific set of code it is running
@@ -1786,6 +1787,7 @@ type RespondWorkflowTaskCompletedRequest struct {
 	// This is guaranteed to be unique, whereas identity is not guaranteed to be unique.
 	WorkerInstanceKey string `protobuf:"bytes,18,opt,name=worker_instance_key,json=workerInstanceKey,proto3" json:"worker_instance_key,omitempty"`
 	// The task queue on which the server will send control tasks to this worker.
+	// Example tasks: Cancel activity, update config, etc.
 	WorkerControlTaskQueue string `protobuf:"bytes,19,opt,name=worker_control_task_queue,json=workerControlTaskQueue,proto3" json:"worker_control_task_queue,omitempty"`
 	unknownFields          protoimpl.UnknownFields
 	sizeCache              protoimpl.SizeCache
@@ -2209,6 +2211,7 @@ type PollActivityTaskQueueRequest struct {
 	// This is guaranteed to be unique, whereas identity is not guaranteed to be unique.
 	WorkerInstanceKey string `protobuf:"bytes,8,opt,name=worker_instance_key,json=workerInstanceKey,proto3" json:"worker_instance_key,omitempty"`
 	// The task queue on which the server will send control tasks to this worker.
+	// Example tasks: Cancel activity, update config, etc.
 	WorkerControlTaskQueue string                 `protobuf:"bytes,9,opt,name=worker_control_task_queue,json=workerControlTaskQueue,proto3" json:"worker_control_task_queue,omitempty"`
 	TaskQueueMetadata      *v14.TaskQueueMetadata `protobuf:"bytes,4,opt,name=task_queue_metadata,json=taskQueueMetadata,proto3" json:"task_queue_metadata,omitempty"`
 	// Information about this worker's build identifier and if it is choosing to use the versioning
