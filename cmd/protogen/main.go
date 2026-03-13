@@ -138,7 +138,7 @@ func runProtoc(ctx context.Context, cfg genConfig, protoDirs []string) error {
 
 	for i := 0; i < len(protoDirs); i++ {
 		dir := protoDirs[i]
-		files, err := filepath.Glob(filepath.Join(dir, "*"))
+		files, err := filepath.Glob(filepath.Join(dir, "*.proto"))
 		if err != nil {
 			return err
 		}
