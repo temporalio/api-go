@@ -9,6 +9,7 @@ package sdk
 import (
 	reflect "reflect"
 	sync "sync"
+	unsafe "unsafe"
 
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -22,25 +23,22 @@ const (
 )
 
 type WorkerConfig struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	WorkflowCacheSize int32 `protobuf:"varint,1,opt,name=workflow_cache_size,json=workflowCacheSize,proto3" json:"workflow_cache_size,omitempty"`
-	// Types that are assignable to PollerBehavior:
+	state             protoimpl.MessageState `protogen:"open.v1"`
+	WorkflowCacheSize int32                  `protobuf:"varint,1,opt,name=workflow_cache_size,json=workflowCacheSize,proto3" json:"workflow_cache_size,omitempty"`
+	// Types that are valid to be assigned to PollerBehavior:
 	//
 	//	*WorkerConfig_SimplePollerBehavior_
 	//	*WorkerConfig_AutoscalingPollerBehavior_
 	PollerBehavior isWorkerConfig_PollerBehavior `protobuf_oneof:"poller_behavior"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *WorkerConfig) Reset() {
 	*x = WorkerConfig{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_sdk_v1_worker_config_proto_msgTypes[0]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
+	mi := &file_temporal_api_sdk_v1_worker_config_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
 }
 
 func (x *WorkerConfig) String() string {
@@ -51,7 +49,7 @@ func (*WorkerConfig) ProtoMessage() {}
 
 func (x *WorkerConfig) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_sdk_v1_worker_config_proto_msgTypes[0]
-	if protoimpl.UnsafeEnabled && x != nil {
+	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -73,23 +71,27 @@ func (x *WorkerConfig) GetWorkflowCacheSize() int32 {
 	return 0
 }
 
-func (m *WorkerConfig) GetPollerBehavior() isWorkerConfig_PollerBehavior {
-	if m != nil {
-		return m.PollerBehavior
+func (x *WorkerConfig) GetPollerBehavior() isWorkerConfig_PollerBehavior {
+	if x != nil {
+		return x.PollerBehavior
 	}
 	return nil
 }
 
 func (x *WorkerConfig) GetSimplePollerBehavior() *WorkerConfig_SimplePollerBehavior {
-	if x, ok := x.GetPollerBehavior().(*WorkerConfig_SimplePollerBehavior_); ok {
-		return x.SimplePollerBehavior
+	if x != nil {
+		if x, ok := x.PollerBehavior.(*WorkerConfig_SimplePollerBehavior_); ok {
+			return x.SimplePollerBehavior
+		}
 	}
 	return nil
 }
 
 func (x *WorkerConfig) GetAutoscalingPollerBehavior() *WorkerConfig_AutoscalingPollerBehavior {
-	if x, ok := x.GetPollerBehavior().(*WorkerConfig_AutoscalingPollerBehavior_); ok {
-		return x.AutoscalingPollerBehavior
+	if x != nil {
+		if x, ok := x.PollerBehavior.(*WorkerConfig_AutoscalingPollerBehavior_); ok {
+			return x.AutoscalingPollerBehavior
+		}
 	}
 	return nil
 }
@@ -111,20 +113,17 @@ func (*WorkerConfig_SimplePollerBehavior_) isWorkerConfig_PollerBehavior() {}
 func (*WorkerConfig_AutoscalingPollerBehavior_) isWorkerConfig_PollerBehavior() {}
 
 type WorkerConfig_SimplePollerBehavior struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	MaxPollers    int32                  `protobuf:"varint,1,opt,name=max_pollers,json=maxPollers,proto3" json:"max_pollers,omitempty"`
 	unknownFields protoimpl.UnknownFields
-
-	MaxPollers int32 `protobuf:"varint,1,opt,name=max_pollers,json=maxPollers,proto3" json:"max_pollers,omitempty"`
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *WorkerConfig_SimplePollerBehavior) Reset() {
 	*x = WorkerConfig_SimplePollerBehavior{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_sdk_v1_worker_config_proto_msgTypes[1]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
+	mi := &file_temporal_api_sdk_v1_worker_config_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
 }
 
 func (x *WorkerConfig_SimplePollerBehavior) String() string {
@@ -135,7 +134,7 @@ func (*WorkerConfig_SimplePollerBehavior) ProtoMessage() {}
 
 func (x *WorkerConfig_SimplePollerBehavior) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_sdk_v1_worker_config_proto_msgTypes[1]
-	if protoimpl.UnsafeEnabled && x != nil {
+	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -158,10 +157,7 @@ func (x *WorkerConfig_SimplePollerBehavior) GetMaxPollers() int32 {
 }
 
 type WorkerConfig_AutoscalingPollerBehavior struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// At least this many poll calls will always be attempted (assuming slots are available).
 	// Cannot be zero.
 	MinPollers int32 `protobuf:"varint,1,opt,name=min_pollers,json=minPollers,proto3" json:"min_pollers,omitempty"`
@@ -171,15 +167,15 @@ type WorkerConfig_AutoscalingPollerBehavior struct {
 	//
 	//	`minimum` and `maximum`.
 	InitialPollers int32 `protobuf:"varint,3,opt,name=initial_pollers,json=initialPollers,proto3" json:"initial_pollers,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *WorkerConfig_AutoscalingPollerBehavior) Reset() {
 	*x = WorkerConfig_AutoscalingPollerBehavior{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_sdk_v1_worker_config_proto_msgTypes[2]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
+	mi := &file_temporal_api_sdk_v1_worker_config_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
 }
 
 func (x *WorkerConfig_AutoscalingPollerBehavior) String() string {
@@ -190,7 +186,7 @@ func (*WorkerConfig_AutoscalingPollerBehavior) ProtoMessage() {}
 
 func (x *WorkerConfig_AutoscalingPollerBehavior) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_sdk_v1_worker_config_proto_msgTypes[2]
-	if protoimpl.UnsafeEnabled && x != nil {
+	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -228,68 +224,39 @@ func (x *WorkerConfig_AutoscalingPollerBehavior) GetInitialPollers() int32 {
 
 var File_temporal_api_sdk_v1_worker_config_proto protoreflect.FileDescriptor
 
-var file_temporal_api_sdk_v1_worker_config_proto_rawDesc = []byte{
-	0x0a, 0x27, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x73,
-	0x64, 0x6b, 0x2f, 0x76, 0x31, 0x2f, 0x77, 0x6f, 0x72, 0x6b, 0x65, 0x72, 0x5f, 0x63, 0x6f, 0x6e,
-	0x66, 0x69, 0x67, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x13, 0x74, 0x65, 0x6d, 0x70, 0x6f,
-	0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x73, 0x64, 0x6b, 0x2e, 0x76, 0x31, 0x22, 0x82,
-	0x04, 0x0a, 0x0c, 0x57, 0x6f, 0x72, 0x6b, 0x65, 0x72, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x12,
-	0x2e, 0x0a, 0x13, 0x77, 0x6f, 0x72, 0x6b, 0x66, 0x6c, 0x6f, 0x77, 0x5f, 0x63, 0x61, 0x63, 0x68,
-	0x65, 0x5f, 0x73, 0x69, 0x7a, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x05, 0x52, 0x11, 0x77, 0x6f,
-	0x72, 0x6b, 0x66, 0x6c, 0x6f, 0x77, 0x43, 0x61, 0x63, 0x68, 0x65, 0x53, 0x69, 0x7a, 0x65, 0x12,
-	0x6e, 0x0a, 0x16, 0x73, 0x69, 0x6d, 0x70, 0x6c, 0x65, 0x5f, 0x70, 0x6f, 0x6c, 0x6c, 0x65, 0x72,
-	0x5f, 0x62, 0x65, 0x68, 0x61, 0x76, 0x69, 0x6f, 0x72, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32,
-	0x36, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x73,
-	0x64, 0x6b, 0x2e, 0x76, 0x31, 0x2e, 0x57, 0x6f, 0x72, 0x6b, 0x65, 0x72, 0x43, 0x6f, 0x6e, 0x66,
-	0x69, 0x67, 0x2e, 0x53, 0x69, 0x6d, 0x70, 0x6c, 0x65, 0x50, 0x6f, 0x6c, 0x6c, 0x65, 0x72, 0x42,
-	0x65, 0x68, 0x61, 0x76, 0x69, 0x6f, 0x72, 0x48, 0x00, 0x52, 0x14, 0x73, 0x69, 0x6d, 0x70, 0x6c,
-	0x65, 0x50, 0x6f, 0x6c, 0x6c, 0x65, 0x72, 0x42, 0x65, 0x68, 0x61, 0x76, 0x69, 0x6f, 0x72, 0x12,
-	0x7d, 0x0a, 0x1b, 0x61, 0x75, 0x74, 0x6f, 0x73, 0x63, 0x61, 0x6c, 0x69, 0x6e, 0x67, 0x5f, 0x70,
-	0x6f, 0x6c, 0x6c, 0x65, 0x72, 0x5f, 0x62, 0x65, 0x68, 0x61, 0x76, 0x69, 0x6f, 0x72, 0x18, 0x03,
-	0x20, 0x01, 0x28, 0x0b, 0x32, 0x3b, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e,
-	0x61, 0x70, 0x69, 0x2e, 0x73, 0x64, 0x6b, 0x2e, 0x76, 0x31, 0x2e, 0x57, 0x6f, 0x72, 0x6b, 0x65,
-	0x72, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x2e, 0x41, 0x75, 0x74, 0x6f, 0x73, 0x63, 0x61, 0x6c,
-	0x69, 0x6e, 0x67, 0x50, 0x6f, 0x6c, 0x6c, 0x65, 0x72, 0x42, 0x65, 0x68, 0x61, 0x76, 0x69, 0x6f,
-	0x72, 0x48, 0x00, 0x52, 0x19, 0x61, 0x75, 0x74, 0x6f, 0x73, 0x63, 0x61, 0x6c, 0x69, 0x6e, 0x67,
-	0x50, 0x6f, 0x6c, 0x6c, 0x65, 0x72, 0x42, 0x65, 0x68, 0x61, 0x76, 0x69, 0x6f, 0x72, 0x1a, 0x37,
-	0x0a, 0x14, 0x53, 0x69, 0x6d, 0x70, 0x6c, 0x65, 0x50, 0x6f, 0x6c, 0x6c, 0x65, 0x72, 0x42, 0x65,
-	0x68, 0x61, 0x76, 0x69, 0x6f, 0x72, 0x12, 0x1f, 0x0a, 0x0b, 0x6d, 0x61, 0x78, 0x5f, 0x70, 0x6f,
-	0x6c, 0x6c, 0x65, 0x72, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x05, 0x52, 0x0a, 0x6d, 0x61, 0x78,
-	0x50, 0x6f, 0x6c, 0x6c, 0x65, 0x72, 0x73, 0x1a, 0x86, 0x01, 0x0a, 0x19, 0x41, 0x75, 0x74, 0x6f,
-	0x73, 0x63, 0x61, 0x6c, 0x69, 0x6e, 0x67, 0x50, 0x6f, 0x6c, 0x6c, 0x65, 0x72, 0x42, 0x65, 0x68,
-	0x61, 0x76, 0x69, 0x6f, 0x72, 0x12, 0x1f, 0x0a, 0x0b, 0x6d, 0x69, 0x6e, 0x5f, 0x70, 0x6f, 0x6c,
-	0x6c, 0x65, 0x72, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x05, 0x52, 0x0a, 0x6d, 0x69, 0x6e, 0x50,
-	0x6f, 0x6c, 0x6c, 0x65, 0x72, 0x73, 0x12, 0x1f, 0x0a, 0x0b, 0x6d, 0x61, 0x78, 0x5f, 0x70, 0x6f,
-	0x6c, 0x6c, 0x65, 0x72, 0x73, 0x18, 0x02, 0x20, 0x01, 0x28, 0x05, 0x52, 0x0a, 0x6d, 0x61, 0x78,
-	0x50, 0x6f, 0x6c, 0x6c, 0x65, 0x72, 0x73, 0x12, 0x27, 0x0a, 0x0f, 0x69, 0x6e, 0x69, 0x74, 0x69,
-	0x61, 0x6c, 0x5f, 0x70, 0x6f, 0x6c, 0x6c, 0x65, 0x72, 0x73, 0x18, 0x03, 0x20, 0x01, 0x28, 0x05,
-	0x52, 0x0e, 0x69, 0x6e, 0x69, 0x74, 0x69, 0x61, 0x6c, 0x50, 0x6f, 0x6c, 0x6c, 0x65, 0x72, 0x73,
-	0x42, 0x11, 0x0a, 0x0f, 0x70, 0x6f, 0x6c, 0x6c, 0x65, 0x72, 0x5f, 0x62, 0x65, 0x68, 0x61, 0x76,
-	0x69, 0x6f, 0x72, 0x42, 0x7f, 0x0a, 0x16, 0x69, 0x6f, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72,
-	0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x73, 0x64, 0x6b, 0x2e, 0x76, 0x31, 0x42, 0x11, 0x57,
-	0x6f, 0x72, 0x6b, 0x65, 0x72, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x50, 0x72, 0x6f, 0x74, 0x6f,
-	0x50, 0x01, 0x5a, 0x1d, 0x67, 0x6f, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e,
-	0x69, 0x6f, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x73, 0x64, 0x6b, 0x2f, 0x76, 0x31, 0x3b, 0x73, 0x64,
-	0x6b, 0xaa, 0x02, 0x15, 0x54, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x69, 0x6f, 0x2e, 0x41,
-	0x70, 0x69, 0x2e, 0x53, 0x64, 0x6b, 0x2e, 0x56, 0x31, 0xea, 0x02, 0x18, 0x54, 0x65, 0x6d, 0x70,
-	0x6f, 0x72, 0x61, 0x6c, 0x69, 0x6f, 0x3a, 0x3a, 0x41, 0x70, 0x69, 0x3a, 0x3a, 0x53, 0x64, 0x6b,
-	0x3a, 0x3a, 0x56, 0x31, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
-}
+const file_temporal_api_sdk_v1_worker_config_proto_rawDesc = "" +
+	"\n" +
+	"'temporal/api/sdk/v1/worker_config.proto\x12\x13temporal.api.sdk.v1\"\x82\x04\n" +
+	"\fWorkerConfig\x12.\n" +
+	"\x13workflow_cache_size\x18\x01 \x01(\x05R\x11workflowCacheSize\x12n\n" +
+	"\x16simple_poller_behavior\x18\x02 \x01(\v26.temporal.api.sdk.v1.WorkerConfig.SimplePollerBehaviorH\x00R\x14simplePollerBehavior\x12}\n" +
+	"\x1bautoscaling_poller_behavior\x18\x03 \x01(\v2;.temporal.api.sdk.v1.WorkerConfig.AutoscalingPollerBehaviorH\x00R\x19autoscalingPollerBehavior\x1a7\n" +
+	"\x14SimplePollerBehavior\x12\x1f\n" +
+	"\vmax_pollers\x18\x01 \x01(\x05R\n" +
+	"maxPollers\x1a\x86\x01\n" +
+	"\x19AutoscalingPollerBehavior\x12\x1f\n" +
+	"\vmin_pollers\x18\x01 \x01(\x05R\n" +
+	"minPollers\x12\x1f\n" +
+	"\vmax_pollers\x18\x02 \x01(\x05R\n" +
+	"maxPollers\x12'\n" +
+	"\x0finitial_pollers\x18\x03 \x01(\x05R\x0einitialPollersB\x11\n" +
+	"\x0fpoller_behaviorB\x7f\n" +
+	"\x16io.temporal.api.sdk.v1B\x11WorkerConfigProtoP\x01Z\x1dgo.temporal.io/api/sdk/v1;sdk\xaa\x02\x15Temporalio.Api.Sdk.V1\xea\x02\x18Temporalio::Api::Sdk::V1b\x06proto3"
 
 var (
 	file_temporal_api_sdk_v1_worker_config_proto_rawDescOnce sync.Once
-	file_temporal_api_sdk_v1_worker_config_proto_rawDescData = file_temporal_api_sdk_v1_worker_config_proto_rawDesc
+	file_temporal_api_sdk_v1_worker_config_proto_rawDescData []byte
 )
 
 func file_temporal_api_sdk_v1_worker_config_proto_rawDescGZIP() []byte {
 	file_temporal_api_sdk_v1_worker_config_proto_rawDescOnce.Do(func() {
-		file_temporal_api_sdk_v1_worker_config_proto_rawDescData = protoimpl.X.CompressGZIP(file_temporal_api_sdk_v1_worker_config_proto_rawDescData)
+		file_temporal_api_sdk_v1_worker_config_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_temporal_api_sdk_v1_worker_config_proto_rawDesc), len(file_temporal_api_sdk_v1_worker_config_proto_rawDesc)))
 	})
 	return file_temporal_api_sdk_v1_worker_config_proto_rawDescData
 }
 
 var file_temporal_api_sdk_v1_worker_config_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
-var file_temporal_api_sdk_v1_worker_config_proto_goTypes = []interface{}{
+var file_temporal_api_sdk_v1_worker_config_proto_goTypes = []any{
 	(*WorkerConfig)(nil),                           // 0: temporal.api.sdk.v1.WorkerConfig
 	(*WorkerConfig_SimplePollerBehavior)(nil),      // 1: temporal.api.sdk.v1.WorkerConfig.SimplePollerBehavior
 	(*WorkerConfig_AutoscalingPollerBehavior)(nil), // 2: temporal.api.sdk.v1.WorkerConfig.AutoscalingPollerBehavior
@@ -309,45 +276,7 @@ func file_temporal_api_sdk_v1_worker_config_proto_init() {
 	if File_temporal_api_sdk_v1_worker_config_proto != nil {
 		return
 	}
-	if !protoimpl.UnsafeEnabled {
-		file_temporal_api_sdk_v1_worker_config_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*WorkerConfig); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_temporal_api_sdk_v1_worker_config_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*WorkerConfig_SimplePollerBehavior); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_temporal_api_sdk_v1_worker_config_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*WorkerConfig_AutoscalingPollerBehavior); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-	}
-	file_temporal_api_sdk_v1_worker_config_proto_msgTypes[0].OneofWrappers = []interface{}{
+	file_temporal_api_sdk_v1_worker_config_proto_msgTypes[0].OneofWrappers = []any{
 		(*WorkerConfig_SimplePollerBehavior_)(nil),
 		(*WorkerConfig_AutoscalingPollerBehavior_)(nil),
 	}
@@ -355,7 +284,7 @@ func file_temporal_api_sdk_v1_worker_config_proto_init() {
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: file_temporal_api_sdk_v1_worker_config_proto_rawDesc,
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_temporal_api_sdk_v1_worker_config_proto_rawDesc), len(file_temporal_api_sdk_v1_worker_config_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   3,
 			NumExtensions: 0,
@@ -366,7 +295,6 @@ func file_temporal_api_sdk_v1_worker_config_proto_init() {
 		MessageInfos:      file_temporal_api_sdk_v1_worker_config_proto_msgTypes,
 	}.Build()
 	File_temporal_api_sdk_v1_worker_config_proto = out.File
-	file_temporal_api_sdk_v1_worker_config_proto_rawDesc = nil
 	file_temporal_api_sdk_v1_worker_config_proto_goTypes = nil
 	file_temporal_api_sdk_v1_worker_config_proto_depIdxs = nil
 }

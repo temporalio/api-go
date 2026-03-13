@@ -2388,12 +2388,12 @@ func visitPayloads(
 				}
 				o.Input = no
 			}
-			if o.GetResult() != nil {
-				no, err := visitPayload(ctx, options, o, o.GetResult())
+			if o.Result != nil {
+				no, err := visitPayload(ctx, options, o, o.Result)
 				if err != nil {
 					return err
 				}
-				o.Outcome = &workflowservice.DescribeNexusOperationExecutionResponse_Result{Result: no}
+				o.Result = no
 			}
 
 			if err := visitPayloads(
@@ -2742,12 +2742,12 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
-			if o.GetResult() != nil {
-				no, err := visitPayload(ctx, options, o, o.GetResult())
+			if o.Result != nil {
+				no, err := visitPayload(ctx, options, o, o.Result)
 				if err != nil {
 					return err
 				}
-				o.Outcome = &workflowservice.PollNexusOperationExecutionResponse_Result{Result: no}
+				o.Result = no
 			}
 
 			if err := visitPayloads(

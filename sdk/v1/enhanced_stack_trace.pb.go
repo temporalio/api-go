@@ -9,6 +9,7 @@ package sdk
 import (
 	reflect "reflect"
 	sync "sync"
+	unsafe "unsafe"
 
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -23,25 +24,22 @@ const (
 
 // Internal structure used to create worker stack traces with references to code.
 type EnhancedStackTrace struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// Information pertaining to the SDK that the trace has been captured from.
 	Sdk *StackTraceSDKInfo `protobuf:"bytes,1,opt,name=sdk,proto3" json:"sdk,omitempty"`
 	// Mapping of file path to file contents.
-	Sources map[string]*StackTraceFileSlice `protobuf:"bytes,2,rep,name=sources,proto3" json:"sources,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
+	Sources map[string]*StackTraceFileSlice `protobuf:"bytes,2,rep,name=sources,proto3" json:"sources,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	// Collection of stacks captured.
-	Stacks []*StackTrace `protobuf:"bytes,3,rep,name=stacks,proto3" json:"stacks,omitempty"`
+	Stacks        []*StackTrace `protobuf:"bytes,3,rep,name=stacks,proto3" json:"stacks,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *EnhancedStackTrace) Reset() {
 	*x = EnhancedStackTrace{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_sdk_v1_enhanced_stack_trace_proto_msgTypes[0]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
+	mi := &file_temporal_api_sdk_v1_enhanced_stack_trace_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
 }
 
 func (x *EnhancedStackTrace) String() string {
@@ -52,7 +50,7 @@ func (*EnhancedStackTrace) ProtoMessage() {}
 
 func (x *EnhancedStackTrace) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_sdk_v1_enhanced_stack_trace_proto_msgTypes[0]
-	if protoimpl.UnsafeEnabled && x != nil {
+	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -93,23 +91,20 @@ func (x *EnhancedStackTrace) GetStacks() []*StackTrace {
 //
 //	aip.dev/not-precedent: Naming SDK version is optional. --)
 type StackTraceSDKInfo struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// Name of the SDK
 	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	// Version string of the SDK
-	Version string `protobuf:"bytes,2,opt,name=version,proto3" json:"version,omitempty"`
+	Version       string `protobuf:"bytes,2,opt,name=version,proto3" json:"version,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *StackTraceSDKInfo) Reset() {
 	*x = StackTraceSDKInfo{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_sdk_v1_enhanced_stack_trace_proto_msgTypes[1]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
+	mi := &file_temporal_api_sdk_v1_enhanced_stack_trace_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
 }
 
 func (x *StackTraceSDKInfo) String() string {
@@ -120,7 +115,7 @@ func (*StackTraceSDKInfo) ProtoMessage() {}
 
 func (x *StackTraceSDKInfo) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_sdk_v1_enhanced_stack_trace_proto_msgTypes[1]
-	if protoimpl.UnsafeEnabled && x != nil {
+	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -151,10 +146,7 @@ func (x *StackTraceSDKInfo) GetVersion() string {
 
 // "Slice" of a file starting at line_offset -- a line offset and code fragment corresponding to the worker's stack.
 type StackTraceFileSlice struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// Only used (possibly) to trim the file without breaking syntax highlighting. This is not optional, unlike
 	// the `line` property of a `StackTraceFileLocation`.
 	// (-- api-linter: core::0141::forbidden-types=disabled
@@ -162,16 +154,16 @@ type StackTraceFileSlice struct {
 	//	aip.dev/not-precedent: These really shouldn't have negative values. --)
 	LineOffset uint32 `protobuf:"varint,1,opt,name=line_offset,json=lineOffset,proto3" json:"line_offset,omitempty"`
 	// Slice of a file with the respective OS-specific line terminator.
-	Content string `protobuf:"bytes,2,opt,name=content,proto3" json:"content,omitempty"`
+	Content       string `protobuf:"bytes,2,opt,name=content,proto3" json:"content,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *StackTraceFileSlice) Reset() {
 	*x = StackTraceFileSlice{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_sdk_v1_enhanced_stack_trace_proto_msgTypes[2]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
+	mi := &file_temporal_api_sdk_v1_enhanced_stack_trace_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
 }
 
 func (x *StackTraceFileSlice) String() string {
@@ -182,7 +174,7 @@ func (*StackTraceFileSlice) ProtoMessage() {}
 
 func (x *StackTraceFileSlice) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_sdk_v1_enhanced_stack_trace_proto_msgTypes[2]
-	if protoimpl.UnsafeEnabled && x != nil {
+	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -214,10 +206,7 @@ func (x *StackTraceFileSlice) GetContent() string {
 // More specific location details of a file: its path, precise line and column numbers if applicable, and function name if available.
 // In essence, a pointer to a location in a file
 type StackTraceFileLocation struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// Path to source file (absolute or relative).
 	// If the paths are relative, ensure that they are all relative to the same root.
 	FilePath string `protobuf:"bytes,1,opt,name=file_path,json=filePath,proto3" json:"file_path,omitempty"`
@@ -231,16 +220,16 @@ type StackTraceFileLocation struct {
 	// Used for falling back to stack trace view.
 	FunctionName string `protobuf:"bytes,4,opt,name=function_name,json=functionName,proto3" json:"function_name,omitempty"`
 	// Flag to communicate whether a location should be hidden by default in the stack view.
-	InternalCode bool `protobuf:"varint,5,opt,name=internal_code,json=internalCode,proto3" json:"internal_code,omitempty"`
+	InternalCode  bool `protobuf:"varint,5,opt,name=internal_code,json=internalCode,proto3" json:"internal_code,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *StackTraceFileLocation) Reset() {
 	*x = StackTraceFileLocation{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_sdk_v1_enhanced_stack_trace_proto_msgTypes[3]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
+	mi := &file_temporal_api_sdk_v1_enhanced_stack_trace_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
 }
 
 func (x *StackTraceFileLocation) String() string {
@@ -251,7 +240,7 @@ func (*StackTraceFileLocation) ProtoMessage() {}
 
 func (x *StackTraceFileLocation) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_sdk_v1_enhanced_stack_trace_proto_msgTypes[3]
-	if protoimpl.UnsafeEnabled && x != nil {
+	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -303,21 +292,18 @@ func (x *StackTraceFileLocation) GetInternalCode() bool {
 
 // Collection of FileLocation messages from a single stack.
 type StackTrace struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// Collection of `FileLocation`s, each for a stack frame that comprise a stack trace.
-	Locations []*StackTraceFileLocation `protobuf:"bytes,1,rep,name=locations,proto3" json:"locations,omitempty"`
+	Locations     []*StackTraceFileLocation `protobuf:"bytes,1,rep,name=locations,proto3" json:"locations,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *StackTrace) Reset() {
 	*x = StackTrace{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_sdk_v1_enhanced_stack_trace_proto_msgTypes[4]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
+	mi := &file_temporal_api_sdk_v1_enhanced_stack_trace_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
 }
 
 func (x *StackTrace) String() string {
@@ -328,7 +314,7 @@ func (*StackTrace) ProtoMessage() {}
 
 func (x *StackTrace) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_sdk_v1_enhanced_stack_trace_proto_msgTypes[4]
-	if protoimpl.UnsafeEnabled && x != nil {
+	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -352,83 +338,48 @@ func (x *StackTrace) GetLocations() []*StackTraceFileLocation {
 
 var File_temporal_api_sdk_v1_enhanced_stack_trace_proto protoreflect.FileDescriptor
 
-var file_temporal_api_sdk_v1_enhanced_stack_trace_proto_rawDesc = []byte{
-	0x0a, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x73,
-	0x64, 0x6b, 0x2f, 0x76, 0x31, 0x2f, 0x65, 0x6e, 0x68, 0x61, 0x6e, 0x63, 0x65, 0x64, 0x5f, 0x73,
-	0x74, 0x61, 0x63, 0x6b, 0x5f, 0x74, 0x72, 0x61, 0x63, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f,
-	0x12, 0x13, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x73,
-	0x64, 0x6b, 0x2e, 0x76, 0x31, 0x22, 0xbd, 0x02, 0x0a, 0x12, 0x45, 0x6e, 0x68, 0x61, 0x6e, 0x63,
-	0x65, 0x64, 0x53, 0x74, 0x61, 0x63, 0x6b, 0x54, 0x72, 0x61, 0x63, 0x65, 0x12, 0x38, 0x0a, 0x03,
-	0x73, 0x64, 0x6b, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x26, 0x2e, 0x74, 0x65, 0x6d, 0x70,
-	0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x73, 0x64, 0x6b, 0x2e, 0x76, 0x31, 0x2e,
-	0x53, 0x74, 0x61, 0x63, 0x6b, 0x54, 0x72, 0x61, 0x63, 0x65, 0x53, 0x44, 0x4b, 0x49, 0x6e, 0x66,
-	0x6f, 0x52, 0x03, 0x73, 0x64, 0x6b, 0x12, 0x4e, 0x0a, 0x07, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65,
-	0x73, 0x18, 0x02, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x34, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72,
-	0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x73, 0x64, 0x6b, 0x2e, 0x76, 0x31, 0x2e, 0x45, 0x6e,
-	0x68, 0x61, 0x6e, 0x63, 0x65, 0x64, 0x53, 0x74, 0x61, 0x63, 0x6b, 0x54, 0x72, 0x61, 0x63, 0x65,
-	0x2e, 0x53, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x73, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x52, 0x07, 0x73,
-	0x6f, 0x75, 0x72, 0x63, 0x65, 0x73, 0x12, 0x37, 0x0a, 0x06, 0x73, 0x74, 0x61, 0x63, 0x6b, 0x73,
-	0x18, 0x03, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x1f, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61,
-	0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x73, 0x64, 0x6b, 0x2e, 0x76, 0x31, 0x2e, 0x53, 0x74, 0x61,
-	0x63, 0x6b, 0x54, 0x72, 0x61, 0x63, 0x65, 0x52, 0x06, 0x73, 0x74, 0x61, 0x63, 0x6b, 0x73, 0x1a,
-	0x64, 0x0a, 0x0c, 0x53, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x73, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x12,
-	0x10, 0x0a, 0x03, 0x6b, 0x65, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6b, 0x65,
-	0x79, 0x12, 0x3e, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b,
-	0x32, 0x28, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e,
-	0x73, 0x64, 0x6b, 0x2e, 0x76, 0x31, 0x2e, 0x53, 0x74, 0x61, 0x63, 0x6b, 0x54, 0x72, 0x61, 0x63,
-	0x65, 0x46, 0x69, 0x6c, 0x65, 0x53, 0x6c, 0x69, 0x63, 0x65, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75,
-	0x65, 0x3a, 0x02, 0x38, 0x01, 0x22, 0x41, 0x0a, 0x11, 0x53, 0x74, 0x61, 0x63, 0x6b, 0x54, 0x72,
-	0x61, 0x63, 0x65, 0x53, 0x44, 0x4b, 0x49, 0x6e, 0x66, 0x6f, 0x12, 0x12, 0x0a, 0x04, 0x6e, 0x61,
-	0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x12, 0x18,
-	0x0a, 0x07, 0x76, 0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52,
-	0x07, 0x76, 0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x22, 0x50, 0x0a, 0x13, 0x53, 0x74, 0x61, 0x63,
-	0x6b, 0x54, 0x72, 0x61, 0x63, 0x65, 0x46, 0x69, 0x6c, 0x65, 0x53, 0x6c, 0x69, 0x63, 0x65, 0x12,
-	0x1f, 0x0a, 0x0b, 0x6c, 0x69, 0x6e, 0x65, 0x5f, 0x6f, 0x66, 0x66, 0x73, 0x65, 0x74, 0x18, 0x01,
-	0x20, 0x01, 0x28, 0x0d, 0x52, 0x0a, 0x6c, 0x69, 0x6e, 0x65, 0x4f, 0x66, 0x66, 0x73, 0x65, 0x74,
-	0x12, 0x18, 0x0a, 0x07, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x18, 0x02, 0x20, 0x01, 0x28,
-	0x09, 0x52, 0x07, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x22, 0xab, 0x01, 0x0a, 0x16, 0x53,
-	0x74, 0x61, 0x63, 0x6b, 0x54, 0x72, 0x61, 0x63, 0x65, 0x46, 0x69, 0x6c, 0x65, 0x4c, 0x6f, 0x63,
-	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x1b, 0x0a, 0x09, 0x66, 0x69, 0x6c, 0x65, 0x5f, 0x70, 0x61,
-	0x74, 0x68, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x66, 0x69, 0x6c, 0x65, 0x50, 0x61,
-	0x74, 0x68, 0x12, 0x12, 0x0a, 0x04, 0x6c, 0x69, 0x6e, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x05,
-	0x52, 0x04, 0x6c, 0x69, 0x6e, 0x65, 0x12, 0x16, 0x0a, 0x06, 0x63, 0x6f, 0x6c, 0x75, 0x6d, 0x6e,
-	0x18, 0x03, 0x20, 0x01, 0x28, 0x05, 0x52, 0x06, 0x63, 0x6f, 0x6c, 0x75, 0x6d, 0x6e, 0x12, 0x23,
-	0x0a, 0x0d, 0x66, 0x75, 0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x6e, 0x61, 0x6d, 0x65, 0x18,
-	0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0c, 0x66, 0x75, 0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x4e,
-	0x61, 0x6d, 0x65, 0x12, 0x23, 0x0a, 0x0d, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x61, 0x6c, 0x5f,
-	0x63, 0x6f, 0x64, 0x65, 0x18, 0x05, 0x20, 0x01, 0x28, 0x08, 0x52, 0x0c, 0x69, 0x6e, 0x74, 0x65,
-	0x72, 0x6e, 0x61, 0x6c, 0x43, 0x6f, 0x64, 0x65, 0x22, 0x57, 0x0a, 0x0a, 0x53, 0x74, 0x61, 0x63,
-	0x6b, 0x54, 0x72, 0x61, 0x63, 0x65, 0x12, 0x49, 0x0a, 0x09, 0x6c, 0x6f, 0x63, 0x61, 0x74, 0x69,
-	0x6f, 0x6e, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x2b, 0x2e, 0x74, 0x65, 0x6d, 0x70,
-	0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x73, 0x64, 0x6b, 0x2e, 0x76, 0x31, 0x2e,
-	0x53, 0x74, 0x61, 0x63, 0x6b, 0x54, 0x72, 0x61, 0x63, 0x65, 0x46, 0x69, 0x6c, 0x65, 0x4c, 0x6f,
-	0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x09, 0x6c, 0x6f, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e,
-	0x73, 0x42, 0x85, 0x01, 0x0a, 0x16, 0x69, 0x6f, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61,
-	0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x73, 0x64, 0x6b, 0x2e, 0x76, 0x31, 0x42, 0x17, 0x45, 0x6e,
-	0x68, 0x61, 0x6e, 0x63, 0x65, 0x64, 0x53, 0x74, 0x61, 0x63, 0x6b, 0x54, 0x72, 0x61, 0x63, 0x65,
-	0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a, 0x1d, 0x67, 0x6f, 0x2e, 0x74, 0x65, 0x6d, 0x70,
-	0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x69, 0x6f, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x73, 0x64, 0x6b, 0x2f,
-	0x76, 0x31, 0x3b, 0x73, 0x64, 0x6b, 0xaa, 0x02, 0x15, 0x54, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61,
-	0x6c, 0x69, 0x6f, 0x2e, 0x41, 0x70, 0x69, 0x2e, 0x53, 0x64, 0x6b, 0x2e, 0x56, 0x31, 0xea, 0x02,
-	0x18, 0x54, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x69, 0x6f, 0x3a, 0x3a, 0x41, 0x70, 0x69,
-	0x3a, 0x3a, 0x53, 0x64, 0x6b, 0x3a, 0x3a, 0x56, 0x31, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f,
-	0x33,
-}
+const file_temporal_api_sdk_v1_enhanced_stack_trace_proto_rawDesc = "" +
+	"\n" +
+	".temporal/api/sdk/v1/enhanced_stack_trace.proto\x12\x13temporal.api.sdk.v1\"\xbd\x02\n" +
+	"\x12EnhancedStackTrace\x128\n" +
+	"\x03sdk\x18\x01 \x01(\v2&.temporal.api.sdk.v1.StackTraceSDKInfoR\x03sdk\x12N\n" +
+	"\asources\x18\x02 \x03(\v24.temporal.api.sdk.v1.EnhancedStackTrace.SourcesEntryR\asources\x127\n" +
+	"\x06stacks\x18\x03 \x03(\v2\x1f.temporal.api.sdk.v1.StackTraceR\x06stacks\x1ad\n" +
+	"\fSourcesEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12>\n" +
+	"\x05value\x18\x02 \x01(\v2(.temporal.api.sdk.v1.StackTraceFileSliceR\x05value:\x028\x01\"A\n" +
+	"\x11StackTraceSDKInfo\x12\x12\n" +
+	"\x04name\x18\x01 \x01(\tR\x04name\x12\x18\n" +
+	"\aversion\x18\x02 \x01(\tR\aversion\"P\n" +
+	"\x13StackTraceFileSlice\x12\x1f\n" +
+	"\vline_offset\x18\x01 \x01(\rR\n" +
+	"lineOffset\x12\x18\n" +
+	"\acontent\x18\x02 \x01(\tR\acontent\"\xab\x01\n" +
+	"\x16StackTraceFileLocation\x12\x1b\n" +
+	"\tfile_path\x18\x01 \x01(\tR\bfilePath\x12\x12\n" +
+	"\x04line\x18\x02 \x01(\x05R\x04line\x12\x16\n" +
+	"\x06column\x18\x03 \x01(\x05R\x06column\x12#\n" +
+	"\rfunction_name\x18\x04 \x01(\tR\ffunctionName\x12#\n" +
+	"\rinternal_code\x18\x05 \x01(\bR\finternalCode\"W\n" +
+	"\n" +
+	"StackTrace\x12I\n" +
+	"\tlocations\x18\x01 \x03(\v2+.temporal.api.sdk.v1.StackTraceFileLocationR\tlocationsB\x85\x01\n" +
+	"\x16io.temporal.api.sdk.v1B\x17EnhancedStackTraceProtoP\x01Z\x1dgo.temporal.io/api/sdk/v1;sdk\xaa\x02\x15Temporalio.Api.Sdk.V1\xea\x02\x18Temporalio::Api::Sdk::V1b\x06proto3"
 
 var (
 	file_temporal_api_sdk_v1_enhanced_stack_trace_proto_rawDescOnce sync.Once
-	file_temporal_api_sdk_v1_enhanced_stack_trace_proto_rawDescData = file_temporal_api_sdk_v1_enhanced_stack_trace_proto_rawDesc
+	file_temporal_api_sdk_v1_enhanced_stack_trace_proto_rawDescData []byte
 )
 
 func file_temporal_api_sdk_v1_enhanced_stack_trace_proto_rawDescGZIP() []byte {
 	file_temporal_api_sdk_v1_enhanced_stack_trace_proto_rawDescOnce.Do(func() {
-		file_temporal_api_sdk_v1_enhanced_stack_trace_proto_rawDescData = protoimpl.X.CompressGZIP(file_temporal_api_sdk_v1_enhanced_stack_trace_proto_rawDescData)
+		file_temporal_api_sdk_v1_enhanced_stack_trace_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_temporal_api_sdk_v1_enhanced_stack_trace_proto_rawDesc), len(file_temporal_api_sdk_v1_enhanced_stack_trace_proto_rawDesc)))
 	})
 	return file_temporal_api_sdk_v1_enhanced_stack_trace_proto_rawDescData
 }
 
 var file_temporal_api_sdk_v1_enhanced_stack_trace_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
-var file_temporal_api_sdk_v1_enhanced_stack_trace_proto_goTypes = []interface{}{
+var file_temporal_api_sdk_v1_enhanced_stack_trace_proto_goTypes = []any{
 	(*EnhancedStackTrace)(nil),     // 0: temporal.api.sdk.v1.EnhancedStackTrace
 	(*StackTraceSDKInfo)(nil),      // 1: temporal.api.sdk.v1.StackTraceSDKInfo
 	(*StackTraceFileSlice)(nil),    // 2: temporal.api.sdk.v1.StackTraceFileSlice
@@ -454,73 +405,11 @@ func file_temporal_api_sdk_v1_enhanced_stack_trace_proto_init() {
 	if File_temporal_api_sdk_v1_enhanced_stack_trace_proto != nil {
 		return
 	}
-	if !protoimpl.UnsafeEnabled {
-		file_temporal_api_sdk_v1_enhanced_stack_trace_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*EnhancedStackTrace); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_temporal_api_sdk_v1_enhanced_stack_trace_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*StackTraceSDKInfo); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_temporal_api_sdk_v1_enhanced_stack_trace_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*StackTraceFileSlice); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_temporal_api_sdk_v1_enhanced_stack_trace_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*StackTraceFileLocation); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_temporal_api_sdk_v1_enhanced_stack_trace_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*StackTrace); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: file_temporal_api_sdk_v1_enhanced_stack_trace_proto_rawDesc,
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_temporal_api_sdk_v1_enhanced_stack_trace_proto_rawDesc), len(file_temporal_api_sdk_v1_enhanced_stack_trace_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   6,
 			NumExtensions: 0,
@@ -531,7 +420,6 @@ func file_temporal_api_sdk_v1_enhanced_stack_trace_proto_init() {
 		MessageInfos:      file_temporal_api_sdk_v1_enhanced_stack_trace_proto_msgTypes,
 	}.Build()
 	File_temporal_api_sdk_v1_enhanced_stack_trace_proto = out.File
-	file_temporal_api_sdk_v1_enhanced_stack_trace_proto_rawDesc = nil
 	file_temporal_api_sdk_v1_enhanced_stack_trace_proto_goTypes = nil
 	file_temporal_api_sdk_v1_enhanced_stack_trace_proto_depIdxs = nil
 }
