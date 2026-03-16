@@ -1746,6 +1746,8 @@ type RespondWorkflowTaskCompletedRequest struct {
 	// Responses to the `queries` field in the task being responded to
 	QueryResults map[string]*v110.WorkflowQueryResult `protobuf:"bytes,8,rep,name=query_results,json=queryResults,proto3" json:"query_results,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	Namespace    string                               `protobuf:"bytes,9,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	// Resource ID for routing. Contains the workflow ID from the original task.
+	ResourceId string `protobuf:"bytes,18,opt,name=resource_id,json=resourceId,proto3" json:"resource_id,omitempty"`
 	// Version info of the worker who processed this task. This message's `build_id` field should
 	// always be set by SDKs. Workers opting into versioning will also set the `use_versioning`
 	// field to true. See message docstrings for more.
@@ -1867,6 +1869,13 @@ func (x *RespondWorkflowTaskCompletedRequest) GetQueryResults() map[string]*v110
 func (x *RespondWorkflowTaskCompletedRequest) GetNamespace() string {
 	if x != nil {
 		return x.Namespace
+	}
+	return ""
+}
+
+func (x *RespondWorkflowTaskCompletedRequest) GetResourceId() string {
+	if x != nil {
+		return x.ResourceId
 	}
 	return ""
 }
@@ -2011,6 +2020,8 @@ type RespondWorkflowTaskFailedRequest struct {
 	// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
 	BinaryChecksum string `protobuf:"bytes,5,opt,name=binary_checksum,json=binaryChecksum,proto3" json:"binary_checksum,omitempty"`
 	Namespace      string `protobuf:"bytes,6,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	// Resource ID for routing. Contains the workflow ID from the original task.
+	ResourceId string `protobuf:"bytes,11,opt,name=resource_id,json=resourceId,proto3" json:"resource_id,omitempty"`
 	// Protocol messages piggybacking on a WFT as a transport
 	Messages []*v111.Message `protobuf:"bytes,7,rep,name=messages,proto3" json:"messages,omitempty"`
 	// Version info of the worker who processed this task. This message's `build_id` field should
@@ -2101,6 +2112,13 @@ func (x *RespondWorkflowTaskFailedRequest) GetBinaryChecksum() string {
 func (x *RespondWorkflowTaskFailedRequest) GetNamespace() string {
 	if x != nil {
 		return x.Namespace
+	}
+	return ""
+}
+
+func (x *RespondWorkflowTaskFailedRequest) GetResourceId() string {
+	if x != nil {
+		return x.ResourceId
 	}
 	return ""
 }
@@ -2512,8 +2530,10 @@ type RecordActivityTaskHeartbeatRequest struct {
 	// Arbitrary data, of which the most recent call is kept, to store for this activity
 	Details *v13.Payloads `protobuf:"bytes,2,opt,name=details,proto3" json:"details,omitempty"`
 	// The identity of the worker/client
-	Identity      string `protobuf:"bytes,3,opt,name=identity,proto3" json:"identity,omitempty"`
-	Namespace     string `protobuf:"bytes,4,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	Identity  string `protobuf:"bytes,3,opt,name=identity,proto3" json:"identity,omitempty"`
+	Namespace string `protobuf:"bytes,4,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	// Resource ID for routing. Contains the workflow ID or activity ID for standalone activities.
+	ResourceId    string `protobuf:"bytes,5,opt,name=resource_id,json=resourceId,proto3" json:"resource_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -2572,6 +2592,13 @@ func (x *RecordActivityTaskHeartbeatRequest) GetIdentity() string {
 func (x *RecordActivityTaskHeartbeatRequest) GetNamespace() string {
 	if x != nil {
 		return x.Namespace
+	}
+	return ""
+}
+
+func (x *RecordActivityTaskHeartbeatRequest) GetResourceId() string {
+	if x != nil {
+		return x.ResourceId
 	}
 	return ""
 }
@@ -2655,7 +2682,9 @@ type RecordActivityTaskHeartbeatByIdRequest struct {
 	// Arbitrary data, of which the most recent call is kept, to store for this activity
 	Details *v13.Payloads `protobuf:"bytes,5,opt,name=details,proto3" json:"details,omitempty"`
 	// The identity of the worker/client
-	Identity      string `protobuf:"bytes,6,opt,name=identity,proto3" json:"identity,omitempty"`
+	Identity string `protobuf:"bytes,6,opt,name=identity,proto3" json:"identity,omitempty"`
+	// Resource ID for routing. Contains "workflow:workflow_id" or "activity:activity_id" for standalone activities.
+	ResourceId    string `protobuf:"bytes,7,opt,name=resource_id,json=resourceId,proto3" json:"resource_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -2728,6 +2757,13 @@ func (x *RecordActivityTaskHeartbeatByIdRequest) GetDetails() *v13.Payloads {
 func (x *RecordActivityTaskHeartbeatByIdRequest) GetIdentity() string {
 	if x != nil {
 		return x.Identity
+	}
+	return ""
+}
+
+func (x *RecordActivityTaskHeartbeatByIdRequest) GetResourceId() string {
+	if x != nil {
+		return x.ResourceId
 	}
 	return ""
 }
@@ -2806,6 +2842,8 @@ type RespondActivityTaskCompletedRequest struct {
 	// The identity of the worker/client
 	Identity  string `protobuf:"bytes,3,opt,name=identity,proto3" json:"identity,omitempty"`
 	Namespace string `protobuf:"bytes,4,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	// Resource ID for routing. Contains the workflow ID or activity ID for standalone activities.
+	ResourceId string `protobuf:"bytes,8,opt,name=resource_id,json=resourceId,proto3" json:"resource_id,omitempty"`
 	// Version info of the worker who processed this task. This message's `build_id` field should
 	// always be set by SDKs. Workers opting into versioning will also set the `use_versioning`
 	// field to true. See message docstrings for more.
@@ -2883,6 +2921,13 @@ func (x *RespondActivityTaskCompletedRequest) GetNamespace() string {
 	return ""
 }
 
+func (x *RespondActivityTaskCompletedRequest) GetResourceId() string {
+	if x != nil {
+		return x.ResourceId
+	}
+	return ""
+}
+
 // Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
 func (x *RespondActivityTaskCompletedRequest) GetWorkerVersion() *v13.WorkerVersionStamp {
 	if x != nil {
@@ -2956,7 +3001,9 @@ type RespondActivityTaskCompletedByIdRequest struct {
 	// The serialized result of activity execution
 	Result *v13.Payloads `protobuf:"bytes,5,opt,name=result,proto3" json:"result,omitempty"`
 	// The identity of the worker/client
-	Identity      string `protobuf:"bytes,6,opt,name=identity,proto3" json:"identity,omitempty"`
+	Identity string `protobuf:"bytes,6,opt,name=identity,proto3" json:"identity,omitempty"`
+	// Resource ID for routing. Contains "workflow:workflow_id" or "activity:activity_id" for standalone activities.
+	ResourceId    string `protobuf:"bytes,7,opt,name=resource_id,json=resourceId,proto3" json:"resource_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -3033,6 +3080,13 @@ func (x *RespondActivityTaskCompletedByIdRequest) GetIdentity() string {
 	return ""
 }
 
+func (x *RespondActivityTaskCompletedByIdRequest) GetResourceId() string {
+	if x != nil {
+		return x.ResourceId
+	}
+	return ""
+}
+
 type RespondActivityTaskCompletedByIdResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	unknownFields protoimpl.UnknownFields
@@ -3078,6 +3132,8 @@ type RespondActivityTaskFailedRequest struct {
 	// The identity of the worker/client
 	Identity  string `protobuf:"bytes,3,opt,name=identity,proto3" json:"identity,omitempty"`
 	Namespace string `protobuf:"bytes,4,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	// Resource ID for routing. Contains the workflow ID or activity ID for standalone activities.
+	ResourceId string `protobuf:"bytes,9,opt,name=resource_id,json=resourceId,proto3" json:"resource_id,omitempty"`
 	// Additional details to be stored as last activity heartbeat
 	LastHeartbeatDetails *v13.Payloads `protobuf:"bytes,5,opt,name=last_heartbeat_details,json=lastHeartbeatDetails,proto3" json:"last_heartbeat_details,omitempty"`
 	// Version info of the worker who processed this task. This message's `build_id` field should
@@ -3153,6 +3209,13 @@ func (x *RespondActivityTaskFailedRequest) GetIdentity() string {
 func (x *RespondActivityTaskFailedRequest) GetNamespace() string {
 	if x != nil {
 		return x.Namespace
+	}
+	return ""
+}
+
+func (x *RespondActivityTaskFailedRequest) GetResourceId() string {
+	if x != nil {
+		return x.ResourceId
 	}
 	return ""
 }
@@ -3250,8 +3313,10 @@ type RespondActivityTaskFailedByIdRequest struct {
 	Identity string `protobuf:"bytes,6,opt,name=identity,proto3" json:"identity,omitempty"`
 	// Additional details to be stored as last activity heartbeat
 	LastHeartbeatDetails *v13.Payloads `protobuf:"bytes,7,opt,name=last_heartbeat_details,json=lastHeartbeatDetails,proto3" json:"last_heartbeat_details,omitempty"`
-	unknownFields        protoimpl.UnknownFields
-	sizeCache            protoimpl.SizeCache
+	// Resource ID for routing. Contains "workflow:workflow_id" or "activity:activity_id" for standalone activities.
+	ResourceId    string `protobuf:"bytes,8,opt,name=resource_id,json=resourceId,proto3" json:"resource_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *RespondActivityTaskFailedByIdRequest) Reset() {
@@ -3333,6 +3398,13 @@ func (x *RespondActivityTaskFailedByIdRequest) GetLastHeartbeatDetails() *v13.Pa
 	return nil
 }
 
+func (x *RespondActivityTaskFailedByIdRequest) GetResourceId() string {
+	if x != nil {
+		return x.ResourceId
+	}
+	return ""
+}
+
 type RespondActivityTaskFailedByIdResponse struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Server validation failures could include
@@ -3388,6 +3460,8 @@ type RespondActivityTaskCanceledRequest struct {
 	// The identity of the worker/client
 	Identity  string `protobuf:"bytes,3,opt,name=identity,proto3" json:"identity,omitempty"`
 	Namespace string `protobuf:"bytes,4,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	// Resource ID for routing. Contains the workflow ID or activity ID for standalone activities.
+	ResourceId string `protobuf:"bytes,8,opt,name=resource_id,json=resourceId,proto3" json:"resource_id,omitempty"`
 	// Version info of the worker who processed this task. This message's `build_id` field should
 	// always be set by SDKs. Workers opting into versioning will also set the `use_versioning`
 	// field to true. See message docstrings for more.
@@ -3461,6 +3535,13 @@ func (x *RespondActivityTaskCanceledRequest) GetIdentity() string {
 func (x *RespondActivityTaskCanceledRequest) GetNamespace() string {
 	if x != nil {
 		return x.Namespace
+	}
+	return ""
+}
+
+func (x *RespondActivityTaskCanceledRequest) GetResourceId() string {
+	if x != nil {
+		return x.ResourceId
 	}
 	return ""
 }
@@ -3541,8 +3622,10 @@ type RespondActivityTaskCanceledByIdRequest struct {
 	Identity string `protobuf:"bytes,6,opt,name=identity,proto3" json:"identity,omitempty"`
 	// Worker deployment options that user has set in the worker.
 	DeploymentOptions *v18.WorkerDeploymentOptions `protobuf:"bytes,7,opt,name=deployment_options,json=deploymentOptions,proto3" json:"deployment_options,omitempty"`
-	unknownFields     protoimpl.UnknownFields
-	sizeCache         protoimpl.SizeCache
+	// Resource ID for routing. Contains "workflow:workflow_id" or "activity:activity_id" for standalone activities.
+	ResourceId    string `protobuf:"bytes,8,opt,name=resource_id,json=resourceId,proto3" json:"resource_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *RespondActivityTaskCanceledByIdRequest) Reset() {
@@ -3622,6 +3705,13 @@ func (x *RespondActivityTaskCanceledByIdRequest) GetDeploymentOptions() *v18.Wor
 		return x.DeploymentOptions
 	}
 	return nil
+}
+
+func (x *RespondActivityTaskCanceledByIdRequest) GetResourceId() string {
+	if x != nil {
+		return x.ResourceId
+	}
+	return ""
 }
 
 type RespondActivityTaskCanceledByIdResponse struct {
@@ -10156,7 +10246,9 @@ type ExecuteMultiOperationRequest struct {
 	// - The only valid list of operations at this time is [StartWorkflow, UpdateWorkflow], in this order.
 	//
 	// Note that additional operation-specific restrictions have to be considered.
-	Operations    []*ExecuteMultiOperationRequest_Operation `protobuf:"bytes,2,rep,name=operations,proto3" json:"operations,omitempty"`
+	Operations []*ExecuteMultiOperationRequest_Operation `protobuf:"bytes,2,rep,name=operations,proto3" json:"operations,omitempty"`
+	// Resource ID for routing. Should match operations[0].start_workflow.workflow_id
+	ResourceId    string `protobuf:"bytes,3,opt,name=resource_id,json=resourceId,proto3" json:"resource_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -10203,6 +10295,13 @@ func (x *ExecuteMultiOperationRequest) GetOperations() []*ExecuteMultiOperationR
 		return x.Operations
 	}
 	return nil
+}
+
+func (x *ExecuteMultiOperationRequest) GetResourceId() string {
+	if x != nil {
+		return x.ResourceId
+	}
+	return ""
 }
 
 // IMPORTANT: For [StartWorkflow, UpdateWorkflow] combination ("Update-with-Start") when both
@@ -13652,8 +13751,10 @@ type RecordWorkerHeartbeatRequest struct {
 	// The identity of the client who initiated this request.
 	Identity        string                  `protobuf:"bytes,2,opt,name=identity,proto3" json:"identity,omitempty"`
 	WorkerHeartbeat []*v114.WorkerHeartbeat `protobuf:"bytes,3,rep,name=worker_heartbeat,json=workerHeartbeat,proto3" json:"worker_heartbeat,omitempty"`
-	unknownFields   protoimpl.UnknownFields
-	sizeCache       protoimpl.SizeCache
+	// Resource ID for routing. Contains the worker grouping key.
+	ResourceId    string `protobuf:"bytes,4,opt,name=resource_id,json=resourceId,proto3" json:"resource_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *RecordWorkerHeartbeatRequest) Reset() {
@@ -13705,6 +13806,13 @@ func (x *RecordWorkerHeartbeatRequest) GetWorkerHeartbeat() []*v114.WorkerHeartb
 		return x.WorkerHeartbeat
 	}
 	return nil
+}
+
+func (x *RecordWorkerHeartbeatRequest) GetResourceId() string {
+	if x != nil {
+		return x.ResourceId
+	}
+	return ""
 }
 
 type RecordWorkerHeartbeatResponse struct {
@@ -14057,7 +14165,9 @@ type FetchWorkerConfigRequest struct {
 	Reason string `protobuf:"bytes,3,opt,name=reason,proto3" json:"reason,omitempty"`
 	// Defines which workers should receive this command.
 	// only single worker is supported at this time.
-	Selector      *v13.WorkerSelector `protobuf:"bytes,6,opt,name=selector,proto3" json:"selector,omitempty"`
+	Selector *v13.WorkerSelector `protobuf:"bytes,6,opt,name=selector,proto3" json:"selector,omitempty"`
+	// Resource ID for routing. Contains the worker grouping key.
+	ResourceId    string `protobuf:"bytes,7,opt,name=resource_id,json=resourceId,proto3" json:"resource_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -14120,6 +14230,13 @@ func (x *FetchWorkerConfigRequest) GetSelector() *v13.WorkerSelector {
 	return nil
 }
 
+func (x *FetchWorkerConfigRequest) GetResourceId() string {
+	if x != nil {
+		return x.ResourceId
+	}
+	return ""
+}
+
 type FetchWorkerConfigResponse struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// The worker configuration.
@@ -14179,7 +14296,9 @@ type UpdateWorkerConfigRequest struct {
 	// Controls which fields from `worker_config` will be applied
 	UpdateMask *fieldmaskpb.FieldMask `protobuf:"bytes,5,opt,name=update_mask,json=updateMask,proto3" json:"update_mask,omitempty"`
 	// Defines which workers should receive this command.
-	Selector      *v13.WorkerSelector `protobuf:"bytes,6,opt,name=selector,proto3" json:"selector,omitempty"`
+	Selector *v13.WorkerSelector `protobuf:"bytes,6,opt,name=selector,proto3" json:"selector,omitempty"`
+	// Resource ID for routing. Contains the worker grouping key.
+	ResourceId    string `protobuf:"bytes,7,opt,name=resource_id,json=resourceId,proto3" json:"resource_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -14254,6 +14373,13 @@ func (x *UpdateWorkerConfigRequest) GetSelector() *v13.WorkerSelector {
 		return x.Selector
 	}
 	return nil
+}
+
+func (x *UpdateWorkerConfigRequest) GetResourceId() string {
+	if x != nil {
+		return x.ResourceId
+	}
+	return ""
 }
 
 type UpdateWorkerConfigResponse struct {
@@ -17278,7 +17404,7 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\x17poller_scaling_decision\x18\x10 \x01(\v20.temporal.api.taskqueue.v1.PollerScalingDecisionR\x15pollerScalingDecision\x1a`\n" +
 	"\fQueriesEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12:\n" +
-	"\x05value\x18\x02 \x01(\v2$.temporal.api.query.v1.WorkflowQueryR\x05value:\x028\x01\"\xf6\v\n" +
+	"\x05value\x18\x02 \x01(\v2$.temporal.api.query.v1.WorkflowQueryR\x05value:\x028\x01\"\x97\f\n" +
 	"#RespondWorkflowTaskCompletedRequest\x12\x1d\n" +
 	"\n" +
 	"task_token\x18\x01 \x01(\fR\ttaskToken\x12<\n" +
@@ -17289,7 +17415,9 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\x1eforce_create_new_workflow_task\x18\x06 \x01(\bR\x1aforceCreateNewWorkflowTask\x12+\n" +
 	"\x0fbinary_checksum\x18\a \x01(\tB\x02\x18\x01R\x0ebinaryChecksum\x12{\n" +
 	"\rquery_results\x18\b \x03(\v2V.temporal.api.workflowservice.v1.RespondWorkflowTaskCompletedRequest.QueryResultsEntryR\fqueryResults\x12\x1c\n" +
-	"\tnamespace\x18\t \x01(\tR\tnamespace\x12`\n" +
+	"\tnamespace\x18\t \x01(\tR\tnamespace\x12\x1f\n" +
+	"\vresource_id\x18\x12 \x01(\tR\n" +
+	"resourceId\x12`\n" +
 	"\x14worker_version_stamp\x18\n" +
 	" \x01(\v2*.temporal.api.common.v1.WorkerVersionStampB\x02\x18\x01R\x12workerVersionStamp\x12=\n" +
 	"\bmessages\x18\v \x03(\v2!.temporal.api.protocol.v1.MessageR\bmessages\x12U\n" +
@@ -17309,7 +17437,7 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"$RespondWorkflowTaskCompletedResponse\x12c\n" +
 	"\rworkflow_task\x18\x01 \x01(\v2>.temporal.api.workflowservice.v1.PollWorkflowTaskQueueResponseR\fworkflowTask\x12e\n" +
 	"\x0eactivity_tasks\x18\x02 \x03(\v2>.temporal.api.workflowservice.v1.PollActivityTaskQueueResponseR\ractivityTasks\x123\n" +
-	"\x16reset_history_event_id\x18\x03 \x01(\x03R\x13resetHistoryEventId\"\xf0\x04\n" +
+	"\x16reset_history_event_id\x18\x03 \x01(\x03R\x13resetHistoryEventId\"\x91\x05\n" +
 	" RespondWorkflowTaskFailedRequest\x12\x1d\n" +
 	"\n" +
 	"task_token\x18\x01 \x01(\fR\ttaskToken\x12D\n" +
@@ -17317,7 +17445,9 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\afailure\x18\x03 \x01(\v2 .temporal.api.failure.v1.FailureR\afailure\x12\x1a\n" +
 	"\bidentity\x18\x04 \x01(\tR\bidentity\x12+\n" +
 	"\x0fbinary_checksum\x18\x05 \x01(\tB\x02\x18\x01R\x0ebinaryChecksum\x12\x1c\n" +
-	"\tnamespace\x18\x06 \x01(\tR\tnamespace\x12=\n" +
+	"\tnamespace\x18\x06 \x01(\tR\tnamespace\x12\x1f\n" +
+	"\vresource_id\x18\v \x01(\tR\n" +
+	"resourceId\x12=\n" +
 	"\bmessages\x18\a \x03(\v2!.temporal.api.protocol.v1.MessageR\bmessages\x12U\n" +
 	"\x0eworker_version\x18\b \x01(\v2*.temporal.api.common.v1.WorkerVersionStampB\x02\x18\x01R\rworkerVersion\x12J\n" +
 	"\n" +
@@ -17359,17 +17489,19 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\fretry_policy\x18\x11 \x01(\v2#.temporal.api.common.v1.RetryPolicyR\vretryPolicy\x12h\n" +
 	"\x17poller_scaling_decision\x18\x12 \x01(\v20.temporal.api.taskqueue.v1.PollerScalingDecisionR\x15pollerScalingDecision\x12<\n" +
 	"\bpriority\x18\x13 \x01(\v2 .temporal.api.common.v1.PriorityR\bpriority\x12&\n" +
-	"\x0factivity_run_id\x18\x14 \x01(\tR\ractivityRunId\"\xb9\x01\n" +
+	"\x0factivity_run_id\x18\x14 \x01(\tR\ractivityRunId\"\xda\x01\n" +
 	"\"RecordActivityTaskHeartbeatRequest\x12\x1d\n" +
 	"\n" +
 	"task_token\x18\x01 \x01(\fR\ttaskToken\x12:\n" +
 	"\adetails\x18\x02 \x01(\v2 .temporal.api.common.v1.PayloadsR\adetails\x12\x1a\n" +
 	"\bidentity\x18\x03 \x01(\tR\bidentity\x12\x1c\n" +
-	"\tnamespace\x18\x04 \x01(\tR\tnamespace\"\xa0\x01\n" +
+	"\tnamespace\x18\x04 \x01(\tR\tnamespace\x12\x1f\n" +
+	"\vresource_id\x18\x05 \x01(\tR\n" +
+	"resourceId\"\xa0\x01\n" +
 	"#RecordActivityTaskHeartbeatResponse\x12)\n" +
 	"\x10cancel_requested\x18\x01 \x01(\bR\x0fcancelRequested\x12'\n" +
 	"\x0factivity_paused\x18\x02 \x01(\bR\x0eactivityPaused\x12%\n" +
-	"\x0eactivity_reset\x18\x03 \x01(\bR\ractivityReset\"\xf7\x01\n" +
+	"\x0eactivity_reset\x18\x03 \x01(\bR\ractivityReset\"\x98\x02\n" +
 	"&RecordActivityTaskHeartbeatByIdRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12\x1f\n" +
 	"\vworkflow_id\x18\x02 \x01(\tR\n" +
@@ -17378,23 +17510,27 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\vactivity_id\x18\x04 \x01(\tR\n" +
 	"activityId\x12:\n" +
 	"\adetails\x18\x05 \x01(\v2 .temporal.api.common.v1.PayloadsR\adetails\x12\x1a\n" +
-	"\bidentity\x18\x06 \x01(\tR\bidentity\"\xa4\x01\n" +
+	"\bidentity\x18\x06 \x01(\tR\bidentity\x12\x1f\n" +
+	"\vresource_id\x18\a \x01(\tR\n" +
+	"resourceId\"\xa4\x01\n" +
 	"'RecordActivityTaskHeartbeatByIdResponse\x12)\n" +
 	"\x10cancel_requested\x18\x01 \x01(\bR\x0fcancelRequested\x12'\n" +
 	"\x0factivity_paused\x18\x02 \x01(\bR\x0eactivityPaused\x12%\n" +
-	"\x0eactivity_reset\x18\x03 \x01(\bR\ractivityReset\"\xbf\x03\n" +
+	"\x0eactivity_reset\x18\x03 \x01(\bR\ractivityReset\"\xe0\x03\n" +
 	"#RespondActivityTaskCompletedRequest\x12\x1d\n" +
 	"\n" +
 	"task_token\x18\x01 \x01(\fR\ttaskToken\x128\n" +
 	"\x06result\x18\x02 \x01(\v2 .temporal.api.common.v1.PayloadsR\x06result\x12\x1a\n" +
 	"\bidentity\x18\x03 \x01(\tR\bidentity\x12\x1c\n" +
-	"\tnamespace\x18\x04 \x01(\tR\tnamespace\x12U\n" +
+	"\tnamespace\x18\x04 \x01(\tR\tnamespace\x12\x1f\n" +
+	"\vresource_id\x18\b \x01(\tR\n" +
+	"resourceId\x12U\n" +
 	"\x0eworker_version\x18\x05 \x01(\v2*.temporal.api.common.v1.WorkerVersionStampB\x02\x18\x01R\rworkerVersion\x12J\n" +
 	"\n" +
 	"deployment\x18\x06 \x01(\v2&.temporal.api.deployment.v1.DeploymentB\x02\x18\x01R\n" +
 	"deployment\x12b\n" +
 	"\x12deployment_options\x18\a \x01(\v23.temporal.api.deployment.v1.WorkerDeploymentOptionsR\x11deploymentOptions\"&\n" +
-	"$RespondActivityTaskCompletedResponse\"\xf6\x01\n" +
+	"$RespondActivityTaskCompletedResponse\"\x97\x02\n" +
 	"'RespondActivityTaskCompletedByIdRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12\x1f\n" +
 	"\vworkflow_id\x18\x02 \x01(\tR\n" +
@@ -17403,14 +17539,18 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\vactivity_id\x18\x04 \x01(\tR\n" +
 	"activityId\x128\n" +
 	"\x06result\x18\x05 \x01(\v2 .temporal.api.common.v1.PayloadsR\x06result\x12\x1a\n" +
-	"\bidentity\x18\x06 \x01(\tR\bidentity\"*\n" +
-	"(RespondActivityTaskCompletedByIdResponse\"\x96\x04\n" +
+	"\bidentity\x18\x06 \x01(\tR\bidentity\x12\x1f\n" +
+	"\vresource_id\x18\a \x01(\tR\n" +
+	"resourceId\"*\n" +
+	"(RespondActivityTaskCompletedByIdResponse\"\xb7\x04\n" +
 	" RespondActivityTaskFailedRequest\x12\x1d\n" +
 	"\n" +
 	"task_token\x18\x01 \x01(\fR\ttaskToken\x12:\n" +
 	"\afailure\x18\x02 \x01(\v2 .temporal.api.failure.v1.FailureR\afailure\x12\x1a\n" +
 	"\bidentity\x18\x03 \x01(\tR\bidentity\x12\x1c\n" +
-	"\tnamespace\x18\x04 \x01(\tR\tnamespace\x12V\n" +
+	"\tnamespace\x18\x04 \x01(\tR\tnamespace\x12\x1f\n" +
+	"\vresource_id\x18\t \x01(\tR\n" +
+	"resourceId\x12V\n" +
 	"\x16last_heartbeat_details\x18\x05 \x01(\v2 .temporal.api.common.v1.PayloadsR\x14lastHeartbeatDetails\x12U\n" +
 	"\x0eworker_version\x18\x06 \x01(\v2*.temporal.api.common.v1.WorkerVersionStampB\x02\x18\x01R\rworkerVersion\x12J\n" +
 	"\n" +
@@ -17418,7 +17558,7 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"deployment\x12b\n" +
 	"\x12deployment_options\x18\b \x01(\v23.temporal.api.deployment.v1.WorkerDeploymentOptionsR\x11deploymentOptions\"a\n" +
 	"!RespondActivityTaskFailedResponse\x12<\n" +
-	"\bfailures\x18\x01 \x03(\v2 .temporal.api.failure.v1.FailureR\bfailures\"\xcd\x02\n" +
+	"\bfailures\x18\x01 \x03(\v2 .temporal.api.failure.v1.FailureR\bfailures\"\xee\x02\n" +
 	"$RespondActivityTaskFailedByIdRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12\x1f\n" +
 	"\vworkflow_id\x18\x02 \x01(\tR\n" +
@@ -17428,21 +17568,25 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"activityId\x12:\n" +
 	"\afailure\x18\x05 \x01(\v2 .temporal.api.failure.v1.FailureR\afailure\x12\x1a\n" +
 	"\bidentity\x18\x06 \x01(\tR\bidentity\x12V\n" +
-	"\x16last_heartbeat_details\x18\a \x01(\v2 .temporal.api.common.v1.PayloadsR\x14lastHeartbeatDetails\"e\n" +
+	"\x16last_heartbeat_details\x18\a \x01(\v2 .temporal.api.common.v1.PayloadsR\x14lastHeartbeatDetails\x12\x1f\n" +
+	"\vresource_id\x18\b \x01(\tR\n" +
+	"resourceId\"e\n" +
 	"%RespondActivityTaskFailedByIdResponse\x12<\n" +
-	"\bfailures\x18\x01 \x03(\v2 .temporal.api.failure.v1.FailureR\bfailures\"\xc0\x03\n" +
+	"\bfailures\x18\x01 \x03(\v2 .temporal.api.failure.v1.FailureR\bfailures\"\xe1\x03\n" +
 	"\"RespondActivityTaskCanceledRequest\x12\x1d\n" +
 	"\n" +
 	"task_token\x18\x01 \x01(\fR\ttaskToken\x12:\n" +
 	"\adetails\x18\x02 \x01(\v2 .temporal.api.common.v1.PayloadsR\adetails\x12\x1a\n" +
 	"\bidentity\x18\x03 \x01(\tR\bidentity\x12\x1c\n" +
-	"\tnamespace\x18\x04 \x01(\tR\tnamespace\x12U\n" +
+	"\tnamespace\x18\x04 \x01(\tR\tnamespace\x12\x1f\n" +
+	"\vresource_id\x18\b \x01(\tR\n" +
+	"resourceId\x12U\n" +
 	"\x0eworker_version\x18\x05 \x01(\v2*.temporal.api.common.v1.WorkerVersionStampB\x02\x18\x01R\rworkerVersion\x12J\n" +
 	"\n" +
 	"deployment\x18\x06 \x01(\v2&.temporal.api.deployment.v1.DeploymentB\x02\x18\x01R\n" +
 	"deployment\x12b\n" +
 	"\x12deployment_options\x18\a \x01(\v23.temporal.api.deployment.v1.WorkerDeploymentOptionsR\x11deploymentOptions\"%\n" +
-	"#RespondActivityTaskCanceledResponse\"\xdb\x02\n" +
+	"#RespondActivityTaskCanceledResponse\"\xfc\x02\n" +
 	"&RespondActivityTaskCanceledByIdRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12\x1f\n" +
 	"\vworkflow_id\x18\x02 \x01(\tR\n" +
@@ -17452,7 +17596,9 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"activityId\x12:\n" +
 	"\adetails\x18\x05 \x01(\v2 .temporal.api.common.v1.PayloadsR\adetails\x12\x1a\n" +
 	"\bidentity\x18\x06 \x01(\tR\bidentity\x12b\n" +
-	"\x12deployment_options\x18\a \x01(\v23.temporal.api.deployment.v1.WorkerDeploymentOptionsR\x11deploymentOptions\")\n" +
+	"\x12deployment_options\x18\a \x01(\v23.temporal.api.deployment.v1.WorkerDeploymentOptionsR\x11deploymentOptions\x12\x1f\n" +
+	"\vresource_id\x18\b \x01(\tR\n" +
+	"resourceId\")\n" +
 	"'RespondActivityTaskCanceledByIdResponse\"\xdb\x02\n" +
 	"%RequestCancelWorkflowExecutionRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12X\n" +
@@ -17995,12 +18141,14 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"task_token\x18\x03 \x01(\fR\ttaskToken\x12=\n" +
 	"\x05error\x18\x04 \x01(\v2#.temporal.api.nexus.v1.HandlerErrorB\x02\x18\x01R\x05error\x12:\n" +
 	"\afailure\x18\x05 \x01(\v2 .temporal.api.failure.v1.FailureR\afailure\" \n" +
-	"\x1eRespondNexusTaskFailedResponse\"\x95\x03\n" +
+	"\x1eRespondNexusTaskFailedResponse\"\xb6\x03\n" +
 	"\x1cExecuteMultiOperationRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12g\n" +
 	"\n" +
 	"operations\x18\x02 \x03(\v2G.temporal.api.workflowservice.v1.ExecuteMultiOperationRequest.OperationR\n" +
-	"operations\x1a\xed\x01\n" +
+	"operations\x12\x1f\n" +
+	"\vresource_id\x18\x03 \x01(\tR\n" +
+	"resourceId\x1a\xed\x01\n" +
 	"\tOperation\x12g\n" +
 	"\x0estart_workflow\x18\x01 \x01(\v2>.temporal.api.workflowservice.v1.StartWorkflowExecutionRequestH\x00R\rstartWorkflow\x12j\n" +
 	"\x0fupdate_workflow\x18\x02 \x01(\v2?.temporal.api.workflowservice.v1.UpdateWorkflowExecutionRequestH\x00R\x0eupdateWorkflowB\v\n" +
@@ -18255,11 +18403,13 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\bidentity\x18\x03 \x01(\tR\bidentityB\x06\n" +
 	"\x04rule\"7\n" +
 	"\x1bTriggerWorkflowRuleResponse\x12\x18\n" +
-	"\aapplied\x18\x01 \x01(\bR\aapplied\"\xac\x01\n" +
+	"\aapplied\x18\x01 \x01(\bR\aapplied\"\xcd\x01\n" +
 	"\x1cRecordWorkerHeartbeatRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12\x1a\n" +
 	"\bidentity\x18\x02 \x01(\tR\bidentity\x12R\n" +
-	"\x10worker_heartbeat\x18\x03 \x03(\v2'.temporal.api.worker.v1.WorkerHeartbeatR\x0fworkerHeartbeat\"\x1f\n" +
+	"\x10worker_heartbeat\x18\x03 \x03(\v2'.temporal.api.worker.v1.WorkerHeartbeatR\x0fworkerHeartbeat\x12\x1f\n" +
+	"\vresource_id\x18\x04 \x01(\tR\n" +
+	"resourceId\"\x1f\n" +
 	"\x1dRecordWorkerHeartbeatResponse\"\x8d\x01\n" +
 	"\x12ListWorkersRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12\x1b\n" +
@@ -18288,14 +18438,16 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\x02R\x05value:\x028\x01\"c\n" +
 	"\x1dUpdateTaskQueueConfigResponse\x12B\n" +
-	"\x06config\x18\x01 \x01(\v2*.temporal.api.taskqueue.v1.TaskQueueConfigR\x06config\"\xb0\x01\n" +
+	"\x06config\x18\x01 \x01(\v2*.temporal.api.taskqueue.v1.TaskQueueConfigR\x06config\"\xd1\x01\n" +
 	"\x18FetchWorkerConfigRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12\x1a\n" +
 	"\bidentity\x18\x02 \x01(\tR\bidentity\x12\x16\n" +
 	"\x06reason\x18\x03 \x01(\tR\x06reason\x12B\n" +
-	"\bselector\x18\x06 \x01(\v2&.temporal.api.common.v1.WorkerSelectorR\bselector\"c\n" +
+	"\bselector\x18\x06 \x01(\v2&.temporal.api.common.v1.WorkerSelectorR\bselector\x12\x1f\n" +
+	"\vresource_id\x18\a \x01(\tR\n" +
+	"resourceId\"c\n" +
 	"\x19FetchWorkerConfigResponse\x12F\n" +
-	"\rworker_config\x18\x01 \x01(\v2!.temporal.api.sdk.v1.WorkerConfigR\fworkerConfig\"\xb6\x02\n" +
+	"\rworker_config\x18\x01 \x01(\v2!.temporal.api.sdk.v1.WorkerConfigR\fworkerConfig\"\xd7\x02\n" +
 	"\x19UpdateWorkerConfigRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12\x1a\n" +
 	"\bidentity\x18\x02 \x01(\tR\bidentity\x12\x16\n" +
@@ -18303,7 +18455,9 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\rworker_config\x18\x04 \x01(\v2!.temporal.api.sdk.v1.WorkerConfigR\fworkerConfig\x12;\n" +
 	"\vupdate_mask\x18\x05 \x01(\v2\x1a.google.protobuf.FieldMaskR\n" +
 	"updateMask\x12B\n" +
-	"\bselector\x18\x06 \x01(\v2&.temporal.api.common.v1.WorkerSelectorR\bselector\"r\n" +
+	"\bselector\x18\x06 \x01(\v2&.temporal.api.common.v1.WorkerSelectorR\bselector\x12\x1f\n" +
+	"\vresource_id\x18\a \x01(\tR\n" +
+	"resourceId\"r\n" +
 	"\x1aUpdateWorkerConfigResponse\x12H\n" +
 	"\rworker_config\x18\x01 \x01(\v2!.temporal.api.sdk.v1.WorkerConfigH\x00R\fworkerConfigB\n" +
 	"\n" +
