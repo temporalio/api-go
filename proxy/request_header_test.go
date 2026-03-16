@@ -62,6 +62,7 @@ func TestExtractTemporalRequestHeaders_SkipExistingHeaders(t *testing.T) {
 
 	existingMD := metadata.MD{}
 	existingMD.Set("temporal-namespace", "existing-namespace")
+	existingMD.Set("temporal-resource-id", "existing-resource-id")
 
 	headers, err := ExtractTemporalRequestHeaders(context.Background(), ExtractHeadersOptions{
 		Request:          req,

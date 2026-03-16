@@ -24,7 +24,7 @@ import (
 	"go.temporal.io/api/sdk/v1"
 	"go.temporal.io/api/update/v1"
 	"go.temporal.io/api/workflow/v1"
-	"go.temporal.io/api/workflowservice/v1"
+	workflowservice "go.temporal.io/api/workflowservice/v1"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/proto"
