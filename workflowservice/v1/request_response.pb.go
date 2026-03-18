@@ -16270,9 +16270,13 @@ type GetSystemInfoResponse_Capabilities struct {
 	CountGroupByExecutionStatus bool `protobuf:"varint,10,opt,name=count_group_by_execution_status,json=countGroupByExecutionStatus,proto3" json:"count_group_by_execution_status,omitempty"`
 	// True if the server supports Nexus operations.
 	// This flag is dependent both on server version and for Nexus to be enabled via server configuration.
-	Nexus         bool `protobuf:"varint,11,opt,name=nexus,proto3" json:"nexus,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Nexus bool `protobuf:"varint,11,opt,name=nexus,proto3" json:"nexus,omitempty"`
+	// True if the server supports serverless deployments.
+	// This flag is dependent both on server version and for serverless deployments
+	// to be enabled via server configuration.
+	ServerlessDeployments bool `protobuf:"varint,12,opt,name=serverless_deployments,json=serverlessDeployments,proto3" json:"serverless_deployments,omitempty"`
+	unknownFields         protoimpl.UnknownFields
+	sizeCache             protoimpl.SizeCache
 }
 
 func (x *GetSystemInfoResponse_Capabilities) Reset() {
@@ -16378,6 +16382,13 @@ func (x *GetSystemInfoResponse_Capabilities) GetCountGroupByExecutionStatus() bo
 func (x *GetSystemInfoResponse_Capabilities) GetNexus() bool {
 	if x != nil {
 		return x.Nexus
+	}
+	return false
+}
+
+func (x *GetSystemInfoResponse_Capabilities) GetServerlessDeployments() bool {
+	if x != nil {
+		return x.ServerlessDeployments
 	}
 	return false
 }
@@ -17984,10 +17995,10 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\x15SupportedClientsEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\x16\n" +
-	"\x14GetSystemInfoRequest\"\xfc\x05\n" +
+	"\x14GetSystemInfoRequest\"\xb3\x06\n" +
 	"\x15GetSystemInfoResponse\x12%\n" +
 	"\x0eserver_version\x18\x01 \x01(\tR\rserverVersion\x12g\n" +
-	"\fcapabilities\x18\x02 \x01(\v2C.temporal.api.workflowservice.v1.GetSystemInfoResponse.CapabilitiesR\fcapabilities\x1a\xd2\x04\n" +
+	"\fcapabilities\x18\x02 \x01(\v2C.temporal.api.workflowservice.v1.GetSystemInfoResponse.CapabilitiesR\fcapabilities\x1a\x89\x05\n" +
 	"\fCapabilities\x125\n" +
 	"\x17signal_and_query_header\x18\x01 \x01(\bR\x14signalAndQueryHeader\x12D\n" +
 	"\x1einternal_error_differentiation\x18\x02 \x01(\bR\x1cinternalErrorDifferentiation\x12K\n" +
@@ -18001,7 +18012,8 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\fsdk_metadata\x18\t \x01(\bR\vsdkMetadata\x12D\n" +
 	"\x1fcount_group_by_execution_status\x18\n" +
 	" \x01(\bR\x1bcountGroupByExecutionStatus\x12\x14\n" +
-	"\x05nexus\x18\v \x01(\bR\x05nexus\"\x83\x01\n" +
+	"\x05nexus\x18\v \x01(\bR\x05nexus\x125\n" +
+	"\x16serverless_deployments\x18\f \x01(\bR\x15serverlessDeployments\"\x83\x01\n" +
 	"\x1eListTaskQueuePartitionsRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12C\n" +
 	"\n" +
