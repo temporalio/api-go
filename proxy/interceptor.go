@@ -3118,6 +3118,7 @@ func visitPayloads(
 				ctx,
 				options,
 				o,
+				o.GetMemo(),
 				o.GetSchedule(),
 				o.GetSearchAttributes(),
 			); err != nil {
