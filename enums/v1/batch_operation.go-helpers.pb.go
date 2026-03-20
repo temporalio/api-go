@@ -14,6 +14,9 @@ var (
 		"Delete":                 4,
 		"Reset":                  5,
 		"UpdateExecutionOptions": 6,
+		"UnpauseActivity":        7,
+		"UpdateActivityOptions":  8,
+		"ResetActivity":          9,
 	}
 )
 

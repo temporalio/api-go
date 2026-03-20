@@ -337,3 +337,77 @@ func (this *BatchOperationTriggerWorkflowRule) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type BatchOperationResetActivities to the protobuf v3 wire format
+func (val *BatchOperationResetActivities) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type BatchOperationResetActivities from the protobuf v3 wire format
+func (val *BatchOperationResetActivities) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *BatchOperationResetActivities) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two BatchOperationResetActivities values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *BatchOperationResetActivities) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *BatchOperationResetActivities
+	switch t := that.(type) {
+	case *BatchOperationResetActivities:
+		that1 = t
+	case BatchOperationResetActivities:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type BatchOperationUpdateActivityOptions to the protobuf v3 wire format
+func (val *BatchOperationUpdateActivityOptions) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type BatchOperationUpdateActivityOptions from the protobuf v3 wire format
+func (val *BatchOperationUpdateActivityOptions) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *BatchOperationUpdateActivityOptions) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two BatchOperationUpdateActivityOptions values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *BatchOperationUpdateActivityOptions) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *BatchOperationUpdateActivityOptions
+	switch t := that.(type) {
+	case *BatchOperationUpdateActivityOptions:
+		that1 = t
+	case BatchOperationUpdateActivityOptions:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}

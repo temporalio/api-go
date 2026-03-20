@@ -33,6 +33,9 @@ const (
 	BATCH_OPERATION_TYPE_DELETE                   BatchOperationType = 4
 	BATCH_OPERATION_TYPE_RESET                    BatchOperationType = 5
 	BATCH_OPERATION_TYPE_UPDATE_EXECUTION_OPTIONS BatchOperationType = 6
+	BATCH_OPERATION_TYPE_UNPAUSE_ACTIVITY         BatchOperationType = 7
+	BATCH_OPERATION_TYPE_UPDATE_ACTIVITY_OPTIONS  BatchOperationType = 8
+	BATCH_OPERATION_TYPE_RESET_ACTIVITY           BatchOperationType = 9
 )
 
 // Enum value maps for BatchOperationType.
@@ -45,6 +48,9 @@ var (
 		4: "BATCH_OPERATION_TYPE_DELETE",
 		5: "BATCH_OPERATION_TYPE_RESET",
 		6: "BATCH_OPERATION_TYPE_UPDATE_EXECUTION_OPTIONS",
+		7: "BATCH_OPERATION_TYPE_UNPAUSE_ACTIVITY",
+		8: "BATCH_OPERATION_TYPE_UPDATE_ACTIVITY_OPTIONS",
+		9: "BATCH_OPERATION_TYPE_RESET_ACTIVITY",
 	}
 	BatchOperationType_value = map[string]int32{
 		"BATCH_OPERATION_TYPE_UNSPECIFIED":              0,
@@ -54,6 +60,9 @@ var (
 		"BATCH_OPERATION_TYPE_DELETE":                   4,
 		"BATCH_OPERATION_TYPE_RESET":                    5,
 		"BATCH_OPERATION_TYPE_UPDATE_EXECUTION_OPTIONS": 6,
+		"BATCH_OPERATION_TYPE_UNPAUSE_ACTIVITY":         7,
+		"BATCH_OPERATION_TYPE_UPDATE_ACTIVITY_OPTIONS":  8,
+		"BATCH_OPERATION_TYPE_RESET_ACTIVITY":           9,
 	}
 )
 
@@ -79,6 +88,14 @@ func (x BatchOperationType) String() string {
 		return "Reset"
 	case BATCH_OPERATION_TYPE_UPDATE_EXECUTION_OPTIONS:
 		return "UpdateExecutionOptions"
+	case BATCH_OPERATION_TYPE_UNPAUSE_ACTIVITY:
+		return "UnpauseActivity"
+	case BATCH_OPERATION_TYPE_UPDATE_ACTIVITY_OPTIONS:
+
+		// Deprecated: Use BatchOperationType.Descriptor instead.
+		return "UpdateActivityOptions"
+	case BATCH_OPERATION_TYPE_RESET_ACTIVITY:
+		return "ResetActivity"
 	default:
 		return strconv.Itoa(int(x))
 	}
@@ -97,7 +114,6 @@ func (x BatchOperationType) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use BatchOperationType.Descriptor instead.
 func (BatchOperationType) EnumDescriptor() ([]byte, []int) {
 	return file_temporal_api_enums_v1_batch_operation_proto_rawDescGZIP(), []int{0}
 }
@@ -170,7 +186,7 @@ var File_temporal_api_enums_v1_batch_operation_proto protoreflect.FileDescriptor
 
 const file_temporal_api_enums_v1_batch_operation_proto_rawDesc = "" +
 	"\n" +
-	"+temporal/api/enums/v1/batch_operation.proto\x12\x15temporal.api.enums.v1*\x94\x02\n" +
+	"+temporal/api/enums/v1/batch_operation.proto\x12\x15temporal.api.enums.v1*\x9a\x03\n" +
 	"\x12BatchOperationType\x12$\n" +
 	" BATCH_OPERATION_TYPE_UNSPECIFIED\x10\x00\x12\"\n" +
 	"\x1eBATCH_OPERATION_TYPE_TERMINATE\x10\x01\x12\x1f\n" +
@@ -178,7 +194,10 @@ const file_temporal_api_enums_v1_batch_operation_proto_rawDesc = "" +
 	"\x1bBATCH_OPERATION_TYPE_SIGNAL\x10\x03\x12\x1f\n" +
 	"\x1bBATCH_OPERATION_TYPE_DELETE\x10\x04\x12\x1e\n" +
 	"\x1aBATCH_OPERATION_TYPE_RESET\x10\x05\x121\n" +
-	"-BATCH_OPERATION_TYPE_UPDATE_EXECUTION_OPTIONS\x10\x06*\xa6\x01\n" +
+	"-BATCH_OPERATION_TYPE_UPDATE_EXECUTION_OPTIONS\x10\x06\x12)\n" +
+	"%BATCH_OPERATION_TYPE_UNPAUSE_ACTIVITY\x10\a\x120\n" +
+	",BATCH_OPERATION_TYPE_UPDATE_ACTIVITY_OPTIONS\x10\b\x12'\n" +
+	"#BATCH_OPERATION_TYPE_RESET_ACTIVITY\x10\t*\xa6\x01\n" +
 	"\x13BatchOperationState\x12%\n" +
 	"!BATCH_OPERATION_STATE_UNSPECIFIED\x10\x00\x12!\n" +
 	"\x1dBATCH_OPERATION_STATE_RUNNING\x10\x01\x12#\n" +
