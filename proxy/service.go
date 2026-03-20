@@ -32,6 +32,10 @@ func NewWorkflowServiceProxyServer(options WorkflowServiceProxyOptions) (workflo
 	}, nil
 }
 
+func (s *workflowServiceProxyServer) AdvanceWorkflowExecutionTimePoint(ctx context.Context, in0 *workflowservice.AdvanceWorkflowExecutionTimePointRequest) (*workflowservice.AdvanceWorkflowExecutionTimePointResponse, error) {
+	return s.client.AdvanceWorkflowExecutionTimePoint(s.reqCtx(ctx), in0)
+}
+
 func (s *workflowServiceProxyServer) CountActivityExecutions(ctx context.Context, in0 *workflowservice.CountActivityExecutionsRequest) (*workflowservice.CountActivityExecutionsResponse, error) {
 	return s.client.CountActivityExecutions(s.reqCtx(ctx), in0)
 }

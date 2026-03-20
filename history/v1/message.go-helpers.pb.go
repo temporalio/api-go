@@ -1892,6 +1892,43 @@ func (this *WorkflowExecutionUnpausedEventAttributes) Equal(that interface{}) bo
 	return proto.Equal(this, that1)
 }
 
+// Marshal an object of type WorkflowExecutionTimePointAdvancedEventAttributes to the protobuf v3 wire format
+func (val *WorkflowExecutionTimePointAdvancedEventAttributes) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type WorkflowExecutionTimePointAdvancedEventAttributes from the protobuf v3 wire format
+func (val *WorkflowExecutionTimePointAdvancedEventAttributes) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *WorkflowExecutionTimePointAdvancedEventAttributes) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two WorkflowExecutionTimePointAdvancedEventAttributes values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *WorkflowExecutionTimePointAdvancedEventAttributes) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *WorkflowExecutionTimePointAdvancedEventAttributes
+	switch t := that.(type) {
+	case *WorkflowExecutionTimePointAdvancedEventAttributes:
+		that1 = t
+	case WorkflowExecutionTimePointAdvancedEventAttributes:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
 // Marshal an object of type NexusOperationScheduledEventAttributes to the protobuf v3 wire format
 func (val *NexusOperationScheduledEventAttributes) Marshal() ([]byte, error) {
 	return proto.Marshal(val)

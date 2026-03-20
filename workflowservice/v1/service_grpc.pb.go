@@ -117,6 +117,7 @@ const (
 	WorkflowService_DescribeWorker_FullMethodName                        = "/temporal.api.workflowservice.v1.WorkflowService/DescribeWorker"
 	WorkflowService_PauseWorkflowExecution_FullMethodName                = "/temporal.api.workflowservice.v1.WorkflowService/PauseWorkflowExecution"
 	WorkflowService_UnpauseWorkflowExecution_FullMethodName              = "/temporal.api.workflowservice.v1.WorkflowService/UnpauseWorkflowExecution"
+	WorkflowService_AdvanceWorkflowExecutionTimePoint_FullMethodName     = "/temporal.api.workflowservice.v1.WorkflowService/AdvanceWorkflowExecutionTimePoint"
 	WorkflowService_StartActivityExecution_FullMethodName                = "/temporal.api.workflowservice.v1.WorkflowService/StartActivityExecution"
 	WorkflowService_DescribeActivityExecution_FullMethodName             = "/temporal.api.workflowservice.v1.WorkflowService/DescribeActivityExecution"
 	WorkflowService_PollActivityExecution_FullMethodName                 = "/temporal.api.workflowservice.v1.WorkflowService/PollActivityExecution"
@@ -735,6 +736,15 @@ type WorkflowServiceClient interface {
 	// - The workflow execution status changes to `RUNNING` and a new WORKFLOW_EXECUTION_UNPAUSED event is added to the history
 	// - Workflow tasks and activity tasks are resumed.
 	UnpauseWorkflowExecution(ctx context.Context, in *UnpauseWorkflowExecutionRequest, opts ...grpc.CallOption) (*UnpauseWorkflowExecutionResponse, error)
+	// AdvanceWorkflowExecutionTimePoint advances a workflow's virtual time to the
+	// next upcoming time point (the nearest pending timer fire or timeout expiration),
+	// causing it to trigger. If there is no upcoming time point, returns successfully
+	// with no_upcoming_time_point=true.
+	// Requires time skipping to be enabled on the workflow (either previously via
+	// UpdateWorkflowExecutionOptions or inline via the time_skipping_config field).
+	// Records a WORKFLOW_EXECUTION_TIME_POINT_ADVANCED event in the workflow history.
+	// The workflow must be in RUNNING status and not PAUSED.
+	AdvanceWorkflowExecutionTimePoint(ctx context.Context, in *AdvanceWorkflowExecutionTimePointRequest, opts ...grpc.CallOption) (*AdvanceWorkflowExecutionTimePointResponse, error)
 	// StartActivityExecution starts a new activity execution.
 	//
 	// Returns an `ActivityExecutionAlreadyStarted` error if an instance already exists with same activity ID in this namespace
@@ -1754,6 +1764,16 @@ func (c *workflowServiceClient) UnpauseWorkflowExecution(ctx context.Context, in
 	return out, nil
 }
 
+func (c *workflowServiceClient) AdvanceWorkflowExecutionTimePoint(ctx context.Context, in *AdvanceWorkflowExecutionTimePointRequest, opts ...grpc.CallOption) (*AdvanceWorkflowExecutionTimePointResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(AdvanceWorkflowExecutionTimePointResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_AdvanceWorkflowExecutionTimePoint_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *workflowServiceClient) StartActivityExecution(ctx context.Context, in *StartActivityExecutionRequest, opts ...grpc.CallOption) (*StartActivityExecutionResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(StartActivityExecutionResponse)
@@ -2442,6 +2462,15 @@ type WorkflowServiceServer interface {
 	// - The workflow execution status changes to `RUNNING` and a new WORKFLOW_EXECUTION_UNPAUSED event is added to the history
 	// - Workflow tasks and activity tasks are resumed.
 	UnpauseWorkflowExecution(context.Context, *UnpauseWorkflowExecutionRequest) (*UnpauseWorkflowExecutionResponse, error)
+	// AdvanceWorkflowExecutionTimePoint advances a workflow's virtual time to the
+	// next upcoming time point (the nearest pending timer fire or timeout expiration),
+	// causing it to trigger. If there is no upcoming time point, returns successfully
+	// with no_upcoming_time_point=true.
+	// Requires time skipping to be enabled on the workflow (either previously via
+	// UpdateWorkflowExecutionOptions or inline via the time_skipping_config field).
+	// Records a WORKFLOW_EXECUTION_TIME_POINT_ADVANCED event in the workflow history.
+	// The workflow must be in RUNNING status and not PAUSED.
+	AdvanceWorkflowExecutionTimePoint(context.Context, *AdvanceWorkflowExecutionTimePointRequest) (*AdvanceWorkflowExecutionTimePointResponse, error)
 	// StartActivityExecution starts a new activity execution.
 	//
 	// Returns an `ActivityExecutionAlreadyStarted` error if an instance already exists with same activity ID in this namespace
@@ -2781,6 +2810,9 @@ func (UnimplementedWorkflowServiceServer) PauseWorkflowExecution(context.Context
 }
 func (UnimplementedWorkflowServiceServer) UnpauseWorkflowExecution(context.Context, *UnpauseWorkflowExecutionRequest) (*UnpauseWorkflowExecutionResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method UnpauseWorkflowExecution not implemented")
+}
+func (UnimplementedWorkflowServiceServer) AdvanceWorkflowExecutionTimePoint(context.Context, *AdvanceWorkflowExecutionTimePointRequest) (*AdvanceWorkflowExecutionTimePointResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method AdvanceWorkflowExecutionTimePoint not implemented")
 }
 func (UnimplementedWorkflowServiceServer) StartActivityExecution(context.Context, *StartActivityExecutionRequest) (*StartActivityExecutionResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method StartActivityExecution not implemented")
@@ -4573,6 +4605,24 @@ func _WorkflowService_UnpauseWorkflowExecution_Handler(srv interface{}, ctx cont
 	return interceptor(ctx, in, info, handler)
 }
 
+func _WorkflowService_AdvanceWorkflowExecutionTimePoint_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AdvanceWorkflowExecutionTimePointRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WorkflowServiceServer).AdvanceWorkflowExecutionTimePoint(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: WorkflowService_AdvanceWorkflowExecutionTimePoint_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WorkflowServiceServer).AdvanceWorkflowExecutionTimePoint(ctx, req.(*AdvanceWorkflowExecutionTimePointRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _WorkflowService_StartActivityExecution_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(StartActivityExecutionRequest)
 	if err := dec(in); err != nil {
@@ -5111,6 +5161,10 @@ var WorkflowService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UnpauseWorkflowExecution",
 			Handler:    _WorkflowService_UnpauseWorkflowExecution_Handler,
+		},
+		{
+			MethodName: "AdvanceWorkflowExecutionTimePoint",
+			Handler:    _WorkflowService_AdvanceWorkflowExecutionTimePoint_Handler,
 		},
 		{
 			MethodName: "StartActivityExecution",
