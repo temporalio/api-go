@@ -113,6 +113,7 @@ func generateRequestHeader(cfg config) error {
 
 	var allMethods []methodHeaderInfo
 	importsMap := make(map[string]string) // map[importPath]alias
+	var rangeErr error
 
 	files.RangeFiles(func(fd protoreflect.FileDescriptor) bool {
 		services := fd.Services()
@@ -120,6 +121,7 @@ func generateRequestHeader(cfg config) error {
 			service := services.Get(i)
 			methods, importPath, alias, err := extractMethodHeaders(service)
 			if err != nil {
+				rangeErr = err
 				return false
 			}
 
@@ -132,8 +134,8 @@ func generateRequestHeader(cfg config) error {
 		return true
 	})
 
-	if err != nil {
-		return err
+	if rangeErr != nil {
+		return rangeErr
 	}
 
 	// Sort methods alphabetically by RequestType for consistent output
@@ -258,6 +260,11 @@ func generateHeaderCode(headerName, valueTemplate, reqVar string, msgDesc protor
 	finalValue := strings.Replace(valueTemplate, "{"+fieldPath+"}", "%s", 1)
 
 	// Generate code that checks if the field value is non-empty and header doesn't exist before formatting and appending
+	if finalValue == "%s" {
+		// No prefix/suffix around the field value, so use it directly
+		return fmt.Sprintf("\t\tif val := %s; val != \"\" && len(opts.ExistingMetadata.Get(%q)) == 0 {\n\t\t\theaders = append(headers, %q, val)\n\t\t}",
+			accessor, headerName, headerName), nil
+	}
 	return fmt.Sprintf("\t\tif val := %s; val != \"\" && len(opts.ExistingMetadata.Get(%q)) == 0 {\n\t\t\theaders = append(headers, %q, fmt.Sprintf(%q, val))\n\t\t}",
 		accessor, headerName, headerName, finalValue), nil
 }
@@ -308,11 +315,3 @@ func protoFieldToGoName(protoName string) string {
 	return strings.Join(parts, "")
 }
 
-func getPackageName(service protoreflect.ServiceDescriptor) string {
-	fullName := string(service.FullName())
-	parts := strings.Split(fullName, ".")
-	if len(parts) < 2 {
-		return "unknown"
-	}
-	return parts[len(parts)-2]
-}

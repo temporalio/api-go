@@ -139,11 +139,11 @@ func ExtractTemporalRequestHeaders(ctx context.Context, opts ExtractHeadersOptio
 		}
 	case *workflowservice.RecordActivityTaskHeartbeatByIdRequest:
 		if val := r.GetResourceId(); val != "" && len(opts.ExistingMetadata.Get("temporal-resource-id")) == 0 {
-			headers = append(headers, "temporal-resource-id", fmt.Sprintf("%s", val))
+			headers = append(headers, "temporal-resource-id", val)
 		}
 	case *workflowservice.RecordActivityTaskHeartbeatRequest:
 		if val := r.GetResourceId(); val != "" && len(opts.ExistingMetadata.Get("temporal-resource-id")) == 0 {
-			headers = append(headers, "temporal-resource-id", fmt.Sprintf("%s", val))
+			headers = append(headers, "temporal-resource-id", val)
 		}
 	case *workflowservice.RecordWorkerHeartbeatRequest:
 		if val := r.GetResourceId(); val != "" && len(opts.ExistingMetadata.Get("temporal-resource-id")) == 0 {
@@ -167,27 +167,27 @@ func ExtractTemporalRequestHeaders(ctx context.Context, opts ExtractHeadersOptio
 		}
 	case *workflowservice.RespondActivityTaskCanceledByIdRequest:
 		if val := r.GetResourceId(); val != "" && len(opts.ExistingMetadata.Get("temporal-resource-id")) == 0 {
-			headers = append(headers, "temporal-resource-id", fmt.Sprintf("%s", val))
+			headers = append(headers, "temporal-resource-id", val)
 		}
 	case *workflowservice.RespondActivityTaskCanceledRequest:
 		if val := r.GetResourceId(); val != "" && len(opts.ExistingMetadata.Get("temporal-resource-id")) == 0 {
-			headers = append(headers, "temporal-resource-id", fmt.Sprintf("%s", val))
+			headers = append(headers, "temporal-resource-id", val)
 		}
 	case *workflowservice.RespondActivityTaskCompletedByIdRequest:
 		if val := r.GetResourceId(); val != "" && len(opts.ExistingMetadata.Get("temporal-resource-id")) == 0 {
-			headers = append(headers, "temporal-resource-id", fmt.Sprintf("%s", val))
+			headers = append(headers, "temporal-resource-id", val)
 		}
 	case *workflowservice.RespondActivityTaskCompletedRequest:
 		if val := r.GetResourceId(); val != "" && len(opts.ExistingMetadata.Get("temporal-resource-id")) == 0 {
-			headers = append(headers, "temporal-resource-id", fmt.Sprintf("%s", val))
+			headers = append(headers, "temporal-resource-id", val)
 		}
 	case *workflowservice.RespondActivityTaskFailedByIdRequest:
 		if val := r.GetResourceId(); val != "" && len(opts.ExistingMetadata.Get("temporal-resource-id")) == 0 {
-			headers = append(headers, "temporal-resource-id", fmt.Sprintf("%s", val))
+			headers = append(headers, "temporal-resource-id", val)
 		}
 	case *workflowservice.RespondActivityTaskFailedRequest:
 		if val := r.GetResourceId(); val != "" && len(opts.ExistingMetadata.Get("temporal-resource-id")) == 0 {
-			headers = append(headers, "temporal-resource-id", fmt.Sprintf("%s", val))
+			headers = append(headers, "temporal-resource-id", val)
 		}
 	case *workflowservice.RespondWorkflowTaskCompletedRequest:
 		if val := r.GetResourceId(); val != "" && len(opts.ExistingMetadata.Get("temporal-resource-id")) == 0 {
