@@ -688,7 +688,30 @@ func visitPayloads(
 				ctx,
 				options,
 				o,
+				o.GetScalingGroups(),
+			); err != nil {
+				return err
+			}
+
+		case map[string]*compute.ComputeConfigScalingGroup:
+			for _, x := range o {
+				if err := visitPayloads(ctx, options, parent, x); err != nil {
+					return err
+				}
+			}
+
+		case *compute.ComputeConfigScalingGroup:
+
+			if o == nil {
+				continue
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
 				o.GetProvider(),
+				o.GetScaler(),
 			); err != nil {
 				return err
 			}
@@ -698,13 +721,25 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
-
-			if dp := o.GetDetailPayload(); dp != nil {
-				no, err := visitPayload(ctx, options, o, dp)
+			if o.Details != nil {
+				no, err := visitPayload(ctx, options, o, o.Details)
 				if err != nil {
 					return err
 				}
-				o.Detail = &compute.ComputeProvider_DetailPayload{DetailPayload: no}
+				o.Details = no
+			}
+
+		case *compute.ComputeScaler:
+
+			if o == nil {
+				continue
+			}
+			if o.Details != nil {
+				no, err := visitPayload(ctx, options, o, o.Details)
+				if err != nil {
+					return err
+				}
+				o.Details = no
 			}
 
 		case *deployment.DeploymentInfo:
@@ -752,21 +787,6 @@ func visitPayloads(
 				return err
 			}
 
-		case *deployment.WorkerDeploymentInfo:
-
-			if o == nil {
-				continue
-			}
-
-			if err := visitPayloads(
-				ctx,
-				options,
-				o,
-				o.GetComputeConfig(),
-			); err != nil {
-				return err
-			}
-
 		case *deployment.WorkerDeploymentVersionInfo:
 
 			if o == nil {
@@ -777,6 +797,7 @@ func visitPayloads(
 				ctx,
 				options,
 				o,
+				o.GetComputeConfig(),
 				o.GetMetadata(),
 			); err != nil {
 				return err
@@ -2297,7 +2318,7 @@ func visitPayloads(
 				return err
 			}
 
-		case *workflowservice.CreateWorkerDeploymentRequest:
+		case *workflowservice.CreateWorkerDeploymentVersionRequest:
 
 			if o == nil {
 				continue
@@ -2357,21 +2378,6 @@ func visitPayloads(
 				o.GetMemo(),
 				o.GetSchedule(),
 				o.GetSearchAttributes(),
-			); err != nil {
-				return err
-			}
-
-		case *workflowservice.DescribeWorkerDeploymentResponse:
-
-			if o == nil {
-				continue
-			}
-
-			if err := visitPayloads(
-				ctx,
-				options,
-				o,
-				o.GetWorkerDeploymentInfo(),
 			); err != nil {
 				return err
 			}
@@ -3199,6 +3205,43 @@ func visitPayloads(
 				return err
 			}
 
+		case *workflowservice.UpdateWorkerDeploymentVersionComputeConfigRequest:
+
+			if o == nil {
+				continue
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetComputeConfigScalingGroups(),
+			); err != nil {
+				return err
+			}
+
+		case map[string]*workflowservice.UpdateWorkerDeploymentVersionComputeConfigRequest_ScalingGroupUpdate:
+			for _, x := range o {
+				if err := visitPayloads(ctx, options, parent, x); err != nil {
+					return err
+				}
+			}
+
+		case *workflowservice.UpdateWorkerDeploymentVersionComputeConfigRequest_ScalingGroupUpdate:
+
+			if o == nil {
+				continue
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetScalingGroup(),
+			); err != nil {
+				return err
+			}
+
 		case *workflowservice.UpdateWorkerDeploymentVersionMetadataRequest:
 
 			if o == nil {
@@ -3255,6 +3298,21 @@ func visitPayloads(
 				options,
 				o,
 				o.GetOutcome(),
+			); err != nil {
+				return err
+			}
+
+		case *workflowservice.ValidateWorkerDeploymentVersionComputeConfigRequest:
+
+			if o == nil {
+				continue
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetComputeConfig(),
 			); err != nil {
 				return err
 			}

@@ -11,6 +11,7 @@ import (
 	sync "sync"
 	unsafe "unsafe"
 
+	v1 "go.temporal.io/api/enums/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 )
@@ -22,24 +23,93 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type ComputeConfigScalingGroup struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Optional. The set of task queue types this scaling group serves.
+	// If not provided, this scaling group serves all not otherwise defined
+	// task types.
+	TaskQueueTypes []v1.TaskQueueType `protobuf:"varint,1,rep,packed,name=task_queue_types,json=taskQueueTypes,proto3,enum=temporal.api.enums.v1.TaskQueueType" json:"task_queue_types,omitempty"`
+	// Stores instructions for a worker control plane controller how to respond
+	// to worker lifeycle events.
+	Provider *ComputeProvider `protobuf:"bytes,3,opt,name=provider,proto3" json:"provider,omitempty"`
+	// Informs a worker lifecycle controller *when* and *how often* to perform
+	// certain worker lifecycle actions like starting a serverless worker.
+	Scaler        *ComputeScaler `protobuf:"bytes,4,opt,name=scaler,proto3" json:"scaler,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ComputeConfigScalingGroup) Reset() {
+	*x = ComputeConfigScalingGroup{}
+	mi := &file_temporal_api_compute_v1_config_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ComputeConfigScalingGroup) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ComputeConfigScalingGroup) ProtoMessage() {}
+
+func (x *ComputeConfigScalingGroup) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_api_compute_v1_config_proto_msgTypes[0]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ComputeConfigScalingGroup.ProtoReflect.Descriptor instead.
+func (*ComputeConfigScalingGroup) Descriptor() ([]byte, []int) {
+	return file_temporal_api_compute_v1_config_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *ComputeConfigScalingGroup) GetTaskQueueTypes() []v1.TaskQueueType {
+	if x != nil {
+		return x.TaskQueueTypes
+	}
+	return nil
+}
+
+func (x *ComputeConfigScalingGroup) GetProvider() *ComputeProvider {
+	if x != nil {
+		return x.Provider
+	}
+	return nil
+}
+
+func (x *ComputeConfigScalingGroup) GetScaler() *ComputeScaler {
+	if x != nil {
+		return x.Scaler
+	}
+	return nil
+}
+
 // ComputeConfig stores configuration that helps a worker control plane
 // controller understand *when* and *how* to respond to worker lifecycle
 // events.
 type ComputeConfig struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// Stores instructions for a worker control plane controller how to respond
-	// to worker lifeycle events.
-	Provider *ComputeProvider `protobuf:"bytes,1,opt,name=provider,proto3" json:"provider,omitempty"`
-	// Informs a worker lifecycle controller *when* and *how often* to perform
-	// certain worker lifecycle actions like starting a serverless worker.
-	Scaler        *ComputeScaler `protobuf:"bytes,2,opt,name=scaler,proto3" json:"scaler,omitempty"`
+	// Each scaling group describes a compute config for a specific subset of the worker
+	// deployment version: covering a specific set of task types and/or regions.
+	// Having different configurations for different task types, allows independent
+	// tuning of activity and workflow task processing (for example).
+	//
+	// The key of the map is the ID of the scaling group used to reference it in subsequent
+	// update calls.
+	ScalingGroups map[string]*ComputeConfigScalingGroup `protobuf:"bytes,1,rep,name=scaling_groups,json=scalingGroups,proto3" json:"scaling_groups,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *ComputeConfig) Reset() {
 	*x = ComputeConfig{}
-	mi := &file_temporal_api_compute_v1_config_proto_msgTypes[0]
+	mi := &file_temporal_api_compute_v1_config_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -51,7 +121,7 @@ func (x *ComputeConfig) String() string {
 func (*ComputeConfig) ProtoMessage() {}
 
 func (x *ComputeConfig) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_compute_v1_config_proto_msgTypes[0]
+	mi := &file_temporal_api_compute_v1_config_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -64,19 +134,12 @@ func (x *ComputeConfig) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ComputeConfig.ProtoReflect.Descriptor instead.
 func (*ComputeConfig) Descriptor() ([]byte, []int) {
-	return file_temporal_api_compute_v1_config_proto_rawDescGZIP(), []int{0}
+	return file_temporal_api_compute_v1_config_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *ComputeConfig) GetProvider() *ComputeProvider {
+func (x *ComputeConfig) GetScalingGroups() map[string]*ComputeConfigScalingGroup {
 	if x != nil {
-		return x.Provider
-	}
-	return nil
-}
-
-func (x *ComputeConfig) GetScaler() *ComputeScaler {
-	if x != nil {
-		return x.Scaler
+		return x.ScalingGroups
 	}
 	return nil
 }
@@ -85,10 +148,16 @@ var File_temporal_api_compute_v1_config_proto protoreflect.FileDescriptor
 
 const file_temporal_api_compute_v1_config_proto_rawDesc = "" +
 	"\n" +
-	"$temporal/api/compute/v1/config.proto\x12\x17temporal.api.compute.v1\x1a&temporal/api/compute/v1/provider.proto\x1a$temporal/api/compute/v1/scaler.proto\"\x95\x01\n" +
-	"\rComputeConfig\x12D\n" +
-	"\bprovider\x18\x01 \x01(\v2(.temporal.api.compute.v1.ComputeProviderR\bprovider\x12>\n" +
-	"\x06scaler\x18\x02 \x01(\v2&.temporal.api.compute.v1.ComputeScalerR\x06scalerB\x8d\x01\n" +
+	"$temporal/api/compute/v1/config.proto\x12\x17temporal.api.compute.v1\x1a&temporal/api/compute/v1/provider.proto\x1a$temporal/api/compute/v1/scaler.proto\x1a&temporal/api/enums/v1/task_queue.proto\"\xf1\x01\n" +
+	"\x19ComputeConfigScalingGroup\x12N\n" +
+	"\x10task_queue_types\x18\x01 \x03(\x0e2$.temporal.api.enums.v1.TaskQueueTypeR\x0etaskQueueTypes\x12D\n" +
+	"\bprovider\x18\x03 \x01(\v2(.temporal.api.compute.v1.ComputeProviderR\bprovider\x12>\n" +
+	"\x06scaler\x18\x04 \x01(\v2&.temporal.api.compute.v1.ComputeScalerR\x06scaler\"\xe7\x01\n" +
+	"\rComputeConfig\x12`\n" +
+	"\x0escaling_groups\x18\x01 \x03(\v29.temporal.api.compute.v1.ComputeConfig.ScalingGroupsEntryR\rscalingGroups\x1at\n" +
+	"\x12ScalingGroupsEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12H\n" +
+	"\x05value\x18\x02 \x01(\v22.temporal.api.compute.v1.ComputeConfigScalingGroupR\x05value:\x028\x01B\x8d\x01\n" +
 	"\x1aio.temporal.api.compute.v1B\vConfigProtoP\x01Z%go.temporal.io/api/compute/v1;compute\xaa\x02\x19Temporalio.Api.Compute.V1\xea\x02\x1cTemporalio::Api::Compute::V1b\x06proto3"
 
 var (
@@ -103,20 +172,26 @@ func file_temporal_api_compute_v1_config_proto_rawDescGZIP() []byte {
 	return file_temporal_api_compute_v1_config_proto_rawDescData
 }
 
-var file_temporal_api_compute_v1_config_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_temporal_api_compute_v1_config_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_temporal_api_compute_v1_config_proto_goTypes = []any{
-	(*ComputeConfig)(nil),   // 0: temporal.api.compute.v1.ComputeConfig
-	(*ComputeProvider)(nil), // 1: temporal.api.compute.v1.ComputeProvider
-	(*ComputeScaler)(nil),   // 2: temporal.api.compute.v1.ComputeScaler
+	(*ComputeConfigScalingGroup)(nil), // 0: temporal.api.compute.v1.ComputeConfigScalingGroup
+	(*ComputeConfig)(nil),             // 1: temporal.api.compute.v1.ComputeConfig
+	nil,                               // 2: temporal.api.compute.v1.ComputeConfig.ScalingGroupsEntry
+	(v1.TaskQueueType)(0),             // 3: temporal.api.enums.v1.TaskQueueType
+	(*ComputeProvider)(nil),           // 4: temporal.api.compute.v1.ComputeProvider
+	(*ComputeScaler)(nil),             // 5: temporal.api.compute.v1.ComputeScaler
 }
 var file_temporal_api_compute_v1_config_proto_depIdxs = []int32{
-	1, // 0: temporal.api.compute.v1.ComputeConfig.provider:type_name -> temporal.api.compute.v1.ComputeProvider
-	2, // 1: temporal.api.compute.v1.ComputeConfig.scaler:type_name -> temporal.api.compute.v1.ComputeScaler
-	2, // [2:2] is the sub-list for method output_type
-	2, // [2:2] is the sub-list for method input_type
-	2, // [2:2] is the sub-list for extension type_name
-	2, // [2:2] is the sub-list for extension extendee
-	0, // [0:2] is the sub-list for field type_name
+	3, // 0: temporal.api.compute.v1.ComputeConfigScalingGroup.task_queue_types:type_name -> temporal.api.enums.v1.TaskQueueType
+	4, // 1: temporal.api.compute.v1.ComputeConfigScalingGroup.provider:type_name -> temporal.api.compute.v1.ComputeProvider
+	5, // 2: temporal.api.compute.v1.ComputeConfigScalingGroup.scaler:type_name -> temporal.api.compute.v1.ComputeScaler
+	2, // 3: temporal.api.compute.v1.ComputeConfig.scaling_groups:type_name -> temporal.api.compute.v1.ComputeConfig.ScalingGroupsEntry
+	0, // 4: temporal.api.compute.v1.ComputeConfig.ScalingGroupsEntry.value:type_name -> temporal.api.compute.v1.ComputeConfigScalingGroup
+	5, // [5:5] is the sub-list for method output_type
+	5, // [5:5] is the sub-list for method input_type
+	5, // [5:5] is the sub-list for extension type_name
+	5, // [5:5] is the sub-list for extension extendee
+	0, // [0:5] is the sub-list for field type_name
 }
 
 func init() { file_temporal_api_compute_v1_config_proto_init() }
@@ -132,7 +207,7 @@ func file_temporal_api_compute_v1_config_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_temporal_api_compute_v1_config_proto_rawDesc), len(file_temporal_api_compute_v1_config_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   1,
+			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

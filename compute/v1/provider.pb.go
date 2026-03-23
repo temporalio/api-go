@@ -35,12 +35,11 @@ type ComputeProvider struct {
 	// contents of the provider_details field.
 	Type string `protobuf:"bytes,1,opt,name=type,proto3" json:"type,omitempty"`
 	// Contains provider-specific instructions and configuration.
-	//
-	// Types that are valid to be assigned to Detail:
-	//
-	//	*ComputeProvider_DetailJson
-	//	*ComputeProvider_DetailPayload
-	Detail isComputeProvider_Detail `protobuf_oneof:"detail"`
+	// For server-implemented providers, use the SDK's default content
+	// converter to ensure the server can understand it.
+	// For remote-implemented providers, you might use your own content
+	// converters according to what the remote endpoints understand.
+	Details *v1.Payload `protobuf:"bytes,2,opt,name=details,proto3" json:"details,omitempty"`
 	// Optional. If the compute provider is a Nexus service, this should point
 	// there.
 	NexusEndpoint string `protobuf:"bytes,10,opt,name=nexus_endpoint,json=nexusEndpoint,proto3" json:"nexus_endpoint,omitempty"`
@@ -85,27 +84,9 @@ func (x *ComputeProvider) GetType() string {
 	return ""
 }
 
-func (x *ComputeProvider) GetDetail() isComputeProvider_Detail {
+func (x *ComputeProvider) GetDetails() *v1.Payload {
 	if x != nil {
-		return x.Detail
-	}
-	return nil
-}
-
-func (x *ComputeProvider) GetDetailJson() string {
-	if x != nil {
-		if x, ok := x.Detail.(*ComputeProvider_DetailJson); ok {
-			return x.DetailJson
-		}
-	}
-	return ""
-}
-
-func (x *ComputeProvider) GetDetailPayload() *v1.Payload {
-	if x != nil {
-		if x, ok := x.Detail.(*ComputeProvider_DetailPayload); ok {
-			return x.DetailPayload
-		}
+		return x.Details
 	}
 	return nil
 }
@@ -117,44 +98,16 @@ func (x *ComputeProvider) GetNexusEndpoint() string {
 	return ""
 }
 
-type isComputeProvider_Detail interface {
-	isComputeProvider_Detail()
-}
-
-type ComputeProvider_DetailJson struct {
-	// will be an unencrypted, JSON-encoded object of provider-specific
-	// information
-	// (-- api-linter: core::0146::any=disabled
-	//
-	//	aip.dev/not-precedent: This needs to be extensible to
-	//	externally-written compute providers --)
-	DetailJson string `protobuf:"bytes,2,opt,name=detail_json,json=detailJson,proto3,oneof"`
-}
-
-type ComputeProvider_DetailPayload struct {
-	// will be an encrypted, encoded bytestring containing
-	// provider-specific information. The implementation must understand
-	// how to decrypt the payload.
-	DetailPayload *v1.Payload `protobuf:"bytes,3,opt,name=detail_payload,json=detailPayload,proto3,oneof"`
-}
-
-func (*ComputeProvider_DetailJson) isComputeProvider_Detail() {}
-
-func (*ComputeProvider_DetailPayload) isComputeProvider_Detail() {}
-
 var File_temporal_api_compute_v1_provider_proto protoreflect.FileDescriptor
 
 const file_temporal_api_compute_v1_provider_proto_rawDesc = "" +
 	"\n" +
-	"&temporal/api/compute/v1/provider.proto\x12\x17temporal.api.compute.v1\x1a$temporal/api/common/v1/message.proto\"\xc3\x01\n" +
+	"&temporal/api/compute/v1/provider.proto\x12\x17temporal.api.compute.v1\x1a$temporal/api/common/v1/message.proto\"\x87\x01\n" +
 	"\x0fComputeProvider\x12\x12\n" +
-	"\x04type\x18\x01 \x01(\tR\x04type\x12!\n" +
-	"\vdetail_json\x18\x02 \x01(\tH\x00R\n" +
-	"detailJson\x12H\n" +
-	"\x0edetail_payload\x18\x03 \x01(\v2\x1f.temporal.api.common.v1.PayloadH\x00R\rdetailPayload\x12%\n" +
+	"\x04type\x18\x01 \x01(\tR\x04type\x129\n" +
+	"\adetails\x18\x02 \x01(\v2\x1f.temporal.api.common.v1.PayloadR\adetails\x12%\n" +
 	"\x0enexus_endpoint\x18\n" +
-	" \x01(\tR\rnexusEndpointB\b\n" +
-	"\x06detailB\x8f\x01\n" +
+	" \x01(\tR\rnexusEndpointB\x8f\x01\n" +
 	"\x1aio.temporal.api.compute.v1B\rProviderProtoP\x01Z%go.temporal.io/api/compute/v1;compute\xaa\x02\x19Temporalio.Api.Compute.V1\xea\x02\x1cTemporalio::Api::Compute::V1b\x06proto3"
 
 var (
@@ -175,7 +128,7 @@ var file_temporal_api_compute_v1_provider_proto_goTypes = []any{
 	(*v1.Payload)(nil),      // 1: temporal.api.common.v1.Payload
 }
 var file_temporal_api_compute_v1_provider_proto_depIdxs = []int32{
-	1, // 0: temporal.api.compute.v1.ComputeProvider.detail_payload:type_name -> temporal.api.common.v1.Payload
+	1, // 0: temporal.api.compute.v1.ComputeProvider.details:type_name -> temporal.api.common.v1.Payload
 	1, // [1:1] is the sub-list for method output_type
 	1, // [1:1] is the sub-list for method input_type
 	1, // [1:1] is the sub-list for extension type_name
@@ -187,10 +140,6 @@ func init() { file_temporal_api_compute_v1_provider_proto_init() }
 func file_temporal_api_compute_v1_provider_proto_init() {
 	if File_temporal_api_compute_v1_provider_proto != nil {
 		return
-	}
-	file_temporal_api_compute_v1_provider_proto_msgTypes[0].OneofWrappers = []any{
-		(*ComputeProvider_DetailJson)(nil),
-		(*ComputeProvider_DetailPayload)(nil),
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{

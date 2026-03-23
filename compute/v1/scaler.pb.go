@@ -11,6 +11,7 @@ import (
 	sync "sync"
 	unsafe "unsafe"
 
+	v1 "go.temporal.io/api/common/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 )
@@ -26,13 +27,16 @@ const (
 // Workers that comprise a WorkerDeployment.
 type ComputeScaler struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// The lower limit for the number of Workers (in the WorkerDeployment) to
-	// which the ComputeScaler can scale down.
-	MinInstances int32 `protobuf:"varint,1,opt,name=min_instances,json=minInstances,proto3" json:"min_instances,omitempty"`
-	// The upper limit for the number of Workers (in the WorkerDeployment) to
-	// which the ComputeScaler can scale up. Must be greater than or equal to
-	// min_instances.
-	MaxInstances  int32 `protobuf:"varint,2,opt,name=max_instances,json=maxInstances,proto3" json:"max_instances,omitempty"`
+	// Type of the compute scaler. this string is implementation-specific and
+	// can be used by implementations to understand how to interpret the
+	// contents of the scaler_details field.
+	Type string `protobuf:"bytes,1,opt,name=type,proto3" json:"type,omitempty"`
+	// Contains scaler-specific instructions and configuration.
+	// For server-implemented scalers, use the SDK's default content
+	// converter to ensure the server can understand it.
+	// For remote-implemented scalers, you might use your own content
+	// converters according to what the remote endpoints understand.
+	Details       *v1.Payload `protobuf:"bytes,2,opt,name=details,proto3" json:"details,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -67,28 +71,28 @@ func (*ComputeScaler) Descriptor() ([]byte, []int) {
 	return file_temporal_api_compute_v1_scaler_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *ComputeScaler) GetMinInstances() int32 {
+func (x *ComputeScaler) GetType() string {
 	if x != nil {
-		return x.MinInstances
+		return x.Type
 	}
-	return 0
+	return ""
 }
 
-func (x *ComputeScaler) GetMaxInstances() int32 {
+func (x *ComputeScaler) GetDetails() *v1.Payload {
 	if x != nil {
-		return x.MaxInstances
+		return x.Details
 	}
-	return 0
+	return nil
 }
 
 var File_temporal_api_compute_v1_scaler_proto protoreflect.FileDescriptor
 
 const file_temporal_api_compute_v1_scaler_proto_rawDesc = "" +
 	"\n" +
-	"$temporal/api/compute/v1/scaler.proto\x12\x17temporal.api.compute.v1\"Y\n" +
-	"\rComputeScaler\x12#\n" +
-	"\rmin_instances\x18\x01 \x01(\x05R\fminInstances\x12#\n" +
-	"\rmax_instances\x18\x02 \x01(\x05R\fmaxInstancesB\x8d\x01\n" +
+	"$temporal/api/compute/v1/scaler.proto\x12\x17temporal.api.compute.v1\x1a$temporal/api/common/v1/message.proto\"^\n" +
+	"\rComputeScaler\x12\x12\n" +
+	"\x04type\x18\x01 \x01(\tR\x04type\x129\n" +
+	"\adetails\x18\x02 \x01(\v2\x1f.temporal.api.common.v1.PayloadR\adetailsB\x8d\x01\n" +
 	"\x1aio.temporal.api.compute.v1B\vScalerProtoP\x01Z%go.temporal.io/api/compute/v1;compute\xaa\x02\x19Temporalio.Api.Compute.V1\xea\x02\x1cTemporalio::Api::Compute::V1b\x06proto3"
 
 var (
@@ -106,13 +110,15 @@ func file_temporal_api_compute_v1_scaler_proto_rawDescGZIP() []byte {
 var file_temporal_api_compute_v1_scaler_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_temporal_api_compute_v1_scaler_proto_goTypes = []any{
 	(*ComputeScaler)(nil), // 0: temporal.api.compute.v1.ComputeScaler
+	(*v1.Payload)(nil),    // 1: temporal.api.common.v1.Payload
 }
 var file_temporal_api_compute_v1_scaler_proto_depIdxs = []int32{
-	0, // [0:0] is the sub-list for method output_type
-	0, // [0:0] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	1, // 0: temporal.api.compute.v1.ComputeScaler.details:type_name -> temporal.api.common.v1.Payload
+	1, // [1:1] is the sub-list for method output_type
+	1, // [1:1] is the sub-list for method input_type
+	1, // [1:1] is the sub-list for extension type_name
+	1, // [1:1] is the sub-list for extension extendee
+	0, // [0:1] is the sub-list for field type_name
 }
 
 func init() { file_temporal_api_compute_v1_scaler_proto_init() }

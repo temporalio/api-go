@@ -52,6 +52,10 @@ func (s *workflowServiceProxyServer) CreateWorkerDeployment(ctx context.Context,
 	return s.client.CreateWorkerDeployment(s.reqCtx(ctx), in0)
 }
 
+func (s *workflowServiceProxyServer) CreateWorkerDeploymentVersion(ctx context.Context, in0 *workflowservice.CreateWorkerDeploymentVersionRequest) (*workflowservice.CreateWorkerDeploymentVersionResponse, error) {
+	return s.client.CreateWorkerDeploymentVersion(s.reqCtx(ctx), in0)
+}
+
 func (s *workflowServiceProxyServer) CreateWorkflowRule(ctx context.Context, in0 *workflowservice.CreateWorkflowRuleRequest) (*workflowservice.CreateWorkflowRuleResponse, error) {
 	return s.client.CreateWorkflowRule(s.reqCtx(ctx), in0)
 }
@@ -440,6 +444,10 @@ func (s *workflowServiceProxyServer) UpdateWorkerConfig(ctx context.Context, in0
 	return s.client.UpdateWorkerConfig(s.reqCtx(ctx), in0)
 }
 
+func (s *workflowServiceProxyServer) UpdateWorkerDeploymentVersionComputeConfig(ctx context.Context, in0 *workflowservice.UpdateWorkerDeploymentVersionComputeConfigRequest) (*workflowservice.UpdateWorkerDeploymentVersionComputeConfigResponse, error) {
+	return s.client.UpdateWorkerDeploymentVersionComputeConfig(s.reqCtx(ctx), in0)
+}
+
 func (s *workflowServiceProxyServer) UpdateWorkerDeploymentVersionMetadata(ctx context.Context, in0 *workflowservice.UpdateWorkerDeploymentVersionMetadataRequest) (*workflowservice.UpdateWorkerDeploymentVersionMetadataResponse, error) {
 	return s.client.UpdateWorkerDeploymentVersionMetadata(s.reqCtx(ctx), in0)
 }
@@ -454,4 +462,8 @@ func (s *workflowServiceProxyServer) UpdateWorkflowExecution(ctx context.Context
 
 func (s *workflowServiceProxyServer) UpdateWorkflowExecutionOptions(ctx context.Context, in0 *workflowservice.UpdateWorkflowExecutionOptionsRequest) (*workflowservice.UpdateWorkflowExecutionOptionsResponse, error) {
 	return s.client.UpdateWorkflowExecutionOptions(s.reqCtx(ctx), in0)
+}
+
+func (s *workflowServiceProxyServer) ValidateWorkerDeploymentVersionComputeConfig(ctx context.Context, in0 *workflowservice.ValidateWorkerDeploymentVersionComputeConfigRequest) (*workflowservice.ValidateWorkerDeploymentVersionComputeConfigResponse, error) {
+	return s.client.ValidateWorkerDeploymentVersionComputeConfig(s.reqCtx(ctx), in0)
 }
