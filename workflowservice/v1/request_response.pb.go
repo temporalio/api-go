@@ -12593,11 +12593,7 @@ func (x *CreateWorkerDeploymentVersionRequest) GetRequestId() string {
 }
 
 type CreateWorkerDeploymentVersionResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// This value is returned so that it can be optionally passed to APIs that
-	// write to the WorkerDeployment state to ensure that the state did not
-	// change between this API call and a future write.
-	ConflictToken []byte `protobuf:"bytes,1,opt,name=conflict_token,json=conflictToken,proto3" json:"conflict_token,omitempty"`
+	state         protoimpl.MessageState `protogen:"open.v1"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -12630,13 +12626,6 @@ func (x *CreateWorkerDeploymentVersionResponse) ProtoReflect() protoreflect.Mess
 // Deprecated: Use CreateWorkerDeploymentVersionResponse.ProtoReflect.Descriptor instead.
 func (*CreateWorkerDeploymentVersionResponse) Descriptor() ([]byte, []int) {
 	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{159}
-}
-
-func (x *CreateWorkerDeploymentVersionResponse) GetConflictToken() []byte {
-	if x != nil {
-		return x.ConflictToken
-	}
-	return nil
 }
 
 // Used for manual deletion of Versions. User can delete a Version only when all the
@@ -12880,11 +12869,7 @@ type UpdateWorkerDeploymentVersionComputeConfigRequest struct {
 	// A unique identifier for this create request for idempotence. Typically UUIDv4.
 	// If a second request with the same ID is recieved, it is considered a successful no-op.
 	// Retrying with a different request ID for the same deployment name + build ID is an error.
-	RequestId string `protobuf:"bytes,4,opt,name=request_id,json=requestId,proto3" json:"request_id,omitempty"`
-	// Optional. This value is returned so that it can be optionally passed to APIs
-	// that write to the Worker Deployment state to ensure that the state
-	// did not change between this API call and a future write.
-	ConflictToken []byte `protobuf:"bytes,5,opt,name=conflict_token,json=conflictToken,proto3" json:"conflict_token,omitempty"`
+	RequestId     string `protobuf:"bytes,4,opt,name=request_id,json=requestId,proto3" json:"request_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -12961,19 +12946,8 @@ func (x *UpdateWorkerDeploymentVersionComputeConfigRequest) GetRequestId() strin
 	return ""
 }
 
-func (x *UpdateWorkerDeploymentVersionComputeConfigRequest) GetConflictToken() []byte {
-	if x != nil {
-		return x.ConflictToken
-	}
-	return nil
-}
-
 type UpdateWorkerDeploymentVersionComputeConfigResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// This value is returned so that it can be optionally passed to APIs that
-	// write to the WorkerDeployment state to ensure that the state did not
-	// change between this API call and a future write.
-	ConflictToken []byte `protobuf:"bytes,1,opt,name=conflict_token,json=conflictToken,proto3" json:"conflict_token,omitempty"`
+	state         protoimpl.MessageState `protogen:"open.v1"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -13006,13 +12980,6 @@ func (x *UpdateWorkerDeploymentVersionComputeConfigResponse) ProtoReflect() prot
 // Deprecated: Use UpdateWorkerDeploymentVersionComputeConfigResponse.ProtoReflect.Descriptor instead.
 func (*UpdateWorkerDeploymentVersionComputeConfigResponse) Descriptor() ([]byte, []int) {
 	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{165}
-}
-
-func (x *UpdateWorkerDeploymentVersionComputeConfigResponse) GetConflictToken() []byte {
-	if x != nil {
-		return x.ConflictToken
-	}
-	return nil
 }
 
 // Used to validate the compute config without attaching it to a Worker Deployment Version.
@@ -18908,9 +18875,8 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\x0ecompute_config\x18\x04 \x01(\v2&.temporal.api.compute.v1.ComputeConfigR\rcomputeConfig\x12\x1a\n" +
 	"\bidentity\x18\x03 \x01(\tR\bidentity\x12\x1d\n" +
 	"\n" +
-	"request_id\x18\x05 \x01(\tR\trequestId\"N\n" +
-	"%CreateWorkerDeploymentVersionResponse\x12%\n" +
-	"\x0econflict_token\x18\x01 \x01(\fR\rconflictToken\"\x87\x02\n" +
+	"request_id\x18\x05 \x01(\tR\trequestId\"'\n" +
+	"%CreateWorkerDeploymentVersionResponse\"\x87\x02\n" +
 	"$DeleteWorkerDeploymentVersionRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12\x1c\n" +
 	"\aversion\x18\x02 \x01(\tB\x02\x18\x01R\aversion\x12b\n" +
@@ -18922,7 +18888,7 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12'\n" +
 	"\x0fdeployment_name\x18\x02 \x01(\tR\x0edeploymentName\x12\x1a\n" +
 	"\bidentity\x18\x03 \x01(\tR\bidentity\" \n" +
-	"\x1eDeleteWorkerDeploymentResponse\"\x83\a\n" +
+	"\x1eDeleteWorkerDeploymentResponse\"\xdc\x06\n" +
 	"1UpdateWorkerDeploymentVersionComputeConfigRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12b\n" +
 	"\x12deployment_version\x18\x02 \x01(\v23.temporal.api.deployment.v1.WorkerDeploymentVersionR\x11deploymentVersion\x12\xb5\x01\n" +
@@ -18930,17 +18896,15 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"$remove_compute_config_scaling_groups\x18\a \x03(\tR removeComputeConfigScalingGroups\x12\x1a\n" +
 	"\bidentity\x18\x03 \x01(\tR\bidentity\x12\x1d\n" +
 	"\n" +
-	"request_id\x18\x04 \x01(\tR\trequestId\x12%\n" +
-	"\x0econflict_token\x18\x05 \x01(\fR\rconflictToken\x1a\xaa\x01\n" +
+	"request_id\x18\x04 \x01(\tR\trequestId\x1a\xaa\x01\n" +
 	"\x12ScalingGroupUpdate\x12W\n" +
 	"\rscaling_group\x18\x01 \x01(\v22.temporal.api.compute.v1.ComputeConfigScalingGroupR\fscalingGroup\x12;\n" +
 	"\vupdate_mask\x18\x02 \x01(\v2\x1a.google.protobuf.FieldMaskR\n" +
 	"updateMask\x1a\xb4\x01\n" +
 	"\x1fComputeConfigScalingGroupsEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12{\n" +
-	"\x05value\x18\x02 \x01(\v2e.temporal.api.workflowservice.v1.UpdateWorkerDeploymentVersionComputeConfigRequest.ScalingGroupUpdateR\x05value:\x028\x01\"[\n" +
-	"2UpdateWorkerDeploymentVersionComputeConfigResponse\x12%\n" +
-	"\x0econflict_token\x18\x01 \x01(\fR\rconflictToken\"\xa2\x02\n" +
+	"\x05value\x18\x02 \x01(\v2e.temporal.api.workflowservice.v1.UpdateWorkerDeploymentVersionComputeConfigRequest.ScalingGroupUpdateR\x05value:\x028\x01\"4\n" +
+	"2UpdateWorkerDeploymentVersionComputeConfigResponse\"\xa2\x02\n" +
 	"3ValidateWorkerDeploymentVersionComputeConfigRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12b\n" +
 	"\x12deployment_version\x18\x02 \x01(\v23.temporal.api.deployment.v1.WorkerDeploymentVersionR\x11deploymentVersion\x12M\n" +
