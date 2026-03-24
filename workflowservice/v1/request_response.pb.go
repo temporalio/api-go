@@ -7281,11 +7281,9 @@ type UpdateScheduleRequest struct {
 	// Note: you cannot only update the search attributes with `UpdateScheduleRequest`,
 	// you must also set the `schedule` field; otherwise, it will unset the schedule.
 	SearchAttributes *v13.SearchAttributes `protobuf:"bytes,7,opt,name=search_attributes,json=searchAttributes,proto3" json:"search_attributes,omitempty"`
-	// Schedule memo to update. Uses merge semantics:
-	// - Fields with non-nil values are upserted.
-	// - Fields with nil/empty values are deleted.
-	// - Fields not present are left unchanged.
+	// Schedule memo to replace. If set, replaces the entire memo.
 	// Do not set this field if you do not want to update the memo.
+	// A non-null empty object will clear the memo.
 	Memo          *v13.Memo `protobuf:"bytes,8,opt,name=memo,proto3" json:"memo,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
