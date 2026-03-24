@@ -376,8 +376,9 @@ type WorkerDeploymentVersionInfo struct {
 	Status v1.WorkerDeploymentVersionStatus `protobuf:"varint,14,opt,name=status,proto3,enum=temporal.api.enums.v1.WorkerDeploymentVersionStatus" json:"status,omitempty"`
 	// Required.
 	DeploymentVersion *WorkerDeploymentVersion `protobuf:"bytes,11,opt,name=deployment_version,json=deploymentVersion,proto3" json:"deployment_version,omitempty"`
-	DeploymentName    string                   `protobuf:"bytes,2,opt,name=deployment_name,json=deploymentName,proto3" json:"deployment_name,omitempty"`
-	CreateTime        *timestamppb.Timestamp   `protobuf:"bytes,3,opt,name=create_time,json=createTime,proto3" json:"create_time,omitempty"`
+	// Deprecated. User deployment_version.deployment_name.
+	DeploymentName string                 `protobuf:"bytes,2,opt,name=deployment_name,json=deploymentName,proto3" json:"deployment_name,omitempty"`
+	CreateTime     *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=create_time,json=createTime,proto3" json:"create_time,omitempty"`
 	// Last time `current_since_time`, `ramping_since_time, or `ramp_percentage` of this version changed.
 	RoutingChangedTime *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=routing_changed_time,json=routingChangedTime,proto3" json:"routing_changed_time,omitempty"`
 	// (-- api-linter: core::0140::prepositions=disabled
