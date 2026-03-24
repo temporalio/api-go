@@ -314,4 +314,3 @@ func protoFieldToGoName(protoName string) string {
 	}
 	return strings.Join(parts, "")
 }
-
