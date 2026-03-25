@@ -296,6 +296,10 @@ func (s *workflowServiceProxyServer) ResetActivity(ctx context.Context, in0 *wor
 	return s.client.ResetActivity(s.reqCtx(ctx), in0)
 }
 
+func (s *workflowServiceProxyServer) ResetActivityExecution(ctx context.Context, in0 *workflowservice.ResetActivityExecutionRequest) (*workflowservice.ResetActivityExecutionResponse, error) {
+	return s.client.ResetActivityExecution(s.reqCtx(ctx), in0)
+}
+
 func (s *workflowServiceProxyServer) ResetStickyTaskQueue(ctx context.Context, in0 *workflowservice.ResetStickyTaskQueueRequest) (*workflowservice.ResetStickyTaskQueueResponse, error) {
 	return s.client.ResetStickyTaskQueue(s.reqCtx(ctx), in0)
 }
@@ -418,6 +422,10 @@ func (s *workflowServiceProxyServer) UnpauseActivityExecution(ctx context.Contex
 
 func (s *workflowServiceProxyServer) UnpauseWorkflowExecution(ctx context.Context, in0 *workflowservice.UnpauseWorkflowExecutionRequest) (*workflowservice.UnpauseWorkflowExecutionResponse, error) {
 	return s.client.UnpauseWorkflowExecution(s.reqCtx(ctx), in0)
+}
+
+func (s *workflowServiceProxyServer) UpdateActivityExecutionOptions(ctx context.Context, in0 *workflowservice.UpdateActivityExecutionOptionsRequest) (*workflowservice.UpdateActivityExecutionOptionsResponse, error) {
+	return s.client.UpdateActivityExecutionOptions(s.reqCtx(ctx), in0)
 }
 
 func (s *workflowServiceProxyServer) UpdateActivityOptions(ctx context.Context, in0 *workflowservice.UpdateActivityOptionsRequest) (*workflowservice.UpdateActivityOptionsResponse, error) {
