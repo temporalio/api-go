@@ -31,7 +31,12 @@ func main() {
 		log.Print(interceptorErr)
 	}
 
-	if serviceErr != nil || interceptorErr != nil {
+	requestHeaderErr := generateRequestHeader(cfg)
+	if requestHeaderErr != nil {
+		log.Print(requestHeaderErr)
+	}
+
+	if serviceErr != nil || interceptorErr != nil || requestHeaderErr != nil {
 		os.Exit(1)
 	}
 }
