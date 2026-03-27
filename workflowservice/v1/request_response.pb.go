@@ -12861,7 +12861,7 @@ type UpdateWorkerDeploymentVersionComputeConfigRequest struct {
 	DeploymentVersion *v18.WorkerDeploymentVersion `protobuf:"bytes,2,opt,name=deployment_version,json=deploymentVersion,proto3" json:"deployment_version,omitempty"`
 	// Optional. Contains the compute config scaling groups to add or updated for the Worker
 	// Deployment.
-	ComputeConfigScalingGroups map[string]*UpdateWorkerDeploymentVersionComputeConfigRequest_ScalingGroupUpdate `protobuf:"bytes,6,rep,name=compute_config_scaling_groups,json=computeConfigScalingGroups,proto3" json:"compute_config_scaling_groups,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	ComputeConfigScalingGroups map[string]*v121.ComputeConfigScalingGroupUpdate `protobuf:"bytes,6,rep,name=compute_config_scaling_groups,json=computeConfigScalingGroups,proto3" json:"compute_config_scaling_groups,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	// Optional. Contains the compute config scaling groups to remove from the Worker Deployment.
 	RemoveComputeConfigScalingGroups []string `protobuf:"bytes,7,rep,name=remove_compute_config_scaling_groups,json=removeComputeConfigScalingGroups,proto3" json:"remove_compute_config_scaling_groups,omitempty"`
 	// Optional. The identity of the client who initiated this request.
@@ -12918,7 +12918,7 @@ func (x *UpdateWorkerDeploymentVersionComputeConfigRequest) GetDeploymentVersion
 	return nil
 }
 
-func (x *UpdateWorkerDeploymentVersionComputeConfigRequest) GetComputeConfigScalingGroups() map[string]*UpdateWorkerDeploymentVersionComputeConfigRequest_ScalingGroupUpdate {
+func (x *UpdateWorkerDeploymentVersionComputeConfigRequest) GetComputeConfigScalingGroups() map[string]*v121.ComputeConfigScalingGroupUpdate {
 	if x != nil {
 		return x.ComputeConfigScalingGroups
 	}
@@ -12988,8 +12988,11 @@ type ValidateWorkerDeploymentVersionComputeConfigRequest struct {
 	Namespace string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// Required.
 	DeploymentVersion *v18.WorkerDeploymentVersion `protobuf:"bytes,2,opt,name=deployment_version,json=deploymentVersion,proto3" json:"deployment_version,omitempty"`
-	// Required. Contains the new worker compute configuration for the Worker Deployment.
-	ComputeConfig *v121.ComputeConfig `protobuf:"bytes,4,opt,name=compute_config,json=computeConfig,proto3" json:"compute_config,omitempty"`
+	// Optional. Contains the compute config scaling groups to add or updated for the Worker
+	// Deployment.
+	ComputeConfigScalingGroups map[string]*v121.ComputeConfigScalingGroupUpdate `protobuf:"bytes,6,rep,name=compute_config_scaling_groups,json=computeConfigScalingGroups,proto3" json:"compute_config_scaling_groups,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	// Optional. Contains the compute config scaling groups to remove from the Worker Deployment.
+	RemoveComputeConfigScalingGroups []string `protobuf:"bytes,7,rep,name=remove_compute_config_scaling_groups,json=removeComputeConfigScalingGroups,proto3" json:"remove_compute_config_scaling_groups,omitempty"`
 	// Optional. The identity of the client who initiated this request.
 	Identity      string `protobuf:"bytes,3,opt,name=identity,proto3" json:"identity,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -13040,9 +13043,16 @@ func (x *ValidateWorkerDeploymentVersionComputeConfigRequest) GetDeploymentVersi
 	return nil
 }
 
-func (x *ValidateWorkerDeploymentVersionComputeConfigRequest) GetComputeConfig() *v121.ComputeConfig {
+func (x *ValidateWorkerDeploymentVersionComputeConfigRequest) GetComputeConfigScalingGroups() map[string]*v121.ComputeConfigScalingGroupUpdate {
 	if x != nil {
-		return x.ComputeConfig
+		return x.ComputeConfigScalingGroups
+	}
+	return nil
+}
+
+func (x *ValidateWorkerDeploymentVersionComputeConfigRequest) GetRemoveComputeConfigScalingGroups() []string {
+	if x != nil {
+		return x.RemoveComputeConfigScalingGroups
 	}
 	return nil
 }
@@ -17633,59 +17643,6 @@ func (x *ListWorkerDeploymentsResponse_WorkerDeploymentSummary) GetRampingVersio
 	return nil
 }
 
-type UpdateWorkerDeploymentVersionComputeConfigRequest_ScalingGroupUpdate struct {
-	state        protoimpl.MessageState          `protogen:"open.v1"`
-	ScalingGroup *v121.ComputeConfigScalingGroup `protobuf:"bytes,1,opt,name=scaling_group,json=scalingGroup,proto3" json:"scaling_group,omitempty"`
-	// Controls which fields from `scaling_group` will be applied
-	UpdateMask    *fieldmaskpb.FieldMask `protobuf:"bytes,2,opt,name=update_mask,json=updateMask,proto3" json:"update_mask,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *UpdateWorkerDeploymentVersionComputeConfigRequest_ScalingGroupUpdate) Reset() {
-	*x = UpdateWorkerDeploymentVersionComputeConfigRequest_ScalingGroupUpdate{}
-	mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[244]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *UpdateWorkerDeploymentVersionComputeConfigRequest_ScalingGroupUpdate) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*UpdateWorkerDeploymentVersionComputeConfigRequest_ScalingGroupUpdate) ProtoMessage() {}
-
-func (x *UpdateWorkerDeploymentVersionComputeConfigRequest_ScalingGroupUpdate) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[244]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use UpdateWorkerDeploymentVersionComputeConfigRequest_ScalingGroupUpdate.ProtoReflect.Descriptor instead.
-func (*UpdateWorkerDeploymentVersionComputeConfigRequest_ScalingGroupUpdate) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{164, 0}
-}
-
-func (x *UpdateWorkerDeploymentVersionComputeConfigRequest_ScalingGroupUpdate) GetScalingGroup() *v121.ComputeConfigScalingGroup {
-	if x != nil {
-		return x.ScalingGroup
-	}
-	return nil
-}
-
-func (x *UpdateWorkerDeploymentVersionComputeConfigRequest_ScalingGroupUpdate) GetUpdateMask() *fieldmaskpb.FieldMask {
-	if x != nil {
-		return x.UpdateMask
-	}
-	return nil
-}
-
 type UpdateTaskQueueConfigRequest_RateLimitUpdate struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Rate Limit to be updated
@@ -18888,7 +18845,7 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12'\n" +
 	"\x0fdeployment_name\x18\x02 \x01(\tR\x0edeploymentName\x12\x1a\n" +
 	"\bidentity\x18\x03 \x01(\tR\bidentity\" \n" +
-	"\x1eDeleteWorkerDeploymentResponse\"\xdc\x06\n" +
+	"\x1eDeleteWorkerDeploymentResponse\"\x82\x05\n" +
 	"1UpdateWorkerDeploymentVersionComputeConfigRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12b\n" +
 	"\x12deployment_version\x18\x02 \x01(\v23.temporal.api.deployment.v1.WorkerDeploymentVersionR\x11deploymentVersion\x12\xb5\x01\n" +
@@ -18896,20 +18853,20 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"$remove_compute_config_scaling_groups\x18\a \x03(\tR removeComputeConfigScalingGroups\x12\x1a\n" +
 	"\bidentity\x18\x03 \x01(\tR\bidentity\x12\x1d\n" +
 	"\n" +
-	"request_id\x18\x04 \x01(\tR\trequestId\x1a\xaa\x01\n" +
-	"\x12ScalingGroupUpdate\x12W\n" +
-	"\rscaling_group\x18\x01 \x01(\v22.temporal.api.compute.v1.ComputeConfigScalingGroupR\fscalingGroup\x12;\n" +
-	"\vupdate_mask\x18\x02 \x01(\v2\x1a.google.protobuf.FieldMaskR\n" +
-	"updateMask\x1a\xb4\x01\n" +
+	"request_id\x18\x04 \x01(\tR\trequestId\x1a\x87\x01\n" +
 	"\x1fComputeConfigScalingGroupsEntry\x12\x10\n" +
-	"\x03key\x18\x01 \x01(\tR\x03key\x12{\n" +
-	"\x05value\x18\x02 \x01(\v2e.temporal.api.workflowservice.v1.UpdateWorkerDeploymentVersionComputeConfigRequest.ScalingGroupUpdateR\x05value:\x028\x01\"4\n" +
-	"2UpdateWorkerDeploymentVersionComputeConfigResponse\"\xa2\x02\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12N\n" +
+	"\x05value\x18\x02 \x01(\v28.temporal.api.compute.v1.ComputeConfigScalingGroupUpdateR\x05value:\x028\x01\"4\n" +
+	"2UpdateWorkerDeploymentVersionComputeConfigResponse\"\xe7\x04\n" +
 	"3ValidateWorkerDeploymentVersionComputeConfigRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12b\n" +
-	"\x12deployment_version\x18\x02 \x01(\v23.temporal.api.deployment.v1.WorkerDeploymentVersionR\x11deploymentVersion\x12M\n" +
-	"\x0ecompute_config\x18\x04 \x01(\v2&.temporal.api.compute.v1.ComputeConfigR\rcomputeConfig\x12\x1a\n" +
-	"\bidentity\x18\x03 \x01(\tR\bidentity\"6\n" +
+	"\x12deployment_version\x18\x02 \x01(\v23.temporal.api.deployment.v1.WorkerDeploymentVersionR\x11deploymentVersion\x12\xb7\x01\n" +
+	"\x1dcompute_config_scaling_groups\x18\x06 \x03(\v2t.temporal.api.workflowservice.v1.ValidateWorkerDeploymentVersionComputeConfigRequest.ComputeConfigScalingGroupsEntryR\x1acomputeConfigScalingGroups\x12N\n" +
+	"$remove_compute_config_scaling_groups\x18\a \x03(\tR removeComputeConfigScalingGroups\x12\x1a\n" +
+	"\bidentity\x18\x03 \x01(\tR\bidentity\x1a\x87\x01\n" +
+	"\x1fComputeConfigScalingGroupsEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12N\n" +
+	"\x05value\x18\x02 \x01(\v28.temporal.api.compute.v1.ComputeConfigScalingGroupUpdateR\x05value:\x028\x01\"6\n" +
 	"4ValidateWorkerDeploymentVersionComputeConfigResponse\"\xfe\x03\n" +
 	",UpdateWorkerDeploymentVersionMetadataRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12\x1c\n" +
@@ -19421,9 +19378,9 @@ var file_temporal_api_workflowservice_v1_request_response_proto_goTypes = []any{
 	(*ExecuteMultiOperationResponse_Response)(nil),                                  // 240: temporal.api.workflowservice.v1.ExecuteMultiOperationResponse.Response
 	(*DescribeWorkerDeploymentVersionResponse_VersionTaskQueue)(nil),                // 241: temporal.api.workflowservice.v1.DescribeWorkerDeploymentVersionResponse.VersionTaskQueue
 	nil, // 242: temporal.api.workflowservice.v1.DescribeWorkerDeploymentVersionResponse.VersionTaskQueue.StatsByPriorityKeyEntry
-	(*ListWorkerDeploymentsResponse_WorkerDeploymentSummary)(nil),                // 243: temporal.api.workflowservice.v1.ListWorkerDeploymentsResponse.WorkerDeploymentSummary
-	(*UpdateWorkerDeploymentVersionComputeConfigRequest_ScalingGroupUpdate)(nil), // 244: temporal.api.workflowservice.v1.UpdateWorkerDeploymentVersionComputeConfigRequest.ScalingGroupUpdate
-	nil, // 245: temporal.api.workflowservice.v1.UpdateWorkerDeploymentVersionComputeConfigRequest.ComputeConfigScalingGroupsEntry
+	(*ListWorkerDeploymentsResponse_WorkerDeploymentSummary)(nil), // 243: temporal.api.workflowservice.v1.ListWorkerDeploymentsResponse.WorkerDeploymentSummary
+	nil, // 244: temporal.api.workflowservice.v1.UpdateWorkerDeploymentVersionComputeConfigRequest.ComputeConfigScalingGroupsEntry
+	nil, // 245: temporal.api.workflowservice.v1.ValidateWorkerDeploymentVersionComputeConfigRequest.ComputeConfigScalingGroupsEntry
 	nil, // 246: temporal.api.workflowservice.v1.UpdateWorkerDeploymentVersionMetadataRequest.UpsertEntriesEntry
 	(*UpdateTaskQueueConfigRequest_RateLimitUpdate)(nil), // 247: temporal.api.workflowservice.v1.UpdateTaskQueueConfigRequest.RateLimitUpdate
 	nil, // 248: temporal.api.workflowservice.v1.UpdateTaskQueueConfigRequest.SetFairnessWeightOverridesEntry
@@ -19564,7 +19521,7 @@ var file_temporal_api_workflowservice_v1_request_response_proto_goTypes = []any{
 	(*v14.CompatibleBuildIdRedirectRule)(nil),                       // 383: temporal.api.taskqueue.v1.CompatibleBuildIdRedirectRule
 	(*v18.RoutingConfig)(nil),                                       // 384: temporal.api.deployment.v1.RoutingConfig
 	(*v18.WorkerDeploymentInfo_WorkerDeploymentVersionSummary)(nil), // 385: temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummary
-	(*v121.ComputeConfigScalingGroup)(nil),                          // 386: temporal.api.compute.v1.ComputeConfigScalingGroup
+	(*v121.ComputeConfigScalingGroupUpdate)(nil),                    // 386: temporal.api.compute.v1.ComputeConfigScalingGroupUpdate
 	(*v14.RateLimit)(nil),                                           // 387: temporal.api.taskqueue.v1.RateLimit
 }
 var file_temporal_api_workflowservice_v1_request_response_proto_depIdxs = []int32{
@@ -19875,9 +19832,9 @@ var file_temporal_api_workflowservice_v1_request_response_proto_depIdxs = []int3
 	363, // 304: temporal.api.workflowservice.v1.CreateWorkerDeploymentVersionRequest.compute_config:type_name -> temporal.api.compute.v1.ComputeConfig
 	358, // 305: temporal.api.workflowservice.v1.DeleteWorkerDeploymentVersionRequest.deployment_version:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersion
 	358, // 306: temporal.api.workflowservice.v1.UpdateWorkerDeploymentVersionComputeConfigRequest.deployment_version:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersion
-	245, // 307: temporal.api.workflowservice.v1.UpdateWorkerDeploymentVersionComputeConfigRequest.compute_config_scaling_groups:type_name -> temporal.api.workflowservice.v1.UpdateWorkerDeploymentVersionComputeConfigRequest.ComputeConfigScalingGroupsEntry
+	244, // 307: temporal.api.workflowservice.v1.UpdateWorkerDeploymentVersionComputeConfigRequest.compute_config_scaling_groups:type_name -> temporal.api.workflowservice.v1.UpdateWorkerDeploymentVersionComputeConfigRequest.ComputeConfigScalingGroupsEntry
 	358, // 308: temporal.api.workflowservice.v1.ValidateWorkerDeploymentVersionComputeConfigRequest.deployment_version:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersion
-	363, // 309: temporal.api.workflowservice.v1.ValidateWorkerDeploymentVersionComputeConfigRequest.compute_config:type_name -> temporal.api.compute.v1.ComputeConfig
+	245, // 309: temporal.api.workflowservice.v1.ValidateWorkerDeploymentVersionComputeConfigRequest.compute_config_scaling_groups:type_name -> temporal.api.workflowservice.v1.ValidateWorkerDeploymentVersionComputeConfigRequest.ComputeConfigScalingGroupsEntry
 	358, // 310: temporal.api.workflowservice.v1.UpdateWorkerDeploymentVersionMetadataRequest.deployment_version:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersion
 	246, // 311: temporal.api.workflowservice.v1.UpdateWorkerDeploymentVersionMetadataRequest.upsert_entries:type_name -> temporal.api.workflowservice.v1.UpdateWorkerDeploymentVersionMetadataRequest.UpsertEntriesEntry
 	364, // 312: temporal.api.workflowservice.v1.UpdateWorkerDeploymentVersionMetadataResponse.metadata:type_name -> temporal.api.deployment.v1.VersionMetadata
@@ -19952,17 +19909,16 @@ var file_temporal_api_workflowservice_v1_request_response_proto_depIdxs = []int3
 	385, // 381: temporal.api.workflowservice.v1.ListWorkerDeploymentsResponse.WorkerDeploymentSummary.latest_version_summary:type_name -> temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummary
 	385, // 382: temporal.api.workflowservice.v1.ListWorkerDeploymentsResponse.WorkerDeploymentSummary.current_version_summary:type_name -> temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummary
 	385, // 383: temporal.api.workflowservice.v1.ListWorkerDeploymentsResponse.WorkerDeploymentSummary.ramping_version_summary:type_name -> temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummary
-	386, // 384: temporal.api.workflowservice.v1.UpdateWorkerDeploymentVersionComputeConfigRequest.ScalingGroupUpdate.scaling_group:type_name -> temporal.api.compute.v1.ComputeConfigScalingGroup
-	355, // 385: temporal.api.workflowservice.v1.UpdateWorkerDeploymentVersionComputeConfigRequest.ScalingGroupUpdate.update_mask:type_name -> google.protobuf.FieldMask
-	244, // 386: temporal.api.workflowservice.v1.UpdateWorkerDeploymentVersionComputeConfigRequest.ComputeConfigScalingGroupsEntry.value:type_name -> temporal.api.workflowservice.v1.UpdateWorkerDeploymentVersionComputeConfigRequest.ScalingGroupUpdate
-	378, // 387: temporal.api.workflowservice.v1.UpdateWorkerDeploymentVersionMetadataRequest.UpsertEntriesEntry.value:type_name -> temporal.api.common.v1.Payload
-	387, // 388: temporal.api.workflowservice.v1.UpdateTaskQueueConfigRequest.RateLimitUpdate.rate_limit:type_name -> temporal.api.taskqueue.v1.RateLimit
-	378, // 389: temporal.api.workflowservice.v1.CountActivityExecutionsResponse.AggregationGroup.group_values:type_name -> temporal.api.common.v1.Payload
-	390, // [390:390] is the sub-list for method output_type
-	390, // [390:390] is the sub-list for method input_type
-	390, // [390:390] is the sub-list for extension type_name
-	390, // [390:390] is the sub-list for extension extendee
-	0,   // [0:390] is the sub-list for field type_name
+	386, // 384: temporal.api.workflowservice.v1.UpdateWorkerDeploymentVersionComputeConfigRequest.ComputeConfigScalingGroupsEntry.value:type_name -> temporal.api.compute.v1.ComputeConfigScalingGroupUpdate
+	386, // 385: temporal.api.workflowservice.v1.ValidateWorkerDeploymentVersionComputeConfigRequest.ComputeConfigScalingGroupsEntry.value:type_name -> temporal.api.compute.v1.ComputeConfigScalingGroupUpdate
+	378, // 386: temporal.api.workflowservice.v1.UpdateWorkerDeploymentVersionMetadataRequest.UpsertEntriesEntry.value:type_name -> temporal.api.common.v1.Payload
+	387, // 387: temporal.api.workflowservice.v1.UpdateTaskQueueConfigRequest.RateLimitUpdate.rate_limit:type_name -> temporal.api.taskqueue.v1.RateLimit
+	378, // 388: temporal.api.workflowservice.v1.CountActivityExecutionsResponse.AggregationGroup.group_values:type_name -> temporal.api.common.v1.Payload
+	389, // [389:389] is the sub-list for method output_type
+	389, // [389:389] is the sub-list for method input_type
+	389, // [389:389] is the sub-list for extension type_name
+	389, // [389:389] is the sub-list for extension extendee
+	0,   // [0:389] is the sub-list for field type_name
 }
 
 func init() { file_temporal_api_workflowservice_v1_request_response_proto_init() }

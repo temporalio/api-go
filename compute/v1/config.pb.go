@@ -14,6 +14,7 @@ import (
 	v1 "go.temporal.io/api/enums/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 )
 
 const (
@@ -144,11 +145,70 @@ func (x *ComputeConfig) GetScalingGroups() map[string]*ComputeConfigScalingGroup
 	return nil
 }
 
+type ComputeConfigScalingGroupUpdate struct {
+	state        protoimpl.MessageState     `protogen:"open.v1"`
+	ScalingGroup *ComputeConfigScalingGroup `protobuf:"bytes,1,opt,name=scaling_group,json=scalingGroup,proto3" json:"scaling_group,omitempty"`
+	// Controls which fields from `scaling_group` will be applied. Semantics:
+	//   - Mask is ignored for new scaling groups (only applicable when scaling group already exists).
+	//   - Empty mask for an existing scaling group is no-op: no change.
+	//   - Non-empty mask for an existing scaling group will update/unset only to the fields
+	//     mentioned in the mask.
+	//   - Accepted paths: "task_queue_types", "provider", "provider.type", "provider.details",
+	//     "provider.nexus_endpoint", "scaler", "scaler.type", "scaler.details"
+	UpdateMask    *fieldmaskpb.FieldMask `protobuf:"bytes,2,opt,name=update_mask,json=updateMask,proto3" json:"update_mask,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ComputeConfigScalingGroupUpdate) Reset() {
+	*x = ComputeConfigScalingGroupUpdate{}
+	mi := &file_temporal_api_compute_v1_config_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ComputeConfigScalingGroupUpdate) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ComputeConfigScalingGroupUpdate) ProtoMessage() {}
+
+func (x *ComputeConfigScalingGroupUpdate) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_api_compute_v1_config_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ComputeConfigScalingGroupUpdate.ProtoReflect.Descriptor instead.
+func (*ComputeConfigScalingGroupUpdate) Descriptor() ([]byte, []int) {
+	return file_temporal_api_compute_v1_config_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *ComputeConfigScalingGroupUpdate) GetScalingGroup() *ComputeConfigScalingGroup {
+	if x != nil {
+		return x.ScalingGroup
+	}
+	return nil
+}
+
+func (x *ComputeConfigScalingGroupUpdate) GetUpdateMask() *fieldmaskpb.FieldMask {
+	if x != nil {
+		return x.UpdateMask
+	}
+	return nil
+}
+
 var File_temporal_api_compute_v1_config_proto protoreflect.FileDescriptor
 
 const file_temporal_api_compute_v1_config_proto_rawDesc = "" +
 	"\n" +
-	"$temporal/api/compute/v1/config.proto\x12\x17temporal.api.compute.v1\x1a&temporal/api/compute/v1/provider.proto\x1a$temporal/api/compute/v1/scaler.proto\x1a&temporal/api/enums/v1/task_queue.proto\"\xf1\x01\n" +
+	"$temporal/api/compute/v1/config.proto\x12\x17temporal.api.compute.v1\x1a&temporal/api/compute/v1/provider.proto\x1a$temporal/api/compute/v1/scaler.proto\x1a&temporal/api/enums/v1/task_queue.proto\x1a google/protobuf/field_mask.proto\"\xf1\x01\n" +
 	"\x19ComputeConfigScalingGroup\x12N\n" +
 	"\x10task_queue_types\x18\x01 \x03(\x0e2$.temporal.api.enums.v1.TaskQueueTypeR\x0etaskQueueTypes\x12D\n" +
 	"\bprovider\x18\x03 \x01(\v2(.temporal.api.compute.v1.ComputeProviderR\bprovider\x12>\n" +
@@ -157,7 +217,11 @@ const file_temporal_api_compute_v1_config_proto_rawDesc = "" +
 	"\x0escaling_groups\x18\x01 \x03(\v29.temporal.api.compute.v1.ComputeConfig.ScalingGroupsEntryR\rscalingGroups\x1at\n" +
 	"\x12ScalingGroupsEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12H\n" +
-	"\x05value\x18\x02 \x01(\v22.temporal.api.compute.v1.ComputeConfigScalingGroupR\x05value:\x028\x01B\x8d\x01\n" +
+	"\x05value\x18\x02 \x01(\v22.temporal.api.compute.v1.ComputeConfigScalingGroupR\x05value:\x028\x01\"\xb7\x01\n" +
+	"\x1fComputeConfigScalingGroupUpdate\x12W\n" +
+	"\rscaling_group\x18\x01 \x01(\v22.temporal.api.compute.v1.ComputeConfigScalingGroupR\fscalingGroup\x12;\n" +
+	"\vupdate_mask\x18\x02 \x01(\v2\x1a.google.protobuf.FieldMaskR\n" +
+	"updateMaskB\x8d\x01\n" +
 	"\x1aio.temporal.api.compute.v1B\vConfigProtoP\x01Z%go.temporal.io/api/compute/v1;compute\xaa\x02\x19Temporalio.Api.Compute.V1\xea\x02\x1cTemporalio::Api::Compute::V1b\x06proto3"
 
 var (
@@ -172,26 +236,30 @@ func file_temporal_api_compute_v1_config_proto_rawDescGZIP() []byte {
 	return file_temporal_api_compute_v1_config_proto_rawDescData
 }
 
-var file_temporal_api_compute_v1_config_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
+var file_temporal_api_compute_v1_config_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_temporal_api_compute_v1_config_proto_goTypes = []any{
-	(*ComputeConfigScalingGroup)(nil), // 0: temporal.api.compute.v1.ComputeConfigScalingGroup
-	(*ComputeConfig)(nil),             // 1: temporal.api.compute.v1.ComputeConfig
-	nil,                               // 2: temporal.api.compute.v1.ComputeConfig.ScalingGroupsEntry
-	(v1.TaskQueueType)(0),             // 3: temporal.api.enums.v1.TaskQueueType
-	(*ComputeProvider)(nil),           // 4: temporal.api.compute.v1.ComputeProvider
-	(*ComputeScaler)(nil),             // 5: temporal.api.compute.v1.ComputeScaler
+	(*ComputeConfigScalingGroup)(nil),       // 0: temporal.api.compute.v1.ComputeConfigScalingGroup
+	(*ComputeConfig)(nil),                   // 1: temporal.api.compute.v1.ComputeConfig
+	(*ComputeConfigScalingGroupUpdate)(nil), // 2: temporal.api.compute.v1.ComputeConfigScalingGroupUpdate
+	nil,                                     // 3: temporal.api.compute.v1.ComputeConfig.ScalingGroupsEntry
+	(v1.TaskQueueType)(0),                   // 4: temporal.api.enums.v1.TaskQueueType
+	(*ComputeProvider)(nil),                 // 5: temporal.api.compute.v1.ComputeProvider
+	(*ComputeScaler)(nil),                   // 6: temporal.api.compute.v1.ComputeScaler
+	(*fieldmaskpb.FieldMask)(nil),           // 7: google.protobuf.FieldMask
 }
 var file_temporal_api_compute_v1_config_proto_depIdxs = []int32{
-	3, // 0: temporal.api.compute.v1.ComputeConfigScalingGroup.task_queue_types:type_name -> temporal.api.enums.v1.TaskQueueType
-	4, // 1: temporal.api.compute.v1.ComputeConfigScalingGroup.provider:type_name -> temporal.api.compute.v1.ComputeProvider
-	5, // 2: temporal.api.compute.v1.ComputeConfigScalingGroup.scaler:type_name -> temporal.api.compute.v1.ComputeScaler
-	2, // 3: temporal.api.compute.v1.ComputeConfig.scaling_groups:type_name -> temporal.api.compute.v1.ComputeConfig.ScalingGroupsEntry
-	0, // 4: temporal.api.compute.v1.ComputeConfig.ScalingGroupsEntry.value:type_name -> temporal.api.compute.v1.ComputeConfigScalingGroup
-	5, // [5:5] is the sub-list for method output_type
-	5, // [5:5] is the sub-list for method input_type
-	5, // [5:5] is the sub-list for extension type_name
-	5, // [5:5] is the sub-list for extension extendee
-	0, // [0:5] is the sub-list for field type_name
+	4, // 0: temporal.api.compute.v1.ComputeConfigScalingGroup.task_queue_types:type_name -> temporal.api.enums.v1.TaskQueueType
+	5, // 1: temporal.api.compute.v1.ComputeConfigScalingGroup.provider:type_name -> temporal.api.compute.v1.ComputeProvider
+	6, // 2: temporal.api.compute.v1.ComputeConfigScalingGroup.scaler:type_name -> temporal.api.compute.v1.ComputeScaler
+	3, // 3: temporal.api.compute.v1.ComputeConfig.scaling_groups:type_name -> temporal.api.compute.v1.ComputeConfig.ScalingGroupsEntry
+	0, // 4: temporal.api.compute.v1.ComputeConfigScalingGroupUpdate.scaling_group:type_name -> temporal.api.compute.v1.ComputeConfigScalingGroup
+	7, // 5: temporal.api.compute.v1.ComputeConfigScalingGroupUpdate.update_mask:type_name -> google.protobuf.FieldMask
+	0, // 6: temporal.api.compute.v1.ComputeConfig.ScalingGroupsEntry.value:type_name -> temporal.api.compute.v1.ComputeConfigScalingGroup
+	7, // [7:7] is the sub-list for method output_type
+	7, // [7:7] is the sub-list for method input_type
+	7, // [7:7] is the sub-list for extension type_name
+	7, // [7:7] is the sub-list for extension extendee
+	0, // [0:7] is the sub-list for field type_name
 }
 
 func init() { file_temporal_api_compute_v1_config_proto_init() }
@@ -207,7 +275,7 @@ func file_temporal_api_compute_v1_config_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_temporal_api_compute_v1_config_proto_rawDesc), len(file_temporal_api_compute_v1_config_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   3,
+			NumMessages:   4,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

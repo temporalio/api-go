@@ -716,6 +716,28 @@ func visitPayloads(
 				return err
 			}
 
+		case map[string]*compute.ComputeConfigScalingGroupUpdate:
+			for _, x := range o {
+				if err := visitPayloads(ctx, options, parent, x); err != nil {
+					return err
+				}
+			}
+
+		case *compute.ComputeConfigScalingGroupUpdate:
+
+			if o == nil {
+				continue
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetScalingGroup(),
+			); err != nil {
+				return err
+			}
+
 		case *compute.ComputeProvider:
 
 			if o == nil {
@@ -3220,28 +3242,6 @@ func visitPayloads(
 				return err
 			}
 
-		case map[string]*workflowservice.UpdateWorkerDeploymentVersionComputeConfigRequest_ScalingGroupUpdate:
-			for _, x := range o {
-				if err := visitPayloads(ctx, options, parent, x); err != nil {
-					return err
-				}
-			}
-
-		case *workflowservice.UpdateWorkerDeploymentVersionComputeConfigRequest_ScalingGroupUpdate:
-
-			if o == nil {
-				continue
-			}
-
-			if err := visitPayloads(
-				ctx,
-				options,
-				o,
-				o.GetScalingGroup(),
-			); err != nil {
-				return err
-			}
-
 		case *workflowservice.UpdateWorkerDeploymentVersionMetadataRequest:
 
 			if o == nil {
@@ -3312,7 +3312,7 @@ func visitPayloads(
 				ctx,
 				options,
 				o,
-				o.GetComputeConfig(),
+				o.GetComputeConfigScalingGroups(),
 			); err != nil {
 				return err
 			}
