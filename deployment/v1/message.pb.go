@@ -426,8 +426,14 @@ type WorkerDeploymentVersionInfo struct {
 	// Optional. Contains the new worker compute configuration for the Worker
 	// Deployment. Used for worker scale management.
 	ComputeConfig *v12.ComputeConfig `protobuf:"bytes,16,opt,name=compute_config,json=computeConfig,proto3" json:"compute_config,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	// Identity of the last client who modified the configuration of this Version.
+	// As of now, this field only covers changes through the following APIs:
+	// - `CreateWorkerDeploymentVersion`
+	// - `UpdateWorkerDeploymentVersionComputeConfig`
+	// - `UpdateWorkerDeploymentVersionMetadata`
+	LastModifierIdentity string `protobuf:"bytes,17,opt,name=last_modifier_identity,json=lastModifierIdentity,proto3" json:"last_modifier_identity,omitempty"`
+	unknownFields        protoimpl.UnknownFields
+	sizeCache            protoimpl.SizeCache
 }
 
 func (x *WorkerDeploymentVersionInfo) Reset() {
@@ -571,6 +577,13 @@ func (x *WorkerDeploymentVersionInfo) GetComputeConfig() *v12.ComputeConfig {
 		return x.ComputeConfig
 	}
 	return nil
+}
+
+func (x *WorkerDeploymentVersionInfo) GetLastModifierIdentity() string {
+	if x != nil {
+		return x.LastModifierIdentity
+	}
+	return ""
 }
 
 // Information about workflow drainage to help the user determine when it is safe
@@ -1366,7 +1379,7 @@ const file_temporal_api_deployment_v1_message_proto_rawDesc = "" +
 	"\vcreate_time\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\n" +
 	"createTime\x12\x1d\n" +
 	"\n" +
-	"is_current\x18\x03 \x01(\bR\tisCurrent\"\x94\n" +
+	"is_current\x18\x03 \x01(\bR\tisCurrent\"\xca\n" +
 	"\n" +
 	"\x1bWorkerDeploymentVersionInfo\x12\x1c\n" +
 	"\aversion\x18\x01 \x01(\tB\x02\x18\x01R\aversion\x12L\n" +
@@ -1386,7 +1399,8 @@ const file_temporal_api_deployment_v1_message_proto_rawDesc = "" +
 	"\rdrainage_info\x18\t \x01(\v2/.temporal.api.deployment.v1.VersionDrainageInfoR\fdrainageInfo\x12G\n" +
 	"\bmetadata\x18\n" +
 	" \x01(\v2+.temporal.api.deployment.v1.VersionMetadataR\bmetadata\x12M\n" +
-	"\x0ecompute_config\x18\x10 \x01(\v2&.temporal.api.compute.v1.ComputeConfigR\rcomputeConfig\x1ad\n" +
+	"\x0ecompute_config\x18\x10 \x01(\v2&.temporal.api.compute.v1.ComputeConfigR\rcomputeConfig\x124\n" +
+	"\x16last_modifier_identity\x18\x11 \x01(\tR\x14lastModifierIdentity\x1ad\n" +
 	"\x14VersionTaskQueueInfo\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x128\n" +
 	"\x04type\x18\x02 \x01(\x0e2$.temporal.api.enums.v1.TaskQueueTypeR\x04type\"\xeb\x01\n" +
