@@ -9,6 +9,7 @@ import (
 
 	"go.temporal.io/api/activity/v1"
 	"go.temporal.io/api/batch/v1"
+	"go.temporal.io/api/callback/v1"
 	"go.temporal.io/api/command/v1"
 	"go.temporal.io/api/common/v1"
 	"go.temporal.io/api/deployment/v1"
@@ -416,6 +417,59 @@ func visitPayloads(
 				options,
 				o,
 				o.GetDetails(),
+			); err != nil {
+				return err
+			}
+
+		case *callback.CallbackExecutionInfo:
+
+			if o == nil {
+				continue
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetLastAttemptFailure(),
+				o.GetSearchAttributes(),
+			); err != nil {
+				return err
+			}
+
+		case []*callback.CallbackExecutionListInfo:
+			for _, x := range o {
+				if err := visitPayloads(ctx, options, parent, x); err != nil {
+					return err
+				}
+			}
+
+		case *callback.CallbackExecutionListInfo:
+
+			if o == nil {
+				continue
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetSearchAttributes(),
+			); err != nil {
+				return err
+			}
+
+		case *callback.CallbackExecutionOutcome:
+
+			if o == nil {
+				continue
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetFailure(),
 			); err != nil {
 				return err
 			}
@@ -2161,6 +2215,43 @@ func visitPayloads(
 				return err
 			}
 
+		case *workflowservice.CountCallbackExecutionsResponse:
+
+			if o == nil {
+				continue
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetGroups(),
+			); err != nil {
+				return err
+			}
+
+		case []*workflowservice.CountCallbackExecutionsResponse_AggregationGroup:
+			for _, x := range o {
+				if err := visitPayloads(ctx, options, parent, x); err != nil {
+					return err
+				}
+			}
+
+		case *workflowservice.CountCallbackExecutionsResponse_AggregationGroup:
+
+			if o == nil {
+				continue
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetGroupValues(),
+			); err != nil {
+				return err
+			}
+
 		case *workflowservice.CountSchedulesResponse:
 
 			if o == nil {
@@ -2264,6 +2355,22 @@ func visitPayloads(
 				o,
 				o.GetInfo(),
 				o.GetInput(),
+				o.GetOutcome(),
+			); err != nil {
+				return err
+			}
+
+		case *workflowservice.DescribeCallbackExecutionResponse:
+
+			if o == nil {
+				continue
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetInfo(),
 				o.GetOutcome(),
 			); err != nil {
 				return err
@@ -2501,6 +2608,21 @@ func visitPayloads(
 				return err
 			}
 
+		case *workflowservice.ListCallbackExecutionsResponse:
+
+			if o == nil {
+				continue
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetExecutions(),
+			); err != nil {
+				return err
+			}
+
 		case *workflowservice.ListClosedWorkflowExecutionsResponse:
 
 			if o == nil {
@@ -2596,6 +2718,21 @@ func visitPayloads(
 				o.GetHeader(),
 				o.GetHeartbeatDetails(),
 				o.GetInput(),
+			); err != nil {
+				return err
+			}
+
+		case *workflowservice.PollCallbackExecutionResponse:
+
+			if o == nil {
+				continue
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetOutcome(),
 			); err != nil {
 				return err
 			}
@@ -3057,6 +3194,22 @@ func visitPayloads(
 				return err
 			}
 
+		case *workflowservice.StartCallbackExecutionRequest:
+
+			if o == nil {
+				continue
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetHeader(),
+				o.GetSearchAttributes(),
+			); err != nil {
+				return err
+			}
+
 		case *workflowservice.StartWorkflowExecutionRequest:
 
 			if o == nil {
@@ -3238,6 +3391,32 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 			}
 
 		case *activity.ActivityExecutionOutcome:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetFailure(),
+			); err != nil {
+				return err
+			}
+
+		case *callback.CallbackExecutionInfo:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetLastAttemptFailure(),
+			); err != nil {
+				return err
+			}
+
+		case *callback.CallbackExecutionOutcome:
 			if o == nil {
 				continue
 			}
@@ -3825,6 +4004,20 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 				return err
 			}
 
+		case *workflowservice.DescribeCallbackExecutionResponse:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetInfo(),
+				o.GetOutcome(),
+			); err != nil {
+				return err
+			}
+
 		case *workflowservice.DescribeWorkflowExecutionResponse:
 			if o == nil {
 				continue
@@ -3934,6 +4127,19 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 			}
 
 		case *workflowservice.PollActivityExecutionResponse:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetOutcome(),
+			); err != nil {
+				return err
+			}
+
+		case *workflowservice.PollCallbackExecutionResponse:
 			if o == nil {
 				continue
 			}

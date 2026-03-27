@@ -248,6 +248,10 @@ const (
 	CALLBACK_STATE_SUCCEEDED CallbackState = 5
 	// Callback is blocked (eg: by circuit breaker).
 	CALLBACK_STATE_BLOCKED CallbackState = 6
+	// Callback was canceled via RequestCancelCallbackExecution.
+	CALLBACK_STATE_CANCELED CallbackState = 7
+	// Callback was terminated via TerminateCallbackExecution.
+	CALLBACK_STATE_TERMINATED CallbackState = 8
 )
 
 // Enum value maps for CallbackState.
@@ -260,6 +264,8 @@ var (
 		4: "CALLBACK_STATE_FAILED",
 		5: "CALLBACK_STATE_SUCCEEDED",
 		6: "CALLBACK_STATE_BLOCKED",
+		7: "CALLBACK_STATE_CANCELED",
+		8: "CALLBACK_STATE_TERMINATED",
 	}
 	CallbackState_value = map[string]int32{
 		"CALLBACK_STATE_UNSPECIFIED": 0,
@@ -269,6 +275,8 @@ var (
 		"CALLBACK_STATE_FAILED":      4,
 		"CALLBACK_STATE_SUCCEEDED":   5,
 		"CALLBACK_STATE_BLOCKED":     6,
+		"CALLBACK_STATE_CANCELED":    7,
+		"CALLBACK_STATE_TERMINATED":  8,
 	}
 )
 
@@ -294,8 +302,15 @@ func (x CallbackState) String() string {
 		return "Succeeded"
 	case CALLBACK_STATE_BLOCKED:
 		return "Blocked"
+	case CALLBACK_STATE_CANCELED:
+		return "Canceled"
+	case CALLBACK_STATE_TERMINATED:
+		return "Terminated"
 	default:
-		return strconv.Itoa(int(x))
+		return strconv.
+
+			// Deprecated: Use CallbackState.Descriptor instead.
+			Itoa(int(x))
 	}
 
 }
@@ -312,7 +327,6 @@ func (x CallbackState) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use CallbackState.Descriptor instead.
 func (CallbackState) EnumDescriptor() ([]byte, []int) {
 	return file_temporal_api_enums_v1_common_proto_rawDescGZIP(), []int{3}
 }
@@ -687,7 +701,7 @@ const file_temporal_api_enums_v1_common_proto_rawDesc = "" +
 	"\x14SEVERITY_UNSPECIFIED\x10\x00\x12\x11\n" +
 	"\rSEVERITY_HIGH\x10\x01\x12\x13\n" +
 	"\x0fSEVERITY_MEDIUM\x10\x02\x12\x10\n" +
-	"\fSEVERITY_LOW\x10\x03*\xde\x01\n" +
+	"\fSEVERITY_LOW\x10\x03*\x9a\x02\n" +
 	"\rCallbackState\x12\x1e\n" +
 	"\x1aCALLBACK_STATE_UNSPECIFIED\x10\x00\x12\x1a\n" +
 	"\x16CALLBACK_STATE_STANDBY\x10\x01\x12\x1c\n" +
@@ -695,7 +709,9 @@ const file_temporal_api_enums_v1_common_proto_rawDesc = "" +
 	"\x1aCALLBACK_STATE_BACKING_OFF\x10\x03\x12\x19\n" +
 	"\x15CALLBACK_STATE_FAILED\x10\x04\x12\x1c\n" +
 	"\x18CALLBACK_STATE_SUCCEEDED\x10\x05\x12\x1a\n" +
-	"\x16CALLBACK_STATE_BLOCKED\x10\x06*\xfd\x01\n" +
+	"\x16CALLBACK_STATE_BLOCKED\x10\x06\x12\x1b\n" +
+	"\x17CALLBACK_STATE_CANCELED\x10\a\x12\x1d\n" +
+	"\x19CALLBACK_STATE_TERMINATED\x10\b*\xfd\x01\n" +
 	"\x1aPendingNexusOperationState\x12-\n" +
 	")PENDING_NEXUS_OPERATION_STATE_UNSPECIFIED\x10\x00\x12+\n" +
 	"'PENDING_NEXUS_OPERATION_STATE_SCHEDULED\x10\x01\x12-\n" +

@@ -77,6 +77,8 @@ var (
 		"Failed":      4,
 		"Succeeded":   5,
 		"Blocked":     6,
+		"Canceled":    7,
+		"Terminated":  8,
 	}
 )
 
