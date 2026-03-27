@@ -713,6 +713,125 @@ func visitPayloads(
 
 			ctx.Context = prevCtx
 
+		case *callback.CallbackExecutionCompletion:
+
+			if o == nil {
+				continue
+			}
+
+			prevCtx := ctx.Context
+			if options.ContextHook != nil {
+				var hookErr error
+				if ctx.Context, hookErr = options.ContextHook(prevCtx, o); hookErr != nil {
+					return hookErr
+				}
+			}
+
+			if o.GetSuccess() != nil {
+				success := o.GetSuccess()
+				if err := visitPayload(ctx, options, o, concState, &success); err != nil {
+					return err
+				}
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				concState,
+				o.GetFailure(),
+			); err != nil {
+				return err
+			}
+
+			ctx.Context = prevCtx
+
+		case *callback.CallbackExecutionInfo:
+
+			if o == nil {
+				continue
+			}
+
+			prevCtx := ctx.Context
+			if options.ContextHook != nil {
+				var hookErr error
+				if ctx.Context, hookErr = options.ContextHook(prevCtx, o); hookErr != nil {
+					return hookErr
+				}
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				concState,
+				o.GetLastAttemptFailure(),
+				o.GetSearchAttributes(),
+			); err != nil {
+				return err
+			}
+
+			ctx.Context = prevCtx
+
+		case []*callback.CallbackExecutionListInfo:
+			for _, x := range o {
+				if err := visitPayloads(ctx, options, parent, concState, x); err != nil {
+					return err
+				}
+			}
+
+		case *callback.CallbackExecutionListInfo:
+
+			if o == nil {
+				continue
+			}
+
+			prevCtx := ctx.Context
+			if options.ContextHook != nil {
+				var hookErr error
+				if ctx.Context, hookErr = options.ContextHook(prevCtx, o); hookErr != nil {
+					return hookErr
+				}
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				concState,
+				o.GetSearchAttributes(),
+			); err != nil {
+				return err
+			}
+
+			ctx.Context = prevCtx
+
+		case *callback.CallbackExecutionOutcome:
+
+			if o == nil {
+				continue
+			}
+
+			prevCtx := ctx.Context
+			if options.ContextHook != nil {
+				var hookErr error
+				if ctx.Context, hookErr = options.ContextHook(prevCtx, o); hookErr != nil {
+					return hookErr
+				}
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				concState,
+				o.GetFailure(),
+			); err != nil {
+				return err
+			}
+
+			ctx.Context = prevCtx
+
 		case *callback.CallbackInfo:
 
 			if o == nil {
@@ -3713,6 +3832,65 @@ func visitPayloads(
 
 			ctx.Context = prevCtx
 
+		case *workflowservice.CountCallbackExecutionsResponse:
+
+			if o == nil {
+				continue
+			}
+
+			prevCtx := ctx.Context
+			if options.ContextHook != nil {
+				var hookErr error
+				if ctx.Context, hookErr = options.ContextHook(prevCtx, o); hookErr != nil {
+					return hookErr
+				}
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				concState,
+				o.GetGroups(),
+			); err != nil {
+				return err
+			}
+
+			ctx.Context = prevCtx
+
+		case []*workflowservice.CountCallbackExecutionsResponse_AggregationGroup:
+			for _, x := range o {
+				if err := visitPayloads(ctx, options, parent, concState, x); err != nil {
+					return err
+				}
+			}
+
+		case *workflowservice.CountCallbackExecutionsResponse_AggregationGroup:
+
+			if o == nil {
+				continue
+			}
+
+			prevCtx := ctx.Context
+			if options.ContextHook != nil {
+				var hookErr error
+				if ctx.Context, hookErr = options.ContextHook(prevCtx, o); hookErr != nil {
+					return hookErr
+				}
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				concState,
+				o.GetGroupValues(),
+			); err != nil {
+				return err
+			}
+
+			ctx.Context = prevCtx
+
 		case *workflowservice.CountSchedulesResponse:
 
 			if o == nil {
@@ -3907,6 +4085,33 @@ func visitPayloads(
 				o.GetCallbacks(),
 				o.GetInfo(),
 				o.GetInput(),
+				o.GetOutcome(),
+			); err != nil {
+				return err
+			}
+
+			ctx.Context = prevCtx
+
+		case *workflowservice.DescribeCallbackExecutionResponse:
+
+			if o == nil {
+				continue
+			}
+
+			prevCtx := ctx.Context
+			if options.ContextHook != nil {
+				var hookErr error
+				if ctx.Context, hookErr = options.ContextHook(prevCtx, o); hookErr != nil {
+					return hookErr
+				}
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				concState,
+				o.GetInfo(),
 				o.GetOutcome(),
 			); err != nil {
 				return err
@@ -4300,6 +4505,32 @@ func visitPayloads(
 
 			ctx.Context = prevCtx
 
+		case *workflowservice.ListCallbackExecutionsResponse:
+
+			if o == nil {
+				continue
+			}
+
+			prevCtx := ctx.Context
+			if options.ContextHook != nil {
+				var hookErr error
+				if ctx.Context, hookErr = options.ContextHook(prevCtx, o); hookErr != nil {
+					return hookErr
+				}
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				concState,
+				o.GetExecutions(),
+			); err != nil {
+				return err
+			}
+
+			ctx.Context = prevCtx
+
 		case *workflowservice.ListClosedWorkflowExecutionsResponse:
 
 			if o == nil {
@@ -4459,6 +4690,32 @@ func visitPayloads(
 				o.GetHeader(),
 				o.GetHeartbeatDetails(),
 				o.GetInput(),
+			); err != nil {
+				return err
+			}
+
+			ctx.Context = prevCtx
+
+		case *workflowservice.PollCallbackExecutionResponse:
+
+			if o == nil {
+				continue
+			}
+
+			prevCtx := ctx.Context
+			if options.ContextHook != nil {
+				var hookErr error
+				if ctx.Context, hookErr = options.ContextHook(prevCtx, o); hookErr != nil {
+					return hookErr
+				}
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				concState,
+				o.GetOutcome(),
 			); err != nil {
 				return err
 			}
@@ -5241,6 +5498,33 @@ func visitPayloads(
 
 			ctx.Context = prevCtx
 
+		case *workflowservice.StartCallbackExecutionRequest:
+
+			if o == nil {
+				continue
+			}
+
+			prevCtx := ctx.Context
+			if options.ContextHook != nil {
+				var hookErr error
+				if ctx.Context, hookErr = options.ContextHook(prevCtx, o); hookErr != nil {
+					return hookErr
+				}
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				concState,
+				o.GetCompletion(),
+				o.GetSearchAttributes(),
+			); err != nil {
+				return err
+			}
+
+			ctx.Context = prevCtx
+
 		case *workflowservice.StartWorkflowExecutionRequest:
 
 			if o == nil {
@@ -5591,6 +5875,45 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 				ctx,
 				options,
 				o.GetInfo(),
+			); err != nil {
+				return err
+			}
+
+		case *callback.CallbackExecutionCompletion:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetFailure(),
+			); err != nil {
+				return err
+			}
+
+		case *callback.CallbackExecutionInfo:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetLastAttemptFailure(),
+			); err != nil {
+				return err
+			}
+
+		case *callback.CallbackExecutionOutcome:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetFailure(),
 			); err != nil {
 				return err
 			}
@@ -6184,6 +6507,20 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 				return err
 			}
 
+		case *workflowservice.DescribeCallbackExecutionResponse:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetInfo(),
+				o.GetOutcome(),
+			); err != nil {
+				return err
+			}
+
 		case *workflowservice.DescribeWorkflowExecutionResponse:
 			if o == nil {
 				continue
@@ -6293,6 +6630,19 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 			}
 
 		case *workflowservice.PollActivityExecutionResponse:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetOutcome(),
+			); err != nil {
+				return err
+			}
+
+		case *workflowservice.PollCallbackExecutionResponse:
 			if o == nil {
 				continue
 			}
@@ -6461,6 +6811,19 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 				options,
 				o.GetFailure(),
 				o.GetMessages(),
+			); err != nil {
+				return err
+			}
+
+		case *workflowservice.StartCallbackExecutionRequest:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetCompletion(),
 			); err != nil {
 				return err
 			}

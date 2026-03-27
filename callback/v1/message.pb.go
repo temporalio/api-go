@@ -16,6 +16,8 @@ import (
 	v12 "go.temporal.io/api/failure/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	durationpb "google.golang.org/protobuf/types/known/durationpb"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
@@ -136,11 +138,462 @@ func (x *CallbackInfo) GetBlockedReason() string {
 	return ""
 }
 
+// The outcome of a completed callback execution: either success or a failure.
+type CallbackExecutionOutcome struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Types that are valid to be assigned to Value:
+	//
+	//	*CallbackExecutionOutcome_Success
+	//	*CallbackExecutionOutcome_Failure
+	Value         isCallbackExecutionOutcome_Value `protobuf_oneof:"value"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CallbackExecutionOutcome) Reset() {
+	*x = CallbackExecutionOutcome{}
+	mi := &file_temporal_api_callback_v1_message_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CallbackExecutionOutcome) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CallbackExecutionOutcome) ProtoMessage() {}
+
+func (x *CallbackExecutionOutcome) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_api_callback_v1_message_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CallbackExecutionOutcome.ProtoReflect.Descriptor instead.
+func (*CallbackExecutionOutcome) Descriptor() ([]byte, []int) {
+	return file_temporal_api_callback_v1_message_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *CallbackExecutionOutcome) GetValue() isCallbackExecutionOutcome_Value {
+	if x != nil {
+		return x.Value
+	}
+	return nil
+}
+
+func (x *CallbackExecutionOutcome) GetSuccess() *emptypb.Empty {
+	if x != nil {
+		if x, ok := x.Value.(*CallbackExecutionOutcome_Success); ok {
+			return x.Success
+		}
+	}
+	return nil
+}
+
+func (x *CallbackExecutionOutcome) GetFailure() *v12.Failure {
+	if x != nil {
+		if x, ok := x.Value.(*CallbackExecutionOutcome_Failure); ok {
+			return x.Failure
+		}
+	}
+	return nil
+}
+
+type isCallbackExecutionOutcome_Value interface {
+	isCallbackExecutionOutcome_Value()
+}
+
+type CallbackExecutionOutcome_Success struct {
+	// The callback completed successfully.
+	Success *emptypb.Empty `protobuf:"bytes,1,opt,name=success,proto3,oneof"`
+}
+
+type CallbackExecutionOutcome_Failure struct {
+	// The failure if the callback completed unsuccessfully.
+	Failure *v12.Failure `protobuf:"bytes,2,opt,name=failure,proto3,oneof"`
+}
+
+func (*CallbackExecutionOutcome_Success) isCallbackExecutionOutcome_Value() {}
+
+func (*CallbackExecutionOutcome_Failure) isCallbackExecutionOutcome_Value() {}
+
+// The Nexus completion data that a standalone callback execution will deliver to its target URL.
+// Exactly one of success or failure should be set.
+type CallbackExecutionCompletion struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Types that are valid to be assigned to Result:
+	//
+	//	*CallbackExecutionCompletion_Success
+	//	*CallbackExecutionCompletion_Failure
+	Result        isCallbackExecutionCompletion_Result `protobuf_oneof:"result"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CallbackExecutionCompletion) Reset() {
+	*x = CallbackExecutionCompletion{}
+	mi := &file_temporal_api_callback_v1_message_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CallbackExecutionCompletion) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CallbackExecutionCompletion) ProtoMessage() {}
+
+func (x *CallbackExecutionCompletion) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_api_callback_v1_message_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CallbackExecutionCompletion.ProtoReflect.Descriptor instead.
+func (*CallbackExecutionCompletion) Descriptor() ([]byte, []int) {
+	return file_temporal_api_callback_v1_message_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *CallbackExecutionCompletion) GetResult() isCallbackExecutionCompletion_Result {
+	if x != nil {
+		return x.Result
+	}
+	return nil
+}
+
+func (x *CallbackExecutionCompletion) GetSuccess() *v1.Payload {
+	if x != nil {
+		if x, ok := x.Result.(*CallbackExecutionCompletion_Success); ok {
+			return x.Success
+		}
+	}
+	return nil
+}
+
+func (x *CallbackExecutionCompletion) GetFailure() *v12.Failure {
+	if x != nil {
+		if x, ok := x.Result.(*CallbackExecutionCompletion_Failure); ok {
+			return x.Failure
+		}
+	}
+	return nil
+}
+
+type isCallbackExecutionCompletion_Result interface {
+	isCallbackExecutionCompletion_Result()
+}
+
+type CallbackExecutionCompletion_Success struct {
+	// Deliver a successful Nexus operation completion with this result payload.
+	// If set, the callback delivers a successful completion to the target URL.
+	Success *v1.Payload `protobuf:"bytes,1,opt,name=success,proto3,oneof"`
+}
+
+type CallbackExecutionCompletion_Failure struct {
+	// Deliver a failed Nexus operation completion with this failure.
+	// If set, the callback delivers a failed completion to the target URL.
+	// If CanceledFailureInfo is set, the target operation is resolved is canceled instead of failed.
+	Failure *v12.Failure `protobuf:"bytes,2,opt,name=failure,proto3,oneof"`
+}
+
+func (*CallbackExecutionCompletion_Success) isCallbackExecutionCompletion_Result() {}
+
+func (*CallbackExecutionCompletion_Failure) isCallbackExecutionCompletion_Result() {}
+
+// Information about a standalone callback execution.
+type CallbackExecutionInfo struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Unique identifier of this callback within its namespace.
+	CallbackId string `protobuf:"bytes,1,opt,name=callback_id,json=callbackId,proto3" json:"callback_id,omitempty"`
+	// Run ID of the callback execution.
+	RunId string `protobuf:"bytes,2,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
+	// Information on how this callback should be invoked (e.g. its URL and type).
+	Callback *v1.Callback `protobuf:"bytes,3,opt,name=callback,proto3" json:"callback,omitempty"`
+	// A general status for this callback, indicates whether it is currently running or in one of the terminal statuses.
+	Status v11.CallbackExecutionStatus `protobuf:"varint,4,opt,name=status,proto3,enum=temporal.api.enums.v1.CallbackExecutionStatus" json:"status,omitempty"`
+	// The detailed state of this callback, provides more granular information than the general status.
+	State v11.CallbackState `protobuf:"varint,5,opt,name=state,proto3,enum=temporal.api.enums.v1.CallbackState" json:"state,omitempty"`
+	// The number of attempts made to deliver the callback.
+	// This number represents a minimum bound since the attempt is incremented after the callback request completes.
+	Attempt int32 `protobuf:"varint,6,opt,name=attempt,proto3" json:"attempt,omitempty"`
+	// The time when the callback was created/scheduled.
+	CreateTime *timestamppb.Timestamp `protobuf:"bytes,7,opt,name=create_time,json=createTime,proto3" json:"create_time,omitempty"`
+	// The time when the last attempt completed.
+	LastAttemptCompleteTime *timestamppb.Timestamp `protobuf:"bytes,8,opt,name=last_attempt_complete_time,json=lastAttemptCompleteTime,proto3" json:"last_attempt_complete_time,omitempty"`
+	// The last attempt's failure, if any.
+	LastAttemptFailure *v12.Failure `protobuf:"bytes,9,opt,name=last_attempt_failure,json=lastAttemptFailure,proto3" json:"last_attempt_failure,omitempty"`
+	// The time when the next attempt is scheduled.
+	NextAttemptScheduleTime *timestamppb.Timestamp `protobuf:"bytes,10,opt,name=next_attempt_schedule_time,json=nextAttemptScheduleTime,proto3" json:"next_attempt_schedule_time,omitempty"`
+	// If the state is BLOCKED, provides additional information.
+	BlockedReason string `protobuf:"bytes,11,opt,name=blocked_reason,json=blockedReason,proto3" json:"blocked_reason,omitempty"`
+	// Time when the callback transitioned to a terminal state.
+	CloseTime *timestamppb.Timestamp `protobuf:"bytes,12,opt,name=close_time,json=closeTime,proto3" json:"close_time,omitempty"`
+	// Search attributes for indexing.
+	SearchAttributes *v1.SearchAttributes `protobuf:"bytes,13,opt,name=search_attributes,json=searchAttributes,proto3" json:"search_attributes,omitempty"`
+	// Schedule-to-close timeout for this callback.
+	// (-- api-linter: core::0140::prepositions=disabled
+	//
+	//	aip.dev/not-precedent: "to" is used to indicate interval. --)
+	ScheduleToCloseTimeout *durationpb.Duration `protobuf:"bytes,14,opt,name=schedule_to_close_timeout,json=scheduleToCloseTimeout,proto3" json:"schedule_to_close_timeout,omitempty"`
+	// Incremented each time the callback's state is mutated in persistence.
+	StateTransitionCount int64 `protobuf:"varint,15,opt,name=state_transition_count,json=stateTransitionCount,proto3" json:"state_transition_count,omitempty"`
+	unknownFields        protoimpl.UnknownFields
+	sizeCache            protoimpl.SizeCache
+}
+
+func (x *CallbackExecutionInfo) Reset() {
+	*x = CallbackExecutionInfo{}
+	mi := &file_temporal_api_callback_v1_message_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CallbackExecutionInfo) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CallbackExecutionInfo) ProtoMessage() {}
+
+func (x *CallbackExecutionInfo) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_api_callback_v1_message_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CallbackExecutionInfo.ProtoReflect.Descriptor instead.
+func (*CallbackExecutionInfo) Descriptor() ([]byte, []int) {
+	return file_temporal_api_callback_v1_message_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *CallbackExecutionInfo) GetCallbackId() string {
+	if x != nil {
+		return x.CallbackId
+	}
+	return ""
+}
+
+func (x *CallbackExecutionInfo) GetRunId() string {
+	if x != nil {
+		return x.RunId
+	}
+	return ""
+}
+
+func (x *CallbackExecutionInfo) GetCallback() *v1.Callback {
+	if x != nil {
+		return x.Callback
+	}
+	return nil
+}
+
+func (x *CallbackExecutionInfo) GetStatus() v11.CallbackExecutionStatus {
+	if x != nil {
+		return x.Status
+	}
+	return v11.CallbackExecutionStatus(0)
+}
+
+func (x *CallbackExecutionInfo) GetState() v11.CallbackState {
+	if x != nil {
+		return x.State
+	}
+	return v11.CallbackState(0)
+}
+
+func (x *CallbackExecutionInfo) GetAttempt() int32 {
+	if x != nil {
+		return x.Attempt
+	}
+	return 0
+}
+
+func (x *CallbackExecutionInfo) GetCreateTime() *timestamppb.Timestamp {
+	if x != nil {
+		return x.CreateTime
+	}
+	return nil
+}
+
+func (x *CallbackExecutionInfo) GetLastAttemptCompleteTime() *timestamppb.Timestamp {
+	if x != nil {
+		return x.LastAttemptCompleteTime
+	}
+	return nil
+}
+
+func (x *CallbackExecutionInfo) GetLastAttemptFailure() *v12.Failure {
+	if x != nil {
+		return x.LastAttemptFailure
+	}
+	return nil
+}
+
+func (x *CallbackExecutionInfo) GetNextAttemptScheduleTime() *timestamppb.Timestamp {
+	if x != nil {
+		return x.NextAttemptScheduleTime
+	}
+	return nil
+}
+
+func (x *CallbackExecutionInfo) GetBlockedReason() string {
+	if x != nil {
+		return x.BlockedReason
+	}
+	return ""
+}
+
+func (x *CallbackExecutionInfo) GetCloseTime() *timestamppb.Timestamp {
+	if x != nil {
+		return x.CloseTime
+	}
+	return nil
+}
+
+func (x *CallbackExecutionInfo) GetSearchAttributes() *v1.SearchAttributes {
+	if x != nil {
+		return x.SearchAttributes
+	}
+	return nil
+}
+
+func (x *CallbackExecutionInfo) GetScheduleToCloseTimeout() *durationpb.Duration {
+	if x != nil {
+		return x.ScheduleToCloseTimeout
+	}
+	return nil
+}
+
+func (x *CallbackExecutionInfo) GetStateTransitionCount() int64 {
+	if x != nil {
+		return x.StateTransitionCount
+	}
+	return 0
+}
+
+// Limited callback information returned in the list response.
+type CallbackExecutionListInfo struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Unique identifier of this callback within its namespace.
+	CallbackId string `protobuf:"bytes,1,opt,name=callback_id,json=callbackId,proto3" json:"callback_id,omitempty"`
+	// Run ID of the callback execution.
+	RunId string `protobuf:"bytes,2,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
+	// Only running and terminal statuses appear here. More detailed information in CallbackExecutionInfo but not
+	// available in the list response.
+	Status v11.CallbackExecutionStatus `protobuf:"varint,3,opt,name=status,proto3,enum=temporal.api.enums.v1.CallbackExecutionStatus" json:"status,omitempty"`
+	// The time when the callback was created/scheduled.
+	CreateTime *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=create_time,json=createTime,proto3" json:"create_time,omitempty"`
+	// Time when the callback transitioned to a terminal state.
+	CloseTime *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=close_time,json=closeTime,proto3" json:"close_time,omitempty"`
+	// Search attributes from the start request.
+	SearchAttributes *v1.SearchAttributes `protobuf:"bytes,6,opt,name=search_attributes,json=searchAttributes,proto3" json:"search_attributes,omitempty"`
+	// Incremented each time the callback's state is mutated.
+	StateTransitionCount int64 `protobuf:"varint,7,opt,name=state_transition_count,json=stateTransitionCount,proto3" json:"state_transition_count,omitempty"`
+	unknownFields        protoimpl.UnknownFields
+	sizeCache            protoimpl.SizeCache
+}
+
+func (x *CallbackExecutionListInfo) Reset() {
+	*x = CallbackExecutionListInfo{}
+	mi := &file_temporal_api_callback_v1_message_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CallbackExecutionListInfo) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CallbackExecutionListInfo) ProtoMessage() {}
+
+func (x *CallbackExecutionListInfo) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_api_callback_v1_message_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CallbackExecutionListInfo.ProtoReflect.Descriptor instead.
+func (*CallbackExecutionListInfo) Descriptor() ([]byte, []int) {
+	return file_temporal_api_callback_v1_message_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *CallbackExecutionListInfo) GetCallbackId() string {
+	if x != nil {
+		return x.CallbackId
+	}
+	return ""
+}
+
+func (x *CallbackExecutionListInfo) GetRunId() string {
+	if x != nil {
+		return x.RunId
+	}
+	return ""
+}
+
+func (x *CallbackExecutionListInfo) GetStatus() v11.CallbackExecutionStatus {
+	if x != nil {
+		return x.Status
+	}
+	return v11.CallbackExecutionStatus(0)
+}
+
+func (x *CallbackExecutionListInfo) GetCreateTime() *timestamppb.Timestamp {
+	if x != nil {
+		return x.CreateTime
+	}
+	return nil
+}
+
+func (x *CallbackExecutionListInfo) GetCloseTime() *timestamppb.Timestamp {
+	if x != nil {
+		return x.CloseTime
+	}
+	return nil
+}
+
+func (x *CallbackExecutionListInfo) GetSearchAttributes() *v1.SearchAttributes {
+	if x != nil {
+		return x.SearchAttributes
+	}
+	return nil
+}
+
+func (x *CallbackExecutionListInfo) GetStateTransitionCount() int64 {
+	if x != nil {
+		return x.StateTransitionCount
+	}
+	return 0
+}
+
 var File_temporal_api_callback_v1_message_proto protoreflect.FileDescriptor
 
 const file_temporal_api_callback_v1_message_proto_rawDesc = "" +
 	"\n" +
-	"&temporal/api/callback/v1/message.proto\x12\x18temporal.api.callback.v1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a$temporal/api/common/v1/message.proto\x1a\"temporal/api/enums/v1/common.proto\x1a%temporal/api/failure/v1/message.proto\"\x98\x04\n" +
+	"&temporal/api/callback/v1/message.proto\x12\x18temporal.api.callback.v1\x1a\x1egoogle/protobuf/duration.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a$temporal/api/common/v1/message.proto\x1a\"temporal/api/enums/v1/common.proto\x1a%temporal/api/failure/v1/message.proto\"\x98\x04\n" +
 	"\fCallbackInfo\x12<\n" +
 	"\bcallback\x18\x01 \x01(\v2 .temporal.api.common.v1.CallbackR\bcallback\x12G\n" +
 	"\x11registration_time\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\x10registrationTime\x12:\n" +
@@ -149,7 +602,46 @@ const file_temporal_api_callback_v1_message_proto_rawDesc = "" +
 	"\x1alast_attempt_complete_time\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\x17lastAttemptCompleteTime\x12R\n" +
 	"\x14last_attempt_failure\x18\x06 \x01(\v2 .temporal.api.failure.v1.FailureR\x12lastAttemptFailure\x12W\n" +
 	"\x1anext_attempt_schedule_time\x18\a \x01(\v2\x1a.google.protobuf.TimestampR\x17nextAttemptScheduleTime\x12%\n" +
-	"\x0eblocked_reason\x18\b \x01(\tR\rblockedReasonB\x93\x01\n" +
+	"\x0eblocked_reason\x18\b \x01(\tR\rblockedReason\"\x95\x01\n" +
+	"\x18CallbackExecutionOutcome\x122\n" +
+	"\asuccess\x18\x01 \x01(\v2\x16.google.protobuf.EmptyH\x00R\asuccess\x12<\n" +
+	"\afailure\x18\x02 \x01(\v2 .temporal.api.failure.v1.FailureH\x00R\afailureB\a\n" +
+	"\x05value\"\xa2\x01\n" +
+	"\x1bCallbackExecutionCompletion\x12;\n" +
+	"\asuccess\x18\x01 \x01(\v2\x1f.temporal.api.common.v1.PayloadH\x00R\asuccess\x12<\n" +
+	"\afailure\x18\x02 \x01(\v2 .temporal.api.failure.v1.FailureH\x00R\afailureB\b\n" +
+	"\x06result\"\xb3\a\n" +
+	"\x15CallbackExecutionInfo\x12\x1f\n" +
+	"\vcallback_id\x18\x01 \x01(\tR\n" +
+	"callbackId\x12\x15\n" +
+	"\x06run_id\x18\x02 \x01(\tR\x05runId\x12<\n" +
+	"\bcallback\x18\x03 \x01(\v2 .temporal.api.common.v1.CallbackR\bcallback\x12F\n" +
+	"\x06status\x18\x04 \x01(\x0e2..temporal.api.enums.v1.CallbackExecutionStatusR\x06status\x12:\n" +
+	"\x05state\x18\x05 \x01(\x0e2$.temporal.api.enums.v1.CallbackStateR\x05state\x12\x18\n" +
+	"\aattempt\x18\x06 \x01(\x05R\aattempt\x12;\n" +
+	"\vcreate_time\x18\a \x01(\v2\x1a.google.protobuf.TimestampR\n" +
+	"createTime\x12W\n" +
+	"\x1alast_attempt_complete_time\x18\b \x01(\v2\x1a.google.protobuf.TimestampR\x17lastAttemptCompleteTime\x12R\n" +
+	"\x14last_attempt_failure\x18\t \x01(\v2 .temporal.api.failure.v1.FailureR\x12lastAttemptFailure\x12W\n" +
+	"\x1anext_attempt_schedule_time\x18\n" +
+	" \x01(\v2\x1a.google.protobuf.TimestampR\x17nextAttemptScheduleTime\x12%\n" +
+	"\x0eblocked_reason\x18\v \x01(\tR\rblockedReason\x129\n" +
+	"\n" +
+	"close_time\x18\f \x01(\v2\x1a.google.protobuf.TimestampR\tcloseTime\x12U\n" +
+	"\x11search_attributes\x18\r \x01(\v2(.temporal.api.common.v1.SearchAttributesR\x10searchAttributes\x12T\n" +
+	"\x19schedule_to_close_timeout\x18\x0e \x01(\v2\x19.google.protobuf.DurationR\x16scheduleToCloseTimeout\x124\n" +
+	"\x16state_transition_count\x18\x0f \x01(\x03R\x14stateTransitionCount\"\xa0\x03\n" +
+	"\x19CallbackExecutionListInfo\x12\x1f\n" +
+	"\vcallback_id\x18\x01 \x01(\tR\n" +
+	"callbackId\x12\x15\n" +
+	"\x06run_id\x18\x02 \x01(\tR\x05runId\x12F\n" +
+	"\x06status\x18\x03 \x01(\x0e2..temporal.api.enums.v1.CallbackExecutionStatusR\x06status\x12;\n" +
+	"\vcreate_time\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\n" +
+	"createTime\x129\n" +
+	"\n" +
+	"close_time\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\tcloseTime\x12U\n" +
+	"\x11search_attributes\x18\x06 \x01(\v2(.temporal.api.common.v1.SearchAttributesR\x10searchAttributes\x124\n" +
+	"\x16state_transition_count\x18\a \x01(\x03R\x14stateTransitionCountB\x93\x01\n" +
 	"\x1bio.temporal.api.callback.v1B\fMessageProtoP\x01Z'go.temporal.io/api/callback/v1;callback\xaa\x02\x1aTemporalio.Api.Callback.V1\xea\x02\x1dTemporalio::Api::Callback::V1b\x06proto3"
 
 var (
@@ -164,26 +656,53 @@ func file_temporal_api_callback_v1_message_proto_rawDescGZIP() []byte {
 	return file_temporal_api_callback_v1_message_proto_rawDescData
 }
 
-var file_temporal_api_callback_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_temporal_api_callback_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
 var file_temporal_api_callback_v1_message_proto_goTypes = []any{
-	(*CallbackInfo)(nil),          // 0: temporal.api.callback.v1.CallbackInfo
-	(*v1.Callback)(nil),           // 1: temporal.api.common.v1.Callback
-	(*timestamppb.Timestamp)(nil), // 2: google.protobuf.Timestamp
-	(v11.CallbackState)(0),        // 3: temporal.api.enums.v1.CallbackState
-	(*v12.Failure)(nil),           // 4: temporal.api.failure.v1.Failure
+	(*CallbackInfo)(nil),                // 0: temporal.api.callback.v1.CallbackInfo
+	(*CallbackExecutionOutcome)(nil),    // 1: temporal.api.callback.v1.CallbackExecutionOutcome
+	(*CallbackExecutionCompletion)(nil), // 2: temporal.api.callback.v1.CallbackExecutionCompletion
+	(*CallbackExecutionInfo)(nil),       // 3: temporal.api.callback.v1.CallbackExecutionInfo
+	(*CallbackExecutionListInfo)(nil),   // 4: temporal.api.callback.v1.CallbackExecutionListInfo
+	(*v1.Callback)(nil),                 // 5: temporal.api.common.v1.Callback
+	(*timestamppb.Timestamp)(nil),       // 6: google.protobuf.Timestamp
+	(v11.CallbackState)(0),              // 7: temporal.api.enums.v1.CallbackState
+	(*v12.Failure)(nil),                 // 8: temporal.api.failure.v1.Failure
+	(*emptypb.Empty)(nil),               // 9: google.protobuf.Empty
+	(*v1.Payload)(nil),                  // 10: temporal.api.common.v1.Payload
+	(v11.CallbackExecutionStatus)(0),    // 11: temporal.api.enums.v1.CallbackExecutionStatus
+	(*v1.SearchAttributes)(nil),         // 12: temporal.api.common.v1.SearchAttributes
+	(*durationpb.Duration)(nil),         // 13: google.protobuf.Duration
 }
 var file_temporal_api_callback_v1_message_proto_depIdxs = []int32{
-	1, // 0: temporal.api.callback.v1.CallbackInfo.callback:type_name -> temporal.api.common.v1.Callback
-	2, // 1: temporal.api.callback.v1.CallbackInfo.registration_time:type_name -> google.protobuf.Timestamp
-	3, // 2: temporal.api.callback.v1.CallbackInfo.state:type_name -> temporal.api.enums.v1.CallbackState
-	2, // 3: temporal.api.callback.v1.CallbackInfo.last_attempt_complete_time:type_name -> google.protobuf.Timestamp
-	4, // 4: temporal.api.callback.v1.CallbackInfo.last_attempt_failure:type_name -> temporal.api.failure.v1.Failure
-	2, // 5: temporal.api.callback.v1.CallbackInfo.next_attempt_schedule_time:type_name -> google.protobuf.Timestamp
-	6, // [6:6] is the sub-list for method output_type
-	6, // [6:6] is the sub-list for method input_type
-	6, // [6:6] is the sub-list for extension type_name
-	6, // [6:6] is the sub-list for extension extendee
-	0, // [0:6] is the sub-list for field type_name
+	5,  // 0: temporal.api.callback.v1.CallbackInfo.callback:type_name -> temporal.api.common.v1.Callback
+	6,  // 1: temporal.api.callback.v1.CallbackInfo.registration_time:type_name -> google.protobuf.Timestamp
+	7,  // 2: temporal.api.callback.v1.CallbackInfo.state:type_name -> temporal.api.enums.v1.CallbackState
+	6,  // 3: temporal.api.callback.v1.CallbackInfo.last_attempt_complete_time:type_name -> google.protobuf.Timestamp
+	8,  // 4: temporal.api.callback.v1.CallbackInfo.last_attempt_failure:type_name -> temporal.api.failure.v1.Failure
+	6,  // 5: temporal.api.callback.v1.CallbackInfo.next_attempt_schedule_time:type_name -> google.protobuf.Timestamp
+	9,  // 6: temporal.api.callback.v1.CallbackExecutionOutcome.success:type_name -> google.protobuf.Empty
+	8,  // 7: temporal.api.callback.v1.CallbackExecutionOutcome.failure:type_name -> temporal.api.failure.v1.Failure
+	10, // 8: temporal.api.callback.v1.CallbackExecutionCompletion.success:type_name -> temporal.api.common.v1.Payload
+	8,  // 9: temporal.api.callback.v1.CallbackExecutionCompletion.failure:type_name -> temporal.api.failure.v1.Failure
+	5,  // 10: temporal.api.callback.v1.CallbackExecutionInfo.callback:type_name -> temporal.api.common.v1.Callback
+	11, // 11: temporal.api.callback.v1.CallbackExecutionInfo.status:type_name -> temporal.api.enums.v1.CallbackExecutionStatus
+	7,  // 12: temporal.api.callback.v1.CallbackExecutionInfo.state:type_name -> temporal.api.enums.v1.CallbackState
+	6,  // 13: temporal.api.callback.v1.CallbackExecutionInfo.create_time:type_name -> google.protobuf.Timestamp
+	6,  // 14: temporal.api.callback.v1.CallbackExecutionInfo.last_attempt_complete_time:type_name -> google.protobuf.Timestamp
+	8,  // 15: temporal.api.callback.v1.CallbackExecutionInfo.last_attempt_failure:type_name -> temporal.api.failure.v1.Failure
+	6,  // 16: temporal.api.callback.v1.CallbackExecutionInfo.next_attempt_schedule_time:type_name -> google.protobuf.Timestamp
+	6,  // 17: temporal.api.callback.v1.CallbackExecutionInfo.close_time:type_name -> google.protobuf.Timestamp
+	12, // 18: temporal.api.callback.v1.CallbackExecutionInfo.search_attributes:type_name -> temporal.api.common.v1.SearchAttributes
+	13, // 19: temporal.api.callback.v1.CallbackExecutionInfo.schedule_to_close_timeout:type_name -> google.protobuf.Duration
+	11, // 20: temporal.api.callback.v1.CallbackExecutionListInfo.status:type_name -> temporal.api.enums.v1.CallbackExecutionStatus
+	6,  // 21: temporal.api.callback.v1.CallbackExecutionListInfo.create_time:type_name -> google.protobuf.Timestamp
+	6,  // 22: temporal.api.callback.v1.CallbackExecutionListInfo.close_time:type_name -> google.protobuf.Timestamp
+	12, // 23: temporal.api.callback.v1.CallbackExecutionListInfo.search_attributes:type_name -> temporal.api.common.v1.SearchAttributes
+	24, // [24:24] is the sub-list for method output_type
+	24, // [24:24] is the sub-list for method input_type
+	24, // [24:24] is the sub-list for extension type_name
+	24, // [24:24] is the sub-list for extension extendee
+	0,  // [0:24] is the sub-list for field type_name
 }
 
 func init() { file_temporal_api_callback_v1_message_proto_init() }
@@ -191,13 +710,21 @@ func file_temporal_api_callback_v1_message_proto_init() {
 	if File_temporal_api_callback_v1_message_proto != nil {
 		return
 	}
+	file_temporal_api_callback_v1_message_proto_msgTypes[1].OneofWrappers = []any{
+		(*CallbackExecutionOutcome_Success)(nil),
+		(*CallbackExecutionOutcome_Failure)(nil),
+	}
+	file_temporal_api_callback_v1_message_proto_msgTypes[2].OneofWrappers = []any{
+		(*CallbackExecutionCompletion_Success)(nil),
+		(*CallbackExecutionCompletion_Failure)(nil),
+	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_temporal_api_callback_v1_message_proto_rawDesc), len(file_temporal_api_callback_v1_message_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   1,
+			NumMessages:   5,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

@@ -1477,7 +1477,9 @@ type Callback_Nexus struct {
 	// Callback URL.
 	Url string `protobuf:"bytes,1,opt,name=url,proto3" json:"url,omitempty"`
 	// Header to attach to callback request.
-	Header        map[string]string `protobuf:"bytes,2,rep,name=header,proto3" json:"header,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	Header map[string]string `protobuf:"bytes,2,rep,name=header,proto3" json:"header,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	// Standard token to use for completion.
+	Token         string `protobuf:"bytes,3,opt,name=token,proto3" json:"token,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1524,6 +1526,13 @@ func (x *Callback_Nexus) GetHeader() map[string]string {
 		return x.Header
 	}
 	return nil
+}
+
+func (x *Callback_Nexus) GetToken() string {
+	if x != nil {
+		return x.Token
+	}
+	return ""
 }
 
 // Callbacks to be delivered internally within the system.
@@ -1965,14 +1974,15 @@ const file_temporal_api_common_v1_message_proto_rawDesc = "" +
 	" \x01(\x0e2'.temporal.api.enums.v1.ResetReapplyTypeB\x02\x18\x01R\x10resetReapplyType\x12(\n" +
 	"\x10current_run_only\x18\v \x01(\bR\x0ecurrentRunOnly\x12m\n" +
 	"\x1breset_reapply_exclude_types\x18\f \x03(\x0e2..temporal.api.enums.v1.ResetReapplyExcludeTypeR\x18resetReapplyExcludeTypesB\b\n" +
-	"\x06target\"\x9b\x03\n" +
+	"\x06target\"\xb1\x03\n" +
 	"\bCallback\x12>\n" +
 	"\x05nexus\x18\x02 \x01(\v2&.temporal.api.common.v1.Callback.NexusH\x00R\x05nexus\x12G\n" +
 	"\binternal\x18\x03 \x01(\v2).temporal.api.common.v1.Callback.InternalH\x00R\binternal\x122\n" +
-	"\x05links\x18d \x03(\v2\x1c.temporal.api.common.v1.LinkR\x05links\x1a\xa0\x01\n" +
+	"\x05links\x18d \x03(\v2\x1c.temporal.api.common.v1.LinkR\x05links\x1a\xb6\x01\n" +
 	"\x05Nexus\x12\x10\n" +
 	"\x03url\x18\x01 \x01(\tR\x03url\x12J\n" +
-	"\x06header\x18\x02 \x03(\v22.temporal.api.common.v1.Callback.Nexus.HeaderEntryR\x06header\x1a9\n" +
+	"\x06header\x18\x02 \x03(\v22.temporal.api.common.v1.Callback.Nexus.HeaderEntryR\x06header\x12\x14\n" +
+	"\x05token\x18\x03 \x01(\tR\x05token\x1a9\n" +
 	"\vHeaderEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\x1a\x1e\n" +

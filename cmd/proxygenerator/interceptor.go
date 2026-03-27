@@ -542,6 +542,12 @@ func visitPayloads(
 					if err := visitPayload(ctx, options, o, concState, &o.{{.}}); err != nil { return err }
 				}
 				{{end}}
+				{{range $record.OneofPayloads -}}
+				if o.Get{{.}}() != nil {
+					{{. | lowerFirst}} := o.Get{{.}}()
+					if err := visitPayload(ctx, options, o, concState, &{{. | lowerFirst}}); err != nil { return err }
+				}
+				{{end}}
 				{{if $record.Methods}}
 				if err := visitPayloads(
 					ctx,
@@ -615,7 +621,14 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 }
 `
 
-var interceptorTemplate = template.Must(template.New("interceptor").Parse(InterceptorTemplateText))
+var interceptorTemplate = template.Must(template.New("interceptor").Funcs(template.FuncMap{
+	"lowerFirst": func(s string) string {
+		if s == "" {
+			return s
+		}
+		return strings.ToLower(s[:1]) + s[1:]
+	},
+}).Parse(InterceptorTemplateText))
 
 type TemplateInput struct {
 	PayloadTypes map[string]*TypeRecord
@@ -626,11 +639,12 @@ type TemplateInput struct {
 
 // TypeRecord holds the state for a type referred to by the workflow service
 type TypeRecord struct {
-	Methods  []string // List of methods on this type that can eventually lead to Payload(s)
-	Payloads []string // List of attributes on this type that are of type Payload
-	Slice    bool     // The API refers to slices of this type
-	Map      bool     // The API refers to maps with this type as the value
-	Matches  bool     // We found methods on this type that can eventually lead to Payload(s)
+	Methods       []string // List of methods on this type that can eventually lead to Payload(s)
+	Payloads      []string // List of attributes on this type that are of type Payload (direct struct fields)
+	OneofPayloads []string // List of attributes on this type that are Payload but inside a oneof (no direct struct field)
+	Slice         bool     // The API refers to slices of this type
+	Map           bool     // The API refers to maps with this type as the value
+	Matches       bool     // We found methods on this type that can eventually lead to Payload(s)
 }
 
 // isSlice returns true if a type is slice, false otherwise
@@ -652,6 +666,28 @@ func isMap(t types.Type) bool {
 }
 
 // elemType returns the elem (value) type for a slice or map
+// hasStructField returns true if the underlying struct type has a field with the given name.
+func hasStructField(t types.Type, name string) bool {
+	// Dereference pointer
+	if ptr, ok := t.(*types.Pointer); ok {
+		t = ptr.Elem()
+	}
+	// Get named type's underlying type
+	if named, ok := t.(*types.Named); ok {
+		t = named.Underlying()
+	}
+	st, ok := t.(*types.Struct)
+	if !ok {
+		return false
+	}
+	for i := 0; i < st.NumFields(); i++ {
+		if st.Field(i).Name() == name {
+			return true
+		}
+	}
+	return false
+}
+
 func elemType(t types.Type) types.Type {
 	switch typ := t.(type) {
 	case *types.Slice:
@@ -937,7 +973,14 @@ func walk(desired []types.Type, directMatchTypes []types.Type, typ types.Type, r
 			if !ok {
 				panic(fmt.Errorf("expected method to have a Get prefix: %s", methodName))
 			}
-			record.Payloads = append(record.Payloads, prefix)
+			// Check if this is a direct struct field or a oneof accessor.
+			// For oneof fields, the Go struct doesn't have a field with this name,
+			// so we need to use the getter method instead of direct field access.
+			if hasStructField(elemType(typ), prefix) {
+				record.Payloads = append(record.Payloads, prefix)
+			} else {
+				record.OneofPayloads = append(record.OneofPayloads, prefix)
+			}
 			continue
 		}
 

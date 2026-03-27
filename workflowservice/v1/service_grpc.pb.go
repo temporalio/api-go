@@ -129,6 +129,13 @@ const (
 	WorkflowService_RequestCancelActivityExecution_FullMethodName               = "/temporal.api.workflowservice.v1.WorkflowService/RequestCancelActivityExecution"
 	WorkflowService_TerminateActivityExecution_FullMethodName                   = "/temporal.api.workflowservice.v1.WorkflowService/TerminateActivityExecution"
 	WorkflowService_DeleteActivityExecution_FullMethodName                      = "/temporal.api.workflowservice.v1.WorkflowService/DeleteActivityExecution"
+	WorkflowService_StartCallbackExecution_FullMethodName                       = "/temporal.api.workflowservice.v1.WorkflowService/StartCallbackExecution"
+	WorkflowService_DescribeCallbackExecution_FullMethodName                    = "/temporal.api.workflowservice.v1.WorkflowService/DescribeCallbackExecution"
+	WorkflowService_PollCallbackExecution_FullMethodName                        = "/temporal.api.workflowservice.v1.WorkflowService/PollCallbackExecution"
+	WorkflowService_ListCallbackExecutions_FullMethodName                       = "/temporal.api.workflowservice.v1.WorkflowService/ListCallbackExecutions"
+	WorkflowService_CountCallbackExecutions_FullMethodName                      = "/temporal.api.workflowservice.v1.WorkflowService/CountCallbackExecutions"
+	WorkflowService_TerminateCallbackExecution_FullMethodName                   = "/temporal.api.workflowservice.v1.WorkflowService/TerminateCallbackExecution"
+	WorkflowService_DeleteCallbackExecution_FullMethodName                      = "/temporal.api.workflowservice.v1.WorkflowService/DeleteCallbackExecution"
 )
 
 // WorkflowServiceClient is the client API for WorkflowService service.
@@ -794,6 +801,35 @@ type WorkflowServiceClient interface {
 	//
 	//	aip.dev/not-precedent: Activity deletion not exposed to HTTP, users should use cancel or terminate. --)
 	DeleteActivityExecution(ctx context.Context, in *DeleteActivityExecutionRequest, opts ...grpc.CallOption) (*DeleteActivityExecutionResponse, error)
+	// StartCallbackExecution starts a new standalone callback execution.
+	//
+	// Returns a `CallbackExecutionAlreadyStarted` error if a callback already exists with the same
+	// callback ID in this namespace, either in running or terminal states.
+	StartCallbackExecution(ctx context.Context, in *StartCallbackExecutionRequest, opts ...grpc.CallOption) (*StartCallbackExecutionResponse, error)
+	// DescribeCallbackExecution returns information about a callback execution.
+	// It can be used to:
+	// - Get current callback info without waiting
+	// - Long-poll for next state change and return new callback info
+	// Response can optionally include the outcome (if the callback has completed).
+	DescribeCallbackExecution(ctx context.Context, in *DescribeCallbackExecutionRequest, opts ...grpc.CallOption) (*DescribeCallbackExecutionResponse, error)
+	// PollCallbackExecution long-polls for a callback execution to complete and returns the outcome.
+	PollCallbackExecution(ctx context.Context, in *PollCallbackExecutionRequest, opts ...grpc.CallOption) (*PollCallbackExecutionResponse, error)
+	// ListCallbackExecutions is a visibility API to list callback executions in a specific namespace.
+	ListCallbackExecutions(ctx context.Context, in *ListCallbackExecutionsRequest, opts ...grpc.CallOption) (*ListCallbackExecutionsResponse, error)
+	// CountCallbackExecutions is a visibility API to count callback executions in a specific namespace.
+	CountCallbackExecutions(ctx context.Context, in *CountCallbackExecutionsRequest, opts ...grpc.CallOption) (*CountCallbackExecutionsResponse, error)
+	// TerminateCallbackExecution terminates an existing callback execution immediately.
+	//
+	// Termination happens immediately. A terminated callback will have its state set to
+	// CALLBACK_STATE_TERMINATED.
+	TerminateCallbackExecution(ctx context.Context, in *TerminateCallbackExecutionRequest, opts ...grpc.CallOption) (*TerminateCallbackExecutionResponse, error)
+	// DeleteCallbackExecution asynchronously deletes a callback execution. If the callback is
+	// running, it will be terminated before deletion.
+	//
+	// (-- api-linter: core::0127::http-annotation=disabled
+	//
+	//	aip.dev/not-precedent: Callback deletion not exposed to HTTP, users should use cancel or terminate. --)
+	DeleteCallbackExecution(ctx context.Context, in *DeleteCallbackExecutionRequest, opts ...grpc.CallOption) (*DeleteCallbackExecutionResponse, error)
 }
 
 type workflowServiceClient struct {
@@ -1894,6 +1930,76 @@ func (c *workflowServiceClient) DeleteActivityExecution(ctx context.Context, in 
 	return out, nil
 }
 
+func (c *workflowServiceClient) StartCallbackExecution(ctx context.Context, in *StartCallbackExecutionRequest, opts ...grpc.CallOption) (*StartCallbackExecutionResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(StartCallbackExecutionResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_StartCallbackExecution_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *workflowServiceClient) DescribeCallbackExecution(ctx context.Context, in *DescribeCallbackExecutionRequest, opts ...grpc.CallOption) (*DescribeCallbackExecutionResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DescribeCallbackExecutionResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_DescribeCallbackExecution_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *workflowServiceClient) PollCallbackExecution(ctx context.Context, in *PollCallbackExecutionRequest, opts ...grpc.CallOption) (*PollCallbackExecutionResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(PollCallbackExecutionResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_PollCallbackExecution_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *workflowServiceClient) ListCallbackExecutions(ctx context.Context, in *ListCallbackExecutionsRequest, opts ...grpc.CallOption) (*ListCallbackExecutionsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListCallbackExecutionsResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_ListCallbackExecutions_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *workflowServiceClient) CountCallbackExecutions(ctx context.Context, in *CountCallbackExecutionsRequest, opts ...grpc.CallOption) (*CountCallbackExecutionsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CountCallbackExecutionsResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_CountCallbackExecutions_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *workflowServiceClient) TerminateCallbackExecution(ctx context.Context, in *TerminateCallbackExecutionRequest, opts ...grpc.CallOption) (*TerminateCallbackExecutionResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(TerminateCallbackExecutionResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_TerminateCallbackExecution_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *workflowServiceClient) DeleteCallbackExecution(ctx context.Context, in *DeleteCallbackExecutionRequest, opts ...grpc.CallOption) (*DeleteCallbackExecutionResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DeleteCallbackExecutionResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_DeleteCallbackExecution_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // WorkflowServiceServer is the server API for WorkflowService service.
 // All implementations must embed UnimplementedWorkflowServiceServer
 // for forward compatibility.
@@ -2557,6 +2663,35 @@ type WorkflowServiceServer interface {
 	//
 	//	aip.dev/not-precedent: Activity deletion not exposed to HTTP, users should use cancel or terminate. --)
 	DeleteActivityExecution(context.Context, *DeleteActivityExecutionRequest) (*DeleteActivityExecutionResponse, error)
+	// StartCallbackExecution starts a new standalone callback execution.
+	//
+	// Returns a `CallbackExecutionAlreadyStarted` error if a callback already exists with the same
+	// callback ID in this namespace, either in running or terminal states.
+	StartCallbackExecution(context.Context, *StartCallbackExecutionRequest) (*StartCallbackExecutionResponse, error)
+	// DescribeCallbackExecution returns information about a callback execution.
+	// It can be used to:
+	// - Get current callback info without waiting
+	// - Long-poll for next state change and return new callback info
+	// Response can optionally include the outcome (if the callback has completed).
+	DescribeCallbackExecution(context.Context, *DescribeCallbackExecutionRequest) (*DescribeCallbackExecutionResponse, error)
+	// PollCallbackExecution long-polls for a callback execution to complete and returns the outcome.
+	PollCallbackExecution(context.Context, *PollCallbackExecutionRequest) (*PollCallbackExecutionResponse, error)
+	// ListCallbackExecutions is a visibility API to list callback executions in a specific namespace.
+	ListCallbackExecutions(context.Context, *ListCallbackExecutionsRequest) (*ListCallbackExecutionsResponse, error)
+	// CountCallbackExecutions is a visibility API to count callback executions in a specific namespace.
+	CountCallbackExecutions(context.Context, *CountCallbackExecutionsRequest) (*CountCallbackExecutionsResponse, error)
+	// TerminateCallbackExecution terminates an existing callback execution immediately.
+	//
+	// Termination happens immediately. A terminated callback will have its state set to
+	// CALLBACK_STATE_TERMINATED.
+	TerminateCallbackExecution(context.Context, *TerminateCallbackExecutionRequest) (*TerminateCallbackExecutionResponse, error)
+	// DeleteCallbackExecution asynchronously deletes a callback execution. If the callback is
+	// running, it will be terminated before deletion.
+	//
+	// (-- api-linter: core::0127::http-annotation=disabled
+	//
+	//	aip.dev/not-precedent: Callback deletion not exposed to HTTP, users should use cancel or terminate. --)
+	DeleteCallbackExecution(context.Context, *DeleteCallbackExecutionRequest) (*DeleteCallbackExecutionResponse, error)
 	mustEmbedUnimplementedWorkflowServiceServer()
 }
 
@@ -2893,6 +3028,27 @@ func (UnimplementedWorkflowServiceServer) TerminateActivityExecution(context.Con
 }
 func (UnimplementedWorkflowServiceServer) DeleteActivityExecution(context.Context, *DeleteActivityExecutionRequest) (*DeleteActivityExecutionResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method DeleteActivityExecution not implemented")
+}
+func (UnimplementedWorkflowServiceServer) StartCallbackExecution(context.Context, *StartCallbackExecutionRequest) (*StartCallbackExecutionResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method StartCallbackExecution not implemented")
+}
+func (UnimplementedWorkflowServiceServer) DescribeCallbackExecution(context.Context, *DescribeCallbackExecutionRequest) (*DescribeCallbackExecutionResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method DescribeCallbackExecution not implemented")
+}
+func (UnimplementedWorkflowServiceServer) PollCallbackExecution(context.Context, *PollCallbackExecutionRequest) (*PollCallbackExecutionResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method PollCallbackExecution not implemented")
+}
+func (UnimplementedWorkflowServiceServer) ListCallbackExecutions(context.Context, *ListCallbackExecutionsRequest) (*ListCallbackExecutionsResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListCallbackExecutions not implemented")
+}
+func (UnimplementedWorkflowServiceServer) CountCallbackExecutions(context.Context, *CountCallbackExecutionsRequest) (*CountCallbackExecutionsResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method CountCallbackExecutions not implemented")
+}
+func (UnimplementedWorkflowServiceServer) TerminateCallbackExecution(context.Context, *TerminateCallbackExecutionRequest) (*TerminateCallbackExecutionResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method TerminateCallbackExecution not implemented")
+}
+func (UnimplementedWorkflowServiceServer) DeleteCallbackExecution(context.Context, *DeleteCallbackExecutionRequest) (*DeleteCallbackExecutionResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method DeleteCallbackExecution not implemented")
 }
 func (UnimplementedWorkflowServiceServer) mustEmbedUnimplementedWorkflowServiceServer() {}
 func (UnimplementedWorkflowServiceServer) testEmbeddedByValue()                         {}
@@ -4877,6 +5033,132 @@ func _WorkflowService_DeleteActivityExecution_Handler(srv interface{}, ctx conte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _WorkflowService_StartCallbackExecution_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(StartCallbackExecutionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WorkflowServiceServer).StartCallbackExecution(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: WorkflowService_StartCallbackExecution_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WorkflowServiceServer).StartCallbackExecution(ctx, req.(*StartCallbackExecutionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _WorkflowService_DescribeCallbackExecution_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribeCallbackExecutionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WorkflowServiceServer).DescribeCallbackExecution(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: WorkflowService_DescribeCallbackExecution_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WorkflowServiceServer).DescribeCallbackExecution(ctx, req.(*DescribeCallbackExecutionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _WorkflowService_PollCallbackExecution_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PollCallbackExecutionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WorkflowServiceServer).PollCallbackExecution(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: WorkflowService_PollCallbackExecution_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WorkflowServiceServer).PollCallbackExecution(ctx, req.(*PollCallbackExecutionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _WorkflowService_ListCallbackExecutions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListCallbackExecutionsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WorkflowServiceServer).ListCallbackExecutions(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: WorkflowService_ListCallbackExecutions_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WorkflowServiceServer).ListCallbackExecutions(ctx, req.(*ListCallbackExecutionsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _WorkflowService_CountCallbackExecutions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CountCallbackExecutionsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WorkflowServiceServer).CountCallbackExecutions(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: WorkflowService_CountCallbackExecutions_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WorkflowServiceServer).CountCallbackExecutions(ctx, req.(*CountCallbackExecutionsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _WorkflowService_TerminateCallbackExecution_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(TerminateCallbackExecutionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WorkflowServiceServer).TerminateCallbackExecution(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: WorkflowService_TerminateCallbackExecution_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WorkflowServiceServer).TerminateCallbackExecution(ctx, req.(*TerminateCallbackExecutionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _WorkflowService_DeleteCallbackExecution_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteCallbackExecutionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WorkflowServiceServer).DeleteCallbackExecution(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: WorkflowService_DeleteCallbackExecution_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WorkflowServiceServer).DeleteCallbackExecution(ctx, req.(*DeleteCallbackExecutionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // WorkflowService_ServiceDesc is the grpc.ServiceDesc for WorkflowService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -5319,6 +5601,34 @@ var WorkflowService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteActivityExecution",
 			Handler:    _WorkflowService_DeleteActivityExecution_Handler,
+		},
+		{
+			MethodName: "StartCallbackExecution",
+			Handler:    _WorkflowService_StartCallbackExecution_Handler,
+		},
+		{
+			MethodName: "DescribeCallbackExecution",
+			Handler:    _WorkflowService_DescribeCallbackExecution_Handler,
+		},
+		{
+			MethodName: "PollCallbackExecution",
+			Handler:    _WorkflowService_PollCallbackExecution_Handler,
+		},
+		{
+			MethodName: "ListCallbackExecutions",
+			Handler:    _WorkflowService_ListCallbackExecutions_Handler,
+		},
+		{
+			MethodName: "CountCallbackExecutions",
+			Handler:    _WorkflowService_CountCallbackExecutions_Handler,
+		},
+		{
+			MethodName: "TerminateCallbackExecution",
+			Handler:    _WorkflowService_TerminateCallbackExecution_Handler,
+		},
+		{
+			MethodName: "DeleteCallbackExecution",
+			Handler:    _WorkflowService_DeleteCallbackExecution_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
