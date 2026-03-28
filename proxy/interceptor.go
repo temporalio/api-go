@@ -421,6 +421,28 @@ func visitPayloads(
 				return err
 			}
 
+		case *callback.CallbackExecutionCompletion:
+
+			if o == nil {
+				continue
+			}
+			if o.Success != nil {
+				no, err := visitPayload(ctx, options, o, o.Success)
+				if err != nil {
+					return err
+				}
+				o.Success = no
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetFailure(),
+			); err != nil {
+				return err
+			}
+
 		case *callback.CallbackExecutionInfo:
 
 			if o == nil {
@@ -3204,6 +3226,7 @@ func visitPayloads(
 				ctx,
 				options,
 				o,
+				o.GetCompletion(),
 				o.GetHeader(),
 				o.GetSearchAttributes(),
 			); err != nil {
@@ -3391,6 +3414,19 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 			}
 
 		case *activity.ActivityExecutionOutcome:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetFailure(),
+			); err != nil {
+				return err
+			}
+
+		case *callback.CallbackExecutionCompletion:
 			if o == nil {
 				continue
 			}
@@ -4308,6 +4344,19 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 				options,
 				o.GetFailure(),
 				o.GetMessages(),
+			); err != nil {
+				return err
+			}
+
+		case *workflowservice.StartCallbackExecutionRequest:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetCompletion(),
 			); err != nil {
 				return err
 			}
