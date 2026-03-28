@@ -197,8 +197,6 @@ type CallbackExecutionInfo struct {
 	CloseTime *timestamppb.Timestamp `protobuf:"bytes,10,opt,name=close_time,json=closeTime,proto3" json:"close_time,omitempty"`
 	// Search attributes for indexing.
 	SearchAttributes *v11.SearchAttributes `protobuf:"bytes,11,opt,name=search_attributes,json=searchAttributes,proto3" json:"search_attributes,omitempty"`
-	// Retry policy for this callback.
-	RetryPolicy *v11.RetryPolicy `protobuf:"bytes,12,opt,name=retry_policy,json=retryPolicy,proto3" json:"retry_policy,omitempty"`
 	// Schedule-to-close timeout for this callback.
 	// (-- api-linter: core::0140::prepositions=disabled
 	//
@@ -313,13 +311,6 @@ func (x *CallbackExecutionInfo) GetCloseTime() *timestamppb.Timestamp {
 func (x *CallbackExecutionInfo) GetSearchAttributes() *v11.SearchAttributes {
 	if x != nil {
 		return x.SearchAttributes
-	}
-	return nil
-}
-
-func (x *CallbackExecutionInfo) GetRetryPolicy() *v11.RetryPolicy {
-	if x != nil {
-		return x.RetryPolicy
 	}
 	return nil
 }
@@ -440,7 +431,7 @@ const file_temporal_api_callback_v1_message_proto_rawDesc = "" +
 	"\x05value\"\x94\x01\n" +
 	"\x1bCallbackExecutionCompletion\x129\n" +
 	"\asuccess\x18\x01 \x01(\v2\x1f.temporal.api.common.v1.PayloadR\asuccess\x12:\n" +
-	"\afailure\x18\x02 \x01(\v2 .temporal.api.failure.v1.FailureR\afailure\"\x9c\a\n" +
+	"\afailure\x18\x02 \x01(\v2 .temporal.api.failure.v1.FailureR\afailure\"\xd4\x06\n" +
 	"\x15CallbackExecutionInfo\x12\x1f\n" +
 	"\vcallback_id\x18\x01 \x01(\tR\n" +
 	"callbackId\x12<\n" +
@@ -456,8 +447,7 @@ const file_temporal_api_callback_v1_message_proto_rawDesc = "" +
 	"\n" +
 	"close_time\x18\n" +
 	" \x01(\v2\x1a.google.protobuf.TimestampR\tcloseTime\x12U\n" +
-	"\x11search_attributes\x18\v \x01(\v2(.temporal.api.common.v1.SearchAttributesR\x10searchAttributes\x12F\n" +
-	"\fretry_policy\x18\f \x01(\v2#.temporal.api.common.v1.RetryPolicyR\vretryPolicy\x12T\n" +
+	"\x11search_attributes\x18\v \x01(\v2(.temporal.api.common.v1.SearchAttributesR\x10searchAttributes\x12T\n" +
 	"\x19schedule_to_close_timeout\x18\r \x01(\v2\x19.google.protobuf.DurationR\x16scheduleToCloseTimeout\x124\n" +
 	"\x16state_transition_count\x18\x0e \x01(\x03R\x14stateTransitionCount\"\xfd\x02\n" +
 	"\x19CallbackExecutionListInfo\x12\x1f\n" +
@@ -497,8 +487,7 @@ var file_temporal_api_callback_v1_message_proto_goTypes = []any{
 	(v12.CallbackState)(0),              // 8: temporal.api.enums.v1.CallbackState
 	(*timestamppb.Timestamp)(nil),       // 9: google.protobuf.Timestamp
 	(*v11.SearchAttributes)(nil),        // 10: temporal.api.common.v1.SearchAttributes
-	(*v11.RetryPolicy)(nil),             // 11: temporal.api.common.v1.RetryPolicy
-	(*durationpb.Duration)(nil),         // 12: google.protobuf.Duration
+	(*durationpb.Duration)(nil),         // 11: google.protobuf.Duration
 }
 var file_temporal_api_callback_v1_message_proto_depIdxs = []int32{
 	4,  // 0: temporal.api.callback.v1.CallbackExecutionOutcome.success:type_name -> google.protobuf.Empty
@@ -513,17 +502,16 @@ var file_temporal_api_callback_v1_message_proto_depIdxs = []int32{
 	9,  // 9: temporal.api.callback.v1.CallbackExecutionInfo.next_attempt_schedule_time:type_name -> google.protobuf.Timestamp
 	9,  // 10: temporal.api.callback.v1.CallbackExecutionInfo.close_time:type_name -> google.protobuf.Timestamp
 	10, // 11: temporal.api.callback.v1.CallbackExecutionInfo.search_attributes:type_name -> temporal.api.common.v1.SearchAttributes
-	11, // 12: temporal.api.callback.v1.CallbackExecutionInfo.retry_policy:type_name -> temporal.api.common.v1.RetryPolicy
-	12, // 13: temporal.api.callback.v1.CallbackExecutionInfo.schedule_to_close_timeout:type_name -> google.protobuf.Duration
-	8,  // 14: temporal.api.callback.v1.CallbackExecutionListInfo.state:type_name -> temporal.api.enums.v1.CallbackState
-	9,  // 15: temporal.api.callback.v1.CallbackExecutionListInfo.create_time:type_name -> google.protobuf.Timestamp
-	9,  // 16: temporal.api.callback.v1.CallbackExecutionListInfo.close_time:type_name -> google.protobuf.Timestamp
-	10, // 17: temporal.api.callback.v1.CallbackExecutionListInfo.search_attributes:type_name -> temporal.api.common.v1.SearchAttributes
-	18, // [18:18] is the sub-list for method output_type
-	18, // [18:18] is the sub-list for method input_type
-	18, // [18:18] is the sub-list for extension type_name
-	18, // [18:18] is the sub-list for extension extendee
-	0,  // [0:18] is the sub-list for field type_name
+	11, // 12: temporal.api.callback.v1.CallbackExecutionInfo.schedule_to_close_timeout:type_name -> google.protobuf.Duration
+	8,  // 13: temporal.api.callback.v1.CallbackExecutionListInfo.state:type_name -> temporal.api.enums.v1.CallbackState
+	9,  // 14: temporal.api.callback.v1.CallbackExecutionListInfo.create_time:type_name -> google.protobuf.Timestamp
+	9,  // 15: temporal.api.callback.v1.CallbackExecutionListInfo.close_time:type_name -> google.protobuf.Timestamp
+	10, // 16: temporal.api.callback.v1.CallbackExecutionListInfo.search_attributes:type_name -> temporal.api.common.v1.SearchAttributes
+	17, // [17:17] is the sub-list for method output_type
+	17, // [17:17] is the sub-list for method input_type
+	17, // [17:17] is the sub-list for extension type_name
+	17, // [17:17] is the sub-list for extension extendee
+	0,  // [0:17] is the sub-list for field type_name
 }
 
 func init() { file_temporal_api_callback_v1_message_proto_init() }
