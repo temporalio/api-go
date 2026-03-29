@@ -227,6 +227,43 @@ func (this *CancelOperationRequest) Equal(that interface{}) bool {
 	return proto.Equal(this, that1)
 }
 
+// Marshal an object of type CallbackRequest to the protobuf v3 wire format
+func (val *CallbackRequest) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type CallbackRequest from the protobuf v3 wire format
+func (val *CallbackRequest) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *CallbackRequest) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two CallbackRequest values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *CallbackRequest) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *CallbackRequest
+	switch t := that.(type) {
+	case *CallbackRequest:
+		that1 = t
+	case CallbackRequest:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
 // Marshal an object of type Request to the protobuf v3 wire format
 func (val *Request) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
@@ -330,6 +367,43 @@ func (this *CancelOperationResponse) Equal(that interface{}) bool {
 	case *CancelOperationResponse:
 		that1 = t
 	case CancelOperationResponse:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type CallbackResponse to the protobuf v3 wire format
+func (val *CallbackResponse) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type CallbackResponse from the protobuf v3 wire format
+func (val *CallbackResponse) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *CallbackResponse) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two CallbackResponse values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *CallbackResponse) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *CallbackResponse
+	switch t := that.(type) {
+	case *CallbackResponse:
+		that1 = t
+	case CallbackResponse:
 		that1 = &t
 	default:
 		return false

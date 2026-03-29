@@ -12,6 +12,7 @@ import (
 	"go.temporal.io/api/callback/v1"
 	"go.temporal.io/api/command/v1"
 	"go.temporal.io/api/common/v1"
+	"go.temporal.io/api/compute/v1"
 	"go.temporal.io/api/deployment/v1"
 	"go.temporal.io/api/errordetails/v1"
 	"go.temporal.io/api/export/v1"
@@ -754,6 +755,92 @@ func visitPayloads(
 				return err
 			}
 
+		case *compute.ComputeConfig:
+
+			if o == nil {
+				continue
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetScalingGroups(),
+			); err != nil {
+				return err
+			}
+
+		case map[string]*compute.ComputeConfigScalingGroup:
+			for _, x := range o {
+				if err := visitPayloads(ctx, options, parent, x); err != nil {
+					return err
+				}
+			}
+
+		case *compute.ComputeConfigScalingGroup:
+
+			if o == nil {
+				continue
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetProvider(),
+				o.GetScaler(),
+			); err != nil {
+				return err
+			}
+
+		case map[string]*compute.ComputeConfigScalingGroupUpdate:
+			for _, x := range o {
+				if err := visitPayloads(ctx, options, parent, x); err != nil {
+					return err
+				}
+			}
+
+		case *compute.ComputeConfigScalingGroupUpdate:
+
+			if o == nil {
+				continue
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetScalingGroup(),
+			); err != nil {
+				return err
+			}
+
+		case *compute.ComputeProvider:
+
+			if o == nil {
+				continue
+			}
+			if o.Details != nil {
+				no, err := visitPayload(ctx, options, o, o.Details)
+				if err != nil {
+					return err
+				}
+				o.Details = no
+			}
+
+		case *compute.ComputeScaler:
+
+			if o == nil {
+				continue
+			}
+			if o.Details != nil {
+				no, err := visitPayload(ctx, options, o, o.Details)
+				if err != nil {
+					return err
+				}
+				o.Details = no
+			}
+
 		case *deployment.DeploymentInfo:
 
 			if o == nil {
@@ -809,6 +896,7 @@ func visitPayloads(
 				ctx,
 				options,
 				o,
+				o.GetComputeConfig(),
 				o.GetMetadata(),
 			); err != nil {
 				return err
@@ -1592,6 +1680,21 @@ func visitPayloads(
 				return err
 			}
 
+		case *nexus.CallbackRequest:
+
+			if o == nil {
+				continue
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetCompletion(),
+			); err != nil {
+				return err
+			}
+
 		case []*nexus.Endpoint:
 			for _, x := range o {
 				if err := visitPayloads(ctx, options, parent, x); err != nil {
@@ -1637,6 +1740,7 @@ func visitPayloads(
 				ctx,
 				options,
 				o,
+				o.GetCallback(),
 				o.GetStartOperation(),
 			); err != nil {
 				return err
@@ -2362,6 +2466,21 @@ func visitPayloads(
 				o.GetMemo(),
 				o.GetSchedule(),
 				o.GetSearchAttributes(),
+			); err != nil {
+				return err
+			}
+
+		case *workflowservice.CreateWorkerDeploymentVersionRequest:
+
+			if o == nil {
+				continue
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetComputeConfig(),
 			); err != nil {
 				return err
 			}
@@ -3301,6 +3420,21 @@ func visitPayloads(
 				return err
 			}
 
+		case *workflowservice.UpdateWorkerDeploymentVersionComputeConfigRequest:
+
+			if o == nil {
+				continue
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetComputeConfigScalingGroups(),
+			); err != nil {
+				return err
+			}
+
 		case *workflowservice.UpdateWorkerDeploymentVersionMetadataRequest:
 
 			if o == nil {
@@ -3357,6 +3491,21 @@ func visitPayloads(
 				options,
 				o,
 				o.GetOutcome(),
+			); err != nil {
+				return err
+			}
+
+		case *workflowservice.ValidateWorkerDeploymentVersionComputeConfigRequest:
+
+			if o == nil {
+				continue
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetComputeConfigScalingGroups(),
 			); err != nil {
 				return err
 			}
@@ -3848,6 +3997,32 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 				return err
 			}
 
+		case *nexus.CallbackRequest:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetCompletion(),
+			); err != nil {
+				return err
+			}
+
+		case *nexus.Request:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetCallback(),
+			); err != nil {
+				return err
+			}
+
 		case *nexus.Response:
 			if o == nil {
 				continue
@@ -4185,6 +4360,19 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 				ctx,
 				options,
 				o.GetOutcome(),
+			); err != nil {
+				return err
+			}
+
+		case *workflowservice.PollNexusTaskQueueResponse:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetRequest(),
 			); err != nil {
 				return err
 			}

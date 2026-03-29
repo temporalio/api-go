@@ -136,6 +136,46 @@ func (mr *MockWorkflowServiceClientMockRecorder) CreateSchedule(ctx, in interfac
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateSchedule", reflect.TypeOf((*MockWorkflowServiceClient)(nil).CreateSchedule), varargs...)
 }
 
+// CreateWorkerDeployment mocks base method.
+func (m *MockWorkflowServiceClient) CreateWorkerDeployment(ctx context.Context, in *workflowservice.CreateWorkerDeploymentRequest, opts ...grpc.CallOption) (*workflowservice.CreateWorkerDeploymentResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "CreateWorkerDeployment", varargs...)
+	ret0, _ := ret[0].(*workflowservice.CreateWorkerDeploymentResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// CreateWorkerDeployment indicates an expected call of CreateWorkerDeployment.
+func (mr *MockWorkflowServiceClientMockRecorder) CreateWorkerDeployment(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateWorkerDeployment", reflect.TypeOf((*MockWorkflowServiceClient)(nil).CreateWorkerDeployment), varargs...)
+}
+
+// CreateWorkerDeploymentVersion mocks base method.
+func (m *MockWorkflowServiceClient) CreateWorkerDeploymentVersion(ctx context.Context, in *workflowservice.CreateWorkerDeploymentVersionRequest, opts ...grpc.CallOption) (*workflowservice.CreateWorkerDeploymentVersionResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "CreateWorkerDeploymentVersion", varargs...)
+	ret0, _ := ret[0].(*workflowservice.CreateWorkerDeploymentVersionResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// CreateWorkerDeploymentVersion indicates an expected call of CreateWorkerDeploymentVersion.
+func (mr *MockWorkflowServiceClientMockRecorder) CreateWorkerDeploymentVersion(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateWorkerDeploymentVersion", reflect.TypeOf((*MockWorkflowServiceClient)(nil).CreateWorkerDeploymentVersion), varargs...)
+}
+
 // CreateWorkflowRule mocks base method.
 func (m *MockWorkflowServiceClient) CreateWorkflowRule(ctx context.Context, in *workflowservice.CreateWorkflowRuleRequest, opts ...grpc.CallOption) (*workflowservice.CreateWorkflowRuleResponse, error) {
 	m.ctrl.T.Helper()
@@ -2196,6 +2236,26 @@ func (mr *MockWorkflowServiceClientMockRecorder) UpdateWorkerConfig(ctx, in inte
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateWorkerConfig", reflect.TypeOf((*MockWorkflowServiceClient)(nil).UpdateWorkerConfig), varargs...)
 }
 
+// UpdateWorkerDeploymentVersionComputeConfig mocks base method.
+func (m *MockWorkflowServiceClient) UpdateWorkerDeploymentVersionComputeConfig(ctx context.Context, in *workflowservice.UpdateWorkerDeploymentVersionComputeConfigRequest, opts ...grpc.CallOption) (*workflowservice.UpdateWorkerDeploymentVersionComputeConfigResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpdateWorkerDeploymentVersionComputeConfig", varargs...)
+	ret0, _ := ret[0].(*workflowservice.UpdateWorkerDeploymentVersionComputeConfigResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// UpdateWorkerDeploymentVersionComputeConfig indicates an expected call of UpdateWorkerDeploymentVersionComputeConfig.
+func (mr *MockWorkflowServiceClientMockRecorder) UpdateWorkerDeploymentVersionComputeConfig(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateWorkerDeploymentVersionComputeConfig", reflect.TypeOf((*MockWorkflowServiceClient)(nil).UpdateWorkerDeploymentVersionComputeConfig), varargs...)
+}
+
 // UpdateWorkerDeploymentVersionMetadata mocks base method.
 func (m *MockWorkflowServiceClient) UpdateWorkerDeploymentVersionMetadata(ctx context.Context, in *workflowservice.UpdateWorkerDeploymentVersionMetadataRequest, opts ...grpc.CallOption) (*workflowservice.UpdateWorkerDeploymentVersionMetadataResponse, error) {
 	m.ctrl.T.Helper()
@@ -2274,6 +2334,26 @@ func (mr *MockWorkflowServiceClientMockRecorder) UpdateWorkflowExecutionOptions(
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, in}, opts...)
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateWorkflowExecutionOptions", reflect.TypeOf((*MockWorkflowServiceClient)(nil).UpdateWorkflowExecutionOptions), varargs...)
+}
+
+// ValidateWorkerDeploymentVersionComputeConfig mocks base method.
+func (m *MockWorkflowServiceClient) ValidateWorkerDeploymentVersionComputeConfig(ctx context.Context, in *workflowservice.ValidateWorkerDeploymentVersionComputeConfigRequest, opts ...grpc.CallOption) (*workflowservice.ValidateWorkerDeploymentVersionComputeConfigResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "ValidateWorkerDeploymentVersionComputeConfig", varargs...)
+	ret0, _ := ret[0].(*workflowservice.ValidateWorkerDeploymentVersionComputeConfigResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ValidateWorkerDeploymentVersionComputeConfig indicates an expected call of ValidateWorkerDeploymentVersionComputeConfig.
+func (mr *MockWorkflowServiceClientMockRecorder) ValidateWorkerDeploymentVersionComputeConfig(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ValidateWorkerDeploymentVersionComputeConfig", reflect.TypeOf((*MockWorkflowServiceClient)(nil).ValidateWorkerDeploymentVersionComputeConfig), varargs...)
 }
 
 // MockWorkflowServiceServer is a mock of WorkflowServiceServer interface.
@@ -2375,6 +2455,36 @@ func (m *MockWorkflowServiceServer) CreateSchedule(arg0 context.Context, arg1 *w
 func (mr *MockWorkflowServiceServerMockRecorder) CreateSchedule(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateSchedule", reflect.TypeOf((*MockWorkflowServiceServer)(nil).CreateSchedule), arg0, arg1)
+}
+
+// CreateWorkerDeployment mocks base method.
+func (m *MockWorkflowServiceServer) CreateWorkerDeployment(arg0 context.Context, arg1 *workflowservice.CreateWorkerDeploymentRequest) (*workflowservice.CreateWorkerDeploymentResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateWorkerDeployment", arg0, arg1)
+	ret0, _ := ret[0].(*workflowservice.CreateWorkerDeploymentResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// CreateWorkerDeployment indicates an expected call of CreateWorkerDeployment.
+func (mr *MockWorkflowServiceServerMockRecorder) CreateWorkerDeployment(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateWorkerDeployment", reflect.TypeOf((*MockWorkflowServiceServer)(nil).CreateWorkerDeployment), arg0, arg1)
+}
+
+// CreateWorkerDeploymentVersion mocks base method.
+func (m *MockWorkflowServiceServer) CreateWorkerDeploymentVersion(arg0 context.Context, arg1 *workflowservice.CreateWorkerDeploymentVersionRequest) (*workflowservice.CreateWorkerDeploymentVersionResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateWorkerDeploymentVersion", arg0, arg1)
+	ret0, _ := ret[0].(*workflowservice.CreateWorkerDeploymentVersionResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// CreateWorkerDeploymentVersion indicates an expected call of CreateWorkerDeploymentVersion.
+func (mr *MockWorkflowServiceServerMockRecorder) CreateWorkerDeploymentVersion(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateWorkerDeploymentVersion", reflect.TypeOf((*MockWorkflowServiceServer)(nil).CreateWorkerDeploymentVersion), arg0, arg1)
 }
 
 // CreateWorkflowRule mocks base method.
@@ -3922,6 +4032,21 @@ func (mr *MockWorkflowServiceServerMockRecorder) UpdateWorkerConfig(arg0, arg1 i
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateWorkerConfig", reflect.TypeOf((*MockWorkflowServiceServer)(nil).UpdateWorkerConfig), arg0, arg1)
 }
 
+// UpdateWorkerDeploymentVersionComputeConfig mocks base method.
+func (m *MockWorkflowServiceServer) UpdateWorkerDeploymentVersionComputeConfig(arg0 context.Context, arg1 *workflowservice.UpdateWorkerDeploymentVersionComputeConfigRequest) (*workflowservice.UpdateWorkerDeploymentVersionComputeConfigResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateWorkerDeploymentVersionComputeConfig", arg0, arg1)
+	ret0, _ := ret[0].(*workflowservice.UpdateWorkerDeploymentVersionComputeConfigResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// UpdateWorkerDeploymentVersionComputeConfig indicates an expected call of UpdateWorkerDeploymentVersionComputeConfig.
+func (mr *MockWorkflowServiceServerMockRecorder) UpdateWorkerDeploymentVersionComputeConfig(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateWorkerDeploymentVersionComputeConfig", reflect.TypeOf((*MockWorkflowServiceServer)(nil).UpdateWorkerDeploymentVersionComputeConfig), arg0, arg1)
+}
+
 // UpdateWorkerDeploymentVersionMetadata mocks base method.
 func (m *MockWorkflowServiceServer) UpdateWorkerDeploymentVersionMetadata(arg0 context.Context, arg1 *workflowservice.UpdateWorkerDeploymentVersionMetadataRequest) (*workflowservice.UpdateWorkerDeploymentVersionMetadataResponse, error) {
 	m.ctrl.T.Helper()
@@ -3980,6 +4105,21 @@ func (m *MockWorkflowServiceServer) UpdateWorkflowExecutionOptions(arg0 context.
 func (mr *MockWorkflowServiceServerMockRecorder) UpdateWorkflowExecutionOptions(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateWorkflowExecutionOptions", reflect.TypeOf((*MockWorkflowServiceServer)(nil).UpdateWorkflowExecutionOptions), arg0, arg1)
+}
+
+// ValidateWorkerDeploymentVersionComputeConfig mocks base method.
+func (m *MockWorkflowServiceServer) ValidateWorkerDeploymentVersionComputeConfig(arg0 context.Context, arg1 *workflowservice.ValidateWorkerDeploymentVersionComputeConfigRequest) (*workflowservice.ValidateWorkerDeploymentVersionComputeConfigResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ValidateWorkerDeploymentVersionComputeConfig", arg0, arg1)
+	ret0, _ := ret[0].(*workflowservice.ValidateWorkerDeploymentVersionComputeConfigResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ValidateWorkerDeploymentVersionComputeConfig indicates an expected call of ValidateWorkerDeploymentVersionComputeConfig.
+func (mr *MockWorkflowServiceServerMockRecorder) ValidateWorkerDeploymentVersionComputeConfig(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ValidateWorkerDeploymentVersionComputeConfig", reflect.TypeOf((*MockWorkflowServiceServer)(nil).ValidateWorkerDeploymentVersionComputeConfig), arg0, arg1)
 }
 
 // mustEmbedUnimplementedWorkflowServiceServer mocks base method.
