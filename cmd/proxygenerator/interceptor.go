@@ -55,6 +55,13 @@ type VisitPayloadsOptions struct {
 	// Will be called for each Any encountered. If not set, the default is to recurse into the Any
 	// object, unmarshal it, visit, and re-marshal it always (even if there are no changes).
 	WellKnownAnyVisitor func(*VisitPayloadsContext, *anypb.Any) error
+	// ContextHook, if set, is called before visiting a proto message's payloads and children.
+	// The returned context replaces ctx.Context for the duration of visiting that message's
+	// subtree; the original is restored afterward. Use this to inject context values keyed to
+	// the message being entered. If nil, the context is not updated during traversal.
+	//
+	// NOTE: Experimental.
+	ContextHook func(context.Context, proto.Message) (context.Context, error)
 }
 
 // VisitPayloads calls the options.Visitor function for every Payload proto within msg.
@@ -340,6 +347,14 @@ func visitPayloads(
 				if options.SkipSearchAttributes { continue }
 				{{end}}
 				if o == nil { continue }
+				
+				prevCtx := ctx.Context
+				if options.ContextHook != nil {
+					var hookErr error
+					if ctx.Context, hookErr = options.ContextHook(prevCtx, o); hookErr != nil {
+						return hookErr
+					}
+				}
 				{{range $record.Payloads -}}
 				if o.{{.}} != nil {
 					no, err := visitPayload(ctx, options, o, o.{{.}})
@@ -357,6 +372,7 @@ func visitPayloads(
 					{{end}}
 				); err != nil { return err }
 				{{end}}
+				ctx.Context = prevCtx
 {{end}}
 		}
 	}
