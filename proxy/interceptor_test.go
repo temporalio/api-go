@@ -1005,3 +1005,216 @@ func TestVisitPayloads_Everything(t *testing.T) {
 
 	}
 }
+
+// contextHookKey is an unexported key for values injected by ContextHook tests.
+type contextHookKey struct{}
+
+func TestContextHook_NilHookIsNoop(t *testing.T) {
+	root := &workflowservice.StartWorkflowExecutionRequest{
+		Input: inputPayloads(),
+	}
+	var called bool
+	err := VisitPayloads(context.Background(), root, VisitPayloadsOptions{
+		// ContextHook deliberately not set
+		Visitor: func(ctx *VisitPayloadsContext, p []*common.Payload) ([]*common.Payload, error) {
+			called = true
+			return p, nil
+		},
+	})
+	require.NoError(t, err)
+	require.True(t, called)
+}
+
+func TestContextHook_ContextPropagatedToVisitor(t *testing.T) {
+	root := &workflowservice.RespondWorkflowTaskCompletedRequest{
+		Commands: []*command.Command{
+			{
+				Attributes: &command.Command_ScheduleActivityTaskCommandAttributes{
+					ScheduleActivityTaskCommandAttributes: &command.ScheduleActivityTaskCommandAttributes{
+						Input: inputPayloads(),
+					},
+				},
+			},
+		},
+	}
+
+	var capturedValue interface{}
+	err := VisitPayloads(context.Background(), root, VisitPayloadsOptions{
+		ContextHook: func(ctx context.Context, msg proto.Message) (context.Context, error) {
+			if _, ok := msg.(*command.ScheduleActivityTaskCommandAttributes); ok {
+				return context.WithValue(ctx, contextHookKey{}, "schedule-activity"), nil
+			}
+			return ctx, nil
+		},
+		Visitor: func(ctx *VisitPayloadsContext, p []*common.Payload) ([]*common.Payload, error) {
+			capturedValue = ctx.Value(contextHookKey{})
+			return p, nil
+		},
+	})
+	require.NoError(t, err)
+	require.Equal(t, "schedule-activity", capturedValue)
+}
+
+func TestContextHook_ContextRestoredAfterSiblingMessage(t *testing.T) {
+	// Two commands side-by-side: context set for first must not leak into second.
+	root := &workflowservice.RespondWorkflowTaskCompletedRequest{
+		Commands: []*command.Command{
+			{
+				Attributes: &command.Command_ScheduleActivityTaskCommandAttributes{
+					ScheduleActivityTaskCommandAttributes: &command.ScheduleActivityTaskCommandAttributes{
+						Input: inputPayloads(),
+					},
+				},
+			},
+			{
+				Attributes: &command.Command_CompleteWorkflowExecutionCommandAttributes{
+					CompleteWorkflowExecutionCommandAttributes: &command.CompleteWorkflowExecutionCommandAttributes{
+						Result: inputPayloads(),
+					},
+				},
+			},
+		},
+	}
+
+	var seenValues []interface{}
+	err := VisitPayloads(context.Background(), root, VisitPayloadsOptions{
+		ContextHook: func(ctx context.Context, msg proto.Message) (context.Context, error) {
+			if _, ok := msg.(*command.ScheduleActivityTaskCommandAttributes); ok {
+				return context.WithValue(ctx, contextHookKey{}, "schedule-activity"), nil
+			}
+			return ctx, nil
+		},
+		Visitor: func(ctx *VisitPayloadsContext, p []*common.Payload) ([]*common.Payload, error) {
+			seenValues = append(seenValues, ctx.Value(contextHookKey{}))
+			return p, nil
+		},
+	})
+	require.NoError(t, err)
+	require.Len(t, seenValues, 2)
+	require.Equal(t, "schedule-activity", seenValues[0], "first payload should be inside ScheduleActivity context")
+	require.Nil(t, seenValues[1], "second payload should not see stale context from first command")
+}
+
+func TestContextHook_ContextRestoredOnVisitorError(t *testing.T) {
+	root := &workflowservice.RespondWorkflowTaskCompletedRequest{
+		Commands: []*command.Command{
+			{
+				Attributes: &command.Command_ScheduleActivityTaskCommandAttributes{
+					ScheduleActivityTaskCommandAttributes: &command.ScheduleActivityTaskCommandAttributes{
+						Input: inputPayloads(),
+					},
+				},
+			},
+		},
+	}
+
+	var ctxSeenByVisitor context.Context
+	err := VisitPayloads(context.Background(), root, VisitPayloadsOptions{
+		ContextHook: func(ctx context.Context, msg proto.Message) (context.Context, error) {
+			if _, ok := msg.(*command.ScheduleActivityTaskCommandAttributes); ok {
+				return context.WithValue(ctx, contextHookKey{}, "hook-set"), nil
+			}
+			return ctx, nil
+		},
+		Visitor: func(ctx *VisitPayloadsContext, p []*common.Payload) ([]*common.Payload, error) {
+			ctxSeenByVisitor = ctx.Context
+			return nil, fmt.Errorf("visitor error")
+		},
+	})
+	require.Error(t, err)
+	require.Equal(t, "hook-set", ctxSeenByVisitor.Value(contextHookKey{}), "visitor should have seen context set by hook")
+}
+
+func TestContextHook_ErrorPropagates(t *testing.T) {
+	root := &workflowservice.RespondWorkflowTaskCompletedRequest{
+		Commands: []*command.Command{
+			{
+				Attributes: &command.Command_ScheduleActivityTaskCommandAttributes{
+					ScheduleActivityTaskCommandAttributes: &command.ScheduleActivityTaskCommandAttributes{
+						Input: inputPayloads(),
+					},
+				},
+			},
+		},
+	}
+
+	hookErr := fmt.Errorf("hook error")
+	err := VisitPayloads(context.Background(), root, VisitPayloadsOptions{
+		ContextHook: func(ctx context.Context, msg proto.Message) (context.Context, error) {
+			if _, ok := msg.(*command.ScheduleActivityTaskCommandAttributes); ok {
+				return ctx, hookErr
+			}
+			return ctx, nil
+		},
+		Visitor: func(ctx *VisitPayloadsContext, p []*common.Payload) ([]*common.Payload, error) {
+			return p, nil
+		},
+	})
+	require.ErrorIs(t, err, hookErr)
+}
+
+func TestContextHook_SearchAttributesVisitedWhenNotSkipped(t *testing.T) {
+	root := &workflowservice.StartWorkflowExecutionRequest{
+		SearchAttributes: &common.SearchAttributes{
+			IndexedFields: map[string]*common.Payload{
+				"key": {Data: []byte("sa-val")},
+			},
+		},
+		Input: inputPayloads(),
+	}
+
+	hookFiredForSearchAttrs := false
+	var visitedData []string
+	err := VisitPayloads(context.Background(), root, VisitPayloadsOptions{
+		// SkipSearchAttributes not set — default false
+		ContextHook: func(ctx context.Context, msg proto.Message) (context.Context, error) {
+			if _, ok := msg.(*common.SearchAttributes); ok {
+				hookFiredForSearchAttrs = true
+			}
+			return ctx, nil
+		},
+		Visitor: func(ctx *VisitPayloadsContext, p []*common.Payload) ([]*common.Payload, error) {
+			for _, pl := range p {
+				visitedData = append(visitedData, string(pl.Data))
+			}
+			return p, nil
+		},
+	})
+	require.NoError(t, err)
+	require.True(t, hookFiredForSearchAttrs, "ContextHook should fire for SearchAttributes when SkipSearchAttributes=false")
+	require.Contains(t, visitedData, "sa-val")
+	require.Contains(t, visitedData, "test")
+}
+
+func TestContextHook_SkipSearchAttributesRespected(t *testing.T) {
+	root := &workflowservice.StartWorkflowExecutionRequest{
+		SearchAttributes: &common.SearchAttributes{
+			IndexedFields: map[string]*common.Payload{
+				"key": {Data: []byte("sa-val")},
+			},
+		},
+		Input: inputPayloads(),
+	}
+
+	hookFiredForSearchAttrs := false
+	var visitedData []string
+	err := VisitPayloads(context.Background(), root, VisitPayloadsOptions{
+		SkipSearchAttributes: true,
+		ContextHook: func(ctx context.Context, msg proto.Message) (context.Context, error) {
+			if _, ok := msg.(*common.SearchAttributes); ok {
+				hookFiredForSearchAttrs = true
+			}
+			return ctx, nil
+		},
+		Visitor: func(ctx *VisitPayloadsContext, p []*common.Payload) ([]*common.Payload, error) {
+			for _, pl := range p {
+				visitedData = append(visitedData, string(pl.Data))
+			}
+			return p, nil
+		},
+	})
+	require.NoError(t, err)
+	require.False(t, hookFiredForSearchAttrs, "ContextHook must not fire for SearchAttributes when SkipSearchAttributes=true")
+	require.NotContains(t, visitedData, "sa-val")
+	require.Contains(t, visitedData, "test")
+}
