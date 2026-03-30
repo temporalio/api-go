@@ -1,6 +1,6 @@
 module go.temporal.io/api
 
-go 1.21
+go 1.25.4
 
 require (
 	github.com/golang/mock v1.6.0
@@ -15,6 +15,8 @@ require (
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/kr/text v0.2.0 // indirect
+	github.com/nexus-rpc/nexus-proto-annotations v0.0.0-20260330194009-e558d6edaf84 // indirect
+	github.com/nexus-rpc/sdk-go v0.5.2-0.20260211051645-26b0b4c584e5 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/rogpeppe/go-internal v1.11.0 // indirect
 	golang.org/x/net v0.28.0 // indirect
