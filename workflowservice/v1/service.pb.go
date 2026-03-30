@@ -28,7 +28,7 @@ var File_temporal_api_workflowservice_v1_service_proto protoreflect.FileDescript
 
 const file_temporal_api_workflowservice_v1_service_proto_rawDesc = "" +
 	"\n" +
-	"-temporal/api/workflowservice/v1/service.proto\x12\x1ftemporal.api.workflowservice.v1\x1a\x1cgoogle/api/annotations.proto\x1a!nexusannotations/v1/options.proto\x1a+temporal/api/protometa/v1/annotations.proto\x1a6temporal/api/workflowservice/v1/request_response.proto2\x88\xf8\x01\n" +
+	"-temporal/api/workflowservice/v1/service.proto\x12\x1ftemporal.api.workflowservice.v1\x1a\x1cgoogle/api/annotations.proto\x1a!nexusannotations/v1/options.proto\x1a+temporal/api/protometa/v1/annotations.proto\x1a6temporal/api/workflowservice/v1/request_response.proto2\xd8\xf7\x01\n" +
 	"\x0fWorkflowService\x12\xc3\x01\n" +
 	"\x11RegisterNamespace\x129.temporal.api.workflowservice.v1.RegisterNamespaceRequest\x1a:.temporal.api.workflowservice.v1.RegisterNamespaceResponse\"7\x82\xd3\xe4\x93\x021:\x01*Z\x17:\x01*\"\x12/api/v1/namespaces\"\x13/cluster/namespaces\x12\xd5\x01\n" +
 	"\x11DescribeNamespace\x129.temporal.api.workflowservice.v1.DescribeNamespaceRequest\x1a:.temporal.api.workflowservice.v1.DescribeNamespaceResponse\"I\x82\xd3\xe4\x93\x02CZ \x12\x1e/api/v1/namespaces/{namespace}\x12\x1f/cluster/namespaces/{namespace}\x12\xb4\x01\n" +
@@ -36,18 +36,18 @@ const file_temporal_api_workflowservice_v1_service_proto_rawDesc = "" +
 	"\x0fUpdateNamespace\x127.temporal.api.workflowservice.v1.UpdateNamespaceRequest\x1a8.temporal.api.workflowservice.v1.UpdateNamespaceResponse\"]\x82\xd3\xe4\x93\x02W:\x01*Z*:\x01*\"%/api/v1/namespaces/{namespace}/update\"&/cluster/namespaces/{namespace}/update\x12\x8f\x01\n" +
 	"\x12DeprecateNamespace\x12:.temporal.api.workflowservice.v1.DeprecateNamespaceRequest\x1a;.temporal.api.workflowservice.v1.DeprecateNamespaceResponse\"\x00\x12\xc6\x02\n" +
 	"\x16StartWorkflowExecution\x12>.temporal.api.workflowservice.v1.StartWorkflowExecutionRequest\x1a?.temporal.api.workflowservice.v1.StartWorkflowExecutionResponse\"\xaa\x01\x8a\x9d\xcc\x1b.\n" +
-	"\x14temporal-resource-id\x12\x16workflow:{workflow_id}\x82\xd3\xe4\x93\x02q:\x01*Z;:\x01*\"6/api/v1/namespaces/{namespace}/workflows/{workflow_id}\"//namespaces/{namespace}/workflows/{workflow_id}\x12\xcb\x01\n" +
-	"\x15ExecuteMultiOperation\x12=.temporal.api.workflowservice.v1.ExecuteMultiOperationRequest\x1a>.temporal.api.workflowservice.v1.ExecuteMultiOperationResponse\"3\x8a\x9d\xcc\x1b.\n" +
-	"\x14temporal-resource-id\x12\x16workflow:{resource_id}\x12\xfe\x02\n" +
+	"\x14temporal-resource-id\x12\x16workflow:{workflow_id}\x82\xd3\xe4\x93\x02q:\x01*Z;:\x01*\"6/api/v1/namespaces/{namespace}/workflows/{workflow_id}\"//namespaces/{namespace}/workflows/{workflow_id}\x12\xc2\x01\n" +
+	"\x15ExecuteMultiOperation\x12=.temporal.api.workflowservice.v1.ExecuteMultiOperationRequest\x1a>.temporal.api.workflowservice.v1.ExecuteMultiOperationResponse\"*\x8a\x9d\xcc\x1b%\n" +
+	"\x14temporal-resource-id\x12\r{resource_id}\x12\xfe\x02\n" +
 	"\x1bGetWorkflowExecutionHistory\x12C.temporal.api.workflowservice.v1.GetWorkflowExecutionHistoryRequest\x1aD.temporal.api.workflowservice.v1.GetWorkflowExecutionHistoryResponse\"\xd3\x01\x8a\x9d\xcc\x1b8\n" +
 	"\x14temporal-resource-id\x12 workflow:{execution.workflow_id}\x82\xd3\xe4\x93\x02\x8f\x01ZJ\x12H/api/v1/namespaces/{namespace}/workflows/{execution.workflow_id}/history\x12A/namespaces/{namespace}/workflows/{execution.workflow_id}/history\x12\xa3\x03\n" +
 	"\"GetWorkflowExecutionHistoryReverse\x12J.temporal.api.workflowservice.v1.GetWorkflowExecutionHistoryReverseRequest\x1aK.temporal.api.workflowservice.v1.GetWorkflowExecutionHistoryReverseResponse\"\xe3\x01\x8a\x9d\xcc\x1b8\n" +
 	"\x14temporal-resource-id\x12 workflow:{execution.workflow_id}\x82\xd3\xe4\x93\x02\x9f\x01ZR\x12P/api/v1/namespaces/{namespace}/workflows/{execution.workflow_id}/history-reverse\x12I/namespaces/{namespace}/workflows/{execution.workflow_id}/history-reverse\x12\x98\x01\n" +
-	"\x15PollWorkflowTaskQueue\x12=.temporal.api.workflowservice.v1.PollWorkflowTaskQueueRequest\x1a>.temporal.api.workflowservice.v1.PollWorkflowTaskQueueResponse\"\x00\x12\xe0\x01\n" +
-	"\x1cRespondWorkflowTaskCompleted\x12D.temporal.api.workflowservice.v1.RespondWorkflowTaskCompletedRequest\x1aE.temporal.api.workflowservice.v1.RespondWorkflowTaskCompletedResponse\"3\x8a\x9d\xcc\x1b.\n" +
-	"\x14temporal-resource-id\x12\x16workflow:{resource_id}\x12\xd7\x01\n" +
-	"\x19RespondWorkflowTaskFailed\x12A.temporal.api.workflowservice.v1.RespondWorkflowTaskFailedRequest\x1aB.temporal.api.workflowservice.v1.RespondWorkflowTaskFailedResponse\"3\x8a\x9d\xcc\x1b.\n" +
-	"\x14temporal-resource-id\x12\x16workflow:{resource_id}\x12\x98\x01\n" +
+	"\x15PollWorkflowTaskQueue\x12=.temporal.api.workflowservice.v1.PollWorkflowTaskQueueRequest\x1a>.temporal.api.workflowservice.v1.PollWorkflowTaskQueueResponse\"\x00\x12\xd7\x01\n" +
+	"\x1cRespondWorkflowTaskCompleted\x12D.temporal.api.workflowservice.v1.RespondWorkflowTaskCompletedRequest\x1aE.temporal.api.workflowservice.v1.RespondWorkflowTaskCompletedResponse\"*\x8a\x9d\xcc\x1b%\n" +
+	"\x14temporal-resource-id\x12\r{resource_id}\x12\xce\x01\n" +
+	"\x19RespondWorkflowTaskFailed\x12A.temporal.api.workflowservice.v1.RespondWorkflowTaskFailedRequest\x1aB.temporal.api.workflowservice.v1.RespondWorkflowTaskFailedResponse\"*\x8a\x9d\xcc\x1b%\n" +
+	"\x14temporal-resource-id\x12\r{resource_id}\x12\x98\x01\n" +
 	"\x15PollActivityTaskQueue\x12=.temporal.api.workflowservice.v1.PollActivityTaskQueueRequest\x1a>.temporal.api.workflowservice.v1.PollActivityTaskQueueResponse\"\x00\x12\xc2\x02\n" +
 	"\x1bRecordActivityTaskHeartbeat\x12C.temporal.api.workflowservice.v1.RecordActivityTaskHeartbeatRequest\x1aD.temporal.api.workflowservice.v1.RecordActivityTaskHeartbeatResponse\"\x97\x01\x8a\x9d\xcc\x1b%\n" +
 	"\x14temporal-resource-id\x12\r{resource_id}\x82\xd3\xe4\x93\x02g:\x01*Z6:\x01*\"1/api/v1/namespaces/{namespace}/activity-heartbeat\"*/namespaces/{namespace}/activity-heartbeat\x12\xa8\x04\n" +
@@ -167,16 +167,16 @@ const file_temporal_api_workflowservice_v1_service_proto_rawDesc = "" +
 	"\x14DescribeWorkflowRule\x12<.temporal.api.workflowservice.v1.DescribeWorkflowRuleRequest\x1a=.temporal.api.workflowservice.v1.DescribeWorkflowRuleResponse\"s\x82\xd3\xe4\x93\x02mZ9\x127/api/v1/namespaces/{namespace}/workflow-rules/{rule_id}\x120/namespaces/{namespace}/workflow-rules/{rule_id}\x12\x82\x02\n" +
 	"\x12DeleteWorkflowRule\x12:.temporal.api.workflowservice.v1.DeleteWorkflowRuleRequest\x1a;.temporal.api.workflowservice.v1.DeleteWorkflowRuleResponse\"s\x82\xd3\xe4\x93\x02mZ9*7/api/v1/namespaces/{namespace}/workflow-rules/{rule_id}*0/namespaces/{namespace}/workflow-rules/{rule_id}\x12\xeb\x01\n" +
 	"\x11ListWorkflowRules\x129.temporal.api.workflowservice.v1.ListWorkflowRulesRequest\x1a:.temporal.api.workflowservice.v1.ListWorkflowRulesResponse\"_\x82\xd3\xe4\x93\x02YZ/\x12-/api/v1/namespaces/{namespace}/workflow-rules\x12&/namespaces/{namespace}/workflow-rules\x12\xb9\x02\n" +
-	"\x13TriggerWorkflowRule\x12;.temporal.api.workflowservice.v1.TriggerWorkflowRuleRequest\x1a<.temporal.api.workflowservice.v1.TriggerWorkflowRuleResponse\"\xa6\x01\x82\xd3\xe4\x93\x02\x9f\x01:\x01*ZR:\x01*\"M/api/v1/namespaces/{namespace}/workflows/{execution.workflow_id}/trigger-rule\"F/namespaces/{namespace}/workflows/{execution.workflow_id}/trigger-rule\x12\xb5\x02\n" +
-	"\x15RecordWorkerHeartbeat\x12=.temporal.api.workflowservice.v1.RecordWorkerHeartbeatRequest\x1a>.temporal.api.workflowservice.v1.RecordWorkerHeartbeatResponse\"\x9c\x01\x8a\x9d\xcc\x1b,\n" +
-	"\x14temporal-resource-id\x12\x14worker:{resource_id}\x82\xd3\xe4\x93\x02e:\x01*Z5:\x01*\"0/api/v1/namespaces/{namespace}/workers/heartbeat\")/namespaces/{namespace}/workers/heartbeat\x12\xcb\x01\n" +
+	"\x13TriggerWorkflowRule\x12;.temporal.api.workflowservice.v1.TriggerWorkflowRuleRequest\x1a<.temporal.api.workflowservice.v1.TriggerWorkflowRuleResponse\"\xa6\x01\x82\xd3\xe4\x93\x02\x9f\x01:\x01*ZR:\x01*\"M/api/v1/namespaces/{namespace}/workflows/{execution.workflow_id}/trigger-rule\"F/namespaces/{namespace}/workflows/{execution.workflow_id}/trigger-rule\x12\xae\x02\n" +
+	"\x15RecordWorkerHeartbeat\x12=.temporal.api.workflowservice.v1.RecordWorkerHeartbeatRequest\x1a>.temporal.api.workflowservice.v1.RecordWorkerHeartbeatResponse\"\x95\x01\x8a\x9d\xcc\x1b%\n" +
+	"\x14temporal-resource-id\x12\r{resource_id}\x82\xd3\xe4\x93\x02e:\x01*Z5:\x01*\"0/api/v1/namespaces/{namespace}/workers/heartbeat\")/namespaces/{namespace}/workers/heartbeat\x12\xcb\x01\n" +
 	"\vListWorkers\x123.temporal.api.workflowservice.v1.ListWorkersRequest\x1a4.temporal.api.workflowservice.v1.ListWorkersResponse\"Q\x82\xd3\xe4\x93\x02KZ(\x12&/api/v1/namespaces/{namespace}/workers\x12\x1f/namespaces/{namespace}/workers\x12\xe2\x02\n" +
 	"\x15UpdateTaskQueueConfig\x12=.temporal.api.workflowservice.v1.UpdateTaskQueueConfigRequest\x1a>.temporal.api.workflowservice.v1.UpdateTaskQueueConfigResponse\"\xc9\x01\x8a\x9d\xcc\x1b.\n" +
-	"\x14temporal-resource-id\x12\x16taskqueue:{task_queue}\x82\xd3\xe4\x93\x02\x8f\x01:\x01*ZJ:\x01*\"E/api/v1/namespaces/{namespace}/task-queues/{task_queue}/update-config\">/namespaces/{namespace}/task-queues/{task_queue}/update-config\x12\xaf\x02\n" +
-	"\x11FetchWorkerConfig\x129.temporal.api.workflowservice.v1.FetchWorkerConfigRequest\x1a:.temporal.api.workflowservice.v1.FetchWorkerConfigResponse\"\xa2\x01\x8a\x9d\xcc\x1b,\n" +
-	"\x14temporal-resource-id\x12\x14worker:{resource_id}\x82\xd3\xe4\x93\x02k:\x01*Z8:\x01*\"3/api/v1/namespaces/{namespace}/workers/fetch-config\",/namespaces/{namespace}/workers/fetch-config\x12\xb4\x02\n" +
-	"\x12UpdateWorkerConfig\x12:.temporal.api.workflowservice.v1.UpdateWorkerConfigRequest\x1a;.temporal.api.workflowservice.v1.UpdateWorkerConfigResponse\"\xa4\x01\x8a\x9d\xcc\x1b,\n" +
-	"\x14temporal-resource-id\x12\x14worker:{resource_id}\x82\xd3\xe4\x93\x02m:\x01*Z9:\x01*\"4/api/v1/namespaces/{namespace}/workers/update-config\"-/namespaces/{namespace}/workers/update-config\x12\xcd\x02\n" +
+	"\x14temporal-resource-id\x12\x16taskqueue:{task_queue}\x82\xd3\xe4\x93\x02\x8f\x01:\x01*ZJ:\x01*\"E/api/v1/namespaces/{namespace}/task-queues/{task_queue}/update-config\">/namespaces/{namespace}/task-queues/{task_queue}/update-config\x12\xa8\x02\n" +
+	"\x11FetchWorkerConfig\x129.temporal.api.workflowservice.v1.FetchWorkerConfigRequest\x1a:.temporal.api.workflowservice.v1.FetchWorkerConfigResponse\"\x9b\x01\x8a\x9d\xcc\x1b%\n" +
+	"\x14temporal-resource-id\x12\r{resource_id}\x82\xd3\xe4\x93\x02k:\x01*Z8:\x01*\"3/api/v1/namespaces/{namespace}/workers/fetch-config\",/namespaces/{namespace}/workers/fetch-config\x12\xad\x02\n" +
+	"\x12UpdateWorkerConfig\x12:.temporal.api.workflowservice.v1.UpdateWorkerConfigRequest\x1a;.temporal.api.workflowservice.v1.UpdateWorkerConfigResponse\"\x9d\x01\x8a\x9d\xcc\x1b%\n" +
+	"\x14temporal-resource-id\x12\r{resource_id}\x82\xd3\xe4\x93\x02m:\x01*Z9:\x01*\"4/api/v1/namespaces/{namespace}/workers/update-config\"-/namespaces/{namespace}/workers/update-config\x12\xcd\x02\n" +
 	"\x0eDescribeWorker\x126.temporal.api.workflowservice.v1.DescribeWorkerRequest\x1a7.temporal.api.workflowservice.v1.DescribeWorkerResponse\"\xc9\x01\x8a\x9d\xcc\x1b4\n" +
 	"\x14temporal-resource-id\x12\x1cworker:{worker_instance_key}\x82\xd3\xe4\x93\x02\x89\x01ZG\x12E/api/v1/namespaces/{namespace}/workers/describe/{worker_instance_key}\x12>/namespaces/{namespace}/workers/describe/{worker_instance_key}\x12\xd2\x02\n" +
 	"\x16PauseWorkflowExecution\x12>.temporal.api.workflowservice.v1.PauseWorkflowExecutionRequest\x1a?.temporal.api.workflowservice.v1.PauseWorkflowExecutionResponse\"\xb6\x01\x8a\x9d\xcc\x1b.\n" +
