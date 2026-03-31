@@ -289,7 +289,9 @@ type StartOperationRequest struct {
 	// Header that is expected to be attached to the callback request when the operation completes.
 	CallbackHeader map[string]string `protobuf:"bytes,6,rep,name=callback_header,json=callbackHeader,proto3" json:"callback_header,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	// Links contain caller information and can be attached to the operations started by the handler.
-	Links         []*Link `protobuf:"bytes,7,rep,name=links,proto3" json:"links,omitempty"`
+	Links []*Link `protobuf:"bytes,7,rep,name=links,proto3" json:"links,omitempty"`
+	// Callback token
+	CallbackToken string `protobuf:"bytes,8,opt,name=callback_token,json=callbackToken,proto3" json:"callback_token,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -371,6 +373,13 @@ func (x *StartOperationRequest) GetLinks() []*Link {
 		return x.Links
 	}
 	return nil
+}
+
+func (x *StartOperationRequest) GetCallbackToken() string {
+	if x != nil {
+		return x.CallbackToken
+	}
+	return ""
 }
 
 // A request to cancel an operation.
@@ -1361,7 +1370,7 @@ const file_temporal_api_nexus_v1_message_proto_rawDesc = "" +
 	"\afailure\x18\x02 \x01(\v2\x1e.temporal.api.nexus.v1.FailureR\afailure\",\n" +
 	"\x04Link\x12\x10\n" +
 	"\x03url\x18\x01 \x01(\tR\x03url\x12\x12\n" +
-	"\x04type\x18\x02 \x01(\tR\x04type\"\xa6\x03\n" +
+	"\x04type\x18\x02 \x01(\tR\x04type\"\xcd\x03\n" +
 	"\x15StartOperationRequest\x12\x18\n" +
 	"\aservice\x18\x01 \x01(\tR\aservice\x12\x1c\n" +
 	"\toperation\x18\x02 \x01(\tR\toperation\x12\x1d\n" +
@@ -1370,7 +1379,8 @@ const file_temporal_api_nexus_v1_message_proto_rawDesc = "" +
 	"\bcallback\x18\x04 \x01(\tR\bcallback\x129\n" +
 	"\apayload\x18\x05 \x01(\v2\x1f.temporal.api.common.v1.PayloadR\apayload\x12i\n" +
 	"\x0fcallback_header\x18\x06 \x03(\v2@.temporal.api.nexus.v1.StartOperationRequest.CallbackHeaderEntryR\x0ecallbackHeader\x121\n" +
-	"\x05links\x18\a \x03(\v2\x1b.temporal.api.nexus.v1.LinkR\x05links\x1aA\n" +
+	"\x05links\x18\a \x03(\v2\x1b.temporal.api.nexus.v1.LinkR\x05links\x12%\n" +
+	"\x0ecallback_token\x18\b \x01(\tR\rcallbackToken\x1aA\n" +
 	"\x13CallbackHeaderEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xa0\x01\n" +

@@ -201,11 +201,12 @@ type CallbackExecutionInfo struct {
 	// (-- api-linter: core::0140::prepositions=disabled
 	//
 	//	aip.dev/not-precedent: "to" is used to indicate interval. --)
-	ScheduleToCloseTimeout *durationpb.Duration `protobuf:"bytes,13,opt,name=schedule_to_close_timeout,json=scheduleToCloseTimeout,proto3" json:"schedule_to_close_timeout,omitempty"`
+	ScheduleToCloseTimeout *durationpb.Duration `protobuf:"bytes,12,opt,name=schedule_to_close_timeout,json=scheduleToCloseTimeout,proto3" json:"schedule_to_close_timeout,omitempty"`
 	// Incremented each time the callback's state is mutated in persistence.
-	StateTransitionCount int64 `protobuf:"varint,14,opt,name=state_transition_count,json=stateTransitionCount,proto3" json:"state_transition_count,omitempty"`
+	StateTransitionCount int64 `protobuf:"varint,13,opt,name=state_transition_count,json=stateTransitionCount,proto3" json:"state_transition_count,omitempty"`
 	// Links attached to the callback execution.
-	Links         []*v11.Link `protobuf:"bytes,15,rep,name=links,proto3" json:"links,omitempty"`
+	// TODO: There are already links on the Callback message, do we need these here as well?
+	Links         []*v11.Link `protobuf:"bytes,14,rep,name=links,proto3" json:"links,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -457,9 +458,9 @@ const file_temporal_api_callback_v1_message_proto_rawDesc = "" +
 	"close_time\x18\n" +
 	" \x01(\v2\x1a.google.protobuf.TimestampR\tcloseTime\x12U\n" +
 	"\x11search_attributes\x18\v \x01(\v2(.temporal.api.common.v1.SearchAttributesR\x10searchAttributes\x12T\n" +
-	"\x19schedule_to_close_timeout\x18\r \x01(\v2\x19.google.protobuf.DurationR\x16scheduleToCloseTimeout\x124\n" +
-	"\x16state_transition_count\x18\x0e \x01(\x03R\x14stateTransitionCount\x122\n" +
-	"\x05links\x18\x0f \x03(\v2\x1c.temporal.api.common.v1.LinkR\x05links\"\xfd\x02\n" +
+	"\x19schedule_to_close_timeout\x18\f \x01(\v2\x19.google.protobuf.DurationR\x16scheduleToCloseTimeout\x124\n" +
+	"\x16state_transition_count\x18\r \x01(\x03R\x14stateTransitionCount\x122\n" +
+	"\x05links\x18\x0e \x03(\v2\x1c.temporal.api.common.v1.LinkR\x05links\"\xfd\x02\n" +
 	"\x19CallbackExecutionListInfo\x12\x1f\n" +
 	"\vcallback_id\x18\x01 \x01(\tR\n" +
 	"callbackId\x12:\n" +
