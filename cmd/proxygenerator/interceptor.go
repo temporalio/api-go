@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"go/format"
 	"go/types"
-	"html/template"
 	"os"
 	"strings"
+	"text/template"
 
 	"golang.org/x/tools/go/packages"
 	"golang.org/x/tools/go/types/typeutil"
@@ -29,12 +29,37 @@ package proxy
 import (
 	"context"
 	"fmt"
+	"sync"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/status"
     "google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/protoadapt"
 )
+
+// payloadConcurrencyState coordinates concurrent payload visitor goroutines
+// within a single VisitPayloads call.
+type payloadConcurrencyState struct {
+	// sem is a buffered channel used as a counting semaphore. A slot is acquired
+	// by the traversal goroutine before spawning each visitor goroutine, ensuring
+	// at most ConcurrencyLimit goroutines are in flight at any time.
+	sem chan struct{}
+	// wg tracks in-flight goroutines so the caller can wait for all of them to
+	// finish before inspecting firstErr or returning.
+	wg sync.WaitGroup
+	// firstErr holds a pointer to the first error returned by any visitor
+	// goroutine. Later errors are discarded; new goroutines are skipped once
+	// this is set.
+	firstErr atomic.Pointer[error]
+}
+
+func (c *payloadConcurrencyState) recordErr(err error) {
+	c.firstErr.CompareAndSwap(nil, &err)
+}
+
+func (c *payloadConcurrencyState) hasErr() bool {
+	return c.firstErr.Load() != nil
+}
 
 // VisitPayloadsContext provides Payload context for visitor functions.
 type VisitPayloadsContext struct {
@@ -62,16 +87,41 @@ type VisitPayloadsOptions struct {
 	//
 	// NOTE: Experimental.
 	ContextHook func(context.Context, proto.Message) (context.Context, error)
+	// ConcurrencyLimit controls how many Visitor callbacks may run concurrently
+	// during a single VisitPayloads call. 0 or 1 means sequential.
+	//
+	// NOTE: Experimental.
+	ConcurrencyLimit int
 }
 
 // VisitPayloads calls the options.Visitor function for every Payload proto within msg.
 //
 // Note: Directly visiting *common.Payload is not supported. Payloads must be passed through
 // a parent proto.
+//
+// Cancellation behaviour differs by mode: in sequential mode (ConcurrencyLimit <= 1) the
+// traversal only stops early if the Visitor itself returns an error. Context cancellation
+// is not checked between visits. In concurrent mode (ConcurrencyLimit > 1) context
+// cancellation is detected when acquiring the semaphore before each goroutine spawn,
+// so traversal stops promptly without requiring the Visitor to check the context.
 func VisitPayloads(ctx context.Context, msg proto.Message, options VisitPayloadsOptions) error {
+	if options.ConcurrencyLimit < 0 {
+		return fmt.Errorf("ConcurrencyLimit must be 0 or greater, got %d", options.ConcurrencyLimit)
+	}
 	visitCtx := VisitPayloadsContext{Context: ctx, Parent: msg}
-
-	return visitPayloads(&visitCtx, &options, nil, msg)
+	if options.ConcurrencyLimit <= 1 {
+		return visitPayloads(&visitCtx, &options, nil, nil, msg)
+	}
+	c := &payloadConcurrencyState{sem: make(chan struct{}, options.ConcurrencyLimit)}
+	err := visitPayloads(&visitCtx, &options, nil, c, msg)
+	c.wg.Wait()
+	if err != nil {
+		return err
+	}
+	if errPtr := c.firstErr.Load(); errPtr != nil {
+		return *errPtr
+	}
+	return nil
 }
 
 // PayloadVisitorInterceptorOptions configures outbound/inbound interception of Payloads within msgs.
@@ -227,17 +277,33 @@ func (o *VisitFailuresOptions) defaultWellKnownAnyVisitor(ctx *VisitFailuresCont
 	return nil
 }
 
-func (o *VisitPayloadsOptions) defaultWellKnownAnyVisitor(ctx *VisitPayloadsContext, p *anypb.Any) error {
+func (o *VisitPayloadsOptions) defaultWellKnownAnyVisitor(ctx *VisitPayloadsContext, concState *payloadConcurrencyState, p *anypb.Any) error {
 	child, err := p.UnmarshalNew()
 	if err != nil {
 		return fmt.Errorf("failed to unmarshal any: %w", err)
 	}
+
+	// Sub-state shares the semaphore but has its own WaitGroup so we can wait
+	// for goroutines writing into child's fields before re-marshaling.
+	var anyConcState *payloadConcurrencyState
+	if concState != nil {
+		anyConcState = &payloadConcurrencyState{sem: concState.sem}
+	}
+
 	// We choose to visit and re-marshal always instead of cloning, visiting,
 	// and checking if anything changed before re-marshaling. It is assumed the
 	// clone + equality check is not much cheaper than re-marshal.
-	if err := visitPayloads(ctx, o, p, child); err != nil {
+	if err := visitPayloads(ctx, o, p, anyConcState, child); err != nil {
 		return err
 	}
+
+	if anyConcState != nil {
+		anyConcState.wg.Wait()
+		if errPtr := anyConcState.firstErr.Load(); errPtr != nil {
+			return *errPtr
+		}
+	}
+
 	// Confirmed this replaces both Any fields on non-error, there is nothing
 	// left over
 	if err := p.MarshalFrom(child); err != nil {
@@ -250,26 +316,65 @@ func visitPayload(
 	ctx *VisitPayloadsContext,
 	options *VisitPayloadsOptions,
 	parent proto.Message,
-	msg *common.Payload,
-) (*common.Payload, error) {
+	concState *payloadConcurrencyState,
+	fieldPtr **common.Payload,
+) error {
+	if concState != nil {
+		if concState.hasErr() {
+			return nil
+		}
+		taskCtx := VisitPayloadsContext{
+			Context:               ctx.Context,
+			Parent:                parent,
+			SinglePayloadRequired: true,
+		}
+		msg := *fieldPtr
+		select {
+		case concState.sem <- struct{}{}:
+		case <-ctx.Context.Done():
+			concState.recordErr(ctx.Context.Err())
+			return ctx.Context.Err()
+		}
+		if concState.hasErr() {
+			<-concState.sem
+			return nil
+		}
+		concState.wg.Add(1)
+		go func() {
+			defer concState.wg.Done()
+			defer func() { <-concState.sem }()
+			result, err := options.Visitor(&taskCtx, []*common.Payload{msg})
+			if err != nil {
+				concState.recordErr(err)
+				return
+			}
+			if len(result) != 1 {
+				concState.recordErr(fmt.Errorf("visitor func must return 1 payload when SinglePayloadRequired = true"))
+				return
+			}
+			*fieldPtr = result[0]
+		}()
+		return nil
+	}
+	// Sequential path:
 	ctx.SinglePayloadRequired, ctx.Parent = true, parent
-	newPayloads, err := options.Visitor(ctx, []*common.Payload{msg})
+	newPayloads, err := options.Visitor(ctx, []*common.Payload{*fieldPtr})
 	ctx.SinglePayloadRequired, ctx.Parent = false, nil
 	if err != nil {
-		return nil, err
+		return err
 	}
-
 	if len(newPayloads) != 1 {
-		return nil, fmt.Errorf("visitor func must return 1 payload when SinglePayloadRequired = true")
+		return fmt.Errorf("visitor func must return 1 payload when SinglePayloadRequired = true")
 	}
-
-	return newPayloads[0], nil
+	*fieldPtr = newPayloads[0]
+	return nil
 }
 
 func visitPayloads(
 	ctx *VisitPayloadsContext,
 	options *VisitPayloadsOptions,
 	parent proto.Message,
+	concState *payloadConcurrencyState,
 	objs ...interface{},
 ) error {
 	for _, obj := range objs {
@@ -277,51 +382,132 @@ func visitPayloads(
 
 		switch o := obj.(type) {
 			case map[string]*common.Payload:
-				for ix, x := range o {
-					if nx, err := visitPayload(ctx, options, parent, x); err != nil {
-						return err
-					} else {
-						o[ix] = nx
+				if concState != nil {
+					if concState.hasErr() {
+						return nil
+					}
+					// Snapshot entries before spawning goroutines to avoid a
+					// data race between the range and goroutine write-backs.
+					type entry struct{ key string; value *common.Payload }
+					entries := make([]entry, 0, len(o))
+					for k, v := range o {
+						entries = append(entries, entry{k, v})
+					}
+					var mapMu sync.Mutex
+					mapLoop:
+					for _, e := range entries {
+						if concState.hasErr() {
+							break
+						}
+						e := e
+						taskCtx := VisitPayloadsContext{
+							Context:               ctx.Context,
+							Parent:                parent,
+							SinglePayloadRequired: true,
+						}
+						select {
+						case concState.sem <- struct{}{}:
+						case <-ctx.Context.Done():
+							concState.recordErr(ctx.Context.Err())
+							break mapLoop
+						}
+						if concState.hasErr() {
+							<-concState.sem
+							break
+						}
+						concState.wg.Add(1)
+						go func() {
+							defer concState.wg.Done()
+							defer func() { <-concState.sem }()
+							p, err := options.Visitor(&taskCtx, []*common.Payload{e.value})
+							if err != nil {
+								concState.recordErr(err)
+								return
+							}
+							if len(p) != 1 {
+								concState.recordErr(fmt.Errorf("visitor func must return 1 payload when SinglePayloadRequired = true"))
+								return
+							}
+							mapMu.Lock()
+							o[e.key] = p[0]
+							mapMu.Unlock()
+						}()
+					}
+				} else {
+					for k, v := range o {
+						if err := visitPayload(ctx, options, parent, concState, &v); err != nil {
+							return err
+						}
+						o[k] = v
 					}
 				}
 			case *common.Payloads:
 				if o == nil { continue }
-				ctx.Parent = parent
-				newPayloads, err := options.Visitor(ctx, o.Payloads)
-				ctx.Parent = nil
-				if err != nil { return err }
-				o.Payloads = newPayloads
+				if concState != nil {
+					if concState.hasErr() {
+						return nil
+					}
+					taskCtx := VisitPayloadsContext{Context: ctx.Context, Parent: parent}
+					payloads := o.Payloads
+					oRef := o
+					select {
+					case concState.sem <- struct{}{}:
+					case <-ctx.Context.Done():
+						concState.recordErr(ctx.Context.Err())
+						return ctx.Context.Err()
+					}
+					if concState.hasErr() {
+						<-concState.sem
+						return nil
+					}
+					concState.wg.Add(1)
+					go func() {
+						defer concState.wg.Done()
+						defer func() { <-concState.sem }()
+						result, err := options.Visitor(&taskCtx, payloads)
+						if err != nil {
+							concState.recordErr(err)
+							return
+						}
+						oRef.Payloads = result
+					}()
+				} else {
+					ctx.Parent = parent
+					newPayloads, err := options.Visitor(ctx, o.Payloads)
+					ctx.Parent = nil
+					if err != nil { return err }
+					o.Payloads = newPayloads
+				}
 			case map[string]*common.Payloads:
 				for _, x := range o {
-					if err := visitPayloads(ctx, options, parent, x); err != nil {
+					if err := visitPayloads(ctx, options, parent, concState, x); err != nil {
 						return err
 					}
 				}
 			case []*common.Payload:
-				for ix, x := range o {
-					if nx, err := visitPayload(ctx, options, parent, x); err != nil {
+				for ix := range o {
+					if err := visitPayload(ctx, options, parent, concState, &o[ix]); err != nil {
 						return err
-					} else {
-						o[ix] = nx
 					}
 				}
 		case *anypb.Any:
 			if o == nil {
 				continue
 			}
-			visitor := options.WellKnownAnyVisitor
-			if visitor == nil {
-				visitor = options.defaultWellKnownAnyVisitor
-			}
 			ctx.Parent = o
-			err := visitor(ctx, o)
+			var err error
+			if options.WellKnownAnyVisitor != nil {
+				err = options.WellKnownAnyVisitor(ctx, o)
+			} else {
+				err = options.defaultWellKnownAnyVisitor(ctx, concState, o)
+			}
 			ctx.Parent = nil
 			if err != nil {
 				return err
 			}
 		case []*anypb.Any:
 			for _, x := range o {
-				if err := visitPayloads(ctx, options, parent, x); err != nil {
+				if err := visitPayloads(ctx, options, parent, concState, x); err != nil {
 					return err
 				}
 			}
@@ -329,7 +515,7 @@ func visitPayloads(
 		{{if $record.Slice}}
 			case []{{$type}}:
 				for _, x := range o {
-					if err := visitPayloads(ctx, options, parent, x); err != nil {
+					if err := visitPayloads(ctx, options, parent, concState, x); err != nil {
 						return err
 					}
 				}
@@ -337,7 +523,7 @@ func visitPayloads(
 		{{if $record.Map}}
 			case map[string]{{$type}}:
 				for _, x := range o {
-					if err := visitPayloads(ctx, options, parent, x); err != nil {
+					if err := visitPayloads(ctx, options, parent, concState, x); err != nil {
 						return err
 					}
 				}
@@ -357,9 +543,7 @@ func visitPayloads(
 				}
 				{{range $record.Payloads -}}
 				if o.{{.}} != nil {
-					no, err := visitPayload(ctx, options, o, o.{{.}})
-					if err != nil { return err }
-					o.{{.}} = no
+					if err := visitPayload(ctx, options, o, concState, &o.{{.}}); err != nil { return err }
 				}
 				{{end}}
 				{{if $record.Methods}}
@@ -367,6 +551,7 @@ func visitPayloads(
 					ctx,
 					options,
 					o,
+					concState,
 					{{range $record.Methods -}}
 						o.{{.}}(),
 					{{end}}
