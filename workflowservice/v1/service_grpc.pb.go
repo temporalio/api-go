@@ -130,7 +130,6 @@ const (
 	WorkflowService_PollCallbackExecution_FullMethodName                 = "/temporal.api.workflowservice.v1.WorkflowService/PollCallbackExecution"
 	WorkflowService_ListCallbackExecutions_FullMethodName                = "/temporal.api.workflowservice.v1.WorkflowService/ListCallbackExecutions"
 	WorkflowService_CountCallbackExecutions_FullMethodName               = "/temporal.api.workflowservice.v1.WorkflowService/CountCallbackExecutions"
-	WorkflowService_RequestCancelCallbackExecution_FullMethodName        = "/temporal.api.workflowservice.v1.WorkflowService/RequestCancelCallbackExecution"
 	WorkflowService_TerminateCallbackExecution_FullMethodName            = "/temporal.api.workflowservice.v1.WorkflowService/TerminateCallbackExecution"
 	WorkflowService_DeleteCallbackExecution_FullMethodName               = "/temporal.api.workflowservice.v1.WorkflowService/DeleteCallbackExecution"
 )
@@ -799,11 +798,6 @@ type WorkflowServiceClient interface {
 	ListCallbackExecutions(ctx context.Context, in *ListCallbackExecutionsRequest, opts ...grpc.CallOption) (*ListCallbackExecutionsResponse, error)
 	// CountCallbackExecutions is a visibility API to count callback executions in a specific namespace.
 	CountCallbackExecutions(ctx context.Context, in *CountCallbackExecutionsRequest, opts ...grpc.CallOption) (*CountCallbackExecutionsResponse, error)
-	// RequestCancelCallbackExecution requests cancellation of a callback execution.
-	//
-	// Cancellation is cooperative: this call records the request, but the callback system must
-	// detect and process it for the callback to reach CANCELED state.
-	RequestCancelCallbackExecution(ctx context.Context, in *RequestCancelCallbackExecutionRequest, opts ...grpc.CallOption) (*RequestCancelCallbackExecutionResponse, error)
 	// TerminateCallbackExecution terminates an existing callback execution immediately.
 	//
 	// Termination happens immediately. A terminated callback will have its state set to
@@ -1926,16 +1920,6 @@ func (c *workflowServiceClient) CountCallbackExecutions(ctx context.Context, in 
 	return out, nil
 }
 
-func (c *workflowServiceClient) RequestCancelCallbackExecution(ctx context.Context, in *RequestCancelCallbackExecutionRequest, opts ...grpc.CallOption) (*RequestCancelCallbackExecutionResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(RequestCancelCallbackExecutionResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_RequestCancelCallbackExecution_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *workflowServiceClient) TerminateCallbackExecution(ctx context.Context, in *TerminateCallbackExecutionRequest, opts ...grpc.CallOption) (*TerminateCallbackExecutionResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(TerminateCallbackExecutionResponse)
@@ -2620,11 +2604,6 @@ type WorkflowServiceServer interface {
 	ListCallbackExecutions(context.Context, *ListCallbackExecutionsRequest) (*ListCallbackExecutionsResponse, error)
 	// CountCallbackExecutions is a visibility API to count callback executions in a specific namespace.
 	CountCallbackExecutions(context.Context, *CountCallbackExecutionsRequest) (*CountCallbackExecutionsResponse, error)
-	// RequestCancelCallbackExecution requests cancellation of a callback execution.
-	//
-	// Cancellation is cooperative: this call records the request, but the callback system must
-	// detect and process it for the callback to reach CANCELED state.
-	RequestCancelCallbackExecution(context.Context, *RequestCancelCallbackExecutionRequest) (*RequestCancelCallbackExecutionResponse, error)
 	// TerminateCallbackExecution terminates an existing callback execution immediately.
 	//
 	// Termination happens immediately. A terminated callback will have its state set to
@@ -2976,9 +2955,6 @@ func (UnimplementedWorkflowServiceServer) ListCallbackExecutions(context.Context
 }
 func (UnimplementedWorkflowServiceServer) CountCallbackExecutions(context.Context, *CountCallbackExecutionsRequest) (*CountCallbackExecutionsResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method CountCallbackExecutions not implemented")
-}
-func (UnimplementedWorkflowServiceServer) RequestCancelCallbackExecution(context.Context, *RequestCancelCallbackExecutionRequest) (*RequestCancelCallbackExecutionResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method RequestCancelCallbackExecution not implemented")
 }
 func (UnimplementedWorkflowServiceServer) TerminateCallbackExecution(context.Context, *TerminateCallbackExecutionRequest) (*TerminateCallbackExecutionResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method TerminateCallbackExecution not implemented")
@@ -4987,24 +4963,6 @@ func _WorkflowService_CountCallbackExecutions_Handler(srv interface{}, ctx conte
 	return interceptor(ctx, in, info, handler)
 }
 
-func _WorkflowService_RequestCancelCallbackExecution_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(RequestCancelCallbackExecutionRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(WorkflowServiceServer).RequestCancelCallbackExecution(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: WorkflowService_RequestCancelCallbackExecution_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(WorkflowServiceServer).RequestCancelCallbackExecution(ctx, req.(*RequestCancelCallbackExecutionRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _WorkflowService_TerminateCallbackExecution_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(TerminateCallbackExecutionRequest)
 	if err := dec(in); err != nil {
@@ -5487,10 +5445,6 @@ var WorkflowService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CountCallbackExecutions",
 			Handler:    _WorkflowService_CountCallbackExecutions_Handler,
-		},
-		{
-			MethodName: "RequestCancelCallbackExecution",
-			Handler:    _WorkflowService_RequestCancelCallbackExecution_Handler,
 		},
 		{
 			MethodName: "TerminateCallbackExecution",

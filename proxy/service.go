@@ -304,10 +304,6 @@ func (s *workflowServiceProxyServer) RequestCancelActivityExecution(ctx context.
 	return s.client.RequestCancelActivityExecution(s.reqCtx(ctx), in0)
 }
 
-func (s *workflowServiceProxyServer) RequestCancelCallbackExecution(ctx context.Context, in0 *workflowservice.RequestCancelCallbackExecutionRequest) (*workflowservice.RequestCancelCallbackExecutionResponse, error) {
-	return s.client.RequestCancelCallbackExecution(s.reqCtx(ctx), in0)
-}
-
 func (s *workflowServiceProxyServer) RequestCancelWorkflowExecution(ctx context.Context, in0 *workflowservice.RequestCancelWorkflowExecutionRequest) (*workflowservice.RequestCancelWorkflowExecutionResponse, error) {
 	return s.client.RequestCancelWorkflowExecution(s.reqCtx(ctx), in0)
 }

@@ -1396,26 +1396,6 @@ func (mr *MockWorkflowServiceClientMockRecorder) RequestCancelActivityExecution(
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RequestCancelActivityExecution", reflect.TypeOf((*MockWorkflowServiceClient)(nil).RequestCancelActivityExecution), varargs...)
 }
 
-// RequestCancelCallbackExecution mocks base method.
-func (m *MockWorkflowServiceClient) RequestCancelCallbackExecution(ctx context.Context, in *workflowservice.RequestCancelCallbackExecutionRequest, opts ...grpc.CallOption) (*workflowservice.RequestCancelCallbackExecutionResponse, error) {
-	m.ctrl.T.Helper()
-	varargs := []interface{}{ctx, in}
-	for _, a := range opts {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "RequestCancelCallbackExecution", varargs...)
-	ret0, _ := ret[0].(*workflowservice.RequestCancelCallbackExecutionResponse)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// RequestCancelCallbackExecution indicates an expected call of RequestCancelCallbackExecution.
-func (mr *MockWorkflowServiceClientMockRecorder) RequestCancelCallbackExecution(ctx, in interface{}, opts ...interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	varargs := append([]interface{}{ctx, in}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RequestCancelCallbackExecution", reflect.TypeOf((*MockWorkflowServiceClient)(nil).RequestCancelCallbackExecution), varargs...)
-}
-
 // RequestCancelWorkflowExecution mocks base method.
 func (m *MockWorkflowServiceClient) RequestCancelWorkflowExecution(ctx context.Context, in *workflowservice.RequestCancelWorkflowExecutionRequest, opts ...grpc.CallOption) (*workflowservice.RequestCancelWorkflowExecutionResponse, error) {
 	m.ctrl.T.Helper()
@@ -3340,21 +3320,6 @@ func (m *MockWorkflowServiceServer) RequestCancelActivityExecution(arg0 context.
 func (mr *MockWorkflowServiceServerMockRecorder) RequestCancelActivityExecution(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RequestCancelActivityExecution", reflect.TypeOf((*MockWorkflowServiceServer)(nil).RequestCancelActivityExecution), arg0, arg1)
-}
-
-// RequestCancelCallbackExecution mocks base method.
-func (m *MockWorkflowServiceServer) RequestCancelCallbackExecution(arg0 context.Context, arg1 *workflowservice.RequestCancelCallbackExecutionRequest) (*workflowservice.RequestCancelCallbackExecutionResponse, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "RequestCancelCallbackExecution", arg0, arg1)
-	ret0, _ := ret[0].(*workflowservice.RequestCancelCallbackExecutionResponse)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// RequestCancelCallbackExecution indicates an expected call of RequestCancelCallbackExecution.
-func (mr *MockWorkflowServiceServerMockRecorder) RequestCancelCallbackExecution(arg0, arg1 interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RequestCancelCallbackExecution", reflect.TypeOf((*MockWorkflowServiceServer)(nil).RequestCancelCallbackExecution), arg0, arg1)
 }
 
 // RequestCancelWorkflowExecution mocks base method.
