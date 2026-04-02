@@ -16087,8 +16087,10 @@ func (x *StartCallbackExecutionRequest) GetLinks() []*v13.Link {
 
 type StartCallbackExecutionResponse struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
+	// The run ID of the callback that was started.
+	RunId string `protobuf:"bytes,1,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
 	// The time when the callback was created.
-	CreateTime    *timestamppb.Timestamp `protobuf:"bytes,1,opt,name=create_time,json=createTime,proto3" json:"create_time,omitempty"`
+	CreateTime    *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=create_time,json=createTime,proto3" json:"create_time,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -16121,6 +16123,13 @@ func (x *StartCallbackExecutionResponse) ProtoReflect() protoreflect.Message {
 // Deprecated: Use StartCallbackExecutionResponse.ProtoReflect.Descriptor instead.
 func (*StartCallbackExecutionResponse) Descriptor() ([]byte, []int) {
 	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{211}
+}
+
+func (x *StartCallbackExecutionResponse) GetRunId() string {
+	if x != nil {
+		return x.RunId
+	}
+	return ""
 }
 
 func (x *StartCallbackExecutionResponse) GetCreateTime() *timestamppb.Timestamp {
@@ -16278,9 +16287,12 @@ func (x *DescribeCallbackExecutionResponse) GetLongPollToken() []byte {
 }
 
 type PollCallbackExecutionRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Namespace     string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
-	CallbackId    string                 `protobuf:"bytes,2,opt,name=callback_id,json=callbackId,proto3" json:"callback_id,omitempty"`
+	state     protoimpl.MessageState `protogen:"open.v1"`
+	Namespace string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	// Identifier for the callback
+	CallbackId string `protobuf:"bytes,2,opt,name=callback_id,json=callbackId,proto3" json:"callback_id,omitempty"`
+	// Run ID of the callback execution to poll. If empty, the latest run will be polled.
+	RunId         string `protobuf:"bytes,3,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -16325,6 +16337,13 @@ func (x *PollCallbackExecutionRequest) GetNamespace() string {
 func (x *PollCallbackExecutionRequest) GetCallbackId() string {
 	if x != nil {
 		return x.CallbackId
+	}
+	return ""
+}
+
+func (x *PollCallbackExecutionRequest) GetRunId() string {
+	if x != nil {
+		return x.RunId
 	}
 	return ""
 }
@@ -19536,9 +19555,10 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"completion\x18\n" +
 	" \x01(\v25.temporal.api.callback.v1.CallbackExecutionCompletionR\n" +
 	"completion\x122\n" +
-	"\x05links\x18\v \x03(\v2\x1c.temporal.api.common.v1.LinkR\x05links\"]\n" +
-	"\x1eStartCallbackExecutionResponse\x12;\n" +
-	"\vcreate_time\x18\x01 \x01(\v2\x1a.google.protobuf.TimestampR\n" +
+	"\x05links\x18\v \x03(\v2\x1c.temporal.api.common.v1.LinkR\x05links\"t\n" +
+	"\x1eStartCallbackExecutionResponse\x12\x15\n" +
+	"\x06run_id\x18\x01 \x01(\tR\x05runId\x12;\n" +
+	"\vcreate_time\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\n" +
 	"createTime\"\xc9\x01\n" +
 	" DescribeCallbackExecutionRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12\x1f\n" +
@@ -19550,11 +19570,12 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"!DescribeCallbackExecutionResponse\x12C\n" +
 	"\x04info\x18\x01 \x01(\v2/.temporal.api.callback.v1.CallbackExecutionInfoR\x04info\x12L\n" +
 	"\aoutcome\x18\x02 \x01(\v22.temporal.api.callback.v1.CallbackExecutionOutcomeR\aoutcome\x12&\n" +
-	"\x0flong_poll_token\x18\x03 \x01(\fR\rlongPollToken\"]\n" +
+	"\x0flong_poll_token\x18\x03 \x01(\fR\rlongPollToken\"t\n" +
 	"\x1cPollCallbackExecutionRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12\x1f\n" +
 	"\vcallback_id\x18\x02 \x01(\tR\n" +
-	"callbackId\"m\n" +
+	"callbackId\x12\x15\n" +
+	"\x06run_id\x18\x03 \x01(\tR\x05runId\"m\n" +
 	"\x1dPollCallbackExecutionResponse\x12L\n" +
 	"\aoutcome\x18\x01 \x01(\v22.temporal.api.callback.v1.CallbackExecutionOutcomeR\aoutcome\"\x98\x01\n" +
 	"\x1dListCallbackExecutionsRequest\x12\x1c\n" +
