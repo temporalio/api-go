@@ -176,37 +176,39 @@ type CallbackExecutionInfo struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Unique identifier of this callback within its namespace.
 	CallbackId string `protobuf:"bytes,1,opt,name=callback_id,json=callbackId,proto3" json:"callback_id,omitempty"`
+	// Run ID of the callback execution.
+	RunId string `protobuf:"bytes,2,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
 	// Information on how this callback should be invoked (e.g. its URL and type).
-	Callback *v11.Callback `protobuf:"bytes,2,opt,name=callback,proto3" json:"callback,omitempty"`
+	Callback *v11.Callback `protobuf:"bytes,3,opt,name=callback,proto3" json:"callback,omitempty"`
 	// Current state of the callback.
-	State v12.CallbackState `protobuf:"varint,3,opt,name=state,proto3,enum=temporal.api.enums.v1.CallbackState" json:"state,omitempty"`
+	State v12.CallbackState `protobuf:"varint,4,opt,name=state,proto3,enum=temporal.api.enums.v1.CallbackState" json:"state,omitempty"`
 	// The number of attempts made to deliver the callback.
 	// This number represents a minimum bound since the attempt is incremented after the callback request completes.
-	Attempt int32 `protobuf:"varint,4,opt,name=attempt,proto3" json:"attempt,omitempty"`
+	Attempt int32 `protobuf:"varint,5,opt,name=attempt,proto3" json:"attempt,omitempty"`
 	// The time when the callback was created/scheduled.
-	CreateTime *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=create_time,json=createTime,proto3" json:"create_time,omitempty"`
+	CreateTime *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=create_time,json=createTime,proto3" json:"create_time,omitempty"`
 	// The time when the last attempt completed.
-	LastAttemptCompleteTime *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=last_attempt_complete_time,json=lastAttemptCompleteTime,proto3" json:"last_attempt_complete_time,omitempty"`
+	LastAttemptCompleteTime *timestamppb.Timestamp `protobuf:"bytes,7,opt,name=last_attempt_complete_time,json=lastAttemptCompleteTime,proto3" json:"last_attempt_complete_time,omitempty"`
 	// The last attempt's failure, if any.
-	LastAttemptFailure *v1.Failure `protobuf:"bytes,7,opt,name=last_attempt_failure,json=lastAttemptFailure,proto3" json:"last_attempt_failure,omitempty"`
+	LastAttemptFailure *v1.Failure `protobuf:"bytes,8,opt,name=last_attempt_failure,json=lastAttemptFailure,proto3" json:"last_attempt_failure,omitempty"`
 	// The time when the next attempt is scheduled.
-	NextAttemptScheduleTime *timestamppb.Timestamp `protobuf:"bytes,8,opt,name=next_attempt_schedule_time,json=nextAttemptScheduleTime,proto3" json:"next_attempt_schedule_time,omitempty"`
+	NextAttemptScheduleTime *timestamppb.Timestamp `protobuf:"bytes,9,opt,name=next_attempt_schedule_time,json=nextAttemptScheduleTime,proto3" json:"next_attempt_schedule_time,omitempty"`
 	// If the state is BLOCKED, provides additional information.
-	BlockedReason string `protobuf:"bytes,9,opt,name=blocked_reason,json=blockedReason,proto3" json:"blocked_reason,omitempty"`
+	BlockedReason string `protobuf:"bytes,10,opt,name=blocked_reason,json=blockedReason,proto3" json:"blocked_reason,omitempty"`
 	// Time when the callback transitioned to a terminal state.
-	CloseTime *timestamppb.Timestamp `protobuf:"bytes,10,opt,name=close_time,json=closeTime,proto3" json:"close_time,omitempty"`
+	CloseTime *timestamppb.Timestamp `protobuf:"bytes,11,opt,name=close_time,json=closeTime,proto3" json:"close_time,omitempty"`
 	// Search attributes for indexing.
-	SearchAttributes *v11.SearchAttributes `protobuf:"bytes,11,opt,name=search_attributes,json=searchAttributes,proto3" json:"search_attributes,omitempty"`
+	SearchAttributes *v11.SearchAttributes `protobuf:"bytes,12,opt,name=search_attributes,json=searchAttributes,proto3" json:"search_attributes,omitempty"`
 	// Schedule-to-close timeout for this callback.
 	// (-- api-linter: core::0140::prepositions=disabled
 	//
 	//	aip.dev/not-precedent: "to" is used to indicate interval. --)
-	ScheduleToCloseTimeout *durationpb.Duration `protobuf:"bytes,12,opt,name=schedule_to_close_timeout,json=scheduleToCloseTimeout,proto3" json:"schedule_to_close_timeout,omitempty"`
+	ScheduleToCloseTimeout *durationpb.Duration `protobuf:"bytes,13,opt,name=schedule_to_close_timeout,json=scheduleToCloseTimeout,proto3" json:"schedule_to_close_timeout,omitempty"`
 	// Incremented each time the callback's state is mutated in persistence.
-	StateTransitionCount int64 `protobuf:"varint,13,opt,name=state_transition_count,json=stateTransitionCount,proto3" json:"state_transition_count,omitempty"`
+	StateTransitionCount int64 `protobuf:"varint,14,opt,name=state_transition_count,json=stateTransitionCount,proto3" json:"state_transition_count,omitempty"`
 	// Links attached to the callback execution.
 	// TODO: There are already links on the Callback message, do we need these here as well?
-	Links         []*v11.Link `protobuf:"bytes,14,rep,name=links,proto3" json:"links,omitempty"`
+	Links         []*v11.Link `protobuf:"bytes,15,rep,name=links,proto3" json:"links,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -244,6 +246,13 @@ func (*CallbackExecutionInfo) Descriptor() ([]byte, []int) {
 func (x *CallbackExecutionInfo) GetCallbackId() string {
 	if x != nil {
 		return x.CallbackId
+	}
+	return ""
+}
+
+func (x *CallbackExecutionInfo) GetRunId() string {
+	if x != nil {
+		return x.RunId
 	}
 	return ""
 }
@@ -450,26 +459,27 @@ const file_temporal_api_callback_v1_message_proto_rawDesc = "" +
 	"\x05value\"\x94\x01\n" +
 	"\x1bCallbackExecutionCompletion\x129\n" +
 	"\asuccess\x18\x01 \x01(\v2\x1f.temporal.api.common.v1.PayloadR\asuccess\x12:\n" +
-	"\afailure\x18\x02 \x01(\v2 .temporal.api.failure.v1.FailureR\afailure\"\x88\a\n" +
+	"\afailure\x18\x02 \x01(\v2 .temporal.api.failure.v1.FailureR\afailure\"\x9f\a\n" +
 	"\x15CallbackExecutionInfo\x12\x1f\n" +
 	"\vcallback_id\x18\x01 \x01(\tR\n" +
-	"callbackId\x12<\n" +
-	"\bcallback\x18\x02 \x01(\v2 .temporal.api.common.v1.CallbackR\bcallback\x12:\n" +
-	"\x05state\x18\x03 \x01(\x0e2$.temporal.api.enums.v1.CallbackStateR\x05state\x12\x18\n" +
-	"\aattempt\x18\x04 \x01(\x05R\aattempt\x12;\n" +
-	"\vcreate_time\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\n" +
+	"callbackId\x12\x15\n" +
+	"\x06run_id\x18\x02 \x01(\tR\x05runId\x12<\n" +
+	"\bcallback\x18\x03 \x01(\v2 .temporal.api.common.v1.CallbackR\bcallback\x12:\n" +
+	"\x05state\x18\x04 \x01(\x0e2$.temporal.api.enums.v1.CallbackStateR\x05state\x12\x18\n" +
+	"\aattempt\x18\x05 \x01(\x05R\aattempt\x12;\n" +
+	"\vcreate_time\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\n" +
 	"createTime\x12W\n" +
-	"\x1alast_attempt_complete_time\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\x17lastAttemptCompleteTime\x12R\n" +
-	"\x14last_attempt_failure\x18\a \x01(\v2 .temporal.api.failure.v1.FailureR\x12lastAttemptFailure\x12W\n" +
-	"\x1anext_attempt_schedule_time\x18\b \x01(\v2\x1a.google.protobuf.TimestampR\x17nextAttemptScheduleTime\x12%\n" +
-	"\x0eblocked_reason\x18\t \x01(\tR\rblockedReason\x129\n" +
+	"\x1alast_attempt_complete_time\x18\a \x01(\v2\x1a.google.protobuf.TimestampR\x17lastAttemptCompleteTime\x12R\n" +
+	"\x14last_attempt_failure\x18\b \x01(\v2 .temporal.api.failure.v1.FailureR\x12lastAttemptFailure\x12W\n" +
+	"\x1anext_attempt_schedule_time\x18\t \x01(\v2\x1a.google.protobuf.TimestampR\x17nextAttemptScheduleTime\x12%\n" +
+	"\x0eblocked_reason\x18\n" +
+	" \x01(\tR\rblockedReason\x129\n" +
 	"\n" +
-	"close_time\x18\n" +
-	" \x01(\v2\x1a.google.protobuf.TimestampR\tcloseTime\x12U\n" +
-	"\x11search_attributes\x18\v \x01(\v2(.temporal.api.common.v1.SearchAttributesR\x10searchAttributes\x12T\n" +
-	"\x19schedule_to_close_timeout\x18\f \x01(\v2\x19.google.protobuf.DurationR\x16scheduleToCloseTimeout\x124\n" +
-	"\x16state_transition_count\x18\r \x01(\x03R\x14stateTransitionCount\x122\n" +
-	"\x05links\x18\x0e \x03(\v2\x1c.temporal.api.common.v1.LinkR\x05links\"\x94\x03\n" +
+	"close_time\x18\v \x01(\v2\x1a.google.protobuf.TimestampR\tcloseTime\x12U\n" +
+	"\x11search_attributes\x18\f \x01(\v2(.temporal.api.common.v1.SearchAttributesR\x10searchAttributes\x12T\n" +
+	"\x19schedule_to_close_timeout\x18\r \x01(\v2\x19.google.protobuf.DurationR\x16scheduleToCloseTimeout\x124\n" +
+	"\x16state_transition_count\x18\x0e \x01(\x03R\x14stateTransitionCount\x122\n" +
+	"\x05links\x18\x0f \x03(\v2\x1c.temporal.api.common.v1.LinkR\x05links\"\x94\x03\n" +
 	"\x19CallbackExecutionListInfo\x12\x1f\n" +
 	"\vcallback_id\x18\x01 \x01(\tR\n" +
 	"callbackId\x12\x15\n" +
