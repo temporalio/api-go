@@ -16357,8 +16357,10 @@ func (x *PollCallbackExecutionRequest) GetRunId() string {
 }
 
 type PollCallbackExecutionResponse struct {
-	state         protoimpl.MessageState         `protogen:"open.v1"`
-	Outcome       *v122.CallbackExecutionOutcome `protobuf:"bytes,1,opt,name=outcome,proto3" json:"outcome,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The run ID of the callback, useful when run_id was not specified in the request.
+	RunId         string                         `protobuf:"bytes,1,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
+	Outcome       *v122.CallbackExecutionOutcome `protobuf:"bytes,2,opt,name=outcome,proto3" json:"outcome,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -16391,6 +16393,13 @@ func (x *PollCallbackExecutionResponse) ProtoReflect() protoreflect.Message {
 // Deprecated: Use PollCallbackExecutionResponse.ProtoReflect.Descriptor instead.
 func (*PollCallbackExecutionResponse) Descriptor() ([]byte, []int) {
 	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{215}
+}
+
+func (x *PollCallbackExecutionResponse) GetRunId() string {
+	if x != nil {
+		return x.RunId
+	}
+	return ""
 }
 
 func (x *PollCallbackExecutionResponse) GetOutcome() *v122.CallbackExecutionOutcome {
@@ -19580,9 +19589,10 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12\x1f\n" +
 	"\vcallback_id\x18\x02 \x01(\tR\n" +
 	"callbackId\x12\x15\n" +
-	"\x06run_id\x18\x03 \x01(\tR\x05runId\"m\n" +
-	"\x1dPollCallbackExecutionResponse\x12L\n" +
-	"\aoutcome\x18\x01 \x01(\v22.temporal.api.callback.v1.CallbackExecutionOutcomeR\aoutcome\"\x98\x01\n" +
+	"\x06run_id\x18\x03 \x01(\tR\x05runId\"\x84\x01\n" +
+	"\x1dPollCallbackExecutionResponse\x12\x15\n" +
+	"\x06run_id\x18\x01 \x01(\tR\x05runId\x12L\n" +
+	"\aoutcome\x18\x02 \x01(\v22.temporal.api.callback.v1.CallbackExecutionOutcomeR\aoutcome\"\x98\x01\n" +
 	"\x1dListCallbackExecutionsRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12\x1b\n" +
 	"\tpage_size\x18\x02 \x01(\x05R\bpageSize\x12&\n" +

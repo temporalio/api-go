@@ -323,57 +323,62 @@ func (CallbackState) EnumDescriptor() ([]byte, []int) {
 	return file_temporal_api_enums_v1_common_proto_rawDescGZIP(), []int{3}
 }
 
-// Terminal status of a standalone callback execution.
-type CallbackExecutionState int32
+// Status of a callback execution.
+// The status is updated once, when the callback is originally scheduled, and again when the callback reaches a terminal
+// status.
+// (-- api-linter: core::0216::synonyms=disabled
+//
+//	aip.dev/not-precedent: To be consistent with other enums like ActivityExecutionStatus. --)
+type CallbackExecutionStatus int32
 
 const (
 	// Default value, unspecified status.
-	CALLBACK_EXECUTION_STATE_UNSPECIFIED CallbackExecutionState = 0
+	CALLBACK_EXECUTION_STATUS_UNSPECIFIED CallbackExecutionStatus = 0
 	// Callback execution is running.
-	CALLBACK_EXECUTION_STATE_RUNNING CallbackExecutionState = 1
+	CALLBACK_EXECUTION_STATUS_RUNNING CallbackExecutionStatus = 1
 	// Callback has succeeded.
-	CALLBACK_EXECUTION_STATE_SUCCEEDED CallbackExecutionState = 2
+	CALLBACK_EXECUTION_STATUS_SUCCEEDED CallbackExecutionStatus = 2
 	// Callback has failed.
-	CALLBACK_EXECUTION_STATE_FAILED CallbackExecutionState = 3
+	CALLBACK_EXECUTION_STATUS_FAILED CallbackExecutionStatus = 3
 	// Callback was terminated via TerminateCallbackExecution.
-	CALLBACK_EXECUTION_STATE_TERMINATED CallbackExecutionState = 4
+	CALLBACK_EXECUTION_STATUS_TERMINATED CallbackExecutionStatus = 4
 )
 
-// Enum value maps for CallbackExecutionState.
+// Enum value maps for CallbackExecutionStatus.
 var (
-	CallbackExecutionState_name = map[int32]string{
-		0: "CALLBACK_EXECUTION_STATE_UNSPECIFIED",
-		1: "CALLBACK_EXECUTION_STATE_RUNNING",
-		2: "CALLBACK_EXECUTION_STATE_SUCCEEDED",
-		3: "CALLBACK_EXECUTION_STATE_FAILED",
-		4: "CALLBACK_EXECUTION_STATE_TERMINATED",
+	CallbackExecutionStatus_name = map[int32]string{
+		0: "CALLBACK_EXECUTION_STATUS_UNSPECIFIED",
+		1: "CALLBACK_EXECUTION_STATUS_RUNNING",
+		2: "CALLBACK_EXECUTION_STATUS_SUCCEEDED",
+		3: "CALLBACK_EXECUTION_STATUS_FAILED",
+		4: "CALLBACK_EXECUTION_STATUS_TERMINATED",
 	}
-	CallbackExecutionState_value = map[string]int32{
-		"CALLBACK_EXECUTION_STATE_UNSPECIFIED": 0,
-		"CALLBACK_EXECUTION_STATE_RUNNING":     1,
-		"CALLBACK_EXECUTION_STATE_SUCCEEDED":   2,
-		"CALLBACK_EXECUTION_STATE_FAILED":      3,
-		"CALLBACK_EXECUTION_STATE_TERMINATED":  4,
+	CallbackExecutionStatus_value = map[string]int32{
+		"CALLBACK_EXECUTION_STATUS_UNSPECIFIED": 0,
+		"CALLBACK_EXECUTION_STATUS_RUNNING":     1,
+		"CALLBACK_EXECUTION_STATUS_SUCCEEDED":   2,
+		"CALLBACK_EXECUTION_STATUS_FAILED":      3,
+		"CALLBACK_EXECUTION_STATUS_TERMINATED":  4,
 	}
 )
 
-func (x CallbackExecutionState) Enum() *CallbackExecutionState {
-	p := new(CallbackExecutionState)
+func (x CallbackExecutionStatus) Enum() *CallbackExecutionStatus {
+	p := new(CallbackExecutionStatus)
 	*p = x
 	return p
 }
 
-func (x CallbackExecutionState) String() string {
+func (x CallbackExecutionStatus) String() string {
 	switch x {
-	case CALLBACK_EXECUTION_STATE_UNSPECIFIED:
+	case CALLBACK_EXECUTION_STATUS_UNSPECIFIED:
 		return "Unspecified"
-	case CALLBACK_EXECUTION_STATE_RUNNING:
+	case CALLBACK_EXECUTION_STATUS_RUNNING:
 		return "Running"
-	case CALLBACK_EXECUTION_STATE_SUCCEEDED:
+	case CALLBACK_EXECUTION_STATUS_SUCCEEDED:
 		return "Succeeded"
-	case CALLBACK_EXECUTION_STATE_FAILED:
+	case CALLBACK_EXECUTION_STATUS_FAILED:
 		return "Failed"
-	case CALLBACK_EXECUTION_STATE_TERMINATED:
+	case CALLBACK_EXECUTION_STATUS_TERMINATED:
 		return "Terminated"
 	default:
 		return strconv.Itoa(int(x))
@@ -381,20 +386,20 @@ func (x CallbackExecutionState) String() string {
 
 }
 
-func (CallbackExecutionState) Descriptor() protoreflect.EnumDescriptor {
+func (CallbackExecutionStatus) Descriptor() protoreflect.EnumDescriptor {
 	return file_temporal_api_enums_v1_common_proto_enumTypes[4].Descriptor()
 }
 
-func (CallbackExecutionState) Type() protoreflect.EnumType {
+func (CallbackExecutionStatus) Type() protoreflect.EnumType {
 	return &file_temporal_api_enums_v1_common_proto_enumTypes[4]
 }
 
-func (x CallbackExecutionState) Number() protoreflect.EnumNumber {
+func (x CallbackExecutionStatus) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use CallbackExecutionState.Descriptor instead.
-func (CallbackExecutionState) EnumDescriptor() ([]byte, []int) {
+// Deprecated: Use CallbackExecutionStatus.Descriptor instead.
+func (CallbackExecutionStatus) EnumDescriptor() ([]byte, []int) {
 	return file_temporal_api_enums_v1_common_proto_rawDescGZIP(), []int{4}
 }
 
@@ -777,13 +782,13 @@ const file_temporal_api_enums_v1_common_proto_rawDesc = "" +
 	"\x15CALLBACK_STATE_FAILED\x10\x04\x12\x1c\n" +
 	"\x18CALLBACK_STATE_SUCCEEDED\x10\x05\x12\x1a\n" +
 	"\x16CALLBACK_STATE_BLOCKED\x10\x06\x12\x1d\n" +
-	"\x19CALLBACK_STATE_TERMINATED\x10\a*\xde\x01\n" +
-	"\x16CallbackExecutionState\x12(\n" +
-	"$CALLBACK_EXECUTION_STATE_UNSPECIFIED\x10\x00\x12$\n" +
-	" CALLBACK_EXECUTION_STATE_RUNNING\x10\x01\x12&\n" +
-	"\"CALLBACK_EXECUTION_STATE_SUCCEEDED\x10\x02\x12#\n" +
-	"\x1fCALLBACK_EXECUTION_STATE_FAILED\x10\x03\x12'\n" +
-	"#CALLBACK_EXECUTION_STATE_TERMINATED\x10\x04*\xfd\x01\n" +
+	"\x19CALLBACK_STATE_TERMINATED\x10\a*\xe4\x01\n" +
+	"\x17CallbackExecutionStatus\x12)\n" +
+	"%CALLBACK_EXECUTION_STATUS_UNSPECIFIED\x10\x00\x12%\n" +
+	"!CALLBACK_EXECUTION_STATUS_RUNNING\x10\x01\x12'\n" +
+	"#CALLBACK_EXECUTION_STATUS_SUCCEEDED\x10\x02\x12$\n" +
+	" CALLBACK_EXECUTION_STATUS_FAILED\x10\x03\x12(\n" +
+	"$CALLBACK_EXECUTION_STATUS_TERMINATED\x10\x04*\xfd\x01\n" +
 	"\x1aPendingNexusOperationState\x12-\n" +
 	")PENDING_NEXUS_OPERATION_STATE_UNSPECIFIED\x10\x00\x12+\n" +
 	"'PENDING_NEXUS_OPERATION_STATE_SCHEDULED\x10\x01\x12-\n" +
@@ -830,7 +835,7 @@ var file_temporal_api_enums_v1_common_proto_goTypes = []any{
 	(IndexedValueType)(0),                // 1: temporal.api.enums.v1.IndexedValueType
 	(Severity)(0),                        // 2: temporal.api.enums.v1.Severity
 	(CallbackState)(0),                   // 3: temporal.api.enums.v1.CallbackState
-	(CallbackExecutionState)(0),          // 4: temporal.api.enums.v1.CallbackExecutionState
+	(CallbackExecutionStatus)(0),         // 4: temporal.api.enums.v1.CallbackExecutionStatus
 	(PendingNexusOperationState)(0),      // 5: temporal.api.enums.v1.PendingNexusOperationState
 	(NexusOperationCancellationState)(0), // 6: temporal.api.enums.v1.NexusOperationCancellationState
 	(WorkflowRuleActionScope)(0),         // 7: temporal.api.enums.v1.WorkflowRuleActionScope

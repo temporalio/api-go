@@ -93,7 +93,7 @@ func CallbackStateFromString(s string) (CallbackState, error) {
 }
 
 var (
-	CallbackExecutionState_shorthandValue = map[string]int32{
+	CallbackExecutionStatus_shorthandValue = map[string]int32{
 		"Unspecified": 0,
 		"Running":     1,
 		"Succeeded":   2,
@@ -102,15 +102,15 @@ var (
 	}
 )
 
-// CallbackExecutionStateFromString parses a CallbackExecutionState value from  either the protojson
-// canonical SCREAMING_CASE enum or the traditional temporal PascalCase enum to CallbackExecutionState
-func CallbackExecutionStateFromString(s string) (CallbackExecutionState, error) {
-	if v, ok := CallbackExecutionState_value[s]; ok {
-		return CallbackExecutionState(v), nil
-	} else if v, ok := CallbackExecutionState_shorthandValue[s]; ok {
-		return CallbackExecutionState(v), nil
+// CallbackExecutionStatusFromString parses a CallbackExecutionStatus value from  either the protojson
+// canonical SCREAMING_CASE enum or the traditional temporal PascalCase enum to CallbackExecutionStatus
+func CallbackExecutionStatusFromString(s string) (CallbackExecutionStatus, error) {
+	if v, ok := CallbackExecutionStatus_value[s]; ok {
+		return CallbackExecutionStatus(v), nil
+	} else if v, ok := CallbackExecutionStatus_shorthandValue[s]; ok {
+		return CallbackExecutionStatus(v), nil
 	}
-	return CallbackExecutionState(0), fmt.Errorf("%s is not a valid CallbackExecutionState", s)
+	return CallbackExecutionStatus(0), fmt.Errorf("%s is not a valid CallbackExecutionStatus", s)
 }
 
 var (
