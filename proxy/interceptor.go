@@ -11,6 +11,7 @@ import (
 	"go.temporal.io/api/batch/v1"
 	"go.temporal.io/api/command/v1"
 	"go.temporal.io/api/common/v1"
+	"go.temporal.io/api/compute/v1"
 	"go.temporal.io/api/deployment/v1"
 	"go.temporal.io/api/errordetails/v1"
 	"go.temporal.io/api/export/v1"
@@ -894,6 +895,142 @@ func visitPayloads(
 
 			ctx.Context = prevCtx
 
+		case *compute.ComputeConfig:
+
+			if o == nil {
+				continue
+			}
+
+			prevCtx := ctx.Context
+			if options.ContextHook != nil {
+				var hookErr error
+				if ctx.Context, hookErr = options.ContextHook(prevCtx, o); hookErr != nil {
+					return hookErr
+				}
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetScalingGroups(),
+			); err != nil {
+				return err
+			}
+
+			ctx.Context = prevCtx
+
+		case map[string]*compute.ComputeConfigScalingGroup:
+			for _, x := range o {
+				if err := visitPayloads(ctx, options, parent, x); err != nil {
+					return err
+				}
+			}
+
+		case *compute.ComputeConfigScalingGroup:
+
+			if o == nil {
+				continue
+			}
+
+			prevCtx := ctx.Context
+			if options.ContextHook != nil {
+				var hookErr error
+				if ctx.Context, hookErr = options.ContextHook(prevCtx, o); hookErr != nil {
+					return hookErr
+				}
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetProvider(),
+				o.GetScaler(),
+			); err != nil {
+				return err
+			}
+
+			ctx.Context = prevCtx
+
+		case map[string]*compute.ComputeConfigScalingGroupUpdate:
+			for _, x := range o {
+				if err := visitPayloads(ctx, options, parent, x); err != nil {
+					return err
+				}
+			}
+
+		case *compute.ComputeConfigScalingGroupUpdate:
+
+			if o == nil {
+				continue
+			}
+
+			prevCtx := ctx.Context
+			if options.ContextHook != nil {
+				var hookErr error
+				if ctx.Context, hookErr = options.ContextHook(prevCtx, o); hookErr != nil {
+					return hookErr
+				}
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetScalingGroup(),
+			); err != nil {
+				return err
+			}
+
+			ctx.Context = prevCtx
+
+		case *compute.ComputeProvider:
+
+			if o == nil {
+				continue
+			}
+
+			prevCtx := ctx.Context
+			if options.ContextHook != nil {
+				var hookErr error
+				if ctx.Context, hookErr = options.ContextHook(prevCtx, o); hookErr != nil {
+					return hookErr
+				}
+			}
+			if o.Details != nil {
+				no, err := visitPayload(ctx, options, o, o.Details)
+				if err != nil {
+					return err
+				}
+				o.Details = no
+			}
+
+			ctx.Context = prevCtx
+
+		case *compute.ComputeScaler:
+
+			if o == nil {
+				continue
+			}
+
+			prevCtx := ctx.Context
+			if options.ContextHook != nil {
+				var hookErr error
+				if ctx.Context, hookErr = options.ContextHook(prevCtx, o); hookErr != nil {
+					return hookErr
+				}
+			}
+			if o.Details != nil {
+				no, err := visitPayload(ctx, options, o, o.Details)
+				if err != nil {
+					return err
+				}
+				o.Details = no
+			}
+
+			ctx.Context = prevCtx
+
 		case *deployment.DeploymentInfo:
 
 			if o == nil {
@@ -987,6 +1124,7 @@ func visitPayloads(
 				ctx,
 				options,
 				o,
+				o.GetComputeConfig(),
 				o.GetMetadata(),
 			); err != nil {
 				return err
@@ -3389,6 +3527,31 @@ func visitPayloads(
 
 			ctx.Context = prevCtx
 
+		case *workflowservice.CreateWorkerDeploymentVersionRequest:
+
+			if o == nil {
+				continue
+			}
+
+			prevCtx := ctx.Context
+			if options.ContextHook != nil {
+				var hookErr error
+				if ctx.Context, hookErr = options.ContextHook(prevCtx, o); hookErr != nil {
+					return hookErr
+				}
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetComputeConfig(),
+			); err != nil {
+				return err
+			}
+
+			ctx.Context = prevCtx
+
 		case *workflowservice.DescribeActivityExecutionResponse:
 
 			if o == nil {
@@ -4802,6 +4965,31 @@ func visitPayloads(
 
 			ctx.Context = prevCtx
 
+		case *workflowservice.UpdateWorkerDeploymentVersionComputeConfigRequest:
+
+			if o == nil {
+				continue
+			}
+
+			prevCtx := ctx.Context
+			if options.ContextHook != nil {
+				var hookErr error
+				if ctx.Context, hookErr = options.ContextHook(prevCtx, o); hookErr != nil {
+					return hookErr
+				}
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetComputeConfigScalingGroups(),
+			); err != nil {
+				return err
+			}
+
+			ctx.Context = prevCtx
+
 		case *workflowservice.UpdateWorkerDeploymentVersionMetadataRequest:
 
 			if o == nil {
@@ -4896,6 +5084,31 @@ func visitPayloads(
 				options,
 				o,
 				o.GetOutcome(),
+			); err != nil {
+				return err
+			}
+
+			ctx.Context = prevCtx
+
+		case *workflowservice.ValidateWorkerDeploymentVersionComputeConfigRequest:
+
+			if o == nil {
+				continue
+			}
+
+			prevCtx := ctx.Context
+			if options.ContextHook != nil {
+				var hookErr error
+				if ctx.Context, hookErr = options.ContextHook(prevCtx, o); hookErr != nil {
+					return hookErr
+				}
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetComputeConfigScalingGroups(),
 			); err != nil {
 				return err
 			}
