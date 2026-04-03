@@ -43,14 +43,20 @@ update-proto-submodule:
 ##### Compile proto files for go #####
 grpc: http-api-docs go-grpc copy-helpers
 
-# Only install helper when its source has changed
+# Only install helpers when their source has changed
 HELPER_FILES = $(shell find ./cmd/protoc-gen-go-helpers)
 .go-helpers-installed: $(HELPER_FILES)
-	printf $(COLOR) "Installing protoc plugin"
+	printf $(COLOR) "Installing protoc-gen-go-helpers plugin"
 	@go install ./cmd/protoc-gen-go-helpers
 	@touch $@
 
-go-grpc: clean .go-helpers-installed $(PROTO_OUT)
+NEXUS_PLUGIN_FILES = $(shell find ./cmd/protoc-gen-go-nexus)
+.go-nexus-installed: $(NEXUS_PLUGIN_FILES)
+	printf $(COLOR) "Installing protoc-gen-go-nexus plugin"
+	@go install ./cmd/protoc-gen-go-nexus
+	@touch $@
+
+go-grpc: clean .go-helpers-installed .go-nexus-installed $(PROTO_OUT)
 	printf $(COLOR) "Compile for go-gRPC..."
 	go run ./cmd/protogen \
 		--root=$(PROTO_ROOT) \
@@ -59,7 +65,9 @@ go-grpc: clean .go-helpers-installed $(PROTO_OUT)
 		--exclude=proto/api/google \
 		-p go-grpc_out=$(PROTO_PATHS) \
 		-p grpc-gateway_out=allow_patch_feature=false,$(PROTO_PATHS) \
-		-p go-helpers_out=$(PROTO_PATHS)
+		-p go-helpers_out=$(PROTO_PATHS) \
+		-p go-nexus_out=$(PROTO_PATHS) \
+		-p go-nexus_opt=include-operation-tags=exposed
 
 	mv -f $(PROTO_OUT)/temporal/api/* $(PROTO_OUT) && rm -rf $(PROTO_OUT)/temporal
 
@@ -105,9 +113,10 @@ gen-proto-desc:
 
 ##### Plugins & tools #####
 grpc-install:
-	@printf $(COLOR) "Install/update grpc and plugins..."
+	@printf $(COLOR) "Install/update grpc and nexus plugins..."
 	@go install google.golang.org/protobuf/cmd/protoc-gen-go@latest 
 	@go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
+	@go install ./cmd/protoc-gen-go-nexus
 	@go install github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-grpc-gateway@latest
 
 mockgen-install:
