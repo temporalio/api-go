@@ -347,6 +347,13 @@ func visitPayloads(
 					o.{{.}} = no
 				}
 				{{end}}
+				{{range $record.OneofPayloads -}}
+				if p := o.Get{{.FieldName}}(); p != nil {
+					no, err := visitPayload(ctx, options, o, p)
+					if err != nil { return err }
+					o.{{.OneofField}} = &{{.WrapperType}}{{"{"}}{{.FieldName}}: no}
+				}
+				{{end}}
 				{{if $record.Methods}}
 				if err := visitPayloads(
 					ctx,
@@ -429,11 +436,74 @@ type TemplateInput struct {
 
 // TypeRecord holds the state for a type referred to by the workflow service
 type TypeRecord struct {
-	Methods  []string // List of methods on this type that can eventually lead to Payload(s)
-	Payloads []string // List of attributes on this type that are of type Payload
-	Slice    bool     // The API refers to slices of this type
-	Map      bool     // The API refers to maps with this type as the value
-	Matches  bool     // We found methods on this type that can eventually lead to Payload(s)
+	Methods       []string            // List of methods on this type that can eventually lead to Payload(s)
+	Payloads      []string            // List of attributes on this type that are of type Payload
+	OneofPayloads []OneofPayloadInfo  // List of oneof fields on this type that are of type Payload
+	Slice         bool                // The API refers to slices of this type
+	Map           bool                // The API refers to maps with this type as the value
+	Matches       bool                // We found methods on this type that can eventually lead to Payload(s)
+}
+
+// OneofPayloadInfo holds the info needed to generate code for a oneof field containing a Payload.
+type OneofPayloadInfo struct {
+	FieldName   string // Go getter suffix, e.g. "Success"
+	OneofField  string // Name of the oneof interface field on the struct, e.g. "Result"
+	WrapperType string // Qualified wrapper type, e.g. "callback.CallbackExecutionCompletion_Success"
+}
+
+// findOneofInfo checks if a field on typ is a protobuf oneof case. If so, it returns the
+// info needed to generate getter/setter code. Returns nil if the field is a regular struct field.
+func findOneofInfo(typ types.Type, fieldName string) *OneofPayloadInfo {
+	ptr, ok := typ.(*types.Pointer)
+	if !ok {
+		return nil
+	}
+	named, ok := ptr.Elem().(*types.Named)
+	if !ok {
+		return nil
+	}
+	structType, ok := named.Underlying().(*types.Struct)
+	if !ok {
+		return nil
+	}
+
+	// If the struct has a direct field with this name, it's not a oneof.
+	for i := 0; i < structType.NumFields(); i++ {
+		if structType.Field(i).Name() == fieldName {
+			return nil
+		}
+	}
+
+	// It's a oneof field. Find the wrapper type and oneof field name.
+	pkg := named.Obj().Pkg()
+	wrapperName := named.Obj().Name() + "_" + fieldName
+	wrapperObj := pkg.Scope().Lookup(wrapperName)
+	if wrapperObj == nil {
+		return nil
+	}
+
+	wrapperPtrType := types.NewPointer(wrapperObj.Type())
+
+	// Find which interface field on the struct the wrapper type implements.
+	for i := 0; i < structType.NumFields(); i++ {
+		field := structType.Field(i)
+		ifaceType, ok := field.Type().Underlying().(*types.Interface)
+		if !ok {
+			continue
+		}
+		if types.Implements(wrapperPtrType, ifaceType) {
+			qualifiedWrapper := types.TypeString(wrapperObj.Type(), func(p *types.Package) string {
+				return p.Name()
+			})
+			return &OneofPayloadInfo{
+				FieldName:   fieldName,
+				OneofField:  field.Name(),
+				WrapperType: qualifiedWrapper,
+			}
+		}
+	}
+
+	return nil
 }
 
 // isSlice returns true if a type is slice, false otherwise
@@ -740,7 +810,12 @@ func walk(desired []types.Type, directMatchTypes []types.Type, typ types.Type, r
 			if !ok {
 				panic(fmt.Errorf("expected method to have a Get prefix: %s", methodName))
 			}
-			record.Payloads = append(record.Payloads, prefix)
+			// Check if this is a oneof field (no direct struct field, uses wrapper type)
+			if info := findOneofInfo(typ, prefix); info != nil {
+				record.OneofPayloads = append(record.OneofPayloads, *info)
+			} else {
+				record.Payloads = append(record.Payloads, prefix)
+			}
 			continue
 		}
 

@@ -426,12 +426,13 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
-			if o.Success != nil {
-				no, err := visitPayload(ctx, options, o, o.Success)
+
+			if p := o.GetSuccess(); p != nil {
+				no, err := visitPayload(ctx, options, o, p)
 				if err != nil {
 					return err
 				}
-				o.Success = no
+				o.Result = &callback.CallbackExecutionCompletion_Success{Success: no}
 			}
 
 			if err := visitPayloads(
