@@ -1,4 +1,5 @@
 .idea
 .gobincache
 .go-helpers-installed
+.go-nexus-installed
 /descriptor_set.pb
