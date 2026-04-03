@@ -10,6 +10,7 @@ import (
 	reflect "reflect"
 	unsafe "unsafe"
 
+	_ "github.com/nexus-rpc/nexus-proto-annotations/go/nexusannotations/v1"
 	_ "go.temporal.io/api/protometa/v1"
 	_ "google.golang.org/genproto/googleapis/api/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -27,7 +28,7 @@ var File_temporal_api_workflowservice_v1_service_proto protoreflect.FileDescript
 
 const file_temporal_api_workflowservice_v1_service_proto_rawDesc = "" +
 	"\n" +
-	"-temporal/api/workflowservice/v1/service.proto\x12\x1ftemporal.api.workflowservice.v1\x1a6temporal/api/workflowservice/v1/request_response.proto\x1a\x1cgoogle/api/annotations.proto\x1a+temporal/api/protometa/v1/annotations.proto2\xcb\xf7\x01\n" +
+	"-temporal/api/workflowservice/v1/service.proto\x12\x1ftemporal.api.workflowservice.v1\x1a\x1cgoogle/api/annotations.proto\x1a!nexusannotations/v1/options.proto\x1a+temporal/api/protometa/v1/annotations.proto\x1a6temporal/api/workflowservice/v1/request_response.proto2\xd8\xf7\x01\n" +
 	"\x0fWorkflowService\x12\xc3\x01\n" +
 	"\x11RegisterNamespace\x129.temporal.api.workflowservice.v1.RegisterNamespaceRequest\x1a:.temporal.api.workflowservice.v1.RegisterNamespaceResponse\"7\x82\xd3\xe4\x93\x021:\x01*Z\x17:\x01*\"\x12/api/v1/namespaces\"\x13/cluster/namespaces\x12\xd5\x01\n" +
 	"\x11DescribeNamespace\x129.temporal.api.workflowservice.v1.DescribeNamespaceRequest\x1a:.temporal.api.workflowservice.v1.DescribeNamespaceResponse\"I\x82\xd3\xe4\x93\x02CZ \x12\x1e/api/v1/namespaces/{namespace}\x12\x1f/cluster/namespaces/{namespace}\x12\xb4\x01\n" +
@@ -67,8 +68,8 @@ const file_temporal_api_workflowservice_v1_service_proto_rawDesc = "" +
 	"\x1eRequestCancelWorkflowExecution\x12F.temporal.api.workflowservice.v1.RequestCancelWorkflowExecutionRequest\x1aG.temporal.api.workflowservice.v1.RequestCancelWorkflowExecutionResponse\"\xf2\x01\x8a\x9d\xcc\x1bA\n" +
 	"\x14temporal-resource-id\x12)workflow:{workflow_execution.workflow_id}\x82\xd3\xe4\x93\x02\xa5\x01:\x01*ZU:\x01*\"P/api/v1/namespaces/{namespace}/workflows/{workflow_execution.workflow_id}/cancel\"I/namespaces/{namespace}/workflows/{workflow_execution.workflow_id}/cancel\x12\xad\x03\n" +
 	"\x17SignalWorkflowExecution\x12?.temporal.api.workflowservice.v1.SignalWorkflowExecutionRequest\x1a@.temporal.api.workflowservice.v1.SignalWorkflowExecutionResponse\"\x8e\x02\x8a\x9d\xcc\x1bA\n" +
-	"\x14temporal-resource-id\x12)workflow:{workflow_execution.workflow_id}\x82\xd3\xe4\x93\x02\xc1\x01:\x01*Zc:\x01*\"^/api/v1/namespaces/{namespace}/workflows/{workflow_execution.workflow_id}/signal/{signal_name}\"W/namespaces/{namespace}/workflows/{workflow_execution.workflow_id}/signal/{signal_name}\x12\xa5\x03\n" +
-	" SignalWithStartWorkflowExecution\x12H.temporal.api.workflowservice.v1.SignalWithStartWorkflowExecutionRequest\x1aI.temporal.api.workflowservice.v1.SignalWithStartWorkflowExecutionResponse\"\xeb\x01\x8a\x9d\xcc\x1b.\n" +
+	"\x14temporal-resource-id\x12)workflow:{workflow_execution.workflow_id}\x82\xd3\xe4\x93\x02\xc1\x01:\x01*Zc:\x01*\"^/api/v1/namespaces/{namespace}/workflows/{workflow_execution.workflow_id}/signal/{signal_name}\"W/namespaces/{namespace}/workflows/{workflow_execution.workflow_id}/signal/{signal_name}\x12\xb2\x03\n" +
+	" SignalWithStartWorkflowExecution\x12H.temporal.api.workflowservice.v1.SignalWithStartWorkflowExecutionRequest\x1aI.temporal.api.workflowservice.v1.SignalWithStartWorkflowExecutionResponse\"\xf8\x01҂\x04\t\x12\aexposed\x8a\x9d\xcc\x1b.\n" +
 	"\x14temporal-resource-id\x12\x16workflow:{workflow_id}\x82\xd3\xe4\x93\x02\xb1\x01:\x01*Z[:\x01*\"V/api/v1/namespaces/{namespace}/workflows/{workflow_id}/signal-with-start/{signal_name}\"O/namespaces/{namespace}/workflows/{workflow_id}/signal-with-start/{signal_name}\x12\x8c\x03\n" +
 	"\x16ResetWorkflowExecution\x12>.temporal.api.workflowservice.v1.ResetWorkflowExecutionRequest\x1a?.temporal.api.workflowservice.v1.ResetWorkflowExecutionResponse\"\xf0\x01\x8a\x9d\xcc\x1bA\n" +
 	"\x14temporal-resource-id\x12)workflow:{workflow_execution.workflow_id}\x82\xd3\xe4\x93\x02\xa3\x01:\x01*ZT:\x01*\"O/api/v1/namespaces/{namespace}/workflows/{workflow_execution.workflow_id}/reset\"H/namespaces/{namespace}/workflows/{workflow_execution.workflow_id}/reset\x12\xa0\x03\n" +
