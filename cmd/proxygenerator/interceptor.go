@@ -436,12 +436,12 @@ type TemplateInput struct {
 
 // TypeRecord holds the state for a type referred to by the workflow service
 type TypeRecord struct {
-	Methods       []string            // List of methods on this type that can eventually lead to Payload(s)
-	Payloads      []string            // List of attributes on this type that are of type Payload
-	OneofPayloads []OneofPayloadInfo  // List of oneof fields on this type that are of type Payload
-	Slice         bool                // The API refers to slices of this type
-	Map           bool                // The API refers to maps with this type as the value
-	Matches       bool                // We found methods on this type that can eventually lead to Payload(s)
+	Methods       []string           // List of methods on this type that can eventually lead to Payload(s)
+	Payloads      []string           // List of attributes on this type that are of type Payload
+	OneofPayloads []OneofPayloadInfo // List of oneof fields on this type that are of type Payload
+	Slice         bool               // The API refers to slices of this type
+	Map           bool               // The API refers to maps with this type as the value
+	Matches       bool               // We found methods on this type that can eventually lead to Payload(s)
 }
 
 // OneofPayloadInfo holds the info needed to generate code for a oneof field containing a Payload.
