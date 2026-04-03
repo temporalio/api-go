@@ -194,6 +194,7 @@ type CallbackExecutionCompletion_Success struct {
 type CallbackExecutionCompletion_Failure struct {
 	// Deliver a failed Nexus operation completion with this failure.
 	// If set, the callback delivers a failed completion to the target URL.
+	// If CanceledFailureInfo is set, the target operation is resolved is canceled instead of failed.
 	Failure *v1.Failure `protobuf:"bytes,2,opt,name=failure,proto3,oneof"`
 }
 
@@ -210,8 +211,8 @@ type CallbackExecutionInfo struct {
 	RunId string `protobuf:"bytes,2,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
 	// Information on how this callback should be invoked (e.g. its URL and type).
 	Callback *v11.Callback `protobuf:"bytes,3,opt,name=callback,proto3" json:"callback,omitempty"`
-	// Current state of the callback.
-	State v12.CallbackState `protobuf:"varint,4,opt,name=state,proto3,enum=temporal.api.enums.v1.CallbackState" json:"state,omitempty"`
+	// Current state of the callback execution.
+	State v12.CallbackExecutionState `protobuf:"varint,4,opt,name=state,proto3,enum=temporal.api.enums.v1.CallbackExecutionState" json:"state,omitempty"`
 	// The number of attempts made to deliver the callback.
 	// This number represents a minimum bound since the attempt is incremented after the callback request completes.
 	Attempt int32 `protobuf:"varint,5,opt,name=attempt,proto3" json:"attempt,omitempty"`
@@ -291,11 +292,11 @@ func (x *CallbackExecutionInfo) GetCallback() *v11.Callback {
 	return nil
 }
 
-func (x *CallbackExecutionInfo) GetState() v12.CallbackState {
+func (x *CallbackExecutionInfo) GetState() v12.CallbackExecutionState {
 	if x != nil {
 		return x.State
 	}
-	return v12.CallbackState(0)
+	return v12.CallbackExecutionState(0)
 }
 
 func (x *CallbackExecutionInfo) GetAttempt() int32 {
@@ -375,8 +376,8 @@ type CallbackExecutionListInfo struct {
 	CallbackId string `protobuf:"bytes,1,opt,name=callback_id,json=callbackId,proto3" json:"callback_id,omitempty"`
 	// Run ID of the callback execution.
 	RunId string `protobuf:"bytes,2,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
-	// Current state of the callback.
-	State v12.CallbackState `protobuf:"varint,3,opt,name=state,proto3,enum=temporal.api.enums.v1.CallbackState" json:"state,omitempty"`
+	// Current state of the callback execution.
+	State v12.CallbackExecutionState `protobuf:"varint,3,opt,name=state,proto3,enum=temporal.api.enums.v1.CallbackExecutionState" json:"state,omitempty"`
 	// The time when the callback was created/scheduled.
 	CreateTime *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=create_time,json=createTime,proto3" json:"create_time,omitempty"`
 	// Time when the callback transitioned to a terminal state.
@@ -433,11 +434,11 @@ func (x *CallbackExecutionListInfo) GetRunId() string {
 	return ""
 }
 
-func (x *CallbackExecutionListInfo) GetState() v12.CallbackState {
+func (x *CallbackExecutionListInfo) GetState() v12.CallbackExecutionState {
 	if x != nil {
 		return x.State
 	}
-	return v12.CallbackState(0)
+	return v12.CallbackExecutionState(0)
 }
 
 func (x *CallbackExecutionListInfo) GetCreateTime() *timestamppb.Timestamp {
@@ -480,13 +481,13 @@ const file_temporal_api_callback_v1_message_proto_rawDesc = "" +
 	"\x1bCallbackExecutionCompletion\x12;\n" +
 	"\asuccess\x18\x01 \x01(\v2\x1f.temporal.api.common.v1.PayloadH\x00R\asuccess\x12<\n" +
 	"\afailure\x18\x02 \x01(\v2 .temporal.api.failure.v1.FailureH\x00R\afailureB\b\n" +
-	"\x06result\"\xeb\x06\n" +
+	"\x06result\"\xf4\x06\n" +
 	"\x15CallbackExecutionInfo\x12\x1f\n" +
 	"\vcallback_id\x18\x01 \x01(\tR\n" +
 	"callbackId\x12\x15\n" +
 	"\x06run_id\x18\x02 \x01(\tR\x05runId\x12<\n" +
-	"\bcallback\x18\x03 \x01(\v2 .temporal.api.common.v1.CallbackR\bcallback\x12:\n" +
-	"\x05state\x18\x04 \x01(\x0e2$.temporal.api.enums.v1.CallbackStateR\x05state\x12\x18\n" +
+	"\bcallback\x18\x03 \x01(\v2 .temporal.api.common.v1.CallbackR\bcallback\x12C\n" +
+	"\x05state\x18\x04 \x01(\x0e2-.temporal.api.enums.v1.CallbackExecutionStateR\x05state\x12\x18\n" +
 	"\aattempt\x18\x05 \x01(\x05R\aattempt\x12;\n" +
 	"\vcreate_time\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\n" +
 	"createTime\x12W\n" +
@@ -499,12 +500,12 @@ const file_temporal_api_callback_v1_message_proto_rawDesc = "" +
 	"close_time\x18\v \x01(\v2\x1a.google.protobuf.TimestampR\tcloseTime\x12U\n" +
 	"\x11search_attributes\x18\f \x01(\v2(.temporal.api.common.v1.SearchAttributesR\x10searchAttributes\x12T\n" +
 	"\x19schedule_to_close_timeout\x18\r \x01(\v2\x19.google.protobuf.DurationR\x16scheduleToCloseTimeout\x124\n" +
-	"\x16state_transition_count\x18\x0e \x01(\x03R\x14stateTransitionCount\"\x94\x03\n" +
+	"\x16state_transition_count\x18\x0e \x01(\x03R\x14stateTransitionCount\"\x9d\x03\n" +
 	"\x19CallbackExecutionListInfo\x12\x1f\n" +
 	"\vcallback_id\x18\x01 \x01(\tR\n" +
 	"callbackId\x12\x15\n" +
-	"\x06run_id\x18\x02 \x01(\tR\x05runId\x12:\n" +
-	"\x05state\x18\x03 \x01(\x0e2$.temporal.api.enums.v1.CallbackStateR\x05state\x12;\n" +
+	"\x06run_id\x18\x02 \x01(\tR\x05runId\x12C\n" +
+	"\x05state\x18\x03 \x01(\x0e2-.temporal.api.enums.v1.CallbackExecutionStateR\x05state\x12;\n" +
 	"\vcreate_time\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\n" +
 	"createTime\x129\n" +
 	"\n" +
@@ -535,7 +536,7 @@ var file_temporal_api_callback_v1_message_proto_goTypes = []any{
 	(*v1.Failure)(nil),                  // 5: temporal.api.failure.v1.Failure
 	(*v11.Payload)(nil),                 // 6: temporal.api.common.v1.Payload
 	(*v11.Callback)(nil),                // 7: temporal.api.common.v1.Callback
-	(v12.CallbackState)(0),              // 8: temporal.api.enums.v1.CallbackState
+	(v12.CallbackExecutionState)(0),     // 8: temporal.api.enums.v1.CallbackExecutionState
 	(*timestamppb.Timestamp)(nil),       // 9: google.protobuf.Timestamp
 	(*v11.SearchAttributes)(nil),        // 10: temporal.api.common.v1.SearchAttributes
 	(*durationpb.Duration)(nil),         // 11: google.protobuf.Duration
@@ -546,7 +547,7 @@ var file_temporal_api_callback_v1_message_proto_depIdxs = []int32{
 	6,  // 2: temporal.api.callback.v1.CallbackExecutionCompletion.success:type_name -> temporal.api.common.v1.Payload
 	5,  // 3: temporal.api.callback.v1.CallbackExecutionCompletion.failure:type_name -> temporal.api.failure.v1.Failure
 	7,  // 4: temporal.api.callback.v1.CallbackExecutionInfo.callback:type_name -> temporal.api.common.v1.Callback
-	8,  // 5: temporal.api.callback.v1.CallbackExecutionInfo.state:type_name -> temporal.api.enums.v1.CallbackState
+	8,  // 5: temporal.api.callback.v1.CallbackExecutionInfo.state:type_name -> temporal.api.enums.v1.CallbackExecutionState
 	9,  // 6: temporal.api.callback.v1.CallbackExecutionInfo.create_time:type_name -> google.protobuf.Timestamp
 	9,  // 7: temporal.api.callback.v1.CallbackExecutionInfo.last_attempt_complete_time:type_name -> google.protobuf.Timestamp
 	5,  // 8: temporal.api.callback.v1.CallbackExecutionInfo.last_attempt_failure:type_name -> temporal.api.failure.v1.Failure
@@ -554,7 +555,7 @@ var file_temporal_api_callback_v1_message_proto_depIdxs = []int32{
 	9,  // 10: temporal.api.callback.v1.CallbackExecutionInfo.close_time:type_name -> google.protobuf.Timestamp
 	10, // 11: temporal.api.callback.v1.CallbackExecutionInfo.search_attributes:type_name -> temporal.api.common.v1.SearchAttributes
 	11, // 12: temporal.api.callback.v1.CallbackExecutionInfo.schedule_to_close_timeout:type_name -> google.protobuf.Duration
-	8,  // 13: temporal.api.callback.v1.CallbackExecutionListInfo.state:type_name -> temporal.api.enums.v1.CallbackState
+	8,  // 13: temporal.api.callback.v1.CallbackExecutionListInfo.state:type_name -> temporal.api.enums.v1.CallbackExecutionState
 	9,  // 14: temporal.api.callback.v1.CallbackExecutionListInfo.create_time:type_name -> google.protobuf.Timestamp
 	9,  // 15: temporal.api.callback.v1.CallbackExecutionListInfo.close_time:type_name -> google.protobuf.Timestamp
 	10, // 16: temporal.api.callback.v1.CallbackExecutionListInfo.search_attributes:type_name -> temporal.api.common.v1.SearchAttributes

@@ -15967,20 +15967,21 @@ type StartCallbackExecutionRequest struct {
 	// Identifier for this callback. Required. Must be unique among callbacks in the same namespace.
 	// If a callback with this ID already exists, the request will fail with CallbackExecutionAlreadyStarted.
 	CallbackId string `protobuf:"bytes,4,opt,name=callback_id,json=callbackId,proto3" json:"callback_id,omitempty"`
-	// Callback execution run ID, targets the latest run if run_id is empty.
-	RunId string `protobuf:"bytes,5,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
 	// Information on how this callback should be invoked (e.g. its URL and type).
-	Callback *v13.Callback `protobuf:"bytes,6,opt,name=callback,proto3" json:"callback,omitempty"`
+	Callback *v13.Callback `protobuf:"bytes,5,opt,name=callback,proto3" json:"callback,omitempty"`
 	// Schedule-to-close timeout for this callback.
 	// (-- api-linter: core::0140::prepositions=disabled
 	//
 	//	aip.dev/not-precedent: "to" is used to indicate interval. --)
-	ScheduleToCloseTimeout *durationpb.Duration `protobuf:"bytes,7,opt,name=schedule_to_close_timeout,json=scheduleToCloseTimeout,proto3" json:"schedule_to_close_timeout,omitempty"`
+	ScheduleToCloseTimeout *durationpb.Duration `protobuf:"bytes,6,opt,name=schedule_to_close_timeout,json=scheduleToCloseTimeout,proto3" json:"schedule_to_close_timeout,omitempty"`
 	// Search attributes for indexing.
-	SearchAttributes *v13.SearchAttributes `protobuf:"bytes,8,opt,name=search_attributes,json=searchAttributes,proto3" json:"search_attributes,omitempty"`
-	// The Nexus completion data to deliver to the callback URL.
-	// Required. Contains either a successful result payload or a failure.
-	Completion    *v122.CallbackExecutionCompletion `protobuf:"bytes,9,opt,name=completion,proto3" json:"completion,omitempty"`
+	SearchAttributes *v13.SearchAttributes `protobuf:"bytes,7,opt,name=search_attributes,json=searchAttributes,proto3" json:"search_attributes,omitempty"`
+	// The input data to deliver to the callback URL.
+	//
+	// Types that are valid to be assigned to Input:
+	//
+	//	*StartCallbackExecutionRequest_Completion
+	Input         isStartCallbackExecutionRequest_Input `protobuf_oneof:"input"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -16043,13 +16044,6 @@ func (x *StartCallbackExecutionRequest) GetCallbackId() string {
 	return ""
 }
 
-func (x *StartCallbackExecutionRequest) GetRunId() string {
-	if x != nil {
-		return x.RunId
-	}
-	return ""
-}
-
 func (x *StartCallbackExecutionRequest) GetCallback() *v13.Callback {
 	if x != nil {
 		return x.Callback
@@ -16071,12 +16065,33 @@ func (x *StartCallbackExecutionRequest) GetSearchAttributes() *v13.SearchAttribu
 	return nil
 }
 
-func (x *StartCallbackExecutionRequest) GetCompletion() *v122.CallbackExecutionCompletion {
+func (x *StartCallbackExecutionRequest) GetInput() isStartCallbackExecutionRequest_Input {
 	if x != nil {
-		return x.Completion
+		return x.Input
 	}
 	return nil
 }
+
+func (x *StartCallbackExecutionRequest) GetCompletion() *v122.CallbackExecutionCompletion {
+	if x != nil {
+		if x, ok := x.Input.(*StartCallbackExecutionRequest_Completion); ok {
+			return x.Completion
+		}
+	}
+	return nil
+}
+
+type isStartCallbackExecutionRequest_Input interface {
+	isStartCallbackExecutionRequest_Input()
+}
+
+type StartCallbackExecutionRequest_Completion struct {
+	// The Nexus completion data to deliver to the callback URL.
+	// Contains either a successful result payload or a failure.
+	Completion *v122.CallbackExecutionCompletion `protobuf:"bytes,8,opt,name=completion,proto3,oneof"`
+}
+
+func (*StartCallbackExecutionRequest_Completion) isStartCallbackExecutionRequest_Input() {}
 
 type StartCallbackExecutionResponse struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
@@ -16130,14 +16145,16 @@ type DescribeCallbackExecutionRequest struct {
 	CallbackId string `protobuf:"bytes,2,opt,name=callback_id,json=callbackId,proto3" json:"callback_id,omitempty"`
 	// Run ID of the callback execution to describe. If empty, the latest run will be described.
 	RunId string `protobuf:"bytes,3,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
+	// Include the input field in the response.
+	IncludeInput bool `protobuf:"varint,4,opt,name=include_input,json=includeInput,proto3" json:"include_input,omitempty"`
 	// Include the outcome (result/failure) in the response if the callback has completed.
-	IncludeOutcome bool `protobuf:"varint,4,opt,name=include_outcome,json=includeOutcome,proto3" json:"include_outcome,omitempty"`
+	IncludeOutcome bool `protobuf:"varint,5,opt,name=include_outcome,json=includeOutcome,proto3" json:"include_outcome,omitempty"`
 	// Token from a previous DescribeCallbackExecutionResponse. If present, long-poll until callback
 	// state changes from the state encoded in this token. If absent, return current state immediately.
 	// Note that callback state may change multiple times between requests, therefore it is not
 	// guaranteed that a client making a sequence of long-poll requests will see a complete
 	// sequence of state changes.
-	LongPollToken []byte `protobuf:"bytes,5,opt,name=long_poll_token,json=longPollToken,proto3" json:"long_poll_token,omitempty"`
+	LongPollToken []byte `protobuf:"bytes,6,opt,name=long_poll_token,json=longPollToken,proto3" json:"long_poll_token,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -16191,6 +16208,13 @@ func (x *DescribeCallbackExecutionRequest) GetRunId() string {
 		return x.RunId
 	}
 	return ""
+}
+
+func (x *DescribeCallbackExecutionRequest) GetIncludeInput() bool {
+	if x != nil {
+		return x.IncludeInput
+	}
+	return false
 }
 
 func (x *DescribeCallbackExecutionRequest) GetIncludeOutcome() bool {
@@ -19523,30 +19547,31 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\vactivity_id\x18\x02 \x01(\tR\n" +
 	"activityId\x12\x15\n" +
 	"\x06run_id\x18\x03 \x01(\tR\x05runId\"!\n" +
-	"\x1fDeleteActivityExecutionResponse\"\xf2\x03\n" +
+	"\x1fDeleteActivityExecutionResponse\"\xe6\x03\n" +
 	"\x1dStartCallbackExecutionRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12\x1a\n" +
 	"\bidentity\x18\x02 \x01(\tR\bidentity\x12\x1d\n" +
 	"\n" +
 	"request_id\x18\x03 \x01(\tR\trequestId\x12\x1f\n" +
 	"\vcallback_id\x18\x04 \x01(\tR\n" +
-	"callbackId\x12\x15\n" +
-	"\x06run_id\x18\x05 \x01(\tR\x05runId\x12<\n" +
-	"\bcallback\x18\x06 \x01(\v2 .temporal.api.common.v1.CallbackR\bcallback\x12T\n" +
-	"\x19schedule_to_close_timeout\x18\a \x01(\v2\x19.google.protobuf.DurationR\x16scheduleToCloseTimeout\x12U\n" +
-	"\x11search_attributes\x18\b \x01(\v2(.temporal.api.common.v1.SearchAttributesR\x10searchAttributes\x12U\n" +
+	"callbackId\x12<\n" +
+	"\bcallback\x18\x05 \x01(\v2 .temporal.api.common.v1.CallbackR\bcallback\x12T\n" +
+	"\x19schedule_to_close_timeout\x18\x06 \x01(\v2\x19.google.protobuf.DurationR\x16scheduleToCloseTimeout\x12U\n" +
+	"\x11search_attributes\x18\a \x01(\v2(.temporal.api.common.v1.SearchAttributesR\x10searchAttributes\x12W\n" +
 	"\n" +
-	"completion\x18\t \x01(\v25.temporal.api.callback.v1.CallbackExecutionCompletionR\n" +
-	"completion\"7\n" +
+	"completion\x18\b \x01(\v25.temporal.api.callback.v1.CallbackExecutionCompletionH\x00R\n" +
+	"completionB\a\n" +
+	"\x05input\"7\n" +
 	"\x1eStartCallbackExecutionResponse\x12\x15\n" +
-	"\x06run_id\x18\x01 \x01(\tR\x05runId\"\xc9\x01\n" +
+	"\x06run_id\x18\x01 \x01(\tR\x05runId\"\xee\x01\n" +
 	" DescribeCallbackExecutionRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12\x1f\n" +
 	"\vcallback_id\x18\x02 \x01(\tR\n" +
 	"callbackId\x12\x15\n" +
-	"\x06run_id\x18\x03 \x01(\tR\x05runId\x12'\n" +
-	"\x0finclude_outcome\x18\x04 \x01(\bR\x0eincludeOutcome\x12&\n" +
-	"\x0flong_poll_token\x18\x05 \x01(\fR\rlongPollToken\"\xde\x01\n" +
+	"\x06run_id\x18\x03 \x01(\tR\x05runId\x12#\n" +
+	"\rinclude_input\x18\x04 \x01(\bR\fincludeInput\x12'\n" +
+	"\x0finclude_outcome\x18\x05 \x01(\bR\x0eincludeOutcome\x12&\n" +
+	"\x0flong_poll_token\x18\x06 \x01(\fR\rlongPollToken\"\xde\x01\n" +
 	"!DescribeCallbackExecutionResponse\x12C\n" +
 	"\x04info\x18\x01 \x01(\v2/.temporal.api.callback.v1.CallbackExecutionInfoR\x04info\x12L\n" +
 	"\aoutcome\x18\x02 \x01(\v22.temporal.api.callback.v1.CallbackExecutionOutcomeR\aoutcome\x12&\n" +
@@ -20475,6 +20500,9 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 	}
 	file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[187].OneofWrappers = []any{
 		(*UpdateWorkerConfigResponse_WorkerConfig)(nil),
+	}
+	file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[210].OneofWrappers = []any{
+		(*StartCallbackExecutionRequest_Completion)(nil),
 	}
 	file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[245].OneofWrappers = []any{
 		(*ExecuteMultiOperationRequest_Operation_StartWorkflow)(nil),

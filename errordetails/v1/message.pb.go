@@ -917,6 +917,7 @@ func (x *ActivityExecutionAlreadyStartedFailure) GetRunId() string {
 type CallbackExecutionAlreadyStartedFailure struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
 	StartRequestId string                 `protobuf:"bytes,1,opt,name=start_request_id,json=startRequestId,proto3" json:"start_request_id,omitempty"`
+	RunId          string                 `protobuf:"bytes,2,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -954,6 +955,13 @@ func (*CallbackExecutionAlreadyStartedFailure) Descriptor() ([]byte, []int) {
 func (x *CallbackExecutionAlreadyStartedFailure) GetStartRequestId() string {
 	if x != nil {
 		return x.StartRequestId
+	}
+	return ""
+}
+
+func (x *CallbackExecutionAlreadyStartedFailure) GetRunId() string {
+	if x != nil {
+		return x.RunId
 	}
 	return ""
 }
@@ -1078,9 +1086,10 @@ const file_temporal_api_errordetails_v1_message_proto_rawDesc = "" +
 	"\adetails\x18\x03 \x03(\v2\x14.google.protobuf.AnyR\adetails\"i\n" +
 	"&ActivityExecutionAlreadyStartedFailure\x12(\n" +
 	"\x10start_request_id\x18\x01 \x01(\tR\x0estartRequestId\x12\x15\n" +
-	"\x06run_id\x18\x02 \x01(\tR\x05runId\"R\n" +
+	"\x06run_id\x18\x02 \x01(\tR\x05runId\"i\n" +
 	"&CallbackExecutionAlreadyStartedFailure\x12(\n" +
-	"\x10start_request_id\x18\x01 \x01(\tR\x0estartRequestIdB\xa7\x01\n" +
+	"\x10start_request_id\x18\x01 \x01(\tR\x0estartRequestId\x12\x15\n" +
+	"\x06run_id\x18\x02 \x01(\tR\x05runIdB\xa7\x01\n" +
 	"\x1fio.temporal.api.errordetails.v1B\fMessageProtoP\x01Z/go.temporal.io/api/errordetails/v1;errordetails\xaa\x02\x1eTemporalio.Api.ErrorDetails.V1\xea\x02!Temporalio::Api::ErrorDetails::V1b\x06proto3"
 
 var (

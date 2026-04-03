@@ -784,7 +784,7 @@ type WorkflowServiceClient interface {
 	// StartCallbackExecution starts a new standalone callback execution.
 	//
 	// Returns a `CallbackExecutionAlreadyStarted` error if a callback already exists with the same
-	// callback ID in this namespace.
+	// callback ID in this namespace, either in running or terminal states.
 	StartCallbackExecution(ctx context.Context, in *StartCallbackExecutionRequest, opts ...grpc.CallOption) (*StartCallbackExecutionResponse, error)
 	// DescribeCallbackExecution returns information about a callback execution.
 	// It can be used to:
@@ -2590,7 +2590,7 @@ type WorkflowServiceServer interface {
 	// StartCallbackExecution starts a new standalone callback execution.
 	//
 	// Returns a `CallbackExecutionAlreadyStarted` error if a callback already exists with the same
-	// callback ID in this namespace.
+	// callback ID in this namespace, either in running or terminal states.
 	StartCallbackExecution(context.Context, *StartCallbackExecutionRequest) (*StartCallbackExecutionResponse, error)
 	// DescribeCallbackExecution returns information about a callback execution.
 	// It can be used to:

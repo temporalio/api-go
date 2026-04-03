@@ -248,10 +248,8 @@ const (
 	CALLBACK_STATE_SUCCEEDED CallbackState = 5
 	// Callback is blocked (eg: by circuit breaker).
 	CALLBACK_STATE_BLOCKED CallbackState = 6
-	// Callback was canceled via RequestCancelCallbackExecution.
-	CALLBACK_STATE_CANCELED CallbackState = 7
-	// Callback was terminated via TerminateCallbackExecution.
-	CALLBACK_STATE_TERMINATED CallbackState = 8
+	// Callback was terminated via TerminateCallbackExecution. Only possible for standalone callbacks.
+	CALLBACK_STATE_TERMINATED CallbackState = 7
 )
 
 // Enum value maps for CallbackState.
@@ -264,8 +262,7 @@ var (
 		4: "CALLBACK_STATE_FAILED",
 		5: "CALLBACK_STATE_SUCCEEDED",
 		6: "CALLBACK_STATE_BLOCKED",
-		7: "CALLBACK_STATE_CANCELED",
-		8: "CALLBACK_STATE_TERMINATED",
+		7: "CALLBACK_STATE_TERMINATED",
 	}
 	CallbackState_value = map[string]int32{
 		"CALLBACK_STATE_UNSPECIFIED": 0,
@@ -275,8 +272,7 @@ var (
 		"CALLBACK_STATE_FAILED":      4,
 		"CALLBACK_STATE_SUCCEEDED":   5,
 		"CALLBACK_STATE_BLOCKED":     6,
-		"CALLBACK_STATE_CANCELED":    7,
-		"CALLBACK_STATE_TERMINATED":  8,
+		"CALLBACK_STATE_TERMINATED":  7,
 	}
 )
 
@@ -302,15 +298,10 @@ func (x CallbackState) String() string {
 		return "Succeeded"
 	case CALLBACK_STATE_BLOCKED:
 		return "Blocked"
-	case CALLBACK_STATE_CANCELED:
-		return "Canceled"
 	case CALLBACK_STATE_TERMINATED:
 		return "Terminated"
 	default:
-		return strconv.
-
-			// Deprecated: Use CallbackState.Descriptor instead.
-			Itoa(int(x))
+		return strconv.Itoa(int(x))
 	}
 
 }
@@ -327,8 +318,84 @@ func (x CallbackState) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
+// Deprecated: Use CallbackState.Descriptor instead.
 func (CallbackState) EnumDescriptor() ([]byte, []int) {
 	return file_temporal_api_enums_v1_common_proto_rawDescGZIP(), []int{3}
+}
+
+// Terminal status of a standalone callback execution.
+type CallbackExecutionState int32
+
+const (
+	// Default value, unspecified status.
+	CALLBACK_EXECUTION_STATE_UNSPECIFIED CallbackExecutionState = 0
+	// Callback execution is running.
+	CALLBACK_EXECUTION_STATE_RUNNING CallbackExecutionState = 1
+	// Callback has succeeded.
+	CALLBACK_EXECUTION_STATE_SUCCEEDED CallbackExecutionState = 2
+	// Callback has failed.
+	CALLBACK_EXECUTION_STATE_FAILED CallbackExecutionState = 3
+	// Callback was terminated via TerminateCallbackExecution.
+	CALLBACK_EXECUTION_STATE_TERMINATED CallbackExecutionState = 4
+)
+
+// Enum value maps for CallbackExecutionState.
+var (
+	CallbackExecutionState_name = map[int32]string{
+		0: "CALLBACK_EXECUTION_STATE_UNSPECIFIED",
+		1: "CALLBACK_EXECUTION_STATE_RUNNING",
+		2: "CALLBACK_EXECUTION_STATE_SUCCEEDED",
+		3: "CALLBACK_EXECUTION_STATE_FAILED",
+		4: "CALLBACK_EXECUTION_STATE_TERMINATED",
+	}
+	CallbackExecutionState_value = map[string]int32{
+		"CALLBACK_EXECUTION_STATE_UNSPECIFIED": 0,
+		"CALLBACK_EXECUTION_STATE_RUNNING":     1,
+		"CALLBACK_EXECUTION_STATE_SUCCEEDED":   2,
+		"CALLBACK_EXECUTION_STATE_FAILED":      3,
+		"CALLBACK_EXECUTION_STATE_TERMINATED":  4,
+	}
+)
+
+func (x CallbackExecutionState) Enum() *CallbackExecutionState {
+	p := new(CallbackExecutionState)
+	*p = x
+	return p
+}
+
+func (x CallbackExecutionState) String() string {
+	switch x {
+	case CALLBACK_EXECUTION_STATE_UNSPECIFIED:
+		return "Unspecified"
+	case CALLBACK_EXECUTION_STATE_RUNNING:
+		return "Running"
+	case CALLBACK_EXECUTION_STATE_SUCCEEDED:
+		return "Succeeded"
+	case CALLBACK_EXECUTION_STATE_FAILED:
+		return "Failed"
+	case CALLBACK_EXECUTION_STATE_TERMINATED:
+		return "Terminated"
+	default:
+		return strconv.Itoa(int(x))
+	}
+
+}
+
+func (CallbackExecutionState) Descriptor() protoreflect.EnumDescriptor {
+	return file_temporal_api_enums_v1_common_proto_enumTypes[4].Descriptor()
+}
+
+func (CallbackExecutionState) Type() protoreflect.EnumType {
+	return &file_temporal_api_enums_v1_common_proto_enumTypes[4]
+}
+
+func (x CallbackExecutionState) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use CallbackExecutionState.Descriptor instead.
+func (CallbackExecutionState) EnumDescriptor() ([]byte, []int) {
+	return file_temporal_api_enums_v1_common_proto_rawDescGZIP(), []int{4}
 }
 
 // State of a pending Nexus operation.
@@ -390,11 +457,11 @@ func (x PendingNexusOperationState) String() string {
 }
 
 func (PendingNexusOperationState) Descriptor() protoreflect.EnumDescriptor {
-	return file_temporal_api_enums_v1_common_proto_enumTypes[4].Descriptor()
+	return file_temporal_api_enums_v1_common_proto_enumTypes[5].Descriptor()
 }
 
 func (PendingNexusOperationState) Type() protoreflect.EnumType {
-	return &file_temporal_api_enums_v1_common_proto_enumTypes[4]
+	return &file_temporal_api_enums_v1_common_proto_enumTypes[5]
 }
 
 func (x PendingNexusOperationState) Number() protoreflect.EnumNumber {
@@ -403,7 +470,7 @@ func (x PendingNexusOperationState) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use PendingNexusOperationState.Descriptor instead.
 func (PendingNexusOperationState) EnumDescriptor() ([]byte, []int) {
-	return file_temporal_api_enums_v1_common_proto_rawDescGZIP(), []int{4}
+	return file_temporal_api_enums_v1_common_proto_rawDescGZIP(), []int{5}
 }
 
 // State of a Nexus operation cancellation.
@@ -480,11 +547,11 @@ func (x NexusOperationCancellationState) String() string {
 }
 
 func (NexusOperationCancellationState) Descriptor() protoreflect.EnumDescriptor {
-	return file_temporal_api_enums_v1_common_proto_enumTypes[5].Descriptor()
+	return file_temporal_api_enums_v1_common_proto_enumTypes[6].Descriptor()
 }
 
 func (NexusOperationCancellationState) Type() protoreflect.EnumType {
-	return &file_temporal_api_enums_v1_common_proto_enumTypes[5]
+	return &file_temporal_api_enums_v1_common_proto_enumTypes[6]
 }
 
 func (x NexusOperationCancellationState) Number() protoreflect.EnumNumber {
@@ -492,7 +559,7 @@ func (x NexusOperationCancellationState) Number() protoreflect.EnumNumber {
 }
 
 func (NexusOperationCancellationState) EnumDescriptor() ([]byte, []int) {
-	return file_temporal_api_enums_v1_common_proto_rawDescGZIP(), []int{5}
+	return file_temporal_api_enums_v1_common_proto_rawDescGZIP(), []int{6}
 }
 
 type WorkflowRuleActionScope int32
@@ -541,11 +608,11 @@ func (x WorkflowRuleActionScope) String() string {
 }
 
 func (WorkflowRuleActionScope) Descriptor() protoreflect.EnumDescriptor {
-	return file_temporal_api_enums_v1_common_proto_enumTypes[6].Descriptor()
+	return file_temporal_api_enums_v1_common_proto_enumTypes[7].Descriptor()
 }
 
 func (WorkflowRuleActionScope) Type() protoreflect.EnumType {
-	return &file_temporal_api_enums_v1_common_proto_enumTypes[6]
+	return &file_temporal_api_enums_v1_common_proto_enumTypes[7]
 }
 
 func (x WorkflowRuleActionScope) Number() protoreflect.EnumNumber {
@@ -554,7 +621,7 @@ func (x WorkflowRuleActionScope) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use WorkflowRuleActionScope.Descriptor instead.
 func (WorkflowRuleActionScope) EnumDescriptor() ([]byte, []int) {
-	return file_temporal_api_enums_v1_common_proto_rawDescGZIP(), []int{6}
+	return file_temporal_api_enums_v1_common_proto_rawDescGZIP(), []int{7}
 }
 
 type ApplicationErrorCategory int32
@@ -596,11 +663,11 @@ func (x ApplicationErrorCategory) String() string {
 }
 
 func (ApplicationErrorCategory) Descriptor() protoreflect.EnumDescriptor {
-	return file_temporal_api_enums_v1_common_proto_enumTypes[7].Descriptor()
+	return file_temporal_api_enums_v1_common_proto_enumTypes[8].Descriptor()
 }
 
 func (ApplicationErrorCategory) Type() protoreflect.EnumType {
-	return &file_temporal_api_enums_v1_common_proto_enumTypes[7]
+	return &file_temporal_api_enums_v1_common_proto_enumTypes[8]
 }
 
 func (x ApplicationErrorCategory) Number() protoreflect.EnumNumber {
@@ -609,7 +676,7 @@ func (x ApplicationErrorCategory) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use ApplicationErrorCategory.Descriptor instead.
 func (ApplicationErrorCategory) EnumDescriptor() ([]byte, []int) {
-	return file_temporal_api_enums_v1_common_proto_rawDescGZIP(), []int{7}
+	return file_temporal_api_enums_v1_common_proto_rawDescGZIP(), []int{8}
 }
 
 // (-- api-linter: core::0216::synonyms=disabled
@@ -663,11 +730,11 @@ func (x WorkerStatus) String() string {
 }
 
 func (WorkerStatus) Descriptor() protoreflect.EnumDescriptor {
-	return file_temporal_api_enums_v1_common_proto_enumTypes[8].Descriptor()
+	return file_temporal_api_enums_v1_common_proto_enumTypes[9].Descriptor()
 }
 
 func (WorkerStatus) Type() protoreflect.EnumType {
-	return &file_temporal_api_enums_v1_common_proto_enumTypes[8]
+	return &file_temporal_api_enums_v1_common_proto_enumTypes[9]
 }
 
 func (x WorkerStatus) Number() protoreflect.EnumNumber {
@@ -676,7 +743,7 @@ func (x WorkerStatus) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use WorkerStatus.Descriptor instead.
 func (WorkerStatus) EnumDescriptor() ([]byte, []int) {
-	return file_temporal_api_enums_v1_common_proto_rawDescGZIP(), []int{8}
+	return file_temporal_api_enums_v1_common_proto_rawDescGZIP(), []int{9}
 }
 
 var File_temporal_api_enums_v1_common_proto protoreflect.FileDescriptor
@@ -701,7 +768,7 @@ const file_temporal_api_enums_v1_common_proto_rawDesc = "" +
 	"\x14SEVERITY_UNSPECIFIED\x10\x00\x12\x11\n" +
 	"\rSEVERITY_HIGH\x10\x01\x12\x13\n" +
 	"\x0fSEVERITY_MEDIUM\x10\x02\x12\x10\n" +
-	"\fSEVERITY_LOW\x10\x03*\x9a\x02\n" +
+	"\fSEVERITY_LOW\x10\x03*\xfd\x01\n" +
 	"\rCallbackState\x12\x1e\n" +
 	"\x1aCALLBACK_STATE_UNSPECIFIED\x10\x00\x12\x1a\n" +
 	"\x16CALLBACK_STATE_STANDBY\x10\x01\x12\x1c\n" +
@@ -709,9 +776,14 @@ const file_temporal_api_enums_v1_common_proto_rawDesc = "" +
 	"\x1aCALLBACK_STATE_BACKING_OFF\x10\x03\x12\x19\n" +
 	"\x15CALLBACK_STATE_FAILED\x10\x04\x12\x1c\n" +
 	"\x18CALLBACK_STATE_SUCCEEDED\x10\x05\x12\x1a\n" +
-	"\x16CALLBACK_STATE_BLOCKED\x10\x06\x12\x1b\n" +
-	"\x17CALLBACK_STATE_CANCELED\x10\a\x12\x1d\n" +
-	"\x19CALLBACK_STATE_TERMINATED\x10\b*\xfd\x01\n" +
+	"\x16CALLBACK_STATE_BLOCKED\x10\x06\x12\x1d\n" +
+	"\x19CALLBACK_STATE_TERMINATED\x10\a*\xde\x01\n" +
+	"\x16CallbackExecutionState\x12(\n" +
+	"$CALLBACK_EXECUTION_STATE_UNSPECIFIED\x10\x00\x12$\n" +
+	" CALLBACK_EXECUTION_STATE_RUNNING\x10\x01\x12&\n" +
+	"\"CALLBACK_EXECUTION_STATE_SUCCEEDED\x10\x02\x12#\n" +
+	"\x1fCALLBACK_EXECUTION_STATE_FAILED\x10\x03\x12'\n" +
+	"#CALLBACK_EXECUTION_STATE_TERMINATED\x10\x04*\xfd\x01\n" +
 	"\x1aPendingNexusOperationState\x12-\n" +
 	")PENDING_NEXUS_OPERATION_STATE_UNSPECIFIED\x10\x00\x12+\n" +
 	"'PENDING_NEXUS_OPERATION_STATE_SCHEDULED\x10\x01\x12-\n" +
@@ -752,17 +824,18 @@ func file_temporal_api_enums_v1_common_proto_rawDescGZIP() []byte {
 	return file_temporal_api_enums_v1_common_proto_rawDescData
 }
 
-var file_temporal_api_enums_v1_common_proto_enumTypes = make([]protoimpl.EnumInfo, 9)
+var file_temporal_api_enums_v1_common_proto_enumTypes = make([]protoimpl.EnumInfo, 10)
 var file_temporal_api_enums_v1_common_proto_goTypes = []any{
 	(EncodingType)(0),                    // 0: temporal.api.enums.v1.EncodingType
 	(IndexedValueType)(0),                // 1: temporal.api.enums.v1.IndexedValueType
 	(Severity)(0),                        // 2: temporal.api.enums.v1.Severity
 	(CallbackState)(0),                   // 3: temporal.api.enums.v1.CallbackState
-	(PendingNexusOperationState)(0),      // 4: temporal.api.enums.v1.PendingNexusOperationState
-	(NexusOperationCancellationState)(0), // 5: temporal.api.enums.v1.NexusOperationCancellationState
-	(WorkflowRuleActionScope)(0),         // 6: temporal.api.enums.v1.WorkflowRuleActionScope
-	(ApplicationErrorCategory)(0),        // 7: temporal.api.enums.v1.ApplicationErrorCategory
-	(WorkerStatus)(0),                    // 8: temporal.api.enums.v1.WorkerStatus
+	(CallbackExecutionState)(0),          // 4: temporal.api.enums.v1.CallbackExecutionState
+	(PendingNexusOperationState)(0),      // 5: temporal.api.enums.v1.PendingNexusOperationState
+	(NexusOperationCancellationState)(0), // 6: temporal.api.enums.v1.NexusOperationCancellationState
+	(WorkflowRuleActionScope)(0),         // 7: temporal.api.enums.v1.WorkflowRuleActionScope
+	(ApplicationErrorCategory)(0),        // 8: temporal.api.enums.v1.ApplicationErrorCategory
+	(WorkerStatus)(0),                    // 9: temporal.api.enums.v1.WorkerStatus
 }
 var file_temporal_api_enums_v1_common_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for method output_type
@@ -782,7 +855,7 @@ func file_temporal_api_enums_v1_common_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_temporal_api_enums_v1_common_proto_rawDesc), len(file_temporal_api_enums_v1_common_proto_rawDesc)),
-			NumEnums:      9,
+			NumEnums:      10,
 			NumMessages:   0,
 			NumExtensions: 0,
 			NumServices:   0,
