@@ -3227,7 +3227,6 @@ func visitPayloads(
 				options,
 				o,
 				o.GetCompletion(),
-				o.GetHeader(),
 				o.GetSearchAttributes(),
 			); err != nil {
 				return err

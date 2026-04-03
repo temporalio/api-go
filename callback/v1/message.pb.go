@@ -117,12 +117,11 @@ func (*CallbackExecutionOutcome_Failure) isCallbackExecutionOutcome_Value() {}
 // Exactly one of success or failure should be set.
 type CallbackExecutionCompletion struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// Deliver a successful Nexus operation completion with this result payload.
-	// If set, the callback delivers a successful completion to the target URL.
-	Success *v11.Payload `protobuf:"bytes,1,opt,name=success,proto3" json:"success,omitempty"`
-	// Deliver a failed Nexus operation completion with this failure.
-	// If set, the callback delivers a failed completion to the target URL.
-	Failure       *v1.Failure `protobuf:"bytes,2,opt,name=failure,proto3" json:"failure,omitempty"`
+	// Types that are valid to be assigned to Result:
+	//
+	//	*CallbackExecutionCompletion_Success
+	//	*CallbackExecutionCompletion_Failure
+	Result        isCallbackExecutionCompletion_Result `protobuf_oneof:"result"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -157,19 +156,50 @@ func (*CallbackExecutionCompletion) Descriptor() ([]byte, []int) {
 	return file_temporal_api_callback_v1_message_proto_rawDescGZIP(), []int{1}
 }
 
+func (x *CallbackExecutionCompletion) GetResult() isCallbackExecutionCompletion_Result {
+	if x != nil {
+		return x.Result
+	}
+	return nil
+}
+
 func (x *CallbackExecutionCompletion) GetSuccess() *v11.Payload {
 	if x != nil {
-		return x.Success
+		if x, ok := x.Result.(*CallbackExecutionCompletion_Success); ok {
+			return x.Success
+		}
 	}
 	return nil
 }
 
 func (x *CallbackExecutionCompletion) GetFailure() *v1.Failure {
 	if x != nil {
-		return x.Failure
+		if x, ok := x.Result.(*CallbackExecutionCompletion_Failure); ok {
+			return x.Failure
+		}
 	}
 	return nil
 }
+
+type isCallbackExecutionCompletion_Result interface {
+	isCallbackExecutionCompletion_Result()
+}
+
+type CallbackExecutionCompletion_Success struct {
+	// Deliver a successful Nexus operation completion with this result payload.
+	// If set, the callback delivers a successful completion to the target URL.
+	Success *v11.Payload `protobuf:"bytes,1,opt,name=success,proto3,oneof"`
+}
+
+type CallbackExecutionCompletion_Failure struct {
+	// Deliver a failed Nexus operation completion with this failure.
+	// If set, the callback delivers a failed completion to the target URL.
+	Failure *v1.Failure `protobuf:"bytes,2,opt,name=failure,proto3,oneof"`
+}
+
+func (*CallbackExecutionCompletion_Success) isCallbackExecutionCompletion_Result() {}
+
+func (*CallbackExecutionCompletion_Failure) isCallbackExecutionCompletion_Result() {}
 
 // Information about a standalone callback execution.
 type CallbackExecutionInfo struct {
@@ -206,11 +236,8 @@ type CallbackExecutionInfo struct {
 	ScheduleToCloseTimeout *durationpb.Duration `protobuf:"bytes,13,opt,name=schedule_to_close_timeout,json=scheduleToCloseTimeout,proto3" json:"schedule_to_close_timeout,omitempty"`
 	// Incremented each time the callback's state is mutated in persistence.
 	StateTransitionCount int64 `protobuf:"varint,14,opt,name=state_transition_count,json=stateTransitionCount,proto3" json:"state_transition_count,omitempty"`
-	// Links attached to the callback execution.
-	// TODO: There are already links on the Callback message, do we need these here as well?
-	Links         []*v11.Link `protobuf:"bytes,15,rep,name=links,proto3" json:"links,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	unknownFields        protoimpl.UnknownFields
+	sizeCache            protoimpl.SizeCache
 }
 
 func (x *CallbackExecutionInfo) Reset() {
@@ -341,13 +368,6 @@ func (x *CallbackExecutionInfo) GetStateTransitionCount() int64 {
 	return 0
 }
 
-func (x *CallbackExecutionInfo) GetLinks() []*v11.Link {
-	if x != nil {
-		return x.Links
-	}
-	return nil
-}
-
 // Limited callback information returned in the list response.
 type CallbackExecutionListInfo struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
@@ -456,10 +476,11 @@ const file_temporal_api_callback_v1_message_proto_rawDesc = "" +
 	"\x18CallbackExecutionOutcome\x122\n" +
 	"\asuccess\x18\x01 \x01(\v2\x16.google.protobuf.EmptyH\x00R\asuccess\x12<\n" +
 	"\afailure\x18\x02 \x01(\v2 .temporal.api.failure.v1.FailureH\x00R\afailureB\a\n" +
-	"\x05value\"\x94\x01\n" +
-	"\x1bCallbackExecutionCompletion\x129\n" +
-	"\asuccess\x18\x01 \x01(\v2\x1f.temporal.api.common.v1.PayloadR\asuccess\x12:\n" +
-	"\afailure\x18\x02 \x01(\v2 .temporal.api.failure.v1.FailureR\afailure\"\x9f\a\n" +
+	"\x05value\"\xa2\x01\n" +
+	"\x1bCallbackExecutionCompletion\x12;\n" +
+	"\asuccess\x18\x01 \x01(\v2\x1f.temporal.api.common.v1.PayloadH\x00R\asuccess\x12<\n" +
+	"\afailure\x18\x02 \x01(\v2 .temporal.api.failure.v1.FailureH\x00R\afailureB\b\n" +
+	"\x06result\"\xeb\x06\n" +
 	"\x15CallbackExecutionInfo\x12\x1f\n" +
 	"\vcallback_id\x18\x01 \x01(\tR\n" +
 	"callbackId\x12\x15\n" +
@@ -478,8 +499,7 @@ const file_temporal_api_callback_v1_message_proto_rawDesc = "" +
 	"close_time\x18\v \x01(\v2\x1a.google.protobuf.TimestampR\tcloseTime\x12U\n" +
 	"\x11search_attributes\x18\f \x01(\v2(.temporal.api.common.v1.SearchAttributesR\x10searchAttributes\x12T\n" +
 	"\x19schedule_to_close_timeout\x18\r \x01(\v2\x19.google.protobuf.DurationR\x16scheduleToCloseTimeout\x124\n" +
-	"\x16state_transition_count\x18\x0e \x01(\x03R\x14stateTransitionCount\x122\n" +
-	"\x05links\x18\x0f \x03(\v2\x1c.temporal.api.common.v1.LinkR\x05links\"\x94\x03\n" +
+	"\x16state_transition_count\x18\x0e \x01(\x03R\x14stateTransitionCount\"\x94\x03\n" +
 	"\x19CallbackExecutionListInfo\x12\x1f\n" +
 	"\vcallback_id\x18\x01 \x01(\tR\n" +
 	"callbackId\x12\x15\n" +
@@ -519,7 +539,6 @@ var file_temporal_api_callback_v1_message_proto_goTypes = []any{
 	(*timestamppb.Timestamp)(nil),       // 9: google.protobuf.Timestamp
 	(*v11.SearchAttributes)(nil),        // 10: temporal.api.common.v1.SearchAttributes
 	(*durationpb.Duration)(nil),         // 11: google.protobuf.Duration
-	(*v11.Link)(nil),                    // 12: temporal.api.common.v1.Link
 }
 var file_temporal_api_callback_v1_message_proto_depIdxs = []int32{
 	4,  // 0: temporal.api.callback.v1.CallbackExecutionOutcome.success:type_name -> google.protobuf.Empty
@@ -535,16 +554,15 @@ var file_temporal_api_callback_v1_message_proto_depIdxs = []int32{
 	9,  // 10: temporal.api.callback.v1.CallbackExecutionInfo.close_time:type_name -> google.protobuf.Timestamp
 	10, // 11: temporal.api.callback.v1.CallbackExecutionInfo.search_attributes:type_name -> temporal.api.common.v1.SearchAttributes
 	11, // 12: temporal.api.callback.v1.CallbackExecutionInfo.schedule_to_close_timeout:type_name -> google.protobuf.Duration
-	12, // 13: temporal.api.callback.v1.CallbackExecutionInfo.links:type_name -> temporal.api.common.v1.Link
-	8,  // 14: temporal.api.callback.v1.CallbackExecutionListInfo.state:type_name -> temporal.api.enums.v1.CallbackState
-	9,  // 15: temporal.api.callback.v1.CallbackExecutionListInfo.create_time:type_name -> google.protobuf.Timestamp
-	9,  // 16: temporal.api.callback.v1.CallbackExecutionListInfo.close_time:type_name -> google.protobuf.Timestamp
-	10, // 17: temporal.api.callback.v1.CallbackExecutionListInfo.search_attributes:type_name -> temporal.api.common.v1.SearchAttributes
-	18, // [18:18] is the sub-list for method output_type
-	18, // [18:18] is the sub-list for method input_type
-	18, // [18:18] is the sub-list for extension type_name
-	18, // [18:18] is the sub-list for extension extendee
-	0,  // [0:18] is the sub-list for field type_name
+	8,  // 13: temporal.api.callback.v1.CallbackExecutionListInfo.state:type_name -> temporal.api.enums.v1.CallbackState
+	9,  // 14: temporal.api.callback.v1.CallbackExecutionListInfo.create_time:type_name -> google.protobuf.Timestamp
+	9,  // 15: temporal.api.callback.v1.CallbackExecutionListInfo.close_time:type_name -> google.protobuf.Timestamp
+	10, // 16: temporal.api.callback.v1.CallbackExecutionListInfo.search_attributes:type_name -> temporal.api.common.v1.SearchAttributes
+	17, // [17:17] is the sub-list for method output_type
+	17, // [17:17] is the sub-list for method input_type
+	17, // [17:17] is the sub-list for extension type_name
+	17, // [17:17] is the sub-list for extension extendee
+	0,  // [0:17] is the sub-list for field type_name
 }
 
 func init() { file_temporal_api_callback_v1_message_proto_init() }
@@ -555,6 +573,10 @@ func file_temporal_api_callback_v1_message_proto_init() {
 	file_temporal_api_callback_v1_message_proto_msgTypes[0].OneofWrappers = []any{
 		(*CallbackExecutionOutcome_Success)(nil),
 		(*CallbackExecutionOutcome_Failure)(nil),
+	}
+	file_temporal_api_callback_v1_message_proto_msgTypes[1].OneofWrappers = []any{
+		(*CallbackExecutionCompletion_Success)(nil),
+		(*CallbackExecutionCompletion_Failure)(nil),
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
