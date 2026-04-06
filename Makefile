@@ -40,8 +40,21 @@ update-proto-submodule:
 	printf $(COLOR) "Update proto-submodule..."
 	git -c protocol.file.allow=always submodule update --init --force --remote $(PROTO_ROOT)
 
+NEXUS_RPC_GEN_SRC ?= $(HOME)/git/github.com/nexus-rpc/nexus-rpc-gen
+NEXUS_SCHEMA_ROOT := $(PROTO_ROOT)/nexus
+NEXUS_OUT := workflowservice/v1/workflowservicenexus
+
 ##### Compile proto files for go #####
-grpc: http-api-docs go-grpc copy-helpers
+grpc: http-api-docs go-grpc copy-helpers nexus-gen
+
+nexus-gen:
+	printf $(COLOR) "Generate nexus service definitions..."
+	mkdir -p $(NEXUS_OUT)
+	cd $(NEXUS_SCHEMA_ROOT) && nexus-rpc-gen \
+		--lang go \
+		--package workflowservicenexus \
+		--out-file $(CURDIR)/$(NEXUS_OUT)/service_nexus.pb.go \
+		temporal-proto-models-nexusrpc.yaml
 
 # Only install helpers when their source has changed
 HELPER_FILES = $(shell find ./cmd/protoc-gen-go-helpers)
@@ -50,13 +63,7 @@ HELPER_FILES = $(shell find ./cmd/protoc-gen-go-helpers)
 	@go install ./cmd/protoc-gen-go-helpers
 	@touch $@
 
-NEXUS_PLUGIN_FILES = $(shell find ./cmd/protoc-gen-go-nexus)
-.go-nexus-installed: $(NEXUS_PLUGIN_FILES)
-	printf $(COLOR) "Installing protoc-gen-go-nexus plugin"
-	@go install ./cmd/protoc-gen-go-nexus
-	@touch $@
-
-go-grpc: clean .go-helpers-installed .go-nexus-installed $(PROTO_OUT)
+go-grpc: clean .go-helpers-installed $(PROTO_OUT)
 	printf $(COLOR) "Compile for go-gRPC..."
 	go run ./cmd/protogen \
 		--root=$(PROTO_ROOT) \
@@ -65,9 +72,7 @@ go-grpc: clean .go-helpers-installed .go-nexus-installed $(PROTO_OUT)
 		--exclude=proto/api/google \
 		-p go-grpc_out=$(PROTO_PATHS) \
 		-p grpc-gateway_out=allow_patch_feature=false,$(PROTO_PATHS) \
-		-p go-helpers_out=$(PROTO_PATHS) \
-		-p go-nexus_out=$(PROTO_PATHS) \
-		-p go-nexus_opt=include-operation-tags=exposed
+		-p go-helpers_out=$(PROTO_PATHS)
 
 	mv -f $(PROTO_OUT)/temporal/api/* $(PROTO_OUT) && rm -rf $(PROTO_OUT)/temporal
 
@@ -112,12 +117,16 @@ gen-proto-desc:
 		--output-descriptor=$(PROTO_OUT)/descriptor_set.pb
 
 ##### Plugins & tools #####
-grpc-install:
-	@printf $(COLOR) "Install/update grpc and nexus plugins..."
-	@go install google.golang.org/protobuf/cmd/protoc-gen-go@latest 
+grpc-install: nexus-rpc-gen-install
+	@printf $(COLOR) "Install/update grpc plugins..."
+	@go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
 	@go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
-	@go install ./cmd/protoc-gen-go-nexus
 	@go install github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-grpc-gateway@latest
+
+nexus-rpc-gen-install:
+	@printf $(COLOR) "Install nexus-rpc-gen from local source..."
+	@cd $(NEXUS_RPC_GEN_SRC)/src && pnpm run build
+	@cd $(NEXUS_RPC_GEN_SRC)/src/packages/nexus-rpc-gen && npm link
 
 mockgen-install:
 	printf $(COLOR) "Install/update mockgen..."
