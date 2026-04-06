@@ -164,7 +164,6 @@ type WorkflowExecutionInfo struct {
 	// Experimental. Versioning info is experimental and might change in the future.
 	VersioningInfo *WorkflowExecutionVersioningInfo `protobuf:"bytes,22,opt,name=versioning_info,json=versioningInfo,proto3" json:"versioning_info,omitempty"`
 	// The name of Worker Deployment that completed the most recent workflow task.
-	// Experimental. Worker Deployments are experimental and might change in the future.
 	WorkerDeploymentName string `protobuf:"bytes,23,opt,name=worker_deployment_name,json=workerDeploymentName,proto3" json:"worker_deployment_name,omitempty"`
 	// Priority metadata
 	Priority *v1.Priority `protobuf:"bytes,24,opt,name=priority,proto3" json:"priority,omitempty"`

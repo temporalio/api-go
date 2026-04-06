@@ -1173,18 +1173,15 @@ type WorkflowTaskCompletedEventAttributes struct {
 	VersioningBehavior v12.VersioningBehavior `protobuf:"varint,8,opt,name=versioning_behavior,json=versioningBehavior,proto3,enum=temporal.api.enums.v1.VersioningBehavior" json:"versioning_behavior,omitempty"`
 	// The Worker Deployment Version that completed this task. Must be set if `versioning_behavior`
 	// is set. This value updates workflow execution's `versioning_info.version`.
-	// Experimental. Worker Deployments are experimental and might significantly change in the future.
 	// Deprecated. Replaced with `deployment_version`.
 	//
 	// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
 	WorkerDeploymentVersion string `protobuf:"bytes,9,opt,name=worker_deployment_version,json=workerDeploymentVersion,proto3" json:"worker_deployment_version,omitempty"`
 	// The name of Worker Deployment that completed this task. Must be set if `versioning_behavior`
 	// is set. This value updates workflow execution's `worker_deployment_name`.
-	// Experimental. Worker Deployments are experimental and might significantly change in the future.
 	WorkerDeploymentName string `protobuf:"bytes,10,opt,name=worker_deployment_name,json=workerDeploymentName,proto3" json:"worker_deployment_name,omitempty"`
 	// The Worker Deployment Version that completed this task. Must be set if `versioning_behavior`
 	// is set. This value updates workflow execution's `versioning_info.deployment_version`.
-	// Experimental. Worker Deployments are experimental and might significantly change in the future.
 	DeploymentVersion *v15.WorkerDeploymentVersion `protobuf:"bytes,11,opt,name=deployment_version,json=deploymentVersion,proto3" json:"deployment_version,omitempty"`
 	unknownFields     protoimpl.UnknownFields
 	sizeCache         protoimpl.SizeCache

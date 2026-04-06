@@ -204,6 +204,103 @@ func (x *ComputeConfigScalingGroupUpdate) GetUpdateMask() *fieldmaskpb.FieldMask
 	return nil
 }
 
+// A subset of information in ComputeConfig optimized for list views.
+type ComputeConfigSummary struct {
+	state         protoimpl.MessageState                       `protogen:"open.v1"`
+	ScalingGroups map[string]*ComputeConfigScalingGroupSummary `protobuf:"bytes,1,rep,name=scaling_groups,json=scalingGroups,proto3" json:"scaling_groups,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ComputeConfigSummary) Reset() {
+	*x = ComputeConfigSummary{}
+	mi := &file_temporal_api_compute_v1_config_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ComputeConfigSummary) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ComputeConfigSummary) ProtoMessage() {}
+
+func (x *ComputeConfigSummary) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_api_compute_v1_config_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ComputeConfigSummary.ProtoReflect.Descriptor instead.
+func (*ComputeConfigSummary) Descriptor() ([]byte, []int) {
+	return file_temporal_api_compute_v1_config_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *ComputeConfigSummary) GetScalingGroups() map[string]*ComputeConfigScalingGroupSummary {
+	if x != nil {
+		return x.ScalingGroups
+	}
+	return nil
+}
+
+type ComputeConfigScalingGroupSummary struct {
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	TaskQueueTypes []v1.TaskQueueType     `protobuf:"varint,1,rep,packed,name=task_queue_types,json=taskQueueTypes,proto3,enum=temporal.api.enums.v1.TaskQueueType" json:"task_queue_types,omitempty"`
+	ProviderType   string                 `protobuf:"bytes,2,opt,name=provider_type,json=providerType,proto3" json:"provider_type,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *ComputeConfigScalingGroupSummary) Reset() {
+	*x = ComputeConfigScalingGroupSummary{}
+	mi := &file_temporal_api_compute_v1_config_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ComputeConfigScalingGroupSummary) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ComputeConfigScalingGroupSummary) ProtoMessage() {}
+
+func (x *ComputeConfigScalingGroupSummary) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_api_compute_v1_config_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ComputeConfigScalingGroupSummary.ProtoReflect.Descriptor instead.
+func (*ComputeConfigScalingGroupSummary) Descriptor() ([]byte, []int) {
+	return file_temporal_api_compute_v1_config_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *ComputeConfigScalingGroupSummary) GetTaskQueueTypes() []v1.TaskQueueType {
+	if x != nil {
+		return x.TaskQueueTypes
+	}
+	return nil
+}
+
+func (x *ComputeConfigScalingGroupSummary) GetProviderType() string {
+	if x != nil {
+		return x.ProviderType
+	}
+	return ""
+}
+
 var File_temporal_api_compute_v1_config_proto protoreflect.FileDescriptor
 
 const file_temporal_api_compute_v1_config_proto_rawDesc = "" +
@@ -221,7 +318,15 @@ const file_temporal_api_compute_v1_config_proto_rawDesc = "" +
 	"\x1fComputeConfigScalingGroupUpdate\x12W\n" +
 	"\rscaling_group\x18\x01 \x01(\v22.temporal.api.compute.v1.ComputeConfigScalingGroupR\fscalingGroup\x12;\n" +
 	"\vupdate_mask\x18\x02 \x01(\v2\x1a.google.protobuf.FieldMaskR\n" +
-	"updateMaskB\x8d\x01\n" +
+	"updateMask\"\xfc\x01\n" +
+	"\x14ComputeConfigSummary\x12g\n" +
+	"\x0escaling_groups\x18\x01 \x03(\v2@.temporal.api.compute.v1.ComputeConfigSummary.ScalingGroupsEntryR\rscalingGroups\x1a{\n" +
+	"\x12ScalingGroupsEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12O\n" +
+	"\x05value\x18\x02 \x01(\v29.temporal.api.compute.v1.ComputeConfigScalingGroupSummaryR\x05value:\x028\x01\"\x97\x01\n" +
+	" ComputeConfigScalingGroupSummary\x12N\n" +
+	"\x10task_queue_types\x18\x01 \x03(\x0e2$.temporal.api.enums.v1.TaskQueueTypeR\x0etaskQueueTypes\x12#\n" +
+	"\rprovider_type\x18\x02 \x01(\tR\fproviderTypeB\x8d\x01\n" +
 	"\x1aio.temporal.api.compute.v1B\vConfigProtoP\x01Z%go.temporal.io/api/compute/v1;compute\xaa\x02\x19Temporalio.Api.Compute.V1\xea\x02\x1cTemporalio::Api::Compute::V1b\x06proto3"
 
 var (
@@ -236,30 +341,36 @@ func file_temporal_api_compute_v1_config_proto_rawDescGZIP() []byte {
 	return file_temporal_api_compute_v1_config_proto_rawDescData
 }
 
-var file_temporal_api_compute_v1_config_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
+var file_temporal_api_compute_v1_config_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
 var file_temporal_api_compute_v1_config_proto_goTypes = []any{
-	(*ComputeConfigScalingGroup)(nil),       // 0: temporal.api.compute.v1.ComputeConfigScalingGroup
-	(*ComputeConfig)(nil),                   // 1: temporal.api.compute.v1.ComputeConfig
-	(*ComputeConfigScalingGroupUpdate)(nil), // 2: temporal.api.compute.v1.ComputeConfigScalingGroupUpdate
-	nil,                                     // 3: temporal.api.compute.v1.ComputeConfig.ScalingGroupsEntry
-	(v1.TaskQueueType)(0),                   // 4: temporal.api.enums.v1.TaskQueueType
-	(*ComputeProvider)(nil),                 // 5: temporal.api.compute.v1.ComputeProvider
-	(*ComputeScaler)(nil),                   // 6: temporal.api.compute.v1.ComputeScaler
-	(*fieldmaskpb.FieldMask)(nil),           // 7: google.protobuf.FieldMask
+	(*ComputeConfigScalingGroup)(nil),        // 0: temporal.api.compute.v1.ComputeConfigScalingGroup
+	(*ComputeConfig)(nil),                    // 1: temporal.api.compute.v1.ComputeConfig
+	(*ComputeConfigScalingGroupUpdate)(nil),  // 2: temporal.api.compute.v1.ComputeConfigScalingGroupUpdate
+	(*ComputeConfigSummary)(nil),             // 3: temporal.api.compute.v1.ComputeConfigSummary
+	(*ComputeConfigScalingGroupSummary)(nil), // 4: temporal.api.compute.v1.ComputeConfigScalingGroupSummary
+	nil,                                      // 5: temporal.api.compute.v1.ComputeConfig.ScalingGroupsEntry
+	nil,                                      // 6: temporal.api.compute.v1.ComputeConfigSummary.ScalingGroupsEntry
+	(v1.TaskQueueType)(0),                    // 7: temporal.api.enums.v1.TaskQueueType
+	(*ComputeProvider)(nil),                  // 8: temporal.api.compute.v1.ComputeProvider
+	(*ComputeScaler)(nil),                    // 9: temporal.api.compute.v1.ComputeScaler
+	(*fieldmaskpb.FieldMask)(nil),            // 10: google.protobuf.FieldMask
 }
 var file_temporal_api_compute_v1_config_proto_depIdxs = []int32{
-	4, // 0: temporal.api.compute.v1.ComputeConfigScalingGroup.task_queue_types:type_name -> temporal.api.enums.v1.TaskQueueType
-	5, // 1: temporal.api.compute.v1.ComputeConfigScalingGroup.provider:type_name -> temporal.api.compute.v1.ComputeProvider
-	6, // 2: temporal.api.compute.v1.ComputeConfigScalingGroup.scaler:type_name -> temporal.api.compute.v1.ComputeScaler
-	3, // 3: temporal.api.compute.v1.ComputeConfig.scaling_groups:type_name -> temporal.api.compute.v1.ComputeConfig.ScalingGroupsEntry
-	0, // 4: temporal.api.compute.v1.ComputeConfigScalingGroupUpdate.scaling_group:type_name -> temporal.api.compute.v1.ComputeConfigScalingGroup
-	7, // 5: temporal.api.compute.v1.ComputeConfigScalingGroupUpdate.update_mask:type_name -> google.protobuf.FieldMask
-	0, // 6: temporal.api.compute.v1.ComputeConfig.ScalingGroupsEntry.value:type_name -> temporal.api.compute.v1.ComputeConfigScalingGroup
-	7, // [7:7] is the sub-list for method output_type
-	7, // [7:7] is the sub-list for method input_type
-	7, // [7:7] is the sub-list for extension type_name
-	7, // [7:7] is the sub-list for extension extendee
-	0, // [0:7] is the sub-list for field type_name
+	7,  // 0: temporal.api.compute.v1.ComputeConfigScalingGroup.task_queue_types:type_name -> temporal.api.enums.v1.TaskQueueType
+	8,  // 1: temporal.api.compute.v1.ComputeConfigScalingGroup.provider:type_name -> temporal.api.compute.v1.ComputeProvider
+	9,  // 2: temporal.api.compute.v1.ComputeConfigScalingGroup.scaler:type_name -> temporal.api.compute.v1.ComputeScaler
+	5,  // 3: temporal.api.compute.v1.ComputeConfig.scaling_groups:type_name -> temporal.api.compute.v1.ComputeConfig.ScalingGroupsEntry
+	0,  // 4: temporal.api.compute.v1.ComputeConfigScalingGroupUpdate.scaling_group:type_name -> temporal.api.compute.v1.ComputeConfigScalingGroup
+	10, // 5: temporal.api.compute.v1.ComputeConfigScalingGroupUpdate.update_mask:type_name -> google.protobuf.FieldMask
+	6,  // 6: temporal.api.compute.v1.ComputeConfigSummary.scaling_groups:type_name -> temporal.api.compute.v1.ComputeConfigSummary.ScalingGroupsEntry
+	7,  // 7: temporal.api.compute.v1.ComputeConfigScalingGroupSummary.task_queue_types:type_name -> temporal.api.enums.v1.TaskQueueType
+	0,  // 8: temporal.api.compute.v1.ComputeConfig.ScalingGroupsEntry.value:type_name -> temporal.api.compute.v1.ComputeConfigScalingGroup
+	4,  // 9: temporal.api.compute.v1.ComputeConfigSummary.ScalingGroupsEntry.value:type_name -> temporal.api.compute.v1.ComputeConfigScalingGroupSummary
+	10, // [10:10] is the sub-list for method output_type
+	10, // [10:10] is the sub-list for method input_type
+	10, // [10:10] is the sub-list for extension type_name
+	10, // [10:10] is the sub-list for extension extendee
+	0,  // [0:10] is the sub-list for field type_name
 }
 
 func init() { file_temporal_api_compute_v1_config_proto_init() }
@@ -275,7 +386,7 @@ func file_temporal_api_compute_v1_config_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_temporal_api_compute_v1_config_proto_rawDesc), len(file_temporal_api_compute_v1_config_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   4,
+			NumMessages:   7,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

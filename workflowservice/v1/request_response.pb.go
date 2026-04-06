@@ -1443,7 +1443,6 @@ type PollWorkflowTaskQueueRequest struct {
 	// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
 	WorkerVersionCapabilities *v13.WorkerVersionCapabilities `protobuf:"bytes,5,opt,name=worker_version_capabilities,json=workerVersionCapabilities,proto3" json:"worker_version_capabilities,omitempty"`
 	// Worker deployment options that user has set in the worker.
-	// Experimental. Worker Deployments are experimental and might significantly change in the future.
 	DeploymentOptions *v18.WorkerDeploymentOptions `protobuf:"bytes,6,opt,name=deployment_options,json=deploymentOptions,proto3" json:"deployment_options,omitempty"`
 	unknownFields     protoimpl.UnknownFields
 	sizeCache         protoimpl.SizeCache
