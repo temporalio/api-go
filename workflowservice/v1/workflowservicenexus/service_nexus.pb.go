@@ -2,7 +2,10 @@
 
 package workflowservicenexus
 
-import "github.com/nexus-rpc/sdk-go/nexus"
+import (
+	"github.com/nexus-rpc/sdk-go/nexus"
+	v1 "go.temporal.io/api/workflowservice/v1"
+)
 
 var WorkflowService = struct {
 	ServiceName                      string
