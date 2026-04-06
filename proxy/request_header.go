@@ -65,6 +65,10 @@ func ExtractTemporalRequestHeaders(ctx context.Context, opts ExtractHeadersOptio
 		if val := r.GetWorkflowExecution().GetWorkflowId(); val != "" && len(opts.ExistingMetadata.Get("temporal-resource-id")) == 0 {
 			headers = append(headers, "temporal-resource-id", fmt.Sprintf("workflow:%s", val))
 		}
+	case *workflowservice.DescribeActivityExecutionRequest:
+		if val := r.GetActivityId(); val != "" && len(opts.ExistingMetadata.Get("temporal-resource-id")) == 0 {
+			headers = append(headers, "temporal-resource-id", fmt.Sprintf("activity:%s", val))
+		}
 	case *workflowservice.DescribeBatchOperationRequest:
 		if val := r.GetJobId(); val != "" && len(opts.ExistingMetadata.Get("temporal-resource-id")) == 0 {
 			headers = append(headers, "temporal-resource-id", fmt.Sprintf("batch:%s", val))
@@ -129,6 +133,10 @@ func ExtractTemporalRequestHeaders(ctx context.Context, opts ExtractHeadersOptio
 		if val := r.GetWorkflowId(); val != "" && len(opts.ExistingMetadata.Get("temporal-resource-id")) == 0 {
 			headers = append(headers, "temporal-resource-id", fmt.Sprintf("workflow:%s", val))
 		}
+	case *workflowservice.PollActivityExecutionRequest:
+		if val := r.GetActivityId(); val != "" && len(opts.ExistingMetadata.Get("temporal-resource-id")) == 0 {
+			headers = append(headers, "temporal-resource-id", fmt.Sprintf("activity:%s", val))
+		}
 	case *workflowservice.PollWorkflowExecutionUpdateRequest:
 		if val := r.GetUpdateRef().GetWorkflowExecution().GetWorkflowId(); val != "" && len(opts.ExistingMetadata.Get("temporal-resource-id")) == 0 {
 			headers = append(headers, "temporal-resource-id", fmt.Sprintf("workflow:%s", val))
@@ -148,6 +156,10 @@ func ExtractTemporalRequestHeaders(ctx context.Context, opts ExtractHeadersOptio
 	case *workflowservice.RecordWorkerHeartbeatRequest:
 		if val := r.GetResourceId(); val != "" && len(opts.ExistingMetadata.Get("temporal-resource-id")) == 0 {
 			headers = append(headers, "temporal-resource-id", val)
+		}
+	case *workflowservice.RequestCancelActivityExecutionRequest:
+		if val := r.GetActivityId(); val != "" && len(opts.ExistingMetadata.Get("temporal-resource-id")) == 0 {
+			headers = append(headers, "temporal-resource-id", fmt.Sprintf("activity:%s", val))
 		}
 	case *workflowservice.RequestCancelWorkflowExecutionRequest:
 		if val := r.GetWorkflowExecution().GetWorkflowId(); val != "" && len(opts.ExistingMetadata.Get("temporal-resource-id")) == 0 {
@@ -217,6 +229,10 @@ func ExtractTemporalRequestHeaders(ctx context.Context, opts ExtractHeadersOptio
 		if val := r.GetWorkflowExecution().GetWorkflowId(); val != "" && len(opts.ExistingMetadata.Get("temporal-resource-id")) == 0 {
 			headers = append(headers, "temporal-resource-id", fmt.Sprintf("workflow:%s", val))
 		}
+	case *workflowservice.StartActivityExecutionRequest:
+		if val := r.GetActivityId(); val != "" && len(opts.ExistingMetadata.Get("temporal-resource-id")) == 0 {
+			headers = append(headers, "temporal-resource-id", fmt.Sprintf("activity:%s", val))
+		}
 	case *workflowservice.StartBatchOperationRequest:
 		if val := r.GetJobId(); val != "" && len(opts.ExistingMetadata.Get("temporal-resource-id")) == 0 {
 			headers = append(headers, "temporal-resource-id", fmt.Sprintf("batch:%s", val))
@@ -228,6 +244,10 @@ func ExtractTemporalRequestHeaders(ctx context.Context, opts ExtractHeadersOptio
 	case *workflowservice.StopBatchOperationRequest:
 		if val := r.GetJobId(); val != "" && len(opts.ExistingMetadata.Get("temporal-resource-id")) == 0 {
 			headers = append(headers, "temporal-resource-id", fmt.Sprintf("batch:%s", val))
+		}
+	case *workflowservice.TerminateActivityExecutionRequest:
+		if val := r.GetActivityId(); val != "" && len(opts.ExistingMetadata.Get("temporal-resource-id")) == 0 {
+			headers = append(headers, "temporal-resource-id", fmt.Sprintf("activity:%s", val))
 		}
 	case *workflowservice.TerminateWorkflowExecutionRequest:
 		if val := r.GetWorkflowExecution().GetWorkflowId(); val != "" && len(opts.ExistingMetadata.Get("temporal-resource-id")) == 0 {
