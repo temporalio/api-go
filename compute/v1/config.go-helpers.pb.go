@@ -115,3 +115,77 @@ func (this *ComputeConfigScalingGroupUpdate) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type ComputeConfigSummary to the protobuf v3 wire format
+func (val *ComputeConfigSummary) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type ComputeConfigSummary from the protobuf v3 wire format
+func (val *ComputeConfigSummary) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *ComputeConfigSummary) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two ComputeConfigSummary values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *ComputeConfigSummary) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *ComputeConfigSummary
+	switch t := that.(type) {
+	case *ComputeConfigSummary:
+		that1 = t
+	case ComputeConfigSummary:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type ComputeConfigScalingGroupSummary to the protobuf v3 wire format
+func (val *ComputeConfigScalingGroupSummary) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type ComputeConfigScalingGroupSummary from the protobuf v3 wire format
+func (val *ComputeConfigScalingGroupSummary) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *ComputeConfigScalingGroupSummary) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two ComputeConfigScalingGroupSummary values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *ComputeConfigScalingGroupSummary) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *ComputeConfigScalingGroupSummary
+	switch t := that.(type) {
+	case *ComputeConfigScalingGroupSummary:
+		that1 = t
+	case ComputeConfigScalingGroupSummary:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
