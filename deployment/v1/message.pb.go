@@ -1016,10 +1016,10 @@ type InheritedAutoUpgradeInfo struct {
 	SourceDeploymentVersion *WorkerDeploymentVersion `protobuf:"bytes,1,opt,name=source_deployment_version,json=sourceDeploymentVersion,proto3" json:"source_deployment_version,omitempty"`
 	// The revision number of the source deployment version of the parent/previous workflow.
 	SourceDeploymentRevisionNumber int64 `protobuf:"varint,2,opt,name=source_deployment_revision_number,json=sourceDeploymentRevisionNumber,proto3" json:"source_deployment_revision_number,omitempty"`
-	// Use the ramping version of the workflow's task queue regardless of Target Version = f(workflow_id, ramp_percentage).
-	UseRampingVersion bool `protobuf:"varint,3,opt,name=use_ramping_version,json=useRampingVersion,proto3" json:"use_ramping_version,omitempty"`
-	unknownFields     protoimpl.UnknownFields
-	sizeCache         protoimpl.SizeCache
+	// If not present, workflow follows default ramp policy which is simply based on ramp percentage and workflow id.
+	RampPolicy    *RampPolicy `protobuf:"bytes,9,opt,name=ramp_policy,json=rampPolicy,proto3" json:"ramp_policy,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *InheritedAutoUpgradeInfo) Reset() {
@@ -1066,12 +1066,81 @@ func (x *InheritedAutoUpgradeInfo) GetSourceDeploymentRevisionNumber() int64 {
 	return 0
 }
 
-func (x *InheritedAutoUpgradeInfo) GetUseRampingVersion() bool {
+func (x *InheritedAutoUpgradeInfo) GetRampPolicy() *RampPolicy {
 	if x != nil {
-		return x.UseRampingVersion
+		return x.RampPolicy
+	}
+	return nil
+}
+
+// Defines how to determine whether a workflow should use the Ramping Version or the Current Version of its Task Queue.
+// Default Ramp Policy is simply f(workflow_id, ramp_percentage).
+type RampPolicy struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Types that are valid to be assigned to Value:
+	//
+	//	*RampPolicy_UseRampingVersion
+	Value         isRampPolicy_Value `protobuf_oneof:"value"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *RampPolicy) Reset() {
+	*x = RampPolicy{}
+	mi := &file_temporal_api_deployment_v1_message_proto_msgTypes[12]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RampPolicy) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RampPolicy) ProtoMessage() {}
+
+func (x *RampPolicy) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_api_deployment_v1_message_proto_msgTypes[12]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RampPolicy.ProtoReflect.Descriptor instead.
+func (*RampPolicy) Descriptor() ([]byte, []int) {
+	return file_temporal_api_deployment_v1_message_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *RampPolicy) GetValue() isRampPolicy_Value {
+	if x != nil {
+		return x.Value
+	}
+	return nil
+}
+
+func (x *RampPolicy) GetUseRampingVersion() bool {
+	if x != nil {
+		if x, ok := x.Value.(*RampPolicy_UseRampingVersion); ok {
+			return x.UseRampingVersion
+		}
 	}
 	return false
 }
+
+type isRampPolicy_Value interface {
+	isRampPolicy_Value()
+}
+
+type RampPolicy_UseRampingVersion struct {
+	// Always use the ramping version of the workflow's task queue.
+	UseRampingVersion bool `protobuf:"varint,1,opt,name=use_ramping_version,json=useRampingVersion,proto3,oneof"`
+}
+
+func (*RampPolicy_UseRampingVersion) isRampPolicy_Value() {}
 
 type DeploymentInfo_TaskQueueInfo struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
@@ -1085,7 +1154,7 @@ type DeploymentInfo_TaskQueueInfo struct {
 
 func (x *DeploymentInfo_TaskQueueInfo) Reset() {
 	*x = DeploymentInfo_TaskQueueInfo{}
-	mi := &file_temporal_api_deployment_v1_message_proto_msgTypes[13]
+	mi := &file_temporal_api_deployment_v1_message_proto_msgTypes[14]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1097,7 +1166,7 @@ func (x *DeploymentInfo_TaskQueueInfo) String() string {
 func (*DeploymentInfo_TaskQueueInfo) ProtoMessage() {}
 
 func (x *DeploymentInfo_TaskQueueInfo) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_deployment_v1_message_proto_msgTypes[13]
+	mi := &file_temporal_api_deployment_v1_message_proto_msgTypes[14]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1144,7 +1213,7 @@ type WorkerDeploymentVersionInfo_VersionTaskQueueInfo struct {
 
 func (x *WorkerDeploymentVersionInfo_VersionTaskQueueInfo) Reset() {
 	*x = WorkerDeploymentVersionInfo_VersionTaskQueueInfo{}
-	mi := &file_temporal_api_deployment_v1_message_proto_msgTypes[15]
+	mi := &file_temporal_api_deployment_v1_message_proto_msgTypes[16]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1156,7 +1225,7 @@ func (x *WorkerDeploymentVersionInfo_VersionTaskQueueInfo) String() string {
 func (*WorkerDeploymentVersionInfo_VersionTaskQueueInfo) ProtoMessage() {}
 
 func (x *WorkerDeploymentVersionInfo_VersionTaskQueueInfo) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_deployment_v1_message_proto_msgTypes[15]
+	mi := &file_temporal_api_deployment_v1_message_proto_msgTypes[16]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1229,7 +1298,7 @@ type WorkerDeploymentInfo_WorkerDeploymentVersionSummary struct {
 
 func (x *WorkerDeploymentInfo_WorkerDeploymentVersionSummary) Reset() {
 	*x = WorkerDeploymentInfo_WorkerDeploymentVersionSummary{}
-	mi := &file_temporal_api_deployment_v1_message_proto_msgTypes[16]
+	mi := &file_temporal_api_deployment_v1_message_proto_msgTypes[17]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1241,7 +1310,7 @@ func (x *WorkerDeploymentInfo_WorkerDeploymentVersionSummary) String() string {
 func (*WorkerDeploymentInfo_WorkerDeploymentVersionSummary) ProtoMessage() {}
 
 func (x *WorkerDeploymentInfo_WorkerDeploymentVersionSummary) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_deployment_v1_message_proto_msgTypes[16]
+	mi := &file_temporal_api_deployment_v1_message_proto_msgTypes[17]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1465,11 +1534,16 @@ const file_temporal_api_deployment_v1_message_proto_rawDesc = "" +
 	"\x1cramping_version_changed_time\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\x19rampingVersionChangedTime\x12p\n" +
 	"'ramping_version_percentage_changed_time\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR#rampingVersionPercentageChangedTime\x12'\n" +
 	"\x0frevision_number\x18\n" +
-	" \x01(\x03R\x0erevisionNumber\"\x86\x02\n" +
+	" \x01(\x03R\x0erevisionNumber\"\x9f\x02\n" +
 	"\x18InheritedAutoUpgradeInfo\x12o\n" +
 	"\x19source_deployment_version\x18\x01 \x01(\v23.temporal.api.deployment.v1.WorkerDeploymentVersionR\x17sourceDeploymentVersion\x12I\n" +
-	"!source_deployment_revision_number\x18\x02 \x01(\x03R\x1esourceDeploymentRevisionNumber\x12.\n" +
-	"\x13use_ramping_version\x18\x03 \x01(\bR\x11useRampingVersionB\x9d\x01\n" +
+	"!source_deployment_revision_number\x18\x02 \x01(\x03R\x1esourceDeploymentRevisionNumber\x12G\n" +
+	"\vramp_policy\x18\t \x01(\v2&.temporal.api.deployment.v1.RampPolicyR\n" +
+	"rampPolicy\"G\n" +
+	"\n" +
+	"RampPolicy\x120\n" +
+	"\x13use_ramping_version\x18\x01 \x01(\bH\x00R\x11useRampingVersionB\a\n" +
+	"\x05valueB\x9d\x01\n" +
 	"\x1dio.temporal.api.deployment.v1B\fMessageProtoP\x01Z+go.temporal.io/api/deployment/v1;deployment\xaa\x02\x1cTemporalio.Api.Deployment.V1\xea\x02\x1fTemporalio::Api::Deployment::V1b\x06proto3"
 
 var (
@@ -1484,7 +1558,7 @@ func file_temporal_api_deployment_v1_message_proto_rawDescGZIP() []byte {
 	return file_temporal_api_deployment_v1_message_proto_rawDescData
 }
 
-var file_temporal_api_deployment_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 18)
+var file_temporal_api_deployment_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 19)
 var file_temporal_api_deployment_v1_message_proto_goTypes = []any{
 	(*WorkerDeploymentOptions)(nil),      // 0: temporal.api.deployment.v1.WorkerDeploymentOptions
 	(*Deployment)(nil),                   // 1: temporal.api.deployment.v1.Deployment
@@ -1498,81 +1572,83 @@ var file_temporal_api_deployment_v1_message_proto_goTypes = []any{
 	(*VersionMetadata)(nil),              // 9: temporal.api.deployment.v1.VersionMetadata
 	(*RoutingConfig)(nil),                // 10: temporal.api.deployment.v1.RoutingConfig
 	(*InheritedAutoUpgradeInfo)(nil),     // 11: temporal.api.deployment.v1.InheritedAutoUpgradeInfo
-	nil,                                  // 12: temporal.api.deployment.v1.DeploymentInfo.MetadataEntry
-	(*DeploymentInfo_TaskQueueInfo)(nil), // 13: temporal.api.deployment.v1.DeploymentInfo.TaskQueueInfo
-	nil,                                  // 14: temporal.api.deployment.v1.UpdateDeploymentMetadata.UpsertEntriesEntry
-	(*WorkerDeploymentVersionInfo_VersionTaskQueueInfo)(nil),    // 15: temporal.api.deployment.v1.WorkerDeploymentVersionInfo.VersionTaskQueueInfo
-	(*WorkerDeploymentInfo_WorkerDeploymentVersionSummary)(nil), // 16: temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummary
-	nil,                                   // 17: temporal.api.deployment.v1.VersionMetadata.EntriesEntry
-	(v1.WorkerVersioningMode)(0),          // 18: temporal.api.enums.v1.WorkerVersioningMode
-	(*timestamppb.Timestamp)(nil),         // 19: google.protobuf.Timestamp
-	(v1.WorkerDeploymentVersionStatus)(0), // 20: temporal.api.enums.v1.WorkerDeploymentVersionStatus
-	(*v12.ComputeConfig)(nil),             // 21: temporal.api.compute.v1.ComputeConfig
-	(v1.VersionDrainageStatus)(0),         // 22: temporal.api.enums.v1.VersionDrainageStatus
-	(v1.RoutingConfigUpdateState)(0),      // 23: temporal.api.enums.v1.RoutingConfigUpdateState
-	(*v11.Payload)(nil),                   // 24: temporal.api.common.v1.Payload
-	(v1.TaskQueueType)(0),                 // 25: temporal.api.enums.v1.TaskQueueType
-	(*v12.ComputeConfigSummary)(nil),      // 26: temporal.api.compute.v1.ComputeConfigSummary
+	(*RampPolicy)(nil),                   // 12: temporal.api.deployment.v1.RampPolicy
+	nil,                                  // 13: temporal.api.deployment.v1.DeploymentInfo.MetadataEntry
+	(*DeploymentInfo_TaskQueueInfo)(nil), // 14: temporal.api.deployment.v1.DeploymentInfo.TaskQueueInfo
+	nil,                                  // 15: temporal.api.deployment.v1.UpdateDeploymentMetadata.UpsertEntriesEntry
+	(*WorkerDeploymentVersionInfo_VersionTaskQueueInfo)(nil),    // 16: temporal.api.deployment.v1.WorkerDeploymentVersionInfo.VersionTaskQueueInfo
+	(*WorkerDeploymentInfo_WorkerDeploymentVersionSummary)(nil), // 17: temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummary
+	nil,                                   // 18: temporal.api.deployment.v1.VersionMetadata.EntriesEntry
+	(v1.WorkerVersioningMode)(0),          // 19: temporal.api.enums.v1.WorkerVersioningMode
+	(*timestamppb.Timestamp)(nil),         // 20: google.protobuf.Timestamp
+	(v1.WorkerDeploymentVersionStatus)(0), // 21: temporal.api.enums.v1.WorkerDeploymentVersionStatus
+	(*v12.ComputeConfig)(nil),             // 22: temporal.api.compute.v1.ComputeConfig
+	(v1.VersionDrainageStatus)(0),         // 23: temporal.api.enums.v1.VersionDrainageStatus
+	(v1.RoutingConfigUpdateState)(0),      // 24: temporal.api.enums.v1.RoutingConfigUpdateState
+	(*v11.Payload)(nil),                   // 25: temporal.api.common.v1.Payload
+	(v1.TaskQueueType)(0),                 // 26: temporal.api.enums.v1.TaskQueueType
+	(*v12.ComputeConfigSummary)(nil),      // 27: temporal.api.compute.v1.ComputeConfigSummary
 }
 var file_temporal_api_deployment_v1_message_proto_depIdxs = []int32{
-	18, // 0: temporal.api.deployment.v1.WorkerDeploymentOptions.worker_versioning_mode:type_name -> temporal.api.enums.v1.WorkerVersioningMode
+	19, // 0: temporal.api.deployment.v1.WorkerDeploymentOptions.worker_versioning_mode:type_name -> temporal.api.enums.v1.WorkerVersioningMode
 	1,  // 1: temporal.api.deployment.v1.DeploymentInfo.deployment:type_name -> temporal.api.deployment.v1.Deployment
-	19, // 2: temporal.api.deployment.v1.DeploymentInfo.create_time:type_name -> google.protobuf.Timestamp
-	13, // 3: temporal.api.deployment.v1.DeploymentInfo.task_queue_infos:type_name -> temporal.api.deployment.v1.DeploymentInfo.TaskQueueInfo
-	12, // 4: temporal.api.deployment.v1.DeploymentInfo.metadata:type_name -> temporal.api.deployment.v1.DeploymentInfo.MetadataEntry
-	14, // 5: temporal.api.deployment.v1.UpdateDeploymentMetadata.upsert_entries:type_name -> temporal.api.deployment.v1.UpdateDeploymentMetadata.UpsertEntriesEntry
+	20, // 2: temporal.api.deployment.v1.DeploymentInfo.create_time:type_name -> google.protobuf.Timestamp
+	14, // 3: temporal.api.deployment.v1.DeploymentInfo.task_queue_infos:type_name -> temporal.api.deployment.v1.DeploymentInfo.TaskQueueInfo
+	13, // 4: temporal.api.deployment.v1.DeploymentInfo.metadata:type_name -> temporal.api.deployment.v1.DeploymentInfo.MetadataEntry
+	15, // 5: temporal.api.deployment.v1.UpdateDeploymentMetadata.upsert_entries:type_name -> temporal.api.deployment.v1.UpdateDeploymentMetadata.UpsertEntriesEntry
 	1,  // 6: temporal.api.deployment.v1.DeploymentListInfo.deployment:type_name -> temporal.api.deployment.v1.Deployment
-	19, // 7: temporal.api.deployment.v1.DeploymentListInfo.create_time:type_name -> google.protobuf.Timestamp
-	20, // 8: temporal.api.deployment.v1.WorkerDeploymentVersionInfo.status:type_name -> temporal.api.enums.v1.WorkerDeploymentVersionStatus
+	20, // 7: temporal.api.deployment.v1.DeploymentListInfo.create_time:type_name -> google.protobuf.Timestamp
+	21, // 8: temporal.api.deployment.v1.WorkerDeploymentVersionInfo.status:type_name -> temporal.api.enums.v1.WorkerDeploymentVersionStatus
 	8,  // 9: temporal.api.deployment.v1.WorkerDeploymentVersionInfo.deployment_version:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersion
-	19, // 10: temporal.api.deployment.v1.WorkerDeploymentVersionInfo.create_time:type_name -> google.protobuf.Timestamp
-	19, // 11: temporal.api.deployment.v1.WorkerDeploymentVersionInfo.routing_changed_time:type_name -> google.protobuf.Timestamp
-	19, // 12: temporal.api.deployment.v1.WorkerDeploymentVersionInfo.current_since_time:type_name -> google.protobuf.Timestamp
-	19, // 13: temporal.api.deployment.v1.WorkerDeploymentVersionInfo.ramping_since_time:type_name -> google.protobuf.Timestamp
-	19, // 14: temporal.api.deployment.v1.WorkerDeploymentVersionInfo.first_activation_time:type_name -> google.protobuf.Timestamp
-	19, // 15: temporal.api.deployment.v1.WorkerDeploymentVersionInfo.last_current_time:type_name -> google.protobuf.Timestamp
-	19, // 16: temporal.api.deployment.v1.WorkerDeploymentVersionInfo.last_deactivation_time:type_name -> google.protobuf.Timestamp
-	15, // 17: temporal.api.deployment.v1.WorkerDeploymentVersionInfo.task_queue_infos:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersionInfo.VersionTaskQueueInfo
+	20, // 10: temporal.api.deployment.v1.WorkerDeploymentVersionInfo.create_time:type_name -> google.protobuf.Timestamp
+	20, // 11: temporal.api.deployment.v1.WorkerDeploymentVersionInfo.routing_changed_time:type_name -> google.protobuf.Timestamp
+	20, // 12: temporal.api.deployment.v1.WorkerDeploymentVersionInfo.current_since_time:type_name -> google.protobuf.Timestamp
+	20, // 13: temporal.api.deployment.v1.WorkerDeploymentVersionInfo.ramping_since_time:type_name -> google.protobuf.Timestamp
+	20, // 14: temporal.api.deployment.v1.WorkerDeploymentVersionInfo.first_activation_time:type_name -> google.protobuf.Timestamp
+	20, // 15: temporal.api.deployment.v1.WorkerDeploymentVersionInfo.last_current_time:type_name -> google.protobuf.Timestamp
+	20, // 16: temporal.api.deployment.v1.WorkerDeploymentVersionInfo.last_deactivation_time:type_name -> google.protobuf.Timestamp
+	16, // 17: temporal.api.deployment.v1.WorkerDeploymentVersionInfo.task_queue_infos:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersionInfo.VersionTaskQueueInfo
 	6,  // 18: temporal.api.deployment.v1.WorkerDeploymentVersionInfo.drainage_info:type_name -> temporal.api.deployment.v1.VersionDrainageInfo
 	9,  // 19: temporal.api.deployment.v1.WorkerDeploymentVersionInfo.metadata:type_name -> temporal.api.deployment.v1.VersionMetadata
-	21, // 20: temporal.api.deployment.v1.WorkerDeploymentVersionInfo.compute_config:type_name -> temporal.api.compute.v1.ComputeConfig
-	22, // 21: temporal.api.deployment.v1.VersionDrainageInfo.status:type_name -> temporal.api.enums.v1.VersionDrainageStatus
-	19, // 22: temporal.api.deployment.v1.VersionDrainageInfo.last_changed_time:type_name -> google.protobuf.Timestamp
-	19, // 23: temporal.api.deployment.v1.VersionDrainageInfo.last_checked_time:type_name -> google.protobuf.Timestamp
-	16, // 24: temporal.api.deployment.v1.WorkerDeploymentInfo.version_summaries:type_name -> temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummary
-	19, // 25: temporal.api.deployment.v1.WorkerDeploymentInfo.create_time:type_name -> google.protobuf.Timestamp
+	22, // 20: temporal.api.deployment.v1.WorkerDeploymentVersionInfo.compute_config:type_name -> temporal.api.compute.v1.ComputeConfig
+	23, // 21: temporal.api.deployment.v1.VersionDrainageInfo.status:type_name -> temporal.api.enums.v1.VersionDrainageStatus
+	20, // 22: temporal.api.deployment.v1.VersionDrainageInfo.last_changed_time:type_name -> google.protobuf.Timestamp
+	20, // 23: temporal.api.deployment.v1.VersionDrainageInfo.last_checked_time:type_name -> google.protobuf.Timestamp
+	17, // 24: temporal.api.deployment.v1.WorkerDeploymentInfo.version_summaries:type_name -> temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummary
+	20, // 25: temporal.api.deployment.v1.WorkerDeploymentInfo.create_time:type_name -> google.protobuf.Timestamp
 	10, // 26: temporal.api.deployment.v1.WorkerDeploymentInfo.routing_config:type_name -> temporal.api.deployment.v1.RoutingConfig
-	23, // 27: temporal.api.deployment.v1.WorkerDeploymentInfo.routing_config_update_state:type_name -> temporal.api.enums.v1.RoutingConfigUpdateState
-	17, // 28: temporal.api.deployment.v1.VersionMetadata.entries:type_name -> temporal.api.deployment.v1.VersionMetadata.EntriesEntry
+	24, // 27: temporal.api.deployment.v1.WorkerDeploymentInfo.routing_config_update_state:type_name -> temporal.api.enums.v1.RoutingConfigUpdateState
+	18, // 28: temporal.api.deployment.v1.VersionMetadata.entries:type_name -> temporal.api.deployment.v1.VersionMetadata.EntriesEntry
 	8,  // 29: temporal.api.deployment.v1.RoutingConfig.current_deployment_version:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersion
 	8,  // 30: temporal.api.deployment.v1.RoutingConfig.ramping_deployment_version:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersion
-	19, // 31: temporal.api.deployment.v1.RoutingConfig.current_version_changed_time:type_name -> google.protobuf.Timestamp
-	19, // 32: temporal.api.deployment.v1.RoutingConfig.ramping_version_changed_time:type_name -> google.protobuf.Timestamp
-	19, // 33: temporal.api.deployment.v1.RoutingConfig.ramping_version_percentage_changed_time:type_name -> google.protobuf.Timestamp
+	20, // 31: temporal.api.deployment.v1.RoutingConfig.current_version_changed_time:type_name -> google.protobuf.Timestamp
+	20, // 32: temporal.api.deployment.v1.RoutingConfig.ramping_version_changed_time:type_name -> google.protobuf.Timestamp
+	20, // 33: temporal.api.deployment.v1.RoutingConfig.ramping_version_percentage_changed_time:type_name -> google.protobuf.Timestamp
 	8,  // 34: temporal.api.deployment.v1.InheritedAutoUpgradeInfo.source_deployment_version:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersion
-	24, // 35: temporal.api.deployment.v1.DeploymentInfo.MetadataEntry.value:type_name -> temporal.api.common.v1.Payload
-	25, // 36: temporal.api.deployment.v1.DeploymentInfo.TaskQueueInfo.type:type_name -> temporal.api.enums.v1.TaskQueueType
-	19, // 37: temporal.api.deployment.v1.DeploymentInfo.TaskQueueInfo.first_poller_time:type_name -> google.protobuf.Timestamp
-	24, // 38: temporal.api.deployment.v1.UpdateDeploymentMetadata.UpsertEntriesEntry.value:type_name -> temporal.api.common.v1.Payload
-	25, // 39: temporal.api.deployment.v1.WorkerDeploymentVersionInfo.VersionTaskQueueInfo.type:type_name -> temporal.api.enums.v1.TaskQueueType
-	20, // 40: temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummary.status:type_name -> temporal.api.enums.v1.WorkerDeploymentVersionStatus
-	8,  // 41: temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummary.deployment_version:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersion
-	19, // 42: temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummary.create_time:type_name -> google.protobuf.Timestamp
-	22, // 43: temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummary.drainage_status:type_name -> temporal.api.enums.v1.VersionDrainageStatus
-	6,  // 44: temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummary.drainage_info:type_name -> temporal.api.deployment.v1.VersionDrainageInfo
-	19, // 45: temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummary.current_since_time:type_name -> google.protobuf.Timestamp
-	19, // 46: temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummary.ramping_since_time:type_name -> google.protobuf.Timestamp
-	19, // 47: temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummary.routing_update_time:type_name -> google.protobuf.Timestamp
-	19, // 48: temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummary.first_activation_time:type_name -> google.protobuf.Timestamp
-	19, // 49: temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummary.last_current_time:type_name -> google.protobuf.Timestamp
-	19, // 50: temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummary.last_deactivation_time:type_name -> google.protobuf.Timestamp
-	26, // 51: temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummary.compute_config:type_name -> temporal.api.compute.v1.ComputeConfigSummary
-	24, // 52: temporal.api.deployment.v1.VersionMetadata.EntriesEntry.value:type_name -> temporal.api.common.v1.Payload
-	53, // [53:53] is the sub-list for method output_type
-	53, // [53:53] is the sub-list for method input_type
-	53, // [53:53] is the sub-list for extension type_name
-	53, // [53:53] is the sub-list for extension extendee
-	0,  // [0:53] is the sub-list for field type_name
+	12, // 35: temporal.api.deployment.v1.InheritedAutoUpgradeInfo.ramp_policy:type_name -> temporal.api.deployment.v1.RampPolicy
+	25, // 36: temporal.api.deployment.v1.DeploymentInfo.MetadataEntry.value:type_name -> temporal.api.common.v1.Payload
+	26, // 37: temporal.api.deployment.v1.DeploymentInfo.TaskQueueInfo.type:type_name -> temporal.api.enums.v1.TaskQueueType
+	20, // 38: temporal.api.deployment.v1.DeploymentInfo.TaskQueueInfo.first_poller_time:type_name -> google.protobuf.Timestamp
+	25, // 39: temporal.api.deployment.v1.UpdateDeploymentMetadata.UpsertEntriesEntry.value:type_name -> temporal.api.common.v1.Payload
+	26, // 40: temporal.api.deployment.v1.WorkerDeploymentVersionInfo.VersionTaskQueueInfo.type:type_name -> temporal.api.enums.v1.TaskQueueType
+	21, // 41: temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummary.status:type_name -> temporal.api.enums.v1.WorkerDeploymentVersionStatus
+	8,  // 42: temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummary.deployment_version:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersion
+	20, // 43: temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummary.create_time:type_name -> google.protobuf.Timestamp
+	23, // 44: temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummary.drainage_status:type_name -> temporal.api.enums.v1.VersionDrainageStatus
+	6,  // 45: temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummary.drainage_info:type_name -> temporal.api.deployment.v1.VersionDrainageInfo
+	20, // 46: temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummary.current_since_time:type_name -> google.protobuf.Timestamp
+	20, // 47: temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummary.ramping_since_time:type_name -> google.protobuf.Timestamp
+	20, // 48: temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummary.routing_update_time:type_name -> google.protobuf.Timestamp
+	20, // 49: temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummary.first_activation_time:type_name -> google.protobuf.Timestamp
+	20, // 50: temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummary.last_current_time:type_name -> google.protobuf.Timestamp
+	20, // 51: temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummary.last_deactivation_time:type_name -> google.protobuf.Timestamp
+	27, // 52: temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummary.compute_config:type_name -> temporal.api.compute.v1.ComputeConfigSummary
+	25, // 53: temporal.api.deployment.v1.VersionMetadata.EntriesEntry.value:type_name -> temporal.api.common.v1.Payload
+	54, // [54:54] is the sub-list for method output_type
+	54, // [54:54] is the sub-list for method input_type
+	54, // [54:54] is the sub-list for extension type_name
+	54, // [54:54] is the sub-list for extension extendee
+	0,  // [0:54] is the sub-list for field type_name
 }
 
 func init() { file_temporal_api_deployment_v1_message_proto_init() }
@@ -1580,13 +1656,16 @@ func file_temporal_api_deployment_v1_message_proto_init() {
 	if File_temporal_api_deployment_v1_message_proto != nil {
 		return
 	}
+	file_temporal_api_deployment_v1_message_proto_msgTypes[12].OneofWrappers = []any{
+		(*RampPolicy_UseRampingVersion)(nil),
+	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_temporal_api_deployment_v1_message_proto_rawDesc), len(file_temporal_api_deployment_v1_message_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   18,
+			NumMessages:   19,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
