@@ -57,9 +57,6 @@ func (c *payloadConcurrencyState) recordErr(err error) {
 	c.firstErr.CompareAndSwap(nil, &err)
 }
 
-func (c *payloadConcurrencyState) hasErr() bool {
-	return c.firstErr.Load() != nil
-}
 
 // VisitPayloadsContext provides Payload context for visitor functions.
 type VisitPayloadsContext struct {
@@ -320,8 +317,8 @@ func visitPayload(
 	fieldPtr **common.Payload,
 ) error {
 	if concState != nil {
-		if concState.hasErr() {
-			return nil
+		if errPtr := concState.firstErr.Load(); errPtr != nil {
+			return *errPtr
 		}
 		taskCtx := VisitPayloadsContext{
 			Context:               ctx.Context,
@@ -335,9 +332,9 @@ func visitPayload(
 			concState.recordErr(ctx.Context.Err())
 			return ctx.Context.Err()
 		}
-		if concState.hasErr() {
+		if errPtr := concState.firstErr.Load(); errPtr != nil {
 			<-concState.sem
-			return nil
+			return *errPtr
 		}
 		concState.wg.Add(1)
 		go func() {
@@ -383,8 +380,8 @@ func visitPayloads(
 		switch o := obj.(type) {
 			case map[string]*common.Payload:
 				if concState != nil {
-					if concState.hasErr() {
-						return nil
+					if errPtr := concState.firstErr.Load(); errPtr != nil {
+						return *errPtr
 					}
 					// Snapshot entries before spawning goroutines to avoid a
 					// data race between the range and goroutine write-backs.
@@ -394,10 +391,9 @@ func visitPayloads(
 						entries = append(entries, entry{k, v})
 					}
 					var mapMu sync.Mutex
-					mapLoop:
 					for _, e := range entries {
-						if concState.hasErr() {
-							break
+						if errPtr := concState.firstErr.Load(); errPtr != nil {
+							return *errPtr
 						}
 						e := e
 						taskCtx := VisitPayloadsContext{
@@ -409,11 +405,11 @@ func visitPayloads(
 						case concState.sem <- struct{}{}:
 						case <-ctx.Context.Done():
 							concState.recordErr(ctx.Context.Err())
-							break mapLoop
+							return ctx.Context.Err()
 						}
-						if concState.hasErr() {
+						if errPtr := concState.firstErr.Load(); errPtr != nil {
 							<-concState.sem
-							break
+							return *errPtr
 						}
 						concState.wg.Add(1)
 						go func() {
@@ -444,8 +440,8 @@ func visitPayloads(
 			case *common.Payloads:
 				if o == nil { continue }
 				if concState != nil {
-					if concState.hasErr() {
-						return nil
+					if errPtr := concState.firstErr.Load(); errPtr != nil {
+						return *errPtr
 					}
 					taskCtx := VisitPayloadsContext{Context: ctx.Context, Parent: parent}
 					payloads := o.Payloads
@@ -456,9 +452,9 @@ func visitPayloads(
 						concState.recordErr(ctx.Context.Err())
 						return ctx.Context.Err()
 					}
-					if concState.hasErr() {
+					if errPtr := concState.firstErr.Load(); errPtr != nil {
 						<-concState.sem
-						return nil
+						return *errPtr
 					}
 					concState.wg.Add(1)
 					go func() {
