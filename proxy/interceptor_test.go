@@ -1291,26 +1291,24 @@ func TestVisitPayloadsConcurrentMaxInflight(t *testing.T) {
 	const limit = 3
 	const total = 20
 
-	payloads := make([]*common.Payload, total)
-	for i := range payloads {
-		payloads[i] = &common.Payload{Data: []byte(fmt.Sprintf("p%d", i))}
+	fields := make(map[string]*common.Payload, total)
+	for i := 0; i < total; i++ {
+		fields[fmt.Sprintf("k%d", i)] = &common.Payload{Data: []byte(fmt.Sprintf("p%d", i))}
 	}
-	msg := &common.Payloads{Payloads: payloads}
-	// Wrap in a message that contains a *common.Payloads field.
 	req := &workflowservice.StartWorkflowExecutionRequest{
-		Input: msg,
+		Header: &common.Header{Fields: fields},
 	}
 
 	var inflight atomic.Int64
 	var maxSeen atomic.Int64
+	arrived := make(chan struct{}, total)
+	proceed := make(chan struct{})
 
-	blocker := make(chan struct{})
-	var wg sync.WaitGroup
-	wg.Add(1)
 	go func() {
-		defer wg.Done()
-		// Unblock all goroutines after a short delay.
-		<-blocker
+		for i := 0; i < limit; i++ {
+			<-arrived
+		}
+		close(proceed)
 	}()
 
 	err := VisitPayloads(context.Background(), req, VisitPayloadsOptions{
@@ -1324,13 +1322,13 @@ func TestVisitPayloadsConcurrentMaxInflight(t *testing.T) {
 					break
 				}
 			}
+			arrived <- struct{}{}
+			<-proceed
 			return p, nil
 		},
 	})
-	close(blocker)
-	wg.Wait()
 	require.NoError(t, err)
-	require.LessOrEqual(t, maxSeen.Load(), int64(limit), "concurrent inflight exceeded ConcurrencyLimit")
+	require.Equal(t, int64(limit), maxSeen.Load(), "peak inflight must equal ConcurrencyLimit")
 }
 
 func TestVisitPayloadsConcurrentBarrier(t *testing.T) {
