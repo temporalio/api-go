@@ -1561,44 +1561,50 @@ func TestVisitPayloadsConcurrentError(t *testing.T) {
 }
 
 func TestVisitPayloadsConcurrentAny(t *testing.T) {
-	// Verify that Any re-marshaling is correct in concurrent mode.
-	inner := &workflowservice.StartWorkflowExecutionRequest{
-		Input: &common.Payloads{
-			Payloads: []*common.Payload{{Data: []byte("any-inner")}},
+	// Verify that defaultWellKnownAnyVisitor correctly visits and re-marshals.
+	msg1, err := anypb.New(&update.Request{Input: &update.Input{Args: &common.Payloads{
+		Payloads: []*common.Payload{{Data: []byte("any-a")}},
+	}}})
+	require.NoError(t, err)
+	msg2, err := anypb.New(&update.Request{Input: &update.Input{Args: &common.Payloads{
+		Payloads: []*common.Payload{{Data: []byte("any-b")}},
+	}}})
+	require.NoError(t, err)
+	msg3, err := anypb.New(&update.Response{Outcome: &update.Outcome{Value: &update.Outcome_Success{
+		Success: &common.Payloads{
+			Payloads: []*common.Payload{{Data: []byte("any-c")}},
 		},
-	}
-	anyMsg, err := anypb.New(inner)
+	}}})
 	require.NoError(t, err)
 
-	outer := &history.HistoryEvent{
-		Attributes: &history.HistoryEvent_WorkflowExecutionStartedEventAttributes{
-			WorkflowExecutionStartedEventAttributes: &history.WorkflowExecutionStartedEventAttributes{
-				Input: &common.Payloads{
-					Payloads: []*common.Payload{{Data: []byte("outer")}},
-				},
-			},
-		},
+	root := &workflowservice.PollWorkflowTaskQueueResponse{
+		Messages: []*protocol.Message{{Body: msg1}, {Body: msg2}, {Body: msg3}},
 	}
-	_ = anyMsg
-	_ = outer
 
-	// Use a message with a direct Any field via header metadata (encode a proto as Any).
-	// For simplicity, just verify the outer payload is visited correctly in concurrent mode.
-	var visited []string
-	var mu sync.Mutex
-	err = VisitPayloads(context.Background(), outer, VisitPayloadsOptions{
-		ConcurrencyLimit: 2,
+	err = VisitPayloads(context.Background(), root, VisitPayloadsOptions{
+		ConcurrencyLimit: 4,
 		Visitor: func(ctx *VisitPayloadsContext, p []*common.Payload) ([]*common.Payload, error) {
-			mu.Lock()
-			for _, pl := range p {
-				visited = append(visited, string(pl.Data))
+			out := make([]*common.Payload, len(p))
+			for i, pl := range p {
+				out[i] = &common.Payload{Data: append([]byte("visited-"), pl.Data...)}
 			}
-			mu.Unlock()
-			return p, nil
+			return out, nil
 		},
 	})
 	require.NoError(t, err)
-	require.Contains(t, visited, "outer")
+
+	// All three Any payloads must have been visited and re-marshaled correctly.
+	got1, err := root.Messages[0].Body.UnmarshalNew()
+	require.NoError(t, err)
+	require.Equal(t, "visited-any-a", string(got1.(*update.Request).Input.Args.Payloads[0].Data))
+
+	got2, err := root.Messages[1].Body.UnmarshalNew()
+	require.NoError(t, err)
+	require.Equal(t, "visited-any-b", string(got2.(*update.Request).Input.Args.Payloads[0].Data))
+
+	got3, err := root.Messages[2].Body.UnmarshalNew()
+	require.NoError(t, err)
+	require.Equal(t, "visited-any-c", string(got3.(*update.Response).GetOutcome().GetSuccess().Payloads[0].Data))
 }
 
 func TestVisitPayloadsLimit1IsSequential(t *testing.T) {
