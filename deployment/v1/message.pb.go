@@ -1009,14 +1009,17 @@ func (x *RoutingConfig) GetRevisionNumber() int64 {
 
 // Used as part of WorkflowExecutionStartedEventAttributes to pass down the AutoUpgrade behavior and source deployment version
 // to a workflow execution whose parent/previous workflow has an AutoUpgrade behavior.
+// Also used for Upgrade-on-CaN behaviors AutoUpgrade and UseRampingVersion.
 type InheritedAutoUpgradeInfo struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// The source deployment version of the parent/previous workflow.
 	SourceDeploymentVersion *WorkerDeploymentVersion `protobuf:"bytes,1,opt,name=source_deployment_version,json=sourceDeploymentVersion,proto3" json:"source_deployment_version,omitempty"`
 	// The revision number of the source deployment version of the parent/previous workflow.
 	SourceDeploymentRevisionNumber int64 `protobuf:"varint,2,opt,name=source_deployment_revision_number,json=sourceDeploymentRevisionNumber,proto3" json:"source_deployment_revision_number,omitempty"`
-	unknownFields                  protoimpl.UnknownFields
-	sizeCache                      protoimpl.SizeCache
+	// Use the ramping version of the workflow's task queue regardless of Target Version = f(workflow_id, ramp_percentage).
+	UseRampingVersion bool `protobuf:"varint,3,opt,name=use_ramping_version,json=useRampingVersion,proto3" json:"use_ramping_version,omitempty"`
+	unknownFields     protoimpl.UnknownFields
+	sizeCache         protoimpl.SizeCache
 }
 
 func (x *InheritedAutoUpgradeInfo) Reset() {
@@ -1061,6 +1064,13 @@ func (x *InheritedAutoUpgradeInfo) GetSourceDeploymentRevisionNumber() int64 {
 		return x.SourceDeploymentRevisionNumber
 	}
 	return 0
+}
+
+func (x *InheritedAutoUpgradeInfo) GetUseRampingVersion() bool {
+	if x != nil {
+		return x.UseRampingVersion
+	}
+	return false
 }
 
 type DeploymentInfo_TaskQueueInfo struct {
@@ -1455,10 +1465,11 @@ const file_temporal_api_deployment_v1_message_proto_rawDesc = "" +
 	"\x1cramping_version_changed_time\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\x19rampingVersionChangedTime\x12p\n" +
 	"'ramping_version_percentage_changed_time\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR#rampingVersionPercentageChangedTime\x12'\n" +
 	"\x0frevision_number\x18\n" +
-	" \x01(\x03R\x0erevisionNumber\"\xd6\x01\n" +
+	" \x01(\x03R\x0erevisionNumber\"\x86\x02\n" +
 	"\x18InheritedAutoUpgradeInfo\x12o\n" +
 	"\x19source_deployment_version\x18\x01 \x01(\v23.temporal.api.deployment.v1.WorkerDeploymentVersionR\x17sourceDeploymentVersion\x12I\n" +
-	"!source_deployment_revision_number\x18\x02 \x01(\x03R\x1esourceDeploymentRevisionNumberB\x9d\x01\n" +
+	"!source_deployment_revision_number\x18\x02 \x01(\x03R\x1esourceDeploymentRevisionNumber\x12.\n" +
+	"\x13use_ramping_version\x18\x03 \x01(\bR\x11useRampingVersionB\x9d\x01\n" +
 	"\x1dio.temporal.api.deployment.v1B\fMessageProtoP\x01Z+go.temporal.io/api/deployment/v1;deployment\xaa\x02\x1cTemporalio.Api.Deployment.V1\xea\x02\x1fTemporalio::Api::Deployment::V1b\x06proto3"
 
 var (
