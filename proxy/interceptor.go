@@ -1603,7 +1603,6 @@ func visitPayloads(
 				ctx,
 				options,
 				o,
-				o.GetFailure(),
 				o.GetSyncSuccess(),
 			); err != nil {
 				return err
@@ -2147,43 +2146,6 @@ func visitPayloads(
 			}
 
 		case *workflowservice.CountActivityExecutionsResponse_AggregationGroup:
-
-			if o == nil {
-				continue
-			}
-
-			if err := visitPayloads(
-				ctx,
-				options,
-				o,
-				o.GetGroupValues(),
-			); err != nil {
-				return err
-			}
-
-		case *workflowservice.CountSchedulesResponse:
-
-			if o == nil {
-				continue
-			}
-
-			if err := visitPayloads(
-				ctx,
-				options,
-				o,
-				o.GetGroups(),
-			); err != nil {
-				return err
-			}
-
-		case []*workflowservice.CountSchedulesResponse_AggregationGroup:
-			for _, x := range o {
-				if err := visitPayloads(ctx, options, parent, x); err != nil {
-					return err
-				}
-			}
-
-		case *workflowservice.CountSchedulesResponse_AggregationGroup:
 
 			if o == nil {
 				continue
@@ -2856,21 +2818,6 @@ func visitPayloads(
 				options,
 				o,
 				o.GetResponse(),
-			); err != nil {
-				return err
-			}
-
-		case *workflowservice.RespondNexusTaskFailedRequest:
-
-			if o == nil {
-				continue
-			}
-
-			if err := visitPayloads(
-				ctx,
-				options,
-				o,
-				o.GetFailure(),
 			); err != nil {
 				return err
 			}
@@ -3632,32 +3579,6 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 				return err
 			}
 
-		case *nexus.Response:
-			if o == nil {
-				continue
-			}
-			ctx.Parent = o
-			if err := visitFailures(
-				ctx,
-				options,
-				o.GetStartOperation(),
-			); err != nil {
-				return err
-			}
-
-		case *nexus.StartOperationResponse:
-			if o == nil {
-				continue
-			}
-			ctx.Parent = o
-			if err := visitFailures(
-				ctx,
-				options,
-				o.GetFailure(),
-			); err != nil {
-				return err
-			}
-
 		case []*protocol.Message:
 			for _, x := range o {
 				if err := visitFailures(ctx, options, x); err != nil {
@@ -4021,32 +3942,6 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 				ctx,
 				options,
 				o.GetFailures(),
-			); err != nil {
-				return err
-			}
-
-		case *workflowservice.RespondNexusTaskCompletedRequest:
-			if o == nil {
-				continue
-			}
-			ctx.Parent = o
-			if err := visitFailures(
-				ctx,
-				options,
-				o.GetResponse(),
-			); err != nil {
-				return err
-			}
-
-		case *workflowservice.RespondNexusTaskFailedRequest:
-			if o == nil {
-				continue
-			}
-			ctx.Parent = o
-			if err := visitFailures(
-				ctx,
-				options,
-				o.GetFailure(),
 			); err != nil {
 				return err
 			}

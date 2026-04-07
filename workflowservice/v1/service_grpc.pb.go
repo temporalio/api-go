@@ -70,7 +70,6 @@ const (
 	WorkflowService_ListScheduleMatchingTimes_FullMethodName             = "/temporal.api.workflowservice.v1.WorkflowService/ListScheduleMatchingTimes"
 	WorkflowService_DeleteSchedule_FullMethodName                        = "/temporal.api.workflowservice.v1.WorkflowService/DeleteSchedule"
 	WorkflowService_ListSchedules_FullMethodName                         = "/temporal.api.workflowservice.v1.WorkflowService/ListSchedules"
-	WorkflowService_CountSchedules_FullMethodName                        = "/temporal.api.workflowservice.v1.WorkflowService/CountSchedules"
 	WorkflowService_UpdateWorkerBuildIdCompatibility_FullMethodName      = "/temporal.api.workflowservice.v1.WorkflowService/UpdateWorkerBuildIdCompatibility"
 	WorkflowService_GetWorkerBuildIdCompatibility_FullMethodName         = "/temporal.api.workflowservice.v1.WorkflowService/GetWorkerBuildIdCompatibility"
 	WorkflowService_UpdateWorkerVersioningRules_FullMethodName           = "/temporal.api.workflowservice.v1.WorkflowService/UpdateWorkerVersioningRules"
@@ -455,8 +454,6 @@ type WorkflowServiceClient interface {
 	DeleteSchedule(ctx context.Context, in *DeleteScheduleRequest, opts ...grpc.CallOption) (*DeleteScheduleResponse, error)
 	// List all schedules in a namespace.
 	ListSchedules(ctx context.Context, in *ListSchedulesRequest, opts ...grpc.CallOption) (*ListSchedulesResponse, error)
-	// CountSchedules is a visibility API to count schedules in a specific namespace.
-	CountSchedules(ctx context.Context, in *CountSchedulesRequest, opts ...grpc.CallOption) (*CountSchedulesResponse, error)
 	// Deprecated. Use `UpdateWorkerVersioningRules`.
 	//
 	// Allows users to specify sets of worker build id versions on a per task queue basis. Versions
@@ -1278,16 +1275,6 @@ func (c *workflowServiceClient) ListSchedules(ctx context.Context, in *ListSched
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ListSchedulesResponse)
 	err := c.cc.Invoke(ctx, WorkflowService_ListSchedules_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *workflowServiceClient) CountSchedules(ctx context.Context, in *CountSchedulesRequest, opts ...grpc.CallOption) (*CountSchedulesResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(CountSchedulesResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_CountSchedules_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -2162,8 +2149,6 @@ type WorkflowServiceServer interface {
 	DeleteSchedule(context.Context, *DeleteScheduleRequest) (*DeleteScheduleResponse, error)
 	// List all schedules in a namespace.
 	ListSchedules(context.Context, *ListSchedulesRequest) (*ListSchedulesResponse, error)
-	// CountSchedules is a visibility API to count schedules in a specific namespace.
-	CountSchedules(context.Context, *CountSchedulesRequest) (*CountSchedulesResponse, error)
 	// Deprecated. Use `UpdateWorkerVersioningRules`.
 	//
 	// Allows users to specify sets of worker build id versions on a per task queue basis. Versions
@@ -2640,9 +2625,6 @@ func (UnimplementedWorkflowServiceServer) DeleteSchedule(context.Context, *Delet
 }
 func (UnimplementedWorkflowServiceServer) ListSchedules(context.Context, *ListSchedulesRequest) (*ListSchedulesResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method ListSchedules not implemented")
-}
-func (UnimplementedWorkflowServiceServer) CountSchedules(context.Context, *CountSchedulesRequest) (*CountSchedulesResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method CountSchedules not implemented")
 }
 func (UnimplementedWorkflowServiceServer) UpdateWorkerBuildIdCompatibility(context.Context, *UpdateWorkerBuildIdCompatibilityRequest) (*UpdateWorkerBuildIdCompatibilityResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method UpdateWorkerBuildIdCompatibility not implemented")
@@ -3723,24 +3705,6 @@ func _WorkflowService_ListSchedules_Handler(srv interface{}, ctx context.Context
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(WorkflowServiceServer).ListSchedules(ctx, req.(*ListSchedulesRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _WorkflowService_CountSchedules_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CountSchedulesRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(WorkflowServiceServer).CountSchedules(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: WorkflowService_CountSchedules_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(WorkflowServiceServer).CountSchedules(ctx, req.(*CountSchedulesRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -4923,10 +4887,6 @@ var WorkflowService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListSchedules",
 			Handler:    _WorkflowService_ListSchedules_Handler,
-		},
-		{
-			MethodName: "CountSchedules",
-			Handler:    _WorkflowService_CountSchedules_Handler,
 		},
 		{
 			MethodName: "UpdateWorkerBuildIdCompatibility",
