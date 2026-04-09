@@ -610,9 +610,9 @@ type WorkflowExecutionVersioningInfo struct {
 	// specified in that command.
 	// Only used for the initial task of this run and the initial task of any retries of this run.
 	// Not passed to children or to future continue-as-new.
-	InitialVersioningBehavior v11.ContinueAsNewVersioningBehavior `protobuf:"varint,9,opt,name=initial_versioning_behavior,json=initialVersioningBehavior,proto3,enum=temporal.api.enums.v1.ContinueAsNewVersioningBehavior" json:"initial_versioning_behavior,omitempty"`
-	unknownFields             protoimpl.UnknownFields
-	sizeCache                 protoimpl.SizeCache
+	ContinueAsNewInitialVersioningBehavior v11.ContinueAsNewVersioningBehavior `protobuf:"varint,9,opt,name=continue_as_new_initial_versioning_behavior,json=continueAsNewInitialVersioningBehavior,proto3,enum=temporal.api.enums.v1.ContinueAsNewVersioningBehavior" json:"continue_as_new_initial_versioning_behavior,omitempty"`
+	unknownFields                          protoimpl.UnknownFields
+	sizeCache                              protoimpl.SizeCache
 }
 
 func (x *WorkflowExecutionVersioningInfo) Reset() {
@@ -704,9 +704,9 @@ func (x *WorkflowExecutionVersioningInfo) GetRevisionNumber() int64 {
 	return 0
 }
 
-func (x *WorkflowExecutionVersioningInfo) GetInitialVersioningBehavior() v11.ContinueAsNewVersioningBehavior {
+func (x *WorkflowExecutionVersioningInfo) GetContinueAsNewInitialVersioningBehavior() v11.ContinueAsNewVersioningBehavior {
 	if x != nil {
-		return x.InitialVersioningBehavior
+		return x.ContinueAsNewInitialVersioningBehavior
 	}
 	return v11.ContinueAsNewVersioningBehavior(0)
 }
@@ -3304,7 +3304,7 @@ const file_temporal_api_workflow_v1_message_proto_rawDesc = "" +
 	"pause_info\x18\b \x01(\v24.temporal.api.workflow.v1.WorkflowExecutionPauseInfoR\tpauseInfo\x1aj\n" +
 	"\x13RequestIdInfosEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12=\n" +
-	"\x05value\x18\x02 \x01(\v2'.temporal.api.workflow.v1.RequestIdInfoR\x05value:\x028\x01\"\x85\x06\n" +
+	"\x05value\x18\x02 \x01(\v2'.temporal.api.workflow.v1.RequestIdInfoR\x05value:\x028\x01\"\xa3\x06\n" +
 	"\x1fWorkflowExecutionVersioningInfo\x12E\n" +
 	"\bbehavior\x18\x01 \x01(\x0e2).temporal.api.enums.v1.VersioningBehaviorR\bbehavior\x12J\n" +
 	"\n" +
@@ -3315,8 +3315,8 @@ const file_temporal_api_workflow_v1_message_proto_rawDesc = "" +
 	"\x13versioning_override\x18\x03 \x01(\v2,.temporal.api.workflow.v1.VersioningOverrideR\x12versioningOverride\x12g\n" +
 	"\x15deployment_transition\x18\x04 \x01(\v2..temporal.api.workflow.v1.DeploymentTransitionB\x02\x18\x01R\x14deploymentTransition\x12d\n" +
 	"\x12version_transition\x18\x06 \x01(\v25.temporal.api.workflow.v1.DeploymentVersionTransitionR\x11versionTransition\x12'\n" +
-	"\x0frevision_number\x18\b \x01(\x03R\x0erevisionNumber\x12v\n" +
-	"\x1binitial_versioning_behavior\x18\t \x01(\x0e26.temporal.api.enums.v1.ContinueAsNewVersioningBehaviorR\x19initialVersioningBehavior\"^\n" +
+	"\x0frevision_number\x18\b \x01(\x03R\x0erevisionNumber\x12\x93\x01\n" +
+	"+continue_as_new_initial_versioning_behavior\x18\t \x01(\x0e26.temporal.api.enums.v1.ContinueAsNewVersioningBehaviorR&continueAsNewInitialVersioningBehavior\"^\n" +
 	"\x14DeploymentTransition\x12F\n" +
 	"\n" +
 	"deployment\x18\x01 \x01(\v2&.temporal.api.deployment.v1.DeploymentR\n" +
@@ -3628,7 +3628,7 @@ var file_temporal_api_workflow_v1_message_proto_depIdxs = []int32{
 	18,  // 24: temporal.api.workflow.v1.WorkflowExecutionVersioningInfo.versioning_override:type_name -> temporal.api.workflow.v1.VersioningOverride
 	4,   // 25: temporal.api.workflow.v1.WorkflowExecutionVersioningInfo.deployment_transition:type_name -> temporal.api.workflow.v1.DeploymentTransition
 	5,   // 26: temporal.api.workflow.v1.WorkflowExecutionVersioningInfo.version_transition:type_name -> temporal.api.workflow.v1.DeploymentVersionTransition
-	44,  // 27: temporal.api.workflow.v1.WorkflowExecutionVersioningInfo.initial_versioning_behavior:type_name -> temporal.api.enums.v1.ContinueAsNewVersioningBehavior
+	44,  // 27: temporal.api.workflow.v1.WorkflowExecutionVersioningInfo.continue_as_new_initial_versioning_behavior:type_name -> temporal.api.enums.v1.ContinueAsNewVersioningBehavior
 	42,  // 28: temporal.api.workflow.v1.DeploymentTransition.deployment:type_name -> temporal.api.deployment.v1.Deployment
 	43,  // 29: temporal.api.workflow.v1.DeploymentVersionTransition.deployment_version:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersion
 	45,  // 30: temporal.api.workflow.v1.WorkflowExecutionConfig.task_queue:type_name -> temporal.api.taskqueue.v1.TaskQueue

@@ -1016,12 +1016,14 @@ type InheritedAutoUpgradeInfo struct {
 	SourceDeploymentVersion *WorkerDeploymentVersion `protobuf:"bytes,1,opt,name=source_deployment_version,json=sourceDeploymentVersion,proto3" json:"source_deployment_version,omitempty"`
 	// The revision number of the source deployment version of the parent/previous workflow.
 	SourceDeploymentRevisionNumber int64 `protobuf:"varint,2,opt,name=source_deployment_revision_number,json=sourceDeploymentRevisionNumber,proto3" json:"source_deployment_revision_number,omitempty"`
-	// The initial continue-as-new versioning behavior.
-	// Not passed to children or to future continue-as-new.
+	// Experimental.
+	// If this workflow is the result of a continue-as-new, this field is set to the initial_versioning_behavior
+	// specified in that command.
 	// Only used for the initial task of this run and the initial task of any retries of this run.
-	InitialVersioningBehavior v1.ContinueAsNewVersioningBehavior `protobuf:"varint,3,opt,name=initial_versioning_behavior,json=initialVersioningBehavior,proto3,enum=temporal.api.enums.v1.ContinueAsNewVersioningBehavior" json:"initial_versioning_behavior,omitempty"`
-	unknownFields             protoimpl.UnknownFields
-	sizeCache                 protoimpl.SizeCache
+	// Not passed to children or to future continue-as-new.
+	ContinueAsNewInitialVersioningBehavior v1.ContinueAsNewVersioningBehavior `protobuf:"varint,3,opt,name=continue_as_new_initial_versioning_behavior,json=continueAsNewInitialVersioningBehavior,proto3,enum=temporal.api.enums.v1.ContinueAsNewVersioningBehavior" json:"continue_as_new_initial_versioning_behavior,omitempty"`
+	unknownFields                          protoimpl.UnknownFields
+	sizeCache                              protoimpl.SizeCache
 }
 
 func (x *InheritedAutoUpgradeInfo) Reset() {
@@ -1068,9 +1070,9 @@ func (x *InheritedAutoUpgradeInfo) GetSourceDeploymentRevisionNumber() int64 {
 	return 0
 }
 
-func (x *InheritedAutoUpgradeInfo) GetInitialVersioningBehavior() v1.ContinueAsNewVersioningBehavior {
+func (x *InheritedAutoUpgradeInfo) GetContinueAsNewInitialVersioningBehavior() v1.ContinueAsNewVersioningBehavior {
 	if x != nil {
-		return x.InitialVersioningBehavior
+		return x.ContinueAsNewInitialVersioningBehavior
 	}
 	return v1.ContinueAsNewVersioningBehavior(0)
 }
@@ -1467,11 +1469,11 @@ const file_temporal_api_deployment_v1_message_proto_rawDesc = "" +
 	"\x1cramping_version_changed_time\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\x19rampingVersionChangedTime\x12p\n" +
 	"'ramping_version_percentage_changed_time\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR#rampingVersionPercentageChangedTime\x12'\n" +
 	"\x0frevision_number\x18\n" +
-	" \x01(\x03R\x0erevisionNumber\"\xce\x02\n" +
+	" \x01(\x03R\x0erevisionNumber\"\xec\x02\n" +
 	"\x18InheritedAutoUpgradeInfo\x12o\n" +
 	"\x19source_deployment_version\x18\x01 \x01(\v23.temporal.api.deployment.v1.WorkerDeploymentVersionR\x17sourceDeploymentVersion\x12I\n" +
-	"!source_deployment_revision_number\x18\x02 \x01(\x03R\x1esourceDeploymentRevisionNumber\x12v\n" +
-	"\x1binitial_versioning_behavior\x18\x03 \x01(\x0e26.temporal.api.enums.v1.ContinueAsNewVersioningBehaviorR\x19initialVersioningBehaviorB\x9d\x01\n" +
+	"!source_deployment_revision_number\x18\x02 \x01(\x03R\x1esourceDeploymentRevisionNumber\x12\x93\x01\n" +
+	"+continue_as_new_initial_versioning_behavior\x18\x03 \x01(\x0e26.temporal.api.enums.v1.ContinueAsNewVersioningBehaviorR&continueAsNewInitialVersioningBehaviorB\x9d\x01\n" +
 	"\x1dio.temporal.api.deployment.v1B\fMessageProtoP\x01Z+go.temporal.io/api/deployment/v1;deployment\xaa\x02\x1cTemporalio.Api.Deployment.V1\xea\x02\x1fTemporalio::Api::Deployment::V1b\x06proto3"
 
 var (
@@ -1553,7 +1555,7 @@ var file_temporal_api_deployment_v1_message_proto_depIdxs = []int32{
 	19, // 32: temporal.api.deployment.v1.RoutingConfig.ramping_version_changed_time:type_name -> google.protobuf.Timestamp
 	19, // 33: temporal.api.deployment.v1.RoutingConfig.ramping_version_percentage_changed_time:type_name -> google.protobuf.Timestamp
 	8,  // 34: temporal.api.deployment.v1.InheritedAutoUpgradeInfo.source_deployment_version:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersion
-	24, // 35: temporal.api.deployment.v1.InheritedAutoUpgradeInfo.initial_versioning_behavior:type_name -> temporal.api.enums.v1.ContinueAsNewVersioningBehavior
+	24, // 35: temporal.api.deployment.v1.InheritedAutoUpgradeInfo.continue_as_new_initial_versioning_behavior:type_name -> temporal.api.enums.v1.ContinueAsNewVersioningBehavior
 	25, // 36: temporal.api.deployment.v1.DeploymentInfo.MetadataEntry.value:type_name -> temporal.api.common.v1.Payload
 	26, // 37: temporal.api.deployment.v1.DeploymentInfo.TaskQueueInfo.type:type_name -> temporal.api.enums.v1.TaskQueueType
 	19, // 38: temporal.api.deployment.v1.DeploymentInfo.TaskQueueInfo.first_poller_time:type_name -> google.protobuf.Timestamp

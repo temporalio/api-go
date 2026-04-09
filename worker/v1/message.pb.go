@@ -831,223 +831,6 @@ func (x *StorageDriverInfo) GetType() string {
 	return ""
 }
 
-// A command sent from the server to a worker.
-type WorkerCommand struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// Types that are valid to be assigned to Type:
-	//
-	//	*WorkerCommand_CancelActivity
-	Type          isWorkerCommand_Type `protobuf_oneof:"type"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *WorkerCommand) Reset() {
-	*x = WorkerCommand{}
-	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[8]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *WorkerCommand) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*WorkerCommand) ProtoMessage() {}
-
-func (x *WorkerCommand) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[8]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use WorkerCommand.ProtoReflect.Descriptor instead.
-func (*WorkerCommand) Descriptor() ([]byte, []int) {
-	return file_temporal_api_worker_v1_message_proto_rawDescGZIP(), []int{8}
-}
-
-func (x *WorkerCommand) GetType() isWorkerCommand_Type {
-	if x != nil {
-		return x.Type
-	}
-	return nil
-}
-
-func (x *WorkerCommand) GetCancelActivity() *CancelActivityCommand {
-	if x != nil {
-		if x, ok := x.Type.(*WorkerCommand_CancelActivity); ok {
-			return x.CancelActivity
-		}
-	}
-	return nil
-}
-
-type isWorkerCommand_Type interface {
-	isWorkerCommand_Type()
-}
-
-type WorkerCommand_CancelActivity struct {
-	CancelActivity *CancelActivityCommand `protobuf:"bytes,1,opt,name=cancel_activity,json=cancelActivity,proto3,oneof"`
-}
-
-func (*WorkerCommand_CancelActivity) isWorkerCommand_Type() {}
-
-// Cancel an activity if it is still running. Otherwise, do nothing.
-type CancelActivityCommand struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	TaskToken     []byte                 `protobuf:"bytes,1,opt,name=task_token,json=taskToken,proto3" json:"task_token,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *CancelActivityCommand) Reset() {
-	*x = CancelActivityCommand{}
-	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[9]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *CancelActivityCommand) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*CancelActivityCommand) ProtoMessage() {}
-
-func (x *CancelActivityCommand) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[9]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use CancelActivityCommand.ProtoReflect.Descriptor instead.
-func (*CancelActivityCommand) Descriptor() ([]byte, []int) {
-	return file_temporal_api_worker_v1_message_proto_rawDescGZIP(), []int{9}
-}
-
-func (x *CancelActivityCommand) GetTaskToken() []byte {
-	if x != nil {
-		return x.TaskToken
-	}
-	return nil
-}
-
-// The result of executing a WorkerCommand.
-type WorkerCommandResult struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// Types that are valid to be assigned to Type:
-	//
-	//	*WorkerCommandResult_CancelActivity
-	Type          isWorkerCommandResult_Type `protobuf_oneof:"type"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *WorkerCommandResult) Reset() {
-	*x = WorkerCommandResult{}
-	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[10]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *WorkerCommandResult) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*WorkerCommandResult) ProtoMessage() {}
-
-func (x *WorkerCommandResult) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[10]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use WorkerCommandResult.ProtoReflect.Descriptor instead.
-func (*WorkerCommandResult) Descriptor() ([]byte, []int) {
-	return file_temporal_api_worker_v1_message_proto_rawDescGZIP(), []int{10}
-}
-
-func (x *WorkerCommandResult) GetType() isWorkerCommandResult_Type {
-	if x != nil {
-		return x.Type
-	}
-	return nil
-}
-
-func (x *WorkerCommandResult) GetCancelActivity() *CancelActivityResult {
-	if x != nil {
-		if x, ok := x.Type.(*WorkerCommandResult_CancelActivity); ok {
-			return x.CancelActivity
-		}
-	}
-	return nil
-}
-
-type isWorkerCommandResult_Type interface {
-	isWorkerCommandResult_Type()
-}
-
-type WorkerCommandResult_CancelActivity struct {
-	CancelActivity *CancelActivityResult `protobuf:"bytes,1,opt,name=cancel_activity,json=cancelActivity,proto3,oneof"`
-}
-
-func (*WorkerCommandResult_CancelActivity) isWorkerCommandResult_Type() {}
-
-// Result of a CancelActivityCommand.
-// Treat both successful cancellation and no-op (activity is no longer running) as success.
-type CancelActivityResult struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *CancelActivityResult) Reset() {
-	*x = CancelActivityResult{}
-	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[11]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *CancelActivityResult) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*CancelActivityResult) ProtoMessage() {}
-
-func (x *CancelActivityResult) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[11]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use CancelActivityResult.ProtoReflect.Descriptor instead.
-func (*CancelActivityResult) Descriptor() ([]byte, []int) {
-	return file_temporal_api_worker_v1_message_proto_rawDescGZIP(), []int{11}
-}
-
 var File_temporal_api_worker_v1_message_proto protoreflect.FileDescriptor
 
 const file_temporal_api_worker_v1_message_proto_rawDesc = "" +
@@ -1128,17 +911,7 @@ const file_temporal_api_worker_v1_message_proto_rawDesc = "" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12\x18\n" +
 	"\aversion\x18\x02 \x01(\tR\aversion\"'\n" +
 	"\x11StorageDriverInfo\x12\x12\n" +
-	"\x04type\x18\x01 \x01(\tR\x04type\"q\n" +
-	"\rWorkerCommand\x12X\n" +
-	"\x0fcancel_activity\x18\x01 \x01(\v2-.temporal.api.worker.v1.CancelActivityCommandH\x00R\x0ecancelActivityB\x06\n" +
-	"\x04type\"6\n" +
-	"\x15CancelActivityCommand\x12\x1d\n" +
-	"\n" +
-	"task_token\x18\x01 \x01(\fR\ttaskToken\"v\n" +
-	"\x13WorkerCommandResult\x12W\n" +
-	"\x0fcancel_activity\x18\x01 \x01(\v2,.temporal.api.worker.v1.CancelActivityResultH\x00R\x0ecancelActivityB\x06\n" +
-	"\x04type\"\x16\n" +
-	"\x14CancelActivityResultB\x89\x01\n" +
+	"\x04type\x18\x01 \x01(\tR\x04typeB\x89\x01\n" +
 	"\x19io.temporal.api.worker.v1B\fMessageProtoP\x01Z#go.temporal.io/api/worker/v1;worker\xaa\x02\x18Temporalio.Api.Worker.V1\xea\x02\x1bTemporalio::Api::Worker::V1b\x06proto3"
 
 var (
@@ -1153,7 +926,7 @@ func file_temporal_api_worker_v1_message_proto_rawDescGZIP() []byte {
 	return file_temporal_api_worker_v1_message_proto_rawDescData
 }
 
-var file_temporal_api_worker_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
+var file_temporal_api_worker_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
 var file_temporal_api_worker_v1_message_proto_goTypes = []any{
 	(*WorkerPollerInfo)(nil),           // 0: temporal.api.worker.v1.WorkerPollerInfo
 	(*WorkerSlotsInfo)(nil),            // 1: temporal.api.worker.v1.WorkerSlotsInfo
@@ -1163,23 +936,19 @@ var file_temporal_api_worker_v1_message_proto_goTypes = []any{
 	(*WorkerListInfo)(nil),             // 5: temporal.api.worker.v1.WorkerListInfo
 	(*PluginInfo)(nil),                 // 6: temporal.api.worker.v1.PluginInfo
 	(*StorageDriverInfo)(nil),          // 7: temporal.api.worker.v1.StorageDriverInfo
-	(*WorkerCommand)(nil),              // 8: temporal.api.worker.v1.WorkerCommand
-	(*CancelActivityCommand)(nil),      // 9: temporal.api.worker.v1.CancelActivityCommand
-	(*WorkerCommandResult)(nil),        // 10: temporal.api.worker.v1.WorkerCommandResult
-	(*CancelActivityResult)(nil),       // 11: temporal.api.worker.v1.CancelActivityResult
-	(*timestamppb.Timestamp)(nil),      // 12: google.protobuf.Timestamp
-	(*v1.WorkerDeploymentVersion)(nil), // 13: temporal.api.deployment.v1.WorkerDeploymentVersion
-	(v11.WorkerStatus)(0),              // 14: temporal.api.enums.v1.WorkerStatus
-	(*durationpb.Duration)(nil),        // 15: google.protobuf.Duration
+	(*timestamppb.Timestamp)(nil),      // 8: google.protobuf.Timestamp
+	(*v1.WorkerDeploymentVersion)(nil), // 9: temporal.api.deployment.v1.WorkerDeploymentVersion
+	(v11.WorkerStatus)(0),              // 10: temporal.api.enums.v1.WorkerStatus
+	(*durationpb.Duration)(nil),        // 11: google.protobuf.Duration
 }
 var file_temporal_api_worker_v1_message_proto_depIdxs = []int32{
-	12, // 0: temporal.api.worker.v1.WorkerPollerInfo.last_successful_poll_time:type_name -> google.protobuf.Timestamp
+	8,  // 0: temporal.api.worker.v1.WorkerPollerInfo.last_successful_poll_time:type_name -> google.protobuf.Timestamp
 	2,  // 1: temporal.api.worker.v1.WorkerHeartbeat.host_info:type_name -> temporal.api.worker.v1.WorkerHostInfo
-	13, // 2: temporal.api.worker.v1.WorkerHeartbeat.deployment_version:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersion
-	14, // 3: temporal.api.worker.v1.WorkerHeartbeat.status:type_name -> temporal.api.enums.v1.WorkerStatus
-	12, // 4: temporal.api.worker.v1.WorkerHeartbeat.start_time:type_name -> google.protobuf.Timestamp
-	12, // 5: temporal.api.worker.v1.WorkerHeartbeat.heartbeat_time:type_name -> google.protobuf.Timestamp
-	15, // 6: temporal.api.worker.v1.WorkerHeartbeat.elapsed_since_last_heartbeat:type_name -> google.protobuf.Duration
+	9,  // 2: temporal.api.worker.v1.WorkerHeartbeat.deployment_version:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersion
+	10, // 3: temporal.api.worker.v1.WorkerHeartbeat.status:type_name -> temporal.api.enums.v1.WorkerStatus
+	8,  // 4: temporal.api.worker.v1.WorkerHeartbeat.start_time:type_name -> google.protobuf.Timestamp
+	8,  // 5: temporal.api.worker.v1.WorkerHeartbeat.heartbeat_time:type_name -> google.protobuf.Timestamp
+	11, // 6: temporal.api.worker.v1.WorkerHeartbeat.elapsed_since_last_heartbeat:type_name -> google.protobuf.Duration
 	1,  // 7: temporal.api.worker.v1.WorkerHeartbeat.workflow_task_slots_info:type_name -> temporal.api.worker.v1.WorkerSlotsInfo
 	1,  // 8: temporal.api.worker.v1.WorkerHeartbeat.activity_task_slots_info:type_name -> temporal.api.worker.v1.WorkerSlotsInfo
 	1,  // 9: temporal.api.worker.v1.WorkerHeartbeat.nexus_task_slots_info:type_name -> temporal.api.worker.v1.WorkerSlotsInfo
@@ -1191,18 +960,16 @@ var file_temporal_api_worker_v1_message_proto_depIdxs = []int32{
 	6,  // 15: temporal.api.worker.v1.WorkerHeartbeat.plugins:type_name -> temporal.api.worker.v1.PluginInfo
 	7,  // 16: temporal.api.worker.v1.WorkerHeartbeat.drivers:type_name -> temporal.api.worker.v1.StorageDriverInfo
 	3,  // 17: temporal.api.worker.v1.WorkerInfo.worker_heartbeat:type_name -> temporal.api.worker.v1.WorkerHeartbeat
-	13, // 18: temporal.api.worker.v1.WorkerListInfo.deployment_version:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersion
-	14, // 19: temporal.api.worker.v1.WorkerListInfo.status:type_name -> temporal.api.enums.v1.WorkerStatus
-	12, // 20: temporal.api.worker.v1.WorkerListInfo.start_time:type_name -> google.protobuf.Timestamp
+	9,  // 18: temporal.api.worker.v1.WorkerListInfo.deployment_version:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersion
+	10, // 19: temporal.api.worker.v1.WorkerListInfo.status:type_name -> temporal.api.enums.v1.WorkerStatus
+	8,  // 20: temporal.api.worker.v1.WorkerListInfo.start_time:type_name -> google.protobuf.Timestamp
 	6,  // 21: temporal.api.worker.v1.WorkerListInfo.plugins:type_name -> temporal.api.worker.v1.PluginInfo
 	7,  // 22: temporal.api.worker.v1.WorkerListInfo.drivers:type_name -> temporal.api.worker.v1.StorageDriverInfo
-	9,  // 23: temporal.api.worker.v1.WorkerCommand.cancel_activity:type_name -> temporal.api.worker.v1.CancelActivityCommand
-	11, // 24: temporal.api.worker.v1.WorkerCommandResult.cancel_activity:type_name -> temporal.api.worker.v1.CancelActivityResult
-	25, // [25:25] is the sub-list for method output_type
-	25, // [25:25] is the sub-list for method input_type
-	25, // [25:25] is the sub-list for extension type_name
-	25, // [25:25] is the sub-list for extension extendee
-	0,  // [0:25] is the sub-list for field type_name
+	23, // [23:23] is the sub-list for method output_type
+	23, // [23:23] is the sub-list for method input_type
+	23, // [23:23] is the sub-list for extension type_name
+	23, // [23:23] is the sub-list for extension extendee
+	0,  // [0:23] is the sub-list for field type_name
 }
 
 func init() { file_temporal_api_worker_v1_message_proto_init() }
@@ -1210,19 +977,13 @@ func file_temporal_api_worker_v1_message_proto_init() {
 	if File_temporal_api_worker_v1_message_proto != nil {
 		return
 	}
-	file_temporal_api_worker_v1_message_proto_msgTypes[8].OneofWrappers = []any{
-		(*WorkerCommand_CancelActivity)(nil),
-	}
-	file_temporal_api_worker_v1_message_proto_msgTypes[10].OneofWrappers = []any{
-		(*WorkerCommandResult_CancelActivity)(nil),
-	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_temporal_api_worker_v1_message_proto_rawDesc), len(file_temporal_api_worker_v1_message_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   12,
+			NumMessages:   8,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
