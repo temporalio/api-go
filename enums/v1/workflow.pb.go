@@ -762,7 +762,6 @@ func (TimeoutType) EnumDescriptor() ([]byte, []int) {
 // Versions. The Versioning Behavior of a workflow execution is typically specified by the worker
 // who completes the first task of the execution, but is also overridable manually for new and
 // existing workflows (see VersioningOverride).
-// Experimental. Worker Deployments are experimental and might significantly change in the future.
 type VersioningBehavior int32
 
 const (
