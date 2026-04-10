@@ -11,6 +11,7 @@ import (
 
 	"go.temporal.io/api/activity/v1"
 	"go.temporal.io/api/batch/v1"
+	"go.temporal.io/api/callback/v1"
 	"go.temporal.io/api/command/v1"
 	"go.temporal.io/api/common/v1"
 	"go.temporal.io/api/compute/v1"
@@ -600,6 +601,39 @@ func visitPayloads(
 
 			ctx.Context = prevCtx
 
+		case []*activity.CallbackInfo:
+			for _, x := range o {
+				if err := visitPayloads(ctx, options, parent, concState, x); err != nil {
+					return err
+				}
+			}
+
+		case *activity.CallbackInfo:
+
+			if o == nil {
+				continue
+			}
+
+			prevCtx := ctx.Context
+			if options.ContextHook != nil {
+				var hookErr error
+				if ctx.Context, hookErr = options.ContextHook(prevCtx, o); hookErr != nil {
+					return hookErr
+				}
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				concState,
+				o.GetInfo(),
+			); err != nil {
+				return err
+			}
+
+			ctx.Context = prevCtx
+
 		case *batch.BatchOperationReset:
 
 			if o == nil {
@@ -673,6 +707,32 @@ func visitPayloads(
 				o,
 				concState,
 				o.GetDetails(),
+			); err != nil {
+				return err
+			}
+
+			ctx.Context = prevCtx
+
+		case *callback.CallbackInfo:
+
+			if o == nil {
+				continue
+			}
+
+			prevCtx := ctx.Context
+			if options.ContextHook != nil {
+				var hookErr error
+				if ctx.Context, hookErr = options.ContextHook(prevCtx, o); hookErr != nil {
+					return hookErr
+				}
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				concState,
+				o.GetLastAttemptFailure(),
 			); err != nil {
 				return err
 			}
@@ -3844,6 +3904,7 @@ func visitPayloads(
 				options,
 				o,
 				concState,
+				o.GetCallbacks(),
 				o.GetInfo(),
 				o.GetInput(),
 				o.GetOutcome(),
@@ -5514,6 +5575,39 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 				return err
 			}
 
+		case []*activity.CallbackInfo:
+			for _, x := range o {
+				if err := visitFailures(ctx, options, x); err != nil {
+					return err
+				}
+			}
+
+		case *activity.CallbackInfo:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetInfo(),
+			); err != nil {
+				return err
+			}
+
+		case *callback.CallbackInfo:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetLastAttemptFailure(),
+			); err != nil {
+				return err
+			}
+
 		case []*command.Command:
 			for _, x := range o {
 				if err := visitFailures(ctx, options, x); err != nil {
@@ -6083,6 +6177,7 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 			if err := visitFailures(
 				ctx,
 				options,
+				o.GetCallbacks(),
 				o.GetInfo(),
 				o.GetOutcome(),
 			); err != nil {
