@@ -42,19 +42,26 @@ update-proto-submodule:
 
 NEXUS_RPC_GEN_SRC ?= $(HOME)/git/github.com/nexus-rpc/nexus-rpc-gen
 NEXUS_SCHEMA_ROOT := $(PROTO_ROOT)/nexus
-NEXUS_OUT := workflowservice/v1/workflowservicenexus
+NEXUS_PROTO_OUT := workflowservice/v1/workflowservicenexus
+NEXUS_JSON_OUT := workflowservice/v1/workflowservicenexus/json
 
 ##### Compile proto files for go #####
 grpc: http-api-docs go-grpc copy-helpers nexus-gen
 
 nexus-gen:
 	printf $(COLOR) "Generate nexus service definitions..."
-	mkdir -p $(NEXUS_OUT)
+	mkdir -p $(NEXUS_PROTO_OUT) $(NEXUS_JSON_OUT)
 	cd $(NEXUS_SCHEMA_ROOT) && nexus-rpc-gen \
 		--lang go \
 		--package workflowservicenexus \
-		--out-file $(CURDIR)/$(NEXUS_OUT)/service_nexus.pb.go \
+		--out-file $(CURDIR)/$(NEXUS_PROTO_OUT)/service_nexus.pb.go \
 		temporal-proto-models-nexusrpc.yaml
+	cd $(NEXUS_SCHEMA_ROOT) && nexus-rpc-gen \
+		--lang go \
+		--package json \
+		--temporal-nexus-payload-codec-support \
+		--out-file $(CURDIR)/$(NEXUS_JSON_OUT)/service_nexus.go \
+		temporal-json-schema-models-nexusrpc.yaml
 
 # Only install helpers when their source has changed
 HELPER_FILES = $(shell find ./cmd/protoc-gen-go-helpers)
@@ -117,16 +124,11 @@ gen-proto-desc:
 		--output-descriptor=$(PROTO_OUT)/descriptor_set.pb
 
 ##### Plugins & tools #####
-grpc-install: nexus-rpc-gen-install
+grpc-install:
 	@printf $(COLOR) "Install/update grpc plugins..."
 	@go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
 	@go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
 	@go install github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-grpc-gateway@latest
-
-nexus-rpc-gen-install:
-	@printf $(COLOR) "Install nexus-rpc-gen from local source..."
-	@cd $(NEXUS_RPC_GEN_SRC)/src && pnpm run build
-	@cd $(NEXUS_RPC_GEN_SRC)/src/packages/nexus-rpc-gen && npm link
 
 mockgen-install:
 	printf $(COLOR) "Install/update mockgen..."
