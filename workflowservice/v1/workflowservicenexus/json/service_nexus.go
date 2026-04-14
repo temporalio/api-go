@@ -634,7 +634,18 @@ func (r *temporalNexusPayloadVisitor) visitPayloadsJSON(value any) (any, error) 
 		return nil, err
 	}
 	payloads.Payloads = visitedPayloads
-	return temporalNexusMessageToJSONValue(payloads)
+	visitedValue, err := temporalNexusMessageToJSONValue(payloads)
+	if err != nil {
+		return nil, err
+	}
+	if visitedArray, ok := visitedValue.([]any); ok {
+		return visitedArray, nil
+	}
+	visitedMap, ok := visitedValue.(map[string]any)
+	if !ok {
+		return nil, errors.New("temporal nexus payload visitor expected array JSON")
+	}
+	return visitedMap["payloads"], nil
 }
 
 func (r *temporalNexusPayloadVisitor) visitHeaderFieldsJSON(value any) (any, error) {
@@ -758,15 +769,18 @@ func (r *temporalNexusPayloadVisitor) visitHeaderJSON(value map[string]any) (map
 }
 
 func (r *temporalNexusPayloadVisitor) visitInputJSON(value map[string]any) (map[string]any, error) {
-	visited, err := r.visitPayloadsJSON(value)
-	if err != nil {
-		return nil, err
+	visited := make(map[string]any, len(value))
+	for key, item := range value {
+		visited[key] = item
 	}
-	visitedMap, ok := visited.(map[string]any)
-	if !ok {
-		return nil, errors.New("temporal nexus payload visitor expected object JSON")
+	if fieldValue, ok := visited["payloads"]; ok && fieldValue != nil {
+		visitedValue, err := r.visitPayloadsJSON(fieldValue)
+		if err != nil {
+			return nil, err
+		}
+		visited["payloads"] = visitedValue
 	}
-	return visitedMap, nil
+	return visited, nil
 }
 
 func (r *temporalNexusPayloadVisitor) visitMemoJSON(value map[string]any) (map[string]any, error) {

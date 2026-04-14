@@ -26,6 +26,7 @@ import (
 	"go.temporal.io/api/update/v1"
 	"go.temporal.io/api/workflow/v1"
 	workflowservice "go.temporal.io/api/workflowservice/v1"
+	workflowservicenexusjson "go.temporal.io/api/workflowservice/v1/workflowservicenexus/json"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/proto"
@@ -39,6 +40,8 @@ type VisitPayloadsContext struct {
 	Parent proto.Message
 	// If true, a single payload is given and a single payload must be returned.
 	SinglePayloadRequired bool
+	// True when the current payloads were extracted from within a system Nexus envelope.
+	InsideSystemNexusEnvelope bool
 }
 
 // VisitPayloadsOptions configure visitor behaviour.
@@ -247,9 +250,12 @@ func visitPayload(
 	parent proto.Message,
 	msg *common.Payload,
 ) (*common.Payload, error) {
-	ctx.SinglePayloadRequired, ctx.Parent = true, parent
-	newPayloads, err := options.Visitor(ctx, []*common.Payload{msg})
-	ctx.SinglePayloadRequired, ctx.Parent = false, nil
+	if visitedPayload, ok, err := visitSystemNexusPayload(ctx, options, parent, msg); ok {
+		return visitedPayload, err
+	}
+	newPayloads, err := withPayloadVisitContext(ctx, parent, true, false, func() ([]*common.Payload, error) {
+		return options.Visitor(ctx, []*common.Payload{msg})
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -259,6 +265,55 @@ func visitPayload(
 	}
 
 	return newPayloads[0], nil
+}
+
+func visitSystemNexusPayload(
+	ctx *VisitPayloadsContext,
+	options *VisitPayloadsOptions,
+	parent proto.Message,
+	msg *common.Payload,
+) (*common.Payload, bool, error) {
+	if ctx.InsideSystemNexusEnvelope || msg == nil {
+		return nil, false, nil
+	}
+	attrs, ok := parent.(*command.ScheduleNexusOperationCommandAttributes)
+	if !ok {
+		return nil, false, nil
+	}
+	payloadVisitor := workflowservicenexusjson.GetTemporalNexusPayloadVisitor(attrs.GetService(), attrs.GetOperation())
+	if payloadVisitor == nil {
+		return nil, false, nil
+	}
+	visitedPayload, err := payloadVisitor(msg, func(payloads []*common.Payload) ([]*common.Payload, error) {
+		return withPayloadVisitContext(ctx, parent, false, true, func() ([]*common.Payload, error) {
+			return options.Visitor(ctx, payloads)
+		})
+	}, !options.SkipSearchAttributes)
+	if err != nil {
+		return nil, true, err
+	}
+	return visitedPayload, true, nil
+}
+
+func withPayloadVisitContext(
+	ctx *VisitPayloadsContext,
+	parent proto.Message,
+	singlePayloadRequired bool,
+	insideSystemNexusEnvelope bool,
+	fn func() ([]*common.Payload, error),
+) ([]*common.Payload, error) {
+	prevSinglePayloadRequired := ctx.SinglePayloadRequired
+	prevParent := ctx.Parent
+	prevInsideSystemNexusEnvelope := ctx.InsideSystemNexusEnvelope
+	ctx.SinglePayloadRequired = singlePayloadRequired
+	ctx.Parent = parent
+	ctx.InsideSystemNexusEnvelope = insideSystemNexusEnvelope
+	defer func() {
+		ctx.SinglePayloadRequired = prevSinglePayloadRequired
+		ctx.Parent = prevParent
+		ctx.InsideSystemNexusEnvelope = prevInsideSystemNexusEnvelope
+	}()
+	return fn()
 }
 
 func visitPayloads(

@@ -2,6 +2,7 @@ package proxy
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"log"
 	"net"
@@ -28,6 +29,7 @@ import (
 	_ "go.temporal.io/api/version/v1"
 	_ "go.temporal.io/api/workflow/v1"
 	"go.temporal.io/api/workflowservice/v1"
+	systemnexus "go.temporal.io/api/workflowservice/v1/workflowservicenexus/json"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/credentials/insecure"
@@ -54,6 +56,25 @@ func inputPayload() *common.Payload {
 		},
 		Data: []byte("test"),
 	}
+}
+
+func jsonPayload(t *testing.T, value any) *common.Payload {
+	t.Helper()
+	data, err := json.Marshal(value)
+	require.NoError(t, err)
+	return &common.Payload{
+		Metadata: map[string][]byte{
+			"encoding": []byte("json/plain"),
+		},
+		Data: data,
+	}
+}
+
+func payloadString(t *testing.T, payload *common.Payload) string {
+	t.Helper()
+	var value string
+	require.NoError(t, json.Unmarshal(payload.GetData(), &value))
+	return value
 }
 
 func TestVisitPayloads(t *testing.T) {
@@ -162,6 +183,96 @@ func TestVisitPayloads_NestedParent(t *testing.T) {
 	require.NoError(t, err)
 	require.IsType(t, &common.Header{}, headerParent)
 	require.IsType(t, &command.StartChildWorkflowExecutionCommandAttributes{}, inputParent)
+}
+
+func TestVisitPayloads_SystemNexusEnvelopeVisitsNestedPayloads(t *testing.T) {
+	req := systemnexus.WorkflowServiceSignalWithStartWorkflowExecutionInput{
+		Namespace:  "default",
+		WorkflowID: "workflow-id",
+		SignalName: "signal-name",
+		Input: &systemnexus.Input{Payloads: []any{
+			"workflow-input",
+		}},
+		SignalInput: &systemnexus.Input{Payloads: []any{
+			"signal-input",
+		}},
+		Memo: &systemnexus.Memo{
+			Fields: map[string]any{
+				"memo-key": "memo-value",
+			},
+		},
+		UserMetadata: &systemnexus.UserMetadata{
+			Summary: "summary-value",
+			Details: "details-value",
+		},
+		SearchAttributes: &systemnexus.SearchAttributes{
+			IndexedFields: map[string]any{
+				"custom-key": "search-value",
+			},
+		},
+	}
+	attrs := &command.ScheduleNexusOperationCommandAttributes{
+		Service:   systemnexus.WorkflowService.ServiceName,
+		Operation: systemnexus.WorkflowService.SignalWithStartWorkflowExecution.Name(),
+		Input:     jsonPayload(t, req),
+	}
+
+	var visited []string
+	err := VisitPayloads(context.Background(), attrs, VisitPayloadsOptions{
+		Visitor: func(ctx *VisitPayloadsContext, p []*common.Payload) ([]*common.Payload, error) {
+			require.True(t, ctx.InsideSystemNexusEnvelope)
+			require.False(t, ctx.SinglePayloadRequired)
+			require.IsType(t, &command.ScheduleNexusOperationCommandAttributes{}, ctx.Parent)
+			for _, payload := range p {
+				visited = append(visited, payloadString(t, payload))
+			}
+			return p, nil
+		},
+	})
+	require.NoError(t, err)
+	require.ElementsMatch(t, []string{
+		"workflow-input",
+		"signal-input",
+		"memo-value",
+		"summary-value",
+		"details-value",
+		"search-value",
+	}, visited)
+}
+
+func TestVisitPayloads_SystemNexusEnvelopeSkipSearchAttributes(t *testing.T) {
+	req := systemnexus.WorkflowServiceSignalWithStartWorkflowExecutionInput{
+		Namespace:  "default",
+		WorkflowID: "workflow-id",
+		SignalName: "signal-name",
+		Input: &systemnexus.Input{Payloads: []any{
+			"workflow-input",
+		}},
+		SearchAttributes: &systemnexus.SearchAttributes{
+			IndexedFields: map[string]any{
+				"custom-key": "search-value",
+			},
+		},
+	}
+	attrs := &command.ScheduleNexusOperationCommandAttributes{
+		Service:   systemnexus.WorkflowService.ServiceName,
+		Operation: systemnexus.WorkflowService.SignalWithStartWorkflowExecution.Name(),
+		Input:     jsonPayload(t, req),
+	}
+
+	var visited []string
+	err := VisitPayloads(context.Background(), attrs, VisitPayloadsOptions{
+		SkipSearchAttributes: true,
+		Visitor: func(ctx *VisitPayloadsContext, p []*common.Payload) ([]*common.Payload, error) {
+			require.True(t, ctx.InsideSystemNexusEnvelope)
+			for _, payload := range p {
+				visited = append(visited, payloadString(t, payload))
+			}
+			return p, nil
+		},
+	})
+	require.NoError(t, err)
+	require.Equal(t, []string{"workflow-input"}, visited)
 }
 
 func TestVisitPayloads_RepeatedPayload(t *testing.T) {
