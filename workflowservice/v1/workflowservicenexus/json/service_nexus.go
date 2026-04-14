@@ -119,8 +119,16 @@ type Input struct {
 // event in
 // workflow B, and vice-versa.
 type Openapiv3 struct {
+	Activity      *Activity      `json:"activity,omitempty"`
 	BatchJob      *BatchJob      `json:"batchJob,omitempty"`
 	WorkflowEvent *WorkflowEvent `json:"workflowEvent,omitempty"`
+}
+
+// A link to an activity.
+type Activity struct {
+	ActivityID string `json:"activityId,omitempty"`
+	Namespace  string `json:"namespace,omitempty"`
+	RunID      string `json:"runId,omitempty"`
 }
 
 // A link to a built-in batch job.
@@ -519,9 +527,10 @@ const (
 type Kind string
 
 const (
-	TaskQueueKindNormal      Kind = "TASK_QUEUE_KIND_NORMAL"
-	TaskQueueKindSticky      Kind = "TASK_QUEUE_KIND_STICKY"
-	TaskQueueKindUnspecified Kind = "TASK_QUEUE_KIND_UNSPECIFIED"
+	TaskQueueKindNormal         Kind = "TASK_QUEUE_KIND_NORMAL"
+	TaskQueueKindSticky         Kind = "TASK_QUEUE_KIND_STICKY"
+	TaskQueueKindUnspecified    Kind = "TASK_QUEUE_KIND_UNSPECIFIED"
+	TaskQueueKindWorkerCommands Kind = "TASK_QUEUE_KIND_WORKER_COMMANDS"
 )
 
 // Required.
