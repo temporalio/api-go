@@ -2621,8 +2621,11 @@ type WorkflowExecutionSignaledEventAttributes struct {
 	SkipGenerateWorkflowTask bool `protobuf:"varint,5,opt,name=skip_generate_workflow_task,json=skipGenerateWorkflowTask,proto3" json:"skip_generate_workflow_task,omitempty"`
 	// When signal origin is a workflow execution, this field is set.
 	ExternalWorkflowExecution *v1.WorkflowExecution `protobuf:"bytes,6,opt,name=external_workflow_execution,json=externalWorkflowExecution,proto3" json:"external_workflow_execution,omitempty"`
-	unknownFields             protoimpl.UnknownFields
-	sizeCache                 protoimpl.SizeCache
+	// The request ID of the Signal request, used by the server to attach this to
+	// the correct Event ID when generating link.
+	RequestId     string `protobuf:"bytes,7,opt,name=request_id,json=requestId,proto3" json:"request_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *WorkflowExecutionSignaledEventAttributes) Reset() {
@@ -2696,6 +2699,13 @@ func (x *WorkflowExecutionSignaledEventAttributes) GetExternalWorkflowExecution(
 		return x.ExternalWorkflowExecution
 	}
 	return nil
+}
+
+func (x *WorkflowExecutionSignaledEventAttributes) GetRequestId() string {
+	if x != nil {
+		return x.RequestId
+	}
+	return ""
 }
 
 type WorkflowExecutionTerminatedEventAttributes struct {
@@ -7117,7 +7127,7 @@ const file_temporal_api_history_v1_message_proto_rawDesc = "" +
 	"\afailure\x18\x05 \x01(\v2 .temporal.api.failure.v1.FailureR\afailure\x1a\\\n" +
 	"\fDetailsEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x126\n" +
-	"\x05value\x18\x02 \x01(\v2 .temporal.api.common.v1.PayloadsR\x05value:\x028\x01\"\x85\x03\n" +
+	"\x05value\x18\x02 \x01(\v2 .temporal.api.common.v1.PayloadsR\x05value:\x028\x01\"\xa4\x03\n" +
 	"(WorkflowExecutionSignaledEventAttributes\x12\x1f\n" +
 	"\vsignal_name\x18\x01 \x01(\tR\n" +
 	"signalName\x126\n" +
@@ -7125,7 +7135,9 @@ const file_temporal_api_history_v1_message_proto_rawDesc = "" +
 	"\bidentity\x18\x03 \x01(\tR\bidentity\x126\n" +
 	"\x06header\x18\x04 \x01(\v2\x1e.temporal.api.common.v1.HeaderR\x06header\x12A\n" +
 	"\x1bskip_generate_workflow_task\x18\x05 \x01(\bB\x02\x18\x01R\x18skipGenerateWorkflowTask\x12i\n" +
-	"\x1bexternal_workflow_execution\x18\x06 \x01(\v2).temporal.api.common.v1.WorkflowExecutionR\x19externalWorkflowExecution\"\x9c\x01\n" +
+	"\x1bexternal_workflow_execution\x18\x06 \x01(\v2).temporal.api.common.v1.WorkflowExecutionR\x19externalWorkflowExecution\x12\x1d\n" +
+	"\n" +
+	"request_id\x18\a \x01(\tR\trequestId\"\x9c\x01\n" +
 	"*WorkflowExecutionTerminatedEventAttributes\x12\x16\n" +
 	"\x06reason\x18\x01 \x01(\tR\x06reason\x12:\n" +
 	"\adetails\x18\x02 \x01(\v2 .temporal.api.common.v1.PayloadsR\adetails\x12\x1a\n" +
