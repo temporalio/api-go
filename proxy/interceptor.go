@@ -4,6 +4,7 @@ package proxy
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"slices"
 
@@ -284,7 +285,11 @@ func visitSystemNexusPayload(
 	if payloadVisitor == nil {
 		return nil, false, nil
 	}
-	visitedPayload, err := payloadVisitor(msg, func(payloads []*common.Payload) ([]*common.Payload, error) {
+	value := payloadVisitor.InputType()
+	if err := json.Unmarshal(msg.GetData(), value); err != nil {
+		return msg, true, nil
+	}
+	visitedValue, err := payloadVisitor.Visit(value, func(payloads []*common.Payload) ([]*common.Payload, error) {
 		return withPayloadVisitContext(ctx, parent, false, true, func() ([]*common.Payload, error) {
 			return options.Visitor(ctx, payloads)
 		})
@@ -292,6 +297,12 @@ func visitSystemNexusPayload(
 	if err != nil {
 		return nil, true, err
 	}
+	visitedData, err := json.Marshal(visitedValue)
+	if err != nil {
+		return nil, true, err
+	}
+	visitedPayload := proto.Clone(msg).(*common.Payload)
+	visitedPayload.Data = visitedData
 	return visitedPayload, true, nil
 }
 

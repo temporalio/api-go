@@ -573,7 +573,12 @@ const (
 
 type TemporalNexusPayloadVisitorFunc func([]*commonv1.Payload) ([]*commonv1.Payload, error)
 
-type TemporalNexusPayloadVisitor func(*commonv1.Payload, TemporalNexusPayloadVisitorFunc, bool) (*commonv1.Payload, error)
+type TemporalNexusPayloadVisitor func(any, TemporalNexusPayloadVisitorFunc, bool) (any, error)
+
+type TemporalNexusPayloadHandler struct {
+	InputType func() any
+	Visit TemporalNexusPayloadVisitor
+}
 
 type TemporalNexusPayloadVisitorKey struct {
 	ServiceName string
@@ -582,7 +587,7 @@ type TemporalNexusPayloadVisitorKey struct {
 
 type temporalNexusPayloadVisitor struct {
 	payloadVisitor TemporalNexusPayloadVisitorFunc
-	visitSearchAttributes bool
+	shouldVisitSearchAttributes bool
 }
 
 var temporalNexusPayloadShorthandMetadata = map[string]interface{}{
@@ -624,7 +629,7 @@ func (r *temporalNexusPayloadVisitor) visitPayloadJSON(value any) (any, error) {
 	return temporalNexusMessageToJSONValue(visitedPayloads[0])
 }
 
-func (r *temporalNexusPayloadVisitor) visitPayloadsJSON(value any) (any, error) {
+func (r *temporalNexusPayloadVisitor) visitPayloadsJSON(value []interface{}) ([]interface{}, error) {
 	payloads := &commonv1.Payloads{}
 	if err := temporalNexusJSONValueToMessage(value, payloads); err != nil {
 		return nil, err
@@ -645,10 +650,14 @@ func (r *temporalNexusPayloadVisitor) visitPayloadsJSON(value any) (any, error) 
 	if !ok {
 		return nil, errors.New("temporal nexus payload visitor expected array JSON")
 	}
-	return visitedMap["payloads"], nil
+	visitedPayloadArray, ok := visitedMap["payloads"].([]interface{})
+	if !ok {
+		return nil, errors.New("temporal nexus payload visitor expected payloads array JSON")
+	}
+	return visitedPayloadArray, nil
 }
 
-func (r *temporalNexusPayloadVisitor) visitHeaderFieldsJSON(value any) (any, error) {
+func (r *temporalNexusPayloadVisitor) visitHeaderFieldsJSON(value map[string]interface{}) (map[string]interface{}, error) {
 	messageValue := map[string]any{"fields": value}
 	message := &commonv1.Header{}
 	if err := temporalNexusJSONValueToMessage(messageValue, message); err != nil {
@@ -679,10 +688,14 @@ func (r *temporalNexusPayloadVisitor) visitHeaderFieldsJSON(value any) (any, err
 	if !ok {
 		return nil, errors.New("temporal nexus payload visitor expected object JSON")
 	}
-	return visitedMap["fields"], nil
+	visitedFieldValue, ok := visitedMap["fields"].(map[string]interface{})
+	if !ok {
+		return nil, errors.New("temporal nexus payload visitor expected object field JSON")
+	}
+	return visitedFieldValue, nil
 }
 
-func (r *temporalNexusPayloadVisitor) visitMemoFieldsJSON(value any) (any, error) {
+func (r *temporalNexusPayloadVisitor) visitMemoFieldsJSON(value map[string]interface{}) (map[string]interface{}, error) {
 	messageValue := map[string]any{"fields": value}
 	message := &commonv1.Memo{}
 	if err := temporalNexusJSONValueToMessage(messageValue, message); err != nil {
@@ -713,11 +726,15 @@ func (r *temporalNexusPayloadVisitor) visitMemoFieldsJSON(value any) (any, error
 	if !ok {
 		return nil, errors.New("temporal nexus payload visitor expected object JSON")
 	}
-	return visitedMap["fields"], nil
+	visitedFieldValue, ok := visitedMap["fields"].(map[string]interface{})
+	if !ok {
+		return nil, errors.New("temporal nexus payload visitor expected object field JSON")
+	}
+	return visitedFieldValue, nil
 }
 
-func (r *temporalNexusPayloadVisitor) visitSearchAttributesFieldsJSON(value any) (any, error) {
-	if !r.visitSearchAttributes {
+func (r *temporalNexusPayloadVisitor) visitSearchAttributesFieldsJSON(value map[string]interface{}) (map[string]interface{}, error) {
+	if !r.shouldVisitSearchAttributes {
 		return value, nil
 	}
 	messageValue := map[string]any{"indexedFields": value}
@@ -750,197 +767,171 @@ func (r *temporalNexusPayloadVisitor) visitSearchAttributesFieldsJSON(value any)
 	if !ok {
 		return nil, errors.New("temporal nexus payload visitor expected object JSON")
 	}
-	return visitedMap["indexedFields"], nil
+	visitedFieldValue, ok := visitedMap["indexedFields"].(map[string]interface{})
+	if !ok {
+		return nil, errors.New("temporal nexus payload visitor expected object field JSON")
+	}
+	return visitedFieldValue, nil
 }
 
-func (r *temporalNexusPayloadVisitor) visitHeaderJSON(value map[string]any) (map[string]any, error) {
-	visited := make(map[string]any, len(value))
-	for key, item := range value {
-		visited[key] = item
+func (r *temporalNexusPayloadVisitor) visitHeader(value *Header) (*Header, error) {
+	if value == nil {
+		return nil, nil
 	}
-	if fieldValue, ok := visited["fields"]; ok && fieldValue != nil {
-		visitedValue, err := r.visitHeaderFieldsJSON(fieldValue)
+	visited := *value
+	if visited.Fields != nil {
+		visitedValue, err := r.visitHeaderFieldsJSON(visited.Fields)
 		if err != nil {
 			return nil, err
 		}
-		visited["fields"] = visitedValue
+		visited.Fields = visitedValue
 	}
-	return visited, nil
+	return &visited, nil
 }
 
-func (r *temporalNexusPayloadVisitor) visitInputJSON(value map[string]any) (map[string]any, error) {
-	visited := make(map[string]any, len(value))
-	for key, item := range value {
-		visited[key] = item
+func (r *temporalNexusPayloadVisitor) visitInput(value *Input) (*Input, error) {
+	if value == nil {
+		return nil, nil
 	}
-	if fieldValue, ok := visited["payloads"]; ok && fieldValue != nil {
-		visitedValue, err := r.visitPayloadsJSON(fieldValue)
+	visited := *value
+	if visited.Payloads != nil {
+		visitedValue, err := r.visitPayloadsJSON(visited.Payloads)
 		if err != nil {
 			return nil, err
 		}
-		visited["payloads"] = visitedValue
+		visited.Payloads = visitedValue
 	}
-	return visited, nil
+	return &visited, nil
 }
 
-func (r *temporalNexusPayloadVisitor) visitMemoJSON(value map[string]any) (map[string]any, error) {
-	visited := make(map[string]any, len(value))
-	for key, item := range value {
-		visited[key] = item
+func (r *temporalNexusPayloadVisitor) visitMemo(value *Memo) (*Memo, error) {
+	if value == nil {
+		return nil, nil
 	}
-	if fieldValue, ok := visited["fields"]; ok && fieldValue != nil {
-		visitedValue, err := r.visitMemoFieldsJSON(fieldValue)
+	visited := *value
+	if visited.Fields != nil {
+		visitedValue, err := r.visitMemoFieldsJSON(visited.Fields)
 		if err != nil {
 			return nil, err
 		}
-		visited["fields"] = visitedValue
+		visited.Fields = visitedValue
 	}
-	return visited, nil
+	return &visited, nil
 }
 
-func (r *temporalNexusPayloadVisitor) visitSearchAttributesJSON(value map[string]any) (map[string]any, error) {
-	if !r.visitSearchAttributes {
+func (r *temporalNexusPayloadVisitor) visitSearchAttributes(value *SearchAttributes) (*SearchAttributes, error) {
+	if !r.shouldVisitSearchAttributes {
 		return value, nil
 	}
-	visited := make(map[string]any, len(value))
-	for key, item := range value {
-		visited[key] = item
+	if value == nil {
+		return nil, nil
 	}
-	if fieldValue, ok := visited["indexedFields"]; ok && fieldValue != nil {
-		visitedValue, err := r.visitSearchAttributesFieldsJSON(fieldValue)
+	visited := *value
+	if visited.IndexedFields != nil {
+		visitedValue, err := r.visitSearchAttributesFieldsJSON(visited.IndexedFields)
 		if err != nil {
 			return nil, err
 		}
-		visited["indexedFields"] = visitedValue
+		visited.IndexedFields = visitedValue
 	}
-	return visited, nil
+	return &visited, nil
 }
 
-func (r *temporalNexusPayloadVisitor) visitUserMetadataJSON(value map[string]any) (map[string]any, error) {
-	visited := make(map[string]any, len(value))
-	for key, item := range value {
-		visited[key] = item
+func (r *temporalNexusPayloadVisitor) visitUserMetadata(value *UserMetadata) (*UserMetadata, error) {
+	if value == nil {
+		return nil, nil
 	}
-	if fieldValue, ok := visited["details"]; ok && fieldValue != nil {
-		visitedValue, err := r.visitPayloadJSON(fieldValue)
+	visited := *value
+	if visited.Details != nil {
+		visitedValue, err := r.visitPayloadJSON(visited.Details)
 		if err != nil {
 			return nil, err
 		}
-		visited["details"] = visitedValue
+		visited.Details = visitedValue
 	}
-	if fieldValue, ok := visited["summary"]; ok && fieldValue != nil {
-		visitedValue, err := r.visitPayloadJSON(fieldValue)
+	if visited.Summary != nil {
+		visitedValue, err := r.visitPayloadJSON(visited.Summary)
 		if err != nil {
 			return nil, err
 		}
-		visited["summary"] = visitedValue
+		visited.Summary = visitedValue
 	}
-	return visited, nil
+	return &visited, nil
 }
 
-func (r *temporalNexusPayloadVisitor) visitWorkflowServiceSignalWithStartWorkflowExecutionInputJSON(value map[string]any) (map[string]any, error) {
-	visited := make(map[string]any, len(value))
-	for key, item := range value {
-		visited[key] = item
+func (r *temporalNexusPayloadVisitor) visitWorkflowServiceSignalWithStartWorkflowExecutionInput(value *WorkflowServiceSignalWithStartWorkflowExecutionInput) (*WorkflowServiceSignalWithStartWorkflowExecutionInput, error) {
+	if value == nil {
+		return nil, nil
 	}
-	if fieldValue, ok := visited["header"]; ok && fieldValue != nil {
-		fieldMap, ok := fieldValue.(map[string]any)
-		if !ok {
-			return nil, errors.New("temporal nexus payload visitor expected object field")
-		}
-		visitedValue, err := r.visitHeaderJSON(fieldMap)
+	visited := *value
+	if visited.Header != nil {
+		visitedValue, err := r.visitHeader(visited.Header)
 		if err != nil {
 			return nil, err
 		}
-		visited["header"] = visitedValue
+		visited.Header = visitedValue
 	}
-	if fieldValue, ok := visited["input"]; ok && fieldValue != nil {
-		fieldMap, ok := fieldValue.(map[string]any)
-		if !ok {
-			return nil, errors.New("temporal nexus payload visitor expected object field")
-		}
-		visitedValue, err := r.visitInputJSON(fieldMap)
+	if visited.Input != nil {
+		visitedValue, err := r.visitInput(visited.Input)
 		if err != nil {
 			return nil, err
 		}
-		visited["input"] = visitedValue
+		visited.Input = visitedValue
 	}
-	if fieldValue, ok := visited["memo"]; ok && fieldValue != nil {
-		fieldMap, ok := fieldValue.(map[string]any)
-		if !ok {
-			return nil, errors.New("temporal nexus payload visitor expected object field")
-		}
-		visitedValue, err := r.visitMemoJSON(fieldMap)
+	if visited.Memo != nil {
+		visitedValue, err := r.visitMemo(visited.Memo)
 		if err != nil {
 			return nil, err
 		}
-		visited["memo"] = visitedValue
+		visited.Memo = visitedValue
 	}
-	if fieldValue, ok := visited["searchAttributes"]; ok && fieldValue != nil {
-		fieldMap, ok := fieldValue.(map[string]any)
-		if !ok {
-			return nil, errors.New("temporal nexus payload visitor expected object field")
-		}
-		visitedValue, err := r.visitSearchAttributesJSON(fieldMap)
+	if visited.SearchAttributes != nil {
+		visitedValue, err := r.visitSearchAttributes(visited.SearchAttributes)
 		if err != nil {
 			return nil, err
 		}
-		visited["searchAttributes"] = visitedValue
+		visited.SearchAttributes = visitedValue
 	}
-	if fieldValue, ok := visited["signalInput"]; ok && fieldValue != nil {
-		fieldMap, ok := fieldValue.(map[string]any)
-		if !ok {
-			return nil, errors.New("temporal nexus payload visitor expected object field")
-		}
-		visitedValue, err := r.visitInputJSON(fieldMap)
+	if visited.SignalInput != nil {
+		visitedValue, err := r.visitInput(visited.SignalInput)
 		if err != nil {
 			return nil, err
 		}
-		visited["signalInput"] = visitedValue
+		visited.SignalInput = visitedValue
 	}
-	if fieldValue, ok := visited["userMetadata"]; ok && fieldValue != nil {
-		fieldMap, ok := fieldValue.(map[string]any)
-		if !ok {
-			return nil, errors.New("temporal nexus payload visitor expected object field")
-		}
-		visitedValue, err := r.visitUserMetadataJSON(fieldMap)
+	if visited.UserMetadata != nil {
+		visitedValue, err := r.visitUserMetadata(visited.UserMetadata)
 		if err != nil {
 			return nil, err
 		}
-		visited["userMetadata"] = visitedValue
+		visited.UserMetadata = visitedValue
 	}
-	return visited, nil
+	return &visited, nil
 }
 
-func visitWorkflowServiceSignalWithStartWorkflowExecutionInputPayload(payload *commonv1.Payload, payloadVisitor TemporalNexusPayloadVisitorFunc, visitSearchAttributes bool) (*commonv1.Payload, error) {
-	var value any
-	if err := json.Unmarshal(payload.GetData(), &value); err != nil {
-		return payload, nil
-	}
-	valueMap, ok := value.(map[string]any)
+func visitWorkflowServiceSignalWithStartWorkflowExecutionInputPayloadValue(value any, payloadVisitor TemporalNexusPayloadVisitorFunc, visitSearchAttributes bool) (any, error) {
+	typedValue, ok := value.(*WorkflowServiceSignalWithStartWorkflowExecutionInput)
 	if !ok {
-		return payload, nil
+		return nil, errors.New("temporal nexus payload visitor expected *WorkflowServiceSignalWithStartWorkflowExecutionInput")
 	}
-	visitor := &temporalNexusPayloadVisitor{payloadVisitor: payloadVisitor, visitSearchAttributes: visitSearchAttributes}
-	visitedValue, err := visitor.visitWorkflowServiceSignalWithStartWorkflowExecutionInputJSON(valueMap)
+	visitor := &temporalNexusPayloadVisitor{payloadVisitor: payloadVisitor, shouldVisitSearchAttributes: visitSearchAttributes}
+	visitedValue, err := visitor.visitWorkflowServiceSignalWithStartWorkflowExecutionInput(typedValue)
 	if err != nil {
 		return nil, err
 	}
-	visitedData, err := json.Marshal(visitedValue)
-	if err != nil {
-		return nil, err
+	return visitedValue, nil
+}
+
+var TemporalNexusPayloadVisitors = map[TemporalNexusPayloadVisitorKey]TemporalNexusPayloadHandler{
+	{ServiceName: "WorkflowService", OperationName: "SignalWithStartWorkflowExecution"}: {InputType: func() any { return &WorkflowServiceSignalWithStartWorkflowExecutionInput{} }, Visit: visitWorkflowServiceSignalWithStartWorkflowExecutionInputPayloadValue},
+}
+
+func GetTemporalNexusPayloadVisitor(serviceName, operationName string) *TemporalNexusPayloadHandler {
+	handler, ok := TemporalNexusPayloadVisitors[TemporalNexusPayloadVisitorKey{ServiceName: serviceName, OperationName: operationName}]
+	if !ok || handler.InputType == nil || handler.Visit == nil {
+		return nil
 	}
-	visitedPayload := proto.Clone(payload).(*commonv1.Payload)
-	visitedPayload.Data = visitedData
-	return visitedPayload, nil
-}
-
-var TemporalNexusPayloadVisitors = map[TemporalNexusPayloadVisitorKey]TemporalNexusPayloadVisitor{
-	{ServiceName: "WorkflowService", OperationName: "SignalWithStartWorkflowExecution"}: visitWorkflowServiceSignalWithStartWorkflowExecutionInputPayload,
-}
-
-func GetTemporalNexusPayloadVisitor(serviceName, operationName string) TemporalNexusPayloadVisitor {
-	return TemporalNexusPayloadVisitors[TemporalNexusPayloadVisitorKey{ServiceName: serviceName, OperationName: operationName}]
+	return &handler
 }
 
 func IsTemporalNexusOperation(serviceName, operationName string) bool {
