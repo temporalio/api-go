@@ -40,21 +40,27 @@ update-proto-submodule:
 	printf $(COLOR) "Update proto-submodule..."
 	git -c protocol.file.allow=always submodule update --init --force --remote $(PROTO_ROOT)
 
-NEXUS_RPC_GEN_SRC ?= $(HOME)/git/github.com/nexus-rpc/nexus-rpc-gen
 NEXUS_SCHEMA_ROOT := $(PROTO_ROOT)/nexus
-NEXUS_OUT := workflowservice/v1/workflowservicenexus
+NEXUS_PROTO_OUT := workflowservice/v1/workflowservicenexus
+NEXUS_JSON_OUT := workflowservice/v1/workflowservicenexus/json
 
 ##### Compile proto files for go #####
 grpc: http-api-docs go-grpc copy-helpers nexus-gen
 
 nexus-gen:
 	printf $(COLOR) "Generate nexus service definitions..."
-	mkdir -p $(NEXUS_OUT)
+	mkdir -p $(NEXUS_PROTO_OUT) $(NEXUS_JSON_OUT)
 	cd $(NEXUS_SCHEMA_ROOT) && nexus-rpc-gen \
 		--lang go \
 		--package workflowservicenexus \
-		--out-file $(CURDIR)/$(NEXUS_OUT)/service_nexus.pb.go \
+		--out-file $(CURDIR)/$(NEXUS_PROTO_OUT)/service_nexus.pb.go \
 		temporal-proto-models-nexusrpc.yaml
+	cd $(NEXUS_SCHEMA_ROOT) && nexus-rpc-gen \
+		--lang go \
+		--package json \
+		--temporal-nexus-payload-codec-support \
+		--out-file $(CURDIR)/$(NEXUS_JSON_OUT)/service_nexus.go \
+		temporal-json-schema-models-nexusrpc.yaml
 
 # Only install helpers when their source has changed
 HELPER_FILES = $(shell find ./cmd/protoc-gen-go-helpers)
@@ -123,10 +129,15 @@ grpc-install: nexus-rpc-gen-install
 	@go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
 	@go install github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-grpc-gateway@latest
 
+NEXUS_RPC_GEN_CACHE := $(HOME)/.cache/nexus-rpc-gen
+
 nexus-rpc-gen-install:
-	@printf $(COLOR) "Install nexus-rpc-gen from local source..."
-	@cd $(NEXUS_RPC_GEN_SRC)/src && pnpm run build
-	@cd $(NEXUS_RPC_GEN_SRC)/src/packages/nexus-rpc-gen && npm link
+	@printf $(COLOR) "Install nexus-rpc-gen from GitHub branch (tconley-go-payload-codec-support)..."
+	@rm -rf $(NEXUS_RPC_GEN_CACHE)
+	@git clone --depth 1 --branch tconley-go-payload-codec-support https://github.com/nexus-rpc/nexus-rpc-gen.git $(NEXUS_RPC_GEN_CACHE)
+	@cd $(NEXUS_RPC_GEN_CACHE)/src && pnpm install && pnpm run build
+	@chmod +x $(NEXUS_RPC_GEN_CACHE)/src/packages/nexus-rpc-gen/dist/index.js
+	@cd $(NEXUS_RPC_GEN_CACHE)/src/packages/nexus-rpc-gen && pnpm link --global
 
 mockgen-install:
 	printf $(COLOR) "Install/update mockgen..."
