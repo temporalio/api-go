@@ -124,13 +124,14 @@ gen-proto-desc:
 
 ##### Plugins & tools #####
 grpc-install: nexus-rpc-gen-install
-	@printf $(COLOR) "Install/update grpc plugins..."
+	@printf $(COLOR) "Install/update grpc and plugins..."
 	@go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
 	@go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
 	@go install github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-grpc-gateway@latest
 
 NEXUS_RPC_GEN_CACHE := $(HOME)/.cache/nexus-rpc-gen
 
+.PHONY: nexus-rpc-gen-install
 nexus-rpc-gen-install:
 	@printf $(COLOR) "Install nexus-rpc-gen from GitHub branch (tconley-go-payload-codec-support)..."
 	@rm -rf $(NEXUS_RPC_GEN_CACHE)
