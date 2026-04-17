@@ -13,437 +13,165 @@ import "google.golang.org/protobuf/proto"
 
 var WorkflowService = struct {
 	ServiceName                      string
-	SignalWithStartWorkflowExecution nexus.OperationReference[WorkflowServiceSignalWithStartWorkflowExecutionInput, WorkflowServiceSignalWithStartWorkflowExecutionOutput]
+	SignalWithStartWorkflowExecution nexus.OperationReference[SignalWithStartWorkflowExecutionRequest, SignalWithStartWorkflowExecutionResponse]
 }{
 	ServiceName:                      "WorkflowService",
-	SignalWithStartWorkflowExecution: nexus.NewOperationReference[WorkflowServiceSignalWithStartWorkflowExecutionInput, WorkflowServiceSignalWithStartWorkflowExecutionOutput]("SignalWithStartWorkflowExecution"),
+	SignalWithStartWorkflowExecution: nexus.NewOperationReference[SignalWithStartWorkflowExecutionRequest, SignalWithStartWorkflowExecutionResponse]("SignalWithStartWorkflowExecution"),
 }
 
-type WorkflowServiceSignalWithStartWorkflowExecutionInput struct {
-	// Deprecated.                                                                                                       
-	Control                                                                                    string                    `json:"control,omitempty"`
-	// See https://docs.temporal.io/docs/content/what-is-a-temporal-cron-job/                                            
-	CronSchedule                                                                               string                    `json:"cronSchedule,omitempty"`
-	Header                                                                                     *Header                   `json:"header,omitempty"`
-	// The identity of the worker/client                                                                                 
-	Identity                                                                                   string                    `json:"identity,omitempty"`
-	// Serialized arguments to the workflow. These are passed as arguments to the workflow                               
-	// function.                                                                                                         
-	Input                                                                                      *Input                    `json:"input,omitempty"`
-	// Links to be associated with the WorkflowExecutionStarted and WorkflowExecutionSignaled                            
-	// events.                                                                                                           
-	Links                                                                                      []Openapiv3               `json:"links,omitempty"`
-	Memo                                                                                       *Memo                     `json:"memo,omitempty"`
-	Namespace                                                                                  string                    `json:"namespace,omitempty"`
-	// Priority metadata                                                                                                 
-	Priority                                                                                   *Priority                 `json:"priority,omitempty"`
-	// Used to de-dupe signal w/ start requests                                                                          
-	RequestID                                                                                  string                    `json:"requestId,omitempty"`
-	// Retry policy for the workflow                                                                                     
-	RetryPolicy                                                                                *RetryPolicy              `json:"retryPolicy,omitempty"`
-	SearchAttributes                                                                           *SearchAttributes         `json:"searchAttributes,omitempty"`
-	// Serialized value(s) to provide with the signal                                                                    
-	SignalInput                                                                                *Input                    `json:"signalInput,omitempty"`
-	// The workflow author-defined name of the signal to send to the workflow                                            
-	SignalName                                                                                 string                    `json:"signalName,omitempty"`
-	// The task queue to start this workflow on, if it will be started                                                   
-	TaskQueue                                                                                  *TaskQueue                `json:"taskQueue,omitempty"`
-	// Time-skipping configuration. If not set, time skipping is disabled.                                               
-	TimeSkippingConfig                                                                         *TimeSkippingConfig       `json:"timeSkippingConfig,omitempty"`
-	// Metadata on the workflow if it is started. This is carried over to the                                            
-	// WorkflowExecutionInfo                                                                                             
-	// for use by user interfaces to display the fixed as-of-start summary and details of the                            
-	// workflow.                                                                                                         
-	UserMetadata                                                                               *UserMetadata             `json:"userMetadata,omitempty"`
-	// If set, takes precedence over the Versioning Behavior sent by the SDK on Workflow Task                            
-	// completion.                                                                                                       
-	// To unset the override after the workflow is running, use UpdateWorkflowExecutionOptions.                          
-	VersioningOverride                                                                         *VersioningOverride       `json:"versioningOverride,omitempty"`
-	// Total workflow execution timeout including retries and continue as new                                            
-	WorkflowExecutionTimeout                                                                   string                    `json:"workflowExecutionTimeout,omitempty"`
-	WorkflowID                                                                                 string                    `json:"workflowId,omitempty"`
-	// Defines how to resolve a workflow id conflict with a *running* workflow.                                          
-	// The default policy is WORKFLOW_ID_CONFLICT_POLICY_USE_EXISTING.                                                   
-	// Note that WORKFLOW_ID_CONFLICT_POLICY_FAIL is an invalid option.                                                  
-	//                                                                                                                   
-	// See `workflow_id_reuse_policy` for handling a workflow id duplication with a *closed*                             
-	// workflow.                                                                                                         
-	WorkflowIDConflictPolicy                                                                   *WorkflowIDConflictPolicy `json:"workflowIdConflictPolicy,omitempty"`
-	// Defines whether to allow re-using the workflow id from a previously *closed* workflow.                            
-	// The default policy is WORKFLOW_ID_REUSE_POLICY_ALLOW_DUPLICATE.                                                   
-	//                                                                                                                   
-	// See `workflow_id_reuse_policy` for handling a workflow id duplication with a *running*                            
-	// workflow.                                                                                                         
-	WorkflowIDReusePolicy                                                                      *WorkflowIDReusePolicy    `json:"workflowIdReusePolicy,omitempty"`
-	// Timeout of a single workflow run                                                                                  
-	WorkflowRunTimeout                                                                         string                    `json:"workflowRunTimeout,omitempty"`
-	// Time to wait before dispatching the first workflow task. Cannot be used with                                      
-	// `cron_schedule`.                                                                                                  
-	// Note that the signal will be delivered with the first workflow task. If the workflow                              
-	// gets                                                                                                              
-	// another SignalWithStartWorkflow before the delay a workflow task will be dispatched                               
-	// immediately                                                                                                       
-	// and the rest of the delay period will be ignored, even if that request also had a delay.                          
-	// Signal via SignalWorkflowExecution will not unblock the workflow.                                                 
-	WorkflowStartDelay                                                                         string                    `json:"workflowStartDelay,omitempty"`
-	// Timeout of a single workflow task                                                                                 
-	WorkflowTaskTimeout                                                                        string                    `json:"workflowTaskTimeout,omitempty"`
-	WorkflowType                                                                               *WorkflowType             `json:"workflowType,omitempty"`
+type SignalWithStartWorkflowExecutionRequest struct {
+	Control                  string                    `json:"control,omitempty"`
+	CronSchedule             string                    `json:"cronSchedule,omitempty"`
+	Header                   *Header                   `json:"header,omitempty"`
+	Identity                 string                    `json:"identity,omitempty"`
+	Input                    *Payloads                 `json:"input,omitempty"`
+	Links                    []Link                    `json:"links,omitempty"`
+	Memo                     *Memo                     `json:"memo,omitempty"`
+	Namespace                string                    `json:"namespace,omitempty"`
+	Priority                 *Priority                 `json:"priority,omitempty"`
+	RequestID                string                    `json:"requestId,omitempty"`
+	RetryPolicy              *RetryPolicy              `json:"retryPolicy,omitempty"`
+	SearchAttributes         *SearchAttributes         `json:"searchAttributes,omitempty"`
+	SignalInput              *Payloads                 `json:"signalInput,omitempty"`
+	SignalName               string                    `json:"signalName,omitempty"`
+	TaskQueue                *TaskQueue                `json:"taskQueue,omitempty"`
+	TimeSkippingConfig       *TimeSkippingConfig       `json:"timeSkippingConfig,omitempty"`
+	UserMetadata             *UserMetadata             `json:"userMetadata,omitempty"`
+	VersioningOverride       *VersioningOverride       `json:"versioningOverride,omitempty"`
+	WorkflowExecutionTimeout string                    `json:"workflowExecutionTimeout,omitempty"`
+	WorkflowID               string                    `json:"workflowId,omitempty"`
+	WorkflowIDConflictPolicy *WorkflowIDConflictPolicy `json:"workflowIdConflictPolicy,omitempty"`
+	WorkflowIDReusePolicy    *WorkflowIDReusePolicy    `json:"workflowIdReusePolicy,omitempty"`
+	WorkflowRunTimeout       string                    `json:"workflowRunTimeout,omitempty"`
+	WorkflowStartDelay       string                    `json:"workflowStartDelay,omitempty"`
+	WorkflowTaskTimeout      string                    `json:"workflowTaskTimeout,omitempty"`
+	WorkflowType             *WorkflowType             `json:"workflowType,omitempty"`
 }
 
-// Contains metadata that can be attached to a variety of requests, like starting a
-// workflow, and
-// can be propagated between, for example, workflows and activities.
 type Header struct {
-	Fields map[string]interface{} `json:"fields,omitempty"`
+	Fields map[string]Payload `json:"fields,omitempty"`
 }
 
-// Serialized arguments to the workflow. These are passed as arguments to the workflow
-// function.
-//
-// See `Payload`
-//
-// Serialized value(s) to provide with the signal
-type Input struct {
-	Payloads []interface{} `json:"payloads,omitempty"`
+type Payload struct {
+	Data             string                          `json:"data,omitempty"`
+	ExternalPayloads []PayloadExternalPayloadDetails `json:"externalPayloads,omitempty"`
+	Metadata         map[string]string               `json:"metadata,omitempty"`
 }
 
-// Link can be associated with history events. It might contain information about an
-// external entity
-// related to the history event. For example, workflow A makes a Nexus call that starts
-// workflow B:
-// in this case, a history event in workflow A could contain a Link to the workflow started
-// event in
-// workflow B, and vice-versa.
-type Openapiv3 struct {
-	BatchJob      *BatchJob      `json:"batchJob,omitempty"`
-	WorkflowEvent *WorkflowEvent `json:"workflowEvent,omitempty"`
+type PayloadExternalPayloadDetails struct {
+	SizeBytes string `json:"sizeBytes,omitempty"`
 }
 
-// A link to a built-in batch job.
-// Batch jobs can be used to perform operations on a set of workflows (e.g. terminate,
-// signal, cancel, etc).
-// This link can be put on workflow history events generated by actions taken by a batch job.
-type BatchJob struct {
+type Payloads struct {
+	Payloads []Payload `json:"payloads,omitempty"`
+}
+
+type Link struct {
+	Activity      *LinkActivity      `json:"activity,omitempty"`
+	BatchJob      *LinkBatchJob      `json:"batchJob,omitempty"`
+	WorkflowEvent *LinkWorkflowEvent `json:"workflowEvent,omitempty"`
+}
+
+type LinkActivity struct {
+	ActivityID string `json:"activityId,omitempty"`
+	Namespace  string `json:"namespace,omitempty"`
+	RunID      string `json:"runId,omitempty"`
+}
+
+type LinkBatchJob struct {
 	JobID string `json:"jobId,omitempty"`
 }
 
-type WorkflowEvent struct {
-	EventRef     *EventRef     `json:"eventRef,omitempty"`
-	Namespace    string        `json:"namespace,omitempty"`
-	RequestIDRef *RequestIDRef `json:"requestIdRef,omitempty"`
-	RunID        string        `json:"runId,omitempty"`
-	WorkflowID   string        `json:"workflowId,omitempty"`
+type LinkWorkflowEvent struct {
+	EventRef     *WorkflowEventEventReference     `json:"eventRef,omitempty"`
+	Namespace    string                           `json:"namespace,omitempty"`
+	RequestIDRef *WorkflowEventRequestIDReference `json:"requestIdRef,omitempty"`
+	RunID        string                           `json:"runId,omitempty"`
+	WorkflowID   string                           `json:"workflowId,omitempty"`
 }
 
-// EventReference is a direct reference to a history event through the event ID.
-type EventRef struct {
+type WorkflowEventEventReference struct {
 	EventID   string     `json:"eventId,omitempty"`
 	EventType *EventType `json:"eventType,omitempty"`
 }
 
-// RequestIdReference is a indirect reference to a history event through the request ID.
-type RequestIDRef struct {
+type WorkflowEventRequestIDReference struct {
 	EventType *EventType `json:"eventType,omitempty"`
 	RequestID string     `json:"requestId,omitempty"`
 }
 
-// A user-defined set of *unindexed* fields that are exposed when listing/searching workflows
 type Memo struct {
-	Fields map[string]interface{} `json:"fields,omitempty"`
+	Fields map[string]Payload `json:"fields,omitempty"`
 }
 
-// Priority metadata
-//
-// Priority contains metadata that controls relative ordering of task processing
-// when tasks are backed up in a queue. Initially, Priority will be used in
-// matching (workflow and activity) task queues. Later it may be used in history
-// task queues and in rate limiting decisions.
-//
-// Priority is attached to workflows and activities. By default, activities
-// inherit Priority from the workflow that created them, but may override fields
-// when an activity is started or modified.
-//
-// Despite being named "Priority", this message also contains fields that
-// control "fairness" mechanisms.
-//
-// For all fields, the field not present or equal to zero/empty string means to
-// inherit the value from the calling workflow, or if there is no calling
-// workflow, then use the default value.
-//
-// For all fields other than fairness_key, the zero value isn't meaningful so
-// there's no confusion between inherit/default and a meaningful value. For
-// fairness_key, the empty string will be interpreted as "inherit". This means
-// that if a workflow has a non-empty fairness key, you can't override the
-// fairness key of its activity to the empty string.
-//
-// The overall semantics of Priority are:
-// 1. First, consider "priority": higher priority (lower number) goes first.
-// 2. Then, consider fairness: try to dispatch tasks for different fairness keys
-// in proportion to their weight.
-//
-// Applications may use any subset of mechanisms that are useful to them and
-// leave the other fields to use default values.
-//
-// Not all queues in the system may support the "full" semantics of all priority
-// fields. (Currently only support in matching task queues is planned.)
 type Priority struct {
-	// Fairness key is a short string that's used as a key for a fairness               
-	// balancing mechanism. It may correspond to a tenant id, or to a fixed             
-	// string like "high" or "low". The default is the empty string.                    
-	//                                                                                  
-	// The fairness mechanism attempts to dispatch tasks for a given key in             
-	// proportion to its weight. For example, using a thousand distinct tenant          
-	// ids, each with a weight of 1.0 (the default) will result in each tenant          
-	// getting a roughly equal share of task dispatch throughput.                       
-	//                                                                                  
-	// (Note: this does not imply equal share of worker capacity! Fairness              
-	// decisions are made based on queue statistics, not                                
-	// current worker load.)                                                            
-	//                                                                                  
-	// As another example, using keys "high" and "low" with weight 9.0 and 1.0          
-	// respectively will prefer dispatching "high" tasks over "low" tasks at a          
-	// 9:1 ratio, while allowing either key to use all worker capacity if the           
-	// other is not present.                                                            
-	//                                                                                  
-	// All fairness mechanisms, including rate limits, are best-effort and              
-	// probabilistic. The results may not match what a "perfect" algorithm with         
-	// infinite resources would produce. The more unique keys are used, the less        
-	// accurate the results will be.                                                    
-	//                                                                                  
-	// Fairness keys are limited to 64 bytes.                                           
-	FairnessKey                                                                 string  `json:"fairnessKey,omitempty"`
-	// Fairness weight for a task can come from multiple sources for                    
-	// flexibility. From highest to lowest precedence:                                  
-	// 1. Weights for a small set of keys can be overridden in task queue               
-	// configuration with an API.                                                       
-	// 2. It can be attached to the workflow/activity in this field.                    
-	// 3. The default weight of 1.0 will be used.                                       
-	//                                                                                  
-	// Weight values are clamped to the range [0.001, 1000].                            
-	FairnessWeight                                                              float64 `json:"fairnessWeight,omitempty"`
-	// Priority key is a positive integer from 1 to n, where smaller integers           
-	// correspond to higher priorities (tasks run sooner). In general, tasks in         
-	// a queue should be processed in close to priority order, although small           
-	// deviations are possible.                                                         
-	//                                                                                  
-	// The maximum priority value (minimum priority) is determined by server            
-	// configuration, and defaults to 5.                                                
-	//                                                                                  
-	// If priority is not present (or zero), then the effective priority will be        
-	// the default priority, which is calculated by (min+max)/2. With the               
-	// default max of 5, and min of 1, that comes out to 3.                             
-	PriorityKey                                                                 int64   `json:"priorityKey,omitempty"`
+	FairnessKey    string  `json:"fairnessKey,omitempty"`
+	FairnessWeight float64 `json:"fairnessWeight,omitempty"`
+	PriorityKey    int64   `json:"priorityKey,omitempty"`
 }
 
-// Retry policy for the workflow
-//
-// How retries ought to be handled, usable by both workflows and activities
 type RetryPolicy struct {
-	// Coefficient used to calculate the next retry interval.                                           
-	// The next retry interval is previous interval multiplied by the coefficient.                      
-	// Must be 1 or larger.                                                                             
-	BackoffCoefficient                                                                         float64  `json:"backoffCoefficient,omitempty"`
-	// Interval of the first retry. If retryBackoffCoefficient is 1.0 then it is used for all           
-	// retries.                                                                                         
-	InitialInterval                                                                            string   `json:"initialInterval,omitempty"`
-	// Maximum number of attempts. When exceeded the retries stop even if not expired yet.              
-	// 1 disables retries. 0 means unlimited (up to the timeouts)                                       
-	MaximumAttempts                                                                            int64    `json:"maximumAttempts,omitempty"`
-	// Maximum interval between retries. Exponential backoff leads to interval increase.                
-	// This value is the cap of the increase. Default is 100x of the initial interval.                  
-	MaximumInterval                                                                            string   `json:"maximumInterval,omitempty"`
-	// Non-Retryable errors types. Will stop retrying if the error type matches this list. Note         
-	// that                                                                                             
-	// this is not a substring match, the error *type* (not message) must match exactly.                
-	NonRetryableErrorTypes                                                                     []string `json:"nonRetryableErrorTypes,omitempty"`
+	BackoffCoefficient     float64  `json:"backoffCoefficient,omitempty"`
+	InitialInterval        string   `json:"initialInterval,omitempty"`
+	MaximumAttempts        int64    `json:"maximumAttempts,omitempty"`
+	MaximumInterval        string   `json:"maximumInterval,omitempty"`
+	NonRetryableErrorTypes []string `json:"nonRetryableErrorTypes,omitempty"`
 }
 
-// A user-defined set of *indexed* fields that are used/exposed when listing/searching
-// workflows.
-// The payload is not serialized in a user-defined way.
 type SearchAttributes struct {
-	IndexedFields map[string]interface{} `json:"indexedFields,omitempty"`
+	IndexedFields map[string]Payload `json:"indexedFields,omitempty"`
 }
 
-// The task queue to start this workflow on, if it will be started
-//
-// See https://docs.temporal.io/docs/concepts/task-queues/
 type TaskQueue struct {
-	// Default: TASK_QUEUE_KIND_NORMAL.                                               
-	Kind                                                                       *Kind  `json:"kind,omitempty"`
-	Name                                                                       string `json:"name,omitempty"`
-	// Iff kind == TASK_QUEUE_KIND_STICKY, then this field contains the name of       
-	// the normal task queue that the sticky worker is running on.                    
-	NormalName                                                                 string `json:"normalName,omitempty"`
+	Kind       *Kind  `json:"kind,omitempty"`
+	Name       string `json:"name,omitempty"`
+	NormalName string `json:"normalName,omitempty"`
 }
 
-// Time-skipping configuration. If not set, time skipping is disabled.
-//
-// Configuration for time skipping during a workflow execution.
-// When enabled, virtual time advances automatically whenever there is no in-flight work.
-// In-flight work includes activities, child workflows, Nexus operations, signal/cancel
-// external workflow operations,
-// and possibly other features added in the future.
-// User timers are not classified as in-flight work and will be skipped over.
-// When time advances, it skips to the earlier of the next user timer or the configured
-// bound, if either exists.
 type TimeSkippingConfig struct {
-	// If set, the enabled field is not propagated to transitively related workflows.               
-	DisablePropagation                                                                   bool       `json:"disablePropagation,omitempty"`
-	// Enables or disables time skipping for this workflow execution.                               
-	// By default, this field is propagated to transitively related workflows (child                
-	// workflows/start-as-new/reset)                                                                
-	// at the time they are started.                                                                
-	// Changes made after a transitively related workflow has started are not propagated.           
-	Enabled                                                                              bool       `json:"enabled,omitempty"`
-	// Maximum elapsed time since time skipping was enabled.                                        
-	// This includes both skipped time and real time elapsing.                                      
-	MaxElapsedDuration                                                                   string     `json:"maxElapsedDuration,omitempty"`
-	// Maximum total virtual time that can be skipped.                                              
-	MaxSkippedDuration                                                                   string     `json:"maxSkippedDuration,omitempty"`
-	// Absolute virtual timestamp at which time skipping is disabled.                               
-	// Time skipping will not advance beyond this point.                                            
-	MaxTargetTime                                                                        *time.Time `json:"maxTargetTime,omitempty"`
+	DisablePropagation bool       `json:"disablePropagation,omitempty"`
+	Enabled            bool       `json:"enabled,omitempty"`
+	MaxElapsedDuration string     `json:"maxElapsedDuration,omitempty"`
+	MaxSkippedDuration string     `json:"maxSkippedDuration,omitempty"`
+	MaxTargetTime      *time.Time `json:"maxTargetTime,omitempty"`
 }
 
-// Metadata on the workflow if it is started. This is carried over to the
-// WorkflowExecutionInfo
-// for use by user interfaces to display the fixed as-of-start summary and details of the
-// workflow.
-//
-// Information a user can set, often for use by user interfaces.
 type UserMetadata struct {
-	// Long-form text that provides details. This payload should be a "json/plain"-encoded                
-	// payload                                                                                            
-	// that is a single JSON string for use in user interfaces. User interface formatting may             
-	// apply to                                                                                           
-	// this text in common use. The payload data section is limited to 20000 bytes by default.            
-	Details                                                                                   interface{} `json:"details"`
-	// Short-form text that provides a summary. This payload should be a "json/plain"-encoded             
-	// payload                                                                                            
-	// that is a single JSON string for use in user interfaces. User interface formatting may             
-	// not                                                                                                
-	// apply to this text when used in "title" situations. The payload data section is limited            
-	// to 400                                                                                             
-	// bytes by default.                                                                                  
-	Summary                                                                                   interface{} `json:"summary"`
+	Details *Payload `json:"details,omitempty"`
+	Summary *Payload `json:"summary,omitempty"`
 }
 
-// If set, takes precedence over the Versioning Behavior sent by the SDK on Workflow Task
-// completion.
-// To unset the override after the workflow is running, use UpdateWorkflowExecutionOptions.
-//
-// Used to override the versioning behavior (and pinned deployment version, if applicable)
-// of a
-// specific workflow execution. If set, this override takes precedence over worker-sent
-// values.
-// See `WorkflowExecutionInfo.VersioningInfo` for more information.
-//
-// To remove the override, call `UpdateWorkflowExecutionOptions` with a null
-// `VersioningOverride`, and use the `update_mask` to indicate that it should be mutated.
-//
-// Pinned behavior overrides are automatically inherited by child workflows, workflow
-// retries, continue-as-new
-// workflows, and cron workflows.
 type VersioningOverride struct {
-	// Override the workflow to have AutoUpgrade behavior.                                                       
-	AutoUpgrade                                                                      bool                        `json:"autoUpgrade,omitempty"`
-	// Required.                                                                                                 
-	// Deprecated. Use `override`.                                                                               
-	Behavior                                                                         *VersioningOverrideBehavior `json:"behavior,omitempty"`
-	// Required if behavior is `PINNED`. Must be null if behavior is `AUTO_UPGRADE`.                             
-	// Identifies the worker deployment to pin the workflow to.                                                  
-	// Deprecated. Use `override.pinned.version`.                                                                
-	Deployment                                                                       *Deployment                 `json:"deployment,omitempty"`
-	// Override the workflow to have Pinned behavior.                                                            
-	Pinned                                                                           *Pinned                     `json:"pinned,omitempty"`
-	// Required if behavior is `PINNED`. Must be absent if behavior is not `PINNED`.                             
-	// Identifies the worker deployment version to pin the workflow to, in the format                            
-	// "<deployment_name>.<build_id>".                                                                           
-	// Deprecated. Use `override.pinned.version`.                                                                
-	PinnedVersion                                                                    string                      `json:"pinnedVersion,omitempty"`
+	AutoUpgrade   bool                              `json:"autoUpgrade,omitempty"`
+	Behavior      *VersioningOverrideBehavior       `json:"behavior,omitempty"`
+	Deployment    *Deployment                       `json:"deployment,omitempty"`
+	Pinned        *VersioningOverridePinnedOverride `json:"pinned,omitempty"`
+	PinnedVersion string                            `json:"pinnedVersion,omitempty"`
 }
 
-// Required if behavior is `PINNED`. Must be null if behavior is `AUTO_UPGRADE`.
-// Identifies the worker deployment to pin the workflow to.
-// Deprecated. Use `override.pinned.version`.
-//
-// `Deployment` identifies a deployment of Temporal workers. The combination of deployment
-// series
-// name + build ID serves as the identifier. User can use `WorkerDeploymentOptions` in their
-// worker
-// programs to specify these values.
-// Deprecated.
 type Deployment struct {
-	// Build ID changes with each version of the worker when the worker program code and/or           
-	// config                                                                                         
-	// changes.                                                                                       
-	BuildID                                                                                    string `json:"buildId,omitempty"`
-	// Different versions of the same worker service/application are related together by having       
-	// a                                                                                              
-	// shared series name.                                                                            
-	// Out of all deployments of a series, one can be designated as the current deployment,           
-	// which                                                                                          
-	// receives new workflow executions and new tasks of workflows with                               
-	// `VERSIONING_BEHAVIOR_AUTO_UPGRADE` versioning behavior.                                        
-	SeriesName                                                                                 string `json:"seriesName,omitempty"`
+	BuildID    string `json:"buildId,omitempty"`
+	SeriesName string `json:"seriesName,omitempty"`
 }
 
-// Override the workflow to have Pinned behavior.
-type Pinned struct {
-	// Defaults to PINNED_OVERRIDE_BEHAVIOR_UNSPECIFIED.                                     
-	// See `PinnedOverrideBehavior` for details.                                             
-	Behavior                                                                 *PinnedBehavior `json:"behavior,omitempty"`
-	// Specifies the Worker Deployment Version to pin this workflow to.                      
-	// Required if the target workflow is not already pinned to a version.                   
-	//                                                                                       
-	// If omitted and the target workflow is already pinned, the effective                   
-	// pinned version will be the existing pinned version.                                   
-	//                                                                                       
-	// If omitted and the target workflow is not pinned, the override request                
-	// will be rejected with a PreconditionFailed error.                                     
-	Version                                                                  *Version        `json:"version,omitempty"`
+type VersioningOverridePinnedOverride struct {
+	Behavior *VersioningOverridePinnedOverrideBehavior `json:"behavior,omitempty"`
+	Version  *WorkerDeploymentVersion                  `json:"version,omitempty"`
 }
 
-// Specifies the Worker Deployment Version to pin this workflow to.
-// Required if the target workflow is not already pinned to a version.
-//
-// If omitted and the target workflow is already pinned, the effective
-// pinned version will be the existing pinned version.
-//
-// If omitted and the target workflow is not pinned, the override request
-// will be rejected with a PreconditionFailed error.
-//
-// A Worker Deployment Version (Version, for short) represents a
-// version of workers within a Worker Deployment. (see documentation of
-// WorkerDeploymentVersionInfo)
-// Version records are created in Temporal server automatically when their
-// first poller arrives to the server.
-// Experimental. Worker Deployment Versions are experimental and might significantly change
-// in the future.
-type Version struct {
-	// A unique identifier for this Version within the Deployment it is a part of.                 
-	// Not necessarily unique within the namespace.                                                
-	// The combination of `deployment_name` and `build_id` uniquely identifies this                
-	// Version within the namespace, because Deployment names are unique within a namespace.       
-	BuildID                                                                                 string `json:"buildId,omitempty"`
-	// Identifies the Worker Deployment this Version is part of.                                   
-	DeploymentName                                                                          string `json:"deploymentName,omitempty"`
+type WorkerDeploymentVersion struct {
+	BuildID        string `json:"buildId,omitempty"`
+	DeploymentName string `json:"deploymentName,omitempty"`
 }
 
-// Represents the identifier used by a workflow author to define the workflow. Typically,
-// the
-// name of a function. This is sometimes referred to as the workflow's "name"
 type WorkflowType struct {
 	Name string `json:"name,omitempty"`
 }
 
-type WorkflowServiceSignalWithStartWorkflowExecutionOutput struct {
-	// The run id of the workflow that was started - or just signaled, if it was already running.       
-	RunID                                                                                        string `json:"runId,omitempty"`
-	// If true, a new workflow was started.                                                             
-	Started                                                                                      bool   `json:"started,omitempty"`
+type SignalWithStartWorkflowExecutionResponse struct {
+	RunID      string `json:"runId,omitempty"`
+	SignalLink *Link  `json:"signalLink,omitempty"`
+	Started    bool   `json:"started,omitempty"`
 }
 
 type EventType string
@@ -512,17 +240,15 @@ const (
 	EventTypeWorkflowTaskTimedOut                            EventType = "EVENT_TYPE_WORKFLOW_TASK_TIMED_OUT"
 )
 
-// Default: TASK_QUEUE_KIND_NORMAL.
 type Kind string
 
 const (
-	TaskQueueKindNormal      Kind = "TASK_QUEUE_KIND_NORMAL"
-	TaskQueueKindSticky      Kind = "TASK_QUEUE_KIND_STICKY"
-	TaskQueueKindUnspecified Kind = "TASK_QUEUE_KIND_UNSPECIFIED"
+	TaskQueueKindNormal         Kind = "TASK_QUEUE_KIND_NORMAL"
+	TaskQueueKindSticky         Kind = "TASK_QUEUE_KIND_STICKY"
+	TaskQueueKindUnspecified    Kind = "TASK_QUEUE_KIND_UNSPECIFIED"
+	TaskQueueKindWorkerCommands Kind = "TASK_QUEUE_KIND_WORKER_COMMANDS"
 )
 
-// Required.
-// Deprecated. Use `override`.
 type VersioningOverrideBehavior string
 
 const (
@@ -531,21 +257,13 @@ const (
 	VersioningBehaviorUnspecified VersioningOverrideBehavior = "VERSIONING_BEHAVIOR_UNSPECIFIED"
 )
 
-// Defaults to PINNED_OVERRIDE_BEHAVIOR_UNSPECIFIED.
-// See `PinnedOverrideBehavior` for details.
-type PinnedBehavior string
+type VersioningOverridePinnedOverrideBehavior string
 
 const (
-	PinnedOverrideBehaviorPinned      PinnedBehavior = "PINNED_OVERRIDE_BEHAVIOR_PINNED"
-	PinnedOverrideBehaviorUnspecified PinnedBehavior = "PINNED_OVERRIDE_BEHAVIOR_UNSPECIFIED"
+	PinnedOverrideBehaviorPinned      VersioningOverridePinnedOverrideBehavior = "PINNED_OVERRIDE_BEHAVIOR_PINNED"
+	PinnedOverrideBehaviorUnspecified VersioningOverridePinnedOverrideBehavior = "PINNED_OVERRIDE_BEHAVIOR_UNSPECIFIED"
 )
 
-// Defines how to resolve a workflow id conflict with a *running* workflow.
-// The default policy is WORKFLOW_ID_CONFLICT_POLICY_USE_EXISTING.
-// Note that WORKFLOW_ID_CONFLICT_POLICY_FAIL is an invalid option.
-//
-// See `workflow_id_reuse_policy` for handling a workflow id duplication with a *closed*
-// workflow.
 type WorkflowIDConflictPolicy string
 
 const (
@@ -555,11 +273,6 @@ const (
 	WorkflowIDConflictPolicyUseExisting       WorkflowIDConflictPolicy = "WORKFLOW_ID_CONFLICT_POLICY_USE_EXISTING"
 )
 
-// Defines whether to allow re-using the workflow id from a previously *closed* workflow.
-// The default policy is WORKFLOW_ID_REUSE_POLICY_ALLOW_DUPLICATE.
-//
-// See `workflow_id_reuse_policy` for handling a workflow id duplication with a *running*
-// workflow.
 type WorkflowIDReusePolicy string
 
 const (
@@ -774,32 +487,75 @@ func (r *temporalNexusPayloadVisitor) visitSearchAttributesFieldsJSON(value map[
 	return visitedFieldValue, nil
 }
 
+func (r *temporalNexusPayloadVisitor) visitPayload(value *Payload) (*Payload, error) {
+	if value == nil {
+		return nil, nil
+	}
+	visitedJSON, err := r.visitPayloadJSON(value)
+	if err != nil {
+		return nil, err
+	}
+	visitedData, err := json.Marshal(visitedJSON)
+	if err != nil {
+		return nil, err
+	}
+	visitedValue := &Payload{}
+	if err := json.Unmarshal(visitedData, visitedValue); err != nil {
+		return nil, err
+	}
+	return visitedValue, nil
+}
+
 func (r *temporalNexusPayloadVisitor) visitHeader(value *Header) (*Header, error) {
 	if value == nil {
 		return nil, nil
 	}
 	visited := *value
 	if visited.Fields != nil {
-		visitedValue, err := r.visitHeaderFieldsJSON(visited.Fields)
-		if err != nil {
-			return nil, err
+		for key, value := range visited.Fields {
+			currentValue := value
+			visitedValue, err := r.visitPayload(&currentValue)
+			if err != nil {
+				return nil, err
+			}
+			if visitedValue != nil {
+				visited.Fields[key] = *visitedValue
+			}
 		}
-		visited.Fields = visitedValue
 	}
 	return &visited, nil
 }
 
-func (r *temporalNexusPayloadVisitor) visitInput(value *Input) (*Input, error) {
+func (r *temporalNexusPayloadVisitor) visitPayloads(value *Payloads) (*Payloads, error) {
 	if value == nil {
 		return nil, nil
 	}
 	visited := *value
-	if visited.Payloads != nil {
-		visitedValue, err := r.visitPayloadsJSON(visited.Payloads)
+	payloads := make([]*commonv1.Payload, len(value.Payloads))
+	for i, messageValue := range value.Payloads {
+		payload := &commonv1.Payload{}
+		if err := temporalNexusJSONValueToMessage(messageValue, payload); err != nil {
+			return nil, err
+		}
+		payloads[i] = payload
+	}
+	visitedPayloads, err := r.payloadVisitor(payloads)
+	if err != nil {
+		return nil, err
+	}
+	visited.Payloads = make([]Payload, len(visitedPayloads))
+	for i, payload := range visitedPayloads {
+		visitedJSON, err := temporalNexusMessageToJSONValue(payload)
 		if err != nil {
 			return nil, err
 		}
-		visited.Payloads = visitedValue
+		visitedData, err := json.Marshal(visitedJSON)
+		if err != nil {
+			return nil, err
+		}
+		if err := json.Unmarshal(visitedData, &visited.Payloads[i]); err != nil {
+			return nil, err
+		}
 	}
 	return &visited, nil
 }
@@ -810,11 +566,16 @@ func (r *temporalNexusPayloadVisitor) visitMemo(value *Memo) (*Memo, error) {
 	}
 	visited := *value
 	if visited.Fields != nil {
-		visitedValue, err := r.visitMemoFieldsJSON(visited.Fields)
-		if err != nil {
-			return nil, err
+		for key, value := range visited.Fields {
+			currentValue := value
+			visitedValue, err := r.visitPayload(&currentValue)
+			if err != nil {
+				return nil, err
+			}
+			if visitedValue != nil {
+				visited.Fields[key] = *visitedValue
+			}
 		}
-		visited.Fields = visitedValue
 	}
 	return &visited, nil
 }
@@ -828,11 +589,16 @@ func (r *temporalNexusPayloadVisitor) visitSearchAttributes(value *SearchAttribu
 	}
 	visited := *value
 	if visited.IndexedFields != nil {
-		visitedValue, err := r.visitSearchAttributesFieldsJSON(visited.IndexedFields)
-		if err != nil {
-			return nil, err
+		for key, value := range visited.IndexedFields {
+			currentValue := value
+			visitedValue, err := r.visitPayload(&currentValue)
+			if err != nil {
+				return nil, err
+			}
+			if visitedValue != nil {
+				visited.IndexedFields[key] = *visitedValue
+			}
 		}
-		visited.IndexedFields = visitedValue
 	}
 	return &visited, nil
 }
@@ -843,14 +609,14 @@ func (r *temporalNexusPayloadVisitor) visitUserMetadata(value *UserMetadata) (*U
 	}
 	visited := *value
 	if visited.Details != nil {
-		visitedValue, err := r.visitPayloadJSON(visited.Details)
+		visitedValue, err := r.visitPayload(visited.Details)
 		if err != nil {
 			return nil, err
 		}
 		visited.Details = visitedValue
 	}
 	if visited.Summary != nil {
-		visitedValue, err := r.visitPayloadJSON(visited.Summary)
+		visitedValue, err := r.visitPayload(visited.Summary)
 		if err != nil {
 			return nil, err
 		}
@@ -859,7 +625,7 @@ func (r *temporalNexusPayloadVisitor) visitUserMetadata(value *UserMetadata) (*U
 	return &visited, nil
 }
 
-func (r *temporalNexusPayloadVisitor) visitWorkflowServiceSignalWithStartWorkflowExecutionInput(value *WorkflowServiceSignalWithStartWorkflowExecutionInput) (*WorkflowServiceSignalWithStartWorkflowExecutionInput, error) {
+func (r *temporalNexusPayloadVisitor) visitSignalWithStartWorkflowExecutionRequest(value *SignalWithStartWorkflowExecutionRequest) (*SignalWithStartWorkflowExecutionRequest, error) {
 	if value == nil {
 		return nil, nil
 	}
@@ -872,7 +638,7 @@ func (r *temporalNexusPayloadVisitor) visitWorkflowServiceSignalWithStartWorkflo
 		visited.Header = visitedValue
 	}
 	if visited.Input != nil {
-		visitedValue, err := r.visitInput(visited.Input)
+		visitedValue, err := r.visitPayloads(visited.Input)
 		if err != nil {
 			return nil, err
 		}
@@ -893,7 +659,7 @@ func (r *temporalNexusPayloadVisitor) visitWorkflowServiceSignalWithStartWorkflo
 		visited.SearchAttributes = visitedValue
 	}
 	if visited.SignalInput != nil {
-		visitedValue, err := r.visitInput(visited.SignalInput)
+		visitedValue, err := r.visitPayloads(visited.SignalInput)
 		if err != nil {
 			return nil, err
 		}
@@ -909,13 +675,13 @@ func (r *temporalNexusPayloadVisitor) visitWorkflowServiceSignalWithStartWorkflo
 	return &visited, nil
 }
 
-func visitWorkflowServiceSignalWithStartWorkflowExecutionInputPayloadValue(value any, payloadVisitor TemporalNexusPayloadVisitorFunc, visitSearchAttributes bool) (any, error) {
-	typedValue, ok := value.(*WorkflowServiceSignalWithStartWorkflowExecutionInput)
+func visitSignalWithStartWorkflowExecutionRequestPayloadValue(value any, payloadVisitor TemporalNexusPayloadVisitorFunc, visitSearchAttributes bool) (any, error) {
+	typedValue, ok := value.(*SignalWithStartWorkflowExecutionRequest)
 	if !ok {
-		return nil, errors.New("temporal nexus payload visitor expected *WorkflowServiceSignalWithStartWorkflowExecutionInput")
+		return nil, errors.New("temporal nexus payload visitor expected *SignalWithStartWorkflowExecutionRequest")
 	}
 	visitor := &temporalNexusPayloadVisitor{payloadVisitor: payloadVisitor, shouldVisitSearchAttributes: visitSearchAttributes}
-	visitedValue, err := visitor.visitWorkflowServiceSignalWithStartWorkflowExecutionInput(typedValue)
+	visitedValue, err := visitor.visitSignalWithStartWorkflowExecutionRequest(typedValue)
 	if err != nil {
 		return nil, err
 	}
@@ -923,7 +689,7 @@ func visitWorkflowServiceSignalWithStartWorkflowExecutionInputPayloadValue(value
 }
 
 var TemporalNexusPayloadVisitors = map[TemporalNexusPayloadVisitorKey]TemporalNexusPayloadHandler{
-	{ServiceName: "WorkflowService", OperationName: "SignalWithStartWorkflowExecution"}: {InputType: func() any { return &WorkflowServiceSignalWithStartWorkflowExecutionInput{} }, Visit: visitWorkflowServiceSignalWithStartWorkflowExecutionInputPayloadValue},
+	{ServiceName: "WorkflowService", OperationName: "SignalWithStartWorkflowExecution"}: {InputType: func() any { return &SignalWithStartWorkflowExecutionRequest{} }, Visit: visitSignalWithStartWorkflowExecutionRequestPayloadValue},
 }
 
 func GetTemporalNexusPayloadVisitor(serviceName, operationName string) *TemporalNexusPayloadHandler {
