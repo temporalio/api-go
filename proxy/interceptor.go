@@ -4111,6 +4111,7 @@ func visitPayloads(
 				options,
 				o,
 				concState,
+				o.GetCompletion(),
 				o.GetInfo(),
 				o.GetOutcome(),
 			); err != nil {
@@ -6515,6 +6516,7 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 			if err := visitFailures(
 				ctx,
 				options,
+				o.GetCompletion(),
 				o.GetInfo(),
 				o.GetOutcome(),
 			); err != nil {
