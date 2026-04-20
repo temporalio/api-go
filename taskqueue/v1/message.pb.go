@@ -138,7 +138,6 @@ func (x *TaskQueueMetadata) GetMaxTasksPerSecond() *wrapperspb.DoubleValue {
 	return nil
 }
 
-// Experimental. Worker Deployments are experimental and might significantly change in the future.
 type TaskQueueVersioningInfo struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Specifies which Deployment Version should receive new workflow executions and tasks of

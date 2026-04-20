@@ -103,7 +103,6 @@ func (DeploymentReachability) EnumDescriptor() ([]byte, []int) {
 //
 // Specify the drainage status for a Worker Deployment Version so users can decide whether they
 // can safely decommission the version.
-// Experimental. Worker Deployments are experimental and might significantly change in the future.
 type VersionDrainageStatus int32
 
 const (
@@ -175,8 +174,6 @@ func (VersionDrainageStatus) EnumDescriptor() ([]byte, []int) {
 //   - Whether or not Temporal Server considers this worker's version (Build ID) when dispatching
 //     tasks to it.
 //   - Whether or not the workflows processed by this worker are versioned using the worker's version.
-//
-// Experimental. Worker Deployments are experimental and might significantly change in the future.
 type WorkerVersioningMode int32
 
 const (
@@ -258,7 +255,6 @@ func (WorkerVersioningMode) EnumDescriptor() ([]byte, []int) {
 //	aip.dev/not-precedent: Call this status because it is . --)
 //
 // Specify the status of a Worker Deployment Version.
-// Experimental. Worker Deployments are experimental and might significantly change in the future.
 type WorkerDeploymentVersionStatus int32
 
 const (

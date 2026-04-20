@@ -6,6 +6,8 @@ import (
 	"log"
 	"net"
 	"strings"
+	"sync"
+	"sync/atomic"
 	"testing"
 	"time"
 
@@ -1003,5 +1005,637 @@ func TestVisitPayloads_Everything(t *testing.T) {
 
 		require.Equal(0, count)
 
+	}
+}
+
+// contextHookKey is an unexported key for values injected by ContextHook tests.
+type contextHookKey struct{}
+
+func TestContextHook_NilHookIsNoop(t *testing.T) {
+	root := &workflowservice.StartWorkflowExecutionRequest{
+		Input: inputPayloads(),
+	}
+	var called bool
+	err := VisitPayloads(context.Background(), root, VisitPayloadsOptions{
+		// ContextHook deliberately not set
+		Visitor: func(ctx *VisitPayloadsContext, p []*common.Payload) ([]*common.Payload, error) {
+			called = true
+			return p, nil
+		},
+	})
+	require.NoError(t, err)
+	require.True(t, called)
+}
+
+func TestContextHook_ContextPropagatedToVisitor(t *testing.T) {
+	root := &workflowservice.RespondWorkflowTaskCompletedRequest{
+		Commands: []*command.Command{
+			{
+				Attributes: &command.Command_ScheduleActivityTaskCommandAttributes{
+					ScheduleActivityTaskCommandAttributes: &command.ScheduleActivityTaskCommandAttributes{
+						Input: inputPayloads(),
+					},
+				},
+			},
+		},
+	}
+
+	var capturedValue interface{}
+	err := VisitPayloads(context.Background(), root, VisitPayloadsOptions{
+		ContextHook: func(ctx context.Context, msg proto.Message) (context.Context, error) {
+			if _, ok := msg.(*command.ScheduleActivityTaskCommandAttributes); ok {
+				return context.WithValue(ctx, contextHookKey{}, "schedule-activity"), nil
+			}
+			return ctx, nil
+		},
+		Visitor: func(ctx *VisitPayloadsContext, p []*common.Payload) ([]*common.Payload, error) {
+			capturedValue = ctx.Value(contextHookKey{})
+			return p, nil
+		},
+	})
+	require.NoError(t, err)
+	require.Equal(t, "schedule-activity", capturedValue)
+}
+
+func TestContextHook_ContextRestoredAfterSiblingMessage(t *testing.T) {
+	// Two commands side-by-side: context set for first must not leak into second.
+	root := &workflowservice.RespondWorkflowTaskCompletedRequest{
+		Commands: []*command.Command{
+			{
+				Attributes: &command.Command_ScheduleActivityTaskCommandAttributes{
+					ScheduleActivityTaskCommandAttributes: &command.ScheduleActivityTaskCommandAttributes{
+						Input: inputPayloads(),
+					},
+				},
+			},
+			{
+				Attributes: &command.Command_CompleteWorkflowExecutionCommandAttributes{
+					CompleteWorkflowExecutionCommandAttributes: &command.CompleteWorkflowExecutionCommandAttributes{
+						Result: inputPayloads(),
+					},
+				},
+			},
+		},
+	}
+
+	var seenValues []interface{}
+	err := VisitPayloads(context.Background(), root, VisitPayloadsOptions{
+		ContextHook: func(ctx context.Context, msg proto.Message) (context.Context, error) {
+			if _, ok := msg.(*command.ScheduleActivityTaskCommandAttributes); ok {
+				return context.WithValue(ctx, contextHookKey{}, "schedule-activity"), nil
+			}
+			return ctx, nil
+		},
+		Visitor: func(ctx *VisitPayloadsContext, p []*common.Payload) ([]*common.Payload, error) {
+			seenValues = append(seenValues, ctx.Value(contextHookKey{}))
+			return p, nil
+		},
+	})
+	require.NoError(t, err)
+	require.Len(t, seenValues, 2)
+	require.Equal(t, "schedule-activity", seenValues[0], "first payload should be inside ScheduleActivity context")
+	require.Nil(t, seenValues[1], "second payload should not see stale context from first command")
+}
+
+func TestContextHook_ContextRestoredOnVisitorError(t *testing.T) {
+	root := &workflowservice.RespondWorkflowTaskCompletedRequest{
+		Commands: []*command.Command{
+			{
+				Attributes: &command.Command_ScheduleActivityTaskCommandAttributes{
+					ScheduleActivityTaskCommandAttributes: &command.ScheduleActivityTaskCommandAttributes{
+						Input: inputPayloads(),
+					},
+				},
+			},
+		},
+	}
+
+	var ctxSeenByVisitor context.Context
+	err := VisitPayloads(context.Background(), root, VisitPayloadsOptions{
+		ContextHook: func(ctx context.Context, msg proto.Message) (context.Context, error) {
+			if _, ok := msg.(*command.ScheduleActivityTaskCommandAttributes); ok {
+				return context.WithValue(ctx, contextHookKey{}, "hook-set"), nil
+			}
+			return ctx, nil
+		},
+		Visitor: func(ctx *VisitPayloadsContext, p []*common.Payload) ([]*common.Payload, error) {
+			ctxSeenByVisitor = ctx.Context
+			return nil, fmt.Errorf("visitor error")
+		},
+	})
+	require.Error(t, err)
+	require.Equal(t, "hook-set", ctxSeenByVisitor.Value(contextHookKey{}), "visitor should have seen context set by hook")
+}
+
+func TestContextHook_ErrorPropagates(t *testing.T) {
+	root := &workflowservice.RespondWorkflowTaskCompletedRequest{
+		Commands: []*command.Command{
+			{
+				Attributes: &command.Command_ScheduleActivityTaskCommandAttributes{
+					ScheduleActivityTaskCommandAttributes: &command.ScheduleActivityTaskCommandAttributes{
+						Input: inputPayloads(),
+					},
+				},
+			},
+		},
+	}
+
+	hookErr := fmt.Errorf("hook error")
+	err := VisitPayloads(context.Background(), root, VisitPayloadsOptions{
+		ContextHook: func(ctx context.Context, msg proto.Message) (context.Context, error) {
+			if _, ok := msg.(*command.ScheduleActivityTaskCommandAttributes); ok {
+				return ctx, hookErr
+			}
+			return ctx, nil
+		},
+		Visitor: func(ctx *VisitPayloadsContext, p []*common.Payload) ([]*common.Payload, error) {
+			return p, nil
+		},
+	})
+	require.ErrorIs(t, err, hookErr)
+}
+
+func TestContextHook_SearchAttributesVisitedWhenNotSkipped(t *testing.T) {
+	root := &workflowservice.StartWorkflowExecutionRequest{
+		SearchAttributes: &common.SearchAttributes{
+			IndexedFields: map[string]*common.Payload{
+				"key": {Data: []byte("sa-val")},
+			},
+		},
+		Input: inputPayloads(),
+	}
+
+	hookFiredForSearchAttrs := false
+	var visitedData []string
+	err := VisitPayloads(context.Background(), root, VisitPayloadsOptions{
+		// SkipSearchAttributes not set — default false
+		ContextHook: func(ctx context.Context, msg proto.Message) (context.Context, error) {
+			if _, ok := msg.(*common.SearchAttributes); ok {
+				hookFiredForSearchAttrs = true
+			}
+			return ctx, nil
+		},
+		Visitor: func(ctx *VisitPayloadsContext, p []*common.Payload) ([]*common.Payload, error) {
+			for _, pl := range p {
+				visitedData = append(visitedData, string(pl.Data))
+			}
+			return p, nil
+		},
+	})
+	require.NoError(t, err)
+	require.True(t, hookFiredForSearchAttrs, "ContextHook should fire for SearchAttributes when SkipSearchAttributes=false")
+	require.Contains(t, visitedData, "sa-val")
+	require.Contains(t, visitedData, "test")
+}
+
+func TestContextHook_SkipSearchAttributesRespected(t *testing.T) {
+	root := &workflowservice.StartWorkflowExecutionRequest{
+		SearchAttributes: &common.SearchAttributes{
+			IndexedFields: map[string]*common.Payload{
+				"key": {Data: []byte("sa-val")},
+			},
+		},
+		Input: inputPayloads(),
+	}
+
+	hookFiredForSearchAttrs := false
+	var visitedData []string
+	err := VisitPayloads(context.Background(), root, VisitPayloadsOptions{
+		SkipSearchAttributes: true,
+		ContextHook: func(ctx context.Context, msg proto.Message) (context.Context, error) {
+			if _, ok := msg.(*common.SearchAttributes); ok {
+				hookFiredForSearchAttrs = true
+			}
+			return ctx, nil
+		},
+		Visitor: func(ctx *VisitPayloadsContext, p []*common.Payload) ([]*common.Payload, error) {
+			for _, pl := range p {
+				visitedData = append(visitedData, string(pl.Data))
+			}
+			return p, nil
+		},
+	})
+	require.NoError(t, err)
+	require.False(t, hookFiredForSearchAttrs, "ContextHook must not fire for SearchAttributes when SkipSearchAttributes=true")
+	require.NotContains(t, visitedData, "sa-val")
+	require.Contains(t, visitedData, "test")
+}
+
+func TestVisitPayloadsConcurrent(t *testing.T) {
+	// Build a message that exercises all three payload containers:
+	//   - WorkflowExecutionStartedEventAttributes.Input (*common.Payloads) → visited as a slice
+	//   - WorkflowExecutionStartedEventAttributes.Header.Fields (map[string]*common.Payload) → visited as map
+	//   - NexusOperationScheduledEventAttributes.Input (*common.Payload) — single payload field
+	msg := &history.History{
+		Events: []*history.HistoryEvent{
+			{
+				Attributes: &history.HistoryEvent_WorkflowExecutionStartedEventAttributes{
+					WorkflowExecutionStartedEventAttributes: &history.WorkflowExecutionStartedEventAttributes{
+						Input: &common.Payloads{
+							Payloads: []*common.Payload{
+								{Data: []byte("payloads-0")},
+								{Data: []byte("payloads-1")},
+							},
+						},
+						Header: &common.Header{
+							Fields: map[string]*common.Payload{
+								"k1": {Data: []byte("map-k1")},
+								"k2": {Data: []byte("map-k2")},
+							},
+						},
+					},
+				},
+			},
+			{
+				Attributes: &history.HistoryEvent_NexusOperationScheduledEventAttributes{
+					NexusOperationScheduledEventAttributes: &history.NexusOperationScheduledEventAttributes{
+						Input: &common.Payload{Data: []byte("nexus-input")},
+					},
+				},
+			},
+		},
+	}
+
+	var visited sync.Map
+
+	err := VisitPayloads(context.Background(), msg, VisitPayloadsOptions{
+		ConcurrencyLimit: 4,
+		Visitor: func(ctx *VisitPayloadsContext, p []*common.Payload) ([]*common.Payload, error) {
+			out := make([]*common.Payload, len(p))
+			for i, pl := range p {
+				visited.Store(string(pl.Data), true)
+				out[i] = &common.Payload{Data: append([]byte("visited-"), pl.Data...)}
+			}
+			return out, nil
+		},
+	})
+	require.NoError(t, err)
+
+	// All original payloads must have been visited.
+	for _, key := range []string{"payloads-0", "payloads-1", "map-k1", "map-k2", "nexus-input"} {
+		_, ok := visited.Load(key)
+		require.True(t, ok, "payload %q not visited", key)
+	}
+
+	// Results must be written back.
+	startedAttrs := msg.Events[0].GetWorkflowExecutionStartedEventAttributes()
+	nexusAttrs := msg.Events[1].GetNexusOperationScheduledEventAttributes()
+	require.Equal(t, []byte("visited-payloads-0"), startedAttrs.Input.Payloads[0].Data)
+	require.Equal(t, []byte("visited-payloads-1"), startedAttrs.Input.Payloads[1].Data)
+	require.Equal(t, []byte("visited-map-k1"), startedAttrs.Header.Fields["k1"].Data)
+	require.Equal(t, []byte("visited-map-k2"), startedAttrs.Header.Fields["k2"].Data)
+	require.Equal(t, []byte("visited-nexus-input"), nexusAttrs.Input.Data)
+}
+
+func TestVisitPayloadsConcurrentMaxInflight(t *testing.T) {
+	const limit = 3
+	const total = 20
+
+	fields := make(map[string]*common.Payload, total)
+	for i := 0; i < total; i++ {
+		fields[fmt.Sprintf("k%d", i)] = &common.Payload{Data: []byte(fmt.Sprintf("p%d", i))}
+	}
+	req := &workflowservice.StartWorkflowExecutionRequest{
+		Header: &common.Header{Fields: fields},
+	}
+
+	var inflight atomic.Int64
+	var maxSeen atomic.Int64
+	arrived := make(chan struct{}, total)
+	proceed := make(chan struct{})
+
+	go func() {
+		for i := 0; i < limit; i++ {
+			<-arrived
+		}
+		close(proceed)
+	}()
+
+	err := VisitPayloads(context.Background(), req, VisitPayloadsOptions{
+		ConcurrencyLimit: limit,
+		Visitor: func(ctx *VisitPayloadsContext, p []*common.Payload) ([]*common.Payload, error) {
+			cur := inflight.Add(1)
+			defer inflight.Add(-1)
+			for {
+				old := maxSeen.Load()
+				if cur <= old || maxSeen.CompareAndSwap(old, cur) {
+					break
+				}
+			}
+			arrived <- struct{}{}
+			<-proceed
+			return p, nil
+		},
+	})
+	require.NoError(t, err)
+	require.Equal(t, int64(limit), maxSeen.Load(), "peak inflight must equal ConcurrencyLimit")
+}
+
+func TestVisitPayloadsConcurrentBarrier(t *testing.T) {
+	// Prove that at least ConcurrencyLimit visitors run truly concurrently by
+	// blocking each visitor at a barrier until exactly that many have entered.
+	const limit = 4
+	commands := make([]*command.Command, limit)
+	for i := 0; i < limit; i++ {
+		commands[i] = &command.Command{
+			Attributes: &command.Command_ScheduleActivityTaskCommandAttributes{
+				ScheduleActivityTaskCommandAttributes: &command.ScheduleActivityTaskCommandAttributes{
+					Input: &common.Payloads{
+						Payloads: []*common.Payload{{Data: []byte(fmt.Sprintf("p%d", i))}},
+					},
+				},
+			},
+		}
+	}
+	req := &workflowservice.RespondWorkflowTaskCompletedRequest{
+		Commands: commands,
+	}
+
+	var entered atomic.Int64
+	barrier := make(chan struct{})
+
+	err := VisitPayloads(context.Background(), req, VisitPayloadsOptions{
+		ConcurrencyLimit: limit,
+		Visitor: func(ctx *VisitPayloadsContext, p []*common.Payload) ([]*common.Payload, error) {
+			if entered.Add(1) == limit {
+				close(barrier)
+			}
+			<-barrier
+			return p, nil
+		},
+	})
+	require.NoError(t, err)
+}
+
+func TestVisitPayloadsSequentialCancellationIgnored(t *testing.T) {
+	// In sequential mode, context cancellation is not checked between visits.
+	ctx, cancel := context.WithCancel(context.Background())
+	cancel()
+
+	msg := &workflowservice.RespondWorkflowTaskCompletedRequest{
+		Commands: []*command.Command{
+			{
+				Attributes: &command.Command_ScheduleActivityTaskCommandAttributes{
+					ScheduleActivityTaskCommandAttributes: &command.ScheduleActivityTaskCommandAttributes{
+						Input: &common.Payloads{Payloads: []*common.Payload{{Data: []byte("a")}}},
+					},
+				},
+			},
+			{
+				Attributes: &command.Command_ScheduleActivityTaskCommandAttributes{
+					ScheduleActivityTaskCommandAttributes: &command.ScheduleActivityTaskCommandAttributes{
+						Input: &common.Payloads{Payloads: []*common.Payload{{Data: []byte("b")}}},
+					},
+				},
+			},
+		},
+	}
+
+	var visited []string
+	err := VisitPayloads(ctx, msg, VisitPayloadsOptions{
+		ConcurrencyLimit: 1,
+		Visitor: func(ctx *VisitPayloadsContext, p []*common.Payload) ([]*common.Payload, error) {
+			visited = append(visited, string(p[0].Data))
+			return p, nil
+		},
+	})
+	require.NoError(t, err)
+	require.Equal(t, []string{"a", "b"}, visited, "sequential mode must visit all payloads regardless of cancellation")
+}
+
+func TestVisitPayloadsConcurrentCancellation(t *testing.T) {
+	// In concurrent mode, context cancellation is detected at semaphore
+	// acquisition, so traversal stops promptly without the Visitor needing to
+	// check the context.
+	ctx, cancel := context.WithCancel(context.Background())
+
+	// Block visitors until we cancel, keeping the semaphore full.
+	const limit = 2
+	allEntered := make(chan struct{})
+	unblock := make(chan struct{})
+
+	var enteredCount atomic.Int64
+	makeCommand := func(data string) *command.Command {
+		return &command.Command{
+			Attributes: &command.Command_ScheduleActivityTaskCommandAttributes{
+				ScheduleActivityTaskCommandAttributes: &command.ScheduleActivityTaskCommandAttributes{
+					Input: &common.Payloads{Payloads: []*common.Payload{{Data: []byte(data)}}},
+				},
+			},
+		}
+	}
+	msg := &workflowservice.RespondWorkflowTaskCompletedRequest{
+		Commands: []*command.Command{
+			makeCommand("a"),
+			makeCommand("b"),
+			makeCommand("c"),
+		},
+	}
+
+	done := make(chan error, 1)
+	go func() {
+		done <- VisitPayloads(ctx, msg, VisitPayloadsOptions{
+			ConcurrencyLimit: limit,
+			Visitor: func(ctx *VisitPayloadsContext, p []*common.Payload) ([]*common.Payload, error) {
+				if enteredCount.Add(1) == limit {
+					close(allEntered)
+				}
+				<-unblock
+				return p, nil
+			},
+		})
+	}()
+
+	<-allEntered
+	cancel()
+	close(unblock)
+
+	err := <-done
+	require.ErrorIs(t, err, context.Canceled)
+}
+
+func TestVisitPayloadsConcurrentCancellationDrainsGoroutines(t *testing.T) {
+	// Verify that VisitPayloads waits for all already-spawned goroutines to
+	// complete before returning, even when the context is cancelled mid-traversal.
+	ctx, cancel := context.WithCancel(context.Background())
+
+	const limit = 2
+	allEntered := make(chan struct{})
+	unblock := make(chan struct{})
+
+	var enteredCount atomic.Int64
+	var inflight atomic.Int64
+
+	makeCommand := func(data string) *command.Command {
+		return &command.Command{
+			Attributes: &command.Command_ScheduleActivityTaskCommandAttributes{
+				ScheduleActivityTaskCommandAttributes: &command.ScheduleActivityTaskCommandAttributes{
+					Input: &common.Payloads{Payloads: []*common.Payload{{Data: []byte(data)}}},
+				},
+			},
+		}
+	}
+	msg := &workflowservice.RespondWorkflowTaskCompletedRequest{
+		Commands: []*command.Command{
+			makeCommand("a"),
+			makeCommand("b"),
+			makeCommand("c"),
+		},
+	}
+
+	err := func() error {
+		done := make(chan error, 1)
+		go func() {
+			done <- VisitPayloads(ctx, msg, VisitPayloadsOptions{
+				ConcurrencyLimit: limit,
+				Visitor: func(ctx *VisitPayloadsContext, p []*common.Payload) ([]*common.Payload, error) {
+					inflight.Add(1)
+					if enteredCount.Add(1) == limit {
+						close(allEntered)
+					}
+					<-unblock
+					inflight.Add(-1)
+					return p, nil
+				},
+			})
+		}()
+		<-allEntered
+		cancel()
+		close(unblock)
+		return <-done
+	}()
+
+	require.ErrorIs(t, err, context.Canceled)
+	require.Equal(t, int64(0), inflight.Load(), "all in-flight goroutines must complete before VisitPayloads returns")
+}
+
+func TestVisitPayloadsConcurrentError(t *testing.T) {
+	visitorErr := fmt.Errorf("visitor error")
+
+	// *common.Payloads path: one goroutine per command's Input field.
+	const limit = 4
+	commands := make([]*command.Command, limit)
+	for i := 0; i < limit; i++ {
+		commands[i] = &command.Command{
+			Attributes: &command.Command_ScheduleActivityTaskCommandAttributes{
+				ScheduleActivityTaskCommandAttributes: &command.ScheduleActivityTaskCommandAttributes{
+					Input: &common.Payloads{
+						Payloads: []*common.Payload{{Data: []byte(fmt.Sprintf("p%d", i))}},
+					},
+				},
+			},
+		}
+	}
+	err := VisitPayloads(context.Background(), &workflowservice.RespondWorkflowTaskCompletedRequest{
+		Commands: commands,
+	}, VisitPayloadsOptions{
+		ConcurrencyLimit: limit,
+		Visitor: func(ctx *VisitPayloadsContext, p []*common.Payload) ([]*common.Payload, error) {
+			if string(p[0].Data) == "p2" {
+				return nil, visitorErr
+			}
+			return p, nil
+		},
+	})
+	require.ErrorIs(t, err, visitorErr)
+
+	// map[string]*common.Payload path: one goroutine per map entry.
+	fields := make(map[string]*common.Payload, limit)
+	for i := 0; i < limit; i++ {
+		fields[fmt.Sprintf("k%d", i)] = &common.Payload{Data: []byte(fmt.Sprintf("v%d", i))}
+	}
+	err = VisitPayloads(context.Background(), &workflowservice.StartWorkflowExecutionRequest{
+		Header: &common.Header{Fields: fields},
+	}, VisitPayloadsOptions{
+		ConcurrencyLimit: limit,
+		Visitor: func(ctx *VisitPayloadsContext, p []*common.Payload) ([]*common.Payload, error) {
+			if string(p[0].Data) == "v2" {
+				return nil, visitorErr
+			}
+			return p, nil
+		},
+	})
+	require.ErrorIs(t, err, visitorErr)
+}
+
+func TestVisitPayloadsConcurrentAny(t *testing.T) {
+	// Verify that defaultWellKnownAnyVisitor correctly visits and re-marshals.
+	msg1, err := anypb.New(&update.Request{Input: &update.Input{Args: &common.Payloads{
+		Payloads: []*common.Payload{{Data: []byte("any-a")}},
+	}}})
+	require.NoError(t, err)
+	msg2, err := anypb.New(&update.Request{Input: &update.Input{Args: &common.Payloads{
+		Payloads: []*common.Payload{{Data: []byte("any-b")}},
+	}}})
+	require.NoError(t, err)
+	msg3, err := anypb.New(&update.Response{Outcome: &update.Outcome{Value: &update.Outcome_Success{
+		Success: &common.Payloads{
+			Payloads: []*common.Payload{{Data: []byte("any-c")}},
+		},
+	}}})
+	require.NoError(t, err)
+
+	root := &workflowservice.PollWorkflowTaskQueueResponse{
+		Messages: []*protocol.Message{{Body: msg1}, {Body: msg2}, {Body: msg3}},
+	}
+
+	err = VisitPayloads(context.Background(), root, VisitPayloadsOptions{
+		ConcurrencyLimit: 4,
+		Visitor: func(ctx *VisitPayloadsContext, p []*common.Payload) ([]*common.Payload, error) {
+			out := make([]*common.Payload, len(p))
+			for i, pl := range p {
+				out[i] = &common.Payload{Data: append([]byte("visited-"), pl.Data...)}
+			}
+			return out, nil
+		},
+	})
+	require.NoError(t, err)
+
+	// All three Any payloads must have been visited and re-marshaled correctly.
+	got1, err := root.Messages[0].Body.UnmarshalNew()
+	require.NoError(t, err)
+	require.Equal(t, "visited-any-a", string(got1.(*update.Request).Input.Args.Payloads[0].Data))
+
+	got2, err := root.Messages[1].Body.UnmarshalNew()
+	require.NoError(t, err)
+	require.Equal(t, "visited-any-b", string(got2.(*update.Request).Input.Args.Payloads[0].Data))
+
+	got3, err := root.Messages[2].Body.UnmarshalNew()
+	require.NoError(t, err)
+	require.Equal(t, "visited-any-c", string(got3.(*update.Response).GetOutcome().GetSuccess().Payloads[0].Data))
+}
+
+func TestVisitPayloadsLimit1IsSequential(t *testing.T) {
+	// ConcurrencyLimit <= 1 must produce correct results identical to the default.
+	msg := &workflowservice.StartWorkflowExecutionRequest{
+		Input: &common.Payloads{
+			Payloads: []*common.Payload{
+				{Data: []byte("a")},
+				{Data: []byte("b")},
+			},
+		},
+		Header: &common.Header{
+			Fields: map[string]*common.Payload{
+				"h": {Data: []byte("c")},
+			},
+		},
+	}
+
+	for _, limit := range []int{0, 1} {
+		msg2 := proto.Clone(msg).(*workflowservice.StartWorkflowExecutionRequest)
+		err := VisitPayloads(context.Background(), msg2, VisitPayloadsOptions{
+			ConcurrencyLimit: limit,
+			Visitor: func(ctx *VisitPayloadsContext, p []*common.Payload) ([]*common.Payload, error) {
+				out := make([]*common.Payload, len(p))
+				for i, pl := range p {
+					out[i] = &common.Payload{Data: append([]byte("x"), pl.Data...)}
+				}
+				return out, nil
+			},
+		})
+		require.NoError(t, err, "limit=%d", limit)
+		require.Equal(t, []byte("xa"), msg2.Input.Payloads[0].Data, "limit=%d", limit)
+		require.Equal(t, []byte("xb"), msg2.Input.Payloads[1].Data, "limit=%d", limit)
+		require.Equal(t, []byte("xc"), msg2.Header.Fields["h"].Data, "limit=%d", limit)
 	}
 }
