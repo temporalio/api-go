@@ -530,8 +530,13 @@ func (x *WorkflowExecutionStartedEventAttributes) GetTimeSkippingConfig() *v14.T
 type DeclinedTargetVersionUpgrade struct {
 	state             protoimpl.MessageState       `protogen:"open.v1"`
 	DeploymentVersion *v15.WorkerDeploymentVersion `protobuf:"bytes,1,opt,name=deployment_version,json=deploymentVersion,proto3" json:"deployment_version,omitempty"`
-	unknownFields     protoimpl.UnknownFields
-	sizeCache         protoimpl.SizeCache
+	// Revision number of the task queue routing config at the time the target
+	// was declined. If an incoming target's revision is <= this value, it is
+	// not newer and is not used for deciding whether or not to suppress the
+	// upgrade signal.
+	RevisionNumber int64 `protobuf:"varint,2,opt,name=revision_number,json=revisionNumber,proto3" json:"revision_number,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *DeclinedTargetVersionUpgrade) Reset() {
@@ -569,6 +574,13 @@ func (x *DeclinedTargetVersionUpgrade) GetDeploymentVersion() *v15.WorkerDeploym
 		return x.DeploymentVersion
 	}
 	return nil
+}
+
+func (x *DeclinedTargetVersionUpgrade) GetRevisionNumber() int64 {
+	if x != nil {
+		return x.RevisionNumber
+	}
+	return 0
 }
 
 type WorkflowExecutionCompletedEventAttributes struct {
@@ -6957,9 +6969,10 @@ const file_temporal_api_history_v1_message_proto_rawDesc = "" +
 	"\x1binherited_auto_upgrade_info\x18' \x01(\v24.temporal.api.deployment.v1.InheritedAutoUpgradeInfoR\x18inheritedAutoUpgradeInfo\x128\n" +
 	"\x18eager_execution_accepted\x18& \x01(\bR\x16eagerExecutionAccepted\x12|\n" +
 	"\x1fdeclined_target_version_upgrade\x18( \x01(\v25.temporal.api.history.v1.DeclinedTargetVersionUpgradeR\x1cdeclinedTargetVersionUpgrade\x12^\n" +
-	"\x14time_skipping_config\x18) \x01(\v2,.temporal.api.workflow.v1.TimeSkippingConfigR\x12timeSkippingConfigJ\x04\b$\x10%R parent_pinned_deployment_version\"\x82\x01\n" +
+	"\x14time_skipping_config\x18) \x01(\v2,.temporal.api.workflow.v1.TimeSkippingConfigR\x12timeSkippingConfigJ\x04\b$\x10%R parent_pinned_deployment_version\"\xab\x01\n" +
 	"\x1cDeclinedTargetVersionUpgrade\x12b\n" +
-	"\x12deployment_version\x18\x01 \x01(\v23.temporal.api.deployment.v1.WorkerDeploymentVersionR\x11deploymentVersion\"\xde\x01\n" +
+	"\x12deployment_version\x18\x01 \x01(\v23.temporal.api.deployment.v1.WorkerDeploymentVersionR\x11deploymentVersion\x12'\n" +
+	"\x0frevision_number\x18\x02 \x01(\x03R\x0erevisionNumber\"\xde\x01\n" +
 	")WorkflowExecutionCompletedEventAttributes\x128\n" +
 	"\x06result\x18\x01 \x01(\v2 .temporal.api.common.v1.PayloadsR\x06result\x12F\n" +
 	" workflow_task_completed_event_id\x18\x02 \x01(\x03R\x1cworkflowTaskCompletedEventId\x12/\n" +
