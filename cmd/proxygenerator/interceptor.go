@@ -538,9 +538,23 @@ func visitPayloads(
 					}
 				}
 				{{range $record.Payloads -}}
+				{{if and (eq $type "*workflowservice.DescribeNexusOperationExecutionResponse") (eq . "Result")}}
+				if o.GetResult() != nil {
+					result := o.GetResult()
+					if err := visitPayload(ctx, options, o, concState, &result); err != nil { return err }
+					o.Outcome = &workflowservice.DescribeNexusOperationExecutionResponse_Result{Result: result}
+				}
+				{{else if and (eq $type "*workflowservice.PollNexusOperationExecutionResponse") (eq . "Result")}}
+				if o.GetResult() != nil {
+					result := o.GetResult()
+					if err := visitPayload(ctx, options, o, concState, &result); err != nil { return err }
+					o.Outcome = &workflowservice.PollNexusOperationExecutionResponse_Result{Result: result}
+				}
+				{{else}}
 				if o.{{.}} != nil {
 					if err := visitPayload(ctx, options, o, concState, &o.{{.}}); err != nil { return err }
 				}
+				{{end}}
 				{{end}}
 				{{if $record.Methods}}
 				if err := visitPayloads(
