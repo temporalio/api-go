@@ -9,8 +9,10 @@ import (
 
 	"go.temporal.io/api/activity/v1"
 	"go.temporal.io/api/batch/v1"
+	"go.temporal.io/api/callback/v1"
 	"go.temporal.io/api/command/v1"
 	"go.temporal.io/api/common/v1"
+	"go.temporal.io/api/compute/v1"
 	"go.temporal.io/api/deployment/v1"
 	"go.temporal.io/api/errordetails/v1"
 	"go.temporal.io/api/export/v1"
@@ -374,6 +376,28 @@ func visitPayloads(
 				return err
 			}
 
+		case []*activity.CallbackInfo:
+			for _, x := range o {
+				if err := visitPayloads(ctx, options, parent, x); err != nil {
+					return err
+				}
+			}
+
+		case *activity.CallbackInfo:
+
+			if o == nil {
+				continue
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetInfo(),
+			); err != nil {
+				return err
+			}
+
 		case *batch.BatchOperationReset:
 
 			if o == nil {
@@ -416,6 +440,21 @@ func visitPayloads(
 				options,
 				o,
 				o.GetDetails(),
+			); err != nil {
+				return err
+			}
+
+		case *callback.CallbackInfo:
+
+			if o == nil {
+				continue
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetLastAttemptFailure(),
 			); err != nil {
 				return err
 			}
@@ -677,6 +716,92 @@ func visitPayloads(
 				return err
 			}
 
+		case *compute.ComputeConfig:
+
+			if o == nil {
+				continue
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetScalingGroups(),
+			); err != nil {
+				return err
+			}
+
+		case map[string]*compute.ComputeConfigScalingGroup:
+			for _, x := range o {
+				if err := visitPayloads(ctx, options, parent, x); err != nil {
+					return err
+				}
+			}
+
+		case *compute.ComputeConfigScalingGroup:
+
+			if o == nil {
+				continue
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetProvider(),
+				o.GetScaler(),
+			); err != nil {
+				return err
+			}
+
+		case map[string]*compute.ComputeConfigScalingGroupUpdate:
+			for _, x := range o {
+				if err := visitPayloads(ctx, options, parent, x); err != nil {
+					return err
+				}
+			}
+
+		case *compute.ComputeConfigScalingGroupUpdate:
+
+			if o == nil {
+				continue
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetScalingGroup(),
+			); err != nil {
+				return err
+			}
+
+		case *compute.ComputeProvider:
+
+			if o == nil {
+				continue
+			}
+			if o.Details != nil {
+				no, err := visitPayload(ctx, options, o, o.Details)
+				if err != nil {
+					return err
+				}
+				o.Details = no
+			}
+
+		case *compute.ComputeScaler:
+
+			if o == nil {
+				continue
+			}
+			if o.Details != nil {
+				no, err := visitPayload(ctx, options, o, o.Details)
+				if err != nil {
+					return err
+				}
+				o.Details = no
+			}
+
 		case *deployment.DeploymentInfo:
 
 			if o == nil {
@@ -732,6 +857,7 @@ func visitPayloads(
 				ctx,
 				options,
 				o,
+				o.GetComputeConfig(),
 				o.GetMetadata(),
 			); err != nil {
 				return err
@@ -2252,6 +2378,21 @@ func visitPayloads(
 				return err
 			}
 
+		case *workflowservice.CreateWorkerDeploymentVersionRequest:
+
+			if o == nil {
+				continue
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetComputeConfig(),
+			); err != nil {
+				return err
+			}
+
 		case *workflowservice.DescribeActivityExecutionResponse:
 
 			if o == nil {
@@ -2262,6 +2403,7 @@ func visitPayloads(
 				ctx,
 				options,
 				o,
+				o.GetCallbacks(),
 				o.GetInfo(),
 				o.GetInput(),
 				o.GetOutcome(),
@@ -3118,8 +3260,24 @@ func visitPayloads(
 				ctx,
 				options,
 				o,
+				o.GetMemo(),
 				o.GetSchedule(),
 				o.GetSearchAttributes(),
+			); err != nil {
+				return err
+			}
+
+		case *workflowservice.UpdateWorkerDeploymentVersionComputeConfigRequest:
+
+			if o == nil {
+				continue
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetComputeConfigScalingGroups(),
 			); err != nil {
 				return err
 			}
@@ -3180,6 +3338,21 @@ func visitPayloads(
 				options,
 				o,
 				o.GetOutcome(),
+			); err != nil {
+				return err
+			}
+
+		case *workflowservice.ValidateWorkerDeploymentVersionComputeConfigRequest:
+
+			if o == nil {
+				continue
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetComputeConfigScalingGroups(),
 			); err != nil {
 				return err
 			}
@@ -3246,6 +3419,39 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 				ctx,
 				options,
 				o.GetFailure(),
+			); err != nil {
+				return err
+			}
+
+		case []*activity.CallbackInfo:
+			for _, x := range o {
+				if err := visitFailures(ctx, options, x); err != nil {
+					return err
+				}
+			}
+
+		case *activity.CallbackInfo:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetInfo(),
+			); err != nil {
+				return err
+			}
+
+		case *callback.CallbackInfo:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetLastAttemptFailure(),
 			); err != nil {
 				return err
 			}
@@ -3819,6 +4025,7 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 			if err := visitFailures(
 				ctx,
 				options,
+				o.GetCallbacks(),
 				o.GetInfo(),
 				o.GetOutcome(),
 			); err != nil {
