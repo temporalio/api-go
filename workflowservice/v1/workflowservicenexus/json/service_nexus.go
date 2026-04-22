@@ -4,11 +4,14 @@ package json
 
 import "encoding/json"
 import "errors"
+import "reflect"
 import "time"
 
 import "github.com/nexus-rpc/sdk-go/nexus"
 import commonv1 "go.temporal.io/api/common/v1"
 import "go.temporal.io/api/temporalproto"
+import workflowservicev1 "go.temporal.io/api/workflowservice/v1"
+import "google.golang.org/protobuf/encoding/protojson"
 import "google.golang.org/protobuf/proto"
 
 var WorkflowService = struct {
@@ -282,6 +285,66 @@ const (
 	WorkflowIDReusePolicyTerminateIfRunning       WorkflowIDReusePolicy = "WORKFLOW_ID_REUSE_POLICY_TERMINATE_IF_RUNNING"
 	WorkflowIDReusePolicyUnspecified              WorkflowIDReusePolicy = "WORKFLOW_ID_REUSE_POLICY_UNSPECIFIED"
 )
+
+
+var temporalNexusProtoTypes = map[reflect.Type]func() proto.Message{
+	reflect.TypeOf(SignalWithStartWorkflowExecutionRequest{}): func() proto.Message { return &workflowservicev1.SignalWithStartWorkflowExecutionRequest{} },
+	reflect.TypeOf(SignalWithStartWorkflowExecutionResponse{}): func() proto.Message { return &workflowservicev1.SignalWithStartWorkflowExecutionResponse{} },
+}
+
+func GetTemporalNexusProtoMessage(valueOrType any) proto.Message {
+	if valueOrType == nil {
+		return nil
+	}
+	valueType, ok := valueOrType.(reflect.Type)
+	if !ok {
+		valueType = reflect.TypeOf(valueOrType)
+	}
+	for valueType != nil && valueType.Kind() == reflect.Ptr {
+		valueType = valueType.Elem()
+	}
+	if valueType == nil {
+		return nil
+	}
+	factory := temporalNexusProtoTypes[valueType]
+	if factory == nil {
+		return nil
+	}
+	return factory()
+}
+
+func ToTemporalNexusProto(value any) (proto.Message, error) {
+	message := GetTemporalNexusProtoMessage(value)
+	if message == nil {
+		return nil, errors.New("temporal nexus proto type not found")
+	}
+	data, err := json.Marshal(value)
+	if err != nil {
+		return nil, err
+	}
+	if err := protojson.Unmarshal(data, message); err != nil {
+		return nil, err
+	}
+	return message, nil
+}
+
+func FromTemporalNexusProto(message proto.Message, valuePtr any) error {
+	if message == nil {
+		return errors.New("temporal nexus proto message is nil")
+	}
+	expected := GetTemporalNexusProtoMessage(valuePtr)
+	if expected == nil {
+		return errors.New("temporal nexus proto type not found")
+	}
+	if reflect.TypeOf(message) != reflect.TypeOf(expected) {
+		return errors.New("temporal nexus proto message type mismatch")
+	}
+	data, err := protojson.Marshal(message)
+	if err != nil {
+		return err
+	}
+	return json.Unmarshal(data, valuePtr)
+}
 
 
 type TemporalNexusPayloadVisitorFunc func([]*commonv1.Payload) ([]*commonv1.Payload, error)
