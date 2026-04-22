@@ -27,7 +27,7 @@ var File_temporal_api_workflowservice_v1_service_proto protoreflect.FileDescript
 
 const file_temporal_api_workflowservice_v1_service_proto_rawDesc = "" +
 	"\n" +
-	"-temporal/api/workflowservice/v1/service.proto\x12\x1ftemporal.api.workflowservice.v1\x1a6temporal/api/workflowservice/v1/request_response.proto\x1a\x1cgoogle/api/annotations.proto\x1a+temporal/api/protometa/v1/annotations.proto2\xa9\x9c\x02\n" +
+	"-temporal/api/workflowservice/v1/service.proto\x12\x1ftemporal.api.workflowservice.v1\x1a6temporal/api/workflowservice/v1/request_response.proto\x1a\x1cgoogle/api/annotations.proto\x1a+temporal/api/protometa/v1/annotations.proto2\xeb\x99\x02\n" +
 	"\x0fWorkflowService\x12\xc3\x01\n" +
 	"\x11RegisterNamespace\x129.temporal.api.workflowservice.v1.RegisterNamespaceRequest\x1a:.temporal.api.workflowservice.v1.RegisterNamespaceResponse\"7\x82\xd3\xe4\x93\x021:\x01*Z\x17:\x01*\"\x12/api/v1/namespaces\"\x13/cluster/namespaces\x12\xd5\x01\n" +
 	"\x11DescribeNamespace\x129.temporal.api.workflowservice.v1.DescribeNamespaceRequest\x1a:.temporal.api.workflowservice.v1.DescribeNamespaceResponse\"I\x82\xd3\xe4\x93\x02CZ \x12\x1e/api/v1/namespaces/{namespace}\x12\x1f/cluster/namespaces/{namespace}\x12\xb4\x01\n" +
@@ -41,15 +41,13 @@ const file_temporal_api_workflowservice_v1_service_proto_rawDesc = "" +
 	"\x1bGetWorkflowExecutionHistory\x12C.temporal.api.workflowservice.v1.GetWorkflowExecutionHistoryRequest\x1aD.temporal.api.workflowservice.v1.GetWorkflowExecutionHistoryResponse\"\xd3\x01\x8a\x9d\xcc\x1b8\n" +
 	"\x14temporal-resource-id\x12 workflow:{execution.workflow_id}\x82\xd3\xe4\x93\x02\x8f\x01ZJ\x12H/api/v1/namespaces/{namespace}/workflows/{execution.workflow_id}/history\x12A/namespaces/{namespace}/workflows/{execution.workflow_id}/history\x12\xa3\x03\n" +
 	"\"GetWorkflowExecutionHistoryReverse\x12J.temporal.api.workflowservice.v1.GetWorkflowExecutionHistoryReverseRequest\x1aK.temporal.api.workflowservice.v1.GetWorkflowExecutionHistoryReverseResponse\"\xe3\x01\x8a\x9d\xcc\x1b8\n" +
-	"\x14temporal-resource-id\x12 workflow:{execution.workflow_id}\x82\xd3\xe4\x93\x02\x9f\x01ZR\x12P/api/v1/namespaces/{namespace}/workflows/{execution.workflow_id}/history-reverse\x12I/namespaces/{namespace}/workflows/{execution.workflow_id}/history-reverse\x12\xcd\x01\n" +
-	"\x15PollWorkflowTaskQueue\x12=.temporal.api.workflowservice.v1.PollWorkflowTaskQueueRequest\x1a>.temporal.api.workflowservice.v1.PollWorkflowTaskQueueResponse\"5\x8a\x9d\xcc\x1b0\n" +
-	"\x14temporal-resource-id\x12\x18poller:{poller_group_id}\x12\xd7\x01\n" +
+	"\x14temporal-resource-id\x12 workflow:{execution.workflow_id}\x82\xd3\xe4\x93\x02\x9f\x01ZR\x12P/api/v1/namespaces/{namespace}/workflows/{execution.workflow_id}/history-reverse\x12I/namespaces/{namespace}/workflows/{execution.workflow_id}/history-reverse\x12\x98\x01\n" +
+	"\x15PollWorkflowTaskQueue\x12=.temporal.api.workflowservice.v1.PollWorkflowTaskQueueRequest\x1a>.temporal.api.workflowservice.v1.PollWorkflowTaskQueueResponse\"\x00\x12\xd7\x01\n" +
 	"\x1cRespondWorkflowTaskCompleted\x12D.temporal.api.workflowservice.v1.RespondWorkflowTaskCompletedRequest\x1aE.temporal.api.workflowservice.v1.RespondWorkflowTaskCompletedResponse\"*\x8a\x9d\xcc\x1b%\n" +
 	"\x14temporal-resource-id\x12\r{resource_id}\x12\xce\x01\n" +
 	"\x19RespondWorkflowTaskFailed\x12A.temporal.api.workflowservice.v1.RespondWorkflowTaskFailedRequest\x1aB.temporal.api.workflowservice.v1.RespondWorkflowTaskFailedResponse\"*\x8a\x9d\xcc\x1b%\n" +
-	"\x14temporal-resource-id\x12\r{resource_id}\x12\xcd\x01\n" +
-	"\x15PollActivityTaskQueue\x12=.temporal.api.workflowservice.v1.PollActivityTaskQueueRequest\x1a>.temporal.api.workflowservice.v1.PollActivityTaskQueueResponse\"5\x8a\x9d\xcc\x1b0\n" +
-	"\x14temporal-resource-id\x12\x18poller:{poller_group_id}\x12\xc2\x02\n" +
+	"\x14temporal-resource-id\x12\r{resource_id}\x12\x98\x01\n" +
+	"\x15PollActivityTaskQueue\x12=.temporal.api.workflowservice.v1.PollActivityTaskQueueRequest\x1a>.temporal.api.workflowservice.v1.PollActivityTaskQueueResponse\"\x00\x12\xc2\x02\n" +
 	"\x1bRecordActivityTaskHeartbeat\x12C.temporal.api.workflowservice.v1.RecordActivityTaskHeartbeatRequest\x1aD.temporal.api.workflowservice.v1.RecordActivityTaskHeartbeatResponse\"\x97\x01\x8a\x9d\xcc\x1b%\n" +
 	"\x14temporal-resource-id\x12\r{resource_id}\x82\xd3\xe4\x93\x02g:\x01*Z6:\x01*\"1/api/v1/namespaces/{namespace}/activity-heartbeat\"*/namespaces/{namespace}/activity-heartbeat\x12\xa8\x04\n" +
 	"\x1fRecordActivityTaskHeartbeatById\x12G.temporal.api.workflowservice.v1.RecordActivityTaskHeartbeatByIdRequest\x1aH.temporal.api.workflowservice.v1.RecordActivityTaskHeartbeatByIdResponse\"\xf1\x02\x8a\x9d\xcc\x1b%\n" +
@@ -84,9 +82,8 @@ const file_temporal_api_workflowservice_v1_service_proto_rawDesc = "" +
 	"\x1eListArchivedWorkflowExecutions\x12F.temporal.api.workflowservice.v1.ListArchivedWorkflowExecutionsRequest\x1aG.temporal.api.workflowservice.v1.ListArchivedWorkflowExecutionsResponse\"g\x82\xd3\xe4\x93\x02aZ3\x121/api/v1/namespaces/{namespace}/archived-workflows\x12*/namespaces/{namespace}/archived-workflows\x12\x9b\x01\n" +
 	"\x16ScanWorkflowExecutions\x12>.temporal.api.workflowservice.v1.ScanWorkflowExecutionsRequest\x1a?.temporal.api.workflowservice.v1.ScanWorkflowExecutionsResponse\"\x00\x12\xfd\x01\n" +
 	"\x17CountWorkflowExecutions\x12?.temporal.api.workflowservice.v1.CountWorkflowExecutionsRequest\x1a@.temporal.api.workflowservice.v1.CountWorkflowExecutionsResponse\"_\x82\xd3\xe4\x93\x02YZ/\x12-/api/v1/namespaces/{namespace}/workflow-count\x12&/namespaces/{namespace}/workflow-count\x12\x92\x01\n" +
-	"\x13GetSearchAttributes\x12;.temporal.api.workflowservice.v1.GetSearchAttributesRequest\x1a<.temporal.api.workflowservice.v1.GetSearchAttributesResponse\"\x00\x12\xd9\x01\n" +
-	"\x19RespondQueryTaskCompleted\x12A.temporal.api.workflowservice.v1.RespondQueryTaskCompletedRequest\x1aB.temporal.api.workflowservice.v1.RespondQueryTaskCompletedResponse\"5\x8a\x9d\xcc\x1b0\n" +
-	"\x14temporal-resource-id\x12\x18poller:{poller_group_id}\x12\xd2\x01\n" +
+	"\x13GetSearchAttributes\x12;.temporal.api.workflowservice.v1.GetSearchAttributesRequest\x1a<.temporal.api.workflowservice.v1.GetSearchAttributesResponse\"\x00\x12\xa4\x01\n" +
+	"\x19RespondQueryTaskCompleted\x12A.temporal.api.workflowservice.v1.RespondQueryTaskCompletedRequest\x1aB.temporal.api.workflowservice.v1.RespondQueryTaskCompletedResponse\"\x00\x12\xd2\x01\n" +
 	"\x14ResetStickyTaskQueue\x12<.temporal.api.workflowservice.v1.ResetStickyTaskQueueRequest\x1a=.temporal.api.workflowservice.v1.ResetStickyTaskQueueResponse\"=\x8a\x9d\xcc\x1b8\n" +
 	"\x14temporal-resource-id\x12 workflow:{execution.workflow_id}\x12\x83\x01\n" +
 	"\x0eShutdownWorker\x126.temporal.api.workflowservice.v1.ShutdownWorkerRequest\x1a7.temporal.api.workflowservice.v1.ShutdownWorkerResponse\"\x00\x12\xfc\x02\n" +
@@ -155,13 +152,10 @@ const file_temporal_api_workflowservice_v1_service_proto_rawDesc = "" +
 	"\x14temporal-resource-id\x12\x0ebatch:{job_id}\x82\xd3\xe4\x93\x02\x7f:\x01*ZB:\x01*\"=/api/v1/namespaces/{namespace}/batch-operations/{job_id}/stop\"6/namespaces/{namespace}/batch-operations/{job_id}/stop\x12\xbc\x02\n" +
 	"\x16DescribeBatchOperation\x12>.temporal.api.workflowservice.v1.DescribeBatchOperationRequest\x1a?.temporal.api.workflowservice.v1.DescribeBatchOperationResponse\"\xa0\x01\x8a\x9d\xcc\x1b&\n" +
 	"\x14temporal-resource-id\x12\x0ebatch:{job_id}\x82\xd3\xe4\x93\x02oZ:\x128/api/v1/namespaces/{namespace}/batch-operations/{job_id}\x121/namespaces/{namespace}/batch-operations/{job_id}\x12\xf5\x01\n" +
-	"\x13ListBatchOperations\x12;.temporal.api.workflowservice.v1.ListBatchOperationsRequest\x1a<.temporal.api.workflowservice.v1.ListBatchOperationsResponse\"c\x82\xd3\xe4\x93\x02]Z1\x12//api/v1/namespaces/{namespace}/batch-operations\x12(/namespaces/{namespace}/batch-operations\x12\xc4\x01\n" +
-	"\x12PollNexusTaskQueue\x12:.temporal.api.workflowservice.v1.PollNexusTaskQueueRequest\x1a;.temporal.api.workflowservice.v1.PollNexusTaskQueueResponse\"5\x8a\x9d\xcc\x1b0\n" +
-	"\x14temporal-resource-id\x12\x18poller:{poller_group_id}\x12\xd9\x01\n" +
-	"\x19RespondNexusTaskCompleted\x12A.temporal.api.workflowservice.v1.RespondNexusTaskCompletedRequest\x1aB.temporal.api.workflowservice.v1.RespondNexusTaskCompletedResponse\"5\x8a\x9d\xcc\x1b0\n" +
-	"\x14temporal-resource-id\x12\x18poller:{poller_group_id}\x12\xd0\x01\n" +
-	"\x16RespondNexusTaskFailed\x12>.temporal.api.workflowservice.v1.RespondNexusTaskFailedRequest\x1a?.temporal.api.workflowservice.v1.RespondNexusTaskFailedResponse\"5\x8a\x9d\xcc\x1b0\n" +
-	"\x14temporal-resource-id\x12\x18poller:{poller_group_id}\x12\xe8\x02\n" +
+	"\x13ListBatchOperations\x12;.temporal.api.workflowservice.v1.ListBatchOperationsRequest\x1a<.temporal.api.workflowservice.v1.ListBatchOperationsResponse\"c\x82\xd3\xe4\x93\x02]Z1\x12//api/v1/namespaces/{namespace}/batch-operations\x12(/namespaces/{namespace}/batch-operations\x12\x8f\x01\n" +
+	"\x12PollNexusTaskQueue\x12:.temporal.api.workflowservice.v1.PollNexusTaskQueueRequest\x1a;.temporal.api.workflowservice.v1.PollNexusTaskQueueResponse\"\x00\x12\xa4\x01\n" +
+	"\x19RespondNexusTaskCompleted\x12A.temporal.api.workflowservice.v1.RespondNexusTaskCompletedRequest\x1aB.temporal.api.workflowservice.v1.RespondNexusTaskCompletedResponse\"\x00\x12\x9b\x01\n" +
+	"\x16RespondNexusTaskFailed\x12>.temporal.api.workflowservice.v1.RespondNexusTaskFailedRequest\x1a?.temporal.api.workflowservice.v1.RespondNexusTaskFailedResponse\"\x00\x12\xe8\x02\n" +
 	"\x15UpdateActivityOptions\x12=.temporal.api.workflowservice.v1.UpdateActivityOptionsRequest\x1a>.temporal.api.workflowservice.v1.UpdateActivityOptionsResponse\"\xcf\x01\x8a\x9d\xcc\x1b8\n" +
 	"\x14temporal-resource-id\x12 workflow:{execution.workflow_id}\x82\xd3\xe4\x93\x02\x8b\x01:\x01*ZH:\x01*\"C/api/v1/namespaces/{namespace}/activities-deprecated/update-options\"</namespaces/{namespace}/activities-deprecated/update-options\x12\xb6\x03\n" +
 	"\x1eUpdateWorkflowExecutionOptions\x12F.temporal.api.workflowservice.v1.UpdateWorkflowExecutionOptionsRequest\x1aG.temporal.api.workflowservice.v1.UpdateWorkflowExecutionOptionsResponse\"\x82\x02\x8a\x9d\xcc\x1bA\n" +
