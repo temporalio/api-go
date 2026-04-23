@@ -1846,7 +1846,9 @@ type PendingNexusOperationInfo struct {
 	ScheduledTime *timestamppb.Timestamp         `protobuf:"bytes,6,opt,name=scheduled_time,json=scheduledTime,proto3" json:"scheduled_time,omitempty"`
 	State         v11.PendingNexusOperationState `protobuf:"varint,7,opt,name=state,proto3,enum=temporal.api.enums.v1.PendingNexusOperationState" json:"state,omitempty"`
 	// The number of attempts made to deliver the start operation request.
-	// This number represents a minimum bound since the attempt is incremented after the request completes.
+	// This number is approximate, it is incremented when a task is added to the history queue.
+	// In practice, there could be more attempts if a task is executed but fails to commit, or less attempts if a task
+	// was never executed.
 	Attempt int32 `protobuf:"varint,8,opt,name=attempt,proto3" json:"attempt,omitempty"`
 	// The time when the last attempt completed.
 	LastAttemptCompleteTime *timestamppb.Timestamp `protobuf:"bytes,9,opt,name=last_attempt_complete_time,json=lastAttemptCompleteTime,proto3" json:"last_attempt_complete_time,omitempty"`
