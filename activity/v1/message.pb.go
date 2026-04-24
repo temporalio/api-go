@@ -319,9 +319,11 @@ type ActivityExecutionInfo struct {
 	// Set if activity cancelation was requested.
 	CanceledReason string `protobuf:"bytes,32,opt,name=canceled_reason,json=canceledReason,proto3" json:"canceled_reason,omitempty"`
 	// Links to related entities, such as the entity that started this activity.
-	Links         []*v1.Link `protobuf:"bytes,33,rep,name=links,proto3" json:"links,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Links []*v1.Link `protobuf:"bytes,33,rep,name=links,proto3" json:"links,omitempty"`
+	// Total number of heartbeats recorded across all attempts of this activity, including retries.
+	TotalHeartbeatCount int64 `protobuf:"varint,34,opt,name=total_heartbeat_count,json=totalHeartbeatCount,proto3" json:"total_heartbeat_count,omitempty"`
+	unknownFields       protoimpl.UnknownFields
+	sizeCache           protoimpl.SizeCache
 }
 
 func (x *ActivityExecutionInfo) Reset() {
@@ -583,6 +585,13 @@ func (x *ActivityExecutionInfo) GetLinks() []*v1.Link {
 		return x.Links
 	}
 	return nil
+}
+
+func (x *ActivityExecutionInfo) GetTotalHeartbeatCount() int64 {
+	if x != nil {
+		return x.TotalHeartbeatCount
+	}
+	return 0
 }
 
 // Limited activity information returned in the list response.
@@ -900,7 +909,7 @@ const file_temporal_api_activity_v1_message_proto_rawDesc = "" +
 	"\x16start_to_close_timeout\x18\x04 \x01(\v2\x19.google.protobuf.DurationR\x13startToCloseTimeout\x12F\n" +
 	"\x11heartbeat_timeout\x18\x05 \x01(\v2\x19.google.protobuf.DurationR\x10heartbeatTimeout\x12F\n" +
 	"\fretry_policy\x18\x06 \x01(\v2#.temporal.api.common.v1.RetryPolicyR\vretryPolicy\x12<\n" +
-	"\bpriority\x18\a \x01(\v2 .temporal.api.common.v1.PriorityR\bpriority\"\x98\x11\n" +
+	"\bpriority\x18\a \x01(\v2 .temporal.api.common.v1.PriorityR\bpriority\"\xcc\x11\n" +
 	"\x15ActivityExecutionInfo\x12\x1f\n" +
 	"\vactivity_id\x18\x01 \x01(\tR\n" +
 	"activityId\x12\x15\n" +
@@ -938,7 +947,8 @@ const file_temporal_api_activity_v1_message_proto_rawDesc = "" +
 	"\x06header\x18\x1e \x01(\v2\x1e.temporal.api.common.v1.HeaderR\x06header\x12F\n" +
 	"\ruser_metadata\x18\x1f \x01(\v2!.temporal.api.sdk.v1.UserMetadataR\fuserMetadata\x12'\n" +
 	"\x0fcanceled_reason\x18  \x01(\tR\x0ecanceledReason\x122\n" +
-	"\x05links\x18! \x03(\v2\x1c.temporal.api.common.v1.LinkR\x05links\"\x82\x05\n" +
+	"\x05links\x18! \x03(\v2\x1c.temporal.api.common.v1.LinkR\x05links\x122\n" +
+	"\x15total_heartbeat_count\x18\" \x01(\x03R\x13totalHeartbeatCount\"\x82\x05\n" +
 	"\x19ActivityExecutionListInfo\x12\x1f\n" +
 	"\vactivity_id\x18\x01 \x01(\tR\n" +
 	"activityId\x12\x15\n" +

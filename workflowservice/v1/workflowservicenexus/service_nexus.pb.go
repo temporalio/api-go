@@ -10,7 +10,9 @@ import (
 var WorkflowService = struct {
 	ServiceName                      string
 	SignalWithStartWorkflowExecution nexus.OperationReference[workflowservicev1.SignalWithStartWorkflowExecutionRequest, workflowservicev1.SignalWithStartWorkflowExecutionResponse]
+	WaitForExternalWorkflow          nexus.OperationReference[workflowservicev1.WaitForExternalWorkflowRequest, workflowservicev1.WaitForExternalWorkflowResponse]
 }{
 	ServiceName:                      "WorkflowService",
 	SignalWithStartWorkflowExecution: nexus.NewOperationReference[workflowservicev1.SignalWithStartWorkflowExecutionRequest, workflowservicev1.SignalWithStartWorkflowExecutionResponse]("SignalWithStartWorkflowExecution"),
+	WaitForExternalWorkflow:          nexus.NewOperationReference[workflowservicev1.WaitForExternalWorkflowRequest, workflowservicev1.WaitForExternalWorkflowResponse]("WaitForExternalWorkflow"),
 }
