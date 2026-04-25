@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package temporal.api.workflowservice.v1;
+
+option go_package = "go.temporal.io/api/workflowservice/v1;workflowservice";
+
+import "temporal/api/workflowservice/v1/request_response.proto";
+
+service WorkflowService {
+  rpc StartWorkflowExecution (StartWorkflowExecutionRequest) returns (StartWorkflowExecutionResponse) {
+  }
+  rpc Echo (EchoRequest) returns (EchoResponse) {
+  }
+}
