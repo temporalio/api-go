@@ -1,0 +1,125 @@
+package workflowservice
+
+import (
+	"fmt"
+	"sync"
+
+	stable "go.temporal.io/api/workflowservice/v1"
+	"google.golang.org/protobuf/encoding/protowire"
+	"google.golang.org/protobuf/proto"
+)
+
+func GetStartWorkflowExecutionRequestOverlay(
+	msg *stable.StartWorkflowExecutionRequest,
+) (*StartWorkflowExecutionRequestOverlay, bool, error) {
+	overlay := new(StartWorkflowExecutionRequestOverlay)
+	if msg == nil {
+		return overlay, false, nil
+	}
+	ok, err := getOverlay(msg, overlay)
+	if err != nil {
+		return nil, false, err
+	}
+	return overlay, ok, nil
+}
+
+func SetStartWorkflowExecutionRequestOverlay(
+	msg *stable.StartWorkflowExecutionRequest,
+	overlay *StartWorkflowExecutionRequestOverlay,
+) error {
+	if msg == nil {
+		return fmt.Errorf("stable message is nil")
+	}
+	if overlay == nil {
+		return ClearStartWorkflowExecutionRequestOverlay(msg)
+	}
+	return setOverlay(msg, overlay)
+}
+
+func ClearStartWorkflowExecutionRequestOverlay(msg *stable.StartWorkflowExecutionRequest) error {
+	if msg == nil {
+		return fmt.Errorf("stable message is nil")
+	}
+	return clearOverlay(msg, new(StartWorkflowExecutionRequestOverlay))
+}
+
+var overlayFieldNumbersCache sync.Map
+
+func getOverlay(stableMessage proto.Message, overlay proto.Message) (bool, error) {
+	payload, ok, err := selectUnknownFields(stableMessage.ProtoReflect().GetUnknown(), overlayFieldNumbers(overlay))
+	if err != nil || !ok {
+		return ok, err
+	}
+	return true, proto.Unmarshal(payload, overlay)
+}
+
+func setOverlay(stableMessage proto.Message, overlay proto.Message) error {
+	unknown, err := filterUnknownFields(stableMessage.ProtoReflect().GetUnknown(), overlayFieldNumbers(overlay))
+	if err != nil {
+		return err
+	}
+	payload, err := proto.Marshal(overlay)
+	if err != nil {
+		return err
+	}
+	unknown = append(unknown, payload...)
+	stableMessage.ProtoReflect().SetUnknown(unknown)
+	return nil
+}
+
+func clearOverlay(stableMessage proto.Message, overlay proto.Message) error {
+	unknown, err := filterUnknownFields(stableMessage.ProtoReflect().GetUnknown(), overlayFieldNumbers(overlay))
+	if err != nil {
+		return err
+	}
+	stableMessage.ProtoReflect().SetUnknown(unknown)
+	return nil
+}
+
+func overlayFieldNumbers(overlay proto.Message) map[protowire.Number]struct{} {
+	desc := overlay.ProtoReflect().Descriptor()
+	if cached, ok := overlayFieldNumbersCache.Load(desc.FullName()); ok {
+		return cached.(map[protowire.Number]struct{})
+	}
+
+	fields := desc.Fields()
+	fieldNumbers := make(map[protowire.Number]struct{}, fields.Len())
+	for i := 0; i < fields.Len(); i++ {
+		fieldNumbers[protowire.Number(fields.Get(i).Number())] = struct{}{}
+	}
+	cached, _ := overlayFieldNumbersCache.LoadOrStore(desc.FullName(), fieldNumbers)
+	return cached.(map[protowire.Number]struct{})
+}
+
+func selectUnknownFields(unknown []byte, fieldNumbers map[protowire.Number]struct{}) ([]byte, bool, error) {
+	return copyUnknownFields(unknown, fieldNumbers, true)
+}
+
+func filterUnknownFields(unknown []byte, fieldNumbers map[protowire.Number]struct{}) ([]byte, error) {
+	filtered, _, err := copyUnknownFields(unknown, fieldNumbers, false)
+	return filtered, err
+}
+
+func copyUnknownFields(unknown []byte, fieldNumbers map[protowire.Number]struct{}, keepMatches bool) ([]byte, bool, error) {
+	copied := make([]byte, 0, len(unknown))
+	var matched bool
+	for len(unknown) > 0 {
+		num, typ, tagLen := protowire.ConsumeTag(unknown)
+		if tagLen < 0 {
+			return nil, false, protowire.ParseError(tagLen)
+		}
+		valueLen := protowire.ConsumeFieldValue(num, typ, unknown[tagLen:])
+		if valueLen < 0 {
+			return nil, false, protowire.ParseError(valueLen)
+		}
+
+		fieldLen := tagLen + valueLen
+		_, match := fieldNumbers[num]
+		matched = matched || match
+		if match == keepMatches {
+			copied = append(copied, unknown[:fieldLen]...)
+		}
+		unknown = unknown[fieldLen:]
+	}
+	return copied, matched, nil
+}
