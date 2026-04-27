@@ -73,7 +73,8 @@ go-grpc: clean .go-helpers-installed $(PROTO_OUT)
 		-p grpc-gateway_out=allow_patch_feature=false,$(PROTO_PATHS) \
 		-p go-helpers_out=$(PROTO_PATHS)
 
-	mv -f $(PROTO_OUT)/temporal/api/* $(PROTO_OUT) && rm -rf $(PROTO_OUT)/temporal
+	# cp is safer than mv because mv cannot merge into existing directories
+	cp -rf $(PROTO_OUT)/temporal/api/* $(PROTO_OUT) && rm -rf $(PROTO_OUT)/temporal
 
 http-api-docs: go-grpc
 	go run cmd/encode-openapi-spec/main.go \
