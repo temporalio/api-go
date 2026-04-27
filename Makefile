@@ -42,25 +42,18 @@ update-proto-submodule:
 
 NEXUS_SCHEMA_ROOT := $(PROTO_ROOT)/nexus
 NEXUS_PROTO_OUT := workflowservice/v1/workflowservicenexus
-NEXUS_JSON_OUT := workflowservice/v1/workflowservicenexus/json
 
 ##### Compile proto files for go #####
 grpc: http-api-docs go-grpc copy-helpers nexus-gen
 
 nexus-gen:
 	printf $(COLOR) "Generate nexus service definitions..."
-	mkdir -p $(NEXUS_PROTO_OUT) $(NEXUS_JSON_OUT)
+	mkdir -p $(NEXUS_PROTO_OUT)
 	cd $(NEXUS_SCHEMA_ROOT) && nexus-rpc-gen \
 		--lang go \
 		--package workflowservicenexus \
 		--out-file $(CURDIR)/$(NEXUS_PROTO_OUT)/service_nexus.pb.go \
 		temporal-proto-models-nexusrpc.yaml
-	cd $(NEXUS_SCHEMA_ROOT) && nexus-rpc-gen \
-		--lang go \
-		--package json \
-		--temporal-nexus-payload-codec-support \
-		--out-file $(CURDIR)/$(NEXUS_JSON_OUT)/service_nexus.go \
-		temporal-json-schema-models-nexusrpc.yaml
 
 # Only install helpers when their source has changed
 HELPER_FILES = $(shell find ./cmd/protoc-gen-go-helpers)

@@ -2483,6 +2483,91 @@ func visitPayloads(
 
 			ctx.Context = prevCtx
 
+		case *nexus.NexusOperationExecutionCancellationInfo:
+
+			if o == nil {
+				continue
+			}
+
+			prevCtx := ctx.Context
+			if options.ContextHook != nil {
+				var hookErr error
+				if ctx.Context, hookErr = options.ContextHook(prevCtx, o); hookErr != nil {
+					return hookErr
+				}
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetLastAttemptFailure(),
+			); err != nil {
+				return err
+			}
+
+			ctx.Context = prevCtx
+
+		case *nexus.NexusOperationExecutionInfo:
+
+			if o == nil {
+				continue
+			}
+
+			prevCtx := ctx.Context
+			if options.ContextHook != nil {
+				var hookErr error
+				if ctx.Context, hookErr = options.ContextHook(prevCtx, o); hookErr != nil {
+					return hookErr
+				}
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetCancellationInfo(),
+				o.GetLastAttemptFailure(),
+				o.GetSearchAttributes(),
+				o.GetUserMetadata(),
+			); err != nil {
+				return err
+			}
+
+			ctx.Context = prevCtx
+
+		case []*nexus.NexusOperationExecutionListInfo:
+			for _, x := range o {
+				if err := visitPayloads(ctx, options, parent, x); err != nil {
+					return err
+				}
+			}
+
+		case *nexus.NexusOperationExecutionListInfo:
+
+			if o == nil {
+				continue
+			}
+
+			prevCtx := ctx.Context
+			if options.ContextHook != nil {
+				var hookErr error
+				if ctx.Context, hookErr = options.ContextHook(prevCtx, o); hookErr != nil {
+					return hookErr
+				}
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetSearchAttributes(),
+			); err != nil {
+				return err
+			}
+
+			ctx.Context = prevCtx
+
 		case *nexus.Request:
 
 			if o == nil {
@@ -3444,6 +3529,63 @@ func visitPayloads(
 
 			ctx.Context = prevCtx
 
+		case *workflowservice.CountNexusOperationExecutionsResponse:
+
+			if o == nil {
+				continue
+			}
+
+			prevCtx := ctx.Context
+			if options.ContextHook != nil {
+				var hookErr error
+				if ctx.Context, hookErr = options.ContextHook(prevCtx, o); hookErr != nil {
+					return hookErr
+				}
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetGroups(),
+			); err != nil {
+				return err
+			}
+
+			ctx.Context = prevCtx
+
+		case []*workflowservice.CountNexusOperationExecutionsResponse_AggregationGroup:
+			for _, x := range o {
+				if err := visitPayloads(ctx, options, parent, x); err != nil {
+					return err
+				}
+			}
+
+		case *workflowservice.CountNexusOperationExecutionsResponse_AggregationGroup:
+
+			if o == nil {
+				continue
+			}
+
+			prevCtx := ctx.Context
+			if options.ContextHook != nil {
+				var hookErr error
+				if ctx.Context, hookErr = options.ContextHook(prevCtx, o); hookErr != nil {
+					return hookErr
+				}
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetGroupValues(),
+			); err != nil {
+				return err
+			}
+
+			ctx.Context = prevCtx
+
 		case *workflowservice.CountSchedulesResponse:
 
 			if o == nil {
@@ -3657,6 +3799,46 @@ func visitPayloads(
 				options,
 				o,
 				o.GetDeploymentInfo(),
+			); err != nil {
+				return err
+			}
+
+			ctx.Context = prevCtx
+
+		case *workflowservice.DescribeNexusOperationExecutionResponse:
+
+			if o == nil {
+				continue
+			}
+
+			prevCtx := ctx.Context
+			if options.ContextHook != nil {
+				var hookErr error
+				if ctx.Context, hookErr = options.ContextHook(prevCtx, o); hookErr != nil {
+					return hookErr
+				}
+			}
+			if o.Input != nil {
+				no, err := visitPayload(ctx, options, o, o.Input)
+				if err != nil {
+					return err
+				}
+				o.Input = no
+			}
+			if o.Result != nil {
+				no, err := visitPayload(ctx, options, o, o.Result)
+				if err != nil {
+					return err
+				}
+				o.Result = no
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetFailure(),
+				o.GetInfo(),
 			); err != nil {
 				return err
 			}
@@ -4035,6 +4217,31 @@ func visitPayloads(
 
 			ctx.Context = prevCtx
 
+		case *workflowservice.ListNexusOperationExecutionsResponse:
+
+			if o == nil {
+				continue
+			}
+
+			prevCtx := ctx.Context
+			if options.ContextHook != nil {
+				var hookErr error
+				if ctx.Context, hookErr = options.ContextHook(prevCtx, o); hookErr != nil {
+					return hookErr
+				}
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetOperations(),
+			); err != nil {
+				return err
+			}
+
+			ctx.Context = prevCtx
+
 		case *workflowservice.ListOpenWorkflowExecutionsResponse:
 
 			if o == nil {
@@ -4163,6 +4370,38 @@ func visitPayloads(
 				o.GetHeader(),
 				o.GetHeartbeatDetails(),
 				o.GetInput(),
+			); err != nil {
+				return err
+			}
+
+			ctx.Context = prevCtx
+
+		case *workflowservice.PollNexusOperationExecutionResponse:
+
+			if o == nil {
+				continue
+			}
+
+			prevCtx := ctx.Context
+			if options.ContextHook != nil {
+				var hookErr error
+				if ctx.Context, hookErr = options.ContextHook(prevCtx, o); hookErr != nil {
+					return hookErr
+				}
+			}
+			if o.Result != nil {
+				no, err := visitPayload(ctx, options, o, o.Result)
+				if err != nil {
+					return err
+				}
+				o.Result = no
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetFailure(),
 			); err != nil {
 				return err
 			}
@@ -4916,6 +5155,39 @@ func visitPayloads(
 
 			ctx.Context = prevCtx
 
+		case *workflowservice.StartNexusOperationExecutionRequest:
+
+			if o == nil {
+				continue
+			}
+
+			prevCtx := ctx.Context
+			if options.ContextHook != nil {
+				var hookErr error
+				if ctx.Context, hookErr = options.ContextHook(prevCtx, o); hookErr != nil {
+					return hookErr
+				}
+			}
+			if o.Input != nil {
+				no, err := visitPayload(ctx, options, o, o.Input)
+				if err != nil {
+					return err
+				}
+				o.Input = no
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetSearchAttributes(),
+				o.GetUserMetadata(),
+			); err != nil {
+				return err
+			}
+
+			ctx.Context = prevCtx
+
 		case *workflowservice.StartWorkflowExecutionRequest:
 
 			if o == nil {
@@ -5655,6 +5927,33 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 				return err
 			}
 
+		case *nexus.NexusOperationExecutionCancellationInfo:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetLastAttemptFailure(),
+			); err != nil {
+				return err
+			}
+
+		case *nexus.NexusOperationExecutionInfo:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetCancellationInfo(),
+				o.GetLastAttemptFailure(),
+			); err != nil {
+				return err
+			}
+
 		case *nexus.Response:
 			if o == nil {
 				continue
@@ -5849,6 +6148,20 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 				return err
 			}
 
+		case *workflowservice.DescribeNexusOperationExecutionResponse:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetFailure(),
+				o.GetInfo(),
+			); err != nil {
+				return err
+			}
+
 		case *workflowservice.DescribeWorkflowExecutionResponse:
 			if o == nil {
 				continue
@@ -5966,6 +6279,19 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 				ctx,
 				options,
 				o.GetOutcome(),
+			); err != nil {
+				return err
+			}
+
+		case *workflowservice.PollNexusOperationExecutionResponse:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetFailure(),
 			); err != nil {
 				return err
 			}
