@@ -127,10 +127,9 @@ NEXUS_RPC_GEN_CACHE := $(HOME)/.cache/nexus-rpc-gen
 
 .PHONY: nexus-rpc-gen-install
 nexus-rpc-gen-install:
-	# TODO seankane: install the src from CDN
-	@printf $(COLOR) "Install nexus-rpc-gen from GitHub branch (tconley-go-payload-codec-support)..."
+	@printf $(COLOR) "Install nexus-rpc-gen from main..."
 	@rm -rf $(NEXUS_RPC_GEN_CACHE)
-	@git clone --depth 1 --branch tconley-go-payload-codec-support https://github.com/nexus-rpc/nexus-rpc-gen.git $(NEXUS_RPC_GEN_CACHE)
+	@git clone --depth 1 https://github.com/nexus-rpc/nexus-rpc-gen.git $(NEXUS_RPC_GEN_CACHE)
 	@cd $(NEXUS_RPC_GEN_CACHE)/src && pnpm install && pnpm run build
 	@chmod +x $(NEXUS_RPC_GEN_CACHE)/src/packages/nexus-rpc-gen/dist/index.js
 	@cd $(NEXUS_RPC_GEN_CACHE)/src/packages/nexus-rpc-gen && pnpm link --global
