@@ -340,11 +340,16 @@ func (x *ListNamespacesResponse) GetNextPageToken() []byte {
 }
 
 type DescribeNamespaceRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Namespace     string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
-	Id            string                 `protobuf:"bytes,2,opt,name=id,proto3" json:"id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state     protoimpl.MessageState `protogen:"open.v1"`
+	Namespace string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	Id        string                 `protobuf:"bytes,2,opt,name=id,proto3" json:"id,omitempty"`
+	// If true, the server may serve the response from an eventually-consistent
+	// source instead of reading through to persistence. Defaults to false,
+	// which preserves read-after-write consistency. SDKs should set this when
+	// fetching namespace capabilities on worker/client startup.
+	WeakConsistency bool `protobuf:"varint,3,opt,name=weak_consistency,json=weakConsistency,proto3" json:"weak_consistency,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
 }
 
 func (x *DescribeNamespaceRequest) Reset() {
@@ -389,6 +394,13 @@ func (x *DescribeNamespaceRequest) GetId() string {
 		return x.Id
 	}
 	return ""
+}
+
+func (x *DescribeNamespaceRequest) GetWeakConsistency() bool {
+	if x != nil {
+		return x.WeakConsistency
+	}
+	return false
 }
 
 type DescribeNamespaceResponse struct {
@@ -19366,10 +19378,11 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\n" +
 	"namespaces\x18\x01 \x03(\v2:.temporal.api.workflowservice.v1.DescribeNamespaceResponseR\n" +
 	"namespaces\x12&\n" +
-	"\x0fnext_page_token\x18\x02 \x01(\fR\rnextPageToken\"H\n" +
+	"\x0fnext_page_token\x18\x02 \x01(\fR\rnextPageToken\"s\n" +
 	"\x18DescribeNamespaceRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12\x0e\n" +
-	"\x02id\x18\x02 \x01(\tR\x02id\"\xcb\x03\n" +
+	"\x02id\x18\x02 \x01(\tR\x02id\x12)\n" +
+	"\x10weak_consistency\x18\x03 \x01(\bR\x0fweakConsistency\"\xcb\x03\n" +
 	"\x19DescribeNamespaceResponse\x12O\n" +
 	"\x0enamespace_info\x18\x01 \x01(\v2(.temporal.api.namespace.v1.NamespaceInfoR\rnamespaceInfo\x12B\n" +
 	"\x06config\x18\x02 \x01(\v2*.temporal.api.namespace.v1.NamespaceConfigR\x06config\x12f\n" +
