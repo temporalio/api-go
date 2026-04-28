@@ -277,6 +277,10 @@ func ExtractTemporalRequestHeaders(ctx context.Context, opts ExtractHeadersOptio
 		if val := r.GetWorkflowExecution().GetWorkflowId(); val != "" && len(opts.ExistingMetadata.Get("temporal-resource-id")) == 0 {
 			headers = append(headers, "temporal-resource-id", fmt.Sprintf("workflow:%s", val))
 		}
+	case *workflowservice.TriggerWorkflowRuleRequest:
+		if val := r.GetExecution().GetWorkflowId(); val != "" && len(opts.ExistingMetadata.Get("temporal-resource-id")) == 0 {
+			headers = append(headers, "temporal-resource-id", fmt.Sprintf("workflow:%s", val))
+		}
 	case *workflowservice.UnpauseActivityRequest:
 		if val := r.GetExecution().GetWorkflowId(); val != "" && len(opts.ExistingMetadata.Get("temporal-resource-id")) == 0 {
 			headers = append(headers, "temporal-resource-id", fmt.Sprintf("workflow:%s", val))
