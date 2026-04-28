@@ -134,6 +134,8 @@ func FromStatus(st *status.Status) error {
 			return newWorkflowExecutionAlreadyStarted(st, errDetails)
 		case *errordetails.ActivityExecutionAlreadyStartedFailure:
 			return newActivityExecutionAlreadyStarted(st, errDetails)
+		case *errordetails.CallbackExecutionAlreadyStartedFailure:
+			return newCallbackExecutionAlreadyStarted(st, errDetails)
 		case *errordetails.CancellationAlreadyRequestedFailure:
 			return newCancellationAlreadyRequested(st)
 		case *errordetails.NexusOperationExecutionAlreadyStartedFailure:
