@@ -24,18 +24,20 @@ import (
 	"go.temporal.io/api/protocol/v1"
 	_ "go.temporal.io/api/query/v1"
 	_ "go.temporal.io/api/schedule/v1"
+	"go.temporal.io/api/sdk/v1"
 	_ "go.temporal.io/api/taskqueue/v1"
 	"go.temporal.io/api/update/v1"
 	_ "go.temporal.io/api/version/v1"
 	_ "go.temporal.io/api/workflow/v1"
 	"go.temporal.io/api/workflowservice/v1"
-	systemnexus "go.temporal.io/api/workflowservice/v1/workflowservicenexus/json"
+	systemnexus "go.temporal.io/api/workflowservice/v1/workflowservicenexus"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/credentials/insecure"
 	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/proto"
+	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/reflect/protoreflect"
 	"google.golang.org/protobuf/reflect/protoregistry"
 	"google.golang.org/protobuf/types/known/anypb"
@@ -65,6 +67,31 @@ func jsonPayload(t *testing.T, value any) *common.Payload {
 	return &common.Payload{
 		Metadata: map[string][]byte{
 			"encoding": []byte("json/plain"),
+		},
+		Data: data,
+	}
+}
+
+func protoPayload(t *testing.T, value any) *common.Payload {
+	t.Helper()
+	data, err := json.Marshal(value)
+	require.NoError(t, err)
+	return &common.Payload{
+		Metadata: map[string][]byte{
+			"encoding": []byte("json/plain"),
+		},
+		Data: data,
+	}
+}
+
+func protoMessagePayload(t *testing.T, msg proto.Message) *common.Payload {
+	t.Helper()
+	data, err := protojson.Marshal(msg)
+	require.NoError(t, err)
+	return &common.Payload{
+		Metadata: map[string][]byte{
+			"encoding":    []byte("json/protobuf"),
+			"messageType": []byte(string(msg.ProtoReflect().Descriptor().FullName())),
 		},
 		Data: data,
 	}
@@ -186,43 +213,42 @@ func TestVisitPayloads_NestedParent(t *testing.T) {
 }
 
 func TestVisitPayloads_SystemNexusEnvelopeVisitsNestedPayloads(t *testing.T) {
-	req := systemnexus.WorkflowServiceSignalWithStartWorkflowExecutionInput{
+	req := workflowservice.SignalWithStartWorkflowExecutionRequest{
 		Namespace:  "default",
-		WorkflowID: "workflow-id",
+		WorkflowId: "workflow-id",
 		SignalName: "signal-name",
-		Input: &systemnexus.Input{Payloads: []any{
-			"workflow-input",
+		Input: &common.Payloads{Payloads: []*common.Payload{
+			protoPayload(t, "workflow-input"),
 		}},
-		SignalInput: &systemnexus.Input{Payloads: []any{
-			"signal-input",
+		SignalInput: &common.Payloads{Payloads: []*common.Payload{
+			protoPayload(t, "signal-input"),
 		}},
-		Memo: &systemnexus.Memo{
-			Fields: map[string]any{
-				"memo-key": "memo-value",
+		Memo: &common.Memo{
+			Fields: map[string]*common.Payload{
+				"memo-key": protoPayload(t, "memo-value"),
 			},
 		},
-		UserMetadata: &systemnexus.UserMetadata{
-			Summary: "summary-value",
-			Details: "details-value",
+		UserMetadata: &sdk.UserMetadata{
+			Summary: protoPayload(t, "summary-value"),
+			Details: protoPayload(t, "details-value"),
 		},
-		SearchAttributes: &systemnexus.SearchAttributes{
-			IndexedFields: map[string]any{
-				"custom-key": "search-value",
+		SearchAttributes: &common.SearchAttributes{
+			IndexedFields: map[string]*common.Payload{
+				"custom-key": protoPayload(t, "search-value"),
 			},
 		},
 	}
 	attrs := &command.ScheduleNexusOperationCommandAttributes{
 		Service:   systemnexus.WorkflowService.ServiceName,
 		Operation: systemnexus.WorkflowService.SignalWithStartWorkflowExecution.Name(),
-		Input:     jsonPayload(t, req),
+		Input:     protoMessagePayload(t, &req),
 	}
 
 	var visited []string
 	err := VisitPayloads(context.Background(), attrs, VisitPayloadsOptions{
 		Visitor: func(ctx *VisitPayloadsContext, p []*common.Payload) ([]*common.Payload, error) {
 			require.True(t, ctx.InsideSystemNexusEnvelope)
-			require.False(t, ctx.SinglePayloadRequired)
-			require.IsType(t, &command.ScheduleNexusOperationCommandAttributes{}, ctx.Parent)
+			require.NotNil(t, ctx.Parent)
 			for _, payload := range p {
 				visited = append(visited, payloadString(t, payload))
 			}
@@ -241,23 +267,23 @@ func TestVisitPayloads_SystemNexusEnvelopeVisitsNestedPayloads(t *testing.T) {
 }
 
 func TestVisitPayloads_SystemNexusEnvelopeSkipSearchAttributes(t *testing.T) {
-	req := systemnexus.WorkflowServiceSignalWithStartWorkflowExecutionInput{
+	req := workflowservice.SignalWithStartWorkflowExecutionRequest{
 		Namespace:  "default",
-		WorkflowID: "workflow-id",
+		WorkflowId: "workflow-id",
 		SignalName: "signal-name",
-		Input: &systemnexus.Input{Payloads: []any{
-			"workflow-input",
+		Input: &common.Payloads{Payloads: []*common.Payload{
+			protoPayload(t, "workflow-input"),
 		}},
-		SearchAttributes: &systemnexus.SearchAttributes{
-			IndexedFields: map[string]any{
-				"custom-key": "search-value",
+		SearchAttributes: &common.SearchAttributes{
+			IndexedFields: map[string]*common.Payload{
+				"custom-key": protoPayload(t, "search-value"),
 			},
 		},
 	}
 	attrs := &command.ScheduleNexusOperationCommandAttributes{
 		Service:   systemnexus.WorkflowService.ServiceName,
 		Operation: systemnexus.WorkflowService.SignalWithStartWorkflowExecution.Name(),
-		Input:     jsonPayload(t, req),
+		Input:     protoMessagePayload(t, &req),
 	}
 
 	var visited []string

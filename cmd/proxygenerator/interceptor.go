@@ -30,10 +30,11 @@ import (
 	"context"
 	"fmt"
 
-	workflowservicenexusjson "go.temporal.io/api/workflowservice/v1/workflowservicenexus/json"
+	workflowservicenexus "go.temporal.io/api/workflowservice/v1/workflowservicenexus"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/status"
     "google.golang.org/protobuf/proto"
+	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/protoadapt"
 )
 
@@ -258,7 +259,7 @@ func visitPayload(
 	if visitedPayload, ok, err := visitSystemNexusPayload(ctx, options, parent, msg); ok {
 		return visitedPayload, err
 	}
-	newPayloads, err := withPayloadVisitContext(ctx, parent, true, false, func() ([]*common.Payload, error) {
+	newPayloads, err := withPayloadVisitContext(ctx, parent, true, ctx.InsideSystemNexusEnvelope, func() ([]*common.Payload, error) {
 		return options.Visitor(ctx, []*common.Payload{msg})
 	})
 	if err != nil {
@@ -285,23 +286,20 @@ func visitSystemNexusPayload(
 	if !ok {
 		return nil, false, nil
 	}
-	payloadVisitor := workflowservicenexusjson.GetTemporalNexusPayloadVisitor(attrs.GetService(), attrs.GetOperation())
-	if payloadVisitor == nil {
+	value := workflowservicenexus.NewTemporalNexusOperationInputIfSystemOperation(attrs.GetService(), attrs.GetOperation())
+	if value == nil {
 		return nil, false, nil
 	}
-	value := payloadVisitor.InputType()
-	if err := json.Unmarshal(msg.GetData(), value); err != nil {
+	if err := protojson.Unmarshal(msg.GetData(), value); err != nil {
 		return msg, true, nil
 	}
-	visitedValue, err := payloadVisitor.Visit(value, func(payloads []*common.Payload) ([]*common.Payload, error) {
-		return withPayloadVisitContext(ctx, parent, false, true, func() ([]*common.Payload, error) {
-			return options.Visitor(ctx, payloads)
-		})
-	}, !options.SkipSearchAttributes)
+	_, err := withPayloadVisitContext(ctx, value, false, true, func() (struct{}, error) {
+		return struct{}{}, visitPayloads(ctx, options, value, value)
+	})
 	if err != nil {
 		return nil, true, err
 	}
-	visitedData, err := json.Marshal(visitedValue)
+	visitedData, err := protojson.Marshal(value)
 	if err != nil {
 		return nil, true, err
 	}
@@ -310,13 +308,13 @@ func visitSystemNexusPayload(
 	return visitedPayload, true, nil
 }
 
-func withPayloadVisitContext(
+func withPayloadVisitContext[T any](
 	ctx *VisitPayloadsContext,
 	parent proto.Message,
 	singlePayloadRequired bool,
 	insideSystemNexusEnvelope bool,
-	fn func() ([]*common.Payload, error),
-) ([]*common.Payload, error) {
+	fn func() (T, error),
+) (T, error) {
 	prevSinglePayloadRequired := ctx.SinglePayloadRequired
 	prevParent := ctx.Parent
 	prevInsideSystemNexusEnvelope := ctx.InsideSystemNexusEnvelope
