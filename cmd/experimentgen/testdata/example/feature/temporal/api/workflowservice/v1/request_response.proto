@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package temporal.api.workflowservice.v1;
+
+option go_package = "go.temporal.io/api/workflowservice/v1;workflowservice";
+
+import "temporal/api/enums/v1/workflow.proto";
+
+message StartWorkflowExecutionRequest {
+  string namespace = 1;
+  temporal.api.enums.v1.WorkflowIdConflictPolicy workflow_id_conflict_policy = 22;
+  Foo foo = 30;
+  string foo_text = 31;
+  int64 foo_count = 32;
+  bool foo_enabled = 33;
+  bytes foo_payload = 34;
+  repeated string foo_tags = 35;
+  repeated int64 foo_numbers = 36;
+  map<string, Foo> foo_by_id = 37;
+  map<string, int64> foo_counts_by_id = 38;
+  temporal.api.enums.v1.WorkflowIdConflictPolicy foo_policy = 39;
+}
+
+message StartWorkflowExecutionResponse {}
+
+message EchoRequest {
+  string namespace = 1;
+  string payload = 2;
+}
+
+message EchoResponse {
+  string payload = 1;
+}
+
+message Foo {
+  string value = 1;
+}

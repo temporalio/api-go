@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package temporal.api.workflowservice.v1;
+
+option go_package = "go.temporal.io/api/workflowservice/v1;workflowservice";
+
+import "temporal/api/enums/v1/workflow.proto";
+
+message StartWorkflowExecutionRequest {
+  string namespace = 1;
+  temporal.api.enums.v1.WorkflowIdConflictPolicy workflow_id_conflict_policy = 22;
+}
+
+message StartWorkflowExecutionResponse {}
