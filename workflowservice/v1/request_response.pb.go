@@ -15247,9 +15247,12 @@ type ListWorkersRequest struct {
 	// * SdkVersion
 	// * StartTime
 	// * Status
-	Query         string `protobuf:"bytes,4,opt,name=query,proto3" json:"query,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Query string `protobuf:"bytes,4,opt,name=query,proto3" json:"query,omitempty"`
+	// When true, the response will include system workers that are created implicitly
+	// by the server and not by the user. By default, system workers are excluded.
+	IncludeSystemWorkers bool `protobuf:"varint,5,opt,name=include_system_workers,json=includeSystemWorkers,proto3" json:"include_system_workers,omitempty"`
+	unknownFields        protoimpl.UnknownFields
+	sizeCache            protoimpl.SizeCache
 }
 
 func (x *ListWorkersRequest) Reset() {
@@ -15308,6 +15311,13 @@ func (x *ListWorkersRequest) GetQuery() string {
 		return x.Query
 	}
 	return ""
+}
+
+func (x *ListWorkersRequest) GetIncludeSystemWorkers() bool {
+	if x != nil {
+		return x.IncludeSystemWorkers
+	}
+	return false
 }
 
 type ListWorkersResponse struct {
@@ -21292,12 +21302,13 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\x10worker_heartbeat\x18\x03 \x03(\v2'.temporal.api.worker.v1.WorkerHeartbeatR\x0fworkerHeartbeat\x12\x1f\n" +
 	"\vresource_id\x18\x04 \x01(\tR\n" +
 	"resourceId\"\x1f\n" +
-	"\x1dRecordWorkerHeartbeatResponse\"\x8d\x01\n" +
+	"\x1dRecordWorkerHeartbeatResponse\"\xc3\x01\n" +
 	"\x12ListWorkersRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12\x1b\n" +
 	"\tpage_size\x18\x02 \x01(\x05R\bpageSize\x12&\n" +
 	"\x0fnext_page_token\x18\x03 \x01(\fR\rnextPageToken\x12\x14\n" +
-	"\x05query\x18\x04 \x01(\tR\x05query\"\xca\x01\n" +
+	"\x05query\x18\x04 \x01(\tR\x05query\x124\n" +
+	"\x16include_system_workers\x18\x05 \x01(\bR\x14includeSystemWorkers\"\xca\x01\n" +
 	"\x13ListWorkersResponse\x12I\n" +
 	"\fworkers_info\x18\x01 \x03(\v2\".temporal.api.worker.v1.WorkerInfoB\x02\x18\x01R\vworkersInfo\x12@\n" +
 	"\aworkers\x18\x03 \x03(\v2&.temporal.api.worker.v1.WorkerListInfoR\aworkers\x12&\n" +
