@@ -5,63 +5,29 @@ import (
 	"path/filepath"
 	"slices"
 	"strings"
+
+	"google.golang.org/protobuf/proto"
+	"google.golang.org/protobuf/types/descriptorpb"
 )
 
-type generator struct {
-	resolveStableVersion func(string) (moduleVersion, error)
-	skipGoModTidy        bool
-}
+type generator struct{}
 
-type moduleVersion struct {
-	Version   string
-	GoVersion string
-}
-
-func (g generator) generate(apiRepo string, sourceSHA string, variant string, outDir string) error {
-	resolvedSHA, err := g.runOutput("", "git", "-C", apiRepo, "rev-parse", sourceSHA)
-	if err != nil {
-		return err
+func (g generator) generate(data []byte, variant string, outDir string) error {
+	var fds descriptorpb.FileDescriptorSet
+	if err := proto.Unmarshal(data, &fds); err != nil {
+		return fmt.Errorf("unmarshal descriptor set: %w", err)
 	}
-	resolvedSHA = strings.TrimSpace(resolvedSHA)
 
-	module, err := g.resolveStableVersion(resolvedSHA)
+	stableRoot := detectStableRoot(&fds)
+
+	base, source, err := loadSnapshotsFromAnnotations(&fds, stableRoot, variant)
 	if err != nil {
 		return err
 	}
 
-	baseSHA, err := g.baseSHA(apiRepo, resolvedSHA)
-	if err != nil {
-		return err
-	}
-
-	if err := clearOutputDir(outDir); err != nil {
-		return err
-	}
-	if err := writeTemplate(filepath.Join(outDir, "go.mod"), goModTemplate, renderData{
-		ModulePath:    fmt.Sprintf("github.com/temporalio/api-go/experimental/%s", variant),
-		StableVersion: module.Version,
-		GoVersion:     module.GoVersion,
-	}); err != nil {
-		return err
-	}
-
-	stableRoot, err := g.detectStableRoot(apiRepo, resolvedSHA)
-	if err != nil {
-		return err
-	}
-
-	baseSnapshot, err := g.loadSnapshot(apiRepo, baseSHA, stableRoot)
-	if err != nil {
-		return err
-	}
-	sourceSnapshot, err := g.loadSnapshot(apiRepo, resolvedSHA, stableRoot)
-	if err != nil {
-		return err
-	}
-
-	changes := collectChanges(baseSnapshot, sourceSnapshot)
+	changes := collectChanges(base, source)
 	if len(changes.Methods) == 0 && len(changes.Overlays) == 0 && len(changes.Enums) == 0 {
-		return fmt.Errorf("no additive API changes found between %s and %s", baseSHA, resolvedSHA)
+		return fmt.Errorf("no additive API changes found for variant %q", variant)
 	}
 
 	methodMessageNames := make(map[string]struct{}, len(changes.Methods)*2)
@@ -72,8 +38,8 @@ func (g generator) generate(apiRepo string, sourceSHA string, variant string, ou
 
 	pbGoFiles, err := g.generateProtoGoFiles(
 		outDir,
-		sourceSnapshot,
-		baseSnapshot,
+		source,
+		base,
 		changes.Methods,
 		methodMessageNames,
 		changes.Overlays,
@@ -99,19 +65,14 @@ func (g generator) generate(apiRepo string, sourceSHA string, variant string, ou
 		return a.ValueNumber - b.ValueNumber
 	})
 
-	if err := g.writeWorkflowFiles(outDir, changes.Overlays); err != nil {
+	if err := g.writeWorkflowFiles(outDir, changes.Overlays, variant); err != nil {
 		return err
 	}
-	if err := g.writeEnumFiles(outDir, changes.Enums); err != nil {
+	if err := g.writeEnumFiles(outDir, changes.Enums, variant); err != nil {
 		return err
 	}
-	if err := g.formatGeneratedFiles(outDir, changes.Overlays, changes.Enums, pbGoFiles); err != nil {
+	if err := g.formatGeneratedFiles(outDir, changes.Overlays, changes.Enums, pbGoFiles, variant); err != nil {
 		return err
-	}
-	if !g.skipGoModTidy {
-		if err := g.run(outDir, "go", "mod", "tidy"); err != nil {
-			return err
-		}
 	}
 	return nil
 }
@@ -119,6 +80,7 @@ func (g generator) generate(apiRepo string, sourceSHA string, variant string, ou
 func (g generator) writeWorkflowFiles(
 	outDir string,
 	overlays []messageOverlay,
+	variant string,
 ) error {
 	if len(overlays) == 0 {
 		return nil
@@ -128,17 +90,20 @@ func (g generator) writeWorkflowFiles(
 		Overlays:      overlays,
 		OverlayGroups: groupMessageOverlays(overlays),
 	}
-	return writeTemplate(filepath.Join(outDir, "workflowservice", "v1", "overlay.go"), overlayTemplate, data)
+	outFile := filepath.Join(outDir, "workflowservice", "v1", variant+"_overlay_experimental.go")
+	return writeTemplate(outFile, overlayTemplate, data)
 }
 
 func (g generator) writeEnumFiles(
 	outDir string,
 	enums []enumInfo,
+	variant string,
 ) error {
 	if len(enums) == 0 {
 		return nil
 	}
-	return writeTemplate(filepath.Join(outDir, "enums", "v1", "enum.go"), enumTemplate, renderData{
+	outFile := filepath.Join(outDir, "enums", "v1", variant+"_enum_experimental.go")
+	return writeTemplate(outFile, enumTemplate, renderData{
 		Service: enumPackage,
 		Enums:   enums,
 	})
@@ -149,14 +114,15 @@ func (g generator) formatGeneratedFiles(
 	overlays []messageOverlay,
 	enums []enumInfo,
 	pbGoFiles []string,
+	variant string,
 ) error {
 	gofmtPaths := make([]string, 0, len(pbGoFiles)+4)
 	if len(overlays) > 0 {
-		gofmtPaths = append(gofmtPaths, filepath.Join("workflowservice", "v1", "overlay.go"))
+		gofmtPaths = append(gofmtPaths, filepath.Join("workflowservice", "v1", variant+"_overlay_experimental.go"))
 	}
 	if len(enums) > 0 {
-		gofmtPaths = append(gofmtPaths, filepath.Join("enums", "v1", "enum.go"))
+		gofmtPaths = append(gofmtPaths, filepath.Join("enums", "v1", variant+"_enum_experimental.go"))
 	}
 	gofmtPaths = append(gofmtPaths, pbGoFiles...)
-	return g.run(outDir, "gofmt", append([]string{"-w"}, gofmtPaths...)...)
+	return run(outDir, "gofmt", append([]string{"-w"}, gofmtPaths...)...)
 }

@@ -4,9 +4,12 @@ package temporal.api.enums.v1;
 
 option go_package = "go.temporal.io/api/enums/v1;enums";
 
+import "temporal/api/experimental.proto";
+
 enum WorkflowIdConflictPolicy {
   WORKFLOW_ID_CONFLICT_POLICY_UNSPECIFIED = 0;
   WORKFLOW_ID_CONFLICT_POLICY_FAIL = 1;
   WORKFLOW_ID_CONFLICT_POLICY_USE_EXISTING = 2;
   WORKFLOW_ID_CONFLICT_POLICY_TERMINATE_EXISTING = 3 [deprecated = true];
+  WORKFLOW_ID_CONFLICT_POLICY_FOO = 4 [(temporal.api.experimental_enum_value) = "example"];
 }

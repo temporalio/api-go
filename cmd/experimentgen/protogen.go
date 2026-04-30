@@ -7,6 +7,7 @@ import (
 	"os/exec"
 	"path/filepath"
 	"slices"
+	"strings"
 
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/types/descriptorpb"
@@ -27,11 +28,38 @@ func (g generator) generateProtoGoFiles(
 		return nil, err
 	}
 
-	descriptorFiles := append(cloneFileDescriptors(source.DescriptorFiles), syntheticFiles...)
+	// Replace the request_response and service files in the descriptor list with
+	// base-only versions: strip experimental-only messages/methods so they don't
+	// conflict with the synthetic files that re-declare those types/methods.
+	experimentalMessageNames := make(map[string]struct{})
+	for name := range source.WorkflowMessages {
+		if _, inBase := base.WorkflowMessages[name]; !inBase {
+			experimentalMessageNames[name] = struct{}{}
+		}
+	}
+	experimentalMethodNames := make(map[string]struct{})
+	for name := range source.WorkflowServiceMethods {
+		if _, inBase := base.WorkflowServiceMethods[name]; !inBase {
+			experimentalMethodNames[name] = struct{}{}
+		}
+	}
+	serviceFileName := strings.TrimSuffix(source.WorkflowRequestFile.GetName(), "request_response.proto") + "service.proto"
+	baseDescFiles := applyBaseToDescriptorFiles(
+		cloneFileDescriptors(source.DescriptorFiles),
+		source.WorkflowRequestFile.GetName(),
+		serviceFileName,
+		experimentalMessageNames,
+		experimentalMethodNames,
+		base.WorkflowDescriptors,
+	)
+	descriptorFiles := append(baseDescFiles, syntheticFiles...)
 	var generated []string
 	if len(goFilesToGenerate) > 0 {
 		files, err := g.runProtoPlugin(outDir, "protoc-gen-go", "paths=source_relative", descriptorFiles, goFilesToGenerate)
 		if err != nil {
+			return nil, err
+		}
+		if err := addBuildTag(outDir, files); err != nil {
 			return nil, err
 		}
 		generated = append(generated, files...)
@@ -41,9 +69,31 @@ func (g generator) generateProtoGoFiles(
 		if err != nil {
 			return nil, err
 		}
+		if err := addBuildTag(outDir, files); err != nil {
+			return nil, err
+		}
 		generated = append(generated, files...)
 	}
 	return generated, nil
+}
+
+// addBuildTag prepends "//go:build experimental\n\n" to each generated file.
+func addBuildTag(outDir string, files []string) error {
+	const tag = "//go:build experimental\n\n"
+	for _, name := range files {
+		full := filepath.Join(outDir, name)
+		contents, err := os.ReadFile(full)
+		if err != nil {
+			return err
+		}
+		if bytes.HasPrefix(contents, []byte(tag)) {
+			continue
+		}
+		if err := os.WriteFile(full, append([]byte(tag), contents...), 0o644); err != nil {
+			return err
+		}
+	}
+	return nil
 }
 
 func (g generator) runProtoPlugin(
@@ -103,10 +153,10 @@ func buildSyntheticFiles(
 	overlays []messageOverlay,
 	variant string,
 ) ([]string, []string, []*descriptorpb.FileDescriptorProto, error) {
-	goPackage := fmt.Sprintf("github.com/temporalio/api-go/experimental/%s/workflowservice/v1;workflowservice", variant)
-	experimentalPackage := source.WorkflowPackage + ".experimental." + variant
+	goPackage := "go.temporal.io/api/workflowservice/v1;workflowservice"
+	experimentalPackage := source.WorkflowPackage
 
-	workflowFileName := filepath.ToSlash(filepath.Join("workflowservice", "v1", "request_response.proto"))
+	workflowFileName := filepath.ToSlash(filepath.Join("workflowservice", "v1", fmt.Sprintf("%s_messages_experimental.proto", variant)))
 	goFilesToGenerate := make([]string, 0, 1)
 	grpcFilesToGenerate := make([]string, 0, 1)
 	syntheticFiles := make([]*descriptorpb.FileDescriptorProto, 0, 2)
@@ -162,7 +212,7 @@ func buildSyntheticFiles(
 		goFilesToGenerate = append(goFilesToGenerate, workflowFileName)
 	}
 	if len(serviceMethods) > 0 {
-		name := filepath.ToSlash(filepath.Join("workflowservice", "v1", "experimental_service.proto"))
+		name := filepath.ToSlash(filepath.Join("workflowservice", "v1", fmt.Sprintf("%s_service_experimental.proto", variant)))
 		syntheticFiles = append(syntheticFiles, syntheticServiceFile(name, source.WorkflowPackage, goPackage, []string{workflowFileName}, serviceMethods))
 		grpcFilesToGenerate = append(grpcFilesToGenerate, name)
 	}
@@ -322,6 +372,50 @@ func rewriteFieldTypeName(
 	if _, ok := localNames[trimmed]; ok {
 		field.TypeName = proto.String("." + targetPackage + "." + trimmed)
 	}
+}
+
+// applyBaseToDescriptorFiles replaces the request_response and service files in
+// the descriptor list with base-only versions: strips experimental-only messages/methods
+// so they don't conflict with the synthetic files that re-declare those types/methods.
+func applyBaseToDescriptorFiles(
+	files []*descriptorpb.FileDescriptorProto,
+	requestFileName string,
+	serviceFileName string,
+	experimentalMessageNames map[string]struct{},
+	experimentalMethodNames map[string]struct{},
+	baseDescriptors map[string]*descriptorpb.DescriptorProto,
+) []*descriptorpb.FileDescriptorProto {
+	for _, file := range files {
+		switch file.GetName() {
+		case requestFileName:
+			kept := make([]*descriptorpb.DescriptorProto, 0, len(file.GetMessageType()))
+			for _, msg := range file.GetMessageType() {
+				if _, strip := experimentalMessageNames[msg.GetName()]; strip {
+					// Skip experimental-only messages entirely.
+					continue
+				}
+				// Use the base descriptor (which has experimental fields removed).
+				if baseDesc, ok := baseDescriptors[msg.GetName()]; ok {
+					kept = append(kept, proto.Clone(baseDesc).(*descriptorpb.DescriptorProto))
+				} else {
+					kept = append(kept, msg)
+				}
+			}
+			file.MessageType = kept
+		case serviceFileName:
+			// Remove the WorkflowService service definition entirely to prevent a
+			// naming conflict with the synthetic service file (which defines
+			// WorkflowService in the same proto package).
+			kept := file.GetService()[:0]
+			for _, svc := range file.GetService() {
+				if svc.GetName() != "WorkflowService" {
+					kept = append(kept, svc)
+				}
+			}
+			file.Service = kept
+		}
+	}
+	return files
 }
 
 func workflowDependencies(source descriptorSnapshot) []string {

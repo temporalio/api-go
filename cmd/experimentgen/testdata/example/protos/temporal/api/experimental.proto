@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+package temporal.api;
+
+option go_package = "go.temporal.io/api;api";
+option java_package = "io.temporal.api";
+option java_multiple_files = true;
+option java_outer_classname = "ExperimentalProto";
+option ruby_package = "Temporalio::Api";
+option csharp_namespace = "Temporalio.Api";
+
+import "google/protobuf/descriptor.proto";
+
+// Marks a proto element as experimental, owned by the named feature flag.
+//
+// The string value is the feature name — the same value used in the server's
+// frontend.apiVariant dynamic config and the variant registry.
+//
+// Rules enforced by lint and codegen:
+//   - Field numbers and types are immutable once the option appears on master.
+//   - Reverting requires reserving the number/name in the same PR.
+//   - Promotion to stable = delete this option; number and name stay unchanged.
+//
+// Six extensions — one per descriptor type — share field number 77001.
+// Proto requires unique names within a package, hence the type suffix.
+// Annotations are written as:
+//
+//   message:    option (temporal.api.experimental_message)    = "feature";
+//   field:      [(temporal.api.experimental_field)            = "feature"]
+//   enum:       option (temporal.api.experimental_enum)       = "feature";
+//   enum value: [(temporal.api.experimental_enum_value)       = "feature"]
+//   service:    option (temporal.api.experimental_service)    = "feature";
+//   rpc method: option (temporal.api.experimental_method)     = "feature";
+extend google.protobuf.MessageOptions   { string experimental_message   = 77001; }
+extend google.protobuf.FieldOptions     { string experimental_field     = 77001; }
+extend google.protobuf.EnumOptions      { string experimental_enum      = 77001; }
+extend google.protobuf.EnumValueOptions { string experimental_enum_value = 77001; }
+extend google.protobuf.ServiceOptions   { string experimental_service   = 77001; }
+extend google.protobuf.MethodOptions    { string experimental_method    = 77001; }

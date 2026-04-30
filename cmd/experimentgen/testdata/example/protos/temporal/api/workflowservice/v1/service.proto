@@ -4,9 +4,13 @@ package temporal.api.workflowservice.v1;
 
 option go_package = "go.temporal.io/api/workflowservice/v1;workflowservice";
 
+import "temporal/api/experimental.proto";
 import "temporal/api/workflowservice/v1/request_response.proto";
 
 service WorkflowService {
   rpc StartWorkflowExecution (StartWorkflowExecutionRequest) returns (StartWorkflowExecutionResponse) {
+  }
+  rpc Echo (EchoRequest) returns (EchoResponse) {
+    option (temporal.api.experimental_method) = "example";
   }
 }

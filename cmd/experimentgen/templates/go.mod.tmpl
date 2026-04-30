@@ -1,9 +1,0 @@
-module {{ .ModulePath }}
-
-go {{ .GoVersion }}
-
-require (
-	go.temporal.io/api {{ .StableVersion }}
-	google.golang.org/grpc v1.66.0
-	google.golang.org/protobuf v1.36.5
-)

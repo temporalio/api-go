@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package temporal.api.workflowservice.v1;
+
+option go_package = "go.temporal.io/api/workflowservice/v1;workflowservice";
+
+import "temporal/api/enums/v1/workflow.proto";
+import "temporal/api/experimental.proto";
+
+message StartWorkflowExecutionRequest {
+  string namespace = 1;
+  temporal.api.enums.v1.WorkflowIdConflictPolicy workflow_id_conflict_policy = 22;
+  Foo foo = 30 [(temporal.api.experimental_field) = "example"];
+  string foo_text = 31 [(temporal.api.experimental_field) = "example"];
+  int64 foo_count = 32 [(temporal.api.experimental_field) = "example"];
+  bool foo_enabled = 33 [(temporal.api.experimental_field) = "example"];
+  bytes foo_payload = 34 [(temporal.api.experimental_field) = "example"];
+  repeated string foo_tags = 35 [(temporal.api.experimental_field) = "example"];
+  repeated int64 foo_numbers = 36 [(temporal.api.experimental_field) = "example"];
+  map<string, Foo> foo_by_id = 37 [(temporal.api.experimental_field) = "example"];
+  map<string, int64> foo_counts_by_id = 38 [(temporal.api.experimental_field) = "example"];
+  temporal.api.enums.v1.WorkflowIdConflictPolicy foo_policy = 39 [(temporal.api.experimental_field) = "example"];
+}
+
+message StartWorkflowExecutionResponse {}
+
+message EchoRequest {
+  option (temporal.api.experimental_message) = "example";
+  string namespace = 1;
+  string payload = 2;
+}
+
+message EchoResponse {
+  option (temporal.api.experimental_message) = "example";
+  string payload = 1;
+}
+
+message Foo {
+  option (temporal.api.experimental_message) = "example";
+  string value = 1;
+}
