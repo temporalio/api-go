@@ -2,10 +2,8 @@
 
 package {{ .Service.PackageName }}
 
-import stable "{{ .Service.StableImportPath }}"
-
 const (
 {{- range .Enums }}
-	{{ .ValueName }} stable.{{ .StableEnum }} = {{ .ValueNumber }}
+	{{ .ValueName }} {{ .StableEnum }} = {{ .ValueNumber }}
 {{- end }}
 )

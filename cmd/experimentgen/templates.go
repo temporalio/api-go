@@ -5,6 +5,7 @@ import (
 	_ "embed"
 	"os"
 	"path/filepath"
+	"strings"
 	"text/template"
 )
 
@@ -18,6 +19,10 @@ type renderData struct {
 	Overlays      []messageOverlay
 	OverlayGroups []messageOverlayGroup
 	Enums         []enumInfo
+	// Service stubs
+	VariantTitle string     // CamelCase variant name, e.g. "Example"
+	ProtoPackage string     // proto package, e.g. "temporal.api.workflowservice.v1"
+	Methods      []methodInfo
 }
 
 var workflowService = serviceInfo{
@@ -36,8 +41,19 @@ var overlayTemplate string
 //go:embed templates/enum.go.tmpl
 var enumTemplate string
 
+//go:embed templates/service.go.tmpl
+var serviceTemplate string
+
 func writeTemplate(path string, tmpl string, data any) error {
-	t, err := template.New(filepath.Base(path)).Parse(tmpl)
+	funcs := template.FuncMap{
+		"lc": func(s string) string {
+			if s == "" {
+				return ""
+			}
+			return strings.ToLower(s[:1]) + s[1:]
+		},
+	}
+	t, err := template.New(filepath.Base(path)).Funcs(funcs).Parse(tmpl)
 	if err != nil {
 		return err
 	}

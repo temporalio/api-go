@@ -14,11 +14,13 @@ func TestGenerateExample(t *testing.T) {
 	err := gen.generate(data, "example", outDir)
 	require.NoError(t, err)
 
-	// Check grpc file
-	grpcFile := readFile(t, outDir, "workflowservice/v1/example_service_experimental_grpc.pb.go")
-	require.Contains(t, grpcFile, "//go:build experimental")
-	require.Contains(t, grpcFile, "WorkflowServiceClient interface")
-	require.Contains(t, grpcFile, "Echo(")
+	// Check service stubs (template-generated, not protoc-gen-go-grpc)
+	svcFile := readFile(t, outDir, "workflowservice/v1/example_service_experimental.go")
+	require.Contains(t, svcFile, "//go:build experimental")
+	require.Contains(t, svcFile, "ExampleWorkflowServiceClient interface")
+	require.Contains(t, svcFile, "Echo(")
+	require.Contains(t, svcFile, `"/temporal.api.workflowservice.v1.WorkflowService/Echo"`)
+	require.Contains(t, svcFile, "ExampleWorkflowService_ServiceDesc")
 
 	// Check message file
 	msgFile := readFile(t, outDir, "workflowservice/v1/example_messages_experimental.pb.go")
@@ -26,7 +28,7 @@ func TestGenerateExample(t *testing.T) {
 	require.Contains(t, msgFile, "type EchoRequest struct")
 	require.Contains(t, msgFile, "type EchoResponse struct")
 
-	// Check overlay file
+	// Check overlay file (testdata has experimental_field annotations)
 	overlayFile := readFile(t, outDir, "workflowservice/v1/example_overlay_experimental.go")
 	require.Contains(t, overlayFile, "//go:build experimental")
 	require.Contains(t, overlayFile, "GetStartWorkflowExecutionRequestOverlay(")

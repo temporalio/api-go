@@ -1,0 +1,88 @@
+//go:build experimental
+
+package {{ .Service.PackageName }}
+
+import (
+	"context"
+
+	grpc "google.golang.org/grpc"
+	codes "google.golang.org/grpc/codes"
+	status "google.golang.org/grpc/status"
+)
+
+// {{ .VariantTitle }}WorkflowServiceClient is the client for experimental methods added by the {{ .VariantTitle }} feature.
+// It calls the stable WorkflowService gRPC endpoint, so it works against any server
+// that has the {{ .VariantTitle }} variant enabled via frontend.apiVariant.
+type {{ .VariantTitle }}WorkflowServiceClient interface {
+{{- range .Methods }}
+	{{ .Method }}(ctx context.Context, in *{{ .RequestName }}, opts ...grpc.CallOption) (*{{ .ResponseName }}, error)
+{{- end }}
+}
+
+{{- range .Methods }}
+const WorkflowService_{{ .Method }}_FullMethodName = "/{{ $.ProtoPackage }}.WorkflowService/{{ .Method }}"
+{{- end }}
+
+type {{ lc .VariantTitle }}WorkflowServiceClient struct{ cc grpc.ClientConnInterface }
+
+func New{{ .VariantTitle }}WorkflowServiceClient(cc grpc.ClientConnInterface) {{ .VariantTitle }}WorkflowServiceClient {
+	return &{{ lc .VariantTitle }}WorkflowServiceClient{cc}
+}
+
+{{- range .Methods }}
+
+func (c *{{ lc $.VariantTitle }}WorkflowServiceClient) {{ .Method }}(ctx context.Context, in *{{ .RequestName }}, opts ...grpc.CallOption) (*{{ .ResponseName }}, error) {
+	out := new({{ .ResponseName }})
+	if err := c.cc.Invoke(ctx, WorkflowService_{{ .Method }}_FullMethodName, in, out, opts...); err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+{{- end }}
+
+// {{ .VariantTitle }}WorkflowServiceServer must be implemented by the experimental handler registered via the variant registry.
+type {{ .VariantTitle }}WorkflowServiceServer interface {
+{{- range .Methods }}
+	{{ .Method }}(context.Context, *{{ .RequestName }}) (*{{ .ResponseName }}, error)
+{{- end }}
+}
+
+// Unimplemented{{ .VariantTitle }}WorkflowServiceServer returns codes.Unimplemented for every method.
+type Unimplemented{{ .VariantTitle }}WorkflowServiceServer struct{}
+
+{{- range .Methods }}
+
+func (Unimplemented{{ $.VariantTitle }}WorkflowServiceServer) {{ .Method }}(context.Context, *{{ .RequestName }}) (*{{ .ResponseName }}, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method {{ .Method }} not implemented")
+}
+{{- end }}
+
+{{- range .Methods }}
+
+func _{{ $.VariantTitle }}WorkflowService_{{ .Method }}_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new({{ .RequestName }})
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.({{ $.VariantTitle }}WorkflowServiceServer).{{ .Method }}(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{Server: srv, FullMethod: WorkflowService_{{ .Method }}_FullMethodName}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.({{ $.VariantTitle }}WorkflowServiceServer).{{ .Method }}(ctx, req.(*{{ .RequestName }}))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+{{- end }}
+
+// {{ .VariantTitle }}WorkflowService_ServiceDesc is the overlay descriptor: its ServiceName matches the
+// stable WorkflowService so registerServiceOverlay routes calls correctly.
+var {{ .VariantTitle }}WorkflowService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "{{ .ProtoPackage }}.WorkflowService",
+	HandlerType: (*{{ .VariantTitle }}WorkflowServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+{{- range .Methods }}
+		{MethodName: "{{ .Method }}", Handler: _{{ $.VariantTitle }}WorkflowService_{{ .Method }}_Handler},
+{{- end }}
+	},
+}

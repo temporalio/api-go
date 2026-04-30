@@ -23,7 +23,7 @@ func (g generator) generateProtoGoFiles(
 	overlays []messageOverlay,
 	variant string,
 ) ([]string, error) {
-	goFilesToGenerate, grpcFilesToGenerate, syntheticFiles, err := buildSyntheticFiles(source, base, methods, excluded, overlays, variant)
+	goFilesToGenerate, _, syntheticFiles, err := buildSyntheticFiles(source, base, methods, excluded, overlays, variant)
 	if err != nil {
 		return nil, err
 	}
@@ -64,16 +64,8 @@ func (g generator) generateProtoGoFiles(
 		}
 		generated = append(generated, files...)
 	}
-	if len(grpcFilesToGenerate) > 0 {
-		files, err := g.runProtoPlugin(outDir, "protoc-gen-go-grpc", "paths=source_relative,require_unimplemented_servers=false", descriptorFiles, grpcFilesToGenerate)
-		if err != nil {
-			return nil, err
-		}
-		if err := addBuildTag(outDir, files); err != nil {
-			return nil, err
-		}
-		generated = append(generated, files...)
-	}
+	// gRPC stubs are generated via the service template (see writeServiceFiles),
+	// not protoc-gen-go-grpc, to avoid redeclaring stable types in the same package.
 	return generated, nil
 }
 
@@ -426,6 +418,11 @@ func workflowDependencies(source descriptorSnapshot) []string {
 			continue
 		}
 		if _, ok := seen[dependency]; ok {
+			continue
+		}
+		// experimental.proto contributes no Go types; including it causes protoc-gen-go
+		// to emit an import for its go_package root path which has no Go files.
+		if dependency == "temporal/api/experimental.proto" {
 			continue
 		}
 		seen[dependency] = struct{}{}
