@@ -1,8 +1,10 @@
 package serviceerror_test
 
 import (
+	"context"
 	"errors"
 	"fmt"
+	"strings"
 	"testing"
 	"time"
 
@@ -189,6 +191,60 @@ func TestMultiOperationAborted(t *testing.T) {
 
 	reconstructedStatus := serviceerror.ToStatus(errFromStatus)
 	require.True(t, proto.Equal(st.Proto(), reconstructedStatus.Proto()))
+}
+
+func TestToStatus_TruncatesLongMessage(t *testing.T) {
+	longMsg := strings.Repeat("x", 5000)
+
+	t.Run("plain error", func(t *testing.T) {
+		err := errors.New(longMsg)
+		st := serviceerror.ToStatus(err)
+		require.LessOrEqual(t, len(st.Message()), 4000)
+		require.True(t, strings.HasSuffix(st.Message(), "... <truncated>"))
+		require.Equal(t, codes.Unknown, st.Code())
+	})
+
+	t.Run("service error with long message", func(t *testing.T) {
+		err := serviceerror.NewNotFound(longMsg)
+		st := serviceerror.ToStatus(err)
+		require.LessOrEqual(t, len(st.Message()), 4000)
+		require.True(t, strings.HasSuffix(st.Message(), "... <truncated>"))
+		require.Equal(t, codes.NotFound, st.Code())
+	})
+
+	t.Run("wrapped service error", func(t *testing.T) {
+		inner := &serviceerror.PermissionDenied{
+			Message: "denied",
+			Reason:  "test-reason",
+		}
+		err := fmt.Errorf("%s: %w", longMsg, inner)
+		st := serviceerror.ToStatus(err)
+		require.LessOrEqual(t, len(st.Message()), 4000)
+		require.True(t, strings.HasSuffix(st.Message(), "... <truncated>"))
+		require.Equal(t, codes.PermissionDenied, st.Code())
+	})
+
+	t.Run("deadline exceeded with long message", func(t *testing.T) {
+		err := fmt.Errorf("%s: %w", longMsg, context.DeadlineExceeded)
+		st := serviceerror.ToStatus(err)
+		require.LessOrEqual(t, len(st.Message()), 4000)
+		require.True(t, strings.HasSuffix(st.Message(), "... <truncated>"))
+		require.Equal(t, codes.DeadlineExceeded, st.Code())
+	})
+
+	t.Run("canceled with long message", func(t *testing.T) {
+		err := fmt.Errorf("%s: %w", longMsg, context.Canceled)
+		st := serviceerror.ToStatus(err)
+		require.LessOrEqual(t, len(st.Message()), 4000)
+		require.True(t, strings.HasSuffix(st.Message(), "... <truncated>"))
+		require.Equal(t, codes.Canceled, st.Code())
+	})
+
+	t.Run("short message not truncated", func(t *testing.T) {
+		err := errors.New("short error")
+		st := serviceerror.ToStatus(err)
+		require.Equal(t, "short error", st.Message())
+	})
 }
 
 func TestFromWrapped(t *testing.T) {

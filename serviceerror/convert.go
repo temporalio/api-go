@@ -3,6 +3,7 @@ package serviceerror
 import (
 	"context"
 	"errors"
+	"unicode/utf8"
 
 	spb "google.golang.org/genproto/googleapis/rpc/status"
 	"google.golang.org/grpc/codes"
@@ -12,9 +13,23 @@ import (
 	"go.temporal.io/api/failure/v1"
 )
 
+const (
+	maxMessageLength       = 4000
+	truncatedMessageSuffix = "... <truncated>"
+)
+
 // ToStatus converts service error to gRPC Status.
 // If error is not a service error it returns status with code Unknown.
-func ToStatus(err error) *status.Status {
+func ToStatus(err error) (st *status.Status) {
+	defer func() {
+		if len(st.Message()) <= maxMessageLength {
+			return
+		}
+		spb := st.Proto()
+		spb.Message = truncateMessage(spb.Message)
+		st = status.FromProto(spb)
+	}()
+
 	if err == nil {
 		return status.New(codes.OK, "")
 	}
@@ -22,21 +37,23 @@ func ToStatus(err error) *status.Status {
 	if svcerr, ok := err.(ServiceError); ok {
 		return svcerr.Status()
 	}
+
+	errMsg := truncateMessage(err.Error())
 	// err does not implement ServiceError directly, but check if it wraps it.
 	// This path does more allocation so prefer to return a ServiceError directly if possible.
 	var svcerr ServiceError
 	if errors.As(err, &svcerr) {
 		s := svcerr.Status().Proto()
-		s.Message = err.Error() // don't lose the wrapped message
+		s.Message = errMsg // don't lose the wrapped message
 		return status.FromProto(s)
 	}
 
 	// Special case for context.DeadlineExceeded and context.Canceled because they can happen in unpredictable places.
 	if errors.Is(err, context.DeadlineExceeded) {
-		return status.New(codes.DeadlineExceeded, err.Error())
+		return status.New(codes.DeadlineExceeded, errMsg)
 	}
 	if errors.Is(err, context.Canceled) {
-		return status.New(codes.Canceled, err.Error())
+		return status.New(codes.Canceled, errMsg)
 	}
 
 	// Internal logic of status.Convert is:
@@ -185,4 +202,27 @@ func extractErrorDetails(st *status.Status) any {
 	}
 
 	return nil
+}
+
+// truncateUTF8 truncates s to no more than n _bytes_, and returns a valid utf-8 string as long
+// as the input is a valid utf-8 string.
+// Note that truncation pays attention to codepoints only! This may truncate in the middle of a
+// grapheme cluster.
+func truncateUTF8(s string, n int) string {
+	if len(s) <= n {
+		return s
+	} else if n <= 0 {
+		return ""
+	}
+	for n > 0 && !utf8.RuneStart(s[n]) {
+		n--
+	}
+	return s[:n]
+}
+
+func truncateMessage(s string) string {
+	if len(s) <= maxMessageLength {
+		return s
+	}
+	return truncateUTF8(s, maxMessageLength-len(truncatedMessageSuffix)) + truncatedMessageSuffix
 }
