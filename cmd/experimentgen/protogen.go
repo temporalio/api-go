@@ -59,9 +59,6 @@ func (g generator) generateProtoGoFiles(
 		if err != nil {
 			return nil, err
 		}
-		if err := addBuildTag(outDir, files); err != nil {
-			return nil, err
-		}
 		generated = append(generated, files...)
 	}
 	// gRPC stubs are generated via the service template (see writeServiceFiles),
@@ -69,24 +66,6 @@ func (g generator) generateProtoGoFiles(
 	return generated, nil
 }
 
-// addBuildTag prepends "//go:build experimental\n\n" to each generated file.
-func addBuildTag(outDir string, files []string) error {
-	const tag = "//go:build experimental\n\n"
-	for _, name := range files {
-		full := filepath.Join(outDir, name)
-		contents, err := os.ReadFile(full)
-		if err != nil {
-			return err
-		}
-		if bytes.HasPrefix(contents, []byte(tag)) {
-			continue
-		}
-		if err := os.WriteFile(full, append([]byte(tag), contents...), 0o644); err != nil {
-			return err
-		}
-	}
-	return nil
-}
 
 func (g generator) runProtoPlugin(
 	outDir string,
@@ -145,10 +124,10 @@ func buildSyntheticFiles(
 	overlays []messageOverlay,
 	variant string,
 ) ([]string, []string, []*descriptorpb.FileDescriptorProto, error) {
-	goPackage := "go.temporal.io/api/workflowservice/v1;workflowservice"
+	goPackage := "go.temporal.io/api/experimental/workflowservice/v1;workflowservice"
 	experimentalPackage := source.WorkflowPackage
 
-	workflowFileName := filepath.ToSlash(filepath.Join("workflowservice", "v1", fmt.Sprintf("%s_messages_experimental.proto", variant)))
+	workflowFileName := filepath.ToSlash(filepath.Join("workflowservice", "v1", fmt.Sprintf("%s_messages.proto", variant)))
 	goFilesToGenerate := make([]string, 0, 1)
 	grpcFilesToGenerate := make([]string, 0, 1)
 	syntheticFiles := make([]*descriptorpb.FileDescriptorProto, 0, 2)
@@ -204,7 +183,7 @@ func buildSyntheticFiles(
 		goFilesToGenerate = append(goFilesToGenerate, workflowFileName)
 	}
 	if len(serviceMethods) > 0 {
-		name := filepath.ToSlash(filepath.Join("workflowservice", "v1", fmt.Sprintf("%s_service_experimental.proto", variant)))
+		name := filepath.ToSlash(filepath.Join("workflowservice", "v1", fmt.Sprintf("%s_service.proto", variant)))
 		syntheticFiles = append(syntheticFiles, syntheticServiceFile(name, source.WorkflowPackage, goPackage, []string{workflowFileName}, serviceMethods))
 		grpcFilesToGenerate = append(grpcFilesToGenerate, name)
 	}

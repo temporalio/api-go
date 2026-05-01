@@ -1,9 +1,9 @@
-//go:build experimental
-
 package {{ .Service.PackageName }}
+
+import stable "{{ .Service.StableImportPath }}"
 
 const (
 {{- range .Enums }}
-	{{ .ValueName }} {{ .StableEnum }} = {{ .ValueNumber }}
+	{{ .ValueName }} stable.{{ .StableEnum }} = {{ .ValueNumber }}
 {{- end }}
 )

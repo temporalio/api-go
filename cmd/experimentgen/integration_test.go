@@ -10,33 +10,43 @@ import (
 func TestGenerateExample(t *testing.T) {
 	data := buildTestDescriptorSet(t)
 	outDir := t.TempDir()
-	gen := generator{}
+	gen := generator{
+		resolveStableVersion: func(string) (moduleVersion, error) {
+			return moduleVersion{Tag: "v1.2.3", GoVersion: "1.21"}, nil
+		},
+		skipModTidy: true,
+	}
 	err := gen.generate(data, "example", outDir)
 	require.NoError(t, err)
 
 	// Check service stubs (template-generated, not protoc-gen-go-grpc)
-	svcFile := readFile(t, outDir, "workflowservice/v1/example_service_experimental.go")
-	require.Contains(t, svcFile, "//go:build experimental")
+	svcFile := readFile(t, outDir, "experimental/workflowservice/v1/example_service.go")
+	require.NotContains(t, svcFile, "//go:build experimental")
 	require.Contains(t, svcFile, "ExampleWorkflowServiceClient interface")
 	require.Contains(t, svcFile, "Echo(")
 	require.Contains(t, svcFile, `"/temporal.api.workflowservice.v1.WorkflowService/Echo"`)
 	require.Contains(t, svcFile, "ExampleWorkflowService_ServiceDesc")
 
 	// Check message file
-	msgFile := readFile(t, outDir, "workflowservice/v1/example_messages_experimental.pb.go")
-	require.Contains(t, msgFile, "//go:build experimental")
+	msgFile := readFile(t, outDir, "experimental/workflowservice/v1/example_messages.pb.go")
+	require.NotContains(t, msgFile, "//go:build experimental")
 	require.Contains(t, msgFile, "type EchoRequest struct")
 	require.Contains(t, msgFile, "type EchoResponse struct")
 
 	// Check overlay file (testdata has experimental_field annotations)
-	overlayFile := readFile(t, outDir, "workflowservice/v1/example_overlay_experimental.go")
-	require.Contains(t, overlayFile, "//go:build experimental")
+	overlayFile := readFile(t, outDir, "experimental/workflowservice/v1/example_overlay.go")
+	require.NotContains(t, overlayFile, "//go:build experimental")
 	require.Contains(t, overlayFile, "GetStartWorkflowExecutionRequestOverlay(")
 
 	// Check enum file
-	enumFile := readFile(t, outDir, "enums/v1/example_enum_experimental.go")
-	require.Contains(t, enumFile, "//go:build experimental")
+	enumFile := readFile(t, outDir, "experimental/enums/v1/example_enum.go")
+	require.NotContains(t, enumFile, "//go:build experimental")
 	require.Contains(t, enumFile, "WORKFLOW_ID_CONFLICT_POLICY_FOO")
+
+	// Check go.mod
+	goMod := readFile(t, outDir, "experimental/go.mod")
+	require.Contains(t, goMod, "module go.temporal.io/api/experimental")
+	require.Contains(t, goMod, "go.temporal.io/api v1.2.3")
 }
 
 func TestRunRequiresVariant(t *testing.T) {

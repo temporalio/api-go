@@ -23,6 +23,9 @@ type renderData struct {
 	VariantTitle string     // CamelCase variant name, e.g. "Example"
 	ProtoPackage string     // proto package, e.g. "temporal.api.workflowservice.v1"
 	Methods      []methodInfo
+	// go.mod generation
+	StableVersion string
+	GoVersion     string
 }
 
 var workflowService = serviceInfo{
@@ -43,6 +46,9 @@ var enumTemplate string
 
 //go:embed templates/service.go.tmpl
 var serviceTemplate string
+
+//go:embed templates/go.mod.tmpl
+var goModTemplate string
 
 func writeTemplate(path string, tmpl string, data any) error {
 	funcs := template.FuncMap{

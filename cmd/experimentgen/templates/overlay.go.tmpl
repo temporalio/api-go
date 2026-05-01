@@ -1,20 +1,17 @@
-//go:build experimental
-
 package {{ .Service.PackageName }}
 
 import (
 	"fmt"
 	"sync"
 
+	stable "{{ .Service.StableImportPath }}"
 	"google.golang.org/protobuf/encoding/protowire"
 	"google.golang.org/protobuf/proto"
 )
 
-// Overlay helpers are in the same package as the stable types, so no import alias needed.
-
 {{- range .OverlayGroups }}
 func Get{{ .OverlayMessage }}(
-	msg *{{ .StableMessage }},
+	msg *stable.{{ .StableMessage }},
 ) (*{{ .OverlayMessage }}, bool, error) {
 	overlay := new({{ .OverlayMessage }})
 	if msg == nil {
@@ -28,7 +25,7 @@ func Get{{ .OverlayMessage }}(
 }
 
 func Set{{ .OverlayMessage }}(
-	msg *{{ .StableMessage }},
+	msg *stable.{{ .StableMessage }},
 	overlay *{{ .OverlayMessage }},
 ) error {
 	if msg == nil {
@@ -40,7 +37,7 @@ func Set{{ .OverlayMessage }}(
 	return setOverlay(msg, overlay)
 }
 
-func Clear{{ .OverlayMessage }}(msg *{{ .StableMessage }}) error {
+func Clear{{ .OverlayMessage }}(msg *stable.{{ .StableMessage }}) error {
 	if msg == nil {
 		return fmt.Errorf("stable message is nil")
 	}

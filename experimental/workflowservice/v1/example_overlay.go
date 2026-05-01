@@ -1,18 +1,16 @@
-//go:build experimental
-
 package workflowservice
 
 import (
 	"fmt"
 	"sync"
 
+	stable "go.temporal.io/api/workflowservice/v1"
 	"google.golang.org/protobuf/encoding/protowire"
 	"google.golang.org/protobuf/proto"
 )
 
-// Overlay helpers are in the same package as the stable types, so no import alias needed.
 func GetStartWorkflowExecutionRequestOverlay(
-	msg *StartWorkflowExecutionRequest,
+	msg *stable.StartWorkflowExecutionRequest,
 ) (*StartWorkflowExecutionRequestOverlay, bool, error) {
 	overlay := new(StartWorkflowExecutionRequestOverlay)
 	if msg == nil {
@@ -26,7 +24,7 @@ func GetStartWorkflowExecutionRequestOverlay(
 }
 
 func SetStartWorkflowExecutionRequestOverlay(
-	msg *StartWorkflowExecutionRequest,
+	msg *stable.StartWorkflowExecutionRequest,
 	overlay *StartWorkflowExecutionRequestOverlay,
 ) error {
 	if msg == nil {
@@ -38,7 +36,7 @@ func SetStartWorkflowExecutionRequestOverlay(
 	return setOverlay(msg, overlay)
 }
 
-func ClearStartWorkflowExecutionRequestOverlay(msg *StartWorkflowExecutionRequest) error {
+func ClearStartWorkflowExecutionRequestOverlay(msg *stable.StartWorkflowExecutionRequest) error {
 	if msg == nil {
 		return fmt.Errorf("stable message is nil")
 	}
