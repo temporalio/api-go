@@ -1,6 +1,6 @@
 //go:build experimental
 
-package {{ .Service.PackageName }}
+package workflowservice
 
 import (
 	"fmt"
@@ -11,12 +11,10 @@ import (
 )
 
 // Overlay helpers are in the same package as the stable types, so no import alias needed.
-
-{{- range .OverlayGroups }}
-func Get{{ .OverlayMessage }}(
-	msg *{{ .StableMessage }},
-) (*{{ .OverlayMessage }}, bool, error) {
-	overlay := new({{ .OverlayMessage }})
+func GetStartWorkflowExecutionRequestOverlay(
+	msg *StartWorkflowExecutionRequest,
+) (*StartWorkflowExecutionRequestOverlay, bool, error) {
+	overlay := new(StartWorkflowExecutionRequestOverlay)
 	if msg == nil {
 		return overlay, false, nil
 	}
@@ -27,26 +25,25 @@ func Get{{ .OverlayMessage }}(
 	return overlay, ok, nil
 }
 
-func Set{{ .OverlayMessage }}(
-	msg *{{ .StableMessage }},
-	overlay *{{ .OverlayMessage }},
+func SetStartWorkflowExecutionRequestOverlay(
+	msg *StartWorkflowExecutionRequest,
+	overlay *StartWorkflowExecutionRequestOverlay,
 ) error {
 	if msg == nil {
 		return fmt.Errorf("stable message is nil")
 	}
 	if overlay == nil {
-		return Clear{{ .OverlayMessage }}(msg)
+		return ClearStartWorkflowExecutionRequestOverlay(msg)
 	}
 	return setOverlay(msg, overlay)
 }
 
-func Clear{{ .OverlayMessage }}(msg *{{ .StableMessage }}) error {
+func ClearStartWorkflowExecutionRequestOverlay(msg *StartWorkflowExecutionRequest) error {
 	if msg == nil {
 		return fmt.Errorf("stable message is nil")
 	}
-	return clearOverlay(msg, new({{ .OverlayMessage }}))
+	return clearOverlay(msg, new(StartWorkflowExecutionRequestOverlay))
 }
-{{ end }}
 
 var overlayFieldNumbersCache sync.Map
 
