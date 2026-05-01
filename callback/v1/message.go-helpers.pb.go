@@ -5,6 +5,154 @@ import (
 	"google.golang.org/protobuf/proto"
 )
 
+// Marshal an object of type CallbackExecutionOutcome to the protobuf v3 wire format
+func (val *CallbackExecutionOutcome) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type CallbackExecutionOutcome from the protobuf v3 wire format
+func (val *CallbackExecutionOutcome) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *CallbackExecutionOutcome) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two CallbackExecutionOutcome values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *CallbackExecutionOutcome) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *CallbackExecutionOutcome
+	switch t := that.(type) {
+	case *CallbackExecutionOutcome:
+		that1 = t
+	case CallbackExecutionOutcome:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type CallbackExecutionCompletion to the protobuf v3 wire format
+func (val *CallbackExecutionCompletion) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type CallbackExecutionCompletion from the protobuf v3 wire format
+func (val *CallbackExecutionCompletion) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *CallbackExecutionCompletion) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two CallbackExecutionCompletion values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *CallbackExecutionCompletion) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *CallbackExecutionCompletion
+	switch t := that.(type) {
+	case *CallbackExecutionCompletion:
+		that1 = t
+	case CallbackExecutionCompletion:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type CallbackExecutionInfo to the protobuf v3 wire format
+func (val *CallbackExecutionInfo) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type CallbackExecutionInfo from the protobuf v3 wire format
+func (val *CallbackExecutionInfo) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *CallbackExecutionInfo) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two CallbackExecutionInfo values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *CallbackExecutionInfo) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *CallbackExecutionInfo
+	switch t := that.(type) {
+	case *CallbackExecutionInfo:
+		that1 = t
+	case CallbackExecutionInfo:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type CallbackExecutionListInfo to the protobuf v3 wire format
+func (val *CallbackExecutionListInfo) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type CallbackExecutionListInfo from the protobuf v3 wire format
+func (val *CallbackExecutionListInfo) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *CallbackExecutionListInfo) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two CallbackExecutionListInfo values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *CallbackExecutionListInfo) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *CallbackExecutionListInfo
+	switch t := that.(type) {
+	case *CallbackExecutionListInfo:
+		that1 = t
+	case CallbackExecutionListInfo:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
 // Marshal an object of type CallbackInfo to the protobuf v3 wire format
 func (val *CallbackInfo) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
