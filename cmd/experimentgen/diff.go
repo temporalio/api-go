@@ -1,6 +1,7 @@
 package main
 
 import (
+	"path/filepath"
 	"slices"
 	"strings"
 
@@ -19,6 +20,11 @@ type messageOverlay struct {
 	StableMessage  string
 	OverlayMessage string
 	SourceMessage  string
+	ProtoPackage   string
+	ProtoFile      string
+	StableImport   string
+	GoPackage      string
+	RelDir         string
 	FieldName      string
 	SourceName     string
 	SourceNumber   int
@@ -29,6 +35,11 @@ type messageOverlayGroup struct {
 	StableMessage  string
 	OverlayMessage string
 	VariableName   string
+	ProtoPackage   string
+	ProtoFile      string
+	StableImport   string
+	GoPackage      string
+	RelDir         string
 	Fields         []messageOverlay
 }
 
@@ -77,10 +88,17 @@ func collectChanges(base descriptorSnapshot, source descriptorSnapshot) descript
 		})
 		nextNumber := nextAvailableNumber(usedNumbers)
 		for _, field := range addedFields {
+			sourceFile := source.WorkflowMessageFiles[messageName]
+			importPath, packageName := splitGoPackage(sourceFile.GetOptions().GetGoPackage())
 			changes.Overlays = append(changes.Overlays, messageOverlay{
 				StableMessage:  messageName,
 				OverlayMessage: messageName + "Overlay",
 				SourceMessage:  messageName,
+				ProtoPackage:   sourceFile.GetPackage(),
+				ProtoFile:      sourceFile.GetName(),
+				StableImport:   importPath,
+				GoPackage:      packageName,
+				RelDir:         relDirFromProtoFile(sourceFile.GetName()),
 				FieldName:      strcase.ToCamel(field.Name),
 				SourceName:     field.Name,
 				SourceNumber:   field.Number,
@@ -148,6 +166,11 @@ func groupMessageOverlays(overlays []messageOverlay) []messageOverlayGroup {
 				StableMessage:  overlay.StableMessage,
 				OverlayMessage: overlay.OverlayMessage,
 				VariableName:   lowerFirst(overlay.OverlayMessage),
+				ProtoPackage:   overlay.ProtoPackage,
+				ProtoFile:      overlay.ProtoFile,
+				StableImport:   overlay.StableImport,
+				GoPackage:      overlay.GoPackage,
+				RelDir:         overlay.RelDir,
 			})
 		}
 		groups[idx].Fields = append(groups[idx].Fields, overlay)
@@ -160,4 +183,17 @@ func lowerFirst(s string) string {
 		return ""
 	}
 	return strings.ToLower(s[:1]) + s[1:]
+}
+
+func splitGoPackage(goPackage string) (importPath string, packageName string) {
+	importPath, packageName, _ = strings.Cut(goPackage, ";")
+	if packageName == "" {
+		packageName = filepath.Base(importPath)
+	}
+	return importPath, packageName
+}
+
+func relDirFromProtoFile(name string) string {
+	name = strings.TrimPrefix(filepath.ToSlash(name), "temporal/api/")
+	return filepath.Dir(name)
 }

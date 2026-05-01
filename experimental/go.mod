@@ -1,4 +1,4 @@
-module go.temporal.io/api/experimental
+module github.com/temporalio/api-go/experimental
 
 go 1.21
 

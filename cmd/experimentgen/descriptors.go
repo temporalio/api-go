@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"path/filepath"
 	"strings"
 
@@ -32,6 +31,7 @@ type descriptorSnapshot struct {
 	WorkflowServiceMethods map[string]methodInfo
 	WorkflowMessages       map[string]messageDef
 	WorkflowDescriptors    map[string]*descriptorpb.DescriptorProto
+	WorkflowMessageFiles   map[string]*descriptorpb.FileDescriptorProto
 	WorkflowEnums          map[string]map[string]int32
 	WorkflowPackage        string
 	WorkflowRequestFile    *descriptorpb.FileDescriptorProto
@@ -106,10 +106,13 @@ func filterSnapshotToBase(source descriptorSnapshot, fds *descriptorpb.FileDescr
 		WorkflowServiceMethods: make(map[string]methodInfo),
 		WorkflowMessages:       make(map[string]messageDef),
 		WorkflowDescriptors:    make(map[string]*descriptorpb.DescriptorProto),
+		WorkflowMessageFiles:   make(map[string]*descriptorpb.FileDescriptorProto),
 		WorkflowEnums:          make(map[string]map[string]int32),
 		WorkflowPackage:        source.WorkflowPackage,
-		WorkflowRequestFile:    proto.Clone(source.WorkflowRequestFile).(*descriptorpb.FileDescriptorProto),
 		DescriptorFiles:        cloneFileDescriptors(source.DescriptorFiles),
+	}
+	if source.WorkflowRequestFile != nil {
+		base.WorkflowRequestFile = proto.Clone(source.WorkflowRequestFile).(*descriptorpb.FileDescriptorProto)
 	}
 
 	// Build lookup maps from the raw descriptor set for annotation checking.
@@ -122,12 +125,8 @@ func filterSnapshotToBase(source descriptorSnapshot, fds *descriptorpb.FileDescr
 	// Key: "enumName.valueName" -> *descriptorpb.EnumValueDescriptorProto
 	rawEnumValues := make(map[string]*descriptorpb.EnumValueDescriptorProto)
 
-	serviceName := filepath.ToSlash(filepath.Join(stableRoot, "workflowservice/v1/service.proto"))
-	requestResponseName := filepath.ToSlash(filepath.Join(stableRoot, "workflowservice/v1/request_response.proto"))
-	enumName := filepath.ToSlash(filepath.Join(stableRoot, "enums/v1/workflow.proto"))
-
 	for _, file := range fds.GetFile() {
-		if file.GetName() == serviceName {
+		if strings.HasSuffix(file.GetName(), "workflowservice/v1/service.proto") {
 			for _, svc := range file.GetService() {
 				if svc.GetName() != "WorkflowService" {
 					continue
@@ -137,19 +136,15 @@ func filterSnapshotToBase(source descriptorSnapshot, fds *descriptorpb.FileDescr
 				}
 			}
 		}
-		if file.GetName() == requestResponseName {
-			for _, msg := range file.GetMessageType() {
-				rawMessages[msg.GetName()] = msg
-				for _, f := range msg.GetField() {
-					rawFields[msg.GetName()+"."+f.GetName()] = f
-				}
+		for _, msg := range file.GetMessageType() {
+			rawMessages[msg.GetName()] = msg
+			for _, f := range msg.GetField() {
+				rawFields[msg.GetName()+"."+f.GetName()] = f
 			}
 		}
-		if file.GetName() == enumName {
-			for _, enum := range file.GetEnumType() {
-				for _, v := range enum.GetValue() {
-					rawEnumValues[enum.GetName()+"."+v.GetName()] = v
-				}
+		for _, enum := range file.GetEnumType() {
+			for _, v := range enum.GetValue() {
+				rawEnumValues[enum.GetName()+"."+v.GetName()] = v
 			}
 		}
 	}
@@ -186,6 +181,9 @@ func filterSnapshotToBase(source descriptorSnapshot, fds *descriptorpb.FileDescr
 		base.WorkflowMessages[msgName] = messageDef{
 			Name:   msgDef.Name,
 			Fields: filteredFields,
+		}
+		if sourceFile, ok := source.WorkflowMessageFiles[msgName]; ok {
+			base.WorkflowMessageFiles[msgName] = proto.Clone(sourceFile).(*descriptorpb.FileDescriptorProto)
 		}
 		// Also copy descriptor with filtered fields and nested types.
 		if rawMsg, ok := rawMessages[msgName]; ok {
@@ -246,56 +244,59 @@ func snapshotFromDescriptorSet(set *descriptorpb.FileDescriptorSet, stableRoot s
 		WorkflowServiceMethods: make(map[string]methodInfo),
 		WorkflowMessages:       make(map[string]messageDef),
 		WorkflowDescriptors:    make(map[string]*descriptorpb.DescriptorProto),
+		WorkflowMessageFiles:   make(map[string]*descriptorpb.FileDescriptorProto),
 		WorkflowEnums:          make(map[string]map[string]int32),
 		DescriptorFiles:        cloneFileDescriptors(set.File),
 	}
 
 	serviceName := filepath.ToSlash(filepath.Join(stableRoot, "workflowservice/v1/service.proto"))
 	requestResponseName := filepath.ToSlash(filepath.Join(stableRoot, "workflowservice/v1/request_response.proto"))
-	enumName := filepath.ToSlash(filepath.Join(stableRoot, "enums/v1/workflow.proto"))
 
-	var serviceFile, requestFile, enumFile *descriptorpb.FileDescriptorProto
+	var serviceFile, requestFile *descriptorpb.FileDescriptorProto
 	for _, file := range set.File {
 		switch file.GetName() {
 		case serviceName:
 			serviceFile = file
 		case requestResponseName:
 			requestFile = file
-		case enumName:
-			enumFile = file
 		}
 	}
-	if serviceFile == nil || requestFile == nil || enumFile == nil {
-		return descriptorSnapshot{}, fmt.Errorf("descriptor set missing required files")
-	}
-
-	for _, service := range serviceFile.GetService() {
-		if service.GetName() != "WorkflowService" {
-			continue
-		}
-		for _, method := range service.GetMethod() {
-			name := method.GetName()
-			snapshot.WorkflowServiceMethods[name] = methodInfo{
-				Method:       name,
-				RequestName:  trimDescriptorName(method.GetInputType()),
-				ResponseName: trimDescriptorName(method.GetOutputType()),
+	if serviceFile != nil {
+		for _, service := range serviceFile.GetService() {
+			if service.GetName() != "WorkflowService" {
+				continue
+			}
+			for _, method := range service.GetMethod() {
+				name := method.GetName()
+				snapshot.WorkflowServiceMethods[name] = methodInfo{
+					Method:       name,
+					RequestName:  trimDescriptorName(method.GetInputType()),
+					ResponseName: trimDescriptorName(method.GetOutputType()),
+				}
 			}
 		}
 	}
 
-	for _, msg := range requestFile.GetMessageType() {
-		snapshot.WorkflowMessages[msg.GetName()] = descriptorMessageDef(msg)
-		snapshot.WorkflowDescriptors[msg.GetName()] = proto.Clone(msg).(*descriptorpb.DescriptorProto)
+	if requestFile != nil {
+		snapshot.WorkflowPackage = requestFile.GetPackage()
+		snapshot.WorkflowRequestFile = proto.Clone(requestFile).(*descriptorpb.FileDescriptorProto)
 	}
-	snapshot.WorkflowPackage = requestFile.GetPackage()
-	snapshot.WorkflowRequestFile = proto.Clone(requestFile).(*descriptorpb.FileDescriptorProto)
-
-	for _, enum := range enumFile.GetEnumType() {
-		values := make(map[string]int32, len(enum.GetValue()))
-		for _, value := range enum.GetValue() {
-			values[value.GetName()] = value.GetNumber()
+	for _, file := range set.File {
+		if !strings.HasPrefix(file.GetPackage(), "temporal.api.") {
+			continue
 		}
-		snapshot.WorkflowEnums[enum.GetName()] = values
+		for _, msg := range file.GetMessageType() {
+			snapshot.WorkflowMessages[msg.GetName()] = descriptorMessageDef(msg)
+			snapshot.WorkflowDescriptors[msg.GetName()] = proto.Clone(msg).(*descriptorpb.DescriptorProto)
+			snapshot.WorkflowMessageFiles[msg.GetName()] = proto.Clone(file).(*descriptorpb.FileDescriptorProto)
+		}
+		for _, enum := range file.GetEnumType() {
+			values := make(map[string]int32, len(enum.GetValue()))
+			for _, value := range enum.GetValue() {
+				values[value.GetName()] = value.GetNumber()
+			}
+			snapshot.WorkflowEnums[enum.GetName()] = values
+		}
 	}
 
 	return snapshot, nil

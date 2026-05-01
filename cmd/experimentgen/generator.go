@@ -132,13 +132,21 @@ func (g generator) writeWorkflowFiles(
 	if len(overlays) == 0 {
 		return nil
 	}
-	data := renderData{
-		Service:       workflowService,
-		Overlays:      overlays,
-		OverlayGroups: groupMessageOverlays(overlays),
+	for _, group := range groupMessageOverlays(overlays) {
+		data := renderData{
+			Service: serviceInfo{
+				PackageName:      group.GoPackage,
+				StableImportPath: group.StableImport,
+			},
+			Overlays:      group.Fields,
+			OverlayGroups: []messageOverlayGroup{group},
+		}
+		outFile := filepath.Join(expDir, group.RelDir, fileSafeVariant(variant)+"_overlay.go")
+		if err := writeTemplate(outFile, overlayTemplate, data); err != nil {
+			return err
+		}
 	}
-	outFile := filepath.Join(expDir, "workflowservice", "v1", variant+"_overlay.go")
-	return writeTemplate(outFile, overlayTemplate, data)
+	return nil
 }
 
 // removeStaleFiles deletes any previously generated file for this variant so
@@ -159,14 +167,28 @@ func removeStaleFiles(outDir, variant string) {
 
 	// New paths (under experimental/ subdirectory, no _experimental suffix).
 	expDir := filepath.Join(outDir, "experimental")
-	newCandidates := []string{
-		filepath.Join(expDir, "workflowservice", "v1", variant+"_messages.pb.go"),
-		filepath.Join(expDir, "workflowservice", "v1", variant+"_service.go"),
-		filepath.Join(expDir, "workflowservice", "v1", variant+"_overlay.go"),
-		filepath.Join(expDir, "enums", "v1", variant+"_enum.go"),
-	}
-	for _, f := range newCandidates {
-		_ = os.Remove(f)
+	safeVariant := fileSafeVariant(variant)
+	_ = filepath.WalkDir(expDir, func(path string, d os.DirEntry, err error) error {
+		if err != nil || d.IsDir() {
+			return nil
+		}
+		name := d.Name()
+		if strings.HasPrefix(name, safeVariant+"_") && (strings.HasSuffix(name, ".go") || strings.HasSuffix(name, ".pb.go")) {
+			_ = os.Remove(path)
+		}
+		return nil
+	})
+	if safeVariant != variant {
+		_ = filepath.WalkDir(expDir, func(path string, d os.DirEntry, err error) error {
+			if err != nil || d.IsDir() {
+				return nil
+			}
+			name := d.Name()
+			if strings.HasPrefix(name, variant+"_") && (strings.HasSuffix(name, ".go") || strings.HasSuffix(name, ".pb.go")) {
+				_ = os.Remove(path)
+			}
+			return nil
+		})
 	}
 }
 
@@ -179,7 +201,7 @@ func (g generator) writeServiceFiles(
 	if len(methods) == 0 {
 		return nil
 	}
-	outFile := filepath.Join(expDir, "workflowservice", "v1", variant+"_service.go")
+	outFile := filepath.Join(expDir, "workflowservice", "v1", fileSafeVariant(variant)+"_service.go")
 	return writeTemplate(outFile, serviceTemplate, renderData{
 		Service:      workflowService,
 		VariantTitle: strcase.ToCamel(variant),
@@ -196,7 +218,7 @@ func (g generator) writeEnumFiles(
 	if len(enums) == 0 {
 		return nil
 	}
-	outFile := filepath.Join(expDir, "enums", "v1", variant+"_enum.go")
+	outFile := filepath.Join(expDir, "enums", "v1", fileSafeVariant(variant)+"_enum.go")
 	return writeTemplate(outFile, enumTemplate, renderData{
 		Service: enumPackage,
 		Enums:   enums,
@@ -213,13 +235,15 @@ func (g generator) formatGeneratedFiles(
 ) error {
 	gofmtPaths := make([]string, 0, len(pbGoFiles)+4)
 	if len(overlays) > 0 {
-		gofmtPaths = append(gofmtPaths, filepath.Join("workflowservice", "v1", variant+"_overlay.go"))
+		for _, group := range groupMessageOverlays(overlays) {
+			gofmtPaths = append(gofmtPaths, filepath.Join(group.RelDir, fileSafeVariant(variant)+"_overlay.go"))
+		}
 	}
 	if len(enums) > 0 {
-		gofmtPaths = append(gofmtPaths, filepath.Join("enums", "v1", variant+"_enum.go"))
+		gofmtPaths = append(gofmtPaths, filepath.Join("enums", "v1", fileSafeVariant(variant)+"_enum.go"))
 	}
 	if len(methods) > 0 {
-		gofmtPaths = append(gofmtPaths, filepath.Join("workflowservice", "v1", variant+"_service.go"))
+		gofmtPaths = append(gofmtPaths, filepath.Join("workflowservice", "v1", fileSafeVariant(variant)+"_service.go"))
 	}
 	gofmtPaths = append(gofmtPaths, pbGoFiles...)
 	return run(expDir, "gofmt", append([]string{"-w"}, gofmtPaths...)...)

@@ -38,6 +38,16 @@ func TestGenerateExample(t *testing.T) {
 	require.NotContains(t, overlayFile, "//go:build experimental")
 	require.Contains(t, overlayFile, "GetStartWorkflowExecutionRequestOverlay(")
 
+	commonOverlayFile := readFile(t, outDir, "experimental/common/v1/example_overlay.go")
+	require.NotContains(t, commonOverlayFile, "//go:build experimental")
+	require.Contains(t, commonOverlayFile, "GetLinkOverlay(")
+	require.Contains(t, commonOverlayFile, "msg *stable.Link")
+
+	commonMsgFile := readFile(t, outDir, "experimental/common/v1/example_messages.pb.go")
+	require.Contains(t, commonMsgFile, "type LinkOverlay struct")
+	require.Contains(t, commonMsgFile, "type NexusOperation struct")
+	require.NotContains(t, commonMsgFile, "OneofWrappers")
+
 	// Check enum file
 	enumFile := readFile(t, outDir, "experimental/enums/v1/example_enum.go")
 	require.NotContains(t, enumFile, "//go:build experimental")
@@ -45,7 +55,7 @@ func TestGenerateExample(t *testing.T) {
 
 	// Check go.mod
 	goMod := readFile(t, outDir, "experimental/go.mod")
-	require.Contains(t, goMod, "module go.temporal.io/api/experimental")
+	require.Contains(t, goMod, "module github.com/temporalio/api-go/experimental")
 	require.Contains(t, goMod, "go.temporal.io/api v1.2.3")
 }
 

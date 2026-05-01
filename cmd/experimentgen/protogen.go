@@ -43,10 +43,15 @@ func (g generator) generateProtoGoFiles(
 			experimentalMethodNames[name] = struct{}{}
 		}
 	}
-	serviceFileName := strings.TrimSuffix(source.WorkflowRequestFile.GetName(), "request_response.proto") + "service.proto"
+	serviceFileName := ""
+	requestFileName := ""
+	if source.WorkflowRequestFile != nil {
+		requestFileName = source.WorkflowRequestFile.GetName()
+		serviceFileName = strings.TrimSuffix(source.WorkflowRequestFile.GetName(), "request_response.proto") + "service.proto"
+	}
 	baseDescFiles := applyBaseToDescriptorFiles(
 		cloneFileDescriptors(source.DescriptorFiles),
-		source.WorkflowRequestFile.GetName(),
+		requestFileName,
 		serviceFileName,
 		experimentalMessageNames,
 		experimentalMethodNames,
@@ -65,7 +70,6 @@ func (g generator) generateProtoGoFiles(
 	// not protoc-gen-go-grpc, to avoid redeclaring stable types in the same package.
 	return generated, nil
 }
-
 
 func (g generator) runProtoPlugin(
 	outDir string,
@@ -127,7 +131,7 @@ func buildSyntheticFiles(
 	goPackage := "go.temporal.io/api/experimental/workflowservice/v1;workflowservice"
 	experimentalPackage := source.WorkflowPackage
 
-	workflowFileName := filepath.ToSlash(filepath.Join("workflowservice", "v1", fmt.Sprintf("%s_messages.proto", variant)))
+	workflowFileName := filepath.ToSlash(filepath.Join("workflowservice", "v1", fmt.Sprintf("%s_messages.proto", fileSafeVariant(variant))))
 	goFilesToGenerate := make([]string, 0, 1)
 	grpcFilesToGenerate := make([]string, 0, 1)
 	syntheticFiles := make([]*descriptorpb.FileDescriptorProto, 0, 2)
@@ -155,6 +159,9 @@ func buildSyntheticFiles(
 	}
 
 	for name := range source.WorkflowMessages {
+		if sourceFile := source.WorkflowMessageFiles[name]; sourceFile == nil || sourceFile.GetPackage() != source.WorkflowPackage {
+			continue
+		}
 		if _, exists := base.WorkflowMessages[name]; exists {
 			continue
 		}
@@ -173,7 +180,13 @@ func buildSyntheticFiles(
 	if err != nil {
 		return nil, nil, nil, err
 	}
-	overlayMessages, err := buildOverlayMessages(source, overlays, localNames, experimentalPackage)
+	workflowOverlays := make([]messageOverlay, 0, len(overlays))
+	for _, overlay := range overlays {
+		if overlay.RelDir == "workflowservice/v1" {
+			workflowOverlays = append(workflowOverlays, overlay)
+		}
+	}
+	overlayMessages, err := buildOverlayMessages(source, workflowOverlays, localNames, experimentalPackage)
 	if err != nil {
 		return nil, nil, nil, err
 	}
@@ -183,9 +196,33 @@ func buildSyntheticFiles(
 		goFilesToGenerate = append(goFilesToGenerate, workflowFileName)
 	}
 	if len(serviceMethods) > 0 {
-		name := filepath.ToSlash(filepath.Join("workflowservice", "v1", fmt.Sprintf("%s_service.proto", variant)))
+		name := filepath.ToSlash(filepath.Join("workflowservice", "v1", fmt.Sprintf("%s_service.proto", fileSafeVariant(variant))))
 		syntheticFiles = append(syntheticFiles, syntheticServiceFile(name, source.WorkflowPackage, goPackage, []string{workflowFileName}, serviceMethods))
 		grpcFilesToGenerate = append(grpcFilesToGenerate, name)
+	}
+
+	for _, group := range groupMessageOverlays(overlays) {
+		if group.RelDir == "workflowservice/v1" {
+			continue
+		}
+		fileName := filepath.ToSlash(filepath.Join(group.RelDir, fmt.Sprintf("%s_messages.proto", fileSafeVariant(variant))))
+		groupLocalNames := map[string]struct{}{group.OverlayMessage: {}}
+		msgs, err := buildOverlayMessages(source, group.Fields, groupLocalNames, group.ProtoPackage)
+		if err != nil {
+			return nil, nil, nil, err
+		}
+		importPath := strings.TrimSuffix(group.StableImport, "/"+group.RelDir) + "/experimental/" + group.RelDir
+		if strings.HasPrefix(group.StableImport, "go.temporal.io/api/") {
+			importPath = "go.temporal.io/api/experimental/" + group.RelDir
+		}
+		syntheticFiles = append(syntheticFiles, syntheticWorkflowFile(
+			fileName,
+			group.ProtoPackage,
+			importPath+";"+group.GoPackage,
+			overlayDependencies(source, group.ProtoFile),
+			msgs...,
+		))
+		goFilesToGenerate = append(goFilesToGenerate, fileName)
 	}
 
 	return goFilesToGenerate, grpcFilesToGenerate, syntheticFiles, nil
@@ -234,11 +271,21 @@ func buildOverlayMessages(
 
 			field := proto.Clone(sourceField).(*descriptorpb.FieldDescriptorProto)
 			field.Number = proto.Int32(int32(overlay.FieldNumber))
+			field.OneofIndex = nil
 			if mapEntry != nil {
 				nested := proto.Clone(mapEntry).(*descriptorpb.DescriptorProto)
 				rewriteLocalTypeNames(nested, localNames, experimentalPackage)
 				msg.NestedType = append(msg.NestedType, nested)
 				field.TypeName = proto.String("." + experimentalPackage + "." + group.OverlayMessage + "." + nested.GetName())
+			} else if nested := findNestedMessage(sourceMsg, field.GetTypeName()); nested != nil {
+				nested = proto.Clone(nested).(*descriptorpb.DescriptorProto)
+				rewriteLocalTypeNames(nested, localNames, experimentalPackage)
+				msgsLocalName := nested.GetName()
+				if _, exists := localNames[msgsLocalName]; !exists {
+					localNames[msgsLocalName] = struct{}{}
+					messages = append(messages, nested)
+				}
+				field.TypeName = proto.String("." + experimentalPackage + "." + msgsLocalName)
 			} else {
 				rewriteFieldTypeName(field, localNames, experimentalPackage)
 			}
@@ -247,6 +294,19 @@ func buildOverlayMessages(
 		messages = append(messages, msg)
 	}
 	return messages, nil
+}
+
+func findNestedMessage(msg *descriptorpb.DescriptorProto, typeName string) *descriptorpb.DescriptorProto {
+	if typeName == "" {
+		return nil
+	}
+	name := trimDescriptorName(typeName)
+	for _, nested := range msg.GetNestedType() {
+		if nested.GetName() == name {
+			return nested
+		}
+	}
+	return nil
 }
 
 func findSourceField(
@@ -357,23 +417,19 @@ func applyBaseToDescriptorFiles(
 	baseDescriptors map[string]*descriptorpb.DescriptorProto,
 ) []*descriptorpb.FileDescriptorProto {
 	for _, file := range files {
-		switch file.GetName() {
-		case requestFileName:
-			kept := make([]*descriptorpb.DescriptorProto, 0, len(file.GetMessageType()))
-			for _, msg := range file.GetMessageType() {
-				if _, strip := experimentalMessageNames[msg.GetName()]; strip {
-					// Skip experimental-only messages entirely.
-					continue
-				}
-				// Use the base descriptor (which has experimental fields removed).
-				if baseDesc, ok := baseDescriptors[msg.GetName()]; ok {
-					kept = append(kept, proto.Clone(baseDesc).(*descriptorpb.DescriptorProto))
-				} else {
-					kept = append(kept, msg)
-				}
+		kept := make([]*descriptorpb.DescriptorProto, 0, len(file.GetMessageType()))
+		for _, msg := range file.GetMessageType() {
+			if _, strip := experimentalMessageNames[msg.GetName()]; strip {
+				continue
 			}
-			file.MessageType = kept
-		case serviceFileName:
+			if baseDesc, ok := baseDescriptors[msg.GetName()]; ok {
+				kept = append(kept, proto.Clone(baseDesc).(*descriptorpb.DescriptorProto))
+			} else {
+				kept = append(kept, msg)
+			}
+		}
+		file.MessageType = kept
+		if file.GetName() == serviceFileName {
 			// Remove the WorkflowService service definition entirely to prevent a
 			// naming conflict with the synthetic service file (which defines
 			// WorkflowService in the same proto package).
@@ -390,9 +446,26 @@ func applyBaseToDescriptorFiles(
 }
 
 func workflowDependencies(source descriptorSnapshot) []string {
-	dependencies := make([]string, 0, len(source.WorkflowRequestFile.GetDependency())+1)
-	seen := make(map[string]struct{}, len(source.WorkflowRequestFile.GetDependency())+1)
-	for _, dependency := range append([]string{source.WorkflowRequestFile.GetName()}, source.WorkflowRequestFile.GetDependency()...) {
+	if source.WorkflowRequestFile == nil {
+		return nil
+	}
+	return overlayDependencies(source, source.WorkflowRequestFile.GetName())
+}
+
+func overlayDependencies(source descriptorSnapshot, protoFile string) []string {
+	var sourceFile *descriptorpb.FileDescriptorProto
+	for _, file := range source.DescriptorFiles {
+		if file.GetName() == protoFile {
+			sourceFile = file
+			break
+		}
+	}
+	if sourceFile == nil {
+		return nil
+	}
+	dependencies := make([]string, 0, len(sourceFile.GetDependency())+1)
+	seen := make(map[string]struct{}, len(sourceFile.GetDependency())+1)
+	for _, dependency := range append([]string{sourceFile.GetName()}, sourceFile.GetDependency()...) {
 		if dependency == "" {
 			continue
 		}
@@ -408,4 +481,8 @@ func workflowDependencies(source descriptorSnapshot) []string {
 		dependencies = append(dependencies, dependency)
 	}
 	return dependencies
+}
+
+func fileSafeVariant(variant string) string {
+	return strings.ReplaceAll(variant, "-", "_")
 }

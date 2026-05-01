@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package temporal.api.common.v1;
+
+option go_package = "go.temporal.io/api/common/v1;common";
+
+import "temporal/api/experimental.proto";
+
+message Link {
+  message NexusOperation {
+    option (temporal.api.experimental_message) = "example";
+
+    string namespace = 1;
+    string operation_id = 2;
+    string run_id = 3;
+  }
+
+  message WorkflowEvent {
+    string workflow_id = 1;
+  }
+
+  oneof variant {
+    WorkflowEvent workflow_event = 1;
+    NexusOperation nexus_operation = 4 [(temporal.api.experimental_field) = "example"];
+  }
+}
