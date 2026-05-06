@@ -918,6 +918,7 @@ type CallbackExecutionAlreadyStartedFailure struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
 	StartRequestId string                 `protobuf:"bytes,1,opt,name=start_request_id,json=startRequestId,proto3" json:"start_request_id,omitempty"`
 	RunId          string                 `protobuf:"bytes,2,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
+	CallbackId     string                 `protobuf:"bytes,3,opt,name=callback_id,json=callbackId,proto3" json:"callback_id,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -962,6 +963,13 @@ func (x *CallbackExecutionAlreadyStartedFailure) GetStartRequestId() string {
 func (x *CallbackExecutionAlreadyStartedFailure) GetRunId() string {
 	if x != nil {
 		return x.RunId
+	}
+	return ""
+}
+
+func (x *CallbackExecutionAlreadyStartedFailure) GetCallbackId() string {
+	if x != nil {
+		return x.CallbackId
 	}
 	return ""
 }
@@ -1141,10 +1149,12 @@ const file_temporal_api_errordetails_v1_message_proto_rawDesc = "" +
 	"\adetails\x18\x03 \x03(\v2\x14.google.protobuf.AnyR\adetails\"i\n" +
 	"&ActivityExecutionAlreadyStartedFailure\x12(\n" +
 	"\x10start_request_id\x18\x01 \x01(\tR\x0estartRequestId\x12\x15\n" +
-	"\x06run_id\x18\x02 \x01(\tR\x05runId\"i\n" +
+	"\x06run_id\x18\x02 \x01(\tR\x05runId\"\x8a\x01\n" +
 	"&CallbackExecutionAlreadyStartedFailure\x12(\n" +
 	"\x10start_request_id\x18\x01 \x01(\tR\x0estartRequestId\x12\x15\n" +
-	"\x06run_id\x18\x02 \x01(\tR\x05runId\"o\n" +
+	"\x06run_id\x18\x02 \x01(\tR\x05runId\x12\x1f\n" +
+	"\vcallback_id\x18\x03 \x01(\tR\n" +
+	"callbackId\"o\n" +
 	",NexusOperationExecutionAlreadyStartedFailure\x12(\n" +
 	"\x10start_request_id\x18\x01 \x01(\tR\x0estartRequestId\x12\x15\n" +
 	"\x06run_id\x18\x02 \x01(\tR\x05runIdB\xa7\x01\n" +
