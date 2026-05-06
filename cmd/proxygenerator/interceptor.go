@@ -550,6 +550,12 @@ func visitPayloads(
 					if err := visitPayload(ctx, options, o, concState, &result); err != nil { return err }
 					o.Outcome = &workflowservice.PollNexusOperationExecutionResponse_Result{Result: result}
 				}
+				{{else if and (eq $type "*callback.CallbackExecutionCompletion") (eq . "Success")}}
+				if o.GetSuccess() != nil {
+					success := o.GetSuccess()
+					if err := visitPayload(ctx, options, o, concState, &success); err != nil { return err }
+					o.Result = &callback.CallbackExecutionCompletion_Success{Success: success}
+				}
 				{{else}}
 				if o.{{.}} != nil {
 					if err := visitPayload(ctx, options, o, concState, &o.{{.}}); err != nil { return err }
