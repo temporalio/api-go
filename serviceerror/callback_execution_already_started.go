@@ -9,31 +9,32 @@ import (
 	"go.temporal.io/api/errordetails/v1"
 )
 
-type (
-	// CallbackExecutionAlreadyStarted represents the error arising when trying to start a callback already in progress.
-	CallbackExecutionAlreadyStarted struct {
-		Message        string
-		StartRequestId string
-		RunId          string
-		st             *status.Status
-	}
-)
+// CallbackExecutionAlreadyStarted represents the error arising when trying to start a callback already in progress.
+type CallbackExecutionAlreadyStarted struct {
+	Message        string
+	StartRequestID string
+	RunID          string
+	CallbackID     string
+	st             *status.Status
+}
 
 // NewCallbackExecutionAlreadyStarted returns new CallbackExecutionAlreadyStarted error.
-func NewCallbackExecutionAlreadyStarted(message, startRequestId, runId string) error {
+func NewCallbackExecutionAlreadyStarted(message, startRequestID, runID, callbackID string) error {
 	return &CallbackExecutionAlreadyStarted{
 		Message:        message,
-		StartRequestId: startRequestId,
-		RunId:          runId,
+		StartRequestID: startRequestID,
+		RunID:          runID,
+		CallbackID:     callbackID,
 	}
 }
 
 // NewCallbackExecutionAlreadyStartedf returns new CallbackExecutionAlreadyStarted error with formatted message.
-func NewCallbackExecutionAlreadyStartedf(startRequestId, runId, format string, args ...any) error {
+func NewCallbackExecutionAlreadyStartedf(startRequestID, runID, callbackID, format string, args ...any) error {
 	return &CallbackExecutionAlreadyStarted{
 		Message:        fmt.Sprintf(format, args...),
-		StartRequestId: startRequestId,
-		RunId:          runId,
+		StartRequestID: startRequestID,
+		RunID:          runID,
+		CallbackID:     callbackID,
 	}
 }
 
@@ -50,8 +51,9 @@ func (e *CallbackExecutionAlreadyStarted) Status() *status.Status {
 	st := status.New(codes.AlreadyExists, e.Message)
 	st, _ = st.WithDetails(
 		&errordetails.CallbackExecutionAlreadyStartedFailure{
-			StartRequestId: e.StartRequestId,
-			RunId:          e.RunId,
+			StartRequestId: e.StartRequestID,
+			RunId:          e.RunID,
+			CallbackId:     e.CallbackID,
 		},
 	)
 	return st
@@ -60,8 +62,9 @@ func (e *CallbackExecutionAlreadyStarted) Status() *status.Status {
 func newCallbackExecutionAlreadyStarted(st *status.Status, errDetails *errordetails.CallbackExecutionAlreadyStartedFailure) error {
 	return &CallbackExecutionAlreadyStarted{
 		Message:        st.Message(),
-		StartRequestId: errDetails.GetStartRequestId(),
-		RunId:          errDetails.GetRunId(),
+		StartRequestID: errDetails.GetStartRequestId(),
+		RunID:          errDetails.GetRunId(),
+		CallbackID:     errDetails.GetCallbackId(),
 		st:             st,
 	}
 }
