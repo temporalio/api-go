@@ -25,9 +25,13 @@ PINNED_DEPENDENCIES := \
 
 PROTO_ROOT := proto/api
 PROTO_OUT := .
+API_NEXT_PROTO_ROOT := $(PROTO_ROOT)/temporal/api_next
+API_NEXT_OUT := api_next
+API_NEXT_SOURCE_ROOT := $(API_NEXT_OUT)/.source
 PROTO_IMPORTS = \
 	-I=$(PROTO_ROOT)
 PROTO_PATHS = paths=source_relative:$(PROTO_OUT)
+API_NEXT_PROTO_PATHS = paths=source_relative:$(API_NEXT_OUT)
 
 OAPI_ROOT := $(PROTO_ROOT)/openapi
 OAPI_OUT := temporalproto/openapi
@@ -41,7 +45,11 @@ update-proto-submodule:
 	git -c protocol.file.allow=always submodule update --init --force --remote $(PROTO_ROOT)
 
 ##### Compile proto files for go #####
-grpc: http-api-docs go-grpc copy-helpers
+stable-api:
+	printf $(COLOR) "Generate stable temporal/api protos from temporal/api_next..."
+	(cd $(PROTO_ROOT)/cmd/generate-stable-api && go run .)
+
+grpc: stable-api http-api-docs go-grpc copy-helpers api-next
 
 # Only install helper when its source has changed
 HELPER_FILES = $(shell find ./cmd/protoc-gen-go-helpers)
@@ -50,7 +58,7 @@ HELPER_FILES = $(shell find ./cmd/protoc-gen-go-helpers)
 	@go install ./cmd/protoc-gen-go-helpers
 	@touch $@
 
-go-grpc: clean .go-helpers-installed $(PROTO_OUT)
+go-grpc: stable-api clean .go-helpers-installed $(PROTO_OUT)
 	printf $(COLOR) "Compile for go-gRPC..."
 	go run ./cmd/protogen \
 		--root=$(PROTO_ROOT) \
@@ -63,7 +71,6 @@ go-grpc: clean .go-helpers-installed $(PROTO_OUT)
 
 	# cp is safer than mv because mv cannot merge into existing directories
 	cp -rf $(PROTO_OUT)/temporal/api/* $(PROTO_OUT) && rm -rf $(PROTO_OUT)/temporal
-
 http-api-docs: go-grpc
 	go run cmd/encode-openapi-spec/main.go \
 		-v2=$(OAPI_ROOT)/openapiv2.json \
@@ -93,16 +100,44 @@ goimports:
 	printf $(COLOR) "Run goimports..."
 	goimports -w $(PROTO_OUT)
 
-gen-proto-desc:
+gen-proto-desc: stable-api
 	printf $(COLOR) "Generating proto descriptors..."
 	go run ./cmd/protogen \
 		--root=$(PROTO_ROOT) \
 		--output=$(PROTO_OUT) \
 		--exclude=internal \
 		--exclude=proto/api/google \
-		--no-rewrite-enum-const \
 		--no-rewrite-enum-string \
 		--output-descriptor=$(PROTO_OUT)/descriptor_set.pb
+
+api-next: stable-api .go-helpers-installed mockgen-install
+	printf $(COLOR) "Compile api_next module..."
+	rm -rf $(API_NEXT_OUT)
+	mkdir -p $(API_NEXT_OUT) $(API_NEXT_SOURCE_ROOT)/temporal
+	cp -R $(API_NEXT_PROTO_ROOT) $(API_NEXT_SOURCE_ROOT)/temporal/api
+	find $(API_NEXT_SOURCE_ROOT) -name "*.proto" -exec perl -pi -e 's#temporal/api_next/#temporal/api/#g' {} +
+	go run ./cmd/protogen \
+		--root=$(API_NEXT_SOURCE_ROOT)/temporal/api \
+		--output=$(API_NEXT_OUT) \
+		-I=$(API_NEXT_SOURCE_ROOT) \
+		-I=$(PROTO_ROOT) \
+		--exclude=internal \
+		--no-rewrite-enum-string \
+		-p go-grpc_out=$(API_NEXT_PROTO_PATHS) \
+		-p grpc-gateway_out=allow_patch_feature=false,$(API_NEXT_PROTO_PATHS) \
+		-p go-helpers_out=$(API_NEXT_PROTO_PATHS)
+	cp -rf $(API_NEXT_OUT)/temporal/api/* $(API_NEXT_OUT) && rm -rf $(API_NEXT_OUT)/temporal $(API_NEXT_SOURCE_ROOT)
+	cp -R internal serviceerror temporalproto proxy workflowservicemock operatorservicemock $(API_NEXT_OUT)/
+	cp common/v1/payload_json.go $(API_NEXT_OUT)/common/v1/
+	find $(API_NEXT_OUT) -name "*_test.go" -delete
+	printf "module go.temporal.io/api\n\ngo $$(awk '/^go / { print $$2 }' go.mod)\n\nrequire (\\n\tgoogle.golang.org/grpc v1.66.0\\n\tgoogle.golang.org/protobuf v1.36.5\\n)\\n" > $(API_NEXT_OUT)/go.mod
+	(cd $(API_NEXT_OUT) && mockgen -package operatorservicemock -imports operatorservice=go.temporal.io/api/operatorservice/v1 -source operatorservice/v1/service_grpc.pb.go -destination operatorservicemock/v1/service_grpc.pb.mock.go)
+	(cd $(API_NEXT_OUT) && mockgen -package workflowservicemock -imports workflowservice=go.temporal.io/api/workflowservice/v1 -source workflowservice/v1/service_grpc.pb.go -destination workflowservicemock/v1/service_grpc.pb.mock.go)
+	perl -pi -e 's#v1 "go.temporal.io/api/operatorservice/v1"#operatorservice "go.temporal.io/api/operatorservice/v1"#; s/v1\./operatorservice./g' $(API_NEXT_OUT)/operatorservicemock/v1/service_grpc.pb.mock.go
+	perl -pi -e 's#v1 "go.temporal.io/api/workflowservice/v1"#workflowservice "go.temporal.io/api/workflowservice/v1"#; s/v1\./workflowservice./g' $(API_NEXT_OUT)/workflowservicemock/v1/service_grpc.pb.mock.go
+	go run ./cmd/mockgen-fix OperatorService $(API_NEXT_OUT)/operatorservicemock/v1/service_grpc.pb.mock.go
+	go run ./cmd/mockgen-fix WorkflowService $(API_NEXT_OUT)/workflowservicemock/v1/service_grpc.pb.mock.go
+	(cd $(API_NEXT_OUT) && go mod tidy)
 
 ##### Plugins & tools #####
 grpc-install:
