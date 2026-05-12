@@ -305,6 +305,6 @@ func main() {
 		outputDescriptorPath: outputDescriptorPath,
 	})
 	if err != nil {
-		fail(err.Error())
+		fail("%s", err)
 	}
 }
