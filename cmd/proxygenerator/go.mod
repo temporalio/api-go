@@ -12,7 +12,7 @@ require (
 
 require (
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.26.1 // indirect
-	github.com/nexus-rpc/nexus-proto-annotations v0.0.0-20260330194009-e558d6edaf84 // indirect
+	github.com/nexus-rpc/nexus-proto-annotations v0.1.0 // indirect
 	golang.org/x/mod v0.23.0 // indirect
 	golang.org/x/net v0.35.0 // indirect
 	golang.org/x/sync v0.11.0 // indirect
