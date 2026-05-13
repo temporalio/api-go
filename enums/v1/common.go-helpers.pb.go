@@ -78,6 +78,7 @@ var (
 		"Succeeded":   5,
 		"Blocked":     6,
 		"Terminated":  7,
+		"TimedOut":    8,
 	}
 )
 

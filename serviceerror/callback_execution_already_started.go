@@ -14,27 +14,24 @@ type CallbackExecutionAlreadyStarted struct {
 	Message        string
 	StartRequestID string
 	RunID          string
-	CallbackID     string
 	st             *status.Status
 }
 
 // NewCallbackExecutionAlreadyStarted returns new CallbackExecutionAlreadyStarted error.
-func NewCallbackExecutionAlreadyStarted(message, startRequestID, runID, callbackID string) error {
+func NewCallbackExecutionAlreadyStarted(message, startRequestID, runID string) error {
 	return &CallbackExecutionAlreadyStarted{
 		Message:        message,
 		StartRequestID: startRequestID,
 		RunID:          runID,
-		CallbackID:     callbackID,
 	}
 }
 
 // NewCallbackExecutionAlreadyStartedf returns new CallbackExecutionAlreadyStarted error with formatted message.
-func NewCallbackExecutionAlreadyStartedf(startRequestID, runID, callbackID, format string, args ...any) error {
+func NewCallbackExecutionAlreadyStartedf(startRequestID, runID, format string, args ...any) error {
 	return &CallbackExecutionAlreadyStarted{
 		Message:        fmt.Sprintf(format, args...),
 		StartRequestID: startRequestID,
 		RunID:          runID,
-		CallbackID:     callbackID,
 	}
 }
 
@@ -53,7 +50,6 @@ func (e *CallbackExecutionAlreadyStarted) Status() *status.Status {
 		&errordetails.CallbackExecutionAlreadyStartedFailure{
 			StartRequestId: e.StartRequestID,
 			RunId:          e.RunID,
-			CallbackId:     e.CallbackID,
 		},
 	)
 	return st
@@ -64,7 +60,6 @@ func newCallbackExecutionAlreadyStarted(st *status.Status, errDetails *errordeta
 		Message:        st.Message(),
 		StartRequestID: errDetails.GetStartRequestId(),
 		RunID:          errDetails.GetRunId(),
-		CallbackID:     errDetails.GetCallbackId(),
 		st:             st,
 	}
 }

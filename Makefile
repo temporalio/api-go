@@ -132,7 +132,7 @@ nexus-rpc-gen-install:
 	@git clone --depth 1 https://github.com/nexus-rpc/nexus-rpc-gen.git $(NEXUS_RPC_GEN_CACHE)
 	@cd $(NEXUS_RPC_GEN_CACHE)/src && pnpm install && pnpm run build
 	@chmod +x $(NEXUS_RPC_GEN_CACHE)/src/packages/nexus-rpc-gen/dist/index.js
-	@cd $(NEXUS_RPC_GEN_CACHE)/src/packages/nexus-rpc-gen && pnpm link --global
+	@cd $(NEXUS_RPC_GEN_CACHE)/src/packages/nexus-rpc-gen && pnpm add --global .
 
 mockgen-install:
 	printf $(COLOR) "Install/update mockgen..."

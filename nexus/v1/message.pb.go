@@ -293,6 +293,8 @@ type StartOperationRequest struct {
 	// Links contain caller information and can be attached to the operations started by the handler.
 	Links []*Link `protobuf:"bytes,7,rep,name=links,proto3" json:"links,omitempty"`
 	// Callback token, to uniquely identify the callback as applicable.
+	// Clients should set both the callback_token and the Temporal-Callback-Token header for
+	// compatibility with Workers running older versions of the SDK.
 	CallbackToken string `protobuf:"bytes,8,opt,name=callback_token,json=callbackToken,proto3" json:"callback_token,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache

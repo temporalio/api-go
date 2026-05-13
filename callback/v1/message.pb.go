@@ -100,7 +100,8 @@ type isCallbackExecutionOutcome_Value interface {
 }
 
 type CallbackExecutionOutcome_Success struct {
-	// The callback completed successfully.
+	// The callback completed successfully. (Which includes delivering
+	// a Nexus operation that completed with a failure.)
 	Success *emptypb.Empty `protobuf:"bytes,1,opt,name=success,proto3,oneof"`
 }
 
@@ -215,21 +216,22 @@ type CallbackExecutionInfo struct {
 	Status v12.CallbackExecutionStatus `protobuf:"varint,4,opt,name=status,proto3,enum=temporal.api.enums.v1.CallbackExecutionStatus" json:"status,omitempty"`
 	// The detailed state of this callback, provides more granular information than the general status.
 	State v12.CallbackState `protobuf:"varint,5,opt,name=state,proto3,enum=temporal.api.enums.v1.CallbackState" json:"state,omitempty"`
-	// The number of attempts made to deliver the callback.
-	// This number represents a minimum bound since the attempt is incremented after the callback request completes.
+	// The number of attempts made to deliver the start callback execution request.
+	// This number is approximate. There could be more attempts if callback invocation fails, or fewer
+	// if it was terminated.
 	Attempt int32 `protobuf:"varint,6,opt,name=attempt,proto3" json:"attempt,omitempty"`
 	// The time when the callback was created/scheduled.
 	CreateTime *timestamppb.Timestamp `protobuf:"bytes,7,opt,name=create_time,json=createTime,proto3" json:"create_time,omitempty"`
+	// Time when the callback transitioned to a terminal state.
+	CloseTime *timestamppb.Timestamp `protobuf:"bytes,12,opt,name=close_time,json=closeTime,proto3" json:"close_time,omitempty"`
 	// The time when the last attempt completed.
 	LastAttemptCompleteTime *timestamppb.Timestamp `protobuf:"bytes,8,opt,name=last_attempt_complete_time,json=lastAttemptCompleteTime,proto3" json:"last_attempt_complete_time,omitempty"`
 	// The last attempt's failure, if any.
 	LastAttemptFailure *v1.Failure `protobuf:"bytes,9,opt,name=last_attempt_failure,json=lastAttemptFailure,proto3" json:"last_attempt_failure,omitempty"`
-	// The time when the next attempt is scheduled.
+	// The time when the next attempt is scheduled (only set when in BACKING_OFF state).
 	NextAttemptScheduleTime *timestamppb.Timestamp `protobuf:"bytes,10,opt,name=next_attempt_schedule_time,json=nextAttemptScheduleTime,proto3" json:"next_attempt_schedule_time,omitempty"`
 	// If the state is BLOCKED, provides additional information.
 	BlockedReason string `protobuf:"bytes,11,opt,name=blocked_reason,json=blockedReason,proto3" json:"blocked_reason,omitempty"`
-	// Time when the callback transitioned to a terminal state.
-	CloseTime *timestamppb.Timestamp `protobuf:"bytes,12,opt,name=close_time,json=closeTime,proto3" json:"close_time,omitempty"`
 	// Search attributes for indexing.
 	SearchAttributes *v11.SearchAttributes `protobuf:"bytes,13,opt,name=search_attributes,json=searchAttributes,proto3" json:"search_attributes,omitempty"`
 	// Schedule-to-close timeout for this callback.
@@ -322,6 +324,13 @@ func (x *CallbackExecutionInfo) GetCreateTime() *timestamppb.Timestamp {
 	return nil
 }
 
+func (x *CallbackExecutionInfo) GetCloseTime() *timestamppb.Timestamp {
+	if x != nil {
+		return x.CloseTime
+	}
+	return nil
+}
+
 func (x *CallbackExecutionInfo) GetLastAttemptCompleteTime() *timestamppb.Timestamp {
 	if x != nil {
 		return x.LastAttemptCompleteTime
@@ -348,13 +357,6 @@ func (x *CallbackExecutionInfo) GetBlockedReason() string {
 		return x.BlockedReason
 	}
 	return ""
-}
-
-func (x *CallbackExecutionInfo) GetCloseTime() *timestamppb.Timestamp {
-	if x != nil {
-		return x.CloseTime
-	}
-	return nil
 }
 
 func (x *CallbackExecutionInfo) GetSearchAttributes() *v11.SearchAttributes {
@@ -611,14 +613,14 @@ const file_temporal_api_callback_v1_message_proto_rawDesc = "" +
 	"\x05state\x18\x05 \x01(\x0e2$.temporal.api.enums.v1.CallbackStateR\x05state\x12\x18\n" +
 	"\aattempt\x18\x06 \x01(\x05R\aattempt\x12;\n" +
 	"\vcreate_time\x18\a \x01(\v2\x1a.google.protobuf.TimestampR\n" +
-	"createTime\x12W\n" +
+	"createTime\x129\n" +
+	"\n" +
+	"close_time\x18\f \x01(\v2\x1a.google.protobuf.TimestampR\tcloseTime\x12W\n" +
 	"\x1alast_attempt_complete_time\x18\b \x01(\v2\x1a.google.protobuf.TimestampR\x17lastAttemptCompleteTime\x12R\n" +
 	"\x14last_attempt_failure\x18\t \x01(\v2 .temporal.api.failure.v1.FailureR\x12lastAttemptFailure\x12W\n" +
 	"\x1anext_attempt_schedule_time\x18\n" +
 	" \x01(\v2\x1a.google.protobuf.TimestampR\x17nextAttemptScheduleTime\x12%\n" +
-	"\x0eblocked_reason\x18\v \x01(\tR\rblockedReason\x129\n" +
-	"\n" +
-	"close_time\x18\f \x01(\v2\x1a.google.protobuf.TimestampR\tcloseTime\x12U\n" +
+	"\x0eblocked_reason\x18\v \x01(\tR\rblockedReason\x12U\n" +
 	"\x11search_attributes\x18\r \x01(\v2(.temporal.api.common.v1.SearchAttributesR\x10searchAttributes\x12T\n" +
 	"\x19schedule_to_close_timeout\x18\x0e \x01(\v2\x19.google.protobuf.DurationR\x16scheduleToCloseTimeout\x124\n" +
 	"\x16state_transition_count\x18\x0f \x01(\x03R\x14stateTransitionCount\"\xa0\x03\n" +
@@ -682,10 +684,10 @@ var file_temporal_api_callback_v1_message_proto_depIdxs = []int32{
 	9,  // 5: temporal.api.callback.v1.CallbackExecutionInfo.status:type_name -> temporal.api.enums.v1.CallbackExecutionStatus
 	10, // 6: temporal.api.callback.v1.CallbackExecutionInfo.state:type_name -> temporal.api.enums.v1.CallbackState
 	11, // 7: temporal.api.callback.v1.CallbackExecutionInfo.create_time:type_name -> google.protobuf.Timestamp
-	11, // 8: temporal.api.callback.v1.CallbackExecutionInfo.last_attempt_complete_time:type_name -> google.protobuf.Timestamp
-	6,  // 9: temporal.api.callback.v1.CallbackExecutionInfo.last_attempt_failure:type_name -> temporal.api.failure.v1.Failure
-	11, // 10: temporal.api.callback.v1.CallbackExecutionInfo.next_attempt_schedule_time:type_name -> google.protobuf.Timestamp
-	11, // 11: temporal.api.callback.v1.CallbackExecutionInfo.close_time:type_name -> google.protobuf.Timestamp
+	11, // 8: temporal.api.callback.v1.CallbackExecutionInfo.close_time:type_name -> google.protobuf.Timestamp
+	11, // 9: temporal.api.callback.v1.CallbackExecutionInfo.last_attempt_complete_time:type_name -> google.protobuf.Timestamp
+	6,  // 10: temporal.api.callback.v1.CallbackExecutionInfo.last_attempt_failure:type_name -> temporal.api.failure.v1.Failure
+	11, // 11: temporal.api.callback.v1.CallbackExecutionInfo.next_attempt_schedule_time:type_name -> google.protobuf.Timestamp
 	12, // 12: temporal.api.callback.v1.CallbackExecutionInfo.search_attributes:type_name -> temporal.api.common.v1.SearchAttributes
 	13, // 13: temporal.api.callback.v1.CallbackExecutionInfo.schedule_to_close_timeout:type_name -> google.protobuf.Duration
 	9,  // 14: temporal.api.callback.v1.CallbackExecutionListInfo.status:type_name -> temporal.api.enums.v1.CallbackExecutionStatus

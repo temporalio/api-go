@@ -250,6 +250,8 @@ const (
 	CALLBACK_STATE_BLOCKED CallbackState = 6
 	// Callback was terminated via TerminateCallbackExecution. Only possible for standalone callbacks.
 	CALLBACK_STATE_TERMINATED CallbackState = 7
+	// Callback exceeded the schedule-to-close timeout.
+	CALLBACK_STATE_TIMED_OUT CallbackState = 8
 )
 
 // Enum value maps for CallbackState.
@@ -263,6 +265,7 @@ var (
 		5: "CALLBACK_STATE_SUCCEEDED",
 		6: "CALLBACK_STATE_BLOCKED",
 		7: "CALLBACK_STATE_TERMINATED",
+		8: "CALLBACK_STATE_TIMED_OUT",
 	}
 	CallbackState_value = map[string]int32{
 		"CALLBACK_STATE_UNSPECIFIED": 0,
@@ -273,6 +276,7 @@ var (
 		"CALLBACK_STATE_SUCCEEDED":   5,
 		"CALLBACK_STATE_BLOCKED":     6,
 		"CALLBACK_STATE_TERMINATED":  7,
+		"CALLBACK_STATE_TIMED_OUT":   8,
 	}
 )
 
@@ -300,8 +304,13 @@ func (x CallbackState) String() string {
 		return "Blocked"
 	case CALLBACK_STATE_TERMINATED:
 		return "Terminated"
+	case CALLBACK_STATE_TIMED_OUT:
+		return "TimedOut"
 	default:
-		return strconv.Itoa(int(x))
+		return strconv.
+
+			// Deprecated: Use CallbackState.Descriptor instead.
+			Itoa(int(x))
 	}
 
 }
@@ -318,7 +327,6 @@ func (x CallbackState) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use CallbackState.Descriptor instead.
 func (CallbackState) EnumDescriptor() ([]byte, []int) {
 	return file_temporal_api_enums_v1_common_proto_rawDescGZIP(), []int{3}
 }
@@ -773,7 +781,7 @@ const file_temporal_api_enums_v1_common_proto_rawDesc = "" +
 	"\x14SEVERITY_UNSPECIFIED\x10\x00\x12\x11\n" +
 	"\rSEVERITY_HIGH\x10\x01\x12\x13\n" +
 	"\x0fSEVERITY_MEDIUM\x10\x02\x12\x10\n" +
-	"\fSEVERITY_LOW\x10\x03*\xfd\x01\n" +
+	"\fSEVERITY_LOW\x10\x03*\x9b\x02\n" +
 	"\rCallbackState\x12\x1e\n" +
 	"\x1aCALLBACK_STATE_UNSPECIFIED\x10\x00\x12\x1a\n" +
 	"\x16CALLBACK_STATE_STANDBY\x10\x01\x12\x1c\n" +
@@ -782,7 +790,8 @@ const file_temporal_api_enums_v1_common_proto_rawDesc = "" +
 	"\x15CALLBACK_STATE_FAILED\x10\x04\x12\x1c\n" +
 	"\x18CALLBACK_STATE_SUCCEEDED\x10\x05\x12\x1a\n" +
 	"\x16CALLBACK_STATE_BLOCKED\x10\x06\x12\x1d\n" +
-	"\x19CALLBACK_STATE_TERMINATED\x10\a*\xe4\x01\n" +
+	"\x19CALLBACK_STATE_TERMINATED\x10\a\x12\x1c\n" +
+	"\x18CALLBACK_STATE_TIMED_OUT\x10\b*\xe4\x01\n" +
 	"\x17CallbackExecutionStatus\x12)\n" +
 	"%CALLBACK_EXECUTION_STATUS_UNSPECIFIED\x10\x00\x12%\n" +
 	"!CALLBACK_EXECUTION_STATUS_RUNNING\x10\x01\x12'\n" +

@@ -1495,6 +1495,7 @@ type Callback_Nexus struct {
 	// Header to attach to callback request.
 	Header map[string]string `protobuf:"bytes,2,rep,name=header,proto3" json:"header,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	// Standard token to use for identifying the callback, used for completion.
+	// Clients should also populate the token header field for compatibility with older servers.
 	Token         string `protobuf:"bytes,3,opt,name=token,proto3" json:"token,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache

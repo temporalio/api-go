@@ -18831,7 +18831,7 @@ func (x *StartCallbackExecutionResponse) GetRunId() string {
 type DescribeCallbackExecutionRequest struct {
 	state     protoimpl.MessageState `protogen:"open.v1"`
 	Namespace string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
-	// Identifier for the callback
+	// Identifier for the callback.
 	CallbackId string `protobuf:"bytes,2,opt,name=callback_id,json=callbackId,proto3" json:"callback_id,omitempty"`
 	// Run ID of the callback execution to describe. If empty, the latest run will be described.
 	RunId string `protobuf:"bytes,3,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
@@ -18839,8 +18839,9 @@ type DescribeCallbackExecutionRequest struct {
 	IncludeInput bool `protobuf:"varint,4,opt,name=include_input,json=includeInput,proto3" json:"include_input,omitempty"`
 	// Include the outcome (result/failure) in the response if the callback has completed.
 	IncludeOutcome bool `protobuf:"varint,5,opt,name=include_outcome,json=includeOutcome,proto3" json:"include_outcome,omitempty"`
-	// Token from a previous DescribeCallbackExecutionResponse. If present, long-poll until callback
+	// Token from a previous DescribeCallbackExecutionResponse. If present, long-poll until the callback
 	// state changes from the state encoded in this token. If absent, return current state immediately.
+	// If present, run_id must also be present.
 	// Note that callback state may change multiple times between requests, therefore it is not
 	// guaranteed that a client making a sequence of long-poll requests will see a complete
 	// sequence of state changes.
@@ -18996,7 +18997,7 @@ func (x *DescribeCallbackExecutionResponse) GetLongPollToken() []byte {
 type PollCallbackExecutionRequest struct {
 	state     protoimpl.MessageState `protogen:"open.v1"`
 	Namespace string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
-	// Identifier for the callback
+	// Identifier for the callback.
 	CallbackId string `protobuf:"bytes,2,opt,name=callback_id,json=callbackId,proto3" json:"callback_id,omitempty"`
 	// Run ID of the callback execution to poll. If empty, the latest run will be polled.
 	RunId         string `protobuf:"bytes,3,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
@@ -19116,6 +19117,8 @@ type ListCallbackExecutionsRequest struct {
 	// Token returned in ListCallbackExecutionsResponse.
 	NextPageToken []byte `protobuf:"bytes,3,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
 	// Visibility query, see https://docs.temporal.io/list-filter for the syntax.
+	// Search attributes that are available:
+	// - ExecutionStatus
 	Query         string `protobuf:"bytes,4,opt,name=query,proto3" json:"query,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -19236,6 +19239,8 @@ type CountCallbackExecutionsRequest struct {
 	state     protoimpl.MessageState `protogen:"open.v1"`
 	Namespace string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// Visibility query, see https://docs.temporal.io/list-filter for the syntax.
+	// Search attributes that are available:
+	// - ExecutionStatus
 	Query         string `protobuf:"bytes,2,opt,name=query,proto3" json:"query,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -19347,7 +19352,7 @@ func (x *CountCallbackExecutionsResponse) GetGroups() []*CountCallbackExecutions
 type TerminateCallbackExecutionRequest struct {
 	state     protoimpl.MessageState `protogen:"open.v1"`
 	Namespace string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
-	// Identifier for the callback
+	// Identifier for the callback.
 	CallbackId string `protobuf:"bytes,2,opt,name=callback_id,json=callbackId,proto3" json:"callback_id,omitempty"`
 	// Run ID of the callback execution to terminate. If empty, the latest run will be terminated.
 	RunId string `protobuf:"bytes,3,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
@@ -19472,7 +19477,7 @@ func (*TerminateCallbackExecutionResponse) Descriptor() ([]byte, []int) {
 type DeleteCallbackExecutionRequest struct {
 	state     protoimpl.MessageState `protogen:"open.v1"`
 	Namespace string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
-	// Identifier for the callback
+	// Identifier for the callback.
 	CallbackId string `protobuf:"bytes,2,opt,name=callback_id,json=callbackId,proto3" json:"callback_id,omitempty"`
 	// Run ID of the callback execution to delete. If empty, the latest run will be deleted.
 	RunId         string `protobuf:"bytes,3,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
