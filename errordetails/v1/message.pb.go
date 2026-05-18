@@ -1022,28 +1022,27 @@ func (x *NexusOperationExecutionAlreadyStartedFailure) GetRunId() string {
 }
 
 // An error indicating that the request's targeted Nexus operation has not yet started.
-type NexusOperationNotStarted struct {
+type NexusOperationNotStartedFailure struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
 	StartRequestId string                 `protobuf:"bytes,1,opt,name=start_request_id,json=startRequestId,proto3" json:"start_request_id,omitempty"`
-	RunId          string                 `protobuf:"bytes,2,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
 
-func (x *NexusOperationNotStarted) Reset() {
-	*x = NexusOperationNotStarted{}
+func (x *NexusOperationNotStartedFailure) Reset() {
+	*x = NexusOperationNotStartedFailure{}
 	mi := &file_temporal_api_errordetails_v1_message_proto_msgTypes[20]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *NexusOperationNotStarted) String() string {
+func (x *NexusOperationNotStartedFailure) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*NexusOperationNotStarted) ProtoMessage() {}
+func (*NexusOperationNotStartedFailure) ProtoMessage() {}
 
-func (x *NexusOperationNotStarted) ProtoReflect() protoreflect.Message {
+func (x *NexusOperationNotStartedFailure) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_errordetails_v1_message_proto_msgTypes[20]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -1055,21 +1054,14 @@ func (x *NexusOperationNotStarted) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use NexusOperationNotStarted.ProtoReflect.Descriptor instead.
-func (*NexusOperationNotStarted) Descriptor() ([]byte, []int) {
+// Deprecated: Use NexusOperationNotStartedFailure.ProtoReflect.Descriptor instead.
+func (*NexusOperationNotStartedFailure) Descriptor() ([]byte, []int) {
 	return file_temporal_api_errordetails_v1_message_proto_rawDescGZIP(), []int{20}
 }
 
-func (x *NexusOperationNotStarted) GetStartRequestId() string {
+func (x *NexusOperationNotStartedFailure) GetStartRequestId() string {
 	if x != nil {
 		return x.StartRequestId
-	}
-	return ""
-}
-
-func (x *NexusOperationNotStarted) GetRunId() string {
-	if x != nil {
-		return x.RunId
 	}
 	return ""
 }
@@ -1200,10 +1192,9 @@ const file_temporal_api_errordetails_v1_message_proto_rawDesc = "" +
 	"\x06run_id\x18\x02 \x01(\tR\x05runId\"o\n" +
 	",NexusOperationExecutionAlreadyStartedFailure\x12(\n" +
 	"\x10start_request_id\x18\x01 \x01(\tR\x0estartRequestId\x12\x15\n" +
-	"\x06run_id\x18\x02 \x01(\tR\x05runId\"[\n" +
-	"\x18NexusOperationNotStarted\x12(\n" +
-	"\x10start_request_id\x18\x01 \x01(\tR\x0estartRequestId\x12\x15\n" +
-	"\x06run_id\x18\x02 \x01(\tR\x05runIdB\xa7\x01\n" +
+	"\x06run_id\x18\x02 \x01(\tR\x05runId\"K\n" +
+	"\x1fNexusOperationNotStartedFailure\x12(\n" +
+	"\x10start_request_id\x18\x01 \x01(\tR\x0estartRequestIdB\xa7\x01\n" +
 	"\x1fio.temporal.api.errordetails.v1B\fMessageProtoP\x01Z/go.temporal.io/api/errordetails/v1;errordetails\xaa\x02\x1eTemporalio.Api.ErrorDetails.V1\xea\x02!Temporalio::Api::ErrorDetails::V1b\x06proto3"
 
 var (
@@ -1240,7 +1231,7 @@ var file_temporal_api_errordetails_v1_message_proto_goTypes = []any{
 	(*ActivityExecutionAlreadyStartedFailure)(nil),         // 17: temporal.api.errordetails.v1.ActivityExecutionAlreadyStartedFailure
 	(*CallbackExecutionAlreadyStartedFailure)(nil),         // 18: temporal.api.errordetails.v1.CallbackExecutionAlreadyStartedFailure
 	(*NexusOperationExecutionAlreadyStartedFailure)(nil),   // 19: temporal.api.errordetails.v1.NexusOperationExecutionAlreadyStartedFailure
-	(*NexusOperationNotStarted)(nil),                       // 20: temporal.api.errordetails.v1.NexusOperationNotStarted
+	(*NexusOperationNotStartedFailure)(nil),                // 20: temporal.api.errordetails.v1.NexusOperationNotStartedFailure
 	(*MultiOperationExecutionFailure_OperationStatus)(nil), // 21: temporal.api.errordetails.v1.MultiOperationExecutionFailure.OperationStatus
 	(v1.NamespaceState)(0),                                 // 22: temporal.api.enums.v1.NamespaceState
 	(*v11.Failure)(nil),                                    // 23: temporal.api.failure.v1.Failure
