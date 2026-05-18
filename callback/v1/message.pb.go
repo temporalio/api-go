@@ -217,8 +217,8 @@ type CallbackExecutionInfo struct {
 	// The detailed state of this callback, provides more granular information than the general status.
 	State v12.CallbackState `protobuf:"varint,5,opt,name=state,proto3,enum=temporal.api.enums.v1.CallbackState" json:"state,omitempty"`
 	// The number of attempts made to deliver the start callback execution request.
-	// This number is approximate. There could be more attempts if callback invocation fails, or fewer
-	// if it was terminated.
+	// This number is approximate. There could be more attempts if the server crashes before recording the attempt's completion, or fewer
+	// if the callback was terminated or timed out after the counter has been incremented and before an attempt could be made.
 	Attempt int32 `protobuf:"varint,6,opt,name=attempt,proto3" json:"attempt,omitempty"`
 	// The time when the callback was created/scheduled.
 	CreateTime *timestamppb.Timestamp `protobuf:"bytes,7,opt,name=create_time,json=createTime,proto3" json:"create_time,omitempty"`
