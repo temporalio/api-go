@@ -27,7 +27,7 @@ func NewNexusOperationNotStarted(message, startRequestId string) error {
 }
 
 // NewNexusOperationNotStartedf returns new NexusOperationNotStarted error with formatted message.
-func NewNexusOperationNotStartedf(startRequestId, runId, format string, args ...any) error {
+func NewNexusOperationNotStartedf(startRequestId, format string, args ...any) error {
 	return &NexusOperationNotStarted{
 		Message:        fmt.Sprintf(format, args...),
 		StartRequestId: startRequestId,
