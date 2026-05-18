@@ -151,6 +151,8 @@ func FromStatus(st *status.Status) error {
 			return newNamespaceInvalidState(st, errDetails)
 		case *errordetails.ClientVersionNotSupportedFailure:
 			return newClientVersionNotSupported(st, errDetails)
+		case *errordetails.NexusOperationNotStarted:
+			return newNexusOperationNotStarted(st, errDetails)
 		case *errordetails.ServerVersionNotSupportedFailure:
 			return newServerVersionNotSupported(st, errDetails)
 		case *errordetails.WorkflowNotReadyFailure:

@@ -14,17 +14,15 @@ type (
 	NexusOperationNotStarted struct {
 		Message        string
 		StartRequestId string
-		RunId          string
 		st             *status.Status
 	}
 )
 
 // NewNexusOperationNotStarted returns new NexusOperationNotStarted error.
-func NewNexusOperationNotStarted(message, startRequestId, runId string) error {
+func NewNexusOperationNotStarted(message, startRequestId string) error {
 	return &NexusOperationNotStarted{
 		Message:        message,
 		StartRequestId: startRequestId,
-		RunId:          runId,
 	}
 }
 
@@ -33,7 +31,6 @@ func NewNexusOperationNotStartedf(startRequestId, runId, format string, args ...
 	return &NexusOperationNotStarted{
 		Message:        fmt.Sprintf(format, args...),
 		StartRequestId: startRequestId,
-		RunId:          runId,
 	}
 }
 
@@ -51,7 +48,6 @@ func (e *NexusOperationNotStarted) Status() *status.Status {
 	st, _ = st.WithDetails(
 		&errordetails.NexusOperationNotStartedFailure{
 			StartRequestId: e.StartRequestId,
-			RunId:          e.RunId,
 		},
 	)
 	return st
@@ -61,7 +57,6 @@ func newNexusOperationNotStarted(st *status.Status, errDetails *errordetails.Nex
 	return &NexusOperationNotStarted{
 		Message:        st.Message(),
 		StartRequestId: errDetails.GetStartRequestId(),
-		RunId:          errDetails.GetRunId(),
 		st:             st,
 	}
 }
