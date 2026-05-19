@@ -46,7 +46,7 @@ jobs:
           echo "API_REF=$API_REF" | tee -a "$GITHUB_OUTPUT"
 
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           repository: temporalio/sdk-go
           ref: ${{ steps.inputs.outputs.SDK_REF }}

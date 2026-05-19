@@ -11,7 +11,7 @@ jobs:
     steps:
       - name: Print build information
         run: 'echo head_ref: "$GITHUB_HEAD_REF", ref: "$GITHUB_REF"'
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           submodules: recursive
       - name: Install protoc
