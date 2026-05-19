@@ -47,7 +47,7 @@ jobs:
           go-version-file: 'go.mod'
           check-latest: true
 
-      - uses: arduino/setup-protoc@v1
+      - uses: arduino/setup-protoc@v3
         with:
           version: "3.x"
 
