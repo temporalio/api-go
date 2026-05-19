@@ -42,7 +42,7 @@ jobs:
           ref: ${{ github.event.inputs.branch }}
           submodules: true
 
-      - uses: actions/setup-go@v5
+      - uses: actions/setup-go@v6
         with:
           go-version-file: 'go.mod'
           check-latest: true
