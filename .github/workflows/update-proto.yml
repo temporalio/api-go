@@ -51,6 +51,10 @@ jobs:
         with:
           version: "3.x"
 
+      - uses: pnpm/action-setup@v4
+        with:
+          version: latest
+
       - name: Re-build proto
         run: |
           make install update-proto test
