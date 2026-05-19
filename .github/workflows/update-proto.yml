@@ -51,6 +51,19 @@ jobs:
         with:
           version: "3.x"
 
+      # Needed for pnpm
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      # For nexus-rpc-gen-install
+      - uses: pnpm/action-setup@v4
+        with:
+          version: latest
+
+      # Add pnpm directory to PATH for runner
+      - run: echo "$PNPM_HOME/bin" >> $GITHUB_PATH
+
       - name: Re-build proto
         run: |
           make install update-proto test
