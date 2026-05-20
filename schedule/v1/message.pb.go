@@ -1142,8 +1142,10 @@ type ScheduleInfo struct {
 	//
 	// Deprecated: Marked as deprecated in temporal/api/schedule/v1/message.proto.
 	InvalidScheduleError string `protobuf:"bytes,8,opt,name=invalid_schedule_error,json=invalidScheduleError,proto3" json:"invalid_schedule_error,omitempty"`
-	unknownFields        protoimpl.UnknownFields
-	sizeCache            protoimpl.SizeCache
+	// Size of the schedule's internal state (including payloads) in bytes.
+	StateSizeBytes int64 `protobuf:"varint,12,opt,name=state_size_bytes,json=stateSizeBytes,proto3" json:"state_size_bytes,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *ScheduleInfo) Reset() {
@@ -1254,6 +1256,13 @@ func (x *ScheduleInfo) GetInvalidScheduleError() string {
 	return ""
 }
 
+func (x *ScheduleInfo) GetStateSizeBytes() int64 {
+	if x != nil {
+		return x.StateSizeBytes
+	}
+	return 0
+}
+
 type Schedule struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Spec          *ScheduleSpec          `protobuf:"bytes,1,opt,name=spec,proto3" json:"spec,omitempty"`
@@ -1339,8 +1348,10 @@ type ScheduleListInfo struct {
 	// From info (maybe fewer entries):
 	RecentActions     []*ScheduleActionResult  `protobuf:"bytes,5,rep,name=recent_actions,json=recentActions,proto3" json:"recent_actions,omitempty"`
 	FutureActionTimes []*timestamppb.Timestamp `protobuf:"bytes,6,rep,name=future_action_times,json=futureActionTimes,proto3" json:"future_action_times,omitempty"`
-	unknownFields     protoimpl.UnknownFields
-	sizeCache         protoimpl.SizeCache
+	// Size of the schedule's internal state (including payloads) in bytes.
+	StateSizeBytes int64 `protobuf:"varint,7,opt,name=state_size_bytes,json=stateSizeBytes,proto3" json:"state_size_bytes,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *ScheduleListInfo) Reset() {
@@ -1413,6 +1424,13 @@ func (x *ScheduleListInfo) GetFutureActionTimes() []*timestamppb.Timestamp {
 		return x.FutureActionTimes
 	}
 	return nil
+}
+
+func (x *ScheduleListInfo) GetStateSizeBytes() int64 {
+	if x != nil {
+		return x.StateSizeBytes
+	}
+	return 0
 }
 
 // ScheduleListEntry is returned by ListSchedules.
@@ -1562,7 +1580,7 @@ const file_temporal_api_schedule_v1_message_proto_rawDesc = "" +
 	"\x13trigger_immediately\x18\x01 \x01(\v23.temporal.api.schedule.v1.TriggerImmediatelyRequestR\x12triggerImmediately\x12T\n" +
 	"\x10backfill_request\x18\x02 \x03(\v2).temporal.api.schedule.v1.BackfillRequestR\x0fbackfillRequest\x12\x14\n" +
 	"\x05pause\x18\x03 \x01(\tR\x05pause\x12\x18\n" +
-	"\aunpause\x18\x04 \x01(\tR\aunpause\"\x85\x05\n" +
+	"\aunpause\x18\x04 \x01(\tR\aunpause\"\xaf\x05\n" +
 	"\fScheduleInfo\x12!\n" +
 	"\faction_count\x18\x01 \x01(\x03R\vactionCount\x122\n" +
 	"\x15missed_catchup_window\x18\x02 \x01(\x03R\x13missedCatchupWindow\x12'\n" +
@@ -1578,19 +1596,21 @@ const file_temporal_api_schedule_v1_message_proto_rawDesc = "" +
 	"createTime\x12;\n" +
 	"\vupdate_time\x18\a \x01(\v2\x1a.google.protobuf.TimestampR\n" +
 	"updateTime\x128\n" +
-	"\x16invalid_schedule_error\x18\b \x01(\tB\x02\x18\x01R\x14invalidScheduleError\"\x8f\x02\n" +
+	"\x16invalid_schedule_error\x18\b \x01(\tB\x02\x18\x01R\x14invalidScheduleError\x12(\n" +
+	"\x10state_size_bytes\x18\f \x01(\x03R\x0estateSizeBytes\"\x8f\x02\n" +
 	"\bSchedule\x12:\n" +
 	"\x04spec\x18\x01 \x01(\v2&.temporal.api.schedule.v1.ScheduleSpecR\x04spec\x12@\n" +
 	"\x06action\x18\x02 \x01(\v2(.temporal.api.schedule.v1.ScheduleActionR\x06action\x12F\n" +
 	"\bpolicies\x18\x03 \x01(\v2*.temporal.api.schedule.v1.SchedulePoliciesR\bpolicies\x12=\n" +
-	"\x05state\x18\x04 \x01(\v2'.temporal.api.schedule.v1.ScheduleStateR\x05state\"\xea\x02\n" +
+	"\x05state\x18\x04 \x01(\v2'.temporal.api.schedule.v1.ScheduleStateR\x05state\"\x94\x03\n" +
 	"\x10ScheduleListInfo\x12:\n" +
 	"\x04spec\x18\x01 \x01(\v2&.temporal.api.schedule.v1.ScheduleSpecR\x04spec\x12I\n" +
 	"\rworkflow_type\x18\x02 \x01(\v2$.temporal.api.common.v1.WorkflowTypeR\fworkflowType\x12\x14\n" +
 	"\x05notes\x18\x03 \x01(\tR\x05notes\x12\x16\n" +
 	"\x06paused\x18\x04 \x01(\bR\x06paused\x12U\n" +
 	"\x0erecent_actions\x18\x05 \x03(\v2..temporal.api.schedule.v1.ScheduleActionResultR\rrecentActions\x12J\n" +
-	"\x13future_action_times\x18\x06 \x03(\v2\x1a.google.protobuf.TimestampR\x11futureActionTimes\"\xfd\x01\n" +
+	"\x13future_action_times\x18\x06 \x03(\v2\x1a.google.protobuf.TimestampR\x11futureActionTimes\x12(\n" +
+	"\x10state_size_bytes\x18\a \x01(\x03R\x0estateSizeBytes\"\xfd\x01\n" +
 	"\x11ScheduleListEntry\x12\x1f\n" +
 	"\vschedule_id\x18\x01 \x01(\tR\n" +
 	"scheduleId\x120\n" +
