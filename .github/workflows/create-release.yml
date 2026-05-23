@@ -40,7 +40,7 @@ jobs:
           owner: ${{ github.repository_owner }}
 
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           repository: temporalio/api-go
           ref: ${{ inputs.ref }}
