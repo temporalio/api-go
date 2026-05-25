@@ -7,15 +7,14 @@
 package common
 
 import (
-	reflect "reflect"
-	sync "sync"
-	unsafe "unsafe"
-
 	v1 "go.temporal.io/api/enums/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	durationpb "google.golang.org/protobuf/types/known/durationpb"
 	emptypb "google.golang.org/protobuf/types/known/emptypb"
+	reflect "reflect"
+	sync "sync"
+	unsafe "unsafe"
 )
 
 const (
@@ -1129,7 +1128,25 @@ type Principal struct {
 	// Low-cardinality category of the principal (e.g., "jwt", "users").
 	Type string `protobuf:"bytes,1,opt,name=type,proto3" json:"type,omitempty"`
 	// Identifier within that category (e.g., sub JWT claim, email address).
-	Name          string `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	Name string `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	// Optional scoping authority that owns this principal's name.
+	//
+	// For Cloud deployments this is the originating Cloud account identifier and
+	// must be populated by the server whenever the principal is minted, so that
+	// a principal flowing across an account boundary (e.g. cross-account Nexus
+	// dispatch) is unambiguous: account A's "service-accounts/sa-prod" is not
+	// the same identity as account B's "service-accounts/sa-prod".
+	//
+	// For OSS deployments without a multi-account concept this field is empty.
+	// Empty means "no scoping authority"; it is never interpreted as a wildcard
+	// and must not be inferred at read time from the surrounding context.
+	//
+	// This field is structural and matched independently of `type` and `name`
+	// for any authorization decision; the string form `account/type/name` is
+	// intended for display only and is not officially round-trippable because
+	// `name` may legitimately contain `/` for intra-account project or
+	// namespace scoping.
+	Account       string `protobuf:"bytes,3,opt,name=account,proto3" json:"account,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1174,6 +1191,13 @@ func (x *Principal) GetType() string {
 func (x *Principal) GetName() string {
 	if x != nil {
 		return x.Name
+	}
+	return ""
+}
+
+func (x *Principal) GetAccount() string {
+	if x != nil {
+		return x.Account
 	}
 	return ""
 }
@@ -2184,10 +2208,11 @@ const file_temporal_api_common_v1_message_proto_rawDesc = "" +
 	"workflowId\x12\x15\n" +
 	"\x06run_id\x18\x03 \x01(\tR\x05runId\x12\x16\n" +
 	"\x06reason\x18\x04 \x01(\tR\x06reasonB\t\n" +
-	"\avariant\"3\n" +
+	"\avariant\"M\n" +
 	"\tPrincipal\x12\x12\n" +
 	"\x04type\x18\x01 \x01(\tR\x04type\x12\x12\n" +
-	"\x04name\x18\x02 \x01(\tR\x04name\"y\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\x12\x18\n" +
+	"\aaccount\x18\x03 \x01(\tR\aaccount\"y\n" +
 	"\bPriority\x12!\n" +
 	"\fpriority_key\x18\x01 \x01(\x05R\vpriorityKey\x12!\n" +
 	"\ffairness_key\x18\x02 \x01(\tR\vfairnessKey\x12'\n" +

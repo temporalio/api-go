@@ -7,14 +7,13 @@
 package workflowservice
 
 import (
-	reflect "reflect"
-	unsafe "unsafe"
-
 	_ "github.com/nexus-rpc/nexus-proto-annotations/go/nexusannotations/v1"
 	_ "go.temporal.io/api/protometa/v1"
 	_ "google.golang.org/genproto/googleapis/api/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	reflect "reflect"
+	unsafe "unsafe"
 )
 
 const (
