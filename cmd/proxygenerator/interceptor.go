@@ -550,6 +550,12 @@ func visitPayloads(
 					if err := visitPayload(ctx, options, o, concState, &result); err != nil { return err }
 					o.Outcome = &workflowservice.PollNexusOperationExecutionResponse_Result{Result: result}
 				}
+				{{else if and (eq $type "*workflownexusservice.GetWorkflowExecutionResultResponse") (eq . "Result")}}
+				if o.GetResult() != nil {
+					result := o.GetResult()
+					if err := visitPayload(ctx, options, o, concState, &result); err != nil { return err }
+					o.CompletionStatus = &workflownexusservice.GetWorkflowExecutionResultResponse_Result{Result: result}
+				}
 				{{else}}
 				if o.{{.}} != nil {
 					if err := visitPayload(ctx, options, o, concState, &o.{{.}}); err != nil { return err }

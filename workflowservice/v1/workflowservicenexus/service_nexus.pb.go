@@ -4,6 +4,7 @@ package workflowservicenexus
 
 import (
 	"github.com/nexus-rpc/sdk-go/nexus"
+	workflownexusservicev1 "go.temporal.io/api/workflownexusservice/v1"
 	workflowservicev1 "go.temporal.io/api/workflowservice/v1"
 )
 
@@ -13,4 +14,12 @@ var WorkflowService = struct {
 }{
 	ServiceName:                      "WorkflowService",
 	SignalWithStartWorkflowExecution: nexus.NewOperationReference[workflowservicev1.SignalWithStartWorkflowExecutionRequest, workflowservicev1.SignalWithStartWorkflowExecutionResponse]("SignalWithStartWorkflowExecution"),
+}
+
+var WorkflowNexusService = struct {
+	ServiceName                string
+	GetWorkflowExecutionResult nexus.OperationReference[workflownexusservicev1.GetWorkflowExecutionResultRequest, workflownexusservicev1.GetWorkflowExecutionResultResponse]
+}{
+	ServiceName:                "WorkflowNexusService",
+	GetWorkflowExecutionResult: nexus.NewOperationReference[workflownexusservicev1.GetWorkflowExecutionResultRequest, workflownexusservicev1.GetWorkflowExecutionResultResponse]("GetWorkflowExecutionResult"),
 }

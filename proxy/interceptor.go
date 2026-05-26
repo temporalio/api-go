@@ -28,6 +28,7 @@ import (
 	"go.temporal.io/api/sdk/v1"
 	"go.temporal.io/api/update/v1"
 	"go.temporal.io/api/workflow/v1"
+	workflownexusservice "go.temporal.io/api/workflownexusservice/v1"
 	workflowservice "go.temporal.io/api/workflowservice/v1"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/status"
@@ -3753,6 +3754,40 @@ func visitPayloads(
 
 			ctx.Context = prevCtx
 
+		case *workflownexusservice.GetWorkflowExecutionResultResponse:
+
+			if o == nil {
+				continue
+			}
+
+			prevCtx := ctx.Context
+			if options.ContextHook != nil {
+				var hookErr error
+				if ctx.Context, hookErr = options.ContextHook(prevCtx, o); hookErr != nil {
+					return hookErr
+				}
+			}
+
+			if o.GetResult() != nil {
+				result := o.GetResult()
+				if err := visitPayload(ctx, options, o, concState, &result); err != nil {
+					return err
+				}
+				o.CompletionStatus = &workflownexusservice.GetWorkflowExecutionResultResponse_Result{Result: result}
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				concState,
+				o.GetFailure(),
+			); err != nil {
+				return err
+			}
+
+			ctx.Context = prevCtx
+
 		case *workflowservice.CountActivityExecutionsResponse:
 
 			if o == nil {
@@ -6484,6 +6519,19 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 				options,
 				o.GetCancellationInfo(),
 				o.GetLastAttemptFailure(),
+			); err != nil {
+				return err
+			}
+
+		case *workflownexusservice.GetWorkflowExecutionResultResponse:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetFailure(),
 			); err != nil {
 				return err
 			}
