@@ -649,10 +649,12 @@ func visitPayloads(
 				}
 			}
 
-			if o.Result != nil {
-				if err := visitPayload(ctx, options, o, concState, &o.Result); err != nil {
+			if o.GetResult() != nil {
+				result := o.GetResult()
+				if err := visitPayload(ctx, options, o, concState, &result); err != nil {
 					return err
 				}
+				o.CompletionStatus = &applicationservice.GetWorkflowExecutionResultResponse_Result{Result: result}
 			}
 
 			if err := visitPayloads(
