@@ -10,7 +10,7 @@ import (
 	"google.golang.org/grpc/metadata"
 	"google.golang.org/protobuf/proto"
 
-	workflownexusservice "go.temporal.io/api/workflownexusservice/v1"
+	applicationservice "go.temporal.io/api/applicationservice/v1"
 
 	workflowservice "go.temporal.io/api/workflowservice/v1"
 )
@@ -115,7 +115,7 @@ func ExtractTemporalRequestHeaders(ctx context.Context, opts ExtractHeadersOptio
 		if val := r.GetExecution().GetWorkflowId(); val != "" && len(opts.ExistingMetadata.Get("temporal-resource-id")) == 0 {
 			headers = append(headers, "temporal-resource-id", fmt.Sprintf("workflow:%s", val))
 		}
-	case *workflownexusservice.GetWorkflowExecutionResultRequest:
+	case *applicationservice.GetWorkflowExecutionResultRequest:
 		if val := r.GetExecution().GetWorkflowId(); val != "" && len(opts.ExistingMetadata.Get("temporal-resource-id")) == 0 {
 			headers = append(headers, "temporal-resource-id", fmt.Sprintf("workflow:%s", val))
 		}

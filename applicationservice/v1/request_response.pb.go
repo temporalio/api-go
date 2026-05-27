@@ -2,9 +2,9 @@
 // plugins:
 // 	protoc-gen-go
 // 	protoc
-// source: temporal/api/workflownexusservice/v1/request_response.proto
+// source: temporal/api/applicationservice/v1/request_response.proto
 
-package workflownexusservice
+package applicationservice
 
 import (
 	reflect "reflect"
@@ -38,7 +38,7 @@ type GetWorkflowExecutionResultRequest struct {
 
 func (x *GetWorkflowExecutionResultRequest) Reset() {
 	*x = GetWorkflowExecutionResultRequest{}
-	mi := &file_temporal_api_workflownexusservice_v1_request_response_proto_msgTypes[0]
+	mi := &file_temporal_api_applicationservice_v1_request_response_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -50,7 +50,7 @@ func (x *GetWorkflowExecutionResultRequest) String() string {
 func (*GetWorkflowExecutionResultRequest) ProtoMessage() {}
 
 func (x *GetWorkflowExecutionResultRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_workflownexusservice_v1_request_response_proto_msgTypes[0]
+	mi := &file_temporal_api_applicationservice_v1_request_response_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -63,7 +63,7 @@ func (x *GetWorkflowExecutionResultRequest) ProtoReflect() protoreflect.Message 
 
 // Deprecated: Use GetWorkflowExecutionResultRequest.ProtoReflect.Descriptor instead.
 func (*GetWorkflowExecutionResultRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflownexusservice_v1_request_response_proto_rawDescGZIP(), []int{0}
+	return file_temporal_api_applicationservice_v1_request_response_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *GetWorkflowExecutionResultRequest) GetNamespace() string {
@@ -98,7 +98,7 @@ type GetWorkflowExecutionResultResponse struct {
 
 func (x *GetWorkflowExecutionResultResponse) Reset() {
 	*x = GetWorkflowExecutionResultResponse{}
-	mi := &file_temporal_api_workflownexusservice_v1_request_response_proto_msgTypes[1]
+	mi := &file_temporal_api_applicationservice_v1_request_response_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -110,7 +110,7 @@ func (x *GetWorkflowExecutionResultResponse) String() string {
 func (*GetWorkflowExecutionResultResponse) ProtoMessage() {}
 
 func (x *GetWorkflowExecutionResultResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_workflownexusservice_v1_request_response_proto_msgTypes[1]
+	mi := &file_temporal_api_applicationservice_v1_request_response_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -123,7 +123,7 @@ func (x *GetWorkflowExecutionResultResponse) ProtoReflect() protoreflect.Message
 
 // Deprecated: Use GetWorkflowExecutionResultResponse.ProtoReflect.Descriptor instead.
 func (*GetWorkflowExecutionResultResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflownexusservice_v1_request_response_proto_rawDescGZIP(), []int{1}
+	return file_temporal_api_applicationservice_v1_request_response_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *GetWorkflowExecutionResultResponse) GetStatus() v11.WorkflowExecutionStatus {
@@ -176,11 +176,11 @@ func (*GetWorkflowExecutionResultResponse_Result) isGetWorkflowExecutionResultRe
 func (*GetWorkflowExecutionResultResponse_Failure) isGetWorkflowExecutionResultResponse_CompletionStatus() {
 }
 
-var File_temporal_api_workflownexusservice_v1_request_response_proto protoreflect.FileDescriptor
+var File_temporal_api_applicationservice_v1_request_response_proto protoreflect.FileDescriptor
 
-const file_temporal_api_workflownexusservice_v1_request_response_proto_rawDesc = "" +
+const file_temporal_api_applicationservice_v1_request_response_proto_rawDesc = "" +
 	"\n" +
-	";temporal/api/workflownexusservice/v1/request_response.proto\x12$temporal.api.workflownexusservice.v1\x1a$temporal/api/enums/v1/workflow.proto\x1a$temporal/api/common/v1/message.proto\x1a%temporal/api/failure/v1/message.proto\"\x8a\x01\n" +
+	"9temporal/api/applicationservice/v1/request_response.proto\x12\"temporal.api.applicationservice.v1\x1a$temporal/api/enums/v1/workflow.proto\x1a$temporal/api/common/v1/message.proto\x1a%temporal/api/failure/v1/message.proto\"\x8a\x01\n" +
 	"!GetWorkflowExecutionResultRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12G\n" +
 	"\texecution\x18\x02 \x01(\v2).temporal.api.common.v1.WorkflowExecutionR\texecution\"\xfa\x01\n" +
@@ -188,35 +188,35 @@ const file_temporal_api_workflownexusservice_v1_request_response_proto_rawDesc =
 	"\x06status\x18\x01 \x01(\x0e2..temporal.api.enums.v1.WorkflowExecutionStatusR\x06status\x129\n" +
 	"\x06result\x18\x02 \x01(\v2\x1f.temporal.api.common.v1.PayloadH\x00R\x06result\x12<\n" +
 	"\afailure\x18\x03 \x01(\v2 .temporal.api.failure.v1.FailureH\x00R\afailureB\x13\n" +
-	"\x11completion_statusB\xd7\x01\n" +
-	"'io.temporal.api.workflownexusservice.v1B\x14RequestResponseProtoP\x01Z?go.temporal.io/api/workflownexusservice/v1;workflownexusservice\xaa\x02&Temporalio.Api.Workflownexusservice.V1\xea\x02)Temporalio::Api::Workflownexusservice::V1b\x06proto3"
+	"\x11completion_statusB\xcd\x01\n" +
+	"%io.temporal.api.applicationservice.v1B\x14RequestResponseProtoP\x01Z;go.temporal.io/api/applicationservice/v1;applicationservice\xaa\x02$Temporalio.Api.Applicationservice.V1\xea\x02'Temporalio::Api::Applicationservice::V1b\x06proto3"
 
 var (
-	file_temporal_api_workflownexusservice_v1_request_response_proto_rawDescOnce sync.Once
-	file_temporal_api_workflownexusservice_v1_request_response_proto_rawDescData []byte
+	file_temporal_api_applicationservice_v1_request_response_proto_rawDescOnce sync.Once
+	file_temporal_api_applicationservice_v1_request_response_proto_rawDescData []byte
 )
 
-func file_temporal_api_workflownexusservice_v1_request_response_proto_rawDescGZIP() []byte {
-	file_temporal_api_workflownexusservice_v1_request_response_proto_rawDescOnce.Do(func() {
-		file_temporal_api_workflownexusservice_v1_request_response_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_temporal_api_workflownexusservice_v1_request_response_proto_rawDesc), len(file_temporal_api_workflownexusservice_v1_request_response_proto_rawDesc)))
+func file_temporal_api_applicationservice_v1_request_response_proto_rawDescGZIP() []byte {
+	file_temporal_api_applicationservice_v1_request_response_proto_rawDescOnce.Do(func() {
+		file_temporal_api_applicationservice_v1_request_response_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_temporal_api_applicationservice_v1_request_response_proto_rawDesc), len(file_temporal_api_applicationservice_v1_request_response_proto_rawDesc)))
 	})
-	return file_temporal_api_workflownexusservice_v1_request_response_proto_rawDescData
+	return file_temporal_api_applicationservice_v1_request_response_proto_rawDescData
 }
 
-var file_temporal_api_workflownexusservice_v1_request_response_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
-var file_temporal_api_workflownexusservice_v1_request_response_proto_goTypes = []any{
-	(*GetWorkflowExecutionResultRequest)(nil),  // 0: temporal.api.workflownexusservice.v1.GetWorkflowExecutionResultRequest
-	(*GetWorkflowExecutionResultResponse)(nil), // 1: temporal.api.workflownexusservice.v1.GetWorkflowExecutionResultResponse
+var file_temporal_api_applicationservice_v1_request_response_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_temporal_api_applicationservice_v1_request_response_proto_goTypes = []any{
+	(*GetWorkflowExecutionResultRequest)(nil),  // 0: temporal.api.applicationservice.v1.GetWorkflowExecutionResultRequest
+	(*GetWorkflowExecutionResultResponse)(nil), // 1: temporal.api.applicationservice.v1.GetWorkflowExecutionResultResponse
 	(*v1.WorkflowExecution)(nil),               // 2: temporal.api.common.v1.WorkflowExecution
 	(v11.WorkflowExecutionStatus)(0),           // 3: temporal.api.enums.v1.WorkflowExecutionStatus
 	(*v1.Payload)(nil),                         // 4: temporal.api.common.v1.Payload
 	(*v12.Failure)(nil),                        // 5: temporal.api.failure.v1.Failure
 }
-var file_temporal_api_workflownexusservice_v1_request_response_proto_depIdxs = []int32{
-	2, // 0: temporal.api.workflownexusservice.v1.GetWorkflowExecutionResultRequest.execution:type_name -> temporal.api.common.v1.WorkflowExecution
-	3, // 1: temporal.api.workflownexusservice.v1.GetWorkflowExecutionResultResponse.status:type_name -> temporal.api.enums.v1.WorkflowExecutionStatus
-	4, // 2: temporal.api.workflownexusservice.v1.GetWorkflowExecutionResultResponse.result:type_name -> temporal.api.common.v1.Payload
-	5, // 3: temporal.api.workflownexusservice.v1.GetWorkflowExecutionResultResponse.failure:type_name -> temporal.api.failure.v1.Failure
+var file_temporal_api_applicationservice_v1_request_response_proto_depIdxs = []int32{
+	2, // 0: temporal.api.applicationservice.v1.GetWorkflowExecutionResultRequest.execution:type_name -> temporal.api.common.v1.WorkflowExecution
+	3, // 1: temporal.api.applicationservice.v1.GetWorkflowExecutionResultResponse.status:type_name -> temporal.api.enums.v1.WorkflowExecutionStatus
+	4, // 2: temporal.api.applicationservice.v1.GetWorkflowExecutionResultResponse.result:type_name -> temporal.api.common.v1.Payload
+	5, // 3: temporal.api.applicationservice.v1.GetWorkflowExecutionResultResponse.failure:type_name -> temporal.api.failure.v1.Failure
 	4, // [4:4] is the sub-list for method output_type
 	4, // [4:4] is the sub-list for method input_type
 	4, // [4:4] is the sub-list for extension type_name
@@ -224,12 +224,12 @@ var file_temporal_api_workflownexusservice_v1_request_response_proto_depIdxs = [
 	0, // [0:4] is the sub-list for field type_name
 }
 
-func init() { file_temporal_api_workflownexusservice_v1_request_response_proto_init() }
-func file_temporal_api_workflownexusservice_v1_request_response_proto_init() {
-	if File_temporal_api_workflownexusservice_v1_request_response_proto != nil {
+func init() { file_temporal_api_applicationservice_v1_request_response_proto_init() }
+func file_temporal_api_applicationservice_v1_request_response_proto_init() {
+	if File_temporal_api_applicationservice_v1_request_response_proto != nil {
 		return
 	}
-	file_temporal_api_workflownexusservice_v1_request_response_proto_msgTypes[1].OneofWrappers = []any{
+	file_temporal_api_applicationservice_v1_request_response_proto_msgTypes[1].OneofWrappers = []any{
 		(*GetWorkflowExecutionResultResponse_Result)(nil),
 		(*GetWorkflowExecutionResultResponse_Failure)(nil),
 	}
@@ -237,17 +237,17 @@ func file_temporal_api_workflownexusservice_v1_request_response_proto_init() {
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_temporal_api_workflownexusservice_v1_request_response_proto_rawDesc), len(file_temporal_api_workflownexusservice_v1_request_response_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_temporal_api_applicationservice_v1_request_response_proto_rawDesc), len(file_temporal_api_applicationservice_v1_request_response_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   2,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
-		GoTypes:           file_temporal_api_workflownexusservice_v1_request_response_proto_goTypes,
-		DependencyIndexes: file_temporal_api_workflownexusservice_v1_request_response_proto_depIdxs,
-		MessageInfos:      file_temporal_api_workflownexusservice_v1_request_response_proto_msgTypes,
+		GoTypes:           file_temporal_api_applicationservice_v1_request_response_proto_goTypes,
+		DependencyIndexes: file_temporal_api_applicationservice_v1_request_response_proto_depIdxs,
+		MessageInfos:      file_temporal_api_applicationservice_v1_request_response_proto_msgTypes,
 	}.Build()
-	File_temporal_api_workflownexusservice_v1_request_response_proto = out.File
-	file_temporal_api_workflownexusservice_v1_request_response_proto_goTypes = nil
-	file_temporal_api_workflownexusservice_v1_request_response_proto_depIdxs = nil
+	File_temporal_api_applicationservice_v1_request_response_proto = out.File
+	file_temporal_api_applicationservice_v1_request_response_proto_goTypes = nil
+	file_temporal_api_applicationservice_v1_request_response_proto_depIdxs = nil
 }
