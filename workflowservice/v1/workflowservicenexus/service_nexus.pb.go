@@ -7,10 +7,10 @@ import (
 	workflowservicev1 "go.temporal.io/api/workflowservice/v1"
 )
 
-var WorkflowService = struct {
+var TemporalAPIWorkflowserviceV1WorkflowService = struct {
 	ServiceName                      string
 	SignalWithStartWorkflowExecution nexus.OperationReference[workflowservicev1.SignalWithStartWorkflowExecutionRequest, workflowservicev1.SignalWithStartWorkflowExecutionResponse]
 }{
-	ServiceName:                      "WorkflowService",
+	ServiceName:                      "temporal.api.workflowservice.v1.WorkflowService",
 	SignalWithStartWorkflowExecution: nexus.NewOperationReference[workflowservicev1.SignalWithStartWorkflowExecutionRequest, workflowservicev1.SignalWithStartWorkflowExecutionResponse]("SignalWithStartWorkflowExecution"),
 }
