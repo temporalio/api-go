@@ -1250,9 +1250,11 @@ type NexusOperationExecutionInfo struct {
 	// Links attached by the handler of this operation on start or completion.
 	Links []*v11.Link `protobuf:"bytes,27,rep,name=links,proto3" json:"links,omitempty"`
 	// The identity of the client who started this operation.
-	Identity      string `protobuf:"bytes,28,opt,name=identity,proto3" json:"identity,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Identity string `protobuf:"bytes,28,opt,name=identity,proto3" json:"identity,omitempty"`
+	// Updated once on scheduled and once on terminal status.
+	StateSizeBytes int64 `protobuf:"varint,29,opt,name=state_size_bytes,json=stateSizeBytes,proto3" json:"state_size_bytes,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *NexusOperationExecutionInfo) Reset() {
@@ -1481,6 +1483,13 @@ func (x *NexusOperationExecutionInfo) GetIdentity() string {
 	return ""
 }
 
+func (x *NexusOperationExecutionInfo) GetStateSizeBytes() int64 {
+	if x != nil {
+		return x.StateSizeBytes
+	}
+	return 0
+}
+
 // Limited Nexus operation information returned in the list response.
 // When adding fields here, ensure that it is also present in NexusOperationExecutionInfo (note that it may already be present in
 // NexusOperationExecutionInfo but not at the top-level).
@@ -1509,8 +1518,10 @@ type NexusOperationExecutionListInfo struct {
 	// The difference between close time and scheduled time.
 	// This field is only populated if the operation is closed.
 	ExecutionDuration *durationpb.Duration `protobuf:"bytes,11,opt,name=execution_duration,json=executionDuration,proto3" json:"execution_duration,omitempty"`
-	unknownFields     protoimpl.UnknownFields
-	sizeCache         protoimpl.SizeCache
+	// Updated once on scheduled and once on terminal status.
+	StateSizeBytes int64 `protobuf:"varint,12,opt,name=state_size_bytes,json=stateSizeBytes,proto3" json:"state_size_bytes,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *NexusOperationExecutionListInfo) Reset() {
@@ -1618,6 +1629,13 @@ func (x *NexusOperationExecutionListInfo) GetExecutionDuration() *durationpb.Dur
 		return x.ExecutionDuration
 	}
 	return nil
+}
+
+func (x *NexusOperationExecutionListInfo) GetStateSizeBytes() int64 {
+	if x != nil {
+		return x.StateSizeBytes
+	}
+	return 0
 }
 
 type Request_Capabilities struct {
@@ -1993,7 +2011,7 @@ const file_temporal_api_nexus_v1_message_proto_rawDesc = "" +
 	"\x14last_attempt_failure\x18\x05 \x01(\v2 .temporal.api.failure.v1.FailureR\x12lastAttemptFailure\x12W\n" +
 	"\x1anext_attempt_schedule_time\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\x17nextAttemptScheduleTime\x12%\n" +
 	"\x0eblocked_reason\x18\a \x01(\tR\rblockedReason\x12\x16\n" +
-	"\x06reason\x18\b \x01(\tR\x06reason\"\x92\x0e\n" +
+	"\x06reason\x18\b \x01(\tR\x06reason\"\xbc\x0e\n" +
 	"\x1bNexusOperationExecutionInfo\x12!\n" +
 	"\foperation_id\x18\x01 \x01(\tR\voperationId\x12\x15\n" +
 	"\x06run_id\x18\x02 \x01(\tR\x05runId\x12\x1a\n" +
@@ -2025,10 +2043,11 @@ const file_temporal_api_nexus_v1_message_proto_rawDesc = "" +
 	"\fnexus_header\x18\x19 \x03(\v2C.temporal.api.nexus.v1.NexusOperationExecutionInfo.NexusHeaderEntryR\vnexusHeader\x12F\n" +
 	"\ruser_metadata\x18\x1a \x01(\v2!.temporal.api.sdk.v1.UserMetadataR\fuserMetadata\x122\n" +
 	"\x05links\x18\x1b \x03(\v2\x1c.temporal.api.common.v1.LinkR\x05links\x12\x1a\n" +
-	"\bidentity\x18\x1c \x01(\tR\bidentity\x1a>\n" +
+	"\bidentity\x18\x1c \x01(\tR\bidentity\x12(\n" +
+	"\x10state_size_bytes\x18\x1d \x01(\x03R\x0estateSizeBytes\x1a>\n" +
 	"\x10NexusHeaderEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xd0\x04\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xfa\x04\n" +
 	"\x1fNexusOperationExecutionListInfo\x12!\n" +
 	"\foperation_id\x18\x01 \x01(\tR\voperationId\x12\x15\n" +
 	"\x06run_id\x18\x02 \x01(\tR\x05runId\x12\x1a\n" +
@@ -2042,7 +2061,8 @@ const file_temporal_api_nexus_v1_message_proto_rawDesc = "" +
 	"\x11search_attributes\x18\t \x01(\v2(.temporal.api.common.v1.SearchAttributesR\x10searchAttributes\x124\n" +
 	"\x16state_transition_count\x18\n" +
 	" \x01(\x03R\x14stateTransitionCount\x12H\n" +
-	"\x12execution_duration\x18\v \x01(\v2\x19.google.protobuf.DurationR\x11executionDurationB\x84\x01\n" +
+	"\x12execution_duration\x18\v \x01(\v2\x19.google.protobuf.DurationR\x11executionDuration\x12(\n" +
+	"\x10state_size_bytes\x18\f \x01(\x03R\x0estateSizeBytesB\x84\x01\n" +
 	"\x18io.temporal.api.nexus.v1B\fMessageProtoP\x01Z!go.temporal.io/api/nexus/v1;nexus\xaa\x02\x17Temporalio.Api.Nexus.V1\xea\x02\x1aTemporalio::Api::Nexus::V1b\x06proto3"
 
 var (

@@ -135,6 +135,10 @@ const (
 	WorkflowService_RequestCancelNexusOperationExecution_FullMethodName         = "/temporal.api.workflowservice.v1.WorkflowService/RequestCancelNexusOperationExecution"
 	WorkflowService_TerminateActivityExecution_FullMethodName                   = "/temporal.api.workflowservice.v1.WorkflowService/TerminateActivityExecution"
 	WorkflowService_DeleteActivityExecution_FullMethodName                      = "/temporal.api.workflowservice.v1.WorkflowService/DeleteActivityExecution"
+	WorkflowService_PauseActivityExecution_FullMethodName                       = "/temporal.api.workflowservice.v1.WorkflowService/PauseActivityExecution"
+	WorkflowService_ResetActivityExecution_FullMethodName                       = "/temporal.api.workflowservice.v1.WorkflowService/ResetActivityExecution"
+	WorkflowService_UnpauseActivityExecution_FullMethodName                     = "/temporal.api.workflowservice.v1.WorkflowService/UnpauseActivityExecution"
+	WorkflowService_UpdateActivityExecutionOptions_FullMethodName               = "/temporal.api.workflowservice.v1.WorkflowService/UpdateActivityExecutionOptions"
 	WorkflowService_TerminateNexusOperationExecution_FullMethodName             = "/temporal.api.workflowservice.v1.WorkflowService/TerminateNexusOperationExecution"
 	WorkflowService_DeleteNexusOperationExecution_FullMethodName                = "/temporal.api.workflowservice.v1.WorkflowService/DeleteNexusOperationExecution"
 )
@@ -470,6 +474,7 @@ type WorkflowServiceClient interface {
 	// CountSchedules is a visibility API to count schedules in a specific namespace.
 	CountSchedules(ctx context.Context, in *CountSchedulesRequest, opts ...grpc.CallOption) (*CountSchedulesResponse, error)
 	// Deprecated. Use `UpdateWorkerVersioningRules`.
+	// Will be removed in server version v1.32.0.
 	//
 	// Allows users to specify sets of worker build id versions on a per task queue basis. Versions
 	// are ordered, and may be either compatible with some extant version, or a new incompatible
@@ -489,6 +494,7 @@ type WorkflowServiceClient interface {
 	//	aip.dev/not-precedent: We do yet expose versioning API to HTTP. --)
 	UpdateWorkerBuildIdCompatibility(ctx context.Context, in *UpdateWorkerBuildIdCompatibilityRequest, opts ...grpc.CallOption) (*UpdateWorkerBuildIdCompatibilityResponse, error)
 	// Deprecated. Use `GetWorkerVersioningRules`.
+	// Will be removed in server version v1.32.0.
 	// Fetches the worker build id versioning sets for a task queue.
 	GetWorkerBuildIdCompatibility(ctx context.Context, in *GetWorkerBuildIdCompatibilityRequest, opts ...grpc.CallOption) (*GetWorkerBuildIdCompatibilityResponse, error)
 	// Use this API to manage Worker Versioning Rules for a given Task Queue. There are two types of
@@ -512,15 +518,16 @@ type WorkflowServiceClient interface {
 	// the target Build ID of a redirect rule is able to process event histories made by the source
 	// Build ID by using [Patching](https://docs.temporal.io/workflows#patching) or other means.
 	//
-	// WARNING: Worker Versioning is not yet stable and the API and behavior may change incompatibly.
+	// Will be removed in server version v1.32.0.
 	// (-- api-linter: core::0127::http-annotation=disabled
 	//
 	//	aip.dev/not-precedent: We do yet expose versioning API to HTTP. --)
 	UpdateWorkerVersioningRules(ctx context.Context, in *UpdateWorkerVersioningRulesRequest, opts ...grpc.CallOption) (*UpdateWorkerVersioningRulesResponse, error)
 	// Fetches the Build ID assignment and redirect rules for a Task Queue.
-	// WARNING: Worker Versioning is not yet stable and the API and behavior may change incompatibly.
+	// Will be removed in server version v1.32.0.
 	GetWorkerVersioningRules(ctx context.Context, in *GetWorkerVersioningRulesRequest, opts ...grpc.CallOption) (*GetWorkerVersioningRulesResponse, error)
 	// Deprecated. Use `DescribeTaskQueue`.
+	// Will be removed in server version v1.32.0.
 	//
 	// Fetches task reachability to determine whether a worker may be retired.
 	// The request may specify task queues to query for or let the server fetch all task queues mapped to the given
@@ -826,6 +833,46 @@ type WorkflowServiceClient interface {
 	//
 	//	aip.dev/not-precedent: Activity deletion not exposed to HTTP, users should use cancel or terminate. --)
 	DeleteActivityExecution(ctx context.Context, in *DeleteActivityExecutionRequest, opts ...grpc.CallOption) (*DeleteActivityExecutionResponse, error)
+	// PauseActivityExecution pauses the execution of an activity specified by its ID.
+	// This API can be used to target a workflow activity or a standalone activity
+	//
+	// Pausing an activity means:
+	//   - If the activity is currently waiting for a retry or is running and subsequently fails,
+	//     it will not be rescheduled until it is unpaused.
+	//   - If the activity is already paused, calling this method will have no effect.
+	//   - If the activity is running and finishes successfully, the activity will be completed.
+	//   - If the activity is running and finishes with failure:
+	//   - if there is no retry left - the activity will be completed.
+	//   - if there are more retries left - the activity will be paused.
+	//
+	// For long-running activities:
+	// - activities in paused state will send a cancellation with "activity_paused" set to 'true' in response to 'RecordActivityTaskHeartbeat'.
+	//
+	// Returns a `NotFound` error if there is no pending activity with the provided ID
+	PauseActivityExecution(ctx context.Context, in *PauseActivityExecutionRequest, opts ...grpc.CallOption) (*PauseActivityExecutionResponse, error)
+	// ResetActivityExecution resets the execution of an activity specified by its ID.
+	// This API can be used to target a workflow activity or a standalone activity.
+	//
+	// Resetting an activity means:
+	//   - number of attempts will be reset to 0.
+	//   - activity timeouts will be reset.
+	//   - if the activity is waiting for retry, and it is not paused or 'keep_paused' is not provided:
+	//     it will be scheduled immediately (* see 'jitter' flag)
+	//
+	// Returns a `NotFound` error if there is no pending activity with the provided ID or type.
+	ResetActivityExecution(ctx context.Context, in *ResetActivityExecutionRequest, opts ...grpc.CallOption) (*ResetActivityExecutionResponse, error)
+	// UnpauseActivityExecution unpauses the execution of an activity specified by its ID.
+	// This API can be used to target a workflow activity or a standalone activity.
+	//
+	// If activity is not paused, this call will have no effect.
+	// If the activity was paused while waiting for retry, it will be scheduled immediately (* see 'jitter' flag).
+	// Once the activity is unpaused, all timeout timers will be regenerated.
+	//
+	// Returns a `NotFound` error if there is no pending activity with the provided ID
+	UnpauseActivityExecution(ctx context.Context, in *UnpauseActivityExecutionRequest, opts ...grpc.CallOption) (*UnpauseActivityExecutionResponse, error)
+	// UpdateActivityExecutionOptions is called by the client to update the options of an activity by its ID.
+	// This API can be used to target a workflow activity or a standalone activity.
+	UpdateActivityExecutionOptions(ctx context.Context, in *UpdateActivityExecutionOptionsRequest, opts ...grpc.CallOption) (*UpdateActivityExecutionOptionsResponse, error)
 	// TerminateNexusOperationExecution terminates an existing Nexus operation immediately.
 	//
 	// Termination happens immediately and the operation handler cannot react to it. A terminated operation will have
@@ -1999,6 +2046,46 @@ func (c *workflowServiceClient) DeleteActivityExecution(ctx context.Context, in 
 	return out, nil
 }
 
+func (c *workflowServiceClient) PauseActivityExecution(ctx context.Context, in *PauseActivityExecutionRequest, opts ...grpc.CallOption) (*PauseActivityExecutionResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(PauseActivityExecutionResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_PauseActivityExecution_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *workflowServiceClient) ResetActivityExecution(ctx context.Context, in *ResetActivityExecutionRequest, opts ...grpc.CallOption) (*ResetActivityExecutionResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ResetActivityExecutionResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_ResetActivityExecution_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *workflowServiceClient) UnpauseActivityExecution(ctx context.Context, in *UnpauseActivityExecutionRequest, opts ...grpc.CallOption) (*UnpauseActivityExecutionResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UnpauseActivityExecutionResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_UnpauseActivityExecution_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *workflowServiceClient) UpdateActivityExecutionOptions(ctx context.Context, in *UpdateActivityExecutionOptionsRequest, opts ...grpc.CallOption) (*UpdateActivityExecutionOptionsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UpdateActivityExecutionOptionsResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_UpdateActivityExecutionOptions_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *workflowServiceClient) TerminateNexusOperationExecution(ctx context.Context, in *TerminateNexusOperationExecutionRequest, opts ...grpc.CallOption) (*TerminateNexusOperationExecutionResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(TerminateNexusOperationExecutionResponse)
@@ -2350,6 +2437,7 @@ type WorkflowServiceServer interface {
 	// CountSchedules is a visibility API to count schedules in a specific namespace.
 	CountSchedules(context.Context, *CountSchedulesRequest) (*CountSchedulesResponse, error)
 	// Deprecated. Use `UpdateWorkerVersioningRules`.
+	// Will be removed in server version v1.32.0.
 	//
 	// Allows users to specify sets of worker build id versions on a per task queue basis. Versions
 	// are ordered, and may be either compatible with some extant version, or a new incompatible
@@ -2369,6 +2457,7 @@ type WorkflowServiceServer interface {
 	//	aip.dev/not-precedent: We do yet expose versioning API to HTTP. --)
 	UpdateWorkerBuildIdCompatibility(context.Context, *UpdateWorkerBuildIdCompatibilityRequest) (*UpdateWorkerBuildIdCompatibilityResponse, error)
 	// Deprecated. Use `GetWorkerVersioningRules`.
+	// Will be removed in server version v1.32.0.
 	// Fetches the worker build id versioning sets for a task queue.
 	GetWorkerBuildIdCompatibility(context.Context, *GetWorkerBuildIdCompatibilityRequest) (*GetWorkerBuildIdCompatibilityResponse, error)
 	// Use this API to manage Worker Versioning Rules for a given Task Queue. There are two types of
@@ -2392,15 +2481,16 @@ type WorkflowServiceServer interface {
 	// the target Build ID of a redirect rule is able to process event histories made by the source
 	// Build ID by using [Patching](https://docs.temporal.io/workflows#patching) or other means.
 	//
-	// WARNING: Worker Versioning is not yet stable and the API and behavior may change incompatibly.
+	// Will be removed in server version v1.32.0.
 	// (-- api-linter: core::0127::http-annotation=disabled
 	//
 	//	aip.dev/not-precedent: We do yet expose versioning API to HTTP. --)
 	UpdateWorkerVersioningRules(context.Context, *UpdateWorkerVersioningRulesRequest) (*UpdateWorkerVersioningRulesResponse, error)
 	// Fetches the Build ID assignment and redirect rules for a Task Queue.
-	// WARNING: Worker Versioning is not yet stable and the API and behavior may change incompatibly.
+	// Will be removed in server version v1.32.0.
 	GetWorkerVersioningRules(context.Context, *GetWorkerVersioningRulesRequest) (*GetWorkerVersioningRulesResponse, error)
 	// Deprecated. Use `DescribeTaskQueue`.
+	// Will be removed in server version v1.32.0.
 	//
 	// Fetches task reachability to determine whether a worker may be retired.
 	// The request may specify task queues to query for or let the server fetch all task queues mapped to the given
@@ -2706,6 +2796,46 @@ type WorkflowServiceServer interface {
 	//
 	//	aip.dev/not-precedent: Activity deletion not exposed to HTTP, users should use cancel or terminate. --)
 	DeleteActivityExecution(context.Context, *DeleteActivityExecutionRequest) (*DeleteActivityExecutionResponse, error)
+	// PauseActivityExecution pauses the execution of an activity specified by its ID.
+	// This API can be used to target a workflow activity or a standalone activity
+	//
+	// Pausing an activity means:
+	//   - If the activity is currently waiting for a retry or is running and subsequently fails,
+	//     it will not be rescheduled until it is unpaused.
+	//   - If the activity is already paused, calling this method will have no effect.
+	//   - If the activity is running and finishes successfully, the activity will be completed.
+	//   - If the activity is running and finishes with failure:
+	//   - if there is no retry left - the activity will be completed.
+	//   - if there are more retries left - the activity will be paused.
+	//
+	// For long-running activities:
+	// - activities in paused state will send a cancellation with "activity_paused" set to 'true' in response to 'RecordActivityTaskHeartbeat'.
+	//
+	// Returns a `NotFound` error if there is no pending activity with the provided ID
+	PauseActivityExecution(context.Context, *PauseActivityExecutionRequest) (*PauseActivityExecutionResponse, error)
+	// ResetActivityExecution resets the execution of an activity specified by its ID.
+	// This API can be used to target a workflow activity or a standalone activity.
+	//
+	// Resetting an activity means:
+	//   - number of attempts will be reset to 0.
+	//   - activity timeouts will be reset.
+	//   - if the activity is waiting for retry, and it is not paused or 'keep_paused' is not provided:
+	//     it will be scheduled immediately (* see 'jitter' flag)
+	//
+	// Returns a `NotFound` error if there is no pending activity with the provided ID or type.
+	ResetActivityExecution(context.Context, *ResetActivityExecutionRequest) (*ResetActivityExecutionResponse, error)
+	// UnpauseActivityExecution unpauses the execution of an activity specified by its ID.
+	// This API can be used to target a workflow activity or a standalone activity.
+	//
+	// If activity is not paused, this call will have no effect.
+	// If the activity was paused while waiting for retry, it will be scheduled immediately (* see 'jitter' flag).
+	// Once the activity is unpaused, all timeout timers will be regenerated.
+	//
+	// Returns a `NotFound` error if there is no pending activity with the provided ID
+	UnpauseActivityExecution(context.Context, *UnpauseActivityExecutionRequest) (*UnpauseActivityExecutionResponse, error)
+	// UpdateActivityExecutionOptions is called by the client to update the options of an activity by its ID.
+	// This API can be used to target a workflow activity or a standalone activity.
+	UpdateActivityExecutionOptions(context.Context, *UpdateActivityExecutionOptionsRequest) (*UpdateActivityExecutionOptionsResponse, error)
 	// TerminateNexusOperationExecution terminates an existing Nexus operation immediately.
 	//
 	// Termination happens immediately and the operation handler cannot react to it. A terminated operation will have
@@ -3073,6 +3203,18 @@ func (UnimplementedWorkflowServiceServer) TerminateActivityExecution(context.Con
 }
 func (UnimplementedWorkflowServiceServer) DeleteActivityExecution(context.Context, *DeleteActivityExecutionRequest) (*DeleteActivityExecutionResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method DeleteActivityExecution not implemented")
+}
+func (UnimplementedWorkflowServiceServer) PauseActivityExecution(context.Context, *PauseActivityExecutionRequest) (*PauseActivityExecutionResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method PauseActivityExecution not implemented")
+}
+func (UnimplementedWorkflowServiceServer) ResetActivityExecution(context.Context, *ResetActivityExecutionRequest) (*ResetActivityExecutionResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method ResetActivityExecution not implemented")
+}
+func (UnimplementedWorkflowServiceServer) UnpauseActivityExecution(context.Context, *UnpauseActivityExecutionRequest) (*UnpauseActivityExecutionResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method UnpauseActivityExecution not implemented")
+}
+func (UnimplementedWorkflowServiceServer) UpdateActivityExecutionOptions(context.Context, *UpdateActivityExecutionOptionsRequest) (*UpdateActivityExecutionOptionsResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method UpdateActivityExecutionOptions not implemented")
 }
 func (UnimplementedWorkflowServiceServer) TerminateNexusOperationExecution(context.Context, *TerminateNexusOperationExecutionRequest) (*TerminateNexusOperationExecutionResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method TerminateNexusOperationExecution not implemented")
@@ -5171,6 +5313,78 @@ func _WorkflowService_DeleteActivityExecution_Handler(srv interface{}, ctx conte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _WorkflowService_PauseActivityExecution_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PauseActivityExecutionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WorkflowServiceServer).PauseActivityExecution(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: WorkflowService_PauseActivityExecution_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WorkflowServiceServer).PauseActivityExecution(ctx, req.(*PauseActivityExecutionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _WorkflowService_ResetActivityExecution_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ResetActivityExecutionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WorkflowServiceServer).ResetActivityExecution(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: WorkflowService_ResetActivityExecution_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WorkflowServiceServer).ResetActivityExecution(ctx, req.(*ResetActivityExecutionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _WorkflowService_UnpauseActivityExecution_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UnpauseActivityExecutionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WorkflowServiceServer).UnpauseActivityExecution(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: WorkflowService_UnpauseActivityExecution_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WorkflowServiceServer).UnpauseActivityExecution(ctx, req.(*UnpauseActivityExecutionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _WorkflowService_UpdateActivityExecutionOptions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateActivityExecutionOptionsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WorkflowServiceServer).UpdateActivityExecutionOptions(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: WorkflowService_UpdateActivityExecutionOptions_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WorkflowServiceServer).UpdateActivityExecutionOptions(ctx, req.(*UpdateActivityExecutionOptionsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _WorkflowService_TerminateNexusOperationExecution_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(TerminateNexusOperationExecutionRequest)
 	if err := dec(in); err != nil {
@@ -5673,6 +5887,22 @@ var WorkflowService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteActivityExecution",
 			Handler:    _WorkflowService_DeleteActivityExecution_Handler,
+		},
+		{
+			MethodName: "PauseActivityExecution",
+			Handler:    _WorkflowService_PauseActivityExecution_Handler,
+		},
+		{
+			MethodName: "ResetActivityExecution",
+			Handler:    _WorkflowService_ResetActivityExecution_Handler,
+		},
+		{
+			MethodName: "UnpauseActivityExecution",
+			Handler:    _WorkflowService_UnpauseActivityExecution_Handler,
+		},
+		{
+			MethodName: "UpdateActivityExecutionOptions",
+			Handler:    _WorkflowService_UpdateActivityExecutionOptions_Handler,
 		},
 		{
 			MethodName: "TerminateNexusOperationExecution",
