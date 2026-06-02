@@ -4,9 +4,9 @@ on:
   workflow_dispatch:
     inputs:
       branch:
-        description: "Branch in api-go repo to update protos (default: master)"
+        description: "Branch in api-go repo to update protos (default: main)"
         required: false
-        default: master
+        default: main
       commit_author:
         description: "Commit author username"
         required: true
