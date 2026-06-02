@@ -12,7 +12,7 @@ on:
         description: api-go ref to check
         required: true
         type: string
-        default: master
+        default: main
   workflow_call:
     inputs:
       sdk_ref:
@@ -24,7 +24,7 @@ on:
         description: api-go ref to check
         required: true
         type: string
-        default: master
+        default: main
 
 jobs:
   check-sdk-go-compatibility:
