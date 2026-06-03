@@ -16547,8 +16547,12 @@ type DescribeActivityExecutionRequest struct {
 	// guaranteed that a client making a sequence of long-poll requests will see a complete
 	// sequence of state changes.
 	LongPollToken []byte `protobuf:"bytes,6,opt,name=long_poll_token,json=longPollToken,proto3" json:"long_poll_token,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	// Include the heartbeat_details field inside info in the response if available.
+	IncludeHeartbeatDetails bool `protobuf:"varint,7,opt,name=include_heartbeat_details,json=includeHeartbeatDetails,proto3" json:"include_heartbeat_details,omitempty"`
+	// Include the last_failure field inside info in the response if available.
+	IncludeLastFailure bool `protobuf:"varint,8,opt,name=include_last_failure,json=includeLastFailure,proto3" json:"include_last_failure,omitempty"`
+	unknownFields      protoimpl.UnknownFields
+	sizeCache          protoimpl.SizeCache
 }
 
 func (x *DescribeActivityExecutionRequest) Reset() {
@@ -16623,11 +16627,26 @@ func (x *DescribeActivityExecutionRequest) GetLongPollToken() []byte {
 	return nil
 }
 
+func (x *DescribeActivityExecutionRequest) GetIncludeHeartbeatDetails() bool {
+	if x != nil {
+		return x.IncludeHeartbeatDetails
+	}
+	return false
+}
+
+func (x *DescribeActivityExecutionRequest) GetIncludeLastFailure() bool {
+	if x != nil {
+		return x.IncludeLastFailure
+	}
+	return false
+}
+
 type DescribeActivityExecutionResponse struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// The run ID of the activity, useful when run_id was not specified in the request.
 	RunId string `protobuf:"bytes,1,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
-	// Information about the activity execution.
+	// Information about the activity execution. Fields heartbeat_details and last_failure are omitted unless
+	// the request has include_heartbeat_details or include_last_failure set to true, respectively.
 	Info *v120.ActivityExecutionInfo `protobuf:"bytes,2,opt,name=info,proto3" json:"info,omitempty"`
 	// Serialized activity input, passed as arguments to the activity function.
 	// Only set if include_input was true in the request.
@@ -21434,7 +21453,7 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\x1eStartActivityExecutionResponse\x12\x15\n" +
 	"\x06run_id\x18\x01 \x01(\tR\x05runId\x12\x18\n" +
 	"\astarted\x18\x02 \x01(\bR\astarted\x120\n" +
-	"\x04link\x18\x03 \x01(\v2\x1c.temporal.api.common.v1.LinkR\x04link\"\xee\x01\n" +
+	"\x04link\x18\x03 \x01(\v2\x1c.temporal.api.common.v1.LinkR\x04link\"\xdc\x02\n" +
 	" DescribeActivityExecutionRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12\x1f\n" +
 	"\vactivity_id\x18\x02 \x01(\tR\n" +
@@ -21442,7 +21461,9 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\x06run_id\x18\x03 \x01(\tR\x05runId\x12#\n" +
 	"\rinclude_input\x18\x04 \x01(\bR\fincludeInput\x12'\n" +
 	"\x0finclude_outcome\x18\x05 \x01(\bR\x0eincludeOutcome\x12&\n" +
-	"\x0flong_poll_token\x18\x06 \x01(\fR\rlongPollToken\"\xf3\x02\n" +
+	"\x0flong_poll_token\x18\x06 \x01(\fR\rlongPollToken\x12:\n" +
+	"\x19include_heartbeat_details\x18\a \x01(\bR\x17includeHeartbeatDetails\x120\n" +
+	"\x14include_last_failure\x18\b \x01(\bR\x12includeLastFailure\"\xf3\x02\n" +
 	"!DescribeActivityExecutionResponse\x12\x15\n" +
 	"\x06run_id\x18\x01 \x01(\tR\x05runId\x12C\n" +
 	"\x04info\x18\x02 \x01(\v2/.temporal.api.activity.v1.ActivityExecutionInfoR\x04info\x126\n" +
