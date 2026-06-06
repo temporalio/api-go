@@ -7,13 +7,12 @@
 package workerservice
 
 import (
-	reflect "reflect"
-	sync "sync"
-	unsafe "unsafe"
-
 	v1 "go.temporal.io/api/worker/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	reflect "reflect"
+	sync "sync"
+	unsafe "unsafe"
 )
 
 const (

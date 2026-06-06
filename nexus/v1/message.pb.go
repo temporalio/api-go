@@ -7,10 +7,6 @@
 package nexus
 
 import (
-	reflect "reflect"
-	sync "sync"
-	unsafe "unsafe"
-
 	v11 "go.temporal.io/api/common/v1"
 	v1 "go.temporal.io/api/enums/v1"
 	v12 "go.temporal.io/api/failure/v1"
@@ -19,6 +15,9 @@ import (
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	durationpb "google.golang.org/protobuf/types/known/durationpb"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
+	reflect "reflect"
+	sync "sync"
+	unsafe "unsafe"
 )
 
 const (
@@ -1253,8 +1252,13 @@ type NexusOperationExecutionInfo struct {
 	Identity string `protobuf:"bytes,28,opt,name=identity,proto3" json:"identity,omitempty"`
 	// Updated once on scheduled and once on terminal status.
 	StateSizeBytes int64 `protobuf:"varint,29,opt,name=state_size_bytes,json=stateSizeBytes,proto3" json:"state_size_bytes,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
+	// The caller attributed to this standalone Nexus operation, projected
+	// (read-only) from its internal caller attribution stored in CHASM. Carries
+	// the root (end-user) caller and the chain of actors. Empty when caller
+	// attribution is not configured or unavailable.
+	Caller        *v11.Caller `protobuf:"bytes,30,opt,name=caller,proto3" json:"caller,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *NexusOperationExecutionInfo) Reset() {
@@ -1488,6 +1492,13 @@ func (x *NexusOperationExecutionInfo) GetStateSizeBytes() int64 {
 		return x.StateSizeBytes
 	}
 	return 0
+}
+
+func (x *NexusOperationExecutionInfo) GetCaller() *v11.Caller {
+	if x != nil {
+		return x.Caller
+	}
+	return nil
 }
 
 // Limited Nexus operation information returned in the list response.
@@ -2011,7 +2022,7 @@ const file_temporal_api_nexus_v1_message_proto_rawDesc = "" +
 	"\x14last_attempt_failure\x18\x05 \x01(\v2 .temporal.api.failure.v1.FailureR\x12lastAttemptFailure\x12W\n" +
 	"\x1anext_attempt_schedule_time\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\x17nextAttemptScheduleTime\x12%\n" +
 	"\x0eblocked_reason\x18\a \x01(\tR\rblockedReason\x12\x16\n" +
-	"\x06reason\x18\b \x01(\tR\x06reason\"\xbc\x0e\n" +
+	"\x06reason\x18\b \x01(\tR\x06reason\"\xf4\x0e\n" +
 	"\x1bNexusOperationExecutionInfo\x12!\n" +
 	"\foperation_id\x18\x01 \x01(\tR\voperationId\x12\x15\n" +
 	"\x06run_id\x18\x02 \x01(\tR\x05runId\x12\x1a\n" +
@@ -2044,7 +2055,8 @@ const file_temporal_api_nexus_v1_message_proto_rawDesc = "" +
 	"\ruser_metadata\x18\x1a \x01(\v2!.temporal.api.sdk.v1.UserMetadataR\fuserMetadata\x122\n" +
 	"\x05links\x18\x1b \x03(\v2\x1c.temporal.api.common.v1.LinkR\x05links\x12\x1a\n" +
 	"\bidentity\x18\x1c \x01(\tR\bidentity\x12(\n" +
-	"\x10state_size_bytes\x18\x1d \x01(\x03R\x0estateSizeBytes\x1a>\n" +
+	"\x10state_size_bytes\x18\x1d \x01(\x03R\x0estateSizeBytes\x126\n" +
+	"\x06caller\x18\x1e \x01(\v2\x1e.temporal.api.common.v1.CallerR\x06caller\x1a>\n" +
 	"\x10NexusHeaderEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xfa\x04\n" +
@@ -2115,6 +2127,7 @@ var file_temporal_api_nexus_v1_message_proto_goTypes = []any{
 	(*v11.SearchAttributes)(nil),                    // 33: temporal.api.common.v1.SearchAttributes
 	(*v13.UserMetadata)(nil),                        // 34: temporal.api.sdk.v1.UserMetadata
 	(*v11.Link)(nil),                                // 35: temporal.api.common.v1.Link
+	(*v11.Caller)(nil),                              // 36: temporal.api.common.v1.Caller
 }
 var file_temporal_api_nexus_v1_message_proto_depIdxs = []int32{
 	16, // 0: temporal.api.nexus.v1.Failure.metadata:type_name -> temporal.api.nexus.v1.Failure.MetadataEntry
@@ -2165,19 +2178,20 @@ var file_temporal_api_nexus_v1_message_proto_depIdxs = []int32{
 	24, // 45: temporal.api.nexus.v1.NexusOperationExecutionInfo.nexus_header:type_name -> temporal.api.nexus.v1.NexusOperationExecutionInfo.NexusHeaderEntry
 	34, // 46: temporal.api.nexus.v1.NexusOperationExecutionInfo.user_metadata:type_name -> temporal.api.sdk.v1.UserMetadata
 	35, // 47: temporal.api.nexus.v1.NexusOperationExecutionInfo.links:type_name -> temporal.api.common.v1.Link
-	27, // 48: temporal.api.nexus.v1.NexusOperationExecutionListInfo.schedule_time:type_name -> google.protobuf.Timestamp
-	27, // 49: temporal.api.nexus.v1.NexusOperationExecutionListInfo.close_time:type_name -> google.protobuf.Timestamp
-	30, // 50: temporal.api.nexus.v1.NexusOperationExecutionListInfo.status:type_name -> temporal.api.enums.v1.NexusOperationExecutionStatus
-	33, // 51: temporal.api.nexus.v1.NexusOperationExecutionListInfo.search_attributes:type_name -> temporal.api.common.v1.SearchAttributes
-	32, // 52: temporal.api.nexus.v1.NexusOperationExecutionListInfo.execution_duration:type_name -> google.protobuf.Duration
-	26, // 53: temporal.api.nexus.v1.StartOperationResponse.Sync.payload:type_name -> temporal.api.common.v1.Payload
-	3,  // 54: temporal.api.nexus.v1.StartOperationResponse.Sync.links:type_name -> temporal.api.nexus.v1.Link
-	3,  // 55: temporal.api.nexus.v1.StartOperationResponse.Async.links:type_name -> temporal.api.nexus.v1.Link
-	56, // [56:56] is the sub-list for method output_type
-	56, // [56:56] is the sub-list for method input_type
-	56, // [56:56] is the sub-list for extension type_name
-	56, // [56:56] is the sub-list for extension extendee
-	0,  // [0:56] is the sub-list for field type_name
+	36, // 48: temporal.api.nexus.v1.NexusOperationExecutionInfo.caller:type_name -> temporal.api.common.v1.Caller
+	27, // 49: temporal.api.nexus.v1.NexusOperationExecutionListInfo.schedule_time:type_name -> google.protobuf.Timestamp
+	27, // 50: temporal.api.nexus.v1.NexusOperationExecutionListInfo.close_time:type_name -> google.protobuf.Timestamp
+	30, // 51: temporal.api.nexus.v1.NexusOperationExecutionListInfo.status:type_name -> temporal.api.enums.v1.NexusOperationExecutionStatus
+	33, // 52: temporal.api.nexus.v1.NexusOperationExecutionListInfo.search_attributes:type_name -> temporal.api.common.v1.SearchAttributes
+	32, // 53: temporal.api.nexus.v1.NexusOperationExecutionListInfo.execution_duration:type_name -> google.protobuf.Duration
+	26, // 54: temporal.api.nexus.v1.StartOperationResponse.Sync.payload:type_name -> temporal.api.common.v1.Payload
+	3,  // 55: temporal.api.nexus.v1.StartOperationResponse.Sync.links:type_name -> temporal.api.nexus.v1.Link
+	3,  // 56: temporal.api.nexus.v1.StartOperationResponse.Async.links:type_name -> temporal.api.nexus.v1.Link
+	57, // [57:57] is the sub-list for method output_type
+	57, // [57:57] is the sub-list for method input_type
+	57, // [57:57] is the sub-list for extension type_name
+	57, // [57:57] is the sub-list for extension extendee
+	0,  // [0:57] is the sub-list for field type_name
 }
 
 func init() { file_temporal_api_nexus_v1_message_proto_init() }

@@ -634,6 +634,80 @@ func (this *Principal) Equal(that interface{}) bool {
 	return proto.Equal(this, that1)
 }
 
+// Marshal an object of type Actor to the protobuf v3 wire format
+func (val *Actor) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type Actor from the protobuf v3 wire format
+func (val *Actor) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *Actor) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two Actor values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *Actor) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *Actor
+	switch t := that.(type) {
+	case *Actor:
+		that1 = t
+	case Actor:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type Caller to the protobuf v3 wire format
+func (val *Caller) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type Caller from the protobuf v3 wire format
+func (val *Caller) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *Caller) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two Caller values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *Caller) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *Caller
+	switch t := that.(type) {
+	case *Caller:
+		that1 = t
+	case Caller:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
 // Marshal an object of type Priority to the protobuf v3 wire format
 func (val *Priority) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
