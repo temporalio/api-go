@@ -876,7 +876,9 @@ func TestVisitPayloads_CommandCount(t *testing.T) {
 	//		memo - 1
 	//	ScheduleNexusOperationCommandAttributes - 1
 	//		input - 1
-	// TOTAL : 37
+	//	EventGroupMarkers (Command.event_group_markers) - 1
+	//		label.label - 1
+	// TOTAL : 38
 	var messageType protoreflect.MessageType
 	protoregistry.GlobalTypes.RangeMessages(func(mt protoreflect.MessageType) bool {
 		if string(mt.Descriptor().FullName()) == "temporal.api.command.v1.Command" {
@@ -891,7 +893,7 @@ func TestVisitPayloads_CommandCount(t *testing.T) {
 	populatePayload(&msg, msg, require, &totalCount, &count)
 
 	require.Equal(0, count)
-	require.Equal(37, totalCount)
+	require.Equal(38, totalCount)
 }
 
 func TestVisitPayloads_MapCount(t *testing.T) {
@@ -900,10 +902,10 @@ func TestVisitPayloads_MapCount(t *testing.T) {
 	var messageType protoreflect.MessageType
 	var totalCount, count int
 
-	// 	repeated temporal.api.command.v1.Command commands - 37
+	// 	repeated temporal.api.command.v1.Command commands - 38
 	// 	map<string, temporal.api.query.v1.WorkflowQueryResult> query_results - 6
 	// 	repeated temporal.api.protocol.v1.Message messages - 1
-	// TOTAL - 44
+	// TOTAL - 45
 	protoregistry.GlobalTypes.RangeMessages(func(mt protoreflect.MessageType) bool {
 		if string(mt.Descriptor().FullName()) == "temporal.api.workflowservice.v1.RespondWorkflowTaskCompletedRequest" {
 			messageType = mt
@@ -918,7 +920,7 @@ func TestVisitPayloads_MapCount(t *testing.T) {
 	populatePayload(&msg1, msg1, require, &totalCount, &count)
 
 	require.Equal(0, count)
-	require.Equal(44, totalCount)
+	require.Equal(45, totalCount)
 }
 
 func TestVisitPayloads_CountWorkflowExecutionsResponse(t *testing.T) {

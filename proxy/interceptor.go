@@ -794,6 +794,7 @@ func visitPayloads(
 				o.GetCancelWorkflowExecutionCommandAttributes(),
 				o.GetCompleteWorkflowExecutionCommandAttributes(),
 				o.GetContinueAsNewWorkflowExecutionCommandAttributes(),
+				o.GetEventGroupMarkers(),
 				o.GetFailWorkflowExecutionCommandAttributes(),
 				o.GetModifyWorkflowPropertiesCommandAttributes(),
 				o.GetRecordMarkerCommandAttributes(),
@@ -2015,6 +2016,7 @@ func visitPayloads(
 				o.GetChildWorkflowExecutionCompletedEventAttributes(),
 				o.GetChildWorkflowExecutionFailedEventAttributes(),
 				o.GetChildWorkflowExecutionStartedEventAttributes(),
+				o.GetEventGroupMarkers(),
 				o.GetMarkerRecordedEventAttributes(),
 				o.GetNexusOperationCancelRequestFailedEventAttributes(),
 				o.GetNexusOperationCanceledEventAttributes(),
@@ -3285,6 +3287,61 @@ func visitPayloads(
 				o.GetSearchAttributes(),
 			); err != nil {
 				return err
+			}
+
+			ctx.Context = prevCtx
+
+		case []*sdk.EventGroupMarker:
+			for _, x := range o {
+				if err := visitPayloads(ctx, options, parent, concState, x); err != nil {
+					return err
+				}
+			}
+
+		case *sdk.EventGroupMarker:
+
+			if o == nil {
+				continue
+			}
+
+			prevCtx := ctx.Context
+			if options.ContextHook != nil {
+				var hookErr error
+				if ctx.Context, hookErr = options.ContextHook(prevCtx, o); hookErr != nil {
+					return hookErr
+				}
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				concState,
+				o.GetLabel(),
+			); err != nil {
+				return err
+			}
+
+			ctx.Context = prevCtx
+
+		case *sdk.EventGroupMarker_Label:
+
+			if o == nil {
+				continue
+			}
+
+			prevCtx := ctx.Context
+			if options.ContextHook != nil {
+				var hookErr error
+				if ctx.Context, hookErr = options.ContextHook(prevCtx, o); hookErr != nil {
+					return hookErr
+				}
+			}
+
+			if o.Label != nil {
+				if err := visitPayload(ctx, options, o, concState, &o.Label); err != nil {
+					return err
+				}
 			}
 
 			ctx.Context = prevCtx
