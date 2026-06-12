@@ -189,3 +189,77 @@ func (this *CallbackInfo) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type ActivityInvocationSource to the protobuf v3 wire format
+func (val *ActivityInvocationSource) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type ActivityInvocationSource from the protobuf v3 wire format
+func (val *ActivityInvocationSource) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *ActivityInvocationSource) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two ActivityInvocationSource values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *ActivityInvocationSource) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *ActivityInvocationSource
+	switch t := that.(type) {
+	case *ActivityInvocationSource:
+		that1 = t
+	case ActivityInvocationSource:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type NexusInvocation to the protobuf v3 wire format
+func (val *NexusInvocation) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type NexusInvocation from the protobuf v3 wire format
+func (val *NexusInvocation) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *NexusInvocation) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two NexusInvocation values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *NexusInvocation) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *NexusInvocation
+	switch t := that.(type) {
+	case *NexusInvocation:
+		that1 = t
+	case NexusInvocation:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}

@@ -7,11 +7,6 @@
 package workflow
 
 import (
-	reflect "reflect"
-	"strconv"
-	sync "sync"
-	unsafe "unsafe"
-
 	v16 "go.temporal.io/api/activity/v1"
 	v1 "go.temporal.io/api/common/v1"
 	v12 "go.temporal.io/api/deployment/v1"
@@ -25,6 +20,10 @@ import (
 	emptypb "google.golang.org/protobuf/types/known/emptypb"
 	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
+	reflect "reflect"
+	"strconv"
+	sync "sync"
+	unsafe "unsafe"
 )
 
 const (
