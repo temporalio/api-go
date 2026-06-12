@@ -227,6 +227,43 @@ func (this *CancelOperationRequest) Equal(that interface{}) bool {
 	return proto.Equal(this, that1)
 }
 
+// Marshal an object of type CompletionRequest to the protobuf v3 wire format
+func (val *CompletionRequest) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type CompletionRequest from the protobuf v3 wire format
+func (val *CompletionRequest) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *CompletionRequest) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two CompletionRequest values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *CompletionRequest) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *CompletionRequest
+	switch t := that.(type) {
+	case *CompletionRequest:
+		that1 = t
+	case CompletionRequest:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
 // Marshal an object of type Request to the protobuf v3 wire format
 func (val *Request) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
@@ -330,6 +367,43 @@ func (this *CancelOperationResponse) Equal(that interface{}) bool {
 	case *CancelOperationResponse:
 		that1 = t
 	case CancelOperationResponse:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type CompletionResponse to the protobuf v3 wire format
+func (val *CompletionResponse) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type CompletionResponse from the protobuf v3 wire format
+func (val *CompletionResponse) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *CompletionResponse) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two CompletionResponse values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *CompletionResponse) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *CompletionResponse
+	switch t := that.(type) {
+	case *CompletionResponse:
+		that1 = t
+	case CompletionResponse:
 		that1 = &t
 	default:
 		return false
