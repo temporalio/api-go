@@ -458,6 +458,12 @@ func (x *CancelOperationRequest) GetOperationToken() string {
 // support activity and workflow completions.
 type CompletionRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
+	// Name of service to start the completion operation in.
+	Service string `protobuf:"bytes,1,opt,name=service,proto3" json:"service,omitempty"`
+	// Type of completion operation to start.
+	Operation string `protobuf:"bytes,2,opt,name=operation,proto3" json:"operation,omitempty"`
+	// A request ID that can be used as an idempotentency key.
+	RequestId string `protobuf:"bytes,3,opt,name=request_id,json=requestId,proto3" json:"request_id,omitempty"`
 	// Types that are valid to be assigned to Variant:
 	//
 	//	*CompletionRequest_NexusOperation
@@ -496,6 +502,27 @@ func (*CompletionRequest) Descriptor() ([]byte, []int) {
 	return file_temporal_api_nexus_v1_message_proto_rawDescGZIP(), []int{6}
 }
 
+func (x *CompletionRequest) GetService() string {
+	if x != nil {
+		return x.Service
+	}
+	return ""
+}
+
+func (x *CompletionRequest) GetOperation() string {
+	if x != nil {
+		return x.Operation
+	}
+	return ""
+}
+
+func (x *CompletionRequest) GetRequestId() string {
+	if x != nil {
+		return x.RequestId
+	}
+	return ""
+}
+
 func (x *CompletionRequest) GetVariant() isCompletionRequest_Variant {
 	if x != nil {
 		return x.Variant
@@ -517,7 +544,7 @@ type isCompletionRequest_Variant interface {
 }
 
 type CompletionRequest_NexusOperation struct {
-	NexusOperation *CompletionRequest_NexusOperationCompletion `protobuf:"bytes,1,opt,name=nexus_operation,json=nexusOperation,proto3,oneof"`
+	NexusOperation *CompletionRequest_NexusOperationCompletion `protobuf:"bytes,4,opt,name=nexus_operation,json=nexusOperation,proto3,oneof"`
 }
 
 func (*CompletionRequest_NexusOperation) isCompletionRequest_Variant() {}
@@ -2196,9 +2223,13 @@ const file_temporal_api_nexus_v1_message_proto_rawDesc = "" +
 	"\aservice\x18\x01 \x01(\tR\aservice\x12\x1c\n" +
 	"\toperation\x18\x02 \x01(\tR\toperation\x12%\n" +
 	"\foperation_id\x18\x03 \x01(\tB\x02\x18\x01R\voperationId\x12'\n" +
-	"\x0foperation_token\x18\x04 \x01(\tR\x0eoperationToken\"\xd5\x03\n" +
-	"\x11CompletionRequest\x12l\n" +
-	"\x0fnexus_operation\x18\x01 \x01(\v2A.temporal.api.nexus.v1.CompletionRequest.NexusOperationCompletionH\x00R\x0enexusOperation\x1a\xc6\x02\n" +
+	"\x0foperation_token\x18\x04 \x01(\tR\x0eoperationToken\"\xac\x04\n" +
+	"\x11CompletionRequest\x12\x18\n" +
+	"\aservice\x18\x01 \x01(\tR\aservice\x12\x1c\n" +
+	"\toperation\x18\x02 \x01(\tR\toperation\x12\x1d\n" +
+	"\n" +
+	"request_id\x18\x03 \x01(\tR\trequestId\x12l\n" +
+	"\x0fnexus_operation\x18\x04 \x01(\v2A.temporal.api.nexus.v1.CompletionRequest.NexusOperationCompletionH\x00R\x0enexusOperation\x1a\xc6\x02\n" +
 	"\x18NexusOperationCompletion\x12\x18\n" +
 	"\aservice\x18\x01 \x01(\tR\aservice\x12\x1c\n" +
 	"\toperation\x18\x02 \x01(\tR\toperation\x12!\n" +
