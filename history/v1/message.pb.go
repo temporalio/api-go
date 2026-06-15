@@ -4404,8 +4404,11 @@ type WorkflowExecutionOptionsUpdatedEventAttributes struct {
 	// Priority override upserted in this event. Represents the full priority; not just partial fields.
 	// Ignored if nil.
 	Priority *v1.Priority `protobuf:"bytes,6,opt,name=priority,proto3" json:"priority,omitempty"`
-	// If set, the time-skipping configuration was changed. Contains the full updated configuration.
+	// TimeSkippingConfig override upserted in this event. Represents the full config.
 	TimeSkippingConfig *v1.TimeSkippingConfig `protobuf:"bytes,7,opt,name=time_skipping_config,json=timeSkippingConfig,proto3" json:"time_skipping_config,omitempty"`
+	// Indicates the time skipping config was updated by the recent call to update
+	// workflow execution options.
+	TimeSkippingConfigUpdated bool `protobuf:"varint,9,opt,name=time_skipping_config_updated,json=timeSkippingConfigUpdated,proto3" json:"time_skipping_config_updated,omitempty"`
 	// Updates to workflow updates options.
 	WorkflowUpdateOptions []*WorkflowExecutionOptionsUpdatedEventAttributes_WorkflowUpdateOptionsUpdate `protobuf:"bytes,8,rep,name=workflow_update_options,json=workflowUpdateOptions,proto3" json:"workflow_update_options,omitempty"`
 	unknownFields         protoimpl.UnknownFields
@@ -4489,6 +4492,13 @@ func (x *WorkflowExecutionOptionsUpdatedEventAttributes) GetTimeSkippingConfig()
 		return x.TimeSkippingConfig
 	}
 	return nil
+}
+
+func (x *WorkflowExecutionOptionsUpdatedEventAttributes) GetTimeSkippingConfigUpdated() bool {
+	if x != nil {
+		return x.TimeSkippingConfigUpdated
+	}
+	return false
 }
 
 func (x *WorkflowExecutionOptionsUpdatedEventAttributes) GetWorkflowUpdateOptions() []*WorkflowExecutionOptionsUpdatedEventAttributes_WorkflowUpdateOptionsUpdate {
@@ -7403,7 +7413,7 @@ const file_temporal_api_history_v1_message_proto_rawDesc = "" +
 	"\x12workflow_execution\x18\x02 \x01(\v2).temporal.api.common.v1.WorkflowExecutionR\x11workflowExecution\x12I\n" +
 	"\rworkflow_type\x18\x03 \x01(\v2$.temporal.api.common.v1.WorkflowTypeR\fworkflowType\x12,\n" +
 	"\x12initiated_event_id\x18\x04 \x01(\x03R\x10initiatedEventId\x12(\n" +
-	"\x10started_event_id\x18\x05 \x01(\x03R\x0estartedEventId\"\x8a\a\n" +
+	"\x10started_event_id\x18\x05 \x01(\x03R\x0estartedEventId\"\xcb\a\n" +
 	".WorkflowExecutionOptionsUpdatedEventAttributes\x12]\n" +
 	"\x13versioning_override\x18\x01 \x01(\v2,.temporal.api.workflow.v1.VersioningOverrideR\x12versioningOverride\x12:\n" +
 	"\x19unset_versioning_override\x18\x02 \x01(\bR\x17unsetVersioningOverride\x12.\n" +
@@ -7411,7 +7421,8 @@ const file_temporal_api_history_v1_message_proto_rawDesc = "" +
 	"\x1dattached_completion_callbacks\x18\x04 \x03(\v2 .temporal.api.common.v1.CallbackR\x1battachedCompletionCallbacks\x12\x1a\n" +
 	"\bidentity\x18\x05 \x01(\tR\bidentity\x12<\n" +
 	"\bpriority\x18\x06 \x01(\v2 .temporal.api.common.v1.PriorityR\bpriority\x12\\\n" +
-	"\x14time_skipping_config\x18\a \x01(\v2*.temporal.api.common.v1.TimeSkippingConfigR\x12timeSkippingConfig\x12\x9b\x01\n" +
+	"\x14time_skipping_config\x18\a \x01(\v2*.temporal.api.common.v1.TimeSkippingConfigR\x12timeSkippingConfig\x12?\n" +
+	"\x1ctime_skipping_config_updated\x18\t \x01(\bR\x19timeSkippingConfigUpdated\x12\x9b\x01\n" +
 	"\x17workflow_update_options\x18\b \x03(\v2c.temporal.api.history.v1.WorkflowExecutionOptionsUpdatedEventAttributes.WorkflowUpdateOptionsUpdateR\x15workflowUpdateOptions\x1a\xd0\x01\n" +
 	"\x1bWorkflowUpdateOptionsUpdate\x12\x1b\n" +
 	"\tupdate_id\x18\x01 \x01(\tR\bupdateId\x12.\n" +

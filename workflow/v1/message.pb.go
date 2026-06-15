@@ -2134,14 +2134,15 @@ type WorkflowExecutionOptions struct {
 	VersioningOverride *VersioningOverride `protobuf:"bytes,1,opt,name=versioning_override,json=versioningOverride,proto3" json:"versioning_override,omitempty"`
 	// If set, overrides the workflow's priority sent by the SDK.
 	Priority *v1.Priority `protobuf:"bytes,2,opt,name=priority,proto3" json:"priority,omitempty"`
-	// Time-skipping configuration for this workflow execution.
-	// If not set, the time-skipping configuration is not updated by this request;
-	// the existing configuration is preserved.
-	//
+	// The time-skipping configuration for this workflow execution.
 	// When `fast_forward` is set, time will be fast-forwarded to a future point relative
 	// to the current workflow timestamp. Each call takes effect, even if
 	// `fast_forward` is set to the same duration, since the target time is recalculated
 	// from the current timestamp on every call.
+	//
+	// This field must be updated as a whole; updating individual sub-fields is not supported.
+	// When setting the update mask in `UpdateWorkflowExecutionOptionsRequest`,
+	// `BatchOperationUpdateWorkflowExecutionOptions`, etc., use a mask that covers the entire field.
 	TimeSkippingConfig *v1.TimeSkippingConfig `protobuf:"bytes,3,opt,name=time_skipping_config,json=timeSkippingConfig,proto3" json:"time_skipping_config,omitempty"`
 	unknownFields      protoimpl.UnknownFields
 	sizeCache          protoimpl.SizeCache
