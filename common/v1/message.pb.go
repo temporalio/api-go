@@ -1477,9 +1477,9 @@ type TimeSkippingConfig struct {
 	// Enables or disables time skipping for this workflow execution.
 	Enabled bool `protobuf:"varint,1,opt,name=enabled,proto3" json:"enabled,omitempty"`
 	// Optionally fast-forward the current workflow execution by this duration ahead of current workflow execution time.
-	// When the fast-forward completes, time skipping is disabled by the call that initiated the fast-forward, and this
+	// After the fast-forward completes, time skipping is disabled, and this
 	// action is recorded in the WorkflowExecutionTimeSkippingTransitionedEvent. It can be re-enabled by
-	// setting `enabled` to true via UpdateWorkflowExecutionOptions.
+	// setting `enabled` to true or setting `fast_forward` again via UpdateWorkflowExecutionOptions.
 	// The current workflow execution is a chain of runs (retries, cron, continue-as-new);
 	// child workflows are separate executions, so this fast_forward won't affect them.
 	//
