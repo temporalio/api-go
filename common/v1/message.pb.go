@@ -1459,7 +1459,9 @@ func (x *OnConflictOptions) GetAttachLinks() bool {
 	return false
 }
 
-// The configuration for time skipping of a workflow execution (a chain of runs including retries, cron, continue-as-new).
+// The configuration for time skipping of an execution.
+//
+// For a workflow execution (a chain of runs including retries, cron, continue-as-new):
 // When time skipping is enabled, virtual time advances automatically whenever there is no in-flight work.
 // In-flight work includes activities, child workflows, Nexus operations, signal/cancel external workflow operations,
 // and possibly other features added in the future.
@@ -1472,28 +1474,40 @@ func (x *OnConflictOptions) GetAttachLinks() bool {
 // but a parent's fast_forward won't affect its child's execution. A flag is provided to disable propagation of the
 // "enabled" flag to child workflows; regardless of that flag, a child workflow inherits the virtual time from the
 // parent execution as its start time.
+//
+// For a scheduler execution: {{ TBD }}
+//
+// For a standalone activity: time skipping applies to the activity's own retry/backoff schedule.
+// Activities scheduled by a workflow do not carry their own configuration; they inherit time
+// skipping from the workflow execution. The `disable_child_propagation` and
+// `disable_scheduled_action_propagation` fields are workflow/scheduler concepts and are ignored
+// for standalone activities.
 type TimeSkippingConfig struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// Enables or disables time skipping for this workflow execution.
+	// Enables or disables time skipping for this execution.
 	Enabled bool `protobuf:"varint,1,opt,name=enabled,proto3" json:"enabled,omitempty"`
-	// Optionally fast-forward the current workflow execution by this duration ahead of current workflow execution time.
-	// After the fast-forward completes, time skipping is disabled, and this
-	// action is recorded in the WorkflowExecutionTimeSkippingTransitionedEvent. It can be re-enabled by
-	// setting `enabled` to true or setting `fast_forward` again via UpdateWorkflowExecutionOptions.
-	// The current workflow execution is a chain of runs (retries, cron, continue-as-new);
-	// child workflows are separate executions, so this fast_forward won't affect them.
-	//
-	// For a given workflow execution, only one active fast-forward is allowed at a time.
-	// If a new fast-forward is set via UpdateWorkflowExecutionOptions before the previous
+	// Optionally fast-forward the current execution by this duration ahead of current execution time.
+	// For a given  execution, only one active fast-forward is allowed at a time.
+	// If a new fast-forward is set via a update call before the previous
 	// one completes, the new one will override the previous one.
 	// If the fast-forward duration exceeds the remaining execution timeout, time will only
 	// be fast-forwarded up to the end of the execution.
+	//
+	// If the executions are workflows:
+	// When the fast-forward completes, time skipping is disabled by the call that initiated
+	// the fast-forward, and this action is recorded in the WorkflowExecutionTimeSkippingTransitionedEvent.
+	// It can be re-enabled by setting `enabled` to true via UpdateWorkflowExecutionOptions.
+	// The current workflow execution is a chain of runs (retries, cron, continue-as-new);
+	// child workflows are separate executions, so this fast_forward won't affect them.
 	FastForward *durationpb.Duration `protobuf:"bytes,2,opt,name=fast_forward,json=fastForward,proto3" json:"fast_forward,omitempty"`
-	// By default, child workflows inherit the "enabled" flag when they are started.
-	// This flag disables that inheritance.
+	// Workflow executions only. By default, child workflows inherit the "enabled" flag when they
+	// are started. This flag disables that inheritance. Ignored for standalone activities.
 	DisableChildPropagation bool `protobuf:"varint,3,opt,name=disable_child_propagation,json=disableChildPropagation,proto3" json:"disable_child_propagation,omitempty"`
-	unknownFields           protoimpl.UnknownFields
-	sizeCache               protoimpl.SizeCache
+	// Scheduler executions only. By default, executions inherit the "enabled" flag when they are
+	// started by a scheduler. This flag disables that inheritance. Ignored for standalone activities.
+	DisableScheduledActionPropagation bool `protobuf:"varint,4,opt,name=disable_scheduled_action_propagation,json=disableScheduledActionPropagation,proto3" json:"disable_scheduled_action_propagation,omitempty"`
+	unknownFields                     protoimpl.UnknownFields
+	sizeCache                         protoimpl.SizeCache
 }
 
 func (x *TimeSkippingConfig) Reset() {
@@ -1543,6 +1557,13 @@ func (x *TimeSkippingConfig) GetFastForward() *durationpb.Duration {
 func (x *TimeSkippingConfig) GetDisableChildPropagation() bool {
 	if x != nil {
 		return x.DisableChildPropagation
+	}
+	return false
+}
+
+func (x *TimeSkippingConfig) GetDisableScheduledActionPropagation() bool {
+	if x != nil {
+		return x.DisableScheduledActionPropagation
 	}
 	return false
 }
@@ -2346,11 +2367,12 @@ const file_temporal_api_common_v1_message_proto_rawDesc = "" +
 	"\x11OnConflictOptions\x12*\n" +
 	"\x11attach_request_id\x18\x01 \x01(\bR\x0fattachRequestId\x12>\n" +
 	"\x1battach_completion_callbacks\x18\x02 \x01(\bR\x19attachCompletionCallbacks\x12!\n" +
-	"\fattach_links\x18\x03 \x01(\bR\vattachLinks\"\xa8\x01\n" +
+	"\fattach_links\x18\x03 \x01(\bR\vattachLinks\"\xf9\x01\n" +
 	"\x12TimeSkippingConfig\x12\x18\n" +
 	"\aenabled\x18\x01 \x01(\bR\aenabled\x12<\n" +
 	"\ffast_forward\x18\x02 \x01(\v2\x19.google.protobuf.DurationR\vfastForward\x12:\n" +
-	"\x19disable_child_propagation\x18\x03 \x01(\bR\x17disableChildPropagation\"\xc8\x01\n" +
+	"\x19disable_child_propagation\x18\x03 \x01(\bR\x17disableChildPropagation\x12O\n" +
+	"$disable_scheduled_action_propagation\x18\x04 \x01(\bR!disableScheduledActionPropagation\"\xc8\x01\n" +
 	"\x1cTimeSkippingStatePropagation\x12S\n" +
 	"\x18initial_skipped_duration\x18\x01 \x01(\v2\x19.google.protobuf.DurationR\x16initialSkippedDuration\x12S\n" +
 	"\x18fast_forward_target_time\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\x15fastForwardTargetTimeB\x89\x01\n" +
