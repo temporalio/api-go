@@ -342,9 +342,16 @@ type ActivityExecutionInfo struct {
 	// Overwritten on each new attempt. Empty if unknown.
 	SdkVersion string `protobuf:"bytes,36,opt,name=sdk_version,json=sdkVersion,proto3" json:"sdk_version,omitempty"`
 	// Time to wait before dispatching the first activity task. This delay is not applied to retry attempts.
-	StartDelay    *durationpb.Duration `protobuf:"bytes,37,opt,name=start_delay,json=startDelay,proto3" json:"start_delay,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	StartDelay *durationpb.Duration `protobuf:"bytes,37,opt,name=start_delay,json=startDelay,proto3" json:"start_delay,omitempty"`
+	// The time at which the activity is requested to start, computed as `schedule_time + start_delay`.
+	// Same as `schedule_time` if `start_delay` is not set.
+	RequestedStartTime *timestamppb.Timestamp `protobuf:"bytes,38,opt,name=requested_start_time,json=requestedStartTime,proto3" json:"requested_start_time,omitempty"`
+	// The time at which the activity was first dispatched to a worker (i.e. when a worker first picked
+	// up the task from matching). Not set until a worker picks up the first attempt. Not updated on
+	// subsequent retry attempts.
+	ActualStartTime *timestamppb.Timestamp `protobuf:"bytes,39,opt,name=actual_start_time,json=actualStartTime,proto3" json:"actual_start_time,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
 }
 
 func (x *ActivityExecutionInfo) Reset() {
@@ -636,6 +643,20 @@ func (x *ActivityExecutionInfo) GetStartDelay() *durationpb.Duration {
 	return nil
 }
 
+func (x *ActivityExecutionInfo) GetRequestedStartTime() *timestamppb.Timestamp {
+	if x != nil {
+		return x.RequestedStartTime
+	}
+	return nil
+}
+
+func (x *ActivityExecutionInfo) GetActualStartTime() *timestamppb.Timestamp {
+	if x != nil {
+		return x.ActualStartTime
+	}
+	return nil
+}
+
 // Limited activity information returned in the list response.
 // When adding fields here, ensure that it is also present in ActivityExecutionInfo (note that it
 // may already be present in ActivityExecutionInfo but not at the top-level).
@@ -665,8 +686,15 @@ type ActivityExecutionListInfo struct {
 	// The difference between close time and scheduled time.
 	// This field is only populated if the activity is closed.
 	ExecutionDuration *durationpb.Duration `protobuf:"bytes,11,opt,name=execution_duration,json=executionDuration,proto3" json:"execution_duration,omitempty"`
-	unknownFields     protoimpl.UnknownFields
-	sizeCache         protoimpl.SizeCache
+	// The time at which the activity is requested to start, computed as `schedule_time + start_delay`.
+	// Same as `schedule_time` if `start_delay` is not set.
+	RequestedStartTime *timestamppb.Timestamp `protobuf:"bytes,12,opt,name=requested_start_time,json=requestedStartTime,proto3" json:"requested_start_time,omitempty"`
+	// The time at which the activity was first dispatched to a worker (i.e. when a worker first picked
+	// up the task from matching). Not set until a worker picks up the first attempt. Not updated on
+	// subsequent retry attempts.
+	ActualStartTime *timestamppb.Timestamp `protobuf:"bytes,13,opt,name=actual_start_time,json=actualStartTime,proto3" json:"actual_start_time,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
 }
 
 func (x *ActivityExecutionListInfo) Reset() {
@@ -772,6 +800,20 @@ func (x *ActivityExecutionListInfo) GetStateSizeBytes() int64 {
 func (x *ActivityExecutionListInfo) GetExecutionDuration() *durationpb.Duration {
 	if x != nil {
 		return x.ExecutionDuration
+	}
+	return nil
+}
+
+func (x *ActivityExecutionListInfo) GetRequestedStartTime() *timestamppb.Timestamp {
+	if x != nil {
+		return x.RequestedStartTime
+	}
+	return nil
+}
+
+func (x *ActivityExecutionListInfo) GetActualStartTime() *timestamppb.Timestamp {
+	if x != nil {
+		return x.ActualStartTime
 	}
 	return nil
 }
@@ -953,7 +995,7 @@ const file_temporal_api_activity_v1_message_proto_rawDesc = "" +
 	"\fretry_policy\x18\x06 \x01(\v2#.temporal.api.common.v1.RetryPolicyR\vretryPolicy\x12<\n" +
 	"\bpriority\x18\a \x01(\v2 .temporal.api.common.v1.PriorityR\bpriority\x12:\n" +
 	"\vstart_delay\x18\b \x01(\v2\x19.google.protobuf.DurationR\n" +
-	"startDelay\"\xc4\x12\n" +
+	"startDelay\"\xda\x13\n" +
 	"\x15ActivityExecutionInfo\x12\x1f\n" +
 	"\vactivity_id\x18\x01 \x01(\tR\n" +
 	"activityId\x12\x15\n" +
@@ -997,7 +1039,9 @@ const file_temporal_api_activity_v1_message_proto_rawDesc = "" +
 	"\vsdk_version\x18$ \x01(\tR\n" +
 	"sdkVersion\x12:\n" +
 	"\vstart_delay\x18% \x01(\v2\x19.google.protobuf.DurationR\n" +
-	"startDelay\"\x82\x05\n" +
+	"startDelay\x12L\n" +
+	"\x14requested_start_time\x18& \x01(\v2\x1a.google.protobuf.TimestampR\x12requestedStartTime\x12F\n" +
+	"\x11actual_start_time\x18' \x01(\v2\x1a.google.protobuf.TimestampR\x0factualStartTime\"\x98\x06\n" +
 	"\x19ActivityExecutionListInfo\x12\x1f\n" +
 	"\vactivity_id\x18\x01 \x01(\tR\n" +
 	"activityId\x12\x15\n" +
@@ -1013,7 +1057,9 @@ const file_temporal_api_activity_v1_message_proto_rawDesc = "" +
 	"\x16state_transition_count\x18\t \x01(\x03R\x14stateTransitionCount\x12(\n" +
 	"\x10state_size_bytes\x18\n" +
 	" \x01(\x03R\x0estateSizeBytes\x12H\n" +
-	"\x12execution_duration\x18\v \x01(\v2\x19.google.protobuf.DurationR\x11executionDuration\"\x9e\x02\n" +
+	"\x12execution_duration\x18\v \x01(\v2\x19.google.protobuf.DurationR\x11executionDuration\x12L\n" +
+	"\x14requested_start_time\x18\f \x01(\v2\x1a.google.protobuf.TimestampR\x12requestedStartTime\x12F\n" +
+	"\x11actual_start_time\x18\r \x01(\v2\x1a.google.protobuf.TimestampR\x0factualStartTime\"\x9e\x02\n" +
 	"\fCallbackInfo\x12H\n" +
 	"\atrigger\x18\x01 \x01(\v2..temporal.api.activity.v1.CallbackInfo.TriggerR\atrigger\x12:\n" +
 	"\x04info\x18\x02 \x01(\v2&.temporal.api.callback.v1.CallbackInfoR\x04info\x1a\x10\n" +
@@ -1098,20 +1144,24 @@ var file_temporal_api_activity_v1_message_proto_depIdxs = []int32{
 	20, // 33: temporal.api.activity.v1.ActivityExecutionInfo.user_metadata:type_name -> temporal.api.sdk.v1.UserMetadata
 	21, // 34: temporal.api.activity.v1.ActivityExecutionInfo.links:type_name -> temporal.api.common.v1.Link
 	10, // 35: temporal.api.activity.v1.ActivityExecutionInfo.start_delay:type_name -> google.protobuf.Duration
-	13, // 36: temporal.api.activity.v1.ActivityExecutionListInfo.activity_type:type_name -> temporal.api.common.v1.ActivityType
-	16, // 37: temporal.api.activity.v1.ActivityExecutionListInfo.schedule_time:type_name -> google.protobuf.Timestamp
-	16, // 38: temporal.api.activity.v1.ActivityExecutionListInfo.close_time:type_name -> google.protobuf.Timestamp
-	14, // 39: temporal.api.activity.v1.ActivityExecutionListInfo.status:type_name -> temporal.api.enums.v1.ActivityExecutionStatus
-	18, // 40: temporal.api.activity.v1.ActivityExecutionListInfo.search_attributes:type_name -> temporal.api.common.v1.SearchAttributes
-	10, // 41: temporal.api.activity.v1.ActivityExecutionListInfo.execution_duration:type_name -> google.protobuf.Duration
-	6,  // 42: temporal.api.activity.v1.CallbackInfo.trigger:type_name -> temporal.api.activity.v1.CallbackInfo.Trigger
-	22, // 43: temporal.api.activity.v1.CallbackInfo.info:type_name -> temporal.api.callback.v1.CallbackInfo
-	5,  // 44: temporal.api.activity.v1.CallbackInfo.Trigger.activity_closed:type_name -> temporal.api.activity.v1.CallbackInfo.ActivityClosed
-	45, // [45:45] is the sub-list for method output_type
-	45, // [45:45] is the sub-list for method input_type
-	45, // [45:45] is the sub-list for extension type_name
-	45, // [45:45] is the sub-list for extension extendee
-	0,  // [0:45] is the sub-list for field type_name
+	16, // 36: temporal.api.activity.v1.ActivityExecutionInfo.requested_start_time:type_name -> google.protobuf.Timestamp
+	16, // 37: temporal.api.activity.v1.ActivityExecutionInfo.actual_start_time:type_name -> google.protobuf.Timestamp
+	13, // 38: temporal.api.activity.v1.ActivityExecutionListInfo.activity_type:type_name -> temporal.api.common.v1.ActivityType
+	16, // 39: temporal.api.activity.v1.ActivityExecutionListInfo.schedule_time:type_name -> google.protobuf.Timestamp
+	16, // 40: temporal.api.activity.v1.ActivityExecutionListInfo.close_time:type_name -> google.protobuf.Timestamp
+	14, // 41: temporal.api.activity.v1.ActivityExecutionListInfo.status:type_name -> temporal.api.enums.v1.ActivityExecutionStatus
+	18, // 42: temporal.api.activity.v1.ActivityExecutionListInfo.search_attributes:type_name -> temporal.api.common.v1.SearchAttributes
+	10, // 43: temporal.api.activity.v1.ActivityExecutionListInfo.execution_duration:type_name -> google.protobuf.Duration
+	16, // 44: temporal.api.activity.v1.ActivityExecutionListInfo.requested_start_time:type_name -> google.protobuf.Timestamp
+	16, // 45: temporal.api.activity.v1.ActivityExecutionListInfo.actual_start_time:type_name -> google.protobuf.Timestamp
+	6,  // 46: temporal.api.activity.v1.CallbackInfo.trigger:type_name -> temporal.api.activity.v1.CallbackInfo.Trigger
+	22, // 47: temporal.api.activity.v1.CallbackInfo.info:type_name -> temporal.api.callback.v1.CallbackInfo
+	5,  // 48: temporal.api.activity.v1.CallbackInfo.Trigger.activity_closed:type_name -> temporal.api.activity.v1.CallbackInfo.ActivityClosed
+	49, // [49:49] is the sub-list for method output_type
+	49, // [49:49] is the sub-list for method input_type
+	49, // [49:49] is the sub-list for extension type_name
+	49, // [49:49] is the sub-list for extension extendee
+	0,  // [0:49] is the sub-list for field type_name
 }
 
 func init() { file_temporal_api_activity_v1_message_proto_init() }
