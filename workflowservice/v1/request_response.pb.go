@@ -7,10 +7,6 @@
 package workflowservice
 
 import (
-	reflect "reflect"
-	sync "sync"
-	unsafe "unsafe"
-
 	v120 "go.temporal.io/api/activity/v1"
 	v118 "go.temporal.io/api/batch/v1"
 	v112 "go.temporal.io/api/command/v1"
@@ -39,6 +35,9 @@ import (
 	durationpb "google.golang.org/protobuf/types/known/durationpb"
 	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
+	reflect "reflect"
+	sync "sync"
+	unsafe "unsafe"
 )
 
 const (
@@ -19938,8 +19937,10 @@ type ListWorkerDeploymentsResponse_WorkerDeploymentSummary struct {
 	CurrentVersionSummary *v18.WorkerDeploymentInfo_WorkerDeploymentVersionSummary `protobuf:"bytes,5,opt,name=current_version_summary,json=currentVersionSummary,proto3" json:"current_version_summary,omitempty"`
 	// Summary of the ramping version of the Worker Deployment.
 	RampingVersionSummary *v18.WorkerDeploymentInfo_WorkerDeploymentVersionSummary `protobuf:"bytes,6,opt,name=ramping_version_summary,json=rampingVersionSummary,proto3" json:"ramping_version_summary,omitempty"`
-	unknownFields         protoimpl.UnknownFields
-	sizeCache             protoimpl.SizeCache
+	// Aggregated WCI validation status counts across all versions with compute config.
+	ValidationSummary *v121.WorkerDeploymentValidationSummary `protobuf:"bytes,7,opt,name=validation_summary,json=validationSummary,proto3" json:"validation_summary,omitempty"`
+	unknownFields     protoimpl.UnknownFields
+	sizeCache         protoimpl.SizeCache
 }
 
 func (x *ListWorkerDeploymentsResponse_WorkerDeploymentSummary) Reset() {
@@ -20010,6 +20011,13 @@ func (x *ListWorkerDeploymentsResponse_WorkerDeploymentSummary) GetCurrentVersio
 func (x *ListWorkerDeploymentsResponse_WorkerDeploymentSummary) GetRampingVersionSummary() *v18.WorkerDeploymentInfo_WorkerDeploymentVersionSummary {
 	if x != nil {
 		return x.RampingVersionSummary
+	}
+	return nil
+}
+
+func (x *ListWorkerDeploymentsResponse_WorkerDeploymentSummary) GetValidationSummary() *v121.WorkerDeploymentValidationSummary {
+	if x != nil {
+		return x.ValidationSummary
 	}
 	return nil
 }
@@ -20176,7 +20184,7 @@ var File_temporal_api_workflowservice_v1_request_response_proto protoreflect.Fil
 
 const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\n" +
-	"6temporal/api/workflowservice/v1/request_response.proto\x12\x1ftemporal.api.workflowservice.v1\x1a+temporal/api/enums/v1/batch_operation.proto\x1a\"temporal/api/enums/v1/common.proto\x1a$temporal/api/enums/v1/workflow.proto\x1a%temporal/api/enums/v1/namespace.proto\x1a(temporal/api/enums/v1/failed_cause.proto\x1a!temporal/api/enums/v1/query.proto\x1a!temporal/api/enums/v1/reset.proto\x1a&temporal/api/enums/v1/task_queue.proto\x1a&temporal/api/enums/v1/deployment.proto\x1a\"temporal/api/enums/v1/update.proto\x1a$temporal/api/enums/v1/activity.proto\x1a!temporal/api/enums/v1/nexus.proto\x1a&temporal/api/activity/v1/message.proto\x1a$temporal/api/common/v1/message.proto\x1a%temporal/api/history/v1/message.proto\x1a&temporal/api/workflow/v1/message.proto\x1a%temporal/api/command/v1/message.proto\x1a$temporal/api/compute/v1/config.proto\x1a(temporal/api/deployment/v1/message.proto\x1a%temporal/api/failure/v1/message.proto\x1a$temporal/api/filter/v1/message.proto\x1a&temporal/api/protocol/v1/message.proto\x1a'temporal/api/namespace/v1/message.proto\x1a#temporal/api/query/v1/message.proto\x1a)temporal/api/replication/v1/message.proto\x1a#temporal/api/rules/v1/message.proto\x1a'temporal/api/sdk/v1/worker_config.proto\x1a&temporal/api/schedule/v1/message.proto\x1a'temporal/api/taskqueue/v1/message.proto\x1a$temporal/api/update/v1/message.proto\x1a%temporal/api/version/v1/message.proto\x1a#temporal/api/batch/v1/message.proto\x1a0temporal/api/sdk/v1/task_complete_metadata.proto\x1a'temporal/api/sdk/v1/user_metadata.proto\x1a#temporal/api/nexus/v1/message.proto\x1a$temporal/api/worker/v1/message.proto\x1a\x1egoogle/protobuf/duration.proto\x1a google/protobuf/field_mask.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xf9\x06\n" +
+	"6temporal/api/workflowservice/v1/request_response.proto\x12\x1ftemporal.api.workflowservice.v1\x1a+temporal/api/enums/v1/batch_operation.proto\x1a\"temporal/api/enums/v1/common.proto\x1a$temporal/api/enums/v1/workflow.proto\x1a%temporal/api/enums/v1/namespace.proto\x1a(temporal/api/enums/v1/failed_cause.proto\x1a!temporal/api/enums/v1/query.proto\x1a!temporal/api/enums/v1/reset.proto\x1a&temporal/api/enums/v1/task_queue.proto\x1a&temporal/api/enums/v1/deployment.proto\x1a\"temporal/api/enums/v1/update.proto\x1a$temporal/api/enums/v1/activity.proto\x1a!temporal/api/enums/v1/nexus.proto\x1a&temporal/api/activity/v1/message.proto\x1a$temporal/api/common/v1/message.proto\x1a%temporal/api/history/v1/message.proto\x1a&temporal/api/workflow/v1/message.proto\x1a%temporal/api/command/v1/message.proto\x1a$temporal/api/compute/v1/config.proto\x1a(temporal/api/compute/v1/validation.proto\x1a(temporal/api/deployment/v1/message.proto\x1a%temporal/api/failure/v1/message.proto\x1a$temporal/api/filter/v1/message.proto\x1a&temporal/api/protocol/v1/message.proto\x1a'temporal/api/namespace/v1/message.proto\x1a#temporal/api/query/v1/message.proto\x1a)temporal/api/replication/v1/message.proto\x1a#temporal/api/rules/v1/message.proto\x1a'temporal/api/sdk/v1/worker_config.proto\x1a&temporal/api/schedule/v1/message.proto\x1a'temporal/api/taskqueue/v1/message.proto\x1a$temporal/api/update/v1/message.proto\x1a%temporal/api/version/v1/message.proto\x1a#temporal/api/batch/v1/message.proto\x1a0temporal/api/sdk/v1/task_complete_metadata.proto\x1a'temporal/api/sdk/v1/user_metadata.proto\x1a#temporal/api/nexus/v1/message.proto\x1a$temporal/api/worker/v1/message.proto\x1a\x1egoogle/protobuf/duration.proto\x1a google/protobuf/field_mask.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xf9\x06\n" +
 	"\x18RegisterNamespaceRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12 \n" +
 	"\vdescription\x18\x02 \x01(\tR\vdescription\x12\x1f\n" +
@@ -21330,10 +21338,10 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\x1cListWorkerDeploymentsRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12\x1b\n" +
 	"\tpage_size\x18\x02 \x01(\x05R\bpageSize\x12&\n" +
-	"\x0fnext_page_token\x18\x03 \x01(\fR\rnextPageToken\"\xaa\x06\n" +
+	"\x0fnext_page_token\x18\x03 \x01(\fR\rnextPageToken\"\x95\a\n" +
 	"\x1dListWorkerDeploymentsResponse\x12&\n" +
 	"\x0fnext_page_token\x18\x01 \x01(\fR\rnextPageToken\x12\x85\x01\n" +
-	"\x12worker_deployments\x18\x02 \x03(\v2V.temporal.api.workflowservice.v1.ListWorkerDeploymentsResponse.WorkerDeploymentSummaryR\x11workerDeployments\x1a\xd8\x04\n" +
+	"\x12worker_deployments\x18\x02 \x03(\v2V.temporal.api.workflowservice.v1.ListWorkerDeploymentsResponse.WorkerDeploymentSummaryR\x11workerDeployments\x1a\xc3\x05\n" +
 	"\x17WorkerDeploymentSummary\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12;\n" +
 	"\vcreate_time\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\n" +
@@ -21341,7 +21349,8 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\x0erouting_config\x18\x03 \x01(\v2).temporal.api.deployment.v1.RoutingConfigR\rroutingConfig\x12\x85\x01\n" +
 	"\x16latest_version_summary\x18\x04 \x01(\v2O.temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummaryR\x14latestVersionSummary\x12\x87\x01\n" +
 	"\x17current_version_summary\x18\x05 \x01(\v2O.temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummaryR\x15currentVersionSummary\x12\x87\x01\n" +
-	"\x17ramping_version_summary\x18\x06 \x01(\v2O.temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummaryR\x15rampingVersionSummary\"\xb2\x02\n" +
+	"\x17ramping_version_summary\x18\x06 \x01(\v2O.temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummaryR\x15rampingVersionSummary\x12i\n" +
+	"\x12validation_summary\x18\a \x01(\v2:.temporal.api.compute.v1.WorkerDeploymentValidationSummaryR\x11validationSummary\"\xb2\x02\n" +
 	"$CreateWorkerDeploymentVersionRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12b\n" +
 	"\x12deployment_version\x18\x02 \x01(\v23.temporal.api.deployment.v1.WorkerDeploymentVersionR\x11deploymentVersion\x12M\n" +
@@ -22186,8 +22195,9 @@ var file_temporal_api_workflowservice_v1_request_response_proto_goTypes = []any{
 	(*v13.CompatibleBuildIdRedirectRule)(nil),                       // 420: temporal.api.taskqueue.v1.CompatibleBuildIdRedirectRule
 	(*v18.RoutingConfig)(nil),                                       // 421: temporal.api.deployment.v1.RoutingConfig
 	(*v18.WorkerDeploymentInfo_WorkerDeploymentVersionSummary)(nil), // 422: temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummary
-	(*v121.ComputeConfigScalingGroupUpdate)(nil),                    // 423: temporal.api.compute.v1.ComputeConfigScalingGroupUpdate
-	(*v13.RateLimit)(nil),                                           // 424: temporal.api.taskqueue.v1.RateLimit
+	(*v121.WorkerDeploymentValidationSummary)(nil),                  // 423: temporal.api.compute.v1.WorkerDeploymentValidationSummary
+	(*v121.ComputeConfigScalingGroupUpdate)(nil),                    // 424: temporal.api.compute.v1.ComputeConfigScalingGroupUpdate
+	(*v13.RateLimit)(nil),                                           // 425: temporal.api.taskqueue.v1.RateLimit
 }
 var file_temporal_api_workflowservice_v1_request_response_proto_depIdxs = []int32{
 	278, // 0: temporal.api.workflowservice.v1.RegisterNamespaceRequest.workflow_execution_retention_period:type_name -> google.protobuf.Duration
@@ -22615,17 +22625,18 @@ var file_temporal_api_workflowservice_v1_request_response_proto_depIdxs = []int3
 	422, // 422: temporal.api.workflowservice.v1.ListWorkerDeploymentsResponse.WorkerDeploymentSummary.latest_version_summary:type_name -> temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummary
 	422, // 423: temporal.api.workflowservice.v1.ListWorkerDeploymentsResponse.WorkerDeploymentSummary.current_version_summary:type_name -> temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummary
 	422, // 424: temporal.api.workflowservice.v1.ListWorkerDeploymentsResponse.WorkerDeploymentSummary.ramping_version_summary:type_name -> temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummary
-	423, // 425: temporal.api.workflowservice.v1.UpdateWorkerDeploymentVersionComputeConfigRequest.ComputeConfigScalingGroupsEntry.value:type_name -> temporal.api.compute.v1.ComputeConfigScalingGroupUpdate
-	423, // 426: temporal.api.workflowservice.v1.ValidateWorkerDeploymentVersionComputeConfigRequest.ComputeConfigScalingGroupsEntry.value:type_name -> temporal.api.compute.v1.ComputeConfigScalingGroupUpdate
-	409, // 427: temporal.api.workflowservice.v1.UpdateWorkerDeploymentVersionMetadataRequest.UpsertEntriesEntry.value:type_name -> temporal.api.common.v1.Payload
-	424, // 428: temporal.api.workflowservice.v1.UpdateTaskQueueConfigRequest.RateLimitUpdate.rate_limit:type_name -> temporal.api.taskqueue.v1.RateLimit
-	409, // 429: temporal.api.workflowservice.v1.CountActivityExecutionsResponse.AggregationGroup.group_values:type_name -> temporal.api.common.v1.Payload
-	409, // 430: temporal.api.workflowservice.v1.CountNexusOperationExecutionsResponse.AggregationGroup.group_values:type_name -> temporal.api.common.v1.Payload
-	431, // [431:431] is the sub-list for method output_type
-	431, // [431:431] is the sub-list for method input_type
-	431, // [431:431] is the sub-list for extension type_name
-	431, // [431:431] is the sub-list for extension extendee
-	0,   // [0:431] is the sub-list for field type_name
+	423, // 425: temporal.api.workflowservice.v1.ListWorkerDeploymentsResponse.WorkerDeploymentSummary.validation_summary:type_name -> temporal.api.compute.v1.WorkerDeploymentValidationSummary
+	424, // 426: temporal.api.workflowservice.v1.UpdateWorkerDeploymentVersionComputeConfigRequest.ComputeConfigScalingGroupsEntry.value:type_name -> temporal.api.compute.v1.ComputeConfigScalingGroupUpdate
+	424, // 427: temporal.api.workflowservice.v1.ValidateWorkerDeploymentVersionComputeConfigRequest.ComputeConfigScalingGroupsEntry.value:type_name -> temporal.api.compute.v1.ComputeConfigScalingGroupUpdate
+	409, // 428: temporal.api.workflowservice.v1.UpdateWorkerDeploymentVersionMetadataRequest.UpsertEntriesEntry.value:type_name -> temporal.api.common.v1.Payload
+	425, // 429: temporal.api.workflowservice.v1.UpdateTaskQueueConfigRequest.RateLimitUpdate.rate_limit:type_name -> temporal.api.taskqueue.v1.RateLimit
+	409, // 430: temporal.api.workflowservice.v1.CountActivityExecutionsResponse.AggregationGroup.group_values:type_name -> temporal.api.common.v1.Payload
+	409, // 431: temporal.api.workflowservice.v1.CountNexusOperationExecutionsResponse.AggregationGroup.group_values:type_name -> temporal.api.common.v1.Payload
+	432, // [432:432] is the sub-list for method output_type
+	432, // [432:432] is the sub-list for method input_type
+	432, // [432:432] is the sub-list for extension type_name
+	432, // [432:432] is the sub-list for extension extendee
+	0,   // [0:432] is the sub-list for field type_name
 }
 
 func init() { file_temporal_api_workflowservice_v1_request_response_proto_init() }
