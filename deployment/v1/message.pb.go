@@ -650,14 +650,7 @@ func (x *VersionDrainageInfo) GetLastCheckedTime() *timestamppb.Timestamp {
 	return nil
 }
 
-// A Worker Deployment (Deployment, for short) represents all workers serving
-// a shared set of Task Queues. Typically, a Deployment represents one service or
-// application.
-// A Deployment contains multiple Deployment Versions, each representing a different
-// version of workers. (see documentation of WorkerDeploymentVersionInfo)
-// Deployment records are created in Temporal server automatically when their
-// first poller arrives to the server.
-// ComputeStatus represents compute-related configuration and health checks.
+// ComputeStatus represents compute-related configuration and health for a Worker Deployment Version.
 type ComputeStatus struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// provider_validation encapsulates the health signal for validating the compute provider.
@@ -703,6 +696,13 @@ func (x *ComputeStatus) GetProviderValidation() *ComputeStatus_ProviderValidatio
 	return nil
 }
 
+// A Worker Deployment (Deployment, for short) represents all workers serving
+// a shared set of Task Queues. Typically, a Deployment represents one service or
+// application.
+// A Deployment contains multiple Deployment Versions, each representing a different
+// version of workers. (see documentation of WorkerDeploymentVersionInfo)
+// Deployment records are created in Temporal server automatically when their
+// first poller arrives to the server.
 type WorkerDeploymentInfo struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Identifies a Worker Deployment. Must be unique within the namespace.
