@@ -2682,6 +2682,90 @@ func visitPayloads(
 
 			ctx.Context = prevCtx
 
+		case *nexus.CompletionRequest:
+
+			if o == nil {
+				continue
+			}
+
+			prevCtx := ctx.Context
+			if options.ContextHook != nil {
+				var hookErr error
+				if ctx.Context, hookErr = options.ContextHook(prevCtx, o); hookErr != nil {
+					return hookErr
+				}
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				concState,
+				o.GetNexusOperation(),
+			); err != nil {
+				return err
+			}
+
+			ctx.Context = prevCtx
+
+		case *nexus.CompletionRequest_NexusOperationCompletion:
+
+			if o == nil {
+				continue
+			}
+
+			prevCtx := ctx.Context
+			if options.ContextHook != nil {
+				var hookErr error
+				if ctx.Context, hookErr = options.ContextHook(prevCtx, o); hookErr != nil {
+					return hookErr
+				}
+			}
+
+			if o.Result != nil {
+				if err := visitPayload(ctx, options, o, concState, &o.Result); err != nil {
+					return err
+				}
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				concState,
+				o.GetFailure(),
+			); err != nil {
+				return err
+			}
+
+			ctx.Context = prevCtx
+
+		case *nexus.CompletionResponse:
+
+			if o == nil {
+				continue
+			}
+
+			prevCtx := ctx.Context
+			if options.ContextHook != nil {
+				var hookErr error
+				if ctx.Context, hookErr = options.ContextHook(prevCtx, o); hookErr != nil {
+					return hookErr
+				}
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				concState,
+				o.GetFailure(),
+			); err != nil {
+				return err
+			}
+
+			ctx.Context = prevCtx
+
 		case []*nexus.Endpoint:
 			for _, x := range o {
 				if err := visitPayloads(ctx, options, parent, concState, x); err != nil {
@@ -2844,6 +2928,7 @@ func visitPayloads(
 				options,
 				o,
 				concState,
+				o.GetCompletion(),
 				o.GetStartOperation(),
 			); err != nil {
 				return err
@@ -2870,6 +2955,7 @@ func visitPayloads(
 				options,
 				o,
 				concState,
+				o.GetCompletion(),
 				o.GetStartOperation(),
 			); err != nil {
 				return err
@@ -6339,6 +6425,45 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 				return err
 			}
 
+		case *nexus.CompletionRequest:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetNexusOperation(),
+			); err != nil {
+				return err
+			}
+
+		case *nexus.CompletionRequest_NexusOperationCompletion:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetFailure(),
+			); err != nil {
+				return err
+			}
+
+		case *nexus.CompletionResponse:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetFailure(),
+			); err != nil {
+				return err
+			}
+
 		case *nexus.NexusOperationExecutionCancellationInfo:
 			if o == nil {
 				continue
@@ -6366,6 +6491,19 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 				return err
 			}
 
+		case *nexus.Request:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetCompletion(),
+			); err != nil {
+				return err
+			}
+
 		case *nexus.Response:
 			if o == nil {
 				continue
@@ -6374,6 +6512,7 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 			if err := visitFailures(
 				ctx,
 				options,
+				o.GetCompletion(),
 				o.GetStartOperation(),
 			); err != nil {
 				return err
@@ -6704,6 +6843,19 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 				ctx,
 				options,
 				o.GetFailure(),
+			); err != nil {
+				return err
+			}
+
+		case *workflowservice.PollNexusTaskQueueResponse:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetRequest(),
 			); err != nil {
 				return err
 			}

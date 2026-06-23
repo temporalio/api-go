@@ -338,6 +338,43 @@ func (this *ActivityType) Equal(that interface{}) bool {
 	return proto.Equal(this, that1)
 }
 
+// Marshal an object of type CallbackType to the protobuf v3 wire format
+func (val *CallbackType) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type CallbackType from the protobuf v3 wire format
+func (val *CallbackType) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *CallbackType) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two CallbackType values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *CallbackType) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *CallbackType
+	switch t := that.(type) {
+	case *CallbackType:
+		that1 = t
+	case CallbackType:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
 // Marshal an object of type RetryPolicy to the protobuf v3 wire format
 func (val *RetryPolicy) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
