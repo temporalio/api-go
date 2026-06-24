@@ -9,26 +9,12 @@ import (
 	"google.golang.org/protobuf/reflect/protoregistry"
 )
 
-// systemNexusEndpoint is the reserved Nexus endpoint used for system Nexus
-// envelopes. Every operation routed to this endpoint carries a proto-message
-// request in its ScheduleNexusOperationCommandAttributes.Input rather than an
-// opaque user payload.
-const systemNexusEndpoint = "__temporal_system"
-
 // Payload encoding/type metadata used to decode the proto-binary envelope.
 const (
 	payloadMetadataEncodingKey    = "encoding"
 	payloadMetadataMessageTypeKey = "messageType"
 	payloadEncodingProtoBinary    = "binary/protobuf"
 )
-
-// isSystemNexusEnvelope reports whether the given schedule-nexus-operation
-// command targets the system Nexus endpoint, and therefore carries a
-// proto-message envelope in its Input rather than an opaque user payload. All
-// operations on the system endpoint are system Nexus operations.
-func isSystemNexusEnvelope(attrs *command.ScheduleNexusOperationCommandAttributes) bool {
-	return attrs != nil && attrs.GetEndpoint() == systemNexusEndpoint
-}
 
 // visitSystemNexusEnvelope decodes the system Nexus envelope in attrs.Input,
 // visits the payloads inside the decoded request message, and re-encodes it.

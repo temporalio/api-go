@@ -989,15 +989,11 @@ func visitPayloads(
 			}
 
 			if o.Input != nil {
-				if isSystemNexusEnvelope(o) {
-					// System Nexus envelopes carry a proto-message request in Input
-					// whose own fields hold the user payloads; descend into them
-					// without offloading or codec-encoding the envelope itself.
+				if o.GetEndpoint() == "__temporal_system" {
 					if err := visitSystemNexusEnvelope(ctx, options, concState, o); err != nil {
 						return err
 					}
 				} else {
-					// Ordinary Nexus operation: visit Input as a single opaque payload.
 					if err := visitPayload(ctx, options, o, concState, &o.Input); err != nil {
 						return err
 					}

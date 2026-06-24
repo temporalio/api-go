@@ -73,7 +73,7 @@ func signalWithStartEnvelopeWithType(t *testing.T, encoding, messageType string)
 
 func scheduleSystemNexusCommand(input *common.Payload) *command.ScheduleNexusOperationCommandAttributes {
 	return &command.ScheduleNexusOperationCommandAttributes{
-		Endpoint:  systemNexusEndpoint,
+		Endpoint:  "__temporal_nexus",
 		Service:   systemNexusService,
 		Operation: systemNexusSignalOp,
 		Input:     input,
