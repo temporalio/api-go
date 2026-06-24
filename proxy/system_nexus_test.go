@@ -15,18 +15,25 @@ import (
 )
 
 const (
-	systemNexusEndpoint  = "__temporal_system"
 	systemNexusService   = "temporal.api.workflowservice.v1.WorkflowService"
 	systemNexusSignalOp  = "SignalWithStartWorkflowExecution"
 	protoBinaryEncoding  = "binary/protobuf"
 	jsonProtoEncoding    = "json/protobuf"
 	collectingVisitorTag = "visited-"
+	signalWithStartType  = "temporal.api.workflowservice.v1.SignalWithStartWorkflowExecutionRequest"
 )
 
 // signalWithStartEnvelope builds a SignalWithStartWorkflowExecutionRequest with
 // a payload in every payload-bearing field, marshals it proto-binary, and wraps
-// it in a *common.Payload with the given encoding metadata.
+// it in a *common.Payload with the given encoding and messageType metadata.
 func signalWithStartEnvelope(t *testing.T, encoding string) *common.Payload {
+	t.Helper()
+	return signalWithStartEnvelopeWithType(t, encoding, signalWithStartType)
+}
+
+// signalWithStartEnvelopeWithType is like signalWithStartEnvelope but allows
+// overriding the messageType metadata (e.g. to an unknown type).
+func signalWithStartEnvelopeWithType(t *testing.T, encoding, messageType string) *common.Payload {
 	t.Helper()
 	req := &workflowservice.SignalWithStartWorkflowExecutionRequest{
 		Namespace:  "default",
@@ -54,8 +61,12 @@ func signalWithStartEnvelope(t *testing.T, encoding string) *common.Payload {
 	}
 	data, err := proto.Marshal(req)
 	require.NoError(t, err)
+	metadata := map[string][]byte{"encoding": []byte(encoding)}
+	if messageType != "" {
+		metadata["messageType"] = []byte(messageType)
+	}
 	return &common.Payload{
-		Metadata: map[string][]byte{"encoding": []byte(encoding)},
+		Metadata: metadata,
 		Data:     data,
 	}
 }
@@ -166,9 +177,10 @@ func TestSystemNexusEnvelopeRejectsNonProtoBinaryEncoding(t *testing.T) {
 	require.ErrorContains(t, err, "binary/protobuf")
 }
 
-func TestSystemNexusEnvelopeRejectsUnknownOperation(t *testing.T) {
-	attrs := scheduleSystemNexusCommand(signalWithStartEnvelope(t, protoBinaryEncoding))
-	attrs.Operation = "NoSuchOperation"
+func TestSystemNexusEnvelopeRejectsUnknownMessageType(t *testing.T) {
+	attrs := scheduleSystemNexusCommand(
+		signalWithStartEnvelopeWithType(t, protoBinaryEncoding, "temporal.api.workflowservice.v1.NoSuchMessage"),
+	)
 
 	err := VisitPayloads(context.Background(), &command.Command{
 		Attributes: &command.Command_ScheduleNexusOperationCommandAttributes{
@@ -180,7 +192,25 @@ func TestSystemNexusEnvelopeRejectsUnknownOperation(t *testing.T) {
 		},
 	})
 	require.Error(t, err)
-	require.ErrorContains(t, err, "unknown system nexus operation")
+	require.ErrorContains(t, err, "unknown message type")
+}
+
+func TestSystemNexusEnvelopeRejectsMissingMessageType(t *testing.T) {
+	attrs := scheduleSystemNexusCommand(
+		signalWithStartEnvelopeWithType(t, protoBinaryEncoding, ""),
+	)
+
+	err := VisitPayloads(context.Background(), &command.Command{
+		Attributes: &command.Command_ScheduleNexusOperationCommandAttributes{
+			ScheduleNexusOperationCommandAttributes: attrs,
+		},
+	}, VisitPayloadsOptions{
+		Visitor: func(_ *VisitPayloadsContext, p []*common.Payload) ([]*common.Payload, error) {
+			return p, nil
+		},
+	})
+	require.Error(t, err)
+	require.ErrorContains(t, err, "missing")
 }
 
 // TestNonSystemNexusInputVisitedAsSinglePayload confirms that an ordinary (non

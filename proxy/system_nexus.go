@@ -4,85 +4,71 @@ import (
 	"fmt"
 
 	"go.temporal.io/api/command/v1"
-	"go.temporal.io/api/nexussystem"
 	"google.golang.org/protobuf/proto"
+	"google.golang.org/protobuf/reflect/protoreflect"
+	"google.golang.org/protobuf/reflect/protoregistry"
 )
 
-// systemNexusServiceName is the Nexus service used for system Nexus envelopes
-// routed to the workflow service. Together with nexussystem.Endpoint it
-// identifies a ScheduleNexusOperationCommandAttributes whose Input is a system
-// Nexus envelope.
-const systemNexusServiceName = "temporal.api.workflowservice.v1.WorkflowService"
+// systemNexusEndpoint is the reserved Nexus endpoint used for system Nexus
+// envelopes. Every operation routed to this endpoint carries a proto-message
+// request in its ScheduleNexusOperationCommandAttributes.Input rather than an
+// opaque user payload.
+const systemNexusEndpoint = "__temporal_system"
 
-// Payload encoding metadata used to identify the proto-binary envelope.
+// Payload encoding/type metadata used to decode the proto-binary envelope.
 const (
-	payloadMetadataEncodingKey = "encoding"
-	payloadEncodingProtoBinary = "binary/protobuf"
+	payloadMetadataEncodingKey    = "encoding"
+	payloadMetadataMessageTypeKey = "messageType"
+	payloadEncodingProtoBinary    = "binary/protobuf"
 )
 
 // isSystemNexusEnvelope reports whether the given schedule-nexus-operation
-// command targets the system Nexus endpoint and service, and therefore carries
-// a proto-message envelope in its Input rather than an opaque user payload.
+// command targets the system Nexus endpoint, and therefore carries a
+// proto-message envelope in its Input rather than an opaque user payload. All
+// operations on the system endpoint are system Nexus operations.
 func isSystemNexusEnvelope(attrs *command.ScheduleNexusOperationCommandAttributes) bool {
-	if attrs == nil {
-		return false
-	}
-	return attrs.GetEndpoint() == nexussystem.Endpoint &&
-		attrs.GetService() == systemNexusServiceName
-}
-
-// visitScheduleNexusOperationInput visits the payloads referenced by a
-// ScheduleNexusOperationCommandAttributes.Input field.
-//
-// For ordinary Nexus operations the Input is an opaque single payload and is
-// visited directly. For system Nexus envelopes (endpoint __temporal_system,
-// service WorkflowService) the Input is instead a proto-binary-serialized
-// request message whose own fields contain the user payloads. In that case the
-// envelope is deserialized, its inner payloads are visited recursively (so
-// external storage and codecs apply to the inner payloads, not the envelope),
-// and the message is re-serialized back into Input. The envelope itself is
-// never offloaded or codec-encoded.
-func visitScheduleNexusOperationInput(
-	ctx *VisitPayloadsContext,
-	options *VisitPayloadsOptions,
-	concState *payloadConcurrencyState,
-	attrs *command.ScheduleNexusOperationCommandAttributes,
-) error {
-	if attrs.Input == nil {
-		return nil
-	}
-
-	if !isSystemNexusEnvelope(attrs) {
-		// Ordinary Nexus operation: visit the Input as a single opaque payload.
-		return visitPayload(ctx, options, attrs, concState, &attrs.Input)
-	}
-
-	return visitSystemNexusEnvelope(ctx, options, concState, attrs)
+	return attrs != nil && attrs.GetEndpoint() == systemNexusEndpoint
 }
 
 // visitSystemNexusEnvelope decodes the system Nexus envelope in attrs.Input,
 // visits the payloads inside the decoded request message, and re-encodes it.
+//
+// The envelope's proto message type is taken from the payload's "messageType"
+// metadata, so no operation registry is required. The envelope must be encoded
+// as binary/protobuf. The inner payloads (and only those) are passed to the
+// visitor, so external storage and codecs apply to them and not to the envelope
+// itself, which is never offloaded or codec-encoded.
 func visitSystemNexusEnvelope(
 	ctx *VisitPayloadsContext,
 	options *VisitPayloadsOptions,
 	concState *payloadConcurrencyState,
 	attrs *command.ScheduleNexusOperationCommandAttributes,
 ) error {
-	msg, ok := nexussystem.InputMessage(attrs.GetService(), attrs.GetOperation())
-	if !ok {
-		return fmt.Errorf(
-			"unknown system nexus operation %q for service %q",
-			attrs.GetOperation(), attrs.GetService(),
-		)
-	}
-
 	input := attrs.Input
+
 	if encoding := string(input.GetMetadata()[payloadMetadataEncodingKey]); encoding != payloadEncodingProtoBinary {
 		return fmt.Errorf(
 			"system nexus envelope for operation %q must be encoded as %q, got %q",
 			attrs.GetOperation(), payloadEncodingProtoBinary, encoding,
 		)
 	}
+
+	messageType := string(input.GetMetadata()[payloadMetadataMessageTypeKey])
+	if messageType == "" {
+		return fmt.Errorf(
+			"system nexus envelope for operation %q is missing the %q metadata",
+			attrs.GetOperation(), payloadMetadataMessageTypeKey,
+		)
+	}
+
+	mt, err := protoregistry.GlobalTypes.FindMessageByName(protoreflect.FullName(messageType))
+	if err != nil {
+		return fmt.Errorf(
+			"system nexus envelope for operation %q references unknown message type %q: %w",
+			attrs.GetOperation(), messageType, err,
+		)
+	}
+	msg := mt.New().Interface()
 
 	if err := proto.Unmarshal(input.GetData(), msg); err != nil {
 		return fmt.Errorf(

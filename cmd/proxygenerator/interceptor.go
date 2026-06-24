@@ -551,11 +551,17 @@ func visitPayloads(
 					o.Outcome = &workflowservice.PollNexusOperationExecutionResponse_Result{Result: result}
 				}
 				{{else if and (eq $type "*command.ScheduleNexusOperationCommandAttributes") (eq . "Input")}}
-				// System Nexus envelopes carry a proto-message request in Input whose
-				// own fields hold the user payloads; visitScheduleNexusOperationInput
-				// transparently descends into them (and falls back to visiting Input as
-				// a single opaque payload for ordinary Nexus operations).
-				if err := visitScheduleNexusOperationInput(ctx, options, concState, o); err != nil { return err }
+				if o.Input != nil {
+					if isSystemNexusEnvelope(o) {
+						// System Nexus envelopes carry a proto-message request in Input
+						// whose own fields hold the user payloads; descend into them
+						// without offloading or codec-encoding the envelope itself.
+						if err := visitSystemNexusEnvelope(ctx, options, concState, o); err != nil { return err }
+					} else {
+						// Ordinary Nexus operation: visit Input as a single opaque payload.
+						if err := visitPayload(ctx, options, o, concState, &o.Input); err != nil { return err }
+					}
+				}
 				{{else}}
 				if o.{{.}} != nil {
 					if err := visitPayload(ctx, options, o, concState, &o.{{.}}); err != nil { return err }
