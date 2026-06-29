@@ -9,13 +9,6 @@ import (
 	"google.golang.org/protobuf/reflect/protoregistry"
 )
 
-// Payload encoding/type metadata used to decode the proto-binary envelope.
-const (
-	payloadMetadataEncodingKey    = "encoding"
-	payloadMetadataMessageTypeKey = "messageType"
-	payloadEncodingProtoBinary    = "binary/protobuf"
-)
-
 // visitSystemNexusEnvelope decodes the system Nexus envelope in attrs.Input,
 // visits the payloads inside the decoded request message, and re-encodes it.
 //
@@ -32,18 +25,18 @@ func visitSystemNexusEnvelope(
 ) error {
 	input := attrs.Input
 
-	if encoding := string(input.GetMetadata()[payloadMetadataEncodingKey]); encoding != payloadEncodingProtoBinary {
+	if encoding := string(input.GetMetadata()["encoding"]); encoding != "binary/protobuf" {
 		return fmt.Errorf(
-			"system nexus envelope for operation %q must be encoded as %q, got %q",
-			attrs.GetOperation(), payloadEncodingProtoBinary, encoding,
+			"system nexus envelope for operation %q must be encoded as binary/protobuf but got %q",
+			attrs.GetOperation(), encoding,
 		)
 	}
 
-	messageType := string(input.GetMetadata()[payloadMetadataMessageTypeKey])
+	messageType := string(input.GetMetadata()["messageType"])
 	if messageType == "" {
 		return fmt.Errorf(
-			"system nexus envelope for operation %q is missing the %q metadata",
-			attrs.GetOperation(), payloadMetadataMessageTypeKey,
+			"system nexus envelope for operation %q is missing the messageType metadata",
+			attrs.GetOperation(),
 		)
 	}
 
@@ -63,28 +56,20 @@ func visitSystemNexusEnvelope(
 		)
 	}
 
-	// Visit the payloads contained within the decoded request message. We pass
-	// the decoded message both as the parent and as the object to traverse so
-	// that the generated visitor descends into its payload-bearing fields.
-	//
-	// In concurrent mode the visitor may spawn goroutines that write into the
-	// decoded message's payload fields. We give those goroutines a sub-state
-	// that shares the parent semaphore (to respect the global concurrency
-	// limit) but has its own WaitGroup, so we can wait for exactly the
-	// envelope's inner-payload goroutines before re-serializing -- mirroring how
-	// the well-known Any visitor isolates child traversals.
-	envState := concState
+	// Sub-state shares the semaphore but has its own WaitGroup so we can wait
+	// for goroutines writing into child's fields before re-marshaling.
+	var localConcState *payloadConcurrencyState
 	if concState != nil {
-		envState = &payloadConcurrencyState{sem: concState.sem}
+		localConcState = &payloadConcurrencyState{sem: concState.sem}
 	}
 
-	if err := visitPayloads(ctx, options, msg, envState, msg); err != nil {
+	if err := visitPayloads(ctx, options, msg, localConcState, msg); err != nil {
 		return err
 	}
 
-	if envState != nil {
-		envState.wg.Wait()
-		if errPtr := envState.firstErr.Load(); errPtr != nil {
+	if localConcState != nil {
+		localConcState.wg.Wait()
+		if errPtr := localConcState.firstErr.Load(); errPtr != nil {
 			return *errPtr
 		}
 	}
