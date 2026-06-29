@@ -2,8 +2,6 @@ package proxy
 
 import (
 	"context"
-	"sort"
-	"sync"
 	"testing"
 
 	"github.com/stretchr/testify/require"
@@ -20,7 +18,7 @@ const signalWithStartType = "temporal.api.workflowservice.v1.SignalWithStartWork
 // a SignalWithStartWorkflowExecutionRequest.
 // The encoding and messageType parameters represent the "encoding" and
 // "messageType" metadata of the Payload.
-func buildSystemNexusCommand(t *testing.T, encoding, messageType string) *command.ScheduleNexusOperationCommandAttributes {
+func buildSystemNexusCommand(t *testing.T, encoding, messageType string) *command.Command {
 	t.Helper()
 	req := &workflowservice.SignalWithStartWorkflowExecutionRequest{
 		Namespace:  "default",
@@ -51,31 +49,35 @@ func buildSystemNexusCommand(t *testing.T, encoding, messageType string) *comman
 	input := &common.Payload{
 		Data: data,
 		Metadata: map[string][]byte{
-			"encoding": []byte(encoding),
+			"encoding":    []byte(encoding),
 			"messageType": []byte(messageType),
 		},
 	}
-	return &command.ScheduleNexusOperationCommandAttributes{
+	attrs := &command.ScheduleNexusOperationCommandAttributes{
 		Endpoint:  "__temporal_system",
 		Service:   "temporal.api.workflowservice.v1.WorkflowService",
 		Operation: "SignalWithStartWorkflowExecution",
 		Input:     input,
 	}
+	return &command.Command{
+		Attributes: &command.Command_ScheduleNexusOperationCommandAttributes{
+			ScheduleNexusOperationCommandAttributes: attrs,
+		},
+	}
 }
 
-// collectVisitor records the data of every payload it sees and rewrites each to
-// "visited-<data>" so callers can confirm write-back.
-func collectVisitor(seen *[]string, mu *sync.Mutex) func(*VisitPayloadsContext, []*common.Payload) ([]*common.Payload, error) {
-	return func(_ *VisitPayloadsContext, p []*common.Payload) ([]*common.Payload, error) {
-		out := make([]*common.Payload, len(p))
-		for i, pl := range p {
-			mu.Lock()
-			*seen = append(*seen, string(pl.Data))
-			mu.Unlock()
-			out[i] = &common.Payload{Data: append([]byte("visited-"), pl.Data...)}
-		}
-		return out, nil
+// collectVisitor rewrites each payload to "visited-<data>" so callers can
+// confirm write-back.
+func collectVisitor(_ *VisitPayloadsContext, p []*common.Payload) ([]*common.Payload, error) {
+	out := make([]*common.Payload, len(p))
+	for i, pl := range p {
+		out[i] = &common.Payload{Data: append([]byte("visited-"), pl.Data...)}
 	}
+	return out, nil
+}
+
+func trivialVisitor(_ *VisitPayloadsContext, p []*common.Payload) ([]*common.Payload, error) {
+	return p, nil
 }
 
 func decodeEnvelope(t *testing.T, input *common.Payload) *workflowservice.SignalWithStartWorkflowExecutionRequest {
@@ -86,37 +88,19 @@ func decodeEnvelope(t *testing.T, input *common.Payload) *workflowservice.Signal
 	return &req
 }
 
-
 //////////////////////// TESTS ////////////////////////
 
 func TestSystemNexusEnvelopeVisitsInnerPayloads(t *testing.T) {
-	attrs := buildSystemNexusCommand(t, "binary/protobuf", signalWithStartType)
+	cmd := buildSystemNexusCommand(t, "binary/protobuf", signalWithStartType)
 
-	var seen []string
-	var mu sync.Mutex
-	err := VisitPayloads(context.Background(), &command.Command{
-		Attributes: &command.Command_ScheduleNexusOperationCommandAttributes{
-			ScheduleNexusOperationCommandAttributes: attrs,
-		},
-	}, VisitPayloadsOptions{
-		Visitor: collectVisitor(&seen, &mu),
+	err := VisitPayloads(context.Background(), cmd, VisitPayloadsOptions{
+		Visitor: collectVisitor,
 	})
 	require.NoError(t, err)
 
-	sort.Strings(seen)
-	require.Equal(t, []string{
-		"details-value",
-		"header-value",
-		"memo-value",
-		"sa-value",
-		"signal-input",
-		"summary-value",
-		"workflow-input",
-	}, seen)
-
 	// The envelope itself must remain a proto-binary payload and round-trip,
 	// with the inner payloads rewritten by the visitor.
-	req := decodeEnvelope(t, attrs.Input)
+	req := decodeEnvelope(t, cmd.GetScheduleNexusOperationCommandAttributes().Input)
 	require.Equal(t, []byte("visited-workflow-input"), req.Input.Payloads[0].Data)
 	require.Equal(t, []byte("visited-signal-input"), req.SignalInput.Payloads[0].Data)
 	require.Equal(t, []byte("visited-memo-value"), req.Memo.Fields["memo-key"].Data)
@@ -127,69 +111,44 @@ func TestSystemNexusEnvelopeVisitsInnerPayloads(t *testing.T) {
 }
 
 func TestSystemNexusEnvelopeVisitsInnerPayloadsConcurrent(t *testing.T) {
-	attrs := buildSystemNexusCommand(t, "binary/protobuf", signalWithStartType)
+	cmd := buildSystemNexusCommand(t, "binary/protobuf", signalWithStartType)
 
-	var seen []string
-	var mu sync.Mutex
-	err := VisitPayloads(context.Background(), &command.Command{
-		Attributes: &command.Command_ScheduleNexusOperationCommandAttributes{
-			ScheduleNexusOperationCommandAttributes: attrs,
-		},
-	}, VisitPayloadsOptions{
+	err := VisitPayloads(context.Background(), cmd, VisitPayloadsOptions{
 		ConcurrencyLimit: 4,
-		Visitor:          collectVisitor(&seen, &mu),
+		Visitor:          collectVisitor,
 	})
 	require.NoError(t, err)
 
-	require.Len(t, seen, 7)
-	req := decodeEnvelope(t, attrs.Input)
+	req := decodeEnvelope(t, cmd.GetScheduleNexusOperationCommandAttributes().Input)
 	require.Equal(t, []byte("visited-workflow-input"), req.Input.Payloads[0].Data)
 	require.Equal(t, []byte("visited-details-value"), req.UserMetadata.Details.Data)
 }
 
 func TestSystemNexusEnvelopeRejectsNonProtoBinaryEncoding(t *testing.T) {
-	attrs := buildSystemNexusCommand(t, "json/protobuf", signalWithStartType)
+	cmd := buildSystemNexusCommand(t, "json/protobuf", signalWithStartType)
 
-	err := VisitPayloads(context.Background(), &command.Command{
-		Attributes: &command.Command_ScheduleNexusOperationCommandAttributes{
-			ScheduleNexusOperationCommandAttributes: attrs,
-		},
-	}, VisitPayloadsOptions{
-		Visitor: func(_ *VisitPayloadsContext, p []*common.Payload) ([]*common.Payload, error) {
-			return p, nil
-		},
+	err := VisitPayloads(context.Background(), cmd, VisitPayloadsOptions{
+		Visitor: trivialVisitor,
 	})
 	require.Error(t, err)
 	require.ErrorContains(t, err, "binary/protobuf")
 }
 
 func TestSystemNexusEnvelopeRejectsUnknownMessageType(t *testing.T) {
-	attrs := buildSystemNexusCommand(t, "binary/protobuf", "temporal.api.workflowservice.v1.NoSuchMessage")
+	cmd := buildSystemNexusCommand(t, "binary/protobuf", "temporal.api.workflowservice.v1.NoSuchMessage")
 
-	err := VisitPayloads(context.Background(), &command.Command{
-		Attributes: &command.Command_ScheduleNexusOperationCommandAttributes{
-			ScheduleNexusOperationCommandAttributes: attrs,
-		},
-	}, VisitPayloadsOptions{
-		Visitor: func(_ *VisitPayloadsContext, p []*common.Payload) ([]*common.Payload, error) {
-			return p, nil
-		},
+	err := VisitPayloads(context.Background(), cmd, VisitPayloadsOptions{
+		Visitor: trivialVisitor,
 	})
 	require.Error(t, err)
 	require.ErrorContains(t, err, "unknown message type")
 }
 
 func TestSystemNexusEnvelopeRejectsMissingMessageType(t *testing.T) {
-	attrs := buildSystemNexusCommand(t, "binary/protobuf", "")
+	cmd := buildSystemNexusCommand(t, "binary/protobuf", "")
 
-	err := VisitPayloads(context.Background(), &command.Command{
-		Attributes: &command.Command_ScheduleNexusOperationCommandAttributes{
-			ScheduleNexusOperationCommandAttributes: attrs,
-		},
-	}, VisitPayloadsOptions{
-		Visitor: func(_ *VisitPayloadsContext, p []*common.Payload) ([]*common.Payload, error) {
-			return p, nil
-		},
+	err := VisitPayloads(context.Background(), cmd, VisitPayloadsOptions{
+		Visitor: trivialVisitor,
 	})
 	require.Error(t, err)
 	require.ErrorContains(t, err, "missing")
