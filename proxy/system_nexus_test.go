@@ -14,26 +14,13 @@ import (
 	"google.golang.org/protobuf/proto"
 )
 
-const (
-	systemNexusService   = "temporal.api.workflowservice.v1.WorkflowService"
-	systemNexusSignalOp  = "SignalWithStartWorkflowExecution"
-	protoBinaryEncoding  = "binary/protobuf"
-	jsonProtoEncoding    = "json/protobuf"
-	collectingVisitorTag = "visited-"
-	signalWithStartType  = "temporal.api.workflowservice.v1.SignalWithStartWorkflowExecutionRequest"
-)
+const signalWithStartType = "temporal.api.workflowservice.v1.SignalWithStartWorkflowExecutionRequest"
 
-// signalWithStartEnvelope builds a SignalWithStartWorkflowExecutionRequest with
-// a payload in every payload-bearing field, marshals it proto-binary, and wraps
-// it in a *common.Payload with the given encoding and messageType metadata.
-func signalWithStartEnvelope(t *testing.T, encoding string) *common.Payload {
-	t.Helper()
-	return signalWithStartEnvelopeWithType(t, encoding, signalWithStartType)
-}
-
-// signalWithStartEnvelopeWithType is like signalWithStartEnvelope but allows
-// overriding the messageType metadata (e.g. to an unknown type).
-func signalWithStartEnvelopeWithType(t *testing.T, encoding, messageType string) *common.Payload {
+// buildSystemNexusCommand builds a system Nexus command whose Input is
+// a SignalWithStartWorkflowExecutionRequest.
+// The encoding and messageType parameters represent the "encoding" and
+// "messageType" metadata of the Payload.
+func buildSystemNexusCommand(t *testing.T, encoding, messageType string) *command.ScheduleNexusOperationCommandAttributes {
 	t.Helper()
 	req := &workflowservice.SignalWithStartWorkflowExecutionRequest{
 		Namespace:  "default",
@@ -61,21 +48,17 @@ func signalWithStartEnvelopeWithType(t *testing.T, encoding, messageType string)
 	}
 	data, err := proto.Marshal(req)
 	require.NoError(t, err)
-	metadata := map[string][]byte{"encoding": []byte(encoding)}
-	if messageType != "" {
-		metadata["messageType"] = []byte(messageType)
+	input := &common.Payload{
+		Data: data,
+		Metadata: map[string][]byte{
+			"encoding": []byte(encoding),
+			"messageType": []byte(messageType),
+		},
 	}
-	return &common.Payload{
-		Metadata: metadata,
-		Data:     data,
-	}
-}
-
-func scheduleSystemNexusCommand(input *common.Payload) *command.ScheduleNexusOperationCommandAttributes {
 	return &command.ScheduleNexusOperationCommandAttributes{
 		Endpoint:  "__temporal_system",
-		Service:   systemNexusService,
-		Operation: systemNexusSignalOp,
+		Service:   "temporal.api.workflowservice.v1.WorkflowService",
+		Operation: "SignalWithStartWorkflowExecution",
 		Input:     input,
 	}
 }
@@ -89,7 +72,7 @@ func collectVisitor(seen *[]string, mu *sync.Mutex) func(*VisitPayloadsContext, 
 			mu.Lock()
 			*seen = append(*seen, string(pl.Data))
 			mu.Unlock()
-			out[i] = &common.Payload{Data: append([]byte(collectingVisitorTag), pl.Data...)}
+			out[i] = &common.Payload{Data: append([]byte("visited-"), pl.Data...)}
 		}
 		return out, nil
 	}
@@ -97,14 +80,17 @@ func collectVisitor(seen *[]string, mu *sync.Mutex) func(*VisitPayloadsContext, 
 
 func decodeEnvelope(t *testing.T, input *common.Payload) *workflowservice.SignalWithStartWorkflowExecutionRequest {
 	t.Helper()
-	require.Equal(t, []byte(protoBinaryEncoding), input.GetMetadata()["encoding"])
+	require.Equal(t, []byte("binary/protobuf"), input.GetMetadata()["encoding"])
 	var req workflowservice.SignalWithStartWorkflowExecutionRequest
 	require.NoError(t, proto.Unmarshal(input.GetData(), &req))
 	return &req
 }
 
+
+//////////////////////// TESTS ////////////////////////
+
 func TestSystemNexusEnvelopeVisitsInnerPayloads(t *testing.T) {
-	attrs := scheduleSystemNexusCommand(signalWithStartEnvelope(t, protoBinaryEncoding))
+	attrs := buildSystemNexusCommand(t, "binary/protobuf", signalWithStartType)
 
 	var seen []string
 	var mu sync.Mutex
@@ -141,7 +127,7 @@ func TestSystemNexusEnvelopeVisitsInnerPayloads(t *testing.T) {
 }
 
 func TestSystemNexusEnvelopeVisitsInnerPayloadsConcurrent(t *testing.T) {
-	attrs := scheduleSystemNexusCommand(signalWithStartEnvelope(t, protoBinaryEncoding))
+	attrs := buildSystemNexusCommand(t, "binary/protobuf", signalWithStartType)
 
 	var seen []string
 	var mu sync.Mutex
@@ -162,7 +148,7 @@ func TestSystemNexusEnvelopeVisitsInnerPayloadsConcurrent(t *testing.T) {
 }
 
 func TestSystemNexusEnvelopeRejectsNonProtoBinaryEncoding(t *testing.T) {
-	attrs := scheduleSystemNexusCommand(signalWithStartEnvelope(t, jsonProtoEncoding))
+	attrs := buildSystemNexusCommand(t, "json/protobuf", signalWithStartType)
 
 	err := VisitPayloads(context.Background(), &command.Command{
 		Attributes: &command.Command_ScheduleNexusOperationCommandAttributes{
@@ -178,9 +164,7 @@ func TestSystemNexusEnvelopeRejectsNonProtoBinaryEncoding(t *testing.T) {
 }
 
 func TestSystemNexusEnvelopeRejectsUnknownMessageType(t *testing.T) {
-	attrs := scheduleSystemNexusCommand(
-		signalWithStartEnvelopeWithType(t, protoBinaryEncoding, "temporal.api.workflowservice.v1.NoSuchMessage"),
-	)
+	attrs := buildSystemNexusCommand(t, "binary/protobuf", "temporal.api.workflowservice.v1.NoSuchMessage")
 
 	err := VisitPayloads(context.Background(), &command.Command{
 		Attributes: &command.Command_ScheduleNexusOperationCommandAttributes{
@@ -196,9 +180,7 @@ func TestSystemNexusEnvelopeRejectsUnknownMessageType(t *testing.T) {
 }
 
 func TestSystemNexusEnvelopeRejectsMissingMessageType(t *testing.T) {
-	attrs := scheduleSystemNexusCommand(
-		signalWithStartEnvelopeWithType(t, protoBinaryEncoding, ""),
-	)
+	attrs := buildSystemNexusCommand(t, "binary/protobuf", "")
 
 	err := VisitPayloads(context.Background(), &command.Command{
 		Attributes: &command.Command_ScheduleNexusOperationCommandAttributes{
