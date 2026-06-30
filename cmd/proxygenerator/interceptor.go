@@ -106,19 +106,12 @@ func VisitPayloads(ctx context.Context, msg proto.Message, options VisitPayloads
 		return fmt.Errorf("ConcurrencyLimit must be 0 or greater, got %d", options.ConcurrencyLimit)
 	}
 	visitCtx := VisitPayloadsContext{Context: ctx, Parent: msg}
-	if options.ConcurrencyLimit <= 1 {
-		return visitPayloads(&visitCtx, &options, nil, nil, msg)
+
+	var c *payloadConcurrencyState
+	if options.ConcurrencyLimit > 1 {
+		c = &payloadConcurrencyState{sem: make(chan struct{}, options.ConcurrencyLimit)}
 	}
-	c := &payloadConcurrencyState{sem: make(chan struct{}, options.ConcurrencyLimit)}
-	err := visitPayloads(&visitCtx, &options, nil, c, msg)
-	c.wg.Wait()
-	if err != nil {
-		return err
-	}
-	if errPtr := c.firstErr.Load(); errPtr != nil {
-		return *errPtr
-	}
-	return nil
+	return visitPayloadsAndWait(&visitCtx, &options, nil, c, msg)
 }
 
 // PayloadVisitorInterceptorOptions configures outbound/inbound interception of Payloads within msgs.
@@ -275,30 +268,18 @@ func (o *VisitFailuresOptions) defaultWellKnownAnyVisitor(ctx *VisitFailuresCont
 }
 
 func (o *VisitPayloadsOptions) defaultWellKnownAnyVisitor(ctx *VisitPayloadsContext, concState *payloadConcurrencyState, p *anypb.Any) error {
+	// We choose to visit and re-marshal instead of cloning, visiting,
+	// and checking if anything changed before re-marshaling. It is assumed the
+	// clone + equality check is not much cheaper than re-marshal.
 	child, err := p.UnmarshalNew()
 	if err != nil {
 		return fmt.Errorf("failed to unmarshal any: %w", err)
 	}
 
-	// Sub-state shares the semaphore but has its own WaitGroup so we can wait
-	// for goroutines writing into child's fields before re-marshaling.
-	var anyConcState *payloadConcurrencyState
-	if concState != nil {
-		anyConcState = &payloadConcurrencyState{sem: concState.sem}
-	}
-
-	// We choose to visit and re-marshal always instead of cloning, visiting,
-	// and checking if anything changed before re-marshaling. It is assumed the
-	// clone + equality check is not much cheaper than re-marshal.
-	if err := visitPayloads(ctx, o, p, anyConcState, child); err != nil {
+	// Visit payloads and wait for goroutines to finish writing child fields
+	// before re-marshaling.
+	if err := visitPayloadsAndWait(ctx, o, p, concState, child); err != nil {
 		return err
-	}
-
-	if anyConcState != nil {
-		anyConcState.wg.Wait()
-		if errPtr := anyConcState.firstErr.Load(); errPtr != nil {
-			return *errPtr
-		}
 	}
 
 	// Confirmed this replaces both Any fields on non-error, there is nothing
@@ -364,6 +345,34 @@ func visitPayload(
 		return fmt.Errorf("visitor func must return 1 payload when SinglePayloadRequired = true")
 	}
 	*fieldPtr = newPayloads[0]
+	return nil
+}
+
+// visitPayloadsAndWait invokes visitPayloads and waits for its child
+// goroutines to finish before returning.
+func visitPayloadsAndWait(
+	ctx *VisitPayloadsContext,
+	options *VisitPayloadsOptions,
+	parent proto.Message,
+	concState *payloadConcurrencyState,
+	objs ...interface{},
+) error {
+	if concState == nil {
+		return visitPayloads(ctx, options, parent, concState, objs...)
+	}
+
+	// Create a new concurrency state with the same semaphore for concurrency
+	// control, but a new WaitGroup so we can wait for just the child goroutines.
+	miniConcState := &payloadConcurrencyState{sem: concState.sem}
+	err := visitPayloads(ctx, options, parent, miniConcState, objs...)
+	miniConcState.wg.Wait()
+
+	if err != nil {
+		return err
+	}
+	if errPtr := miniConcState.firstErr.Load(); errPtr != nil {
+		return *errPtr
+	}
 	return nil
 }
 

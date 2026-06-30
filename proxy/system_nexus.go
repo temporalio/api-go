@@ -56,22 +56,8 @@ func visitSystemNexusEnvelope(
 		)
 	}
 
-	// Sub-state shares the semaphore but has its own WaitGroup so we can wait
-	// for goroutines writing into child's fields before re-marshaling.
-	var localConcState *payloadConcurrencyState
-	if concState != nil {
-		localConcState = &payloadConcurrencyState{sem: concState.sem}
-	}
-
-	if err := visitPayloads(ctx, options, msg, localConcState, msg); err != nil {
+	if err := visitPayloadsAndWait(ctx, options, msg, concState, msg); err != nil {
 		return err
-	}
-
-	if localConcState != nil {
-		localConcState.wg.Wait()
-		if errPtr := localConcState.firstErr.Load(); errPtr != nil {
-			return *errPtr
-		}
 	}
 
 	data, err := proto.Marshal(msg)
