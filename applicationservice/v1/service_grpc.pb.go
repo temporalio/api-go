@@ -58,6 +58,10 @@ type ApplicationServiceClient interface {
 	// (-- api-linter: core::0127::resource-name-extraction=disabled
 	//
 	//	aip.dev/not-precedent: Path variables use existing workflow_id field, not AIP-122 resource names. --)
+	//
+	// (-- api-linter: core::0127::http-annotation=disabled
+	//
+	//	aip.dev/not-precedent: Not exposed over HTTP; this is a Nexus-only operation. --)
 	GetWorkflowExecutionResult(ctx context.Context, in *GetWorkflowExecutionResultRequest, opts ...grpc.CallOption) (*GetWorkflowExecutionResultResponse, error)
 }
 
@@ -114,6 +118,10 @@ type ApplicationServiceServer interface {
 	// (-- api-linter: core::0127::resource-name-extraction=disabled
 	//
 	//	aip.dev/not-precedent: Path variables use existing workflow_id field, not AIP-122 resource names. --)
+	//
+	// (-- api-linter: core::0127::http-annotation=disabled
+	//
+	//	aip.dev/not-precedent: Not exposed over HTTP; this is a Nexus-only operation. --)
 	GetWorkflowExecutionResult(context.Context, *GetWorkflowExecutionResultRequest) (*GetWorkflowExecutionResultResponse, error)
 	mustEmbedUnimplementedApplicationServiceServer()
 }

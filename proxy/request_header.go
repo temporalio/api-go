@@ -10,8 +10,6 @@ import (
 	"google.golang.org/grpc/metadata"
 	"google.golang.org/protobuf/proto"
 
-	applicationservice "go.temporal.io/api/applicationservice/v1"
-
 	workflowservice "go.temporal.io/api/workflowservice/v1"
 )
 
@@ -112,10 +110,6 @@ func ExtractTemporalRequestHeaders(ctx context.Context, opts ExtractHeadersOptio
 			headers = append(headers, "temporal-resource-id", fmt.Sprintf("workflow:%s", val))
 		}
 	case *workflowservice.GetWorkflowExecutionHistoryReverseRequest:
-		if val := r.GetExecution().GetWorkflowId(); val != "" && len(opts.ExistingMetadata.Get("temporal-resource-id")) == 0 {
-			headers = append(headers, "temporal-resource-id", fmt.Sprintf("workflow:%s", val))
-		}
-	case *applicationservice.GetWorkflowExecutionResultRequest:
 		if val := r.GetExecution().GetWorkflowId(); val != "" && len(opts.ExistingMetadata.Get("temporal-resource-id")) == 0 {
 			headers = append(headers, "temporal-resource-id", fmt.Sprintf("workflow:%s", val))
 		}

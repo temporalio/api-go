@@ -273,6 +273,7 @@ type ActivityExecutionInfo struct {
 	// The retry policy for the activity. Will never exceed `schedule_to_close_timeout`.
 	RetryPolicy *v1.RetryPolicy `protobuf:"bytes,11,opt,name=retry_policy,json=retryPolicy,proto3" json:"retry_policy,omitempty"`
 	// Details provided in the last recorded activity heartbeat.
+	// DescribeActivityExecution does not set this field unless include_heartbeat_details was true in the request.
 	HeartbeatDetails *v1.Payloads `protobuf:"bytes,12,opt,name=heartbeat_details,json=heartbeatDetails,proto3" json:"heartbeat_details,omitempty"`
 	// Time the last heartbeat was recorded.
 	LastHeartbeatTime *timestamppb.Timestamp `protobuf:"bytes,13,opt,name=last_heartbeat_time,json=lastHeartbeatTime,proto3" json:"last_heartbeat_time,omitempty"`
@@ -289,6 +290,7 @@ type ActivityExecutionInfo struct {
 	// Time when the activity transitioned to a closed state.
 	CloseTime *timestamppb.Timestamp `protobuf:"bytes,19,opt,name=close_time,json=closeTime,proto3" json:"close_time,omitempty"`
 	// Failure details from the last failed attempt.
+	// DescribeActivityExecution does not set this field unless include_last_failure was true in the request.
 	LastFailure        *v11.Failure `protobuf:"bytes,20,opt,name=last_failure,json=lastFailure,proto3" json:"last_failure,omitempty"`
 	LastWorkerIdentity string       `protobuf:"bytes,21,opt,name=last_worker_identity,json=lastWorkerIdentity,proto3" json:"last_worker_identity,omitempty"`
 	// Time from the last attempt failure to the next activity retry.

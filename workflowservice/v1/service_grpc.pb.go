@@ -474,6 +474,7 @@ type WorkflowServiceClient interface {
 	// CountSchedules is a visibility API to count schedules in a specific namespace.
 	CountSchedules(ctx context.Context, in *CountSchedulesRequest, opts ...grpc.CallOption) (*CountSchedulesResponse, error)
 	// Deprecated. Use `UpdateWorkerVersioningRules`.
+	// Will be removed in server version v1.32.0.
 	//
 	// Allows users to specify sets of worker build id versions on a per task queue basis. Versions
 	// are ordered, and may be either compatible with some extant version, or a new incompatible
@@ -493,6 +494,7 @@ type WorkflowServiceClient interface {
 	//	aip.dev/not-precedent: We do yet expose versioning API to HTTP. --)
 	UpdateWorkerBuildIdCompatibility(ctx context.Context, in *UpdateWorkerBuildIdCompatibilityRequest, opts ...grpc.CallOption) (*UpdateWorkerBuildIdCompatibilityResponse, error)
 	// Deprecated. Use `GetWorkerVersioningRules`.
+	// Will be removed in server version v1.32.0.
 	// Fetches the worker build id versioning sets for a task queue.
 	GetWorkerBuildIdCompatibility(ctx context.Context, in *GetWorkerBuildIdCompatibilityRequest, opts ...grpc.CallOption) (*GetWorkerBuildIdCompatibilityResponse, error)
 	// Use this API to manage Worker Versioning Rules for a given Task Queue. There are two types of
@@ -516,15 +518,16 @@ type WorkflowServiceClient interface {
 	// the target Build ID of a redirect rule is able to process event histories made by the source
 	// Build ID by using [Patching](https://docs.temporal.io/workflows#patching) or other means.
 	//
-	// WARNING: Worker Versioning is not yet stable and the API and behavior may change incompatibly.
+	// Will be removed in server version v1.32.0.
 	// (-- api-linter: core::0127::http-annotation=disabled
 	//
 	//	aip.dev/not-precedent: We do yet expose versioning API to HTTP. --)
 	UpdateWorkerVersioningRules(ctx context.Context, in *UpdateWorkerVersioningRulesRequest, opts ...grpc.CallOption) (*UpdateWorkerVersioningRulesResponse, error)
 	// Fetches the Build ID assignment and redirect rules for a Task Queue.
-	// WARNING: Worker Versioning is not yet stable and the API and behavior may change incompatibly.
+	// Will be removed in server version v1.32.0.
 	GetWorkerVersioningRules(ctx context.Context, in *GetWorkerVersioningRulesRequest, opts ...grpc.CallOption) (*GetWorkerVersioningRulesResponse, error)
 	// Deprecated. Use `DescribeTaskQueue`.
+	// Will be removed in server version v1.32.0.
 	//
 	// Fetches task reachability to determine whether a worker may be retired.
 	// The request may specify task queues to query for or let the server fetch all task queues mapped to the given
@@ -2434,6 +2437,7 @@ type WorkflowServiceServer interface {
 	// CountSchedules is a visibility API to count schedules in a specific namespace.
 	CountSchedules(context.Context, *CountSchedulesRequest) (*CountSchedulesResponse, error)
 	// Deprecated. Use `UpdateWorkerVersioningRules`.
+	// Will be removed in server version v1.32.0.
 	//
 	// Allows users to specify sets of worker build id versions on a per task queue basis. Versions
 	// are ordered, and may be either compatible with some extant version, or a new incompatible
@@ -2453,6 +2457,7 @@ type WorkflowServiceServer interface {
 	//	aip.dev/not-precedent: We do yet expose versioning API to HTTP. --)
 	UpdateWorkerBuildIdCompatibility(context.Context, *UpdateWorkerBuildIdCompatibilityRequest) (*UpdateWorkerBuildIdCompatibilityResponse, error)
 	// Deprecated. Use `GetWorkerVersioningRules`.
+	// Will be removed in server version v1.32.0.
 	// Fetches the worker build id versioning sets for a task queue.
 	GetWorkerBuildIdCompatibility(context.Context, *GetWorkerBuildIdCompatibilityRequest) (*GetWorkerBuildIdCompatibilityResponse, error)
 	// Use this API to manage Worker Versioning Rules for a given Task Queue. There are two types of
@@ -2476,15 +2481,16 @@ type WorkflowServiceServer interface {
 	// the target Build ID of a redirect rule is able to process event histories made by the source
 	// Build ID by using [Patching](https://docs.temporal.io/workflows#patching) or other means.
 	//
-	// WARNING: Worker Versioning is not yet stable and the API and behavior may change incompatibly.
+	// Will be removed in server version v1.32.0.
 	// (-- api-linter: core::0127::http-annotation=disabled
 	//
 	//	aip.dev/not-precedent: We do yet expose versioning API to HTTP. --)
 	UpdateWorkerVersioningRules(context.Context, *UpdateWorkerVersioningRulesRequest) (*UpdateWorkerVersioningRulesResponse, error)
 	// Fetches the Build ID assignment and redirect rules for a Task Queue.
-	// WARNING: Worker Versioning is not yet stable and the API and behavior may change incompatibly.
+	// Will be removed in server version v1.32.0.
 	GetWorkerVersioningRules(context.Context, *GetWorkerVersioningRulesRequest) (*GetWorkerVersioningRulesResponse, error)
 	// Deprecated. Use `DescribeTaskQueue`.
+	// Will be removed in server version v1.32.0.
 	//
 	// Fetches task reachability to determine whether a worker may be retired.
 	// The request may specify task queues to query for or let the server fetch all task queues mapped to the given

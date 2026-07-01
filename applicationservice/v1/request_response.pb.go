@@ -12,8 +12,7 @@ import (
 	unsafe "unsafe"
 
 	v1 "go.temporal.io/api/common/v1"
-	v11 "go.temporal.io/api/enums/v1"
-	v12 "go.temporal.io/api/failure/v1"
+	v11 "go.temporal.io/api/failure/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 )
@@ -28,10 +27,10 @@ const (
 // (-- api-linter: core::0131::request-name-required=disabled --)
 // (-- api-linter: core::0131::request-unknown-fields=disabled --)
 type GetWorkflowExecutionResultRequest struct {
-	state     protoimpl.MessageState `protogen:"open.v1"`
-	Namespace string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
-	// The workflow execution to wait for.
-	Execution     *v1.WorkflowExecution `protobuf:"bytes,2,opt,name=execution,proto3" json:"execution,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The workflow execution to wait for. This is always the latest workflow run for the given workflow ID.
+	// RunID is not required and will be ignored if provided.
+	Execution     *v1.WorkflowExecution `protobuf:"bytes,1,opt,name=execution,proto3" json:"execution,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -66,13 +65,6 @@ func (*GetWorkflowExecutionResultRequest) Descriptor() ([]byte, []int) {
 	return file_temporal_api_applicationservice_v1_request_response_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *GetWorkflowExecutionResultRequest) GetNamespace() string {
-	if x != nil {
-		return x.Namespace
-	}
-	return ""
-}
-
 func (x *GetWorkflowExecutionResultRequest) GetExecution() *v1.WorkflowExecution {
 	if x != nil {
 		return x.Execution
@@ -82,8 +74,6 @@ func (x *GetWorkflowExecutionResultRequest) GetExecution() *v1.WorkflowExecution
 
 type GetWorkflowExecutionResultResponse struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// The status of the workflow execution being waited on. This is needed to determine whether the workflow completed successfully or failed.
-	Status v11.WorkflowExecutionStatus `protobuf:"varint,1,opt,name=status,proto3,enum=temporal.api.enums.v1.WorkflowExecutionStatus" json:"status,omitempty"`
 	// If the workflow execution being waited on completed successfully, the result will be set. If it failed, the failure will be set.
 	// If the workflow execution is still running, neither field will be set.
 	//
@@ -126,13 +116,6 @@ func (*GetWorkflowExecutionResultResponse) Descriptor() ([]byte, []int) {
 	return file_temporal_api_applicationservice_v1_request_response_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *GetWorkflowExecutionResultResponse) GetStatus() v11.WorkflowExecutionStatus {
-	if x != nil {
-		return x.Status
-	}
-	return v11.WorkflowExecutionStatus(0)
-}
-
 func (x *GetWorkflowExecutionResultResponse) GetCompletionStatus() isGetWorkflowExecutionResultResponse_CompletionStatus {
 	if x != nil {
 		return x.CompletionStatus
@@ -149,7 +132,7 @@ func (x *GetWorkflowExecutionResultResponse) GetResult() *v1.Payload {
 	return nil
 }
 
-func (x *GetWorkflowExecutionResultResponse) GetFailure() *v12.Failure {
+func (x *GetWorkflowExecutionResultResponse) GetFailure() *v11.Failure {
 	if x != nil {
 		if x, ok := x.CompletionStatus.(*GetWorkflowExecutionResultResponse_Failure); ok {
 			return x.Failure
@@ -163,11 +146,11 @@ type isGetWorkflowExecutionResultResponse_CompletionStatus interface {
 }
 
 type GetWorkflowExecutionResultResponse_Result struct {
-	Result *v1.Payload `protobuf:"bytes,2,opt,name=result,proto3,oneof"`
+	Result *v1.Payload `protobuf:"bytes,1,opt,name=result,proto3,oneof"`
 }
 
 type GetWorkflowExecutionResultResponse_Failure struct {
-	Failure *v12.Failure `protobuf:"bytes,3,opt,name=failure,proto3,oneof"`
+	Failure *v11.Failure `protobuf:"bytes,2,opt,name=failure,proto3,oneof"`
 }
 
 func (*GetWorkflowExecutionResultResponse_Result) isGetWorkflowExecutionResultResponse_CompletionStatus() {
@@ -180,14 +163,12 @@ var File_temporal_api_applicationservice_v1_request_response_proto protoreflect.
 
 const file_temporal_api_applicationservice_v1_request_response_proto_rawDesc = "" +
 	"\n" +
-	"9temporal/api/applicationservice/v1/request_response.proto\x12\"temporal.api.applicationservice.v1\x1a$temporal/api/enums/v1/workflow.proto\x1a$temporal/api/common/v1/message.proto\x1a%temporal/api/failure/v1/message.proto\"\x8a\x01\n" +
-	"!GetWorkflowExecutionResultRequest\x12\x1c\n" +
-	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12G\n" +
-	"\texecution\x18\x02 \x01(\v2).temporal.api.common.v1.WorkflowExecutionR\texecution\"\xfa\x01\n" +
-	"\"GetWorkflowExecutionResultResponse\x12F\n" +
-	"\x06status\x18\x01 \x01(\x0e2..temporal.api.enums.v1.WorkflowExecutionStatusR\x06status\x129\n" +
-	"\x06result\x18\x02 \x01(\v2\x1f.temporal.api.common.v1.PayloadH\x00R\x06result\x12<\n" +
-	"\afailure\x18\x03 \x01(\v2 .temporal.api.failure.v1.FailureH\x00R\afailureB\x13\n" +
+	"9temporal/api/applicationservice/v1/request_response.proto\x12\"temporal.api.applicationservice.v1\x1a$temporal/api/common/v1/message.proto\x1a%temporal/api/failure/v1/message.proto\"l\n" +
+	"!GetWorkflowExecutionResultRequest\x12G\n" +
+	"\texecution\x18\x01 \x01(\v2).temporal.api.common.v1.WorkflowExecutionR\texecution\"\xb2\x01\n" +
+	"\"GetWorkflowExecutionResultResponse\x129\n" +
+	"\x06result\x18\x01 \x01(\v2\x1f.temporal.api.common.v1.PayloadH\x00R\x06result\x12<\n" +
+	"\afailure\x18\x02 \x01(\v2 .temporal.api.failure.v1.FailureH\x00R\afailureB\x13\n" +
 	"\x11completion_statusB\xcd\x01\n" +
 	"%io.temporal.api.applicationservice.v1B\x14RequestResponseProtoP\x01Z;go.temporal.io/api/applicationservice/v1;applicationservice\xaa\x02$Temporalio.Api.Applicationservice.V1\xea\x02'Temporalio::Api::Applicationservice::V1b\x06proto3"
 
@@ -208,20 +189,18 @@ var file_temporal_api_applicationservice_v1_request_response_proto_goTypes = []a
 	(*GetWorkflowExecutionResultRequest)(nil),  // 0: temporal.api.applicationservice.v1.GetWorkflowExecutionResultRequest
 	(*GetWorkflowExecutionResultResponse)(nil), // 1: temporal.api.applicationservice.v1.GetWorkflowExecutionResultResponse
 	(*v1.WorkflowExecution)(nil),               // 2: temporal.api.common.v1.WorkflowExecution
-	(v11.WorkflowExecutionStatus)(0),           // 3: temporal.api.enums.v1.WorkflowExecutionStatus
-	(*v1.Payload)(nil),                         // 4: temporal.api.common.v1.Payload
-	(*v12.Failure)(nil),                        // 5: temporal.api.failure.v1.Failure
+	(*v1.Payload)(nil),                         // 3: temporal.api.common.v1.Payload
+	(*v11.Failure)(nil),                        // 4: temporal.api.failure.v1.Failure
 }
 var file_temporal_api_applicationservice_v1_request_response_proto_depIdxs = []int32{
 	2, // 0: temporal.api.applicationservice.v1.GetWorkflowExecutionResultRequest.execution:type_name -> temporal.api.common.v1.WorkflowExecution
-	3, // 1: temporal.api.applicationservice.v1.GetWorkflowExecutionResultResponse.status:type_name -> temporal.api.enums.v1.WorkflowExecutionStatus
-	4, // 2: temporal.api.applicationservice.v1.GetWorkflowExecutionResultResponse.result:type_name -> temporal.api.common.v1.Payload
-	5, // 3: temporal.api.applicationservice.v1.GetWorkflowExecutionResultResponse.failure:type_name -> temporal.api.failure.v1.Failure
-	4, // [4:4] is the sub-list for method output_type
-	4, // [4:4] is the sub-list for method input_type
-	4, // [4:4] is the sub-list for extension type_name
-	4, // [4:4] is the sub-list for extension extendee
-	0, // [0:4] is the sub-list for field type_name
+	3, // 1: temporal.api.applicationservice.v1.GetWorkflowExecutionResultResponse.result:type_name -> temporal.api.common.v1.Payload
+	4, // 2: temporal.api.applicationservice.v1.GetWorkflowExecutionResultResponse.failure:type_name -> temporal.api.failure.v1.Failure
+	3, // [3:3] is the sub-list for method output_type
+	3, // [3:3] is the sub-list for method input_type
+	3, // [3:3] is the sub-list for extension type_name
+	3, // [3:3] is the sub-list for extension extendee
+	0, // [0:3] is the sub-list for field type_name
 }
 
 func init() { file_temporal_api_applicationservice_v1_request_response_proto_init() }

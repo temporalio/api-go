@@ -11,8 +11,6 @@ import (
 	unsafe "unsafe"
 
 	_ "github.com/nexus-rpc/nexus-proto-annotations/go/nexusannotations/v1"
-	_ "go.temporal.io/api/protometa/v1"
-	_ "google.golang.org/genproto/googleapis/api/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 )
@@ -28,10 +26,9 @@ var File_temporal_api_applicationservice_v1_service_proto protoreflect.FileDescr
 
 const file_temporal_api_applicationservice_v1_service_proto_rawDesc = "" +
 	"\n" +
-	"0temporal/api/applicationservice/v1/service.proto\x12\"temporal.api.applicationservice.v1\x1a\x1cgoogle/api/annotations.proto\x1a!nexusannotations/v1/options.proto\x1a+temporal/api/protometa/v1/annotations.proto\x1a9temporal/api/applicationservice/v1/request_response.proto2\xd1\x03\n" +
-	"\x12ApplicationService\x12\xba\x03\n" +
-	"\x1aGetWorkflowExecutionResult\x12E.temporal.api.applicationservice.v1.GetWorkflowExecutionResultRequest\x1aF.temporal.api.applicationservice.v1.GetWorkflowExecutionResultResponse\"\x8c\x02҂\x04\t\x12\aexposed\x8a\x9d\xcc\x1b8\n" +
-	"\x14temporal-resource-id\x12 workflow:{execution.workflow_id}\x82\xd3\xe4\x93\x02\xbb\x01:\x01*Z`:\x01*\"[/api/v1/namespaces/{namespace}/workflows/{execution.workflow_id}/wait-for-external-workflow\"T/namespaces/{namespace}/workflows/{execution.workflow_id}/wait-for-external-workflowB\xc5\x01\n" +
+	"0temporal/api/applicationservice/v1/service.proto\x12\"temporal.api.applicationservice.v1\x1a!nexusannotations/v1/options.proto\x1a9temporal/api/applicationservice/v1/request_response.proto2\xd1\x01\n" +
+	"\x12ApplicationService\x12\xba\x01\n" +
+	"\x1aGetWorkflowExecutionResult\x12E.temporal.api.applicationservice.v1.GetWorkflowExecutionResultRequest\x1aF.temporal.api.applicationservice.v1.GetWorkflowExecutionResultResponse\"\r҂\x04\t\x12\aexposedB\xc5\x01\n" +
 	"%io.temporal.api.applicationservice.v1B\fServiceProtoP\x01Z;go.temporal.io/api/applicationservice/v1;applicationservice\xaa\x02$Temporalio.Api.Applicationservice.V1\xea\x02'Temporalio::Api::Applicationservice::V1b\x06proto3"
 
 var file_temporal_api_applicationservice_v1_service_proto_goTypes = []any{
