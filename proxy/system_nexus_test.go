@@ -174,13 +174,12 @@ func TestSystemNexusEnvelopeRejectsMissingMessageType(t *testing.T) {
 func TestNonSystemNexusInput(t *testing.T) {
 	cmd := &command.Command{
 		Attributes: &command.Command_ScheduleNexusOperationCommandAttributes{
-			ScheduleNexusOperationCommandAttributes:
-				&command.ScheduleNexusOperationCommandAttributes{
-					Endpoint:  "my-endpoint",
-					Service:   "my-service",
-					Operation: "DoThing",
-					Input:     &common.Payload{Data: []byte("user-payload")},
-				},
+			ScheduleNexusOperationCommandAttributes: &command.ScheduleNexusOperationCommandAttributes{
+				Endpoint:  "my-endpoint",
+				Service:   "my-service",
+				Operation: "DoThing",
+				Input:     &common.Payload{Data: []byte("user-payload")},
+			},
 		},
 	}
 

@@ -805,8 +805,8 @@ type StartWorkflowExecutionRequest struct {
 	// StartWorkflowExecution.
 	ContinuedFailure     *v15.Failure  `protobuf:"bytes,18,opt,name=continued_failure,json=continuedFailure,proto3" json:"continued_failure,omitempty"`
 	LastCompletionResult *v14.Payloads `protobuf:"bytes,19,opt,name=last_completion_result,json=lastCompletionResult,proto3" json:"last_completion_result,omitempty"`
-	// Time to wait before dispatching the first workflow task. Cannot be used with `cron_schedule`.
-	// If the workflow gets a signal before the delay, a workflow task will be dispatched and the rest
+	// Time to wait before making the first workflow task available for dispatch. Cannot be used with `cron_schedule`.
+	// If the workflow gets a signal before the delay, a workflow task will be made available for dispatch and the rest
 	// of the delay will be ignored.
 	WorkflowStartDelay *durationpb.Duration `protobuf:"bytes,20,opt,name=workflow_start_delay,json=workflowStartDelay,proto3" json:"workflow_start_delay,omitempty"`
 	// Callbacks to be called by the server when this workflow reaches a terminal state.
@@ -4233,9 +4233,9 @@ type SignalWithStartWorkflowExecutionRequest struct {
 	Memo             *v14.Memo             `protobuf:"bytes,17,opt,name=memo,proto3" json:"memo,omitempty"`
 	SearchAttributes *v14.SearchAttributes `protobuf:"bytes,18,opt,name=search_attributes,json=searchAttributes,proto3" json:"search_attributes,omitempty"`
 	Header           *v14.Header           `protobuf:"bytes,19,opt,name=header,proto3" json:"header,omitempty"`
-	// Time to wait before dispatching the first workflow task. Cannot be used with `cron_schedule`.
+	// Time to wait before making the first workflow task available for dispatch. Cannot be used with `cron_schedule`.
 	// Note that the signal will be delivered with the first workflow task. If the workflow gets
-	// another SignalWithStartWorkflow before the delay a workflow task will be dispatched immediately
+	// another SignalWithStartWorkflow before the delay a workflow task will be made available for dispatch immediately
 	// and the rest of the delay period will be ignored, even if that request also had a delay.
 	// Signal via SignalWorkflowExecution will not unblock the workflow.
 	WorkflowStartDelay *durationpb.Duration `protobuf:"bytes,20,opt,name=workflow_start_delay,json=workflowStartDelay,proto3" json:"workflow_start_delay,omitempty"`
@@ -16396,7 +16396,7 @@ type StartActivityExecutionRequest struct {
 	Links []*v14.Link `protobuf:"bytes,20,rep,name=links,proto3" json:"links,omitempty"`
 	// Options for handling conflicts when using ACTIVITY_ID_CONFLICT_POLICY_USE_EXISTING.
 	OnConflictOptions *v14.OnConflictOptions `protobuf:"bytes,21,opt,name=on_conflict_options,json=onConflictOptions,proto3" json:"on_conflict_options,omitempty"`
-	// Time to wait before dispatching the first activity task. This delay is not applied to retry attempts.
+	// Time to wait before making the first activity task available for dispatch. This delay is not applied to retry attempts.
 	StartDelay    *durationpb.Duration `protobuf:"bytes,22,opt,name=start_delay,json=startDelay,proto3" json:"start_delay,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
