@@ -1489,11 +1489,11 @@ type TimeSkippingConfig struct {
 	// If the fast-forward duration exceeds the remaining execution timeout, time will only
 	// be fast-forwarded up to the end of the execution.
 	FastForward *durationpb.Duration `protobuf:"bytes,2,opt,name=fast_forward,json=fastForward,proto3" json:"fast_forward,omitempty"`
-	// By default, child workflows inherit the "enabled" flag when they are started.
-	// This flag disables that inheritance.
-	DisableChildPropagation bool `protobuf:"varint,3,opt,name=disable_child_propagation,json=disableChildPropagation,proto3" json:"disable_child_propagation,omitempty"`
-	unknownFields           protoimpl.UnknownFields
-	sizeCache               protoimpl.SizeCache
+	// By default, executions started by another execution (e.g. when a parent workflow or a scheduler),
+	// inherit the "enabled" flag and skip time when possible. This flag disables that inheritance.
+	DisablePropagation bool `protobuf:"varint,3,opt,name=disable_propagation,json=disablePropagation,proto3" json:"disable_propagation,omitempty"`
+	unknownFields      protoimpl.UnknownFields
+	sizeCache          protoimpl.SizeCache
 }
 
 func (x *TimeSkippingConfig) Reset() {
@@ -1540,9 +1540,9 @@ func (x *TimeSkippingConfig) GetFastForward() *durationpb.Duration {
 	return nil
 }
 
-func (x *TimeSkippingConfig) GetDisableChildPropagation() bool {
+func (x *TimeSkippingConfig) GetDisablePropagation() bool {
 	if x != nil {
-		return x.DisableChildPropagation
+		return x.DisablePropagation
 	}
 	return false
 }
@@ -2346,11 +2346,11 @@ const file_temporal_api_common_v1_message_proto_rawDesc = "" +
 	"\x11OnConflictOptions\x12*\n" +
 	"\x11attach_request_id\x18\x01 \x01(\bR\x0fattachRequestId\x12>\n" +
 	"\x1battach_completion_callbacks\x18\x02 \x01(\bR\x19attachCompletionCallbacks\x12!\n" +
-	"\fattach_links\x18\x03 \x01(\bR\vattachLinks\"\xa8\x01\n" +
+	"\fattach_links\x18\x03 \x01(\bR\vattachLinks\"\x9d\x01\n" +
 	"\x12TimeSkippingConfig\x12\x18\n" +
 	"\aenabled\x18\x01 \x01(\bR\aenabled\x12<\n" +
-	"\ffast_forward\x18\x02 \x01(\v2\x19.google.protobuf.DurationR\vfastForward\x12:\n" +
-	"\x19disable_child_propagation\x18\x03 \x01(\bR\x17disableChildPropagation\"\xc8\x01\n" +
+	"\ffast_forward\x18\x02 \x01(\v2\x19.google.protobuf.DurationR\vfastForward\x12/\n" +
+	"\x13disable_propagation\x18\x03 \x01(\bR\x12disablePropagation\"\xc8\x01\n" +
 	"\x1cTimeSkippingStatePropagation\x12S\n" +
 	"\x18initial_skipped_duration\x18\x01 \x01(\v2\x19.google.protobuf.DurationR\x16initialSkippedDuration\x12S\n" +
 	"\x18fast_forward_target_time\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\x15fastForwardTargetTimeB\x89\x01\n" +
