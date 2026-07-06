@@ -19003,8 +19003,12 @@ type GetSystemInfoResponse_Capabilities struct {
 	// This flag is dependent both on server version and for server-scaled deployments
 	// to be enabled via server configuration.
 	ServerScaledDeployments bool `protobuf:"varint,12,opt,name=server_scaled_deployments,json=serverScaledDeployments,proto3" json:"server_scaled_deployments,omitempty"`
-	unknownFields           protoimpl.UnknownFields
-	sizeCache               protoimpl.SizeCache
+	// True if the server supports the Cloud Run compute provider for
+	// server-scaled deployments. Dependent on server version and the
+	// provider being enabled via server configuration.
+	ServerScaledProviderCloudRun bool `protobuf:"varint,13,opt,name=server_scaled_provider_cloud_run,json=serverScaledProviderCloudRun,proto3" json:"server_scaled_provider_cloud_run,omitempty"`
+	unknownFields                protoimpl.UnknownFields
+	sizeCache                    protoimpl.SizeCache
 }
 
 func (x *GetSystemInfoResponse_Capabilities) Reset() {
@@ -19117,6 +19121,13 @@ func (x *GetSystemInfoResponse_Capabilities) GetNexus() bool {
 func (x *GetSystemInfoResponse_Capabilities) GetServerScaledDeployments() bool {
 	if x != nil {
 		return x.ServerScaledDeployments
+	}
+	return false
+}
+
+func (x *GetSystemInfoResponse_Capabilities) GetServerScaledProviderCloudRun() bool {
+	if x != nil {
+		return x.ServerScaledProviderCloudRun
 	}
 	return false
 }
@@ -20794,10 +20805,10 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\x15SupportedClientsEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\x16\n" +
-	"\x14GetSystemInfoRequest\"\xb8\x06\n" +
+	"\x14GetSystemInfoRequest\"\x80\a\n" +
 	"\x15GetSystemInfoResponse\x12%\n" +
 	"\x0eserver_version\x18\x01 \x01(\tR\rserverVersion\x12g\n" +
-	"\fcapabilities\x18\x02 \x01(\v2C.temporal.api.workflowservice.v1.GetSystemInfoResponse.CapabilitiesR\fcapabilities\x1a\x8e\x05\n" +
+	"\fcapabilities\x18\x02 \x01(\v2C.temporal.api.workflowservice.v1.GetSystemInfoResponse.CapabilitiesR\fcapabilities\x1a\xd6\x05\n" +
 	"\fCapabilities\x125\n" +
 	"\x17signal_and_query_header\x18\x01 \x01(\bR\x14signalAndQueryHeader\x12D\n" +
 	"\x1einternal_error_differentiation\x18\x02 \x01(\bR\x1cinternalErrorDifferentiation\x12K\n" +
@@ -20812,7 +20823,8 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\x1fcount_group_by_execution_status\x18\n" +
 	" \x01(\bR\x1bcountGroupByExecutionStatus\x12\x14\n" +
 	"\x05nexus\x18\v \x01(\bR\x05nexus\x12:\n" +
-	"\x19server_scaled_deployments\x18\f \x01(\bR\x17serverScaledDeployments\"\x83\x01\n" +
+	"\x19server_scaled_deployments\x18\f \x01(\bR\x17serverScaledDeployments\x12F\n" +
+	" server_scaled_provider_cloud_run\x18\r \x01(\bR\x1cserverScaledProviderCloudRun\"\x83\x01\n" +
 	"\x1eListTaskQueuePartitionsRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12C\n" +
 	"\n" +
