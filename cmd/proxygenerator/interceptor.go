@@ -546,6 +546,17 @@ func visitPayloads(
 						return hookErr
 					}
 				}
+
+				{{/*
+					HERE BE DRAGONS
+
+					For protos that contain a Payload, we generate code to visit them to support
+					things like decoding. However, the logic here assumes the Payload is on a field
+					named Success. Any other proto types will need to hard-code the visitation for
+					their Payload fields. (And as appropriate, defer to specialized handling as is
+					the case for ScheduleNexusOperationCommandAttributes when routing to the system
+					Nexus endpoint.)
+				*/}}
 				{{range $record.Payloads -}}
 				{{if and (eq $type "*workflowservice.DescribeNexusOperationExecutionResponse") (eq . "Result")}}
 				if o.GetResult() != nil {
@@ -566,6 +577,11 @@ func visitPayloads(
 					} else {
 						if err := visitPayload(ctx, options, o, concState, &o.Input); err != nil { return err }
 					}
+				}
+				{{else if and (eq $type "*nexus.OnCompleteHandlerInput_Outcome") (eq . "Success")}}
+				if success := o.GetSuccess(); success != nil {
+					if err := visitPayload(ctx, options, o, concState, &success); err != nil { return err }
+					o.Result = &nexus.OnCompleteHandlerInput_Outcome_Success{Success: success}
 				}
 				{{else}}
 				if o.{{.}} != nil {
