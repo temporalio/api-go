@@ -7,16 +7,25 @@ import (
 
 var (
 	BatchOperationType_shorthandValue = map[string]int32{
-		"Unspecified":            0,
-		"Terminate":              1,
-		"Cancel":                 2,
-		"Signal":                 3,
-		"Delete":                 4,
-		"Reset":                  5,
-		"UpdateExecutionOptions": 6,
-		"UnpauseActivity":        7,
-		"UpdateActivityOptions":  8,
-		"ResetActivity":          9,
+		"Unspecified":                    0,
+		"Terminate":                      1,
+		"TerminateWorkflow":              13,
+		"Cancel":                         2,
+		"CancelWorkflow":                 14,
+		"Signal":                         3,
+		"SignalWorkflow":                 15,
+		"Delete":                         4,
+		"DeleteWorkflow":                 16,
+		"Reset":                          5,
+		"ResetWorkflow":                  17,
+		"UpdateExecutionOptions":         6,
+		"UpdateWorkflowExecutionOptions": 18,
+		"UnpauseActivity":                7,
+		"UpdateActivityOptions":          8,
+		"ResetActivity":                  9,
+		"TerminateActivity":              10,
+		"CancelActivity":                 11,
+		"DeleteActivity":                 12,
 	}
 )
 

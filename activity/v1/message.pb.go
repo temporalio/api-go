@@ -149,7 +149,11 @@ type ActivityOptions struct {
 	RetryPolicy *v1.RetryPolicy `protobuf:"bytes,6,opt,name=retry_policy,json=retryPolicy,proto3" json:"retry_policy,omitempty"`
 	// Priority metadata. If this message is not present, or any fields are not
 	// present, they inherit the values from the workflow.
-	Priority      *v1.Priority `protobuf:"bytes,7,opt,name=priority,proto3" json:"priority,omitempty"`
+	Priority *v1.Priority `protobuf:"bytes,7,opt,name=priority,proto3" json:"priority,omitempty"`
+	// Time to wait before making the first activity task available for dispatch. This delay is not applied to retry attempts.
+	// When updated, the time is added to the original `schedule_time`, not to the current time.
+	// If the resulting time is in the past, the task is made available for dispatch immediately.
+	StartDelay    *durationpb.Duration `protobuf:"bytes,8,opt,name=start_delay,json=startDelay,proto3" json:"start_delay,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -229,6 +233,13 @@ func (x *ActivityOptions) GetRetryPolicy() *v1.RetryPolicy {
 func (x *ActivityOptions) GetPriority() *v1.Priority {
 	if x != nil {
 		return x.Priority
+	}
+	return nil
+}
+
+func (x *ActivityOptions) GetStartDelay() *durationpb.Duration {
+	if x != nil {
+		return x.StartDelay
 	}
 	return nil
 }
@@ -330,8 +341,11 @@ type ActivityExecutionInfo struct {
 	// The version of the SDK of the worker that most recently picked up an attempt of this activity.
 	// Overwritten on each new attempt. Empty if unknown.
 	SdkVersion string `protobuf:"bytes,36,opt,name=sdk_version,json=sdkVersion,proto3" json:"sdk_version,omitempty"`
-	// Time to wait before dispatching the first activity task. This delay is not applied to retry attempts.
-	StartDelay    *durationpb.Duration `protobuf:"bytes,37,opt,name=start_delay,json=startDelay,proto3" json:"start_delay,omitempty"`
+	// Time to wait before making the first activity task available for dispatch. This delay is not applied to retry attempts.
+	StartDelay *durationpb.Duration `protobuf:"bytes,37,opt,name=start_delay,json=startDelay,proto3" json:"start_delay,omitempty"`
+	// The time at which the first activity task is made available for dispatch, computed as
+	// `schedule_time + start_delay`. Same as `schedule_time` if `start_delay` is not set.
+	ExecutionTime *timestamppb.Timestamp `protobuf:"bytes,38,opt,name=execution_time,json=executionTime,proto3" json:"execution_time,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -621,6 +635,13 @@ func (x *ActivityExecutionInfo) GetSdkVersion() string {
 func (x *ActivityExecutionInfo) GetStartDelay() *durationpb.Duration {
 	if x != nil {
 		return x.StartDelay
+	}
+	return nil
+}
+
+func (x *ActivityExecutionInfo) GetExecutionTime() *timestamppb.Timestamp {
+	if x != nil {
+		return x.ExecutionTime
 	}
 	return nil
 }
@@ -931,7 +952,7 @@ const file_temporal_api_activity_v1_message_proto_rawDesc = "" +
 	"\x18ActivityExecutionOutcome\x12:\n" +
 	"\x06result\x18\x01 \x01(\v2 .temporal.api.common.v1.PayloadsH\x00R\x06result\x12<\n" +
 	"\afailure\x18\x02 \x01(\v2 .temporal.api.failure.v1.FailureH\x00R\afailureB\a\n" +
-	"\x05value\"\xa0\x04\n" +
+	"\x05value\"\xdc\x04\n" +
 	"\x0fActivityOptions\x12C\n" +
 	"\n" +
 	"task_queue\x18\x01 \x01(\v2$.temporal.api.taskqueue.v1.TaskQueueR\ttaskQueue\x12T\n" +
@@ -940,7 +961,9 @@ const file_temporal_api_activity_v1_message_proto_rawDesc = "" +
 	"\x16start_to_close_timeout\x18\x04 \x01(\v2\x19.google.protobuf.DurationR\x13startToCloseTimeout\x12F\n" +
 	"\x11heartbeat_timeout\x18\x05 \x01(\v2\x19.google.protobuf.DurationR\x10heartbeatTimeout\x12F\n" +
 	"\fretry_policy\x18\x06 \x01(\v2#.temporal.api.common.v1.RetryPolicyR\vretryPolicy\x12<\n" +
-	"\bpriority\x18\a \x01(\v2 .temporal.api.common.v1.PriorityR\bpriority\"\xc4\x12\n" +
+	"\bpriority\x18\a \x01(\v2 .temporal.api.common.v1.PriorityR\bpriority\x12:\n" +
+	"\vstart_delay\x18\b \x01(\v2\x19.google.protobuf.DurationR\n" +
+	"startDelay\"\x87\x13\n" +
 	"\x15ActivityExecutionInfo\x12\x1f\n" +
 	"\vactivity_id\x18\x01 \x01(\tR\n" +
 	"activityId\x12\x15\n" +
@@ -984,7 +1007,8 @@ const file_temporal_api_activity_v1_message_proto_rawDesc = "" +
 	"\vsdk_version\x18$ \x01(\tR\n" +
 	"sdkVersion\x12:\n" +
 	"\vstart_delay\x18% \x01(\v2\x19.google.protobuf.DurationR\n" +
-	"startDelay\"\x82\x05\n" +
+	"startDelay\x12A\n" +
+	"\x0eexecution_time\x18& \x01(\v2\x1a.google.protobuf.TimestampR\rexecutionTime\"\x82\x05\n" +
 	"\x19ActivityExecutionListInfo\x12\x1f\n" +
 	"\vactivity_id\x18\x01 \x01(\tR\n" +
 	"activityId\x12\x15\n" +
@@ -1058,46 +1082,48 @@ var file_temporal_api_activity_v1_message_proto_depIdxs = []int32{
 	10, // 6: temporal.api.activity.v1.ActivityOptions.heartbeat_timeout:type_name -> google.protobuf.Duration
 	11, // 7: temporal.api.activity.v1.ActivityOptions.retry_policy:type_name -> temporal.api.common.v1.RetryPolicy
 	12, // 8: temporal.api.activity.v1.ActivityOptions.priority:type_name -> temporal.api.common.v1.Priority
-	13, // 9: temporal.api.activity.v1.ActivityExecutionInfo.activity_type:type_name -> temporal.api.common.v1.ActivityType
-	14, // 10: temporal.api.activity.v1.ActivityExecutionInfo.status:type_name -> temporal.api.enums.v1.ActivityExecutionStatus
-	15, // 11: temporal.api.activity.v1.ActivityExecutionInfo.run_state:type_name -> temporal.api.enums.v1.PendingActivityState
-	10, // 12: temporal.api.activity.v1.ActivityExecutionInfo.schedule_to_close_timeout:type_name -> google.protobuf.Duration
-	10, // 13: temporal.api.activity.v1.ActivityExecutionInfo.schedule_to_start_timeout:type_name -> google.protobuf.Duration
-	10, // 14: temporal.api.activity.v1.ActivityExecutionInfo.start_to_close_timeout:type_name -> google.protobuf.Duration
-	10, // 15: temporal.api.activity.v1.ActivityExecutionInfo.heartbeat_timeout:type_name -> google.protobuf.Duration
-	11, // 16: temporal.api.activity.v1.ActivityExecutionInfo.retry_policy:type_name -> temporal.api.common.v1.RetryPolicy
-	7,  // 17: temporal.api.activity.v1.ActivityExecutionInfo.heartbeat_details:type_name -> temporal.api.common.v1.Payloads
-	16, // 18: temporal.api.activity.v1.ActivityExecutionInfo.last_heartbeat_time:type_name -> google.protobuf.Timestamp
-	16, // 19: temporal.api.activity.v1.ActivityExecutionInfo.last_started_time:type_name -> google.protobuf.Timestamp
-	10, // 20: temporal.api.activity.v1.ActivityExecutionInfo.execution_duration:type_name -> google.protobuf.Duration
-	16, // 21: temporal.api.activity.v1.ActivityExecutionInfo.schedule_time:type_name -> google.protobuf.Timestamp
-	16, // 22: temporal.api.activity.v1.ActivityExecutionInfo.expiration_time:type_name -> google.protobuf.Timestamp
-	16, // 23: temporal.api.activity.v1.ActivityExecutionInfo.close_time:type_name -> google.protobuf.Timestamp
-	8,  // 24: temporal.api.activity.v1.ActivityExecutionInfo.last_failure:type_name -> temporal.api.failure.v1.Failure
-	10, // 25: temporal.api.activity.v1.ActivityExecutionInfo.current_retry_interval:type_name -> google.protobuf.Duration
-	16, // 26: temporal.api.activity.v1.ActivityExecutionInfo.last_attempt_complete_time:type_name -> google.protobuf.Timestamp
-	16, // 27: temporal.api.activity.v1.ActivityExecutionInfo.next_attempt_schedule_time:type_name -> google.protobuf.Timestamp
-	17, // 28: temporal.api.activity.v1.ActivityExecutionInfo.last_deployment_version:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersion
-	12, // 29: temporal.api.activity.v1.ActivityExecutionInfo.priority:type_name -> temporal.api.common.v1.Priority
-	18, // 30: temporal.api.activity.v1.ActivityExecutionInfo.search_attributes:type_name -> temporal.api.common.v1.SearchAttributes
-	19, // 31: temporal.api.activity.v1.ActivityExecutionInfo.header:type_name -> temporal.api.common.v1.Header
-	20, // 32: temporal.api.activity.v1.ActivityExecutionInfo.user_metadata:type_name -> temporal.api.sdk.v1.UserMetadata
-	21, // 33: temporal.api.activity.v1.ActivityExecutionInfo.links:type_name -> temporal.api.common.v1.Link
-	10, // 34: temporal.api.activity.v1.ActivityExecutionInfo.start_delay:type_name -> google.protobuf.Duration
-	13, // 35: temporal.api.activity.v1.ActivityExecutionListInfo.activity_type:type_name -> temporal.api.common.v1.ActivityType
-	16, // 36: temporal.api.activity.v1.ActivityExecutionListInfo.schedule_time:type_name -> google.protobuf.Timestamp
-	16, // 37: temporal.api.activity.v1.ActivityExecutionListInfo.close_time:type_name -> google.protobuf.Timestamp
-	14, // 38: temporal.api.activity.v1.ActivityExecutionListInfo.status:type_name -> temporal.api.enums.v1.ActivityExecutionStatus
-	18, // 39: temporal.api.activity.v1.ActivityExecutionListInfo.search_attributes:type_name -> temporal.api.common.v1.SearchAttributes
-	10, // 40: temporal.api.activity.v1.ActivityExecutionListInfo.execution_duration:type_name -> google.protobuf.Duration
-	6,  // 41: temporal.api.activity.v1.CallbackInfo.trigger:type_name -> temporal.api.activity.v1.CallbackInfo.Trigger
-	22, // 42: temporal.api.activity.v1.CallbackInfo.info:type_name -> temporal.api.callback.v1.CallbackInfo
-	5,  // 43: temporal.api.activity.v1.CallbackInfo.Trigger.activity_closed:type_name -> temporal.api.activity.v1.CallbackInfo.ActivityClosed
-	44, // [44:44] is the sub-list for method output_type
-	44, // [44:44] is the sub-list for method input_type
-	44, // [44:44] is the sub-list for extension type_name
-	44, // [44:44] is the sub-list for extension extendee
-	0,  // [0:44] is the sub-list for field type_name
+	10, // 9: temporal.api.activity.v1.ActivityOptions.start_delay:type_name -> google.protobuf.Duration
+	13, // 10: temporal.api.activity.v1.ActivityExecutionInfo.activity_type:type_name -> temporal.api.common.v1.ActivityType
+	14, // 11: temporal.api.activity.v1.ActivityExecutionInfo.status:type_name -> temporal.api.enums.v1.ActivityExecutionStatus
+	15, // 12: temporal.api.activity.v1.ActivityExecutionInfo.run_state:type_name -> temporal.api.enums.v1.PendingActivityState
+	10, // 13: temporal.api.activity.v1.ActivityExecutionInfo.schedule_to_close_timeout:type_name -> google.protobuf.Duration
+	10, // 14: temporal.api.activity.v1.ActivityExecutionInfo.schedule_to_start_timeout:type_name -> google.protobuf.Duration
+	10, // 15: temporal.api.activity.v1.ActivityExecutionInfo.start_to_close_timeout:type_name -> google.protobuf.Duration
+	10, // 16: temporal.api.activity.v1.ActivityExecutionInfo.heartbeat_timeout:type_name -> google.protobuf.Duration
+	11, // 17: temporal.api.activity.v1.ActivityExecutionInfo.retry_policy:type_name -> temporal.api.common.v1.RetryPolicy
+	7,  // 18: temporal.api.activity.v1.ActivityExecutionInfo.heartbeat_details:type_name -> temporal.api.common.v1.Payloads
+	16, // 19: temporal.api.activity.v1.ActivityExecutionInfo.last_heartbeat_time:type_name -> google.protobuf.Timestamp
+	16, // 20: temporal.api.activity.v1.ActivityExecutionInfo.last_started_time:type_name -> google.protobuf.Timestamp
+	10, // 21: temporal.api.activity.v1.ActivityExecutionInfo.execution_duration:type_name -> google.protobuf.Duration
+	16, // 22: temporal.api.activity.v1.ActivityExecutionInfo.schedule_time:type_name -> google.protobuf.Timestamp
+	16, // 23: temporal.api.activity.v1.ActivityExecutionInfo.expiration_time:type_name -> google.protobuf.Timestamp
+	16, // 24: temporal.api.activity.v1.ActivityExecutionInfo.close_time:type_name -> google.protobuf.Timestamp
+	8,  // 25: temporal.api.activity.v1.ActivityExecutionInfo.last_failure:type_name -> temporal.api.failure.v1.Failure
+	10, // 26: temporal.api.activity.v1.ActivityExecutionInfo.current_retry_interval:type_name -> google.protobuf.Duration
+	16, // 27: temporal.api.activity.v1.ActivityExecutionInfo.last_attempt_complete_time:type_name -> google.protobuf.Timestamp
+	16, // 28: temporal.api.activity.v1.ActivityExecutionInfo.next_attempt_schedule_time:type_name -> google.protobuf.Timestamp
+	17, // 29: temporal.api.activity.v1.ActivityExecutionInfo.last_deployment_version:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersion
+	12, // 30: temporal.api.activity.v1.ActivityExecutionInfo.priority:type_name -> temporal.api.common.v1.Priority
+	18, // 31: temporal.api.activity.v1.ActivityExecutionInfo.search_attributes:type_name -> temporal.api.common.v1.SearchAttributes
+	19, // 32: temporal.api.activity.v1.ActivityExecutionInfo.header:type_name -> temporal.api.common.v1.Header
+	20, // 33: temporal.api.activity.v1.ActivityExecutionInfo.user_metadata:type_name -> temporal.api.sdk.v1.UserMetadata
+	21, // 34: temporal.api.activity.v1.ActivityExecutionInfo.links:type_name -> temporal.api.common.v1.Link
+	10, // 35: temporal.api.activity.v1.ActivityExecutionInfo.start_delay:type_name -> google.protobuf.Duration
+	16, // 36: temporal.api.activity.v1.ActivityExecutionInfo.execution_time:type_name -> google.protobuf.Timestamp
+	13, // 37: temporal.api.activity.v1.ActivityExecutionListInfo.activity_type:type_name -> temporal.api.common.v1.ActivityType
+	16, // 38: temporal.api.activity.v1.ActivityExecutionListInfo.schedule_time:type_name -> google.protobuf.Timestamp
+	16, // 39: temporal.api.activity.v1.ActivityExecutionListInfo.close_time:type_name -> google.protobuf.Timestamp
+	14, // 40: temporal.api.activity.v1.ActivityExecutionListInfo.status:type_name -> temporal.api.enums.v1.ActivityExecutionStatus
+	18, // 41: temporal.api.activity.v1.ActivityExecutionListInfo.search_attributes:type_name -> temporal.api.common.v1.SearchAttributes
+	10, // 42: temporal.api.activity.v1.ActivityExecutionListInfo.execution_duration:type_name -> google.protobuf.Duration
+	6,  // 43: temporal.api.activity.v1.CallbackInfo.trigger:type_name -> temporal.api.activity.v1.CallbackInfo.Trigger
+	22, // 44: temporal.api.activity.v1.CallbackInfo.info:type_name -> temporal.api.callback.v1.CallbackInfo
+	5,  // 45: temporal.api.activity.v1.CallbackInfo.Trigger.activity_closed:type_name -> temporal.api.activity.v1.CallbackInfo.ActivityClosed
+	46, // [46:46] is the sub-list for method output_type
+	46, // [46:46] is the sub-list for method input_type
+	46, // [46:46] is the sub-list for extension type_name
+	46, // [46:46] is the sub-list for extension extendee
+	0,  // [0:46] is the sub-list for field type_name
 }
 
 func init() { file_temporal_api_activity_v1_message_proto_init() }

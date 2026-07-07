@@ -665,6 +665,67 @@ func (WorkerStatus) EnumDescriptor() ([]byte, []int) {
 	return file_temporal_api_enums_v1_common_proto_rawDescGZIP(), []int{8}
 }
 
+type ExecutionType int32
+
+const (
+	EXECUTION_TYPE_UNSPECIFIED ExecutionType = 0
+	// A workflow execution archetype.
+	EXECUTION_TYPE_WORKFLOW ExecutionType = 1
+	// An activity execution archetype. This is reserved for standalone activities.
+	EXECUTION_TYPE_ACTIVITY ExecutionType = 2
+)
+
+// Enum value maps for ExecutionType.
+var (
+	ExecutionType_name = map[int32]string{
+		0: "EXECUTION_TYPE_UNSPECIFIED",
+		1: "EXECUTION_TYPE_WORKFLOW",
+		2: "EXECUTION_TYPE_ACTIVITY",
+	}
+	ExecutionType_value = map[string]int32{
+		"EXECUTION_TYPE_UNSPECIFIED": 0,
+		"EXECUTION_TYPE_WORKFLOW":    1,
+		"EXECUTION_TYPE_ACTIVITY":    2,
+	}
+)
+
+func (x ExecutionType) Enum() *ExecutionType {
+	p := new(ExecutionType)
+	*p = x
+	return p
+}
+
+func (x ExecutionType) String() string {
+	switch x {
+	case EXECUTION_TYPE_UNSPECIFIED:
+		return "Unspecified"
+	case EXECUTION_TYPE_WORKFLOW:
+		return "Workflow"
+	case EXECUTION_TYPE_ACTIVITY:
+		return "Activity"
+	default:
+		return strconv.Itoa(int(x))
+	}
+
+}
+
+func (ExecutionType) Descriptor() protoreflect.EnumDescriptor {
+	return file_temporal_api_enums_v1_common_proto_enumTypes[9].Descriptor()
+}
+
+func (ExecutionType) Type() protoreflect.EnumType {
+	return &file_temporal_api_enums_v1_common_proto_enumTypes[9]
+}
+
+func (x ExecutionType) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use ExecutionType.Descriptor instead.
+func (ExecutionType) EnumDescriptor() ([]byte, []int) {
+	return file_temporal_api_enums_v1_common_proto_rawDescGZIP(), []int{9}
+}
+
 var File_temporal_api_enums_v1_common_proto protoreflect.FileDescriptor
 
 const file_temporal_api_enums_v1_common_proto_rawDesc = "" +
@@ -721,7 +782,11 @@ const file_temporal_api_enums_v1_common_proto_rawDesc = "" +
 	"\x19WORKER_STATUS_UNSPECIFIED\x10\x00\x12\x19\n" +
 	"\x15WORKER_STATUS_RUNNING\x10\x01\x12\x1f\n" +
 	"\x1bWORKER_STATUS_SHUTTING_DOWN\x10\x02\x12\x1a\n" +
-	"\x16WORKER_STATUS_SHUTDOWN\x10\x03B\x83\x01\n" +
+	"\x16WORKER_STATUS_SHUTDOWN\x10\x03*i\n" +
+	"\rExecutionType\x12\x1e\n" +
+	"\x1aEXECUTION_TYPE_UNSPECIFIED\x10\x00\x12\x1b\n" +
+	"\x17EXECUTION_TYPE_WORKFLOW\x10\x01\x12\x1b\n" +
+	"\x17EXECUTION_TYPE_ACTIVITY\x10\x02B\x83\x01\n" +
 	"\x18io.temporal.api.enums.v1B\vCommonProtoP\x01Z!go.temporal.io/api/enums/v1;enums\xaa\x02\x17Temporalio.Api.Enums.V1\xea\x02\x1aTemporalio::Api::Enums::V1b\x06proto3"
 
 var (
@@ -736,7 +801,7 @@ func file_temporal_api_enums_v1_common_proto_rawDescGZIP() []byte {
 	return file_temporal_api_enums_v1_common_proto_rawDescData
 }
 
-var file_temporal_api_enums_v1_common_proto_enumTypes = make([]protoimpl.EnumInfo, 9)
+var file_temporal_api_enums_v1_common_proto_enumTypes = make([]protoimpl.EnumInfo, 10)
 var file_temporal_api_enums_v1_common_proto_goTypes = []any{
 	(EncodingType)(0),                    // 0: temporal.api.enums.v1.EncodingType
 	(IndexedValueType)(0),                // 1: temporal.api.enums.v1.IndexedValueType
@@ -747,6 +812,7 @@ var file_temporal_api_enums_v1_common_proto_goTypes = []any{
 	(WorkflowRuleActionScope)(0),         // 6: temporal.api.enums.v1.WorkflowRuleActionScope
 	(ApplicationErrorCategory)(0),        // 7: temporal.api.enums.v1.ApplicationErrorCategory
 	(WorkerStatus)(0),                    // 8: temporal.api.enums.v1.WorkerStatus
+	(ExecutionType)(0),                   // 9: temporal.api.enums.v1.ExecutionType
 }
 var file_temporal_api_enums_v1_common_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for method output_type
@@ -766,7 +832,7 @@ func file_temporal_api_enums_v1_common_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_temporal_api_enums_v1_common_proto_rawDesc), len(file_temporal_api_enums_v1_common_proto_rawDesc)),
-			NumEnums:      9,
+			NumEnums:      10,
 			NumMessages:   0,
 			NumExtensions: 0,
 			NumServices:   0,

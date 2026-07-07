@@ -87,7 +87,7 @@ func (x VersioningOverride_PinnedOverrideBehavior) Number() protoreflect.EnumNum
 
 // Deprecated: Use VersioningOverride_PinnedOverrideBehavior.Descriptor instead.
 func (VersioningOverride_PinnedOverrideBehavior) EnumDescriptor() ([]byte, []int) {
-	return file_temporal_api_workflow_v1_message_proto_rawDescGZIP(), []int{17, 0}
+	return file_temporal_api_workflow_v1_message_proto_rawDescGZIP(), []int{16, 0}
 }
 
 // Hold basic information about a workflow execution.
@@ -2134,10 +2134,16 @@ type WorkflowExecutionOptions struct {
 	VersioningOverride *VersioningOverride `protobuf:"bytes,1,opt,name=versioning_override,json=versioningOverride,proto3" json:"versioning_override,omitempty"`
 	// If set, overrides the workflow's priority sent by the SDK.
 	Priority *v1.Priority `protobuf:"bytes,2,opt,name=priority,proto3" json:"priority,omitempty"`
-	// Time-skipping configuration for this workflow execution.
-	// If not set, the time-skipping configuration is not updated by this request;
-	// the existing configuration is preserved.
-	TimeSkippingConfig *TimeSkippingConfig `protobuf:"bytes,3,opt,name=time_skipping_config,json=timeSkippingConfig,proto3" json:"time_skipping_config,omitempty"`
+	// The time-skipping configuration for this workflow execution.
+	// When `fast_forward` is set, time will be fast-forwarded to a future point relative
+	// to the current workflow timestamp. Each call takes effect, even if
+	// `fast_forward` is set to the same duration, since the target time is recalculated
+	// from the current timestamp on every call.
+	//
+	// This field must be updated as a whole; updating individual sub-fields is not supported.
+	// When setting the update mask in `UpdateWorkflowExecutionOptionsRequest`,
+	// `BatchOperationUpdateWorkflowExecutionOptions`, etc., use a mask that covers the entire field.
+	TimeSkippingConfig *v1.TimeSkippingConfig `protobuf:"bytes,3,opt,name=time_skipping_config,json=timeSkippingConfig,proto3" json:"time_skipping_config,omitempty"`
 	unknownFields      protoimpl.UnknownFields
 	sizeCache          protoimpl.SizeCache
 }
@@ -2186,137 +2192,12 @@ func (x *WorkflowExecutionOptions) GetPriority() *v1.Priority {
 	return nil
 }
 
-func (x *WorkflowExecutionOptions) GetTimeSkippingConfig() *TimeSkippingConfig {
+func (x *WorkflowExecutionOptions) GetTimeSkippingConfig() *v1.TimeSkippingConfig {
 	if x != nil {
 		return x.TimeSkippingConfig
 	}
 	return nil
 }
-
-// Configuration for time skipping during a workflow execution.
-// When enabled, virtual time advances automatically whenever there is no in-flight work.
-// In-flight work includes activities, child workflows, Nexus operations, signal/cancel external workflow operations,
-// and possibly other features added in the future.
-// User timers are not classified as in-flight work and will be skipped over.
-// When time advances, it skips to the earlier of the next user timer or the configured bound, if either exists.
-//
-// Propagation behavior of time skipping:
-// The enabled flag, bound fields, and accumulated skipped duration are propagated to related executions as follows:
-// (1) Child workflows and continue-as-new: both the configuration and the accumulated skipped duration are
-//
-//	inherited from the current execution. The configured bound is shared between the inherited skipped
-//	duration and any additional duration skipped by the new run.
-//
-// (2) Retry and cron: the configuration and accumulated skipped duration are inherited as recorded when the
-//
-//	current workflow started; the accumulated skipped duration of the current run is not propagated.
-//
-// (3) Reset: the new run retains the time-skipping configuration of the current execution. Because reset replays
-//
-//	all events up to the reset point and re-applies any UpdateWorkflowExecutionOptions changes made after that
-//	point, the resulting run ends up with the same final time-skipping configuration as the previous run.
-type TimeSkippingConfig struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// Enables or disables time skipping for this workflow execution.
-	Enabled bool `protobuf:"varint,1,opt,name=enabled,proto3" json:"enabled,omitempty"`
-	// Optional bound that limits the gap between the virtual time of this execution and wall-clock time.
-	// Once the bound is reached, time skipping is automatically disabled,
-	// but can be re-enabled by setting `enabled` to true via UpdateWorkflowExecutionOptions.
-	// This bound cannot be set to a value smaller than the execution's currently skipped duration.
-	//
-	// This is useful in testing scenarios where a workflow is expected to receive
-	// signals, updates, or other external events while timers are in progress.
-	//
-	// Types that are valid to be assigned to Bound:
-	//
-	//	*TimeSkippingConfig_MaxSkippedDuration
-	//	*TimeSkippingConfig_MaxElapsedDuration
-	Bound         isTimeSkippingConfig_Bound `protobuf_oneof:"bound"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *TimeSkippingConfig) Reset() {
-	*x = TimeSkippingConfig{}
-	mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[16]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *TimeSkippingConfig) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*TimeSkippingConfig) ProtoMessage() {}
-
-func (x *TimeSkippingConfig) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[16]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use TimeSkippingConfig.ProtoReflect.Descriptor instead.
-func (*TimeSkippingConfig) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflow_v1_message_proto_rawDescGZIP(), []int{16}
-}
-
-func (x *TimeSkippingConfig) GetEnabled() bool {
-	if x != nil {
-		return x.Enabled
-	}
-	return false
-}
-
-func (x *TimeSkippingConfig) GetBound() isTimeSkippingConfig_Bound {
-	if x != nil {
-		return x.Bound
-	}
-	return nil
-}
-
-func (x *TimeSkippingConfig) GetMaxSkippedDuration() *durationpb.Duration {
-	if x != nil {
-		if x, ok := x.Bound.(*TimeSkippingConfig_MaxSkippedDuration); ok {
-			return x.MaxSkippedDuration
-		}
-	}
-	return nil
-}
-
-func (x *TimeSkippingConfig) GetMaxElapsedDuration() *durationpb.Duration {
-	if x != nil {
-		if x, ok := x.Bound.(*TimeSkippingConfig_MaxElapsedDuration); ok {
-			return x.MaxElapsedDuration
-		}
-	}
-	return nil
-}
-
-type isTimeSkippingConfig_Bound interface {
-	isTimeSkippingConfig_Bound()
-}
-
-type TimeSkippingConfig_MaxSkippedDuration struct {
-	// Maximum total virtual time that can be skipped.
-	MaxSkippedDuration *durationpb.Duration `protobuf:"bytes,4,opt,name=max_skipped_duration,json=maxSkippedDuration,proto3,oneof"`
-}
-
-type TimeSkippingConfig_MaxElapsedDuration struct {
-	// Maximum elapsed time since time skipping was enabled.
-	// This includes both skipped time and real time elapsing.
-	// (-- api-linter: core::0142::time-field-names=disabled --)
-	MaxElapsedDuration *durationpb.Duration `protobuf:"bytes,5,opt,name=max_elapsed_duration,json=maxElapsedDuration,proto3,oneof"`
-}
-
-func (*TimeSkippingConfig_MaxSkippedDuration) isTimeSkippingConfig_Bound() {}
-
-func (*TimeSkippingConfig_MaxElapsedDuration) isTimeSkippingConfig_Bound() {}
 
 // Used to override the versioning behavior (and pinned deployment version, if applicable) of a
 // specific workflow execution. If set, this override takes precedence over worker-sent values.
@@ -2335,6 +2216,7 @@ type VersioningOverride struct {
 	//
 	//	*VersioningOverride_Pinned
 	//	*VersioningOverride_AutoUpgrade
+	//	*VersioningOverride_OneTime
 	Override isVersioningOverride_Override `protobuf_oneof:"override"`
 	// Required.
 	// Deprecated. Use `override`.
@@ -2360,7 +2242,7 @@ type VersioningOverride struct {
 
 func (x *VersioningOverride) Reset() {
 	*x = VersioningOverride{}
-	mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[17]
+	mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[16]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2372,7 +2254,7 @@ func (x *VersioningOverride) String() string {
 func (*VersioningOverride) ProtoMessage() {}
 
 func (x *VersioningOverride) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[17]
+	mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[16]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2385,7 +2267,7 @@ func (x *VersioningOverride) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use VersioningOverride.ProtoReflect.Descriptor instead.
 func (*VersioningOverride) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflow_v1_message_proto_rawDescGZIP(), []int{17}
+	return file_temporal_api_workflow_v1_message_proto_rawDescGZIP(), []int{16}
 }
 
 func (x *VersioningOverride) GetOverride() isVersioningOverride_Override {
@@ -2411,6 +2293,15 @@ func (x *VersioningOverride) GetAutoUpgrade() bool {
 		}
 	}
 	return false
+}
+
+func (x *VersioningOverride) GetOneTime() *VersioningOverride_OneTimeOverride {
+	if x != nil {
+		if x, ok := x.Override.(*VersioningOverride_OneTime); ok {
+			return x.OneTime
+		}
+	}
+	return nil
 }
 
 // Deprecated: Marked as deprecated in temporal/api/workflow/v1/message.proto.
@@ -2442,7 +2333,9 @@ type isVersioningOverride_Override interface {
 }
 
 type VersioningOverride_Pinned struct {
-	// Override the workflow to have Pinned behavior.
+	// Override the workflow to have Pinned behavior. This is a sticky override:
+	// Workflow Tasks continue to route according to this override until it is
+	// explicitly removed.
 	Pinned *VersioningOverride_PinnedOverride `protobuf:"bytes,3,opt,name=pinned,proto3,oneof"`
 }
 
@@ -2451,9 +2344,22 @@ type VersioningOverride_AutoUpgrade struct {
 	AutoUpgrade bool `protobuf:"varint,4,opt,name=auto_upgrade,json=autoUpgrade,proto3,oneof"`
 }
 
+type VersioningOverride_OneTime struct {
+	// Override Workflow Task routing to a specific Worker Deployment Version until
+	// one Workflow Task completes there. After completion, the workflow execution's
+	// Versioning Behavior and Deployment Version come from the worker's completion
+	// response.
+	// (-- api-linter: core::0142::time-field-type=disabled
+	//
+	//	aip.dev/not-precedent: one_time describes one-time routing semantics, not a timestamp or duration. --)
+	OneTime *VersioningOverride_OneTimeOverride `protobuf:"bytes,5,opt,name=one_time,json=oneTime,proto3,oneof"`
+}
+
 func (*VersioningOverride_Pinned) isVersioningOverride_Override() {}
 
 func (*VersioningOverride_AutoUpgrade) isVersioningOverride_Override() {}
+
+func (*VersioningOverride_OneTime) isVersioningOverride_Override() {}
 
 // When StartWorkflowExecution uses the conflict policy WORKFLOW_ID_CONFLICT_POLICY_USE_EXISTING and
 // there is already an existing running workflow, OnConflictOptions defines actions to be taken on
@@ -2473,7 +2379,7 @@ type OnConflictOptions struct {
 
 func (x *OnConflictOptions) Reset() {
 	*x = OnConflictOptions{}
-	mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[18]
+	mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[17]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2485,7 +2391,7 @@ func (x *OnConflictOptions) String() string {
 func (*OnConflictOptions) ProtoMessage() {}
 
 func (x *OnConflictOptions) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[18]
+	mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[17]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2498,7 +2404,7 @@ func (x *OnConflictOptions) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use OnConflictOptions.ProtoReflect.Descriptor instead.
 func (*OnConflictOptions) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflow_v1_message_proto_rawDescGZIP(), []int{18}
+	return file_temporal_api_workflow_v1_message_proto_rawDescGZIP(), []int{17}
 }
 
 func (x *OnConflictOptions) GetAttachRequestId() bool {
@@ -2540,7 +2446,7 @@ type RequestIdInfo struct {
 
 func (x *RequestIdInfo) Reset() {
 	*x = RequestIdInfo{}
-	mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[19]
+	mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[18]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2552,7 +2458,7 @@ func (x *RequestIdInfo) String() string {
 func (*RequestIdInfo) ProtoMessage() {}
 
 func (x *RequestIdInfo) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[19]
+	mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[18]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2565,7 +2471,7 @@ func (x *RequestIdInfo) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RequestIdInfo.ProtoReflect.Descriptor instead.
 func (*RequestIdInfo) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflow_v1_message_proto_rawDescGZIP(), []int{19}
+	return file_temporal_api_workflow_v1_message_proto_rawDescGZIP(), []int{18}
 }
 
 func (x *RequestIdInfo) GetEventType() v11.EventType {
@@ -2603,7 +2509,7 @@ type PostResetOperation struct {
 
 func (x *PostResetOperation) Reset() {
 	*x = PostResetOperation{}
-	mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[20]
+	mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[19]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2615,7 +2521,7 @@ func (x *PostResetOperation) String() string {
 func (*PostResetOperation) ProtoMessage() {}
 
 func (x *PostResetOperation) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[20]
+	mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[19]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2628,7 +2534,7 @@ func (x *PostResetOperation) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PostResetOperation.ProtoReflect.Descriptor instead.
 func (*PostResetOperation) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflow_v1_message_proto_rawDescGZIP(), []int{20}
+	return file_temporal_api_workflow_v1_message_proto_rawDescGZIP(), []int{19}
 }
 
 func (x *PostResetOperation) GetVariant() isPostResetOperation_Variant {
@@ -2687,7 +2593,7 @@ type WorkflowExecutionPauseInfo struct {
 
 func (x *WorkflowExecutionPauseInfo) Reset() {
 	*x = WorkflowExecutionPauseInfo{}
-	mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[21]
+	mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[20]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2699,7 +2605,7 @@ func (x *WorkflowExecutionPauseInfo) String() string {
 func (*WorkflowExecutionPauseInfo) ProtoMessage() {}
 
 func (x *WorkflowExecutionPauseInfo) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[21]
+	mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[20]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2712,7 +2618,7 @@ func (x *WorkflowExecutionPauseInfo) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use WorkflowExecutionPauseInfo.ProtoReflect.Descriptor instead.
 func (*WorkflowExecutionPauseInfo) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflow_v1_message_proto_rawDescGZIP(), []int{21}
+	return file_temporal_api_workflow_v1_message_proto_rawDescGZIP(), []int{20}
 }
 
 func (x *WorkflowExecutionPauseInfo) GetIdentity() string {
@@ -2751,7 +2657,7 @@ type PendingActivityInfo_PauseInfo struct {
 
 func (x *PendingActivityInfo_PauseInfo) Reset() {
 	*x = PendingActivityInfo_PauseInfo{}
-	mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[23]
+	mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[22]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2763,7 +2669,7 @@ func (x *PendingActivityInfo_PauseInfo) String() string {
 func (*PendingActivityInfo_PauseInfo) ProtoMessage() {}
 
 func (x *PendingActivityInfo_PauseInfo) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[23]
+	mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[22]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2841,7 +2747,7 @@ type PendingActivityInfo_PauseInfo_Manual struct {
 
 func (x *PendingActivityInfo_PauseInfo_Manual) Reset() {
 	*x = PendingActivityInfo_PauseInfo_Manual{}
-	mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[24]
+	mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[23]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2853,7 +2759,7 @@ func (x *PendingActivityInfo_PauseInfo_Manual) String() string {
 func (*PendingActivityInfo_PauseInfo_Manual) ProtoMessage() {}
 
 func (x *PendingActivityInfo_PauseInfo_Manual) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[24]
+	mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[23]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2897,7 +2803,7 @@ type PendingActivityInfo_PauseInfo_Rule struct {
 
 func (x *PendingActivityInfo_PauseInfo_Rule) Reset() {
 	*x = PendingActivityInfo_PauseInfo_Rule{}
-	mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[25]
+	mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[24]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2909,7 +2815,7 @@ func (x *PendingActivityInfo_PauseInfo_Rule) String() string {
 func (*PendingActivityInfo_PauseInfo_Rule) ProtoMessage() {}
 
 func (x *PendingActivityInfo_PauseInfo_Rule) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[25]
+	mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[24]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2955,7 +2861,7 @@ type CallbackInfo_WorkflowClosed struct {
 
 func (x *CallbackInfo_WorkflowClosed) Reset() {
 	*x = CallbackInfo_WorkflowClosed{}
-	mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[26]
+	mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[25]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2967,7 +2873,7 @@ func (x *CallbackInfo_WorkflowClosed) String() string {
 func (*CallbackInfo_WorkflowClosed) ProtoMessage() {}
 
 func (x *CallbackInfo_WorkflowClosed) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[26]
+	mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[25]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2993,7 +2899,7 @@ type CallbackInfo_UpdateWorkflowExecutionCompleted struct {
 
 func (x *CallbackInfo_UpdateWorkflowExecutionCompleted) Reset() {
 	*x = CallbackInfo_UpdateWorkflowExecutionCompleted{}
-	mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[27]
+	mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[26]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3005,7 +2911,7 @@ func (x *CallbackInfo_UpdateWorkflowExecutionCompleted) String() string {
 func (*CallbackInfo_UpdateWorkflowExecutionCompleted) ProtoMessage() {}
 
 func (x *CallbackInfo_UpdateWorkflowExecutionCompleted) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[27]
+	mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[26]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3041,7 +2947,7 @@ type CallbackInfo_Trigger struct {
 
 func (x *CallbackInfo_Trigger) Reset() {
 	*x = CallbackInfo_Trigger{}
-	mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[28]
+	mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[27]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3053,7 +2959,7 @@ func (x *CallbackInfo_Trigger) String() string {
 func (*CallbackInfo_Trigger) ProtoMessage() {}
 
 func (x *CallbackInfo_Trigger) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[28]
+	mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[27]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3130,7 +3036,7 @@ type VersioningOverride_PinnedOverride struct {
 
 func (x *VersioningOverride_PinnedOverride) Reset() {
 	*x = VersioningOverride_PinnedOverride{}
-	mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[29]
+	mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[28]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3142,7 +3048,7 @@ func (x *VersioningOverride_PinnedOverride) String() string {
 func (*VersioningOverride_PinnedOverride) ProtoMessage() {}
 
 func (x *VersioningOverride_PinnedOverride) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[29]
+	mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[28]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3155,7 +3061,7 @@ func (x *VersioningOverride_PinnedOverride) ProtoReflect() protoreflect.Message 
 
 // Deprecated: Use VersioningOverride_PinnedOverride.ProtoReflect.Descriptor instead.
 func (*VersioningOverride_PinnedOverride) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflow_v1_message_proto_rawDescGZIP(), []int{17, 0}
+	return file_temporal_api_workflow_v1_message_proto_rawDescGZIP(), []int{16, 0}
 }
 
 func (x *VersioningOverride_PinnedOverride) GetBehavior() VersioningOverride_PinnedOverrideBehavior {
@@ -3168,6 +3074,70 @@ func (x *VersioningOverride_PinnedOverride) GetBehavior() VersioningOverride_Pin
 func (x *VersioningOverride_PinnedOverride) GetVersion() *v12.WorkerDeploymentVersion {
 	if x != nil {
 		return x.Version
+	}
+	return nil
+}
+
+// Routes Workflow Tasks for this execution to `target_deployment_version`
+// until a Workflow Task completes on that version, then clears the override.
+//
+// This does not force the workflow's normal Versioning Behavior to become
+// Pinned. After the Workflow Task completes on `target_deployment_version`,
+// the workflow execution's normal Versioning Behavior and Deployment Version
+// are taken from the worker's completion response.
+//
+// Example: if an execution is one-time moved from version X to version Y, and
+// version Z later becomes current:
+//   - if worker Y reports Pinned, the execution stays on Y;
+//   - if worker Y reports AutoUpgrade, the execution routes to Z on a future
+//     Workflow Task;
+//   - if worker Y reports Pinned and the workflow uses upgrade-on-continue-as-new,
+//     the current run stays on Y and the execution can route to Z after
+//     continue-as-new.
+//
+// If no Workflow Task completes on `target_deployment_version`, this override
+// remains pending.
+type VersioningOverride_OneTimeOverride struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Required. Worker Deployment Version to receive the one-time Workflow Task.
+	TargetDeploymentVersion *v12.WorkerDeploymentVersion `protobuf:"bytes,1,opt,name=target_deployment_version,json=targetDeploymentVersion,proto3" json:"target_deployment_version,omitempty"`
+	unknownFields           protoimpl.UnknownFields
+	sizeCache               protoimpl.SizeCache
+}
+
+func (x *VersioningOverride_OneTimeOverride) Reset() {
+	*x = VersioningOverride_OneTimeOverride{}
+	mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[29]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *VersioningOverride_OneTimeOverride) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*VersioningOverride_OneTimeOverride) ProtoMessage() {}
+
+func (x *VersioningOverride_OneTimeOverride) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[29]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use VersioningOverride_OneTimeOverride.ProtoReflect.Descriptor instead.
+func (*VersioningOverride_OneTimeOverride) Descriptor() ([]byte, []int) {
+	return file_temporal_api_workflow_v1_message_proto_rawDescGZIP(), []int{16, 1}
+}
+
+func (x *VersioningOverride_OneTimeOverride) GetTargetDeploymentVersion() *v12.WorkerDeploymentVersion {
+	if x != nil {
+		return x.TargetDeploymentVersion
 	}
 	return nil
 }
@@ -3215,7 +3185,7 @@ func (x *PostResetOperation_SignalWorkflow) ProtoReflect() protoreflect.Message 
 
 // Deprecated: Use PostResetOperation_SignalWorkflow.ProtoReflect.Descriptor instead.
 func (*PostResetOperation_SignalWorkflow) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflow_v1_message_proto_rawDescGZIP(), []int{20, 0}
+	return file_temporal_api_workflow_v1_message_proto_rawDescGZIP(), []int{19, 0}
 }
 
 func (x *PostResetOperation_SignalWorkflow) GetSignalName() string {
@@ -3286,7 +3256,7 @@ func (x *PostResetOperation_UpdateWorkflowOptions) ProtoReflect() protoreflect.M
 
 // Deprecated: Use PostResetOperation_UpdateWorkflowOptions.ProtoReflect.Descriptor instead.
 func (*PostResetOperation_UpdateWorkflowOptions) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflow_v1_message_proto_rawDescGZIP(), []int{20, 1}
+	return file_temporal_api_workflow_v1_message_proto_rawDescGZIP(), []int{19, 1}
 }
 
 func (x *PostResetOperation_UpdateWorkflowOptions) GetWorkflowExecutionOptions() *WorkflowExecutionOptions {
@@ -3513,19 +3483,15 @@ const file_temporal_api_workflow_v1_message_proto_rawDesc = "" +
 	"\x1alast_attempt_complete_time\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\x17lastAttemptCompleteTime\x12R\n" +
 	"\x14last_attempt_failure\x18\x05 \x01(\v2 .temporal.api.failure.v1.FailureR\x12lastAttemptFailure\x12W\n" +
 	"\x1anext_attempt_schedule_time\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\x17nextAttemptScheduleTime\x12%\n" +
-	"\x0eblocked_reason\x18\a \x01(\tR\rblockedReason\"\x97\x02\n" +
+	"\x0eblocked_reason\x18\a \x01(\tR\rblockedReason\"\x95\x02\n" +
 	"\x18WorkflowExecutionOptions\x12]\n" +
 	"\x13versioning_override\x18\x01 \x01(\v2,.temporal.api.workflow.v1.VersioningOverrideR\x12versioningOverride\x12<\n" +
-	"\bpriority\x18\x02 \x01(\v2 .temporal.api.common.v1.PriorityR\bpriority\x12^\n" +
-	"\x14time_skipping_config\x18\x03 \x01(\v2,.temporal.api.workflow.v1.TimeSkippingConfigR\x12timeSkippingConfig\"\x87\x02\n" +
-	"\x12TimeSkippingConfig\x12\x18\n" +
-	"\aenabled\x18\x01 \x01(\bR\aenabled\x12M\n" +
-	"\x14max_skipped_duration\x18\x04 \x01(\v2\x19.google.protobuf.DurationH\x00R\x12maxSkippedDuration\x12M\n" +
-	"\x14max_elapsed_duration\x18\x05 \x01(\v2\x19.google.protobuf.DurationH\x00R\x12maxElapsedDurationB\a\n" +
-	"\x05boundJ\x04\b\x02\x10\x03J\x04\b\x06\x10\aR\x13disable_propagationR\x0fmax_target_time\"\x8a\x05\n" +
+	"\bpriority\x18\x02 \x01(\v2 .temporal.api.common.v1.PriorityR\bpriority\x12\\\n" +
+	"\x14time_skipping_config\x18\x03 \x01(\v2*.temporal.api.common.v1.TimeSkippingConfigR\x12timeSkippingConfig\"\xea\x06\n" +
 	"\x12VersioningOverride\x12U\n" +
 	"\x06pinned\x18\x03 \x01(\v2;.temporal.api.workflow.v1.VersioningOverride.PinnedOverrideH\x00R\x06pinned\x12#\n" +
-	"\fauto_upgrade\x18\x04 \x01(\bH\x00R\vautoUpgrade\x12I\n" +
+	"\fauto_upgrade\x18\x04 \x01(\bH\x00R\vautoUpgrade\x12Y\n" +
+	"\bone_time\x18\x05 \x01(\v2<.temporal.api.workflow.v1.VersioningOverride.OneTimeOverrideH\x00R\aoneTime\x12I\n" +
 	"\bbehavior\x18\x01 \x01(\x0e2).temporal.api.enums.v1.VersioningBehaviorB\x02\x18\x01R\bbehavior\x12J\n" +
 	"\n" +
 	"deployment\x18\x02 \x01(\v2&.temporal.api.deployment.v1.DeploymentB\x02\x18\x01R\n" +
@@ -3533,7 +3499,9 @@ const file_temporal_api_workflow_v1_message_proto_rawDesc = "" +
 	"\x0epinned_version\x18\t \x01(\tB\x02\x18\x01R\rpinnedVersion\x1a\xc0\x01\n" +
 	"\x0ePinnedOverride\x12_\n" +
 	"\bbehavior\x18\x01 \x01(\x0e2C.temporal.api.workflow.v1.VersioningOverride.PinnedOverrideBehaviorR\bbehavior\x12M\n" +
-	"\aversion\x18\x02 \x01(\v23.temporal.api.deployment.v1.WorkerDeploymentVersionR\aversion\"g\n" +
+	"\aversion\x18\x02 \x01(\v23.temporal.api.deployment.v1.WorkerDeploymentVersionR\aversion\x1a\x82\x01\n" +
+	"\x0fOneTimeOverride\x12o\n" +
+	"\x19target_deployment_version\x18\x01 \x01(\v23.temporal.api.deployment.v1.WorkerDeploymentVersionR\x17targetDeploymentVersion\"g\n" +
 	"\x16PinnedOverrideBehavior\x12(\n" +
 	"$PINNED_OVERRIDE_BEHAVIOR_UNSPECIFIED\x10\x00\x12#\n" +
 	"\x1fPINNED_OVERRIDE_BEHAVIOR_PINNED\x10\x01B\n" +
@@ -3601,20 +3569,20 @@ var file_temporal_api_workflow_v1_message_proto_goTypes = []any{
 	(*PendingNexusOperationInfo)(nil),                     // 14: temporal.api.workflow.v1.PendingNexusOperationInfo
 	(*NexusOperationCancellationInfo)(nil),                // 15: temporal.api.workflow.v1.NexusOperationCancellationInfo
 	(*WorkflowExecutionOptions)(nil),                      // 16: temporal.api.workflow.v1.WorkflowExecutionOptions
-	(*TimeSkippingConfig)(nil),                            // 17: temporal.api.workflow.v1.TimeSkippingConfig
-	(*VersioningOverride)(nil),                            // 18: temporal.api.workflow.v1.VersioningOverride
-	(*OnConflictOptions)(nil),                             // 19: temporal.api.workflow.v1.OnConflictOptions
-	(*RequestIdInfo)(nil),                                 // 20: temporal.api.workflow.v1.RequestIdInfo
-	(*PostResetOperation)(nil),                            // 21: temporal.api.workflow.v1.PostResetOperation
-	(*WorkflowExecutionPauseInfo)(nil),                    // 22: temporal.api.workflow.v1.WorkflowExecutionPauseInfo
-	nil,                                                   // 23: temporal.api.workflow.v1.WorkflowExecutionExtendedInfo.RequestIdInfosEntry
-	(*PendingActivityInfo_PauseInfo)(nil),                 // 24: temporal.api.workflow.v1.PendingActivityInfo.PauseInfo
-	(*PendingActivityInfo_PauseInfo_Manual)(nil),          // 25: temporal.api.workflow.v1.PendingActivityInfo.PauseInfo.Manual
-	(*PendingActivityInfo_PauseInfo_Rule)(nil),            // 26: temporal.api.workflow.v1.PendingActivityInfo.PauseInfo.Rule
-	(*CallbackInfo_WorkflowClosed)(nil),                   // 27: temporal.api.workflow.v1.CallbackInfo.WorkflowClosed
-	(*CallbackInfo_UpdateWorkflowExecutionCompleted)(nil), // 28: temporal.api.workflow.v1.CallbackInfo.UpdateWorkflowExecutionCompleted
-	(*CallbackInfo_Trigger)(nil),                          // 29: temporal.api.workflow.v1.CallbackInfo.Trigger
-	(*VersioningOverride_PinnedOverride)(nil),             // 30: temporal.api.workflow.v1.VersioningOverride.PinnedOverride
+	(*VersioningOverride)(nil),                            // 17: temporal.api.workflow.v1.VersioningOverride
+	(*OnConflictOptions)(nil),                             // 18: temporal.api.workflow.v1.OnConflictOptions
+	(*RequestIdInfo)(nil),                                 // 19: temporal.api.workflow.v1.RequestIdInfo
+	(*PostResetOperation)(nil),                            // 20: temporal.api.workflow.v1.PostResetOperation
+	(*WorkflowExecutionPauseInfo)(nil),                    // 21: temporal.api.workflow.v1.WorkflowExecutionPauseInfo
+	nil,                                                   // 22: temporal.api.workflow.v1.WorkflowExecutionExtendedInfo.RequestIdInfosEntry
+	(*PendingActivityInfo_PauseInfo)(nil),                 // 23: temporal.api.workflow.v1.PendingActivityInfo.PauseInfo
+	(*PendingActivityInfo_PauseInfo_Manual)(nil),          // 24: temporal.api.workflow.v1.PendingActivityInfo.PauseInfo.Manual
+	(*PendingActivityInfo_PauseInfo_Rule)(nil),            // 25: temporal.api.workflow.v1.PendingActivityInfo.PauseInfo.Rule
+	(*CallbackInfo_WorkflowClosed)(nil),                   // 26: temporal.api.workflow.v1.CallbackInfo.WorkflowClosed
+	(*CallbackInfo_UpdateWorkflowExecutionCompleted)(nil), // 27: temporal.api.workflow.v1.CallbackInfo.UpdateWorkflowExecutionCompleted
+	(*CallbackInfo_Trigger)(nil),                          // 28: temporal.api.workflow.v1.CallbackInfo.Trigger
+	(*VersioningOverride_PinnedOverride)(nil),             // 29: temporal.api.workflow.v1.VersioningOverride.PinnedOverride
+	(*VersioningOverride_OneTimeOverride)(nil),            // 30: temporal.api.workflow.v1.VersioningOverride.OneTimeOverride
 	(*PostResetOperation_SignalWorkflow)(nil),             // 31: temporal.api.workflow.v1.PostResetOperation.SignalWorkflow
 	(*PostResetOperation_UpdateWorkflowOptions)(nil),      // 32: temporal.api.workflow.v1.PostResetOperation.UpdateWorkflowOptions
 	(*v1.WorkflowExecution)(nil),                          // 33: temporal.api.common.v1.WorkflowExecution
@@ -3647,9 +3615,10 @@ var file_temporal_api_workflow_v1_message_proto_goTypes = []any{
 	(v11.CallbackState)(0),                                // 60: temporal.api.enums.v1.CallbackState
 	(v11.PendingNexusOperationState)(0),                   // 61: temporal.api.enums.v1.PendingNexusOperationState
 	(v11.NexusOperationCancellationState)(0),              // 62: temporal.api.enums.v1.NexusOperationCancellationState
-	(v11.EventType)(0),                                    // 63: temporal.api.enums.v1.EventType
-	(*v1.Link)(nil),                                       // 64: temporal.api.common.v1.Link
-	(*fieldmaskpb.FieldMask)(nil),                         // 65: google.protobuf.FieldMask
+	(*v1.TimeSkippingConfig)(nil),                         // 63: temporal.api.common.v1.TimeSkippingConfig
+	(v11.EventType)(0),                                    // 64: temporal.api.enums.v1.EventType
+	(*v1.Link)(nil),                                       // 65: temporal.api.common.v1.Link
+	(*fieldmaskpb.FieldMask)(nil),                         // 66: google.protobuf.FieldMask
 }
 var file_temporal_api_workflow_v1_message_proto_depIdxs = []int32{
 	33,  // 0: temporal.api.workflow.v1.WorkflowExecutionInfo.execution:type_name -> temporal.api.common.v1.WorkflowExecution
@@ -3671,12 +3640,12 @@ var file_temporal_api_workflow_v1_message_proto_depIdxs = []int32{
 	35,  // 16: temporal.api.workflow.v1.WorkflowExecutionExtendedInfo.run_expiration_time:type_name -> google.protobuf.Timestamp
 	35,  // 17: temporal.api.workflow.v1.WorkflowExecutionExtendedInfo.last_reset_time:type_name -> google.protobuf.Timestamp
 	35,  // 18: temporal.api.workflow.v1.WorkflowExecutionExtendedInfo.original_start_time:type_name -> google.protobuf.Timestamp
-	23,  // 19: temporal.api.workflow.v1.WorkflowExecutionExtendedInfo.request_id_infos:type_name -> temporal.api.workflow.v1.WorkflowExecutionExtendedInfo.RequestIdInfosEntry
-	22,  // 20: temporal.api.workflow.v1.WorkflowExecutionExtendedInfo.pause_info:type_name -> temporal.api.workflow.v1.WorkflowExecutionPauseInfo
+	22,  // 19: temporal.api.workflow.v1.WorkflowExecutionExtendedInfo.request_id_infos:type_name -> temporal.api.workflow.v1.WorkflowExecutionExtendedInfo.RequestIdInfosEntry
+	21,  // 20: temporal.api.workflow.v1.WorkflowExecutionExtendedInfo.pause_info:type_name -> temporal.api.workflow.v1.WorkflowExecutionPauseInfo
 	42,  // 21: temporal.api.workflow.v1.WorkflowExecutionVersioningInfo.behavior:type_name -> temporal.api.enums.v1.VersioningBehavior
 	43,  // 22: temporal.api.workflow.v1.WorkflowExecutionVersioningInfo.deployment:type_name -> temporal.api.deployment.v1.Deployment
 	44,  // 23: temporal.api.workflow.v1.WorkflowExecutionVersioningInfo.deployment_version:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersion
-	18,  // 24: temporal.api.workflow.v1.WorkflowExecutionVersioningInfo.versioning_override:type_name -> temporal.api.workflow.v1.VersioningOverride
+	17,  // 24: temporal.api.workflow.v1.WorkflowExecutionVersioningInfo.versioning_override:type_name -> temporal.api.workflow.v1.VersioningOverride
 	4,   // 25: temporal.api.workflow.v1.WorkflowExecutionVersioningInfo.deployment_transition:type_name -> temporal.api.workflow.v1.DeploymentTransition
 	5,   // 26: temporal.api.workflow.v1.WorkflowExecutionVersioningInfo.version_transition:type_name -> temporal.api.workflow.v1.DeploymentVersionTransition
 	45,  // 27: temporal.api.workflow.v1.WorkflowExecutionVersioningInfo.continue_as_new_initial_versioning_behavior:type_name -> temporal.api.enums.v1.ContinueAsNewVersioningBehavior
@@ -3703,7 +3672,7 @@ var file_temporal_api_workflow_v1_message_proto_depIdxs = []int32{
 	43,  // 48: temporal.api.workflow.v1.PendingActivityInfo.last_deployment:type_name -> temporal.api.deployment.v1.Deployment
 	44,  // 49: temporal.api.workflow.v1.PendingActivityInfo.last_deployment_version:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersion
 	41,  // 50: temporal.api.workflow.v1.PendingActivityInfo.priority:type_name -> temporal.api.common.v1.Priority
-	24,  // 51: temporal.api.workflow.v1.PendingActivityInfo.pause_info:type_name -> temporal.api.workflow.v1.PendingActivityInfo.PauseInfo
+	23,  // 51: temporal.api.workflow.v1.PendingActivityInfo.pause_info:type_name -> temporal.api.workflow.v1.PendingActivityInfo.PauseInfo
 	53,  // 52: temporal.api.workflow.v1.PendingActivityInfo.activity_options:type_name -> temporal.api.activity.v1.ActivityOptions
 	54,  // 53: temporal.api.workflow.v1.PendingChildExecutionInfo.parent_close_policy:type_name -> temporal.api.enums.v1.ParentClosePolicy
 	55,  // 54: temporal.api.workflow.v1.PendingWorkflowTaskInfo.state:type_name -> temporal.api.enums.v1.PendingWorkflowTaskState
@@ -3725,10 +3694,10 @@ var file_temporal_api_workflow_v1_message_proto_depIdxs = []int32{
 	38,  // 70: temporal.api.workflow.v1.NewWorkflowExecutionInfo.search_attributes:type_name -> temporal.api.common.v1.SearchAttributes
 	58,  // 71: temporal.api.workflow.v1.NewWorkflowExecutionInfo.header:type_name -> temporal.api.common.v1.Header
 	47,  // 72: temporal.api.workflow.v1.NewWorkflowExecutionInfo.user_metadata:type_name -> temporal.api.sdk.v1.UserMetadata
-	18,  // 73: temporal.api.workflow.v1.NewWorkflowExecutionInfo.versioning_override:type_name -> temporal.api.workflow.v1.VersioningOverride
+	17,  // 73: temporal.api.workflow.v1.NewWorkflowExecutionInfo.versioning_override:type_name -> temporal.api.workflow.v1.VersioningOverride
 	41,  // 74: temporal.api.workflow.v1.NewWorkflowExecutionInfo.priority:type_name -> temporal.api.common.v1.Priority
 	59,  // 75: temporal.api.workflow.v1.CallbackInfo.callback:type_name -> temporal.api.common.v1.Callback
-	29,  // 76: temporal.api.workflow.v1.CallbackInfo.trigger:type_name -> temporal.api.workflow.v1.CallbackInfo.Trigger
+	28,  // 76: temporal.api.workflow.v1.CallbackInfo.trigger:type_name -> temporal.api.workflow.v1.CallbackInfo.Trigger
 	35,  // 77: temporal.api.workflow.v1.CallbackInfo.registration_time:type_name -> google.protobuf.Timestamp
 	60,  // 78: temporal.api.workflow.v1.CallbackInfo.state:type_name -> temporal.api.enums.v1.CallbackState
 	35,  // 79: temporal.api.workflow.v1.CallbackInfo.last_attempt_complete_time:type_name -> google.protobuf.Timestamp
@@ -3748,31 +3717,31 @@ var file_temporal_api_workflow_v1_message_proto_depIdxs = []int32{
 	35,  // 93: temporal.api.workflow.v1.NexusOperationCancellationInfo.last_attempt_complete_time:type_name -> google.protobuf.Timestamp
 	51,  // 94: temporal.api.workflow.v1.NexusOperationCancellationInfo.last_attempt_failure:type_name -> temporal.api.failure.v1.Failure
 	35,  // 95: temporal.api.workflow.v1.NexusOperationCancellationInfo.next_attempt_schedule_time:type_name -> google.protobuf.Timestamp
-	18,  // 96: temporal.api.workflow.v1.WorkflowExecutionOptions.versioning_override:type_name -> temporal.api.workflow.v1.VersioningOverride
+	17,  // 96: temporal.api.workflow.v1.WorkflowExecutionOptions.versioning_override:type_name -> temporal.api.workflow.v1.VersioningOverride
 	41,  // 97: temporal.api.workflow.v1.WorkflowExecutionOptions.priority:type_name -> temporal.api.common.v1.Priority
-	17,  // 98: temporal.api.workflow.v1.WorkflowExecutionOptions.time_skipping_config:type_name -> temporal.api.workflow.v1.TimeSkippingConfig
-	40,  // 99: temporal.api.workflow.v1.TimeSkippingConfig.max_skipped_duration:type_name -> google.protobuf.Duration
-	40,  // 100: temporal.api.workflow.v1.TimeSkippingConfig.max_elapsed_duration:type_name -> google.protobuf.Duration
-	30,  // 101: temporal.api.workflow.v1.VersioningOverride.pinned:type_name -> temporal.api.workflow.v1.VersioningOverride.PinnedOverride
-	42,  // 102: temporal.api.workflow.v1.VersioningOverride.behavior:type_name -> temporal.api.enums.v1.VersioningBehavior
-	43,  // 103: temporal.api.workflow.v1.VersioningOverride.deployment:type_name -> temporal.api.deployment.v1.Deployment
-	63,  // 104: temporal.api.workflow.v1.RequestIdInfo.event_type:type_name -> temporal.api.enums.v1.EventType
-	31,  // 105: temporal.api.workflow.v1.PostResetOperation.signal_workflow:type_name -> temporal.api.workflow.v1.PostResetOperation.SignalWorkflow
-	32,  // 106: temporal.api.workflow.v1.PostResetOperation.update_workflow_options:type_name -> temporal.api.workflow.v1.PostResetOperation.UpdateWorkflowOptions
-	35,  // 107: temporal.api.workflow.v1.WorkflowExecutionPauseInfo.paused_time:type_name -> google.protobuf.Timestamp
-	20,  // 108: temporal.api.workflow.v1.WorkflowExecutionExtendedInfo.RequestIdInfosEntry.value:type_name -> temporal.api.workflow.v1.RequestIdInfo
-	35,  // 109: temporal.api.workflow.v1.PendingActivityInfo.PauseInfo.pause_time:type_name -> google.protobuf.Timestamp
-	25,  // 110: temporal.api.workflow.v1.PendingActivityInfo.PauseInfo.manual:type_name -> temporal.api.workflow.v1.PendingActivityInfo.PauseInfo.Manual
-	26,  // 111: temporal.api.workflow.v1.PendingActivityInfo.PauseInfo.rule:type_name -> temporal.api.workflow.v1.PendingActivityInfo.PauseInfo.Rule
-	27,  // 112: temporal.api.workflow.v1.CallbackInfo.Trigger.workflow_closed:type_name -> temporal.api.workflow.v1.CallbackInfo.WorkflowClosed
-	28,  // 113: temporal.api.workflow.v1.CallbackInfo.Trigger.update_workflow_execution_completed:type_name -> temporal.api.workflow.v1.CallbackInfo.UpdateWorkflowExecutionCompleted
-	0,   // 114: temporal.api.workflow.v1.VersioningOverride.PinnedOverride.behavior:type_name -> temporal.api.workflow.v1.VersioningOverride.PinnedOverrideBehavior
-	44,  // 115: temporal.api.workflow.v1.VersioningOverride.PinnedOverride.version:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersion
+	63,  // 98: temporal.api.workflow.v1.WorkflowExecutionOptions.time_skipping_config:type_name -> temporal.api.common.v1.TimeSkippingConfig
+	29,  // 99: temporal.api.workflow.v1.VersioningOverride.pinned:type_name -> temporal.api.workflow.v1.VersioningOverride.PinnedOverride
+	30,  // 100: temporal.api.workflow.v1.VersioningOverride.one_time:type_name -> temporal.api.workflow.v1.VersioningOverride.OneTimeOverride
+	42,  // 101: temporal.api.workflow.v1.VersioningOverride.behavior:type_name -> temporal.api.enums.v1.VersioningBehavior
+	43,  // 102: temporal.api.workflow.v1.VersioningOverride.deployment:type_name -> temporal.api.deployment.v1.Deployment
+	64,  // 103: temporal.api.workflow.v1.RequestIdInfo.event_type:type_name -> temporal.api.enums.v1.EventType
+	31,  // 104: temporal.api.workflow.v1.PostResetOperation.signal_workflow:type_name -> temporal.api.workflow.v1.PostResetOperation.SignalWorkflow
+	32,  // 105: temporal.api.workflow.v1.PostResetOperation.update_workflow_options:type_name -> temporal.api.workflow.v1.PostResetOperation.UpdateWorkflowOptions
+	35,  // 106: temporal.api.workflow.v1.WorkflowExecutionPauseInfo.paused_time:type_name -> google.protobuf.Timestamp
+	19,  // 107: temporal.api.workflow.v1.WorkflowExecutionExtendedInfo.RequestIdInfosEntry.value:type_name -> temporal.api.workflow.v1.RequestIdInfo
+	35,  // 108: temporal.api.workflow.v1.PendingActivityInfo.PauseInfo.pause_time:type_name -> google.protobuf.Timestamp
+	24,  // 109: temporal.api.workflow.v1.PendingActivityInfo.PauseInfo.manual:type_name -> temporal.api.workflow.v1.PendingActivityInfo.PauseInfo.Manual
+	25,  // 110: temporal.api.workflow.v1.PendingActivityInfo.PauseInfo.rule:type_name -> temporal.api.workflow.v1.PendingActivityInfo.PauseInfo.Rule
+	26,  // 111: temporal.api.workflow.v1.CallbackInfo.Trigger.workflow_closed:type_name -> temporal.api.workflow.v1.CallbackInfo.WorkflowClosed
+	27,  // 112: temporal.api.workflow.v1.CallbackInfo.Trigger.update_workflow_execution_completed:type_name -> temporal.api.workflow.v1.CallbackInfo.UpdateWorkflowExecutionCompleted
+	0,   // 113: temporal.api.workflow.v1.VersioningOverride.PinnedOverride.behavior:type_name -> temporal.api.workflow.v1.VersioningOverride.PinnedOverrideBehavior
+	44,  // 114: temporal.api.workflow.v1.VersioningOverride.PinnedOverride.version:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersion
+	44,  // 115: temporal.api.workflow.v1.VersioningOverride.OneTimeOverride.target_deployment_version:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersion
 	50,  // 116: temporal.api.workflow.v1.PostResetOperation.SignalWorkflow.input:type_name -> temporal.api.common.v1.Payloads
 	58,  // 117: temporal.api.workflow.v1.PostResetOperation.SignalWorkflow.header:type_name -> temporal.api.common.v1.Header
-	64,  // 118: temporal.api.workflow.v1.PostResetOperation.SignalWorkflow.links:type_name -> temporal.api.common.v1.Link
+	65,  // 118: temporal.api.workflow.v1.PostResetOperation.SignalWorkflow.links:type_name -> temporal.api.common.v1.Link
 	16,  // 119: temporal.api.workflow.v1.PostResetOperation.UpdateWorkflowOptions.workflow_execution_options:type_name -> temporal.api.workflow.v1.WorkflowExecutionOptions
-	65,  // 120: temporal.api.workflow.v1.PostResetOperation.UpdateWorkflowOptions.update_mask:type_name -> google.protobuf.FieldMask
+	66,  // 120: temporal.api.workflow.v1.PostResetOperation.UpdateWorkflowOptions.update_mask:type_name -> google.protobuf.FieldMask
 	121, // [121:121] is the sub-list for method output_type
 	121, // [121:121] is the sub-list for method input_type
 	121, // [121:121] is the sub-list for extension type_name
@@ -3790,22 +3759,19 @@ func file_temporal_api_workflow_v1_message_proto_init() {
 		(*PendingActivityInfo_LastIndependentlyAssignedBuildId)(nil),
 	}
 	file_temporal_api_workflow_v1_message_proto_msgTypes[16].OneofWrappers = []any{
-		(*TimeSkippingConfig_MaxSkippedDuration)(nil),
-		(*TimeSkippingConfig_MaxElapsedDuration)(nil),
-	}
-	file_temporal_api_workflow_v1_message_proto_msgTypes[17].OneofWrappers = []any{
 		(*VersioningOverride_Pinned)(nil),
 		(*VersioningOverride_AutoUpgrade)(nil),
+		(*VersioningOverride_OneTime)(nil),
 	}
-	file_temporal_api_workflow_v1_message_proto_msgTypes[20].OneofWrappers = []any{
+	file_temporal_api_workflow_v1_message_proto_msgTypes[19].OneofWrappers = []any{
 		(*PostResetOperation_SignalWorkflow_)(nil),
 		(*PostResetOperation_UpdateWorkflowOptions_)(nil),
 	}
-	file_temporal_api_workflow_v1_message_proto_msgTypes[23].OneofWrappers = []any{
+	file_temporal_api_workflow_v1_message_proto_msgTypes[22].OneofWrappers = []any{
 		(*PendingActivityInfo_PauseInfo_Manual_)(nil),
 		(*PendingActivityInfo_PauseInfo_Rule_)(nil),
 	}
-	file_temporal_api_workflow_v1_message_proto_msgTypes[28].OneofWrappers = []any{
+	file_temporal_api_workflow_v1_message_proto_msgTypes[27].OneofWrappers = []any{
 		(*CallbackInfo_Trigger_WorkflowClosed)(nil),
 		(*CallbackInfo_Trigger_UpdateWorkflowExecutionCompleted)(nil),
 	}
