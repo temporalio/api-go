@@ -1859,8 +1859,16 @@ type RespondWorkflowTaskCompletedRequest struct {
 	// A dedicated per-worker Nexus task queue on which the server sends control
 	// tasks (e.g. activity cancellation) to this specific worker instance.
 	WorkerControlTaskQueue string `protobuf:"bytes,20,opt,name=worker_control_task_queue,json=workerControlTaskQueue,proto3" json:"worker_control_task_queue,omitempty"`
-	unknownFields          protoimpl.UnknownFields
-	sizeCache              protoimpl.SizeCache
+	// 0-indexed page number when the workflow task completion is split across multiple
+	// requests ("pages"). 0 for single-page requests. May only be set to non-zero value
+	// when the namespace capability workflow_task_completion_pagination is true.
+	PageNumber int32 `protobuf:"varint,21,opt,name=page_number,json=pageNumber,proto3" json:"page_number,omitempty"`
+	// True for non-final pages of a paginated workflow task completion. The final page's
+	// `page_number` tells the server how many intermediate pages (0..page_number-1) preceded it.
+	// May only be used when the namespace capability workflow_task_completion_pagination is true.
+	IntermediatePage bool `protobuf:"varint,22,opt,name=intermediate_page,json=intermediatePage,proto3" json:"intermediate_page,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
 }
 
 func (x *RespondWorkflowTaskCompletedRequest) Reset() {
@@ -2034,6 +2042,20 @@ func (x *RespondWorkflowTaskCompletedRequest) GetWorkerControlTaskQueue() string
 		return x.WorkerControlTaskQueue
 	}
 	return ""
+}
+
+func (x *RespondWorkflowTaskCompletedRequest) GetPageNumber() int32 {
+	if x != nil {
+		return x.PageNumber
+	}
+	return 0
+}
+
+func (x *RespondWorkflowTaskCompletedRequest) GetIntermediatePage() bool {
+	if x != nil {
+		return x.IntermediatePage
+	}
+	return false
 }
 
 type RespondWorkflowTaskCompletedResponse struct {
@@ -20346,7 +20368,7 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\x12poller_group_infos\x18\x12 \x03(\v2*.temporal.api.taskqueue.v1.PollerGroupInfoR\x10pollerGroupInfos\x1a`\n" +
 	"\fQueriesEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12:\n" +
-	"\x05value\x18\x02 \x01(\v2$.temporal.api.query.v1.WorkflowQueryR\x05value:\x028\x01\"\x82\r\n" +
+	"\x05value\x18\x02 \x01(\v2$.temporal.api.query.v1.WorkflowQueryR\x05value:\x028\x01\"\xd0\r\n" +
 	"#RespondWorkflowTaskCompletedRequest\x12\x1d\n" +
 	"\n" +
 	"task_token\x18\x01 \x01(\fR\ttaskToken\x12<\n" +
@@ -20372,7 +20394,10 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\x13versioning_behavior\x18\x10 \x01(\x0e2).temporal.api.enums.v1.VersioningBehaviorR\x12versioningBehavior\x12b\n" +
 	"\x12deployment_options\x18\x11 \x01(\v23.temporal.api.deployment.v1.WorkerDeploymentOptionsR\x11deploymentOptions\x12.\n" +
 	"\x13worker_instance_key\x18\x13 \x01(\tR\x11workerInstanceKey\x129\n" +
-	"\x19worker_control_task_queue\x18\x14 \x01(\tR\x16workerControlTaskQueue\x1ak\n" +
+	"\x19worker_control_task_queue\x18\x14 \x01(\tR\x16workerControlTaskQueue\x12\x1f\n" +
+	"\vpage_number\x18\x15 \x01(\x05R\n" +
+	"pageNumber\x12+\n" +
+	"\x11intermediate_page\x18\x16 \x01(\bR\x10intermediatePage\x1ak\n" +
 	"\x11QueryResultsEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12@\n" +
 	"\x05value\x18\x02 \x01(\v2*.temporal.api.query.v1.WorkflowQueryResultR\x05value:\x028\x01\x1ao\n" +
