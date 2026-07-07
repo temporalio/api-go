@@ -475,8 +475,13 @@ type TaskQueueStats struct {
 	//     workflow goes to a normal queue, and the rest workflow tasks go to the Sticky queue associated with a specific
 	//     worker instance.
 	TasksDispatchRate float32 `protobuf:"fixed32,4,opt,name=tasks_dispatch_rate,json=tasksDispatchRate,proto3" json:"tasks_dispatch_rate,omitempty"`
-	unknownFields     protoimpl.UnknownFields
-	sizeCache         protoimpl.SizeCache
+	// Whether rate limiting blocked any dispatches within the recent observation window (approximately
+	// 30 seconds). When true, adding more workers will not increase throughput — the bottleneck is the
+	// rate limit, not worker count. This field is useful for auto-scaling systems to avoid unnecessary
+	// scale-up.
+	RateLimitingActive bool `protobuf:"varint,5,opt,name=rate_limiting_active,json=rateLimitingActive,proto3" json:"rate_limiting_active,omitempty"`
+	unknownFields      protoimpl.UnknownFields
+	sizeCache          protoimpl.SizeCache
 }
 
 func (x *TaskQueueStats) Reset() {
@@ -535,6 +540,13 @@ func (x *TaskQueueStats) GetTasksDispatchRate() float32 {
 		return x.TasksDispatchRate
 	}
 	return 0
+}
+
+func (x *TaskQueueStats) GetRateLimitingActive() bool {
+	if x != nil {
+		return x.RateLimitingActive
+	}
+	return false
 }
 
 // Deprecated. Use `InternalTaskQueueStatus`. This is kept until `DescribeTaskQueue` supports legacy behavior.
@@ -1778,12 +1790,13 @@ const file_temporal_api_taskqueue_v1_message_proto_rawDesc = "" +
 	"\x05value\x18\x02 \x01(\v2,.temporal.api.taskqueue.v1.TaskQueueTypeInfoR\x05value:\x028\x01\"\x95\x01\n" +
 	"\x11TaskQueueTypeInfo\x12?\n" +
 	"\apollers\x18\x01 \x03(\v2%.temporal.api.taskqueue.v1.PollerInfoR\apollers\x12?\n" +
-	"\x05stats\x18\x02 \x01(\v2).temporal.api.taskqueue.v1.TaskQueueStatsR\x05stats\"\xf5\x01\n" +
+	"\x05stats\x18\x02 \x01(\v2).temporal.api.taskqueue.v1.TaskQueueStatsR\x05stats\"\xa7\x02\n" +
 	"\x0eTaskQueueStats\x12:\n" +
 	"\x19approximate_backlog_count\x18\x01 \x01(\x03R\x17approximateBacklogCount\x12Q\n" +
 	"\x17approximate_backlog_age\x18\x02 \x01(\v2\x19.google.protobuf.DurationR\x15approximateBacklogAge\x12$\n" +
 	"\x0etasks_add_rate\x18\x03 \x01(\x02R\ftasksAddRate\x12.\n" +
-	"\x13tasks_dispatch_rate\x18\x04 \x01(\x02R\x11tasksDispatchRate\"\xef\x01\n" +
+	"\x13tasks_dispatch_rate\x18\x04 \x01(\x02R\x11tasksDispatchRate\x120\n" +
+	"\x14rate_limiting_active\x18\x05 \x01(\bR\x12rateLimitingActive\"\xef\x01\n" +
 	"\x0fTaskQueueStatus\x12,\n" +
 	"\x12backlog_count_hint\x18\x01 \x01(\x03R\x10backlogCountHint\x12\x1d\n" +
 	"\n" +
