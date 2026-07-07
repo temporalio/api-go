@@ -475,8 +475,10 @@ type TaskQueueStats struct {
 	//     workflow goes to a normal queue, and the rest workflow tasks go to the Sticky queue associated with a specific
 	//     worker instance.
 	TasksDispatchRate float32 `protobuf:"fixed32,4,opt,name=tasks_dispatch_rate,json=tasksDispatchRate,proto3" json:"tasks_dispatch_rate,omitempty"`
-	unknownFields     protoimpl.UnknownFields
-	sizeCache         protoimpl.SizeCache
+	// Whether the task queue's whole-queue rate limit is currently blocking dispatches.
+	RateLimitingActive bool `protobuf:"varint,5,opt,name=rate_limiting_active,json=rateLimitingActive,proto3" json:"rate_limiting_active,omitempty"`
+	unknownFields      protoimpl.UnknownFields
+	sizeCache          protoimpl.SizeCache
 }
 
 func (x *TaskQueueStats) Reset() {
@@ -535,6 +537,13 @@ func (x *TaskQueueStats) GetTasksDispatchRate() float32 {
 		return x.TasksDispatchRate
 	}
 	return 0
+}
+
+func (x *TaskQueueStats) GetRateLimitingActive() bool {
+	if x != nil {
+		return x.RateLimitingActive
+	}
+	return false
 }
 
 // Deprecated. Use `InternalTaskQueueStatus`. This is kept until `DescribeTaskQueue` supports legacy behavior.
