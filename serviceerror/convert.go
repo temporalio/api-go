@@ -93,6 +93,8 @@ func FromStatus(st *status.Status) error {
 		switch errDetails.(type) {
 		case *failure.MultiOperationExecutionAborted:
 			return newMultiOperationAborted(st)
+		case *errordetails.WorkflowTaskCompletionBufferLostFailure:
+			return newWorkflowTaskCompletionBufferLost(st)
 		default:
 			return newAborted(st)
 		}

@@ -191,6 +191,22 @@ func TestMultiOperationAborted(t *testing.T) {
 	require.True(t, proto.Equal(st.Proto(), reconstructedStatus.Proto()))
 }
 
+func TestWorkflowTaskCompletionBufferLost(t *testing.T) {
+	err := serviceerror.NewWorkflowTaskCompletionBufferLost("buffer lost")
+
+	st := serviceerror.ToStatus(err)
+	require.Equal(t, codes.Aborted, st.Code())
+	require.Equal(t, err.Error(), st.Message())
+	require.Len(t, st.Details(), 1)
+
+	errFromStatus := serviceerror.FromStatus(st)
+	require.IsType(t, &serviceerror.WorkflowTaskCompletionBufferLost{}, errFromStatus)
+	require.Equal(t, err.Error(), errFromStatus.Error())
+
+	reconstructedStatus := serviceerror.ToStatus(errFromStatus)
+	require.True(t, proto.Equal(st.Proto(), reconstructedStatus.Proto()))
+}
+
 func TestFromWrapped(t *testing.T) {
 	err := &serviceerror.PermissionDenied{
 		Message: "x is not allowed",
