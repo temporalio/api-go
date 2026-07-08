@@ -46,7 +46,8 @@ var (
 		"GrpcMessageTooLarge":                                 36,
 		"PayloadsTooLarge":                                    37,
 		"ExternalStorageFailure":                              38,
-		"WorkflowPauseRequestedBeforeTaskStarted":             39,
+		"NotStartedTaskPausedWorkflow":                        39,
+		"WorkflowPauseRequestedBeforeTaskStarted":             40,
 	}
 )
 

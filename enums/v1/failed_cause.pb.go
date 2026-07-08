@@ -100,8 +100,9 @@ const (
 	// A workflow task failed because an external storage operation failed.
 	// Check the workflow task failure message for more information.
 	WORKFLOW_TASK_FAILED_CAUSE_EXTERNAL_STORAGE_FAILURE WorkflowTaskFailedCause = 38
-	// A workflow task failed because the workflow was paused before the task was started.
-	WORKFLOW_TASK_FAILED_CAUSE_WORKFLOW_PAUSE_REQUESTED_BEFORE_TASK_STARTED WorkflowTaskFailedCause = 39
+	// A workflow task is failed because the workflow is paused before the task is started.
+	WORKFLOW_TASK_FAILED_CAUSE_NOT_STARTED_TASK_PAUSED_WORKFLOW             WorkflowTaskFailedCause = 39
+	WORKFLOW_TASK_FAILED_CAUSE_WORKFLOW_PAUSE_REQUESTED_BEFORE_TASK_STARTED WorkflowTaskFailedCause = 40
 )
 
 // Enum value maps for WorkflowTaskFailedCause.
@@ -146,7 +147,8 @@ var (
 		36: "WORKFLOW_TASK_FAILED_CAUSE_GRPC_MESSAGE_TOO_LARGE",
 		37: "WORKFLOW_TASK_FAILED_CAUSE_PAYLOADS_TOO_LARGE",
 		38: "WORKFLOW_TASK_FAILED_CAUSE_EXTERNAL_STORAGE_FAILURE",
-		39: "WORKFLOW_TASK_FAILED_CAUSE_WORKFLOW_PAUSE_REQUESTED_BEFORE_TASK_STARTED",
+		39: "WORKFLOW_TASK_FAILED_CAUSE_NOT_STARTED_TASK_PAUSED_WORKFLOW",
+		40: "WORKFLOW_TASK_FAILED_CAUSE_WORKFLOW_PAUSE_REQUESTED_BEFORE_TASK_STARTED",
 	}
 	WorkflowTaskFailedCause_value = map[string]int32{
 		"WORKFLOW_TASK_FAILED_CAUSE_UNSPECIFIED":                                               0,
@@ -188,7 +190,8 @@ var (
 		"WORKFLOW_TASK_FAILED_CAUSE_GRPC_MESSAGE_TOO_LARGE":                                    36,
 		"WORKFLOW_TASK_FAILED_CAUSE_PAYLOADS_TOO_LARGE":                                        37,
 		"WORKFLOW_TASK_FAILED_CAUSE_EXTERNAL_STORAGE_FAILURE":                                  38,
-		"WORKFLOW_TASK_FAILED_CAUSE_WORKFLOW_PAUSE_REQUESTED_BEFORE_TASK_STARTED":              39,
+		"WORKFLOW_TASK_FAILED_CAUSE_NOT_STARTED_TASK_PAUSED_WORKFLOW":                          39,
+		"WORKFLOW_TASK_FAILED_CAUSE_WORKFLOW_PAUSE_REQUESTED_BEFORE_TASK_STARTED":              40,
 	}
 )
 
@@ -286,6 +289,8 @@ func (x WorkflowTaskFailedCause) String() string {
 		return "PayloadsTooLarge"
 	case WORKFLOW_TASK_FAILED_CAUSE_EXTERNAL_STORAGE_FAILURE:
 		return "ExternalStorageFailure"
+	case WORKFLOW_TASK_FAILED_CAUSE_NOT_STARTED_TASK_PAUSED_WORKFLOW:
+		return "NotStartedTaskPausedWorkflow"
 	case WORKFLOW_TASK_FAILED_CAUSE_WORKFLOW_PAUSE_REQUESTED_BEFORE_TASK_STARTED:
 		return "WorkflowPauseRequestedBeforeTaskStarted"
 	default:
@@ -665,7 +670,7 @@ var File_temporal_api_enums_v1_failed_cause_proto protoreflect.FileDescriptor
 
 const file_temporal_api_enums_v1_failed_cause_proto_rawDesc = "" +
 	"\n" +
-	"(temporal/api/enums/v1/failed_cause.proto\x12\x15temporal.api.enums.v1*\xde\x13\n" +
+	"(temporal/api/enums/v1/failed_cause.proto\x12\x15temporal.api.enums.v1*\x9f\x14\n" +
 	"\x17WorkflowTaskFailedCause\x12*\n" +
 	"&WORKFLOW_TASK_FAILED_CAUSE_UNSPECIFIED\x10\x00\x120\n" +
 	",WORKFLOW_TASK_FAILED_CAUSE_UNHANDLED_COMMAND\x10\x01\x12?\n" +
@@ -706,8 +711,9 @@ const file_temporal_api_enums_v1_failed_cause_proto_rawDesc = "" +
 	"+WORKFLOW_TASK_FAILED_CAUSE_FEATURE_DISABLED\x10#\x125\n" +
 	"1WORKFLOW_TASK_FAILED_CAUSE_GRPC_MESSAGE_TOO_LARGE\x10$\x121\n" +
 	"-WORKFLOW_TASK_FAILED_CAUSE_PAYLOADS_TOO_LARGE\x10%\x127\n" +
-	"3WORKFLOW_TASK_FAILED_CAUSE_EXTERNAL_STORAGE_FAILURE\x10&\x12K\n" +
-	"GWORKFLOW_TASK_FAILED_CAUSE_WORKFLOW_PAUSE_REQUESTED_BEFORE_TASK_STARTED\x10'*\xf3\x01\n" +
+	"3WORKFLOW_TASK_FAILED_CAUSE_EXTERNAL_STORAGE_FAILURE\x10&\x12?\n" +
+	";WORKFLOW_TASK_FAILED_CAUSE_NOT_STARTED_TASK_PAUSED_WORKFLOW\x10'\x12K\n" +
+	"GWORKFLOW_TASK_FAILED_CAUSE_WORKFLOW_PAUSE_REQUESTED_BEFORE_TASK_STARTED\x10(*\xf3\x01\n" +
 	"&StartChildWorkflowExecutionFailedCause\x12;\n" +
 	"7START_CHILD_WORKFLOW_EXECUTION_FAILED_CAUSE_UNSPECIFIED\x10\x00\x12G\n" +
 	"CSTART_CHILD_WORKFLOW_EXECUTION_FAILED_CAUSE_WORKFLOW_ALREADY_EXISTS\x10\x01\x12C\n" +
