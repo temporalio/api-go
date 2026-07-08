@@ -191,8 +191,8 @@ func TestMultiOperationAborted(t *testing.T) {
 	require.True(t, proto.Equal(st.Proto(), reconstructedStatus.Proto()))
 }
 
-func TestWorkflowTaskBufferLost(t *testing.T) {
-	err := serviceerror.NewWorkflowTaskBufferLost("buffer lost")
+func TestWorkflowTaskCompletionBufferLost(t *testing.T) {
+	err := serviceerror.NewWorkflowTaskCompletionBufferLost("buffer lost")
 
 	st := serviceerror.ToStatus(err)
 	require.Equal(t, codes.Aborted, st.Code())
@@ -200,7 +200,7 @@ func TestWorkflowTaskBufferLost(t *testing.T) {
 	require.Len(t, st.Details(), 1)
 
 	errFromStatus := serviceerror.FromStatus(st)
-	require.IsType(t, &serviceerror.WorkflowTaskBufferLost{}, errFromStatus)
+	require.IsType(t, &serviceerror.WorkflowTaskCompletionBufferLost{}, errFromStatus)
 	require.Equal(t, err.Error(), errFromStatus.Error())
 
 	reconstructedStatus := serviceerror.ToStatus(errFromStatus)

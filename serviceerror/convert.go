@@ -94,7 +94,7 @@ func FromStatus(st *status.Status) error {
 		case *failure.MultiOperationExecutionAborted:
 			return newMultiOperationAborted(st)
 		case *errordetails.WorkflowTaskCompletionBufferLostFailure:
-			return newWorkflowTaskBufferLost(st)
+			return newWorkflowTaskCompletionBufferLost(st)
 		default:
 			return newAborted(st)
 		}
