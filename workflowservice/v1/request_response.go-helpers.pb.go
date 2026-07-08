@@ -4519,6 +4519,80 @@ func (this *PollWorkflowExecutionUpdateResponse) Equal(that interface{}) bool {
 	return proto.Equal(this, that1)
 }
 
+// Marshal an object of type PollTimeSkippingFastForwardCompletionRequest to the protobuf v3 wire format
+func (val *PollTimeSkippingFastForwardCompletionRequest) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type PollTimeSkippingFastForwardCompletionRequest from the protobuf v3 wire format
+func (val *PollTimeSkippingFastForwardCompletionRequest) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *PollTimeSkippingFastForwardCompletionRequest) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two PollTimeSkippingFastForwardCompletionRequest values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *PollTimeSkippingFastForwardCompletionRequest) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *PollTimeSkippingFastForwardCompletionRequest
+	switch t := that.(type) {
+	case *PollTimeSkippingFastForwardCompletionRequest:
+		that1 = t
+	case PollTimeSkippingFastForwardCompletionRequest:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type PollTimeSkippingFastForwardCompletionResponse to the protobuf v3 wire format
+func (val *PollTimeSkippingFastForwardCompletionResponse) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type PollTimeSkippingFastForwardCompletionResponse from the protobuf v3 wire format
+func (val *PollTimeSkippingFastForwardCompletionResponse) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *PollTimeSkippingFastForwardCompletionResponse) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two PollTimeSkippingFastForwardCompletionResponse values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *PollTimeSkippingFastForwardCompletionResponse) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *PollTimeSkippingFastForwardCompletionResponse
+	switch t := that.(type) {
+	case *PollTimeSkippingFastForwardCompletionResponse:
+		that1 = t
+	case PollTimeSkippingFastForwardCompletionResponse:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
 // Marshal an object of type PollNexusTaskQueueRequest to the protobuf v3 wire format
 func (val *PollNexusTaskQueueRequest) Marshal() ([]byte, error) {
 	return proto.Marshal(val)

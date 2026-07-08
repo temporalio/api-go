@@ -288,6 +288,10 @@ func (s *workflowServiceProxyServer) PollNexusTaskQueue(ctx context.Context, in0
 	return s.client.PollNexusTaskQueue(s.reqCtx(ctx), in0)
 }
 
+func (s *workflowServiceProxyServer) PollTimeSkippingFastForwardCompletion(ctx context.Context, in0 *workflowservice.PollTimeSkippingFastForwardCompletionRequest) (*workflowservice.PollTimeSkippingFastForwardCompletionResponse, error) {
+	return s.client.PollTimeSkippingFastForwardCompletion(s.reqCtx(ctx), in0)
+}
+
 func (s *workflowServiceProxyServer) PollWorkflowExecutionUpdate(ctx context.Context, in0 *workflowservice.PollWorkflowExecutionUpdateRequest) (*workflowservice.PollWorkflowExecutionUpdateResponse, error) {
 	return s.client.PollWorkflowExecutionUpdate(s.reqCtx(ctx), in0)
 }

@@ -2,6 +2,8 @@
 package common
 
 import (
+	"fmt"
+
 	"google.golang.org/protobuf/proto"
 )
 
@@ -817,4 +819,23 @@ func (this *TimeSkippingStatePropagation) Equal(that interface{}) bool {
 	}
 
 	return proto.Equal(this, that1)
+}
+
+var (
+	Archetype_shorthandValue = map[string]int32{
+		"Unspecified":        0,
+		"StandaloneActivity": 1,
+		"Scheduler":          2,
+	}
+)
+
+// ArchetypeFromString parses a Archetype value from  either the protojson
+// canonical SCREAMING_CASE enum or the traditional temporal PascalCase enum to Archetype
+func ArchetypeFromString(s string) (Archetype, error) {
+	if v, ok := Archetype_value[s]; ok {
+		return Archetype(v), nil
+	} else if v, ok := Archetype_shorthandValue[s]; ok {
+		return Archetype(v), nil
+	}
+	return Archetype(0), fmt.Errorf("%s is not a valid Archetype", s)
 }

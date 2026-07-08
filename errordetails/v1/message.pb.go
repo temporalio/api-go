@@ -82,11 +82,12 @@ func (x *NotFoundFailure) GetActiveCluster() string {
 }
 
 type WorkflowExecutionAlreadyStartedFailure struct {
-	state          protoimpl.MessageState `protogen:"open.v1"`
-	StartRequestId string                 `protobuf:"bytes,1,opt,name=start_request_id,json=startRequestId,proto3" json:"start_request_id,omitempty"`
-	RunId          string                 `protobuf:"bytes,2,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
+	state               protoimpl.MessageState `protogen:"open.v1"`
+	StartRequestId      string                 `protobuf:"bytes,1,opt,name=start_request_id,json=startRequestId,proto3" json:"start_request_id,omitempty"`
+	RunId               string                 `protobuf:"bytes,2,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
+	FirstExecutionRunId string                 `protobuf:"bytes,3,opt,name=first_execution_run_id,json=firstExecutionRunId,proto3" json:"first_execution_run_id,omitempty"`
+	unknownFields       protoimpl.UnknownFields
+	sizeCache           protoimpl.SizeCache
 }
 
 func (x *WorkflowExecutionAlreadyStartedFailure) Reset() {
@@ -129,6 +130,13 @@ func (x *WorkflowExecutionAlreadyStartedFailure) GetStartRequestId() string {
 func (x *WorkflowExecutionAlreadyStartedFailure) GetRunId() string {
 	if x != nil {
 		return x.RunId
+	}
+	return ""
+}
+
+func (x *WorkflowExecutionAlreadyStartedFailure) GetFirstExecutionRunId() string {
+	if x != nil {
+		return x.FirstExecutionRunId
 	}
 	return ""
 }
@@ -1079,10 +1087,11 @@ const file_temporal_api_errordetails_v1_message_proto_rawDesc = "" +
 	"*temporal/api/errordetails/v1/message.proto\x12\x1ctemporal.api.errordetails.v1\x1a\x19google/protobuf/any.proto\x1a$temporal/api/common/v1/message.proto\x1a(temporal/api/enums/v1/failed_cause.proto\x1a%temporal/api/enums/v1/namespace.proto\x1a%temporal/api/failure/v1/message.proto\"a\n" +
 	"\x0fNotFoundFailure\x12'\n" +
 	"\x0fcurrent_cluster\x18\x01 \x01(\tR\x0ecurrentCluster\x12%\n" +
-	"\x0eactive_cluster\x18\x02 \x01(\tR\ractiveCluster\"i\n" +
+	"\x0eactive_cluster\x18\x02 \x01(\tR\ractiveCluster\"\x9e\x01\n" +
 	"&WorkflowExecutionAlreadyStartedFailure\x12(\n" +
 	"\x10start_request_id\x18\x01 \x01(\tR\x0estartRequestId\x12\x15\n" +
-	"\x06run_id\x18\x02 \x01(\tR\x05runId\"\x89\x01\n" +
+	"\x06run_id\x18\x02 \x01(\tR\x05runId\x123\n" +
+	"\x16first_execution_run_id\x18\x03 \x01(\tR\x13firstExecutionRunId\"\x89\x01\n" +
 	"\x19NamespaceNotActiveFailure\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12'\n" +
 	"\x0fcurrent_cluster\x18\x02 \x01(\tR\x0ecurrentCluster\x12%\n" +

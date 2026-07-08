@@ -96,6 +96,7 @@ const (
 	WorkflowService_SetWorkerDeploymentManager_FullMethodName                   = "/temporal.api.workflowservice.v1.WorkflowService/SetWorkerDeploymentManager"
 	WorkflowService_UpdateWorkflowExecution_FullMethodName                      = "/temporal.api.workflowservice.v1.WorkflowService/UpdateWorkflowExecution"
 	WorkflowService_PollWorkflowExecutionUpdate_FullMethodName                  = "/temporal.api.workflowservice.v1.WorkflowService/PollWorkflowExecutionUpdate"
+	WorkflowService_PollTimeSkippingFastForwardCompletion_FullMethodName        = "/temporal.api.workflowservice.v1.WorkflowService/PollTimeSkippingFastForwardCompletion"
 	WorkflowService_StartBatchOperation_FullMethodName                          = "/temporal.api.workflowservice.v1.WorkflowService/StartBatchOperation"
 	WorkflowService_StopBatchOperation_FullMethodName                           = "/temporal.api.workflowservice.v1.WorkflowService/StopBatchOperation"
 	WorkflowService_DescribeBatchOperation_FullMethodName                       = "/temporal.api.workflowservice.v1.WorkflowService/DescribeBatchOperation"
@@ -633,6 +634,26 @@ type WorkflowServiceClient interface {
 	//
 	//	aip.dev/not-precedent: We don't expose update polling API to HTTP in favor of a potential future non-blocking form. --)
 	PollWorkflowExecutionUpdate(ctx context.Context, in *PollWorkflowExecutionUpdateRequest, opts ...grpc.CallOption) (*PollWorkflowExecutionUpdateResponse, error)
+	// Long-polls for a time-skipping fast-forward on an execution to complete. A
+	// fast-forward is registered via the TimeSkippingConfig on
+	// UpdateWorkflowExecutionOptions; this RPC blocks until it completes (time has
+	// advanced to the target and time skipping is disabled) or the server's maximum
+	// wait time is reached. The effective timeout is the shorter of the caller-supplied
+	// gRPC timeout and the server's configured long-poll timeout.
+	//
+	// On completion the response carries the completed fast-forward's create and target
+	// times. If the server's maximum wait time is reached first, it returns an empty,
+	// successful response (not an error) with those fields unset, as an invitation to
+	// re-poll — mirroring the other long-poll RPCs.
+	//
+	// Returns a `NotFound` error if the targeted execution does not exist, and an
+	// `InvalidArgument` error if the execution exists but has no matching fast-forward
+	// registered (i.e. there is nothing to wait for).
+	//
+	// (-- api-linter: core::0127::http-annotation=disabled
+	//
+	//	aip.dev/not-precedent: We don't expose fast-forward polling to HTTP in favor of a potential future non-blocking form. --)
+	PollTimeSkippingFastForwardCompletion(ctx context.Context, in *PollTimeSkippingFastForwardCompletionRequest, opts ...grpc.CallOption) (*PollTimeSkippingFastForwardCompletionResponse, error)
 	// StartBatchOperation starts a new batch operation
 	StartBatchOperation(ctx context.Context, in *StartBatchOperationRequest, opts ...grpc.CallOption) (*StartBatchOperationResponse, error)
 	// StopBatchOperation stops a batch operation
@@ -1659,6 +1680,16 @@ func (c *workflowServiceClient) PollWorkflowExecutionUpdate(ctx context.Context,
 	return out, nil
 }
 
+func (c *workflowServiceClient) PollTimeSkippingFastForwardCompletion(ctx context.Context, in *PollTimeSkippingFastForwardCompletionRequest, opts ...grpc.CallOption) (*PollTimeSkippingFastForwardCompletionResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(PollTimeSkippingFastForwardCompletionResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_PollTimeSkippingFastForwardCompletion_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *workflowServiceClient) StartBatchOperation(ctx context.Context, in *StartBatchOperationRequest, opts ...grpc.CallOption) (*StartBatchOperationResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(StartBatchOperationResponse)
@@ -2608,6 +2639,26 @@ type WorkflowServiceServer interface {
 	//
 	//	aip.dev/not-precedent: We don't expose update polling API to HTTP in favor of a potential future non-blocking form. --)
 	PollWorkflowExecutionUpdate(context.Context, *PollWorkflowExecutionUpdateRequest) (*PollWorkflowExecutionUpdateResponse, error)
+	// Long-polls for a time-skipping fast-forward on an execution to complete. A
+	// fast-forward is registered via the TimeSkippingConfig on
+	// UpdateWorkflowExecutionOptions; this RPC blocks until it completes (time has
+	// advanced to the target and time skipping is disabled) or the server's maximum
+	// wait time is reached. The effective timeout is the shorter of the caller-supplied
+	// gRPC timeout and the server's configured long-poll timeout.
+	//
+	// On completion the response carries the completed fast-forward's create and target
+	// times. If the server's maximum wait time is reached first, it returns an empty,
+	// successful response (not an error) with those fields unset, as an invitation to
+	// re-poll — mirroring the other long-poll RPCs.
+	//
+	// Returns a `NotFound` error if the targeted execution does not exist, and an
+	// `InvalidArgument` error if the execution exists but has no matching fast-forward
+	// registered (i.e. there is nothing to wait for).
+	//
+	// (-- api-linter: core::0127::http-annotation=disabled
+	//
+	//	aip.dev/not-precedent: We don't expose fast-forward polling to HTTP in favor of a potential future non-blocking form. --)
+	PollTimeSkippingFastForwardCompletion(context.Context, *PollTimeSkippingFastForwardCompletionRequest) (*PollTimeSkippingFastForwardCompletionResponse, error)
 	// StartBatchOperation starts a new batch operation
 	StartBatchOperation(context.Context, *StartBatchOperationRequest) (*StartBatchOperationResponse, error)
 	// StopBatchOperation stops a batch operation
@@ -3101,6 +3152,9 @@ func (UnimplementedWorkflowServiceServer) UpdateWorkflowExecution(context.Contex
 }
 func (UnimplementedWorkflowServiceServer) PollWorkflowExecutionUpdate(context.Context, *PollWorkflowExecutionUpdateRequest) (*PollWorkflowExecutionUpdateResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method PollWorkflowExecutionUpdate not implemented")
+}
+func (UnimplementedWorkflowServiceServer) PollTimeSkippingFastForwardCompletion(context.Context, *PollTimeSkippingFastForwardCompletionRequest) (*PollTimeSkippingFastForwardCompletionResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method PollTimeSkippingFastForwardCompletion not implemented")
 }
 func (UnimplementedWorkflowServiceServer) StartBatchOperation(context.Context, *StartBatchOperationRequest) (*StartBatchOperationResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method StartBatchOperation not implemented")
@@ -4629,6 +4683,24 @@ func _WorkflowService_PollWorkflowExecutionUpdate_Handler(srv interface{}, ctx c
 	return interceptor(ctx, in, info, handler)
 }
 
+func _WorkflowService_PollTimeSkippingFastForwardCompletion_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PollTimeSkippingFastForwardCompletionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WorkflowServiceServer).PollTimeSkippingFastForwardCompletion(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: WorkflowService_PollTimeSkippingFastForwardCompletion_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WorkflowServiceServer).PollTimeSkippingFastForwardCompletion(ctx, req.(*PollTimeSkippingFastForwardCompletionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _WorkflowService_StartBatchOperation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(StartBatchOperationRequest)
 	if err := dec(in); err != nil {
@@ -5767,6 +5839,10 @@ var WorkflowService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "PollWorkflowExecutionUpdate",
 			Handler:    _WorkflowService_PollWorkflowExecutionUpdate_Handler,
+		},
+		{
+			MethodName: "PollTimeSkippingFastForwardCompletion",
+			Handler:    _WorkflowService_PollTimeSkippingFastForwardCompletion_Handler,
 		},
 		{
 			MethodName: "StartBatchOperation",
