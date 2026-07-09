@@ -1090,6 +1090,8 @@ type StartWorkflowExecutionResponse struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// The run id of the workflow that was started - or used (via WorkflowIdConflictPolicy USE_EXISTING).
 	RunId string `protobuf:"bytes,1,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
+	// If the workflow was started as a result of a de-dupe, this field will contain the run id of the first execution in the chain.
+	FirstExecutionRunId string `protobuf:"bytes,6,opt,name=first_execution_run_id,json=firstExecutionRunId,proto3" json:"first_execution_run_id,omitempty"`
 	// If true, a new workflow was started.
 	Started bool `protobuf:"varint,3,opt,name=started,proto3" json:"started,omitempty"`
 	// Current execution status of the workflow. Typically remains WORKFLOW_EXECUTION_STATUS_RUNNING
@@ -1138,6 +1140,13 @@ func (*StartWorkflowExecutionResponse) Descriptor() ([]byte, []int) {
 func (x *StartWorkflowExecutionResponse) GetRunId() string {
 	if x != nil {
 		return x.RunId
+	}
+	return ""
+}
+
+func (x *StartWorkflowExecutionResponse) GetFirstExecutionRunId() string {
+	if x != nil {
+		return x.FirstExecutionRunId
 	}
 	return ""
 }
@@ -4549,6 +4558,8 @@ type SignalWithStartWorkflowExecutionResponse struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// The run id of the workflow that was started - or just signaled, if it was already running.
 	RunId string `protobuf:"bytes,1,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
+	// If the workflow was started as a result of a de-dupe, this field will contain the run id of the first execution in the chain.
+	FirstExecutionRunId string `protobuf:"bytes,4,opt,name=first_execution_run_id,json=firstExecutionRunId,proto3" json:"first_execution_run_id,omitempty"`
 	// If true, a new workflow was started.
 	Started bool `protobuf:"varint,2,opt,name=started,proto3" json:"started,omitempty"`
 	// Link to be associated with the WorkflowExecutionSignaled event.
@@ -4592,6 +4603,13 @@ func (*SignalWithStartWorkflowExecutionResponse) Descriptor() ([]byte, []int) {
 func (x *SignalWithStartWorkflowExecutionResponse) GetRunId() string {
 	if x != nil {
 		return x.RunId
+	}
+	return ""
+}
+
+func (x *SignalWithStartWorkflowExecutionResponse) GetFirstExecutionRunId() string {
+	if x != nil {
+		return x.FirstExecutionRunId
 	}
 	return ""
 }
@@ -20376,9 +20394,10 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\x13on_conflict_options\x18\x1a \x01(\v2+.temporal.api.workflow.v1.OnConflictOptionsR\x11onConflictOptions\x12<\n" +
 	"\bpriority\x18\x1b \x01(\v2 .temporal.api.common.v1.PriorityR\bpriority\x12z\n" +
 	"\x1feager_worker_deployment_options\x18\x1c \x01(\v23.temporal.api.deployment.v1.WorkerDeploymentOptionsR\x1ceagerWorkerDeploymentOptions\x12\\\n" +
-	"\x14time_skipping_config\x18\x1d \x01(\v2*.temporal.api.common.v1.TimeSkippingConfigR\x12timeSkippingConfig\"\xbb\x02\n" +
+	"\x14time_skipping_config\x18\x1d \x01(\v2*.temporal.api.common.v1.TimeSkippingConfigR\x12timeSkippingConfig\"\xf0\x02\n" +
 	"\x1eStartWorkflowExecutionResponse\x12\x15\n" +
-	"\x06run_id\x18\x01 \x01(\tR\x05runId\x12\x18\n" +
+	"\x06run_id\x18\x01 \x01(\tR\x05runId\x123\n" +
+	"\x16first_execution_run_id\x18\x06 \x01(\tR\x13firstExecutionRunId\x12\x18\n" +
 	"\astarted\x18\x03 \x01(\bR\astarted\x12F\n" +
 	"\x06status\x18\x05 \x01(\x0e2..temporal.api.enums.v1.WorkflowExecutionStatusR\x06status\x12n\n" +
 	"\x13eager_workflow_task\x18\x02 \x01(\v2>.temporal.api.workflowservice.v1.PollWorkflowTaskQueueResponseR\x11eagerWorkflowTask\x120\n" +
@@ -20704,9 +20723,10 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\x05links\x18\x18 \x03(\v2\x1c.temporal.api.common.v1.LinkR\x05links\x12]\n" +
 	"\x13versioning_override\x18\x19 \x01(\v2,.temporal.api.workflow.v1.VersioningOverrideR\x12versioningOverride\x12<\n" +
 	"\bpriority\x18\x1a \x01(\v2 .temporal.api.common.v1.PriorityR\bpriority\x12\\\n" +
-	"\x14time_skipping_config\x18\x1b \x01(\v2*.temporal.api.common.v1.TimeSkippingConfigR\x12timeSkippingConfigJ\x04\b\x15\x10\x16\"\x9a\x01\n" +
+	"\x14time_skipping_config\x18\x1b \x01(\v2*.temporal.api.common.v1.TimeSkippingConfigR\x12timeSkippingConfigJ\x04\b\x15\x10\x16\"\xcf\x01\n" +
 	"(SignalWithStartWorkflowExecutionResponse\x12\x15\n" +
-	"\x06run_id\x18\x01 \x01(\tR\x05runId\x12\x18\n" +
+	"\x06run_id\x18\x01 \x01(\tR\x05runId\x123\n" +
+	"\x16first_execution_run_id\x18\x04 \x01(\tR\x13firstExecutionRunId\x12\x18\n" +
 	"\astarted\x18\x02 \x01(\bR\astarted\x12=\n" +
 	"\vsignal_link\x18\x03 \x01(\v2\x1c.temporal.api.common.v1.LinkR\n" +
 	"signalLink\"\xd8\x04\n" +
