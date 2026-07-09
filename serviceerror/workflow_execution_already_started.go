@@ -12,10 +12,11 @@ import (
 type (
 	// WorkflowExecutionAlreadyStarted represents workflow execution already started error.
 	WorkflowExecutionAlreadyStarted struct {
-		Message        string
-		StartRequestId string
-		RunId          string
-		st             *status.Status
+		Message             string
+		StartRequestId      string
+		RunId               string
+		FirstExecutionRunId string
+		st                  *status.Status
 	}
 )
 
@@ -37,6 +38,16 @@ func NewWorkflowExecutionAlreadyStartedf(startRequestId, runId, format string, a
 	}
 }
 
+// NewWorkflowExecutionAlreadyStartedWithFirstExecutionRunId returns new WorkflowExecutionAlreadyStarted error including the first execution run id.
+func NewWorkflowExecutionAlreadyStartedWithFirstExecutionRunId(message, startRequestId, runId, firstExecutionRunId string) error {
+	return &WorkflowExecutionAlreadyStarted{
+		Message:             message,
+		StartRequestId:      startRequestId,
+		RunId:               runId,
+		FirstExecutionRunId: firstExecutionRunId,
+	}
+}
+
 // Error returns string message.
 func (e *WorkflowExecutionAlreadyStarted) Error() string {
 	return e.Message
@@ -50,8 +61,9 @@ func (e *WorkflowExecutionAlreadyStarted) Status() *status.Status {
 	st := status.New(codes.AlreadyExists, e.Message)
 	st, _ = st.WithDetails(
 		&errordetails.WorkflowExecutionAlreadyStartedFailure{
-			StartRequestId: e.StartRequestId,
-			RunId:          e.RunId,
+			StartRequestId:      e.StartRequestId,
+			RunId:               e.RunId,
+			FirstExecutionRunId: e.FirstExecutionRunId,
 		},
 	)
 	return st
@@ -59,9 +71,10 @@ func (e *WorkflowExecutionAlreadyStarted) Status() *status.Status {
 
 func newWorkflowExecutionAlreadyStarted(st *status.Status, errDetails *errordetails.WorkflowExecutionAlreadyStartedFailure) error {
 	return &WorkflowExecutionAlreadyStarted{
-		Message:        st.Message(),
-		StartRequestId: errDetails.GetStartRequestId(),
-		RunId:          errDetails.GetRunId(),
-		st:             st,
+		Message:             st.Message(),
+		StartRequestId:      errDetails.GetStartRequestId(),
+		RunId:               errDetails.GetRunId(),
+		FirstExecutionRunId: errDetails.GetFirstExecutionRunId(),
+		st:                  st,
 	}
 }
