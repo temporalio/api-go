@@ -856,6 +856,26 @@ func (mr *MockWorkflowServiceClientMockRecorder) GetWorkflowExecutionHistoryReve
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetWorkflowExecutionHistoryReverse", reflect.TypeOf((*MockWorkflowServiceClient)(nil).GetWorkflowExecutionHistoryReverse), varargs...)
 }
 
+// GetWorkflowTimeSkipping mocks base method.
+func (m *MockWorkflowServiceClient) GetWorkflowTimeSkipping(ctx context.Context, in *workflowservice.GetWorkflowTimeSkippingRequest, opts ...grpc.CallOption) (*workflowservice.GetWorkflowTimeSkippingResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "GetWorkflowTimeSkipping", varargs...)
+	ret0, _ := ret[0].(*workflowservice.GetWorkflowTimeSkippingResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetWorkflowTimeSkipping indicates an expected call of GetWorkflowTimeSkipping.
+func (mr *MockWorkflowServiceClientMockRecorder) GetWorkflowTimeSkipping(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetWorkflowTimeSkipping", reflect.TypeOf((*MockWorkflowServiceClient)(nil).GetWorkflowTimeSkipping), varargs...)
+}
+
 // ListActivityExecutions mocks base method.
 func (m *MockWorkflowServiceClient) ListActivityExecutions(ctx context.Context, in *workflowservice.ListActivityExecutionsRequest, opts ...grpc.CallOption) (*workflowservice.ListActivityExecutionsResponse, error) {
 	m.ctrl.T.Helper()
@@ -3115,6 +3135,21 @@ func (m *MockWorkflowServiceServer) GetWorkflowExecutionHistoryReverse(arg0 cont
 func (mr *MockWorkflowServiceServerMockRecorder) GetWorkflowExecutionHistoryReverse(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetWorkflowExecutionHistoryReverse", reflect.TypeOf((*MockWorkflowServiceServer)(nil).GetWorkflowExecutionHistoryReverse), arg0, arg1)
+}
+
+// GetWorkflowTimeSkipping mocks base method.
+func (m *MockWorkflowServiceServer) GetWorkflowTimeSkipping(arg0 context.Context, arg1 *workflowservice.GetWorkflowTimeSkippingRequest) (*workflowservice.GetWorkflowTimeSkippingResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetWorkflowTimeSkipping", arg0, arg1)
+	ret0, _ := ret[0].(*workflowservice.GetWorkflowTimeSkippingResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetWorkflowTimeSkipping indicates an expected call of GetWorkflowTimeSkipping.
+func (mr *MockWorkflowServiceServerMockRecorder) GetWorkflowTimeSkipping(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetWorkflowTimeSkipping", reflect.TypeOf((*MockWorkflowServiceServer)(nil).GetWorkflowTimeSkipping), arg0, arg1)
 }
 
 // ListActivityExecutions mocks base method.

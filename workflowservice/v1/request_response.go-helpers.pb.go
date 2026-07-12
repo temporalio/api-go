@@ -4519,6 +4519,80 @@ func (this *PollWorkflowExecutionUpdateResponse) Equal(that interface{}) bool {
 	return proto.Equal(this, that1)
 }
 
+// Marshal an object of type GetWorkflowTimeSkippingRequest to the protobuf v3 wire format
+func (val *GetWorkflowTimeSkippingRequest) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type GetWorkflowTimeSkippingRequest from the protobuf v3 wire format
+func (val *GetWorkflowTimeSkippingRequest) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *GetWorkflowTimeSkippingRequest) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two GetWorkflowTimeSkippingRequest values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *GetWorkflowTimeSkippingRequest) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *GetWorkflowTimeSkippingRequest
+	switch t := that.(type) {
+	case *GetWorkflowTimeSkippingRequest:
+		that1 = t
+	case GetWorkflowTimeSkippingRequest:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type GetWorkflowTimeSkippingResponse to the protobuf v3 wire format
+func (val *GetWorkflowTimeSkippingResponse) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type GetWorkflowTimeSkippingResponse from the protobuf v3 wire format
+func (val *GetWorkflowTimeSkippingResponse) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *GetWorkflowTimeSkippingResponse) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two GetWorkflowTimeSkippingResponse values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *GetWorkflowTimeSkippingResponse) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *GetWorkflowTimeSkippingResponse
+	switch t := that.(type) {
+	case *GetWorkflowTimeSkippingResponse:
+		that1 = t
+	case GetWorkflowTimeSkippingResponse:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
 // Marshal an object of type PollNexusTaskQueueRequest to the protobuf v3 wire format
 func (val *PollNexusTaskQueueRequest) Marshal() ([]byte, error) {
 	return proto.Marshal(val)

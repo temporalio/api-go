@@ -96,6 +96,7 @@ const (
 	WorkflowService_SetWorkerDeploymentManager_FullMethodName                   = "/temporal.api.workflowservice.v1.WorkflowService/SetWorkerDeploymentManager"
 	WorkflowService_UpdateWorkflowExecution_FullMethodName                      = "/temporal.api.workflowservice.v1.WorkflowService/UpdateWorkflowExecution"
 	WorkflowService_PollWorkflowExecutionUpdate_FullMethodName                  = "/temporal.api.workflowservice.v1.WorkflowService/PollWorkflowExecutionUpdate"
+	WorkflowService_GetWorkflowTimeSkipping_FullMethodName                      = "/temporal.api.workflowservice.v1.WorkflowService/GetWorkflowTimeSkipping"
 	WorkflowService_StartBatchOperation_FullMethodName                          = "/temporal.api.workflowservice.v1.WorkflowService/StartBatchOperation"
 	WorkflowService_StopBatchOperation_FullMethodName                           = "/temporal.api.workflowservice.v1.WorkflowService/StopBatchOperation"
 	WorkflowService_DescribeBatchOperation_FullMethodName                       = "/temporal.api.workflowservice.v1.WorkflowService/DescribeBatchOperation"
@@ -633,6 +634,14 @@ type WorkflowServiceClient interface {
 	//
 	//	aip.dev/not-precedent: We don't expose update polling API to HTTP in favor of a potential future non-blocking form. --)
 	PollWorkflowExecutionUpdate(ctx context.Context, in *PollWorkflowExecutionUpdateRequest, opts ...grpc.CallOption) (*PollWorkflowExecutionUpdateResponse, error)
+	// Returns time-skipping info for a workflow execution: its current virtual time and
+	// the current fast-forward (registered via the TimeSkippingConfig), if any.
+	// When `wait_fast_forward_completion` is set, the call behaves as a long poll and
+	// does not resolve until the fast-forward completes or a timeout is hit.
+	// (-- api-linter: core::0127::http-annotation=disabled
+	//
+	//	aip.dev/not-precedent: We do not expose time-skipping info over HTTP because there is currently no identified use case. --)
+	GetWorkflowTimeSkipping(ctx context.Context, in *GetWorkflowTimeSkippingRequest, opts ...grpc.CallOption) (*GetWorkflowTimeSkippingResponse, error)
 	// StartBatchOperation starts a new batch operation
 	StartBatchOperation(ctx context.Context, in *StartBatchOperationRequest, opts ...grpc.CallOption) (*StartBatchOperationResponse, error)
 	// StopBatchOperation stops a batch operation
@@ -1659,6 +1668,16 @@ func (c *workflowServiceClient) PollWorkflowExecutionUpdate(ctx context.Context,
 	return out, nil
 }
 
+func (c *workflowServiceClient) GetWorkflowTimeSkipping(ctx context.Context, in *GetWorkflowTimeSkippingRequest, opts ...grpc.CallOption) (*GetWorkflowTimeSkippingResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetWorkflowTimeSkippingResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_GetWorkflowTimeSkipping_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *workflowServiceClient) StartBatchOperation(ctx context.Context, in *StartBatchOperationRequest, opts ...grpc.CallOption) (*StartBatchOperationResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(StartBatchOperationResponse)
@@ -2608,6 +2627,14 @@ type WorkflowServiceServer interface {
 	//
 	//	aip.dev/not-precedent: We don't expose update polling API to HTTP in favor of a potential future non-blocking form. --)
 	PollWorkflowExecutionUpdate(context.Context, *PollWorkflowExecutionUpdateRequest) (*PollWorkflowExecutionUpdateResponse, error)
+	// Returns time-skipping info for a workflow execution: its current virtual time and
+	// the current fast-forward (registered via the TimeSkippingConfig), if any.
+	// When `wait_fast_forward_completion` is set, the call behaves as a long poll and
+	// does not resolve until the fast-forward completes or a timeout is hit.
+	// (-- api-linter: core::0127::http-annotation=disabled
+	//
+	//	aip.dev/not-precedent: We do not expose time-skipping info over HTTP because there is currently no identified use case. --)
+	GetWorkflowTimeSkipping(context.Context, *GetWorkflowTimeSkippingRequest) (*GetWorkflowTimeSkippingResponse, error)
 	// StartBatchOperation starts a new batch operation
 	StartBatchOperation(context.Context, *StartBatchOperationRequest) (*StartBatchOperationResponse, error)
 	// StopBatchOperation stops a batch operation
@@ -3101,6 +3128,9 @@ func (UnimplementedWorkflowServiceServer) UpdateWorkflowExecution(context.Contex
 }
 func (UnimplementedWorkflowServiceServer) PollWorkflowExecutionUpdate(context.Context, *PollWorkflowExecutionUpdateRequest) (*PollWorkflowExecutionUpdateResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method PollWorkflowExecutionUpdate not implemented")
+}
+func (UnimplementedWorkflowServiceServer) GetWorkflowTimeSkipping(context.Context, *GetWorkflowTimeSkippingRequest) (*GetWorkflowTimeSkippingResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetWorkflowTimeSkipping not implemented")
 }
 func (UnimplementedWorkflowServiceServer) StartBatchOperation(context.Context, *StartBatchOperationRequest) (*StartBatchOperationResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method StartBatchOperation not implemented")
@@ -4629,6 +4659,24 @@ func _WorkflowService_PollWorkflowExecutionUpdate_Handler(srv interface{}, ctx c
 	return interceptor(ctx, in, info, handler)
 }
 
+func _WorkflowService_GetWorkflowTimeSkipping_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetWorkflowTimeSkippingRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WorkflowServiceServer).GetWorkflowTimeSkipping(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: WorkflowService_GetWorkflowTimeSkipping_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WorkflowServiceServer).GetWorkflowTimeSkipping(ctx, req.(*GetWorkflowTimeSkippingRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _WorkflowService_StartBatchOperation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(StartBatchOperationRequest)
 	if err := dec(in); err != nil {
@@ -5767,6 +5815,10 @@ var WorkflowService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "PollWorkflowExecutionUpdate",
 			Handler:    _WorkflowService_PollWorkflowExecutionUpdate_Handler,
+		},
+		{
+			MethodName: "GetWorkflowTimeSkipping",
+			Handler:    _WorkflowService_GetWorkflowTimeSkipping_Handler,
 		},
 		{
 			MethodName: "StartBatchOperation",
