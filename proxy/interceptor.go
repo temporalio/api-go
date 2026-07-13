@@ -21,6 +21,7 @@ import (
 	"go.temporal.io/api/failure/v1"
 	"go.temporal.io/api/history/v1"
 	"go.temporal.io/api/nexus/v1"
+	"go.temporal.io/api/notificationservice/v1"
 	"go.temporal.io/api/operatorservice/v1"
 	"go.temporal.io/api/protocol/v1"
 	"go.temporal.io/api/query/v1"
@@ -2962,71 +2963,6 @@ func visitPayloads(
 
 			ctx.Context = prevCtx
 
-		case *nexus.OnCompleteHandlerInput:
-
-			if o == nil {
-				continue
-			}
-
-			prevCtx := ctx.Context
-			if options.ContextHook != nil {
-				var hookErr error
-				if ctx.Context, hookErr = options.ContextHook(prevCtx, o); hookErr != nil {
-					return hookErr
-				}
-			}
-
-			if o.SourceContext != nil {
-				if err := visitPayload(ctx, options, o, concState, &o.SourceContext); err != nil {
-					return err
-				}
-			}
-
-			if err := visitPayloads(
-				ctx,
-				options,
-				o,
-				concState,
-				o.GetOutcome(),
-			); err != nil {
-				return err
-			}
-
-			ctx.Context = prevCtx
-
-		case *nexus.OnCompleteHandlerInput_Outcome:
-
-			if o == nil {
-				continue
-			}
-
-			prevCtx := ctx.Context
-			if options.ContextHook != nil {
-				var hookErr error
-				if ctx.Context, hookErr = options.ContextHook(prevCtx, o); hookErr != nil {
-					return hookErr
-				}
-			}
-
-			if success := o.GetSuccess(); success != nil {
-				if err := visitPayload(ctx, options, o, concState, &success); err != nil {
-					return err
-				}
-				o.Result = &nexus.OnCompleteHandlerInput_Outcome_Success{Success: success}
-			}
-
-			if err := visitPayloads(
-				ctx,
-				options,
-				o,
-				concState,
-				o.GetFailure(),
-			); err != nil {
-				return err
-			}
-
-			ctx.Context = prevCtx
-
 		case *nexus.Request:
 
 			if o == nil {
@@ -3146,6 +3082,70 @@ func visitPayloads(
 				if err := visitPayload(ctx, options, o, concState, &o.Payload); err != nil {
 					return err
 				}
+			}
+
+			ctx.Context = prevCtx
+
+		case *notificationservice.OnCompleteHandlerRequest:
+
+			if o == nil {
+				continue
+			}
+
+			prevCtx := ctx.Context
+			if options.ContextHook != nil {
+				var hookErr error
+				if ctx.Context, hookErr = options.ContextHook(prevCtx, o); hookErr != nil {
+					return hookErr
+				}
+			}
+
+			if o.SourceContext != nil {
+				if err := visitPayload(ctx, options, o, concState, &o.SourceContext); err != nil {
+					return err
+				}
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				concState,
+				o.GetOutcome(),
+			); err != nil {
+				return err
+			}
+
+			ctx.Context = prevCtx
+
+		case *notificationservice.OnCompleteHandlerRequest_Outcome:
+
+			if o == nil {
+				continue
+			}
+
+			prevCtx := ctx.Context
+			if options.ContextHook != nil {
+				var hookErr error
+				if ctx.Context, hookErr = options.ContextHook(prevCtx, o); hookErr != nil {
+					return hookErr
+				}
+			}
+
+			if o.Success != nil {
+				if err := visitPayload(ctx, options, o, concState, &o.Success); err != nil {
+					return err
+				}
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				concState,
+				o.GetFailure(),
+			); err != nil {
+				return err
 			}
 
 			ctx.Context = prevCtx
@@ -6573,32 +6573,6 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 				return err
 			}
 
-		case *nexus.OnCompleteHandlerInput:
-			if o == nil {
-				continue
-			}
-			ctx.Parent = o
-			if err := visitFailures(
-				ctx,
-				options,
-				o.GetOutcome(),
-			); err != nil {
-				return err
-			}
-
-		case *nexus.OnCompleteHandlerInput_Outcome:
-			if o == nil {
-				continue
-			}
-			ctx.Parent = o
-			if err := visitFailures(
-				ctx,
-				options,
-				o.GetFailure(),
-			); err != nil {
-				return err
-			}
-
 		case *nexus.Response:
 			if o == nil {
 				continue
@@ -6613,6 +6587,32 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 			}
 
 		case *nexus.StartOperationResponse:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetFailure(),
+			); err != nil {
+				return err
+			}
+
+		case *notificationservice.OnCompleteHandlerRequest:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetOutcome(),
+			); err != nil {
+				return err
+			}
+
+		case *notificationservice.OnCompleteHandlerRequest_Outcome:
 			if o == nil {
 				continue
 			}

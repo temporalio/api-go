@@ -45,6 +45,8 @@ var (
 		"FeatureDisabled":                                     35,
 		"GrpcMessageTooLarge":                                 36,
 		"PayloadsTooLarge":                                    37,
+		"ExternalStorageFailure":                              38,
+		"WorkflowPauseRequestedBeforeTaskStarted":             39,
 	}
 )
 
