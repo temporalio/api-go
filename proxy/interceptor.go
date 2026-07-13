@@ -3132,10 +3132,11 @@ func visitPayloads(
 				}
 			}
 
-			if o.Success != nil {
-				if err := visitPayload(ctx, options, o, concState, &o.Success); err != nil {
+			if success := o.GetSuccess(); success != nil {
+				if err := visitPayload(ctx, options, o, concState, &success); err != nil {
 					return err
 				}
+				o.Result = &notificationservice.OnCompleteHandlerRequest_Outcome_Success{Success: success}
 			}
 
 			if err := visitPayloads(
