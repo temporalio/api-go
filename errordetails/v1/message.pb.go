@@ -82,11 +82,12 @@ func (x *NotFoundFailure) GetActiveCluster() string {
 }
 
 type WorkflowExecutionAlreadyStartedFailure struct {
-	state          protoimpl.MessageState `protogen:"open.v1"`
-	StartRequestId string                 `protobuf:"bytes,1,opt,name=start_request_id,json=startRequestId,proto3" json:"start_request_id,omitempty"`
-	RunId          string                 `protobuf:"bytes,2,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
+	state               protoimpl.MessageState `protogen:"open.v1"`
+	StartRequestId      string                 `protobuf:"bytes,1,opt,name=start_request_id,json=startRequestId,proto3" json:"start_request_id,omitempty"`
+	RunId               string                 `protobuf:"bytes,2,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
+	FirstExecutionRunId string                 `protobuf:"bytes,3,opt,name=first_execution_run_id,json=firstExecutionRunId,proto3" json:"first_execution_run_id,omitempty"`
+	unknownFields       protoimpl.UnknownFields
+	sizeCache           protoimpl.SizeCache
 }
 
 func (x *WorkflowExecutionAlreadyStartedFailure) Reset() {
@@ -129,6 +130,13 @@ func (x *WorkflowExecutionAlreadyStartedFailure) GetStartRequestId() string {
 func (x *WorkflowExecutionAlreadyStartedFailure) GetRunId() string {
 	if x != nil {
 		return x.RunId
+	}
+	return ""
+}
+
+func (x *WorkflowExecutionAlreadyStartedFailure) GetFirstExecutionRunId() string {
+	if x != nil {
+		return x.FirstExecutionRunId
 	}
 	return ""
 }
@@ -967,6 +975,45 @@ func (x *NexusOperationExecutionAlreadyStartedFailure) GetRunId() string {
 	return ""
 }
 
+// An error indicating that the server lost the buffered pages of a paginated workflow task
+// completion. This is a transient error: the workflow task is still valid, and the client
+// should resend all pages from page 0 using the same task token.
+type WorkflowTaskCompletionBufferLostFailure struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *WorkflowTaskCompletionBufferLostFailure) Reset() {
+	*x = WorkflowTaskCompletionBufferLostFailure{}
+	mi := &file_temporal_api_errordetails_v1_message_proto_msgTypes[19]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *WorkflowTaskCompletionBufferLostFailure) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*WorkflowTaskCompletionBufferLostFailure) ProtoMessage() {}
+
+func (x *WorkflowTaskCompletionBufferLostFailure) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_api_errordetails_v1_message_proto_msgTypes[19]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use WorkflowTaskCompletionBufferLostFailure.ProtoReflect.Descriptor instead.
+func (*WorkflowTaskCompletionBufferLostFailure) Descriptor() ([]byte, []int) {
+	return file_temporal_api_errordetails_v1_message_proto_rawDescGZIP(), []int{19}
+}
+
 // NOTE: `OperationStatus` is modelled after
 // [`google.rpc.Status`](https://github.com/googleapis/googleapis/blob/master/google/rpc/status.proto).
 //
@@ -984,7 +1031,7 @@ type MultiOperationExecutionFailure_OperationStatus struct {
 
 func (x *MultiOperationExecutionFailure_OperationStatus) Reset() {
 	*x = MultiOperationExecutionFailure_OperationStatus{}
-	mi := &file_temporal_api_errordetails_v1_message_proto_msgTypes[19]
+	mi := &file_temporal_api_errordetails_v1_message_proto_msgTypes[20]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -996,7 +1043,7 @@ func (x *MultiOperationExecutionFailure_OperationStatus) String() string {
 func (*MultiOperationExecutionFailure_OperationStatus) ProtoMessage() {}
 
 func (x *MultiOperationExecutionFailure_OperationStatus) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_errordetails_v1_message_proto_msgTypes[19]
+	mi := &file_temporal_api_errordetails_v1_message_proto_msgTypes[20]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1040,10 +1087,11 @@ const file_temporal_api_errordetails_v1_message_proto_rawDesc = "" +
 	"*temporal/api/errordetails/v1/message.proto\x12\x1ctemporal.api.errordetails.v1\x1a\x19google/protobuf/any.proto\x1a$temporal/api/common/v1/message.proto\x1a(temporal/api/enums/v1/failed_cause.proto\x1a%temporal/api/enums/v1/namespace.proto\x1a%temporal/api/failure/v1/message.proto\"a\n" +
 	"\x0fNotFoundFailure\x12'\n" +
 	"\x0fcurrent_cluster\x18\x01 \x01(\tR\x0ecurrentCluster\x12%\n" +
-	"\x0eactive_cluster\x18\x02 \x01(\tR\ractiveCluster\"i\n" +
+	"\x0eactive_cluster\x18\x02 \x01(\tR\ractiveCluster\"\x9e\x01\n" +
 	"&WorkflowExecutionAlreadyStartedFailure\x12(\n" +
 	"\x10start_request_id\x18\x01 \x01(\tR\x0estartRequestId\x12\x15\n" +
-	"\x06run_id\x18\x02 \x01(\tR\x05runId\"\x89\x01\n" +
+	"\x06run_id\x18\x02 \x01(\tR\x05runId\x123\n" +
+	"\x16first_execution_run_id\x18\x03 \x01(\tR\x13firstExecutionRunId\"\x89\x01\n" +
 	"\x19NamespaceNotActiveFailure\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12'\n" +
 	"\x0fcurrent_cluster\x18\x02 \x01(\tR\x0ecurrentCluster\x12%\n" +
@@ -1090,7 +1138,8 @@ const file_temporal_api_errordetails_v1_message_proto_rawDesc = "" +
 	"\x06run_id\x18\x02 \x01(\tR\x05runId\"o\n" +
 	",NexusOperationExecutionAlreadyStartedFailure\x12(\n" +
 	"\x10start_request_id\x18\x01 \x01(\tR\x0estartRequestId\x12\x15\n" +
-	"\x06run_id\x18\x02 \x01(\tR\x05runIdB\xa7\x01\n" +
+	"\x06run_id\x18\x02 \x01(\tR\x05runId\")\n" +
+	"'WorkflowTaskCompletionBufferLostFailureB\xa7\x01\n" +
 	"\x1fio.temporal.api.errordetails.v1B\fMessageProtoP\x01Z/go.temporal.io/api/errordetails/v1;errordetails\xaa\x02\x1eTemporalio.Api.ErrorDetails.V1\xea\x02!Temporalio::Api::ErrorDetails::V1b\x06proto3"
 
 var (
@@ -1105,7 +1154,7 @@ func file_temporal_api_errordetails_v1_message_proto_rawDescGZIP() []byte {
 	return file_temporal_api_errordetails_v1_message_proto_rawDescData
 }
 
-var file_temporal_api_errordetails_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 20)
+var file_temporal_api_errordetails_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 21)
 var file_temporal_api_errordetails_v1_message_proto_goTypes = []any{
 	(*NotFoundFailure)(nil),                                // 0: temporal.api.errordetails.v1.NotFoundFailure
 	(*WorkflowExecutionAlreadyStartedFailure)(nil),         // 1: temporal.api.errordetails.v1.WorkflowExecutionAlreadyStartedFailure
@@ -1126,23 +1175,24 @@ var file_temporal_api_errordetails_v1_message_proto_goTypes = []any{
 	(*MultiOperationExecutionFailure)(nil),                 // 16: temporal.api.errordetails.v1.MultiOperationExecutionFailure
 	(*ActivityExecutionAlreadyStartedFailure)(nil),         // 17: temporal.api.errordetails.v1.ActivityExecutionAlreadyStartedFailure
 	(*NexusOperationExecutionAlreadyStartedFailure)(nil),   // 18: temporal.api.errordetails.v1.NexusOperationExecutionAlreadyStartedFailure
-	(*MultiOperationExecutionFailure_OperationStatus)(nil), // 19: temporal.api.errordetails.v1.MultiOperationExecutionFailure.OperationStatus
-	(v1.NamespaceState)(0),                                 // 20: temporal.api.enums.v1.NamespaceState
-	(*v11.Failure)(nil),                                    // 21: temporal.api.failure.v1.Failure
-	(v1.ResourceExhaustedCause)(0),                         // 22: temporal.api.enums.v1.ResourceExhaustedCause
-	(v1.ResourceExhaustedScope)(0),                         // 23: temporal.api.enums.v1.ResourceExhaustedScope
-	(*v12.WorkflowExecution)(nil),                          // 24: temporal.api.common.v1.WorkflowExecution
-	(*anypb.Any)(nil),                                      // 25: google.protobuf.Any
+	(*WorkflowTaskCompletionBufferLostFailure)(nil),        // 19: temporal.api.errordetails.v1.WorkflowTaskCompletionBufferLostFailure
+	(*MultiOperationExecutionFailure_OperationStatus)(nil), // 20: temporal.api.errordetails.v1.MultiOperationExecutionFailure.OperationStatus
+	(v1.NamespaceState)(0),                                 // 21: temporal.api.enums.v1.NamespaceState
+	(*v11.Failure)(nil),                                    // 22: temporal.api.failure.v1.Failure
+	(v1.ResourceExhaustedCause)(0),                         // 23: temporal.api.enums.v1.ResourceExhaustedCause
+	(v1.ResourceExhaustedScope)(0),                         // 24: temporal.api.enums.v1.ResourceExhaustedScope
+	(*v12.WorkflowExecution)(nil),                          // 25: temporal.api.common.v1.WorkflowExecution
+	(*anypb.Any)(nil),                                      // 26: google.protobuf.Any
 }
 var file_temporal_api_errordetails_v1_message_proto_depIdxs = []int32{
-	20, // 0: temporal.api.errordetails.v1.NamespaceInvalidStateFailure.state:type_name -> temporal.api.enums.v1.NamespaceState
-	20, // 1: temporal.api.errordetails.v1.NamespaceInvalidStateFailure.allowed_states:type_name -> temporal.api.enums.v1.NamespaceState
-	21, // 2: temporal.api.errordetails.v1.QueryFailedFailure.failure:type_name -> temporal.api.failure.v1.Failure
-	22, // 3: temporal.api.errordetails.v1.ResourceExhaustedFailure.cause:type_name -> temporal.api.enums.v1.ResourceExhaustedCause
-	23, // 4: temporal.api.errordetails.v1.ResourceExhaustedFailure.scope:type_name -> temporal.api.enums.v1.ResourceExhaustedScope
-	24, // 5: temporal.api.errordetails.v1.SystemWorkflowFailure.workflow_execution:type_name -> temporal.api.common.v1.WorkflowExecution
-	19, // 6: temporal.api.errordetails.v1.MultiOperationExecutionFailure.statuses:type_name -> temporal.api.errordetails.v1.MultiOperationExecutionFailure.OperationStatus
-	25, // 7: temporal.api.errordetails.v1.MultiOperationExecutionFailure.OperationStatus.details:type_name -> google.protobuf.Any
+	21, // 0: temporal.api.errordetails.v1.NamespaceInvalidStateFailure.state:type_name -> temporal.api.enums.v1.NamespaceState
+	21, // 1: temporal.api.errordetails.v1.NamespaceInvalidStateFailure.allowed_states:type_name -> temporal.api.enums.v1.NamespaceState
+	22, // 2: temporal.api.errordetails.v1.QueryFailedFailure.failure:type_name -> temporal.api.failure.v1.Failure
+	23, // 3: temporal.api.errordetails.v1.ResourceExhaustedFailure.cause:type_name -> temporal.api.enums.v1.ResourceExhaustedCause
+	24, // 4: temporal.api.errordetails.v1.ResourceExhaustedFailure.scope:type_name -> temporal.api.enums.v1.ResourceExhaustedScope
+	25, // 5: temporal.api.errordetails.v1.SystemWorkflowFailure.workflow_execution:type_name -> temporal.api.common.v1.WorkflowExecution
+	20, // 6: temporal.api.errordetails.v1.MultiOperationExecutionFailure.statuses:type_name -> temporal.api.errordetails.v1.MultiOperationExecutionFailure.OperationStatus
+	26, // 7: temporal.api.errordetails.v1.MultiOperationExecutionFailure.OperationStatus.details:type_name -> google.protobuf.Any
 	8,  // [8:8] is the sub-list for method output_type
 	8,  // [8:8] is the sub-list for method input_type
 	8,  // [8:8] is the sub-list for extension type_name
@@ -1161,7 +1211,7 @@ func file_temporal_api_errordetails_v1_message_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_temporal_api_errordetails_v1_message_proto_rawDesc), len(file_temporal_api_errordetails_v1_message_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   20,
+			NumMessages:   21,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
