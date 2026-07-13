@@ -578,10 +578,10 @@ func visitPayloads(
 						if err := visitPayload(ctx, options, o, concState, &o.Input); err != nil { return err }
 					}
 				}
-				{{else if and (eq $type "*nexus.OnCompleteHandlerInput_Outcome") (eq . "Success")}}
+				{{else if and (eq $type "*notificationservice.OnCompleteHandlerRequest_Outcome") (eq . "Success")}}
 				if success := o.GetSuccess(); success != nil {
 					if err := visitPayload(ctx, options, o, concState, &success); err != nil { return err }
-					o.Result = &nexus.OnCompleteHandlerInput_Outcome_Success{Success: success}
+					o.Result = &notificationservice.OnCompleteHandlerRequest_Outcome_Success{Success: success}
 				}
 				{{else}}
 				if o.{{.}} != nil {
