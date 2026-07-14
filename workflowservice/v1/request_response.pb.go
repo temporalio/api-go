@@ -11954,20 +11954,17 @@ type ResetActivityExecutionRequest struct {
 	RunId string `protobuf:"bytes,4,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
 	// The identity of the client who initiated this request.
 	Identity string `protobuf:"bytes,5,opt,name=identity,proto3" json:"identity,omitempty"`
-	// Indicates that activity should reset heartbeat details.
-	// This flag will be applied only to the new instance of the activity.
-	ResetHeartbeat bool `protobuf:"varint,6,opt,name=reset_heartbeat,json=resetHeartbeat,proto3" json:"reset_heartbeat,omitempty"`
 	// If activity is paused, it will remain paused after reset
-	KeepPaused bool `protobuf:"varint,7,opt,name=keep_paused,json=keepPaused,proto3" json:"keep_paused,omitempty"`
+	KeepPaused bool `protobuf:"varint,6,opt,name=keep_paused,json=keepPaused,proto3" json:"keep_paused,omitempty"`
 	// If set, and activity is in backoff, the activity will start at a random time within the specified jitter duration.
 	// (unless it is paused and keep_paused is set)
-	Jitter *durationpb.Duration `protobuf:"bytes,8,opt,name=jitter,proto3" json:"jitter,omitempty"`
+	Jitter *durationpb.Duration `protobuf:"bytes,7,opt,name=jitter,proto3" json:"jitter,omitempty"`
 	// If set, the activity options will be restored to the defaults.
 	// Default options are then options activity was created with.
 	// They are part of the first schedule event.
-	RestoreOriginalOptions bool `protobuf:"varint,9,opt,name=restore_original_options,json=restoreOriginalOptions,proto3" json:"restore_original_options,omitempty"`
+	RestoreOriginalOptions bool `protobuf:"varint,8,opt,name=restore_original_options,json=restoreOriginalOptions,proto3" json:"restore_original_options,omitempty"`
 	// Resource ID for routing. Contains "workflow:{workflow_id}" for workflow activities or "activity:{activity_id}" for standalone activities.
-	ResourceId    string `protobuf:"bytes,10,opt,name=resource_id,json=resourceId,proto3" json:"resource_id,omitempty"`
+	ResourceId    string `protobuf:"bytes,9,opt,name=resource_id,json=resourceId,proto3" json:"resource_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -12035,13 +12032,6 @@ func (x *ResetActivityExecutionRequest) GetIdentity() string {
 		return x.Identity
 	}
 	return ""
-}
-
-func (x *ResetActivityExecutionRequest) GetResetHeartbeat() bool {
-	if x != nil {
-		return x.ResetHeartbeat
-	}
-	return false
 }
 
 func (x *ResetActivityExecutionRequest) GetKeepPaused() bool {
@@ -21343,7 +21333,7 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\x06jitter\x18\b \x01(\v2\x19.google.protobuf.DurationR\x06jitter\x128\n" +
 	"\x18restore_original_options\x18\t \x01(\bR\x16restoreOriginalOptionsB\n" +
 	"\n" +
-	"\bactivity\"\x8a\x03\n" +
+	"\bactivity\"\xe1\x02\n" +
 	"\x1dResetActivityExecutionRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12\x1f\n" +
 	"\vworkflow_id\x18\x02 \x01(\tR\n" +
@@ -21351,14 +21341,12 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\vactivity_id\x18\x03 \x01(\tR\n" +
 	"activityId\x12\x15\n" +
 	"\x06run_id\x18\x04 \x01(\tR\x05runId\x12\x1a\n" +
-	"\bidentity\x18\x05 \x01(\tR\bidentity\x12'\n" +
-	"\x0freset_heartbeat\x18\x06 \x01(\bR\x0eresetHeartbeat\x12\x1f\n" +
-	"\vkeep_paused\x18\a \x01(\bR\n" +
+	"\bidentity\x18\x05 \x01(\tR\bidentity\x12\x1f\n" +
+	"\vkeep_paused\x18\x06 \x01(\bR\n" +
 	"keepPaused\x121\n" +
-	"\x06jitter\x18\b \x01(\v2\x19.google.protobuf.DurationR\x06jitter\x128\n" +
-	"\x18restore_original_options\x18\t \x01(\bR\x16restoreOriginalOptions\x12\x1f\n" +
-	"\vresource_id\x18\n" +
-	" \x01(\tR\n" +
+	"\x06jitter\x18\a \x01(\v2\x19.google.protobuf.DurationR\x06jitter\x128\n" +
+	"\x18restore_original_options\x18\b \x01(\bR\x16restoreOriginalOptions\x12\x1f\n" +
+	"\vresource_id\x18\t \x01(\tR\n" +
 	"resourceId\"\x17\n" +
 	"\x15ResetActivityResponse\" \n" +
 	"\x1eResetActivityExecutionResponse\"\xea\x02\n" +
