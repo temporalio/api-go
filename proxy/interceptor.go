@@ -293,6 +293,9 @@ func visitPayload(
 	concState *payloadConcurrencyState,
 	fieldPtr **common.Payload,
 ) error {
+	if handled, err := visitSystemPayload(ctx, options, concState, *fieldPtr); handled {
+		return err
+	}
 	if concState != nil {
 		if errPtr := concState.firstErr.Load(); errPtr != nil {
 			return *errPtr
@@ -998,14 +1001,8 @@ func visitPayloads(
 			}
 
 			if o.Input != nil {
-				if o.GetEndpoint() == "__temporal_system" {
-					if err := visitSystemNexusEnvelope(ctx, options, concState, o); err != nil {
-						return err
-					}
-				} else {
-					if err := visitPayload(ctx, options, o, concState, &o.Input); err != nil {
-						return err
-					}
+				if err := visitPayload(ctx, options, o, concState, &o.Input); err != nil {
+					return err
 				}
 			}
 

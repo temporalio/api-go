@@ -7,6 +7,7 @@ import (
 	"github.com/stretchr/testify/require"
 	command "go.temporal.io/api/command/v1"
 	common "go.temporal.io/api/common/v1"
+	history "go.temporal.io/api/history/v1"
 	sdk "go.temporal.io/api/sdk/v1"
 	workflowservice "go.temporal.io/api/workflowservice/v1"
 	"google.golang.org/protobuf/proto"
@@ -64,23 +65,24 @@ var visitedSignalWithStartRequest = &workflowservice.SignalWithStartWorkflowExec
 	},
 }
 
-// buildSystemNexusCommand builds a system Nexus command whose Input is
+// buildSystemPayloadCommand builds a command whose Input is
 // a SignalWithStartWorkflowExecutionRequest.
 // The encoding and messageType parameters represent the "encoding" and
 // "messageType" metadata of the Payload.
-func buildSystemNexusCommand(t *testing.T, encoding, messageType string) *command.Command {
+func buildSystemPayloadCommand(t *testing.T, encoding, messageType string) *command.Command {
 	t.Helper()
 	data, err := proto.Marshal(signalWithStartRequest)
 	require.NoError(t, err)
 	input := &common.Payload{
 		Data: data,
 		Metadata: map[string][]byte{
-			"encoding":    []byte(encoding),
-			"messageType": []byte(messageType),
+			SystemPayloadMetadataKey: []byte(systemPayloadMarkerValue),
+			"encoding":               []byte(encoding),
+			"messageType":            []byte(messageType),
 		},
 	}
 	attrs := &command.ScheduleNexusOperationCommandAttributes{
-		Endpoint:  "__temporal_system",
+		Endpoint:  "example-endpoint",
 		Service:   "temporal.api.workflowservice.v1.WorkflowService",
 		Operation: "SignalWithStartWorkflowExecution",
 		Input:     input,
@@ -116,8 +118,8 @@ func decodeEnvelope(t *testing.T, input *common.Payload) *workflowservice.Signal
 
 //////////////////////// TESTS ////////////////////////
 
-func TestSystemNexusEnvelopeVisitsInnerPayloads(t *testing.T) {
-	cmd := buildSystemNexusCommand(t, "binary/protobuf", signalWithStartType)
+func TestSystemPayloadVisitsOnlyInnerPayloads(t *testing.T) {
+	cmd := buildSystemPayloadCommand(t, "binary/protobuf", signalWithStartType)
 
 	err := VisitPayloads(context.Background(), cmd, VisitPayloadsOptions{
 		Visitor: collectVisitor,
@@ -128,8 +130,8 @@ func TestSystemNexusEnvelopeVisitsInnerPayloads(t *testing.T) {
 	require.True(t, proto.Equal(visitedSignalWithStartRequest, req))
 }
 
-func TestSystemNexusEnvelopeVisitsInnerPayloadsConcurrent(t *testing.T) {
-	cmd := buildSystemNexusCommand(t, "binary/protobuf", signalWithStartType)
+func TestSystemPayloadVisitsInnerPayloadsConcurrent(t *testing.T) {
+	cmd := buildSystemPayloadCommand(t, "binary/protobuf", signalWithStartType)
 
 	err := VisitPayloads(context.Background(), cmd, VisitPayloadsOptions{
 		ConcurrencyLimit: 4,
@@ -141,8 +143,8 @@ func TestSystemNexusEnvelopeVisitsInnerPayloadsConcurrent(t *testing.T) {
 	require.True(t, proto.Equal(visitedSignalWithStartRequest, req))
 }
 
-func TestSystemNexusEnvelopeRejectsNonProtoBinaryEncoding(t *testing.T) {
-	cmd := buildSystemNexusCommand(t, "json/protobuf", signalWithStartType)
+func TestSystemPayloadRejectsNonProtoBinaryEncoding(t *testing.T) {
+	cmd := buildSystemPayloadCommand(t, "json/protobuf", signalWithStartType)
 
 	err := VisitPayloads(context.Background(), cmd, VisitPayloadsOptions{
 		Visitor: trivialVisitor,
@@ -151,8 +153,8 @@ func TestSystemNexusEnvelopeRejectsNonProtoBinaryEncoding(t *testing.T) {
 	require.ErrorContains(t, err, "binary/protobuf")
 }
 
-func TestSystemNexusEnvelopeRejectsUnknownMessageType(t *testing.T) {
-	cmd := buildSystemNexusCommand(t, "binary/protobuf", "this isn't a valid message type")
+func TestSystemPayloadRejectsUnknownMessageType(t *testing.T) {
+	cmd := buildSystemPayloadCommand(t, "binary/protobuf", "this isn't a valid message type")
 
 	err := VisitPayloads(context.Background(), cmd, VisitPayloadsOptions{
 		Visitor: trivialVisitor,
@@ -161,8 +163,8 @@ func TestSystemNexusEnvelopeRejectsUnknownMessageType(t *testing.T) {
 	require.ErrorContains(t, err, "unknown message type")
 }
 
-func TestSystemNexusEnvelopeRejectsMissingMessageType(t *testing.T) {
-	cmd := buildSystemNexusCommand(t, "binary/protobuf", "")
+func TestSystemPayloadRejectsMissingMessageType(t *testing.T) {
+	cmd := buildSystemPayloadCommand(t, "binary/protobuf", "")
 
 	err := VisitPayloads(context.Background(), cmd, VisitPayloadsOptions{
 		Visitor: trivialVisitor,
@@ -171,7 +173,7 @@ func TestSystemNexusEnvelopeRejectsMissingMessageType(t *testing.T) {
 	require.ErrorContains(t, err, "missing")
 }
 
-func TestNonSystemNexusInput(t *testing.T) {
+func TestUnmarkedPayloadRetainsExistingBehavior(t *testing.T) {
 	cmd := &command.Command{
 		Attributes: &command.Command_ScheduleNexusOperationCommandAttributes{
 			ScheduleNexusOperationCommandAttributes: &command.ScheduleNexusOperationCommandAttributes{
@@ -194,4 +196,41 @@ func TestNonSystemNexusInput(t *testing.T) {
 	})
 	require.NoError(t, err)
 	require.Equal(t, []string{"user-payload"}, seen)
+}
+
+func TestSystemPayloadInNexusOperationCompletedEvent(t *testing.T) {
+	data, err := proto.Marshal(signalWithStartRequest)
+	require.NoError(t, err)
+	attrs := &history.NexusOperationCompletedEventAttributes{Result: &common.Payload{
+		Data: data,
+		Metadata: map[string][]byte{
+			SystemPayloadMetadataKey: []byte(systemPayloadMarkerValue),
+			"encoding":               []byte(binaryProtobufEncoding),
+			"messageType":            []byte(signalWithStartType),
+		},
+	}}
+
+	err = VisitPayloads(context.Background(), attrs, VisitPayloadsOptions{Visitor: collectVisitor})
+	require.NoError(t, err)
+	require.True(t, proto.Equal(visitedSignalWithStartRequest, decodeEnvelope(t, attrs.Result)))
+}
+
+func TestUnmarkedProtobufEnvelopeIsVisitedDirectly(t *testing.T) {
+	data, err := proto.Marshal(signalWithStartRequest)
+	require.NoError(t, err)
+	outer := &common.Payload{Data: data, Metadata: map[string][]byte{
+		"encoding":    []byte(binaryProtobufEncoding),
+		"messageType": []byte(signalWithStartType),
+	}}
+	attrs := &history.NexusOperationCompletedEventAttributes{Result: outer}
+
+	var visited [][]byte
+	err = VisitPayloads(context.Background(), attrs, VisitPayloadsOptions{Visitor: func(_ *VisitPayloadsContext, payloads []*common.Payload) ([]*common.Payload, error) {
+		for _, payload := range payloads {
+			visited = append(visited, payload.Data)
+		}
+		return payloads, nil
+	}})
+	require.NoError(t, err)
+	require.Equal(t, [][]byte{data}, visited)
 }
