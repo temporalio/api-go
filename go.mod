@@ -4,6 +4,7 @@ go 1.25.4
 
 require (
 	github.com/golang/mock v1.6.0
+	github.com/google/go-cmp v0.7.0
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.22.0
 	github.com/nexus-rpc/nexus-proto-annotations v0.1.0
 	github.com/nexus-rpc/sdk-go v0.6.0
