@@ -423,6 +423,51 @@ func TestClientInterceptor(t *testing.T) {
 	require.True(proto.Equal(inputs.Payloads[0], inboundPayload))
 }
 
+func TestClientInterceptorVisitsNestedSystemPayloads(t *testing.T) {
+	server, err := startTestGRPCServer()
+	require.NoError(t, err)
+	defer server.Stop()
+
+	var outboundVisits, inboundVisits int
+	interceptor, err := NewPayloadVisitorInterceptor(PayloadVisitorInterceptorOptions{
+		Outbound: &VisitPayloadsOptions{Visitor: func(ctx *VisitPayloadsContext, payloads []*common.Payload) ([]*common.Payload, error) {
+			outboundVisits += len(payloads)
+			return collectVisitor(ctx, payloads)
+		}},
+		Inbound: &VisitPayloadsOptions{Visitor: func(ctx *VisitPayloadsContext, payloads []*common.Payload) ([]*common.Payload, error) {
+			inboundVisits += len(payloads)
+			return collectVisitor(ctx, payloads)
+		}},
+	})
+	require.NoError(t, err)
+
+	conn, err := grpc.Dial(server.addr,
+		grpc.WithTransportCredentials(insecure.NewCredentials()),
+		grpc.WithChainUnaryInterceptor(interceptor),
+	)
+	require.NoError(t, err)
+	defer conn.Close()
+	client := workflowservice.NewWorkflowServiceClient(conn)
+
+	scheduledCommand := buildSystemPayloadCommand(t, binaryProtobufEncoding, signalWithStartType)
+	_, err = client.RespondWorkflowTaskCompleted(context.Background(), &workflowservice.RespondWorkflowTaskCompletedRequest{
+		Commands: []*command.Command{scheduledCommand},
+	})
+	require.NoError(t, err)
+	require.NotNil(t, server.respondWorkflowTaskCompletedRequest)
+	outer := server.respondWorkflowTaskCompletedRequest.Commands[0].GetScheduleNexusOperationCommandAttributes().Input
+	require.True(t, proto.Equal(visitedSignalWithStartRequest, decodeEnvelope(t, outer)))
+
+	response, err := client.PollWorkflowTaskQueue(context.Background(), &workflowservice.PollWorkflowTaskQueueRequest{})
+	require.NoError(t, err)
+	inboundOuter := response.History.Events[0].GetNexusOperationCompletedEventAttributes().Result
+	require.True(t, proto.Equal(visitedSignalWithStartRequest, decodeEnvelope(t, inboundOuter)))
+	// SignalWithStart has seven nested payloads. The outer protobuf envelopes
+	// are never passed to either codec visitor.
+	require.Equal(t, 7, outboundVisits)
+	require.Equal(t, 7, inboundVisits)
+}
+
 func TestClientInterceptorGrpcFailures(t *testing.T) {
 	require := require.New(t)
 
@@ -507,10 +552,11 @@ func TestClientInterceptorGrpcFailures(t *testing.T) {
 type testGRPCServer struct {
 	workflowservice.UnimplementedWorkflowServiceServer
 	*grpc.Server
-	listener                       net.Listener
-	addr                           string
-	startWorkflowExecutionRequest  *workflowservice.StartWorkflowExecutionRequest
-	startWorkflowExecutionMetadata metadata.MD
+	listener                            net.Listener
+	addr                                string
+	startWorkflowExecutionRequest       *workflowservice.StartWorkflowExecutionRequest
+	startWorkflowExecutionMetadata      metadata.MD
+	respondWorkflowTaskCompletedRequest *workflowservice.RespondWorkflowTaskCompletedRequest
 }
 
 func startTestGRPCServer() (*testGRPCServer, error) {
@@ -581,6 +627,36 @@ func (t *testGRPCServer) PollActivityTaskQueue(
 	return &workflowservice.PollActivityTaskQueueResponse{
 		Input: inputPayloads(),
 	}, nil
+}
+
+func (t *testGRPCServer) RespondWorkflowTaskCompleted(
+	ctx context.Context,
+	req *workflowservice.RespondWorkflowTaskCompletedRequest,
+) (*workflowservice.RespondWorkflowTaskCompletedResponse, error) {
+	t.respondWorkflowTaskCompletedRequest = req
+	return &workflowservice.RespondWorkflowTaskCompletedResponse{}, nil
+}
+
+func (t *testGRPCServer) PollWorkflowTaskQueue(
+	ctx context.Context,
+	req *workflowservice.PollWorkflowTaskQueueRequest,
+) (*workflowservice.PollWorkflowTaskQueueResponse, error) {
+	data, err := proto.Marshal(signalWithStartRequest)
+	if err != nil {
+		return nil, err
+	}
+	return &workflowservice.PollWorkflowTaskQueueResponse{History: &history.History{Events: []*history.HistoryEvent{{
+		Attributes: &history.HistoryEvent_NexusOperationCompletedEventAttributes{
+			NexusOperationCompletedEventAttributes: &history.NexusOperationCompletedEventAttributes{Result: &common.Payload{
+				Data: data,
+				Metadata: map[string][]byte{
+					SystemPayloadMetadataKey: []byte(systemPayloadMarkerValue),
+					"encoding":               []byte(binaryProtobufEncoding),
+					"messageType":            []byte(signalWithStartType),
+				},
+			}},
+		},
+	}}}}, nil
 }
 
 func (t *testGRPCServer) ExecuteMultiOperation(
