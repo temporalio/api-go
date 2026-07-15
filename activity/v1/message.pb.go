@@ -675,8 +675,11 @@ type ActivityExecutionListInfo struct {
 	// The difference between close time and scheduled time.
 	// This field is only populated if the activity is closed.
 	ExecutionDuration *durationpb.Duration `protobuf:"bytes,11,opt,name=execution_duration,json=executionDuration,proto3" json:"execution_duration,omitempty"`
-	unknownFields     protoimpl.UnknownFields
-	sizeCache         protoimpl.SizeCache
+	// The time at which the first activity task is made available for dispatch, computed as
+	// `schedule_time + start_delay`. Same as `schedule_time` if `start_delay` is not set.
+	ExecutionTime *timestamppb.Timestamp `protobuf:"bytes,12,opt,name=execution_time,json=executionTime,proto3" json:"execution_time,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *ActivityExecutionListInfo) Reset() {
@@ -782,6 +785,13 @@ func (x *ActivityExecutionListInfo) GetStateSizeBytes() int64 {
 func (x *ActivityExecutionListInfo) GetExecutionDuration() *durationpb.Duration {
 	if x != nil {
 		return x.ExecutionDuration
+	}
+	return nil
+}
+
+func (x *ActivityExecutionListInfo) GetExecutionTime() *timestamppb.Timestamp {
+	if x != nil {
+		return x.ExecutionTime
 	}
 	return nil
 }
@@ -1008,7 +1018,7 @@ const file_temporal_api_activity_v1_message_proto_rawDesc = "" +
 	"sdkVersion\x12:\n" +
 	"\vstart_delay\x18% \x01(\v2\x19.google.protobuf.DurationR\n" +
 	"startDelay\x12A\n" +
-	"\x0eexecution_time\x18& \x01(\v2\x1a.google.protobuf.TimestampR\rexecutionTime\"\x82\x05\n" +
+	"\x0eexecution_time\x18& \x01(\v2\x1a.google.protobuf.TimestampR\rexecutionTime\"\xc5\x05\n" +
 	"\x19ActivityExecutionListInfo\x12\x1f\n" +
 	"\vactivity_id\x18\x01 \x01(\tR\n" +
 	"activityId\x12\x15\n" +
@@ -1024,7 +1034,8 @@ const file_temporal_api_activity_v1_message_proto_rawDesc = "" +
 	"\x16state_transition_count\x18\t \x01(\x03R\x14stateTransitionCount\x12(\n" +
 	"\x10state_size_bytes\x18\n" +
 	" \x01(\x03R\x0estateSizeBytes\x12H\n" +
-	"\x12execution_duration\x18\v \x01(\v2\x19.google.protobuf.DurationR\x11executionDuration\"\x9e\x02\n" +
+	"\x12execution_duration\x18\v \x01(\v2\x19.google.protobuf.DurationR\x11executionDuration\x12A\n" +
+	"\x0eexecution_time\x18\f \x01(\v2\x1a.google.protobuf.TimestampR\rexecutionTime\"\x9e\x02\n" +
 	"\fCallbackInfo\x12H\n" +
 	"\atrigger\x18\x01 \x01(\v2..temporal.api.activity.v1.CallbackInfo.TriggerR\atrigger\x12:\n" +
 	"\x04info\x18\x02 \x01(\v2&.temporal.api.callback.v1.CallbackInfoR\x04info\x1a\x10\n" +
@@ -1116,14 +1127,15 @@ var file_temporal_api_activity_v1_message_proto_depIdxs = []int32{
 	14, // 40: temporal.api.activity.v1.ActivityExecutionListInfo.status:type_name -> temporal.api.enums.v1.ActivityExecutionStatus
 	18, // 41: temporal.api.activity.v1.ActivityExecutionListInfo.search_attributes:type_name -> temporal.api.common.v1.SearchAttributes
 	10, // 42: temporal.api.activity.v1.ActivityExecutionListInfo.execution_duration:type_name -> google.protobuf.Duration
-	6,  // 43: temporal.api.activity.v1.CallbackInfo.trigger:type_name -> temporal.api.activity.v1.CallbackInfo.Trigger
-	22, // 44: temporal.api.activity.v1.CallbackInfo.info:type_name -> temporal.api.callback.v1.CallbackInfo
-	5,  // 45: temporal.api.activity.v1.CallbackInfo.Trigger.activity_closed:type_name -> temporal.api.activity.v1.CallbackInfo.ActivityClosed
-	46, // [46:46] is the sub-list for method output_type
-	46, // [46:46] is the sub-list for method input_type
-	46, // [46:46] is the sub-list for extension type_name
-	46, // [46:46] is the sub-list for extension extendee
-	0,  // [0:46] is the sub-list for field type_name
+	16, // 43: temporal.api.activity.v1.ActivityExecutionListInfo.execution_time:type_name -> google.protobuf.Timestamp
+	6,  // 44: temporal.api.activity.v1.CallbackInfo.trigger:type_name -> temporal.api.activity.v1.CallbackInfo.Trigger
+	22, // 45: temporal.api.activity.v1.CallbackInfo.info:type_name -> temporal.api.callback.v1.CallbackInfo
+	5,  // 46: temporal.api.activity.v1.CallbackInfo.Trigger.activity_closed:type_name -> temporal.api.activity.v1.CallbackInfo.ActivityClosed
+	47, // [47:47] is the sub-list for method output_type
+	47, // [47:47] is the sub-list for method input_type
+	47, // [47:47] is the sub-list for extension type_name
+	47, // [47:47] is the sub-list for extension extendee
+	0,  // [0:47] is the sub-list for field type_name
 }
 
 func init() { file_temporal_api_activity_v1_message_proto_init() }
