@@ -6435,11 +6435,15 @@ func (x *QueryWorkflowResponse) GetQueryRejected() *v110.QueryRejected {
 }
 
 type DescribeWorkflowExecutionRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Namespace     string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
-	Execution     *v14.WorkflowExecution `protobuf:"bytes,2,opt,name=execution,proto3" json:"execution,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state     protoimpl.MessageState `protogen:"open.v1"`
+	Namespace string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	Execution *v14.WorkflowExecution `protobuf:"bytes,2,opt,name=execution,proto3" json:"execution,omitempty"`
+	// If set, and the workflow execution has a pending time-skipping fast-forward,
+	// the call blocks until that fast-forward completes or a timeout occurs.
+	// If there is no pending fast-forward, this field is ignored.
+	WaitTimeskippingCompletion bool `protobuf:"varint,3,opt,name=wait_timeskipping_completion,json=waitTimeskippingCompletion,proto3" json:"wait_timeskipping_completion,omitempty"`
+	unknownFields              protoimpl.UnknownFields
+	sizeCache                  protoimpl.SizeCache
 }
 
 func (x *DescribeWorkflowExecutionRequest) Reset() {
@@ -6484,6 +6488,13 @@ func (x *DescribeWorkflowExecutionRequest) GetExecution() *v14.WorkflowExecution
 		return x.Execution
 	}
 	return nil
+}
+
+func (x *DescribeWorkflowExecutionRequest) GetWaitTimeskippingCompletion() bool {
+	if x != nil {
+		return x.WaitTimeskippingCompletion
+	}
+	return false
 }
 
 type DescribeWorkflowExecutionResponse struct {
@@ -20853,10 +20864,11 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\x16query_reject_condition\x18\x04 \x01(\x0e2+.temporal.api.enums.v1.QueryRejectConditionR\x14queryRejectCondition\"\xa9\x01\n" +
 	"\x15QueryWorkflowResponse\x12C\n" +
 	"\fquery_result\x18\x01 \x01(\v2 .temporal.api.common.v1.PayloadsR\vqueryResult\x12K\n" +
-	"\x0equery_rejected\x18\x02 \x01(\v2$.temporal.api.query.v1.QueryRejectedR\rqueryRejected\"\x89\x01\n" +
+	"\x0equery_rejected\x18\x02 \x01(\v2$.temporal.api.query.v1.QueryRejectedR\rqueryRejected\"\xcb\x01\n" +
 	" DescribeWorkflowExecutionRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12G\n" +
-	"\texecution\x18\x02 \x01(\v2).temporal.api.common.v1.WorkflowExecutionR\texecution\"\xb3\x06\n" +
+	"\texecution\x18\x02 \x01(\v2).temporal.api.common.v1.WorkflowExecutionR\texecution\x12@\n" +
+	"\x1cwait_timeskipping_completion\x18\x03 \x01(\bR\x1awaitTimeskippingCompletion\"\xb3\x06\n" +
 	"!DescribeWorkflowExecutionResponse\x12\\\n" +
 	"\x10execution_config\x18\x01 \x01(\v21.temporal.api.workflow.v1.WorkflowExecutionConfigR\x0fexecutionConfig\x12g\n" +
 	"\x17workflow_execution_info\x18\x02 \x01(\v2/.temporal.api.workflow.v1.WorkflowExecutionInfoR\x15workflowExecutionInfo\x12\\\n" +
