@@ -61,6 +61,9 @@ const (
 	//     reached when retry is blocked (RetryPolicy.maximum_attempts exhausted,
 	//     SCHEDULE_TO_CLOSE would be exceeded, or cancellation has been requested).
 	ACTIVITY_EXECUTION_STATUS_TIMED_OUT ActivityExecutionStatus = 6
+	// The activity is paused. Paused state is only reachable after calling
+	// PauseActivityExecution on a standalone activity.
+	ACTIVITY_EXECUTION_STATUS_PAUSED ActivityExecutionStatus = 7
 )
 
 // Enum value maps for ActivityExecutionStatus.
@@ -73,6 +76,7 @@ var (
 		4: "ACTIVITY_EXECUTION_STATUS_CANCELED",
 		5: "ACTIVITY_EXECUTION_STATUS_TERMINATED",
 		6: "ACTIVITY_EXECUTION_STATUS_TIMED_OUT",
+		7: "ACTIVITY_EXECUTION_STATUS_PAUSED",
 	}
 	ActivityExecutionStatus_value = map[string]int32{
 		"ACTIVITY_EXECUTION_STATUS_UNSPECIFIED": 0,
@@ -82,6 +86,7 @@ var (
 		"ACTIVITY_EXECUTION_STATUS_CANCELED":    4,
 		"ACTIVITY_EXECUTION_STATUS_TERMINATED":  5,
 		"ACTIVITY_EXECUTION_STATUS_TIMED_OUT":   6,
+		"ACTIVITY_EXECUTION_STATUS_PAUSED":      7,
 	}
 )
 
@@ -107,8 +112,13 @@ func (x ActivityExecutionStatus) String() string {
 		return "Terminated"
 	case ACTIVITY_EXECUTION_STATUS_TIMED_OUT:
 		return "TimedOut"
+	case ACTIVITY_EXECUTION_STATUS_PAUSED:
+		return "Paused"
 	default:
-		return strconv.Itoa(int(x))
+		return strconv.
+
+			// Deprecated: Use ActivityExecutionStatus.Descriptor instead.
+			Itoa(int(x))
 	}
 
 }
@@ -125,7 +135,6 @@ func (x ActivityExecutionStatus) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use ActivityExecutionStatus.Descriptor instead.
 func (ActivityExecutionStatus) EnumDescriptor() ([]byte, []int) {
 	return file_temporal_api_enums_v1_activity_proto_rawDescGZIP(), []int{0}
 }
@@ -272,7 +281,7 @@ var File_temporal_api_enums_v1_activity_proto protoreflect.FileDescriptor
 
 const file_temporal_api_enums_v1_activity_proto_rawDesc = "" +
 	"\n" +
-	"$temporal/api/enums/v1/activity.proto\x12\x15temporal.api.enums.v1*\xb5\x02\n" +
+	"$temporal/api/enums/v1/activity.proto\x12\x15temporal.api.enums.v1*\xdb\x02\n" +
 	"\x17ActivityExecutionStatus\x12)\n" +
 	"%ACTIVITY_EXECUTION_STATUS_UNSPECIFIED\x10\x00\x12%\n" +
 	"!ACTIVITY_EXECUTION_STATUS_RUNNING\x10\x01\x12'\n" +
@@ -280,7 +289,8 @@ const file_temporal_api_enums_v1_activity_proto_rawDesc = "" +
 	" ACTIVITY_EXECUTION_STATUS_FAILED\x10\x03\x12&\n" +
 	"\"ACTIVITY_EXECUTION_STATUS_CANCELED\x10\x04\x12(\n" +
 	"$ACTIVITY_EXECUTION_STATUS_TERMINATED\x10\x05\x12'\n" +
-	"#ACTIVITY_EXECUTION_STATUS_TIMED_OUT\x10\x06*\xd8\x01\n" +
+	"#ACTIVITY_EXECUTION_STATUS_TIMED_OUT\x10\x06\x12$\n" +
+	" ACTIVITY_EXECUTION_STATUS_PAUSED\x10\a*\xd8\x01\n" +
 	"\x15ActivityIdReusePolicy\x12(\n" +
 	"$ACTIVITY_ID_REUSE_POLICY_UNSPECIFIED\x10\x00\x12,\n" +
 	"(ACTIVITY_ID_REUSE_POLICY_ALLOW_DUPLICATE\x10\x01\x128\n" +
