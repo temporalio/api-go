@@ -1554,9 +1554,11 @@ type TimeSkippingConfig struct {
 	// a schedule with the timeskipping policy enabled), inherit the "enabled" flag and skip time when possible.
 	// This flag disables that inheritance.
 	DisablePropagation bool `protobuf:"varint,3,opt,name=disable_propagation,json=disablePropagation,proto3" json:"disable_propagation,omitempty"`
-	// The maximum skip count allowed after time skipping is enabled. It is used to protect the current execution
-	// from unlimited retries when backoff is skipped. Every time the execution skips some time,
-	// the skip count is incremented by one, and when it reaches max_skip_count, time skipping will be disabled.
+	// The maximum skip count allowed after time skipping is enabled for an execution.
+	// It protects the current execution from unlimited retries when backoff is skipped.
+	// Every time the execution skips some time, the skip count is incremented by one,
+	// and when it reaches max_skip_count, time skipping is disabled.
+	// For an execution with a chain of runs, the count is accumulated across all runs.
 	//
 	// If the field is not set, a large default value (e.g. 100) will be set by the server.
 	// The default value can be changed through dynamic config, and can be overridden by this field if set.
@@ -1623,18 +1625,19 @@ func (x *TimeSkippingConfig) GetMaxSkipCount() int32 {
 	return 0
 }
 
-// The time-skipping state that needs to be propagated from a parent workflow to a child workflow,
-// or through a chain of runs.
+// The time-skipping state that needs to be propagated from one execution to another, or through a chain of runs
+// within the same execution.
 type TimeSkippingStatePropagation struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// The time skipped by the previous execution that started this workflow.
-	// It can happen in child workflows and a chain of runs (CaN, cron, retry).
+	// The time skipped by the previous run. It is propagated both to executions started by the
+	// current execution and through a chain of runs (CaN, cron, retry).
 	InitialSkippedDuration *durationpb.Duration `protobuf:"bytes,1,opt,name=initial_skipped_duration,json=initialSkippedDuration,proto3" json:"initial_skipped_duration,omitempty"`
-	// If there is a fast-forward action set for the previous run in a chain of runs,
-	// the target time should be propagated to the next run as well.
+	// The fast-forward target time. It only propagates across a chain of runs within the same execution.
 	FastForwardTargetTime *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=fast_forward_target_time,json=fastForwardTargetTime,proto3" json:"fast_forward_target_time,omitempty"`
-	unknownFields         protoimpl.UnknownFields
-	sizeCache             protoimpl.SizeCache
+	// The initial skip count. It only propagates across a chain of runs within the same execution.
+	InitialSkipCount int32 `protobuf:"varint,3,opt,name=initial_skip_count,json=initialSkipCount,proto3" json:"initial_skip_count,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
 }
 
 func (x *TimeSkippingStatePropagation) Reset() {
@@ -1679,6 +1682,13 @@ func (x *TimeSkippingStatePropagation) GetFastForwardTargetTime() *timestamppb.T
 		return x.FastForwardTargetTime
 	}
 	return nil
+}
+
+func (x *TimeSkippingStatePropagation) GetInitialSkipCount() int32 {
+	if x != nil {
+		return x.InitialSkipCount
+	}
+	return 0
 }
 
 // Describes the current time-skipping state of a workflow execution.
@@ -2554,10 +2564,11 @@ const file_temporal_api_common_v1_message_proto_rawDesc = "" +
 	"\aenabled\x18\x01 \x01(\bR\aenabled\x12<\n" +
 	"\ffast_forward\x18\x02 \x01(\v2\x19.google.protobuf.DurationR\vfastForward\x12/\n" +
 	"\x13disable_propagation\x18\x03 \x01(\bR\x12disablePropagation\x12$\n" +
-	"\x0emax_skip_count\x18\x04 \x01(\x05R\fmaxSkipCount\"\xc8\x01\n" +
+	"\x0emax_skip_count\x18\x04 \x01(\x05R\fmaxSkipCount\"\xf6\x01\n" +
 	"\x1cTimeSkippingStatePropagation\x12S\n" +
 	"\x18initial_skipped_duration\x18\x01 \x01(\v2\x19.google.protobuf.DurationR\x16initialSkippedDuration\x12S\n" +
-	"\x18fast_forward_target_time\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\x15fastForwardTargetTime\"p\n" +
+	"\x18fast_forward_target_time\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\x15fastForwardTargetTime\x12,\n" +
+	"\x12initial_skip_count\x18\x03 \x01(\x05R\x10initialSkipCount\"p\n" +
 	"\x10TimeSkippingInfo\x12=\n" +
 	"\fcurrent_time\x18\x01 \x01(\v2\x1a.google.protobuf.TimestampR\vcurrentTime\x12\x1d\n" +
 	"\n" +
