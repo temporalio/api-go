@@ -1316,6 +1316,26 @@ func (mr *MockWorkflowServiceClientMockRecorder) PollNexusTaskQueue(ctx, in inte
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PollNexusTaskQueue", reflect.TypeOf((*MockWorkflowServiceClient)(nil).PollNexusTaskQueue), varargs...)
 }
 
+// PollWorkflowExecutionTimeSkipping mocks base method.
+func (m *MockWorkflowServiceClient) PollWorkflowExecutionTimeSkipping(ctx context.Context, in *workflowservice.PollWorkflowExecutionTimeSkippingRequest, opts ...grpc.CallOption) (*workflowservice.PollWorkflowExecutionTimeSkippingResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "PollWorkflowExecutionTimeSkipping", varargs...)
+	ret0, _ := ret[0].(*workflowservice.PollWorkflowExecutionTimeSkippingResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// PollWorkflowExecutionTimeSkipping indicates an expected call of PollWorkflowExecutionTimeSkipping.
+func (mr *MockWorkflowServiceClientMockRecorder) PollWorkflowExecutionTimeSkipping(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PollWorkflowExecutionTimeSkipping", reflect.TypeOf((*MockWorkflowServiceClient)(nil).PollWorkflowExecutionTimeSkipping), varargs...)
+}
+
 // PollWorkflowExecutionUpdate mocks base method.
 func (m *MockWorkflowServiceClient) PollWorkflowExecutionUpdate(ctx context.Context, in *workflowservice.PollWorkflowExecutionUpdateRequest, opts ...grpc.CallOption) (*workflowservice.PollWorkflowExecutionUpdateResponse, error) {
 	m.ctrl.T.Helper()
@@ -3460,6 +3480,21 @@ func (m *MockWorkflowServiceServer) PollNexusTaskQueue(arg0 context.Context, arg
 func (mr *MockWorkflowServiceServerMockRecorder) PollNexusTaskQueue(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PollNexusTaskQueue", reflect.TypeOf((*MockWorkflowServiceServer)(nil).PollNexusTaskQueue), arg0, arg1)
+}
+
+// PollWorkflowExecutionTimeSkipping mocks base method.
+func (m *MockWorkflowServiceServer) PollWorkflowExecutionTimeSkipping(arg0 context.Context, arg1 *workflowservice.PollWorkflowExecutionTimeSkippingRequest) (*workflowservice.PollWorkflowExecutionTimeSkippingResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "PollWorkflowExecutionTimeSkipping", arg0, arg1)
+	ret0, _ := ret[0].(*workflowservice.PollWorkflowExecutionTimeSkippingResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// PollWorkflowExecutionTimeSkipping indicates an expected call of PollWorkflowExecutionTimeSkipping.
+func (mr *MockWorkflowServiceServerMockRecorder) PollWorkflowExecutionTimeSkipping(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PollWorkflowExecutionTimeSkipping", reflect.TypeOf((*MockWorkflowServiceServer)(nil).PollWorkflowExecutionTimeSkipping), arg0, arg1)
 }
 
 // PollWorkflowExecutionUpdate mocks base method.

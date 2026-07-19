@@ -142,6 +142,7 @@ const (
 	WorkflowService_UpdateActivityExecutionOptions_FullMethodName               = "/temporal.api.workflowservice.v1.WorkflowService/UpdateActivityExecutionOptions"
 	WorkflowService_TerminateNexusOperationExecution_FullMethodName             = "/temporal.api.workflowservice.v1.WorkflowService/TerminateNexusOperationExecution"
 	WorkflowService_DeleteNexusOperationExecution_FullMethodName                = "/temporal.api.workflowservice.v1.WorkflowService/DeleteNexusOperationExecution"
+	WorkflowService_PollWorkflowExecutionTimeSkipping_FullMethodName            = "/temporal.api.workflowservice.v1.WorkflowService/PollWorkflowExecutionTimeSkipping"
 )
 
 // WorkflowServiceClient is the client API for WorkflowService service.
@@ -889,6 +890,11 @@ type WorkflowServiceClient interface {
 	//
 	//	aip.dev/not-precedent: Nexus operation deletion not exposed to HTTP, users should use cancel or terminate. --)
 	DeleteNexusOperationExecution(ctx context.Context, in *DeleteNexusOperationExecutionRequest, opts ...grpc.CallOption) (*DeleteNexusOperationExecutionResponse, error)
+	// PollWorkflowExecutionTimeSkipping long-polls until the time-skipping state of a workflow
+	// execution changes (its time-skipping config is updated or an active fast-forward completes),
+	// then returns the reason and the current fast-forward info. It lets callers observe fast-forward
+	// progress without busy-polling.
+	PollWorkflowExecutionTimeSkipping(ctx context.Context, in *PollWorkflowExecutionTimeSkippingRequest, opts ...grpc.CallOption) (*PollWorkflowExecutionTimeSkippingResponse, error)
 }
 
 type workflowServiceClient struct {
@@ -2119,6 +2125,16 @@ func (c *workflowServiceClient) DeleteNexusOperationExecution(ctx context.Contex
 	return out, nil
 }
 
+func (c *workflowServiceClient) PollWorkflowExecutionTimeSkipping(ctx context.Context, in *PollWorkflowExecutionTimeSkippingRequest, opts ...grpc.CallOption) (*PollWorkflowExecutionTimeSkippingResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(PollWorkflowExecutionTimeSkippingResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_PollWorkflowExecutionTimeSkipping_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // WorkflowServiceServer is the server API for WorkflowService service.
 // All implementations must embed UnimplementedWorkflowServiceServer
 // for forward compatibility.
@@ -2864,6 +2880,11 @@ type WorkflowServiceServer interface {
 	//
 	//	aip.dev/not-precedent: Nexus operation deletion not exposed to HTTP, users should use cancel or terminate. --)
 	DeleteNexusOperationExecution(context.Context, *DeleteNexusOperationExecutionRequest) (*DeleteNexusOperationExecutionResponse, error)
+	// PollWorkflowExecutionTimeSkipping long-polls until the time-skipping state of a workflow
+	// execution changes (its time-skipping config is updated or an active fast-forward completes),
+	// then returns the reason and the current fast-forward info. It lets callers observe fast-forward
+	// progress without busy-polling.
+	PollWorkflowExecutionTimeSkipping(context.Context, *PollWorkflowExecutionTimeSkippingRequest) (*PollWorkflowExecutionTimeSkippingResponse, error)
 	mustEmbedUnimplementedWorkflowServiceServer()
 }
 
@@ -3239,6 +3260,9 @@ func (UnimplementedWorkflowServiceServer) TerminateNexusOperationExecution(conte
 }
 func (UnimplementedWorkflowServiceServer) DeleteNexusOperationExecution(context.Context, *DeleteNexusOperationExecutionRequest) (*DeleteNexusOperationExecutionResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method DeleteNexusOperationExecution not implemented")
+}
+func (UnimplementedWorkflowServiceServer) PollWorkflowExecutionTimeSkipping(context.Context, *PollWorkflowExecutionTimeSkippingRequest) (*PollWorkflowExecutionTimeSkippingResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method PollWorkflowExecutionTimeSkipping not implemented")
 }
 func (UnimplementedWorkflowServiceServer) mustEmbedUnimplementedWorkflowServiceServer() {}
 func (UnimplementedWorkflowServiceServer) testEmbeddedByValue()                         {}
@@ -5457,6 +5481,24 @@ func _WorkflowService_DeleteNexusOperationExecution_Handler(srv interface{}, ctx
 	return interceptor(ctx, in, info, handler)
 }
 
+func _WorkflowService_PollWorkflowExecutionTimeSkipping_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PollWorkflowExecutionTimeSkippingRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WorkflowServiceServer).PollWorkflowExecutionTimeSkipping(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: WorkflowService_PollWorkflowExecutionTimeSkipping_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WorkflowServiceServer).PollWorkflowExecutionTimeSkipping(ctx, req.(*PollWorkflowExecutionTimeSkippingRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // WorkflowService_ServiceDesc is the grpc.ServiceDesc for WorkflowService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -5951,6 +5993,10 @@ var WorkflowService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteNexusOperationExecution",
 			Handler:    _WorkflowService_DeleteNexusOperationExecution_Handler,
+		},
+		{
+			MethodName: "PollWorkflowExecutionTimeSkipping",
+			Handler:    _WorkflowService_PollWorkflowExecutionTimeSkipping_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
