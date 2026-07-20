@@ -1523,7 +1523,7 @@ func (x *OnConflictOptions) GetAttachLinks() bool {
 
 // The configuration for time skipping of an execution.
 // When time skipping is enabled, virtual time advances automatically whenever there is no in-flight work.
-// Options like fast_forward, disable_propagation, and max_skip_count are provided for granular
+// Options like fast_forward, disable_propagation, and max_skip_per_session are provided for granular
 // control of the execution's time skipping behavior. See each field's comment for a detailed explanation.
 //
 // An example of workflows with time skipping:
@@ -1531,7 +1531,7 @@ func (x *OnConflictOptions) GetAttachLinks() bool {
 // In-flight work includes activities, child workflows, Nexus operations, signal/cancel external workflow operations, etc.
 // User timers are not classified as in-flight work and will be skipped over; the virtual clock may also skip to the
 // time point of the registered fast-forward when there is no in-flight work.
-// Every time time is skipped, the skip count is incremented by one, and a maximum skip count is allowed each time time skipping is enabled.
+// Every time time is skipped, the skip count is incremented by one; max_skip_per_session bounds the number of skips allowed within a single time-skipping session.
 // For child workflows, by default, if the parent execution is skipping time, the child execution will also skip time,
 // but a parent's fast_forward won't affect its child's execution. A flag is provided to disable propagation of the
 // "enabled" flag to child workflows; regardless of that flag, a child workflow inherits the virtual time from the
@@ -1554,17 +1554,20 @@ type TimeSkippingConfig struct {
 	// a schedule with the timeskipping policy enabled), inherit the "enabled" flag and skip time when possible.
 	// This flag disables that inheritance.
 	DisablePropagation bool `protobuf:"varint,3,opt,name=disable_propagation,json=disablePropagation,proto3" json:"disable_propagation,omitempty"`
-	// The maximum skip count allowed after time skipping is enabled for an execution.
-	// It protects the current execution from unlimited retries when backoff is skipped.
-	// Every time the execution skips some time, the skip count is incremented by one,
-	// and when it reaches max_skip_count, time skipping is disabled.
-	// For an execution with a chain of runs, the count is accumulated across all runs.
+	// The maximum number of skips allowed within a single time-skipping session, where a session
+	// runs from when time skipping is enabled until it is disabled. It protects the execution from
+	// unlimited retries when backoff is skipped.
+	// Every time the execution skips time, the skip count is incremented by one, and when it reaches
+	// max_skip_per_session, time skipping is disabled.
+	// For an execution with a chain of runs (retry, cron, continue-as-new), the count is accumulated
+	// across all runs within the same session. The count resets to 0 at the start of each new session,
+	// i.e. each time this config is updated to re-enable time skipping.
 	//
-	// If the field is not set, a large default value (e.g. 100) will be set by the server.
-	// The default value can be changed through dynamic config, and can be overridden by this field if set.
-	MaxSkipCount  int32 `protobuf:"varint,4,opt,name=max_skip_count,json=maxSkipCount,proto3" json:"max_skip_count,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	// If this field is not set, the server applies a large default value (e.g. 100). The default can
+	// be changed through dynamic config, and is overridden by this field when set.
+	MaxSkipPerSession int32 `protobuf:"varint,4,opt,name=max_skip_per_session,json=maxSkipPerSession,proto3" json:"max_skip_per_session,omitempty"`
+	unknownFields     protoimpl.UnknownFields
+	sizeCache         protoimpl.SizeCache
 }
 
 func (x *TimeSkippingConfig) Reset() {
@@ -1618,9 +1621,9 @@ func (x *TimeSkippingConfig) GetDisablePropagation() bool {
 	return false
 }
 
-func (x *TimeSkippingConfig) GetMaxSkipCount() int32 {
+func (x *TimeSkippingConfig) GetMaxSkipPerSession() int32 {
 	if x != nil {
-		return x.MaxSkipCount
+		return x.MaxSkipPerSession
 	}
 	return 0
 }
@@ -2559,12 +2562,12 @@ const file_temporal_api_common_v1_message_proto_rawDesc = "" +
 	"\x11OnConflictOptions\x12*\n" +
 	"\x11attach_request_id\x18\x01 \x01(\bR\x0fattachRequestId\x12>\n" +
 	"\x1battach_completion_callbacks\x18\x02 \x01(\bR\x19attachCompletionCallbacks\x12!\n" +
-	"\fattach_links\x18\x03 \x01(\bR\vattachLinks\"\xc3\x01\n" +
+	"\fattach_links\x18\x03 \x01(\bR\vattachLinks\"\xce\x01\n" +
 	"\x12TimeSkippingConfig\x12\x18\n" +
 	"\aenabled\x18\x01 \x01(\bR\aenabled\x12<\n" +
 	"\ffast_forward\x18\x02 \x01(\v2\x19.google.protobuf.DurationR\vfastForward\x12/\n" +
-	"\x13disable_propagation\x18\x03 \x01(\bR\x12disablePropagation\x12$\n" +
-	"\x0emax_skip_count\x18\x04 \x01(\x05R\fmaxSkipCount\"\xf6\x01\n" +
+	"\x13disable_propagation\x18\x03 \x01(\bR\x12disablePropagation\x12/\n" +
+	"\x14max_skip_per_session\x18\x04 \x01(\x05R\x11maxSkipPerSession\"\xf6\x01\n" +
 	"\x1cTimeSkippingStatePropagation\x12S\n" +
 	"\x18initial_skipped_duration\x18\x01 \x01(\v2\x19.google.protobuf.DurationR\x16initialSkippedDuration\x12S\n" +
 	"\x18fast_forward_target_time\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\x15fastForwardTargetTime\x12,\n" +

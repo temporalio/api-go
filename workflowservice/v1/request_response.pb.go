@@ -49,67 +49,73 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// Why the poll returned.
-type PollWorkflowExecutionTimeSkippingResponse_ReturnReason int32
+type PollWorkflowExecutionTimeSkippingResponse_Result int32
 
 const (
-	PollWorkflowExecutionTimeSkippingResponse_RETURN_REASON_UNSPECIFIED PollWorkflowExecutionTimeSkippingResponse_ReturnReason = // The poll returned because its server-side timeout elapsed without any change. The caller
-	// may poll again.
+	PollWorkflowExecutionTimeSkippingResponse_RESULT_UNSPECIFIED PollWorkflowExecutionTimeSkippingResponse_Result = // The poll timed out server-side before any time-skipping state change occurred to fast forward.
+	// The caller may poll again.
 	0
-	PollWorkflowExecutionTimeSkippingResponse_RETURN_REASON_TIMESKIPPING_CONFIG_UPDATED PollWorkflowExecutionTimeSkippingResponse_ReturnReason = // The execution's time-skipping config was updated.
+	PollWorkflowExecutionTimeSkippingResponse_RESULT_TIMESKIPPING_CONFIG_UPDATED PollWorkflowExecutionTimeSkippingResponse_Result = // The execution's time-skipping config changed while the poll was waiting.
 	1
-	PollWorkflowExecutionTimeSkippingResponse_RETURN_REASON_FAST_FORWARD_COMPLETED PollWorkflowExecutionTimeSkippingResponse_ReturnReason = // The active fast-forward reached its target time and completed.
+	PollWorkflowExecutionTimeSkippingResponse_RESULT_FAST_FORWARD_COMPLETED PollWorkflowExecutionTimeSkippingResponse_Result = // The fast-forward that was active when the poll started reached its target time and completed.
 	2
+	PollWorkflowExecutionTimeSkippingResponse_RESULT_NO_PENDING_FAST_FORWARD PollWorkflowExecutionTimeSkippingResponse_Result = // No fast-forward was in progress when the poll started, so there was nothing to wait for.
+	3
 )
 
-// Enum value maps for PollWorkflowExecutionTimeSkippingResponse_ReturnReason.
+// Enum value maps for PollWorkflowExecutionTimeSkippingResponse_Result.
 var (
-	PollWorkflowExecutionTimeSkippingResponse_ReturnReason_name = map[int32]string{
-		0: "RETURN_REASON_UNSPECIFIED",
-		1: "RETURN_REASON_TIMESKIPPING_CONFIG_UPDATED",
-		2: "RETURN_REASON_FAST_FORWARD_COMPLETED",
+	PollWorkflowExecutionTimeSkippingResponse_Result_name = map[int32]string{
+		0: "RESULT_UNSPECIFIED",
+		1: "RESULT_TIMESKIPPING_CONFIG_UPDATED",
+		2: "RESULT_FAST_FORWARD_COMPLETED",
+		3: "RESULT_NO_PENDING_FAST_FORWARD",
 	}
-	PollWorkflowExecutionTimeSkippingResponse_ReturnReason_value = map[string]int32{
-		"RETURN_REASON_UNSPECIFIED":                 0,
-		"RETURN_REASON_TIMESKIPPING_CONFIG_UPDATED": 1,
-		"RETURN_REASON_FAST_FORWARD_COMPLETED":      2,
+	PollWorkflowExecutionTimeSkippingResponse_Result_value = map[string]int32{
+		"RESULT_UNSPECIFIED":                 0,
+		"RESULT_TIMESKIPPING_CONFIG_UPDATED": 1,
+		"RESULT_FAST_FORWARD_COMPLETED":      2,
+		"RESULT_NO_PENDING_FAST_FORWARD":     3,
 	}
 )
 
-func (x PollWorkflowExecutionTimeSkippingResponse_ReturnReason) Enum() *PollWorkflowExecutionTimeSkippingResponse_ReturnReason {
-	p := new(PollWorkflowExecutionTimeSkippingResponse_ReturnReason)
+func (x PollWorkflowExecutionTimeSkippingResponse_Result) Enum() *PollWorkflowExecutionTimeSkippingResponse_Result {
+	p := new(PollWorkflowExecutionTimeSkippingResponse_Result)
 	*p = x
 	return p
 }
 
-func (x PollWorkflowExecutionTimeSkippingResponse_ReturnReason) String() string {
+func (x PollWorkflowExecutionTimeSkippingResponse_Result) String() string {
 	switch x {
-	case PollWorkflowExecutionTimeSkippingResponse_RETURN_REASON_UNSPECIFIED:
-		return "PollWorkflowExecutionTimeSkippingResponseReturnReasonUnspecified"
-	case PollWorkflowExecutionTimeSkippingResponse_RETURN_REASON_TIMESKIPPING_CONFIG_UPDATED:
-		return "PollWorkflowExecutionTimeSkippingResponseReturnReasonTimeskippingConfigUpdated"
-	case PollWorkflowExecutionTimeSkippingResponse_RETURN_REASON_FAST_FORWARD_COMPLETED:
-		return "PollWorkflowExecutionTimeSkippingResponseReturnReasonFastForwardCompleted"
+	case PollWorkflowExecutionTimeSkippingResponse_RESULT_UNSPECIFIED:
+		return "PollWorkflowExecutionTimeSkippingResponseResultUnspecified"
+	case PollWorkflowExecutionTimeSkippingResponse_RESULT_TIMESKIPPING_CONFIG_UPDATED:
+		return "PollWorkflowExecutionTimeSkippingResponseResultTimeskippingConfigUpdated"
+	case PollWorkflowExecutionTimeSkippingResponse_RESULT_FAST_FORWARD_COMPLETED:
+		return "PollWorkflowExecutionTimeSkippingResponseResultFastForwardCompleted"
+	case PollWorkflowExecutionTimeSkippingResponse_RESULT_NO_PENDING_FAST_FORWARD:
+		return "PollWorkflowExecutionTimeSkippingResponseResultNoPendingFastForward"
+
+		// Deprecated: Use PollWorkflowExecutionTimeSkippingResponse_Result.Descriptor instead.
 	default:
 		return strconv.Itoa(int(x))
 	}
 
 }
 
-func (PollWorkflowExecutionTimeSkippingResponse_ReturnReason) Descriptor() protoreflect.EnumDescriptor {
+func (PollWorkflowExecutionTimeSkippingResponse_Result) Descriptor() protoreflect.EnumDescriptor {
 	return file_temporal_api_workflowservice_v1_request_response_proto_enumTypes[0].Descriptor()
 }
 
-func (PollWorkflowExecutionTimeSkippingResponse_ReturnReason) Type() protoreflect.EnumType {
+func (PollWorkflowExecutionTimeSkippingResponse_Result) Type() protoreflect.EnumType {
 	return &file_temporal_api_workflowservice_v1_request_response_proto_enumTypes[0]
 }
 
-func (x PollWorkflowExecutionTimeSkippingResponse_ReturnReason) Number() protoreflect.EnumNumber {
+func (x PollWorkflowExecutionTimeSkippingResponse_Result) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use PollWorkflowExecutionTimeSkippingResponse_ReturnReason.Descriptor instead.
-func (PollWorkflowExecutionTimeSkippingResponse_ReturnReason) EnumDescriptor() ([]byte, []int) {
+func (PollWorkflowExecutionTimeSkippingResponse_Result) EnumDescriptor() ([]byte, []int) {
 	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{245, 0}
 }
 
@@ -19109,9 +19115,11 @@ func (x *PollWorkflowExecutionTimeSkippingRequest) GetWorkflowExecution() *v14.W
 }
 
 type PollWorkflowExecutionTimeSkippingResponse struct {
-	state  protoimpl.MessageState                                 `protogen:"open.v1"`
-	Reason PollWorkflowExecutionTimeSkippingResponse_ReturnReason `protobuf:"varint,1,opt,name=reason,proto3,enum=temporal.api.workflowservice.v1.PollWorkflowExecutionTimeSkippingResponse_ReturnReason" json:"reason,omitempty"`
-	// The current fast-forward on the execution, if any.
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The result of this poll.
+	Result PollWorkflowExecutionTimeSkippingResponse_Result `protobuf:"varint,1,opt,name=result,proto3,enum=temporal.api.workflowservice.v1.PollWorkflowExecutionTimeSkippingResponse_Result" json:"result,omitempty"`
+	// The execution's most recent fast-forward, whether it is still pending or already completed.
+	// Unset only if the execution has never had a fast-forward.
 	FastForwardInfo *v14.TimeSkippingFastForwardInfo `protobuf:"bytes,2,opt,name=fast_forward_info,json=fastForwardInfo,proto3" json:"fast_forward_info,omitempty"`
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
@@ -19147,11 +19155,11 @@ func (*PollWorkflowExecutionTimeSkippingResponse) Descriptor() ([]byte, []int) {
 	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{245}
 }
 
-func (x *PollWorkflowExecutionTimeSkippingResponse) GetReason() PollWorkflowExecutionTimeSkippingResponse_ReturnReason {
+func (x *PollWorkflowExecutionTimeSkippingResponse) GetResult() PollWorkflowExecutionTimeSkippingResponse_Result {
 	if x != nil {
-		return x.Reason
+		return x.Result
 	}
-	return PollWorkflowExecutionTimeSkippingResponse_RETURN_REASON_UNSPECIFIED
+	return PollWorkflowExecutionTimeSkippingResponse_RESULT_UNSPECIFIED
 }
 
 func (x *PollWorkflowExecutionTimeSkippingResponse) GetFastForwardInfo() *v14.TimeSkippingFastForwardInfo {
@@ -22132,14 +22140,15 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"%DeleteNexusOperationExecutionResponse\"\xa2\x01\n" +
 	"(PollWorkflowExecutionTimeSkippingRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12X\n" +
-	"\x12workflow_execution\x18\x02 \x01(\v2).temporal.api.common.v1.WorkflowExecutionR\x11workflowExecution\"\x86\x03\n" +
-	")PollWorkflowExecutionTimeSkippingResponse\x12o\n" +
-	"\x06reason\x18\x01 \x01(\x0e2W.temporal.api.workflowservice.v1.PollWorkflowExecutionTimeSkippingResponse.ReturnReasonR\x06reason\x12_\n" +
-	"\x11fast_forward_info\x18\x02 \x01(\v23.temporal.api.common.v1.TimeSkippingFastForwardInfoR\x0ffastForwardInfo\"\x86\x01\n" +
-	"\fReturnReason\x12\x1d\n" +
-	"\x19RETURN_REASON_UNSPECIFIED\x10\x00\x12-\n" +
-	")RETURN_REASON_TIMESKIPPING_CONFIG_UPDATED\x10\x01\x12(\n" +
-	"$RETURN_REASON_FAST_FORWARD_COMPLETED\x10\x02B\xbe\x01\n" +
+	"\x12workflow_execution\x18\x02 \x01(\v2).temporal.api.common.v1.WorkflowExecutionR\x11workflowExecution\"\x89\x03\n" +
+	")PollWorkflowExecutionTimeSkippingResponse\x12i\n" +
+	"\x06result\x18\x01 \x01(\x0e2Q.temporal.api.workflowservice.v1.PollWorkflowExecutionTimeSkippingResponse.ResultR\x06result\x12_\n" +
+	"\x11fast_forward_info\x18\x02 \x01(\v23.temporal.api.common.v1.TimeSkippingFastForwardInfoR\x0ffastForwardInfo\"\x8f\x01\n" +
+	"\x06Result\x12\x16\n" +
+	"\x12RESULT_UNSPECIFIED\x10\x00\x12&\n" +
+	"\"RESULT_TIMESKIPPING_CONFIG_UPDATED\x10\x01\x12!\n" +
+	"\x1dRESULT_FAST_FORWARD_COMPLETED\x10\x02\x12\"\n" +
+	"\x1eRESULT_NO_PENDING_FAST_FORWARD\x10\x03B\xbe\x01\n" +
 	"\"io.temporal.api.workflowservice.v1B\x14RequestResponseProtoP\x01Z5go.temporal.io/api/workflowservice/v1;workflowservice\xaa\x02!Temporalio.Api.WorkflowService.V1\xea\x02$Temporalio::Api::WorkflowService::V1b\x06proto3"
 
 var (
@@ -22157,7 +22166,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP() [
 var file_temporal_api_workflowservice_v1_request_response_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_temporal_api_workflowservice_v1_request_response_proto_msgTypes = make([]protoimpl.MessageInfo, 280)
 var file_temporal_api_workflowservice_v1_request_response_proto_goTypes = []any{
-	(PollWorkflowExecutionTimeSkippingResponse_ReturnReason)(0),  // 0: temporal.api.workflowservice.v1.PollWorkflowExecutionTimeSkippingResponse.ReturnReason
+	(PollWorkflowExecutionTimeSkippingResponse_Result)(0),        // 0: temporal.api.workflowservice.v1.PollWorkflowExecutionTimeSkippingResponse.Result
 	(*RegisterNamespaceRequest)(nil),                             // 1: temporal.api.workflowservice.v1.RegisterNamespaceRequest
 	(*RegisterNamespaceResponse)(nil),                            // 2: temporal.api.workflowservice.v1.RegisterNamespaceResponse
 	(*ListNamespacesRequest)(nil),                                // 3: temporal.api.workflowservice.v1.ListNamespacesRequest
@@ -23003,7 +23012,7 @@ var file_temporal_api_workflowservice_v1_request_response_proto_depIdxs = []int3
 	279, // 407: temporal.api.workflowservice.v1.CountActivityExecutionsResponse.groups:type_name -> temporal.api.workflowservice.v1.CountActivityExecutionsResponse.AggregationGroup
 	280, // 408: temporal.api.workflowservice.v1.CountNexusOperationExecutionsResponse.groups:type_name -> temporal.api.workflowservice.v1.CountNexusOperationExecutionsResponse.AggregationGroup
 	311, // 409: temporal.api.workflowservice.v1.PollWorkflowExecutionTimeSkippingRequest.workflow_execution:type_name -> temporal.api.common.v1.WorkflowExecution
-	0,   // 410: temporal.api.workflowservice.v1.PollWorkflowExecutionTimeSkippingResponse.reason:type_name -> temporal.api.workflowservice.v1.PollWorkflowExecutionTimeSkippingResponse.ReturnReason
+	0,   // 410: temporal.api.workflowservice.v1.PollWorkflowExecutionTimeSkippingResponse.result:type_name -> temporal.api.workflowservice.v1.PollWorkflowExecutionTimeSkippingResponse.Result
 	423, // 411: temporal.api.workflowservice.v1.PollWorkflowExecutionTimeSkippingResponse.fast_forward_info:type_name -> temporal.api.common.v1.TimeSkippingFastForwardInfo
 	316, // 412: temporal.api.workflowservice.v1.PollWorkflowTaskQueueResponse.QueriesEntry.value:type_name -> temporal.api.query.v1.WorkflowQuery
 	424, // 413: temporal.api.workflowservice.v1.RespondWorkflowTaskCompletedRequest.QueryResultsEntry.value:type_name -> temporal.api.query.v1.WorkflowQueryResult
