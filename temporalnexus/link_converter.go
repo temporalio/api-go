@@ -25,11 +25,13 @@ const (
 	urlPathWorkflowEventTemplate  = "/namespaces/%s/workflows/%s/%s/history"
 	urlPathNexusOperationTemplate = "/namespaces/%s/nexus-operations/%s/%s/details"
 	urlPathActivityTemplate       = "/namespaces/%s/activities/%s/%s/details"
+	urlPathWorkflowTemplate       = "/namespaces/%s/workflows/%s/%s"
 
 	linkWorkflowEventReferenceTypeKey = "referenceType"
 	linkEventIDKey                    = "eventID"
 	linkEventTypeKey                  = "eventType"
 	linkRequestIDKey                  = "requestID"
+	linkReasonKey                     = "reason"
 )
 
 var (
@@ -56,11 +58,19 @@ var (
 		rePatternActivityID,
 		rePatternRunID,
 	))
+	urlPathWorkflowRE = regexp.MustCompile(fmt.Sprintf(
+		`^/namespaces/%s/workflows/%s/%s$`,
+		rePatternNamespace,
+		rePatternWorkflowID,
+		rePatternRunID,
+	))
 	eventReferenceType     = string((&commonpb.Link_WorkflowEvent_EventReference{}).ProtoReflect().Descriptor().Name())
 	requestIDReferenceType = string((&commonpb.Link_WorkflowEvent_RequestIdReference{}).ProtoReflect().Descriptor().Name())
 
 	workflowEventLinkType  = string((&commonpb.Link_WorkflowEvent{}).ProtoReflect().Descriptor().FullName())
 	nexusOperationLinkType = string((&commonpb.Link_NexusOperation{}).ProtoReflect().Descriptor().FullName())
+	activityLinkType       = string((&commonpb.Link_Activity{}).ProtoReflect().Descriptor().FullName())
+	workflowLinkType       = string((&commonpb.Link_Workflow{}).ProtoReflect().Descriptor().FullName())
 )
 
 // ConvertLinkWorkflowEventToNexusLink converts a Link_WorkflowEvent type to Nexus Link.
@@ -298,6 +308,83 @@ func ConvertNexusLinkToLinkActivity(link nexus.Link) (*commonpb.Link_Activity, e
 	return a, nil
 }
 
+// ConvertLinkWorkflowToNexusLink converts a Link_Workflow type to Nexus Link.
+//
+// NOTE: Experimental
+func ConvertLinkWorkflowToNexusLink(w *commonpb.Link_Workflow) nexus.Link {
+	u := &url.URL{
+		Scheme: urlSchemeTemporalKey,
+		Path:   fmt.Sprintf(urlPathWorkflowTemplate, w.GetNamespace(), w.GetWorkflowId(), w.GetRunId()),
+		RawPath: fmt.Sprintf(
+			urlPathWorkflowTemplate,
+			url.PathEscape(w.GetNamespace()),
+			url.PathEscape(w.GetWorkflowId()),
+			url.PathEscape(w.GetRunId()),
+		),
+	}
+
+	if w.GetReason() != "" {
+		values := url.Values{}
+		values.Set(linkReasonKey, w.GetReason())
+		u.RawQuery = values.Encode()
+	}
+
+	return nexus.Link{
+		URL:  u,
+		Type: string(w.ProtoReflect().Descriptor().FullName()),
+	}
+}
+
+// ConvertNexusLinkToLinkWorkflow converts a Nexus Link to Link_Workflow.
+//
+// NOTE: Experimental
+func ConvertNexusLinkToLinkWorkflow(link nexus.Link) (*commonpb.Link_Workflow, error) {
+	w := &commonpb.Link_Workflow{}
+	if link.Type != string(w.ProtoReflect().Descriptor().FullName()) {
+		return nil, fmt.Errorf(
+			"cannot parse link type %q to %q",
+			link.Type,
+			w.ProtoReflect().Descriptor().FullName(),
+		)
+	}
+
+	if link.URL == nil {
+		return nil, errors.New("failed to parse link to Link_Workflow: empty URL")
+	}
+
+	if link.URL.Scheme != urlSchemeTemporalKey {
+		return nil, fmt.Errorf(
+			"failed to parse link to Link_Workflow: invalid scheme: %s",
+			link.URL.Scheme,
+		)
+	}
+
+	matches := urlPathWorkflowRE.FindStringSubmatch(link.URL.EscapedPath())
+	if len(matches) != 4 {
+		return nil, errors.New("failed to parse link to Link_Workflow: malformed URL path")
+	}
+
+	var err error
+	w.Namespace, err = url.PathUnescape(matches[urlPathWorkflowRE.SubexpIndex(urlPathNamespaceKey)])
+	if err != nil {
+		return nil, fmt.Errorf("failed to parse link to Link_Workflow: %w", err)
+	}
+
+	w.WorkflowId, err = url.PathUnescape(matches[urlPathWorkflowRE.SubexpIndex(urlPathWorkflowIDKey)])
+	if err != nil {
+		return nil, fmt.Errorf("failed to parse link to Link_Workflow: %w", err)
+	}
+
+	w.RunId, err = url.PathUnescape(matches[urlPathWorkflowRE.SubexpIndex(urlPathRunIDKey)])
+	if err != nil {
+		return nil, fmt.Errorf("failed to parse link to Link_Workflow: %w", err)
+	}
+
+	w.Reason = link.URL.Query().Get(linkReasonKey)
+
+	return w, nil
+}
+
 // NexusLinkToCommonLink converts a nexus.v1.Link into a common.v1.Link, dispatching on link.Type.
 // Returns (nil, false) for any link type not handled here.
 //
@@ -328,6 +415,22 @@ func NexusLinkToCommonLink(link *nexuspb.Link) (*commonpb.Link, bool) {
 		return &commonpb.Link{
 			Variant: &commonpb.Link_NexusOperation_{NexusOperation: no},
 		}, true
+	case activityLinkType:
+		a, err := ConvertNexusLinkToLinkActivity(nexusLink)
+		if err != nil {
+			return nil, false
+		}
+		return &commonpb.Link{
+			Variant: &commonpb.Link_Activity_{Activity: a},
+		}, true
+	case workflowLinkType:
+		w, err := ConvertNexusLinkToLinkWorkflow(nexusLink)
+		if err != nil {
+			return nil, false
+		}
+		return &commonpb.Link{
+			Variant: &commonpb.Link_Workflow_{Workflow: w},
+		}, true
 	default:
 		return nil, false
 	}
@@ -355,6 +458,18 @@ func CommonLinkToNexusLink(link *commonpb.Link) (*nexuspb.Link, bool) {
 			return nil, false
 		}
 		nexusLink := ConvertLinkNexusOperationToNexusLink(v.NexusOperation)
+		return &nexuspb.Link{Url: nexusLink.URL.String(), Type: nexusLink.Type}, true
+	case *commonpb.Link_Activity_:
+		if v.Activity == nil {
+			return nil, false
+		}
+		nexusLink := ConvertLinkActivityToNexusLink(v.Activity)
+		return &nexuspb.Link{Url: nexusLink.URL.String(), Type: nexusLink.Type}, true
+	case *commonpb.Link_Workflow_:
+		if v.Workflow == nil {
+			return nil, false
+		}
+		nexusLink := ConvertLinkWorkflowToNexusLink(v.Workflow)
 		return &nexuspb.Link{Url: nexusLink.URL.String(), Type: nexusLink.Type}, true
 	default:
 		return nil, false

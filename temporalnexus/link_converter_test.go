@@ -10,6 +10,7 @@ import (
 	"github.com/stretchr/testify/require"
 	commonpb "go.temporal.io/api/common/v1"
 	enumspb "go.temporal.io/api/enums/v1"
+	nexuspb "go.temporal.io/api/nexus/v1"
 	"go.temporal.io/api/temporalnexus"
 	"google.golang.org/protobuf/testing/protocmp"
 )
@@ -696,4 +697,277 @@ func TestConvertNexusLinkToLinkActivity(t *testing.T) {
 			}
 		})
 	}
+}
+
+func TestConvertLinkWorkflowToNexusLink(t *testing.T) {
+	type testcase struct {
+		name      string
+		input     *commonpb.Link_Workflow
+		output    nexus.Link
+		outputURL string
+	}
+
+	cases := []testcase{
+		{
+			name: "valid",
+			input: &commonpb.Link_Workflow{
+				Namespace:  "ns",
+				WorkflowId: "wf-id",
+				RunId:      "run-id",
+			},
+			output: nexus.Link{
+				URL: &url.URL{
+					Scheme:  "temporal",
+					Path:    "/namespaces/ns/workflows/wf-id/run-id",
+					RawPath: "/namespaces/ns/workflows/wf-id/run-id",
+				},
+				Type: "temporal.api.common.v1.Link.Workflow",
+			},
+			outputURL: "temporal:///namespaces/ns/workflows/wf-id/run-id",
+		},
+		{
+			name: "valid with reason",
+			input: &commonpb.Link_Workflow{
+				Namespace:  "ns",
+				WorkflowId: "wf-id",
+				RunId:      "run-id",
+				Reason:     "rejected update",
+			},
+			output: nexus.Link{
+				URL: &url.URL{
+					Scheme:   "temporal",
+					Path:     "/namespaces/ns/workflows/wf-id/run-id",
+					RawPath:  "/namespaces/ns/workflows/wf-id/run-id",
+					RawQuery: "reason=rejected+update",
+				},
+				Type: "temporal.api.common.v1.Link.Workflow",
+			},
+			outputURL: "temporal:///namespaces/ns/workflows/wf-id/run-id?reason=rejected+update",
+		},
+		{
+			name: "valid with slash in workflow id",
+			input: &commonpb.Link_Workflow{
+				Namespace:  "ns",
+				WorkflowId: "wf/id",
+				RunId:      "run-id",
+			},
+			output: nexus.Link{
+				URL: &url.URL{
+					Scheme:  "temporal",
+					Path:    "/namespaces/ns/workflows/wf/id/run-id",
+					RawPath: "/namespaces/ns/workflows/wf%2Fid/run-id",
+				},
+				Type: "temporal.api.common.v1.Link.Workflow",
+			},
+			outputURL: "temporal:///namespaces/ns/workflows/wf%2Fid/run-id",
+		},
+	}
+
+	for _, tc := range cases {
+		t.Run(tc.name, func(t *testing.T) {
+			output := temporalnexus.ConvertLinkWorkflowToNexusLink(tc.input)
+			require.Equal(t, tc.output, output)
+			require.Equal(t, tc.outputURL, output.URL.String())
+		})
+	}
+}
+
+func TestConvertNexusLinkToLinkWorkflow(t *testing.T) {
+	type testcase struct {
+		name     string
+		input    nexus.Link
+		expected *commonpb.Link_Workflow
+		errMsg   string
+	}
+
+	cases := []testcase{
+		{
+			name: "valid",
+			input: nexus.Link{
+				URL: &url.URL{
+					Scheme: "temporal",
+					Path:   "/namespaces/ns/workflows/wf-id/run-id",
+				},
+				Type: "temporal.api.common.v1.Link.Workflow",
+			},
+			expected: &commonpb.Link_Workflow{
+				Namespace:  "ns",
+				WorkflowId: "wf-id",
+				RunId:      "run-id",
+			},
+		},
+		{
+			name: "valid with reason",
+			input: nexus.Link{
+				URL: &url.URL{
+					Scheme:   "temporal",
+					Path:     "/namespaces/ns/workflows/wf-id/run-id",
+					RawQuery: "reason=rejected+update",
+				},
+				Type: "temporal.api.common.v1.Link.Workflow",
+			},
+			expected: &commonpb.Link_Workflow{
+				Namespace:  "ns",
+				WorkflowId: "wf-id",
+				RunId:      "run-id",
+				Reason:     "rejected update",
+			},
+		},
+		{
+			name: "round-trip with escaped path and reason",
+			input: temporalnexus.ConvertLinkWorkflowToNexusLink(&commonpb.Link_Workflow{
+				Namespace:  "ns/with/slash",
+				WorkflowId: "wf id with space",
+				RunId:      "run-id",
+				Reason:     "reason with = and &",
+			}),
+			expected: &commonpb.Link_Workflow{
+				Namespace:  "ns/with/slash",
+				WorkflowId: "wf id with space",
+				RunId:      "run-id",
+				Reason:     "reason with = and &",
+			},
+		},
+		{
+			name: "wrong type",
+			input: nexus.Link{
+				URL:  &url.URL{Scheme: "temporal", Path: "/namespaces/ns/workflows/wf-id/run-id"},
+				Type: "temporal.api.common.v1.Link.WorkflowEvent",
+			},
+			errMsg: "cannot parse link type",
+		},
+		{
+			name: "nil URL",
+			input: nexus.Link{
+				URL:  nil,
+				Type: "temporal.api.common.v1.Link.Workflow",
+			},
+			errMsg: "empty URL",
+		},
+		{
+			name: "invalid scheme",
+			input: nexus.Link{
+				URL:  &url.URL{Scheme: "http", Path: "/namespaces/ns/workflows/wf-id/run-id"},
+				Type: "temporal.api.common.v1.Link.Workflow",
+			},
+			errMsg: "invalid scheme",
+		},
+		{
+			name: "malformed path with history suffix",
+			input: nexus.Link{
+				URL:  &url.URL{Scheme: "temporal", Path: "/namespaces/ns/workflows/wf-id/run-id/history"},
+				Type: "temporal.api.common.v1.Link.Workflow",
+			},
+			errMsg: "malformed URL path",
+		},
+		{
+			name: "malformed path missing run id",
+			input: nexus.Link{
+				URL:  &url.URL{Scheme: "temporal", Path: "/namespaces/ns/workflows/wf-id"},
+				Type: "temporal.api.common.v1.Link.Workflow",
+			},
+			errMsg: "malformed URL path",
+		},
+	}
+
+	for _, tc := range cases {
+		t.Run(tc.name, func(t *testing.T) {
+			out, err := temporalnexus.ConvertNexusLinkToLinkWorkflow(tc.input)
+			if tc.errMsg != "" {
+				require.ErrorContains(t, err, tc.errMsg)
+				return
+			}
+			require.NoError(t, err)
+			if diff := cmp.Diff(tc.expected, out, protocmp.Transform()); diff != "" {
+				assert.Fail(t, "Proto mismatch (-want +got):\n", diff)
+			}
+		})
+	}
+}
+
+func TestCommonLinkToNexusLinkRoundTrip(t *testing.T) {
+	cases := []struct {
+		name string
+		link *commonpb.Link
+	}{
+		{
+			name: "workflow event",
+			link: &commonpb.Link{Variant: &commonpb.Link_WorkflowEvent_{WorkflowEvent: &commonpb.Link_WorkflowEvent{
+				Namespace:  "ns",
+				WorkflowId: "wf-id",
+				RunId:      "run-id",
+				Reference: &commonpb.Link_WorkflowEvent_EventRef{EventRef: &commonpb.Link_WorkflowEvent_EventReference{
+					EventId:   1,
+					EventType: enumspb.EVENT_TYPE_WORKFLOW_EXECUTION_STARTED,
+				}},
+			}}},
+		},
+		{
+			name: "nexus operation",
+			link: &commonpb.Link{Variant: &commonpb.Link_NexusOperation_{NexusOperation: &commonpb.Link_NexusOperation{
+				Namespace:   "ns",
+				OperationId: "op-id",
+				RunId:       "run-id",
+			}}},
+		},
+		{
+			name: "activity",
+			link: &commonpb.Link{Variant: &commonpb.Link_Activity_{Activity: &commonpb.Link_Activity{
+				Namespace:  "ns",
+				ActivityId: "act-id",
+				RunId:      "run-id",
+			}}},
+		},
+		{
+			name: "workflow",
+			link: &commonpb.Link{Variant: &commonpb.Link_Workflow_{Workflow: &commonpb.Link_Workflow{
+				Namespace:  "ns",
+				WorkflowId: "wf-id",
+				RunId:      "run-id",
+				Reason:     "rejected update",
+			}}},
+		},
+	}
+
+	for _, tc := range cases {
+		t.Run(tc.name, func(t *testing.T) {
+			nexusLink, ok := temporalnexus.CommonLinkToNexusLink(tc.link)
+			require.True(t, ok)
+
+			commonLink, ok := temporalnexus.NexusLinkToCommonLink(nexusLink)
+			require.True(t, ok)
+
+			if diff := cmp.Diff(tc.link, commonLink, protocmp.Transform()); diff != "" {
+				assert.Fail(t, "Proto mismatch (-want +got):\n"+diff)
+			}
+		})
+	}
+}
+
+func TestCommonLinkToNexusLinkUnsupported(t *testing.T) {
+	// nil variant is not convertible.
+	_, ok := temporalnexus.CommonLinkToNexusLink(&commonpb.Link{})
+	require.False(t, ok)
+
+	// A nil inner message for a known variant is not convertible.
+	_, ok = temporalnexus.CommonLinkToNexusLink(&commonpb.Link{
+		Variant: &commonpb.Link_Activity_{},
+	})
+	require.False(t, ok)
+}
+
+func TestNexusLinkToCommonLinkUnsupported(t *testing.T) {
+	// An unknown link type is not convertible.
+	_, ok := temporalnexus.NexusLinkToCommonLink(&nexuspb.Link{
+		Url:  "temporal:///namespaces/ns/activities/act-id/run-id/details",
+		Type: "temporal.api.common.v1.Link.SomethingElse",
+	})
+	require.False(t, ok)
+
+	// A malformed URL for a known type is not convertible.
+	_, ok = temporalnexus.NexusLinkToCommonLink(&nexuspb.Link{
+		Url:  "temporal:///namespaces/ns/bogus/act-id/run-id/details",
+		Type: "temporal.api.common.v1.Link.Activity",
+	})
+	require.False(t, ok)
 }
