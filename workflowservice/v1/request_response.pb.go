@@ -52,30 +52,37 @@ const (
 type PollWorkflowExecutionTimeSkippingResponse_Result int32
 
 const (
-	PollWorkflowExecutionTimeSkippingResponse_RESULT_UNSPECIFIED PollWorkflowExecutionTimeSkippingResponse_Result = // The poll timed out server-side before any time-skipping state change occurred to fast forward.
-	// The caller may poll again.
+	PollWorkflowExecutionTimeSkippingResponse_RESULT_UNSPECIFIED PollWorkflowExecutionTimeSkippingResponse_Result = // Never returned; guards against an unset result.
 	0
-	PollWorkflowExecutionTimeSkippingResponse_RESULT_TIMESKIPPING_CONFIG_UPDATED PollWorkflowExecutionTimeSkippingResponse_Result = // The execution's time-skipping config changed while the poll was waiting.
+	PollWorkflowExecutionTimeSkippingResponse_RESULT_POLL_TIMEOUT PollWorkflowExecutionTimeSkippingResponse_Result = // The poll timed out server-side before the fast-forward completed. The caller may poll again.
 	1
-	PollWorkflowExecutionTimeSkippingResponse_RESULT_FAST_FORWARD_COMPLETED PollWorkflowExecutionTimeSkippingResponse_Result = // The fast-forward that was active when the poll started reached its target time and completed.
+	PollWorkflowExecutionTimeSkippingResponse_RESULT_FAST_FORWARD_COMPLETED PollWorkflowExecutionTimeSkippingResponse_Result = // The fast-forward identified by the request's `fast_forward_id` reached its target time and completed.
 	2
-	PollWorkflowExecutionTimeSkippingResponse_RESULT_NO_PENDING_FAST_FORWARD PollWorkflowExecutionTimeSkippingResponse_Result = // No fast-forward was in progress when the poll started, so there was nothing to wait for.
+	PollWorkflowExecutionTimeSkippingResponse_RESULT_FAST_FORWARD_NOT_FOUND PollWorkflowExecutionTimeSkippingResponse_Result = // The request's `fast_forward_id` does not match the execution's current `fast_forward_id`.
+	// The API returns immediately with this result, and `fast_forward_info` carries the execution's
+	// current fast-forward info.
 	3
+	PollWorkflowExecutionTimeSkippingResponse_RESULT_FAST_FORWARD_OVERRIDDEN PollWorkflowExecutionTimeSkippingResponse_Result = // The request's `fast_forward_id` matched the execution's current `fast_forward_id`, but while
+	// waiting for it to complete the fast-forward was overridden by another call that changed the
+	// TimeSkippingConfig.
+	4
 )
 
 // Enum value maps for PollWorkflowExecutionTimeSkippingResponse_Result.
 var (
 	PollWorkflowExecutionTimeSkippingResponse_Result_name = map[int32]string{
 		0: "RESULT_UNSPECIFIED",
-		1: "RESULT_TIMESKIPPING_CONFIG_UPDATED",
+		1: "RESULT_POLL_TIMEOUT",
 		2: "RESULT_FAST_FORWARD_COMPLETED",
-		3: "RESULT_NO_PENDING_FAST_FORWARD",
+		3: "RESULT_FAST_FORWARD_NOT_FOUND",
+		4: "RESULT_FAST_FORWARD_OVERRIDDEN",
 	}
 	PollWorkflowExecutionTimeSkippingResponse_Result_value = map[string]int32{
-		"RESULT_UNSPECIFIED":                 0,
-		"RESULT_TIMESKIPPING_CONFIG_UPDATED": 1,
-		"RESULT_FAST_FORWARD_COMPLETED":      2,
-		"RESULT_NO_PENDING_FAST_FORWARD":     3,
+		"RESULT_UNSPECIFIED":             0,
+		"RESULT_POLL_TIMEOUT":            1,
+		"RESULT_FAST_FORWARD_COMPLETED":  2,
+		"RESULT_FAST_FORWARD_NOT_FOUND":  3,
+		"RESULT_FAST_FORWARD_OVERRIDDEN": 4,
 	}
 )
 
@@ -89,14 +96,16 @@ func (x PollWorkflowExecutionTimeSkippingResponse_Result) String() string {
 	switch x {
 	case PollWorkflowExecutionTimeSkippingResponse_RESULT_UNSPECIFIED:
 		return "PollWorkflowExecutionTimeSkippingResponseResultUnspecified"
-	case PollWorkflowExecutionTimeSkippingResponse_RESULT_TIMESKIPPING_CONFIG_UPDATED:
-		return "PollWorkflowExecutionTimeSkippingResponseResultTimeskippingConfigUpdated"
+	case PollWorkflowExecutionTimeSkippingResponse_RESULT_POLL_TIMEOUT:
+		return "PollWorkflowExecutionTimeSkippingResponseResultPollTimeout"
 	case PollWorkflowExecutionTimeSkippingResponse_RESULT_FAST_FORWARD_COMPLETED:
 		return "PollWorkflowExecutionTimeSkippingResponseResultFastForwardCompleted"
-	case PollWorkflowExecutionTimeSkippingResponse_RESULT_NO_PENDING_FAST_FORWARD:
-		return "PollWorkflowExecutionTimeSkippingResponseResultNoPendingFastForward"
+	case PollWorkflowExecutionTimeSkippingResponse_RESULT_FAST_FORWARD_NOT_FOUND:
+		return "PollWorkflowExecutionTimeSkippingResponseResultFastForwardNotFound"
+	case PollWorkflowExecutionTimeSkippingResponse_RESULT_FAST_FORWARD_OVERRIDDEN:
 
 		// Deprecated: Use PollWorkflowExecutionTimeSkippingResponse_Result.Descriptor instead.
+		return "PollWorkflowExecutionTimeSkippingResponseResultFastForwardOverridden"
 	default:
 		return strconv.Itoa(int(x))
 	}
@@ -19066,8 +19075,11 @@ type PollWorkflowExecutionTimeSkippingRequest struct {
 	state             protoimpl.MessageState `protogen:"open.v1"`
 	Namespace         string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	WorkflowExecution *v14.WorkflowExecution `protobuf:"bytes,2,opt,name=workflow_execution,json=workflowExecution,proto3" json:"workflow_execution,omitempty"`
-	unknownFields     protoimpl.UnknownFields
-	sizeCache         protoimpl.SizeCache
+	// Required. Identifies the fast-forward whose completion the caller wants to wait for.
+	// Must match the `fast_forward_id` set in the execution's TimeSkippingConfig.
+	FastForwardId string `protobuf:"bytes,3,opt,name=fast_forward_id,json=fastForwardId,proto3" json:"fast_forward_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *PollWorkflowExecutionTimeSkippingRequest) Reset() {
@@ -19114,12 +19126,18 @@ func (x *PollWorkflowExecutionTimeSkippingRequest) GetWorkflowExecution() *v14.W
 	return nil
 }
 
+func (x *PollWorkflowExecutionTimeSkippingRequest) GetFastForwardId() string {
+	if x != nil {
+		return x.FastForwardId
+	}
+	return ""
+}
+
 type PollWorkflowExecutionTimeSkippingResponse struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// The result of this poll.
 	Result PollWorkflowExecutionTimeSkippingResponse_Result `protobuf:"varint,1,opt,name=result,proto3,enum=temporal.api.workflowservice.v1.PollWorkflowExecutionTimeSkippingResponse_Result" json:"result,omitempty"`
-	// The execution's most recent fast-forward, whether it is still pending or already completed.
-	// Unset only if the execution has never had a fast-forward.
+	// The execution's most recent fast-forward. Unset if time skipping was enabled without a fast-forward.
 	FastForwardInfo *v14.TimeSkippingFastForwardInfo `protobuf:"bytes,2,opt,name=fast_forward_info,json=fastForwardInfo,proto3" json:"fast_forward_info,omitempty"`
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
@@ -22137,18 +22155,20 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12!\n" +
 	"\foperation_id\x18\x02 \x01(\tR\voperationId\x12\x15\n" +
 	"\x06run_id\x18\x03 \x01(\tR\x05runId\"'\n" +
-	"%DeleteNexusOperationExecutionResponse\"\xa2\x01\n" +
+	"%DeleteNexusOperationExecutionResponse\"\xca\x01\n" +
 	"(PollWorkflowExecutionTimeSkippingRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12X\n" +
-	"\x12workflow_execution\x18\x02 \x01(\v2).temporal.api.common.v1.WorkflowExecutionR\x11workflowExecution\"\x89\x03\n" +
+	"\x12workflow_execution\x18\x02 \x01(\v2).temporal.api.common.v1.WorkflowExecutionR\x11workflowExecution\x12&\n" +
+	"\x0ffast_forward_id\x18\x03 \x01(\tR\rfastForwardId\"\x9d\x03\n" +
 	")PollWorkflowExecutionTimeSkippingResponse\x12i\n" +
 	"\x06result\x18\x01 \x01(\x0e2Q.temporal.api.workflowservice.v1.PollWorkflowExecutionTimeSkippingResponse.ResultR\x06result\x12_\n" +
-	"\x11fast_forward_info\x18\x02 \x01(\v23.temporal.api.common.v1.TimeSkippingFastForwardInfoR\x0ffastForwardInfo\"\x8f\x01\n" +
+	"\x11fast_forward_info\x18\x02 \x01(\v23.temporal.api.common.v1.TimeSkippingFastForwardInfoR\x0ffastForwardInfo\"\xa3\x01\n" +
 	"\x06Result\x12\x16\n" +
-	"\x12RESULT_UNSPECIFIED\x10\x00\x12&\n" +
-	"\"RESULT_TIMESKIPPING_CONFIG_UPDATED\x10\x01\x12!\n" +
-	"\x1dRESULT_FAST_FORWARD_COMPLETED\x10\x02\x12\"\n" +
-	"\x1eRESULT_NO_PENDING_FAST_FORWARD\x10\x03B\xbe\x01\n" +
+	"\x12RESULT_UNSPECIFIED\x10\x00\x12\x17\n" +
+	"\x13RESULT_POLL_TIMEOUT\x10\x01\x12!\n" +
+	"\x1dRESULT_FAST_FORWARD_COMPLETED\x10\x02\x12!\n" +
+	"\x1dRESULT_FAST_FORWARD_NOT_FOUND\x10\x03\x12\"\n" +
+	"\x1eRESULT_FAST_FORWARD_OVERRIDDEN\x10\x04B\xbe\x01\n" +
 	"\"io.temporal.api.workflowservice.v1B\x14RequestResponseProtoP\x01Z5go.temporal.io/api/workflowservice/v1;workflowservice\xaa\x02!Temporalio.Api.WorkflowService.V1\xea\x02$Temporalio::Api::WorkflowService::V1b\x06proto3"
 
 var (
