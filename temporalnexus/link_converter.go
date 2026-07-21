@@ -31,7 +31,10 @@ const (
 	linkEventIDKey                    = "eventID"
 	linkEventTypeKey                  = "eventType"
 	linkRequestIDKey                  = "requestID"
-	linkReasonKey                     = "reason"
+	// linkReasonKey carries Link_Workflow.reason: an optional, human-readable
+	// explanation of why the link exists (e.g. the reason a Query or Update
+	// created the link). Encoded as a URL query param on the Nexus link.
+	linkReasonKey = "reason"
 )
 
 var (
@@ -105,11 +108,11 @@ func ConvertLinkWorkflowEventToNexusLink(we *commonpb.Link_WorkflowEvent) nexus.
 // NOTE: Experimental
 func ConvertNexusLinkToLinkWorkflowEvent(link nexus.Link) (*commonpb.Link_WorkflowEvent, error) {
 	we := &commonpb.Link_WorkflowEvent{}
-	if link.Type != string(we.ProtoReflect().Descriptor().FullName()) {
+	if link.Type != workflowEventLinkType {
 		return nil, fmt.Errorf(
 			"cannot parse link type %q to %q",
 			link.Type,
-			we.ProtoReflect().Descriptor().FullName(),
+			workflowEventLinkType,
 		)
 	}
 
@@ -197,11 +200,11 @@ func ConvertLinkNexusOperationToNexusLink(no *commonpb.Link_NexusOperation) nexu
 // NOTE: Experimental
 func ConvertNexusLinkToLinkNexusOperation(link nexus.Link) (*commonpb.Link_NexusOperation, error) {
 	no := &commonpb.Link_NexusOperation{}
-	if link.Type != string(no.ProtoReflect().Descriptor().FullName()) {
+	if link.Type != nexusOperationLinkType {
 		return nil, fmt.Errorf(
 			"cannot parse link type %q to %q",
 			link.Type,
-			no.ProtoReflect().Descriptor().FullName(),
+			nexusOperationLinkType,
 		)
 	}
 
@@ -266,11 +269,11 @@ func ConvertLinkActivityToNexusLink(a *commonpb.Link_Activity) nexus.Link {
 // NOTE: Experimental
 func ConvertNexusLinkToLinkActivity(link nexus.Link) (*commonpb.Link_Activity, error) {
 	a := &commonpb.Link_Activity{}
-	if link.Type != string(a.ProtoReflect().Descriptor().FullName()) {
+	if link.Type != activityLinkType {
 		return nil, fmt.Errorf(
 			"cannot parse link type %q to %q",
 			link.Type,
-			a.ProtoReflect().Descriptor().FullName(),
+			activityLinkType,
 		)
 	}
 
@@ -340,11 +343,11 @@ func ConvertLinkWorkflowToNexusLink(w *commonpb.Link_Workflow) nexus.Link {
 // NOTE: Experimental
 func ConvertNexusLinkToLinkWorkflow(link nexus.Link) (*commonpb.Link_Workflow, error) {
 	w := &commonpb.Link_Workflow{}
-	if link.Type != string(w.ProtoReflect().Descriptor().FullName()) {
+	if link.Type != workflowLinkType {
 		return nil, fmt.Errorf(
 			"cannot parse link type %q to %q",
 			link.Type,
-			w.ProtoReflect().Descriptor().FullName(),
+			workflowLinkType,
 		)
 	}
 
