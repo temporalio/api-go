@@ -12399,6 +12399,9 @@ type UpdateWorkflowExecutionOptionsResponse struct {
 	WorkflowExecutionOptions *v17.WorkflowExecutionOptions `protobuf:"bytes,1,opt,name=workflow_execution_options,json=workflowExecutionOptions,proto3" json:"workflow_execution_options,omitempty"`
 	// The Workflow Execution time when the options were updated. When time skipping is
 	// enabled, this is the workflow's virtual time rather than wall-clock time.
+	//
+	// This timestamp cannot be used for time-skipping fast-forward info verification,
+	// use `fast_forward_id` instead.
 	UpdateTime    *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=update_time,json=updateTime,proto3" json:"update_time,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache

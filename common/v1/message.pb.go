@@ -1775,14 +1775,14 @@ func (x *TimeSkippingInfo) GetFastForwardInfo() *TimeSkippingFastForwardInfo {
 // TimeSkippingFastForwardInfo describes the current time-skipping fast-forward on an execution.
 type TimeSkippingFastForwardInfo struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// The virtual time at which the fast-forward was created.
-	CreateTime *timestamppb.Timestamp `protobuf:"bytes,1,opt,name=create_time,json=createTime,proto3" json:"create_time,omitempty"`
+	// The client-supplied `fast_forward` duration.
+	FastForwardDuration *durationpb.Duration `protobuf:"bytes,1,opt,name=fast_forward_duration,json=fastForwardDuration,proto3" json:"fast_forward_duration,omitempty"`
+	// The client-supplied ID set alongside `fast_forward` duration.
+	FastForwardId string `protobuf:"bytes,2,opt,name=fast_forward_id,json=fastForwardId,proto3" json:"fast_forward_id,omitempty"`
 	// The target virtual time at which the fast-forward completes.
-	TargetTime *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=target_time,json=targetTime,proto3" json:"target_time,omitempty"`
+	TargetTime *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=target_time,json=targetTime,proto3" json:"target_time,omitempty"`
 	// True once `target_time` has been reached.
-	HasCompleted bool `protobuf:"varint,3,opt,name=has_completed,json=hasCompleted,proto3" json:"has_completed,omitempty"`
-	// The client-supplied ID set alongside `fast_forward` when this fast-forward was created.
-	FastForwardId string `protobuf:"bytes,4,opt,name=fast_forward_id,json=fastForwardId,proto3" json:"fast_forward_id,omitempty"`
+	HasCompleted  bool `protobuf:"varint,4,opt,name=has_completed,json=hasCompleted,proto3" json:"has_completed,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1817,11 +1817,18 @@ func (*TimeSkippingFastForwardInfo) Descriptor() ([]byte, []int) {
 	return file_temporal_api_common_v1_message_proto_rawDescGZIP(), []int{24}
 }
 
-func (x *TimeSkippingFastForwardInfo) GetCreateTime() *timestamppb.Timestamp {
+func (x *TimeSkippingFastForwardInfo) GetFastForwardDuration() *durationpb.Duration {
 	if x != nil {
-		return x.CreateTime
+		return x.FastForwardDuration
 	}
 	return nil
+}
+
+func (x *TimeSkippingFastForwardInfo) GetFastForwardId() string {
+	if x != nil {
+		return x.FastForwardId
+	}
+	return ""
 }
 
 func (x *TimeSkippingFastForwardInfo) GetTargetTime() *timestamppb.Timestamp {
@@ -1836,13 +1843,6 @@ func (x *TimeSkippingFastForwardInfo) GetHasCompleted() bool {
 		return x.HasCompleted
 	}
 	return false
-}
-
-func (x *TimeSkippingFastForwardInfo) GetFastForwardId() string {
-	if x != nil {
-		return x.FastForwardId
-	}
-	return ""
 }
 
 // Describes an externally stored object referenced by this payload.
@@ -2606,14 +2606,13 @@ const file_temporal_api_common_v1_message_proto_rawDesc = "" +
 	"\fcurrent_time\x18\x01 \x01(\v2\x1a.google.protobuf.TimestampR\vcurrentTime\x12\x1d\n" +
 	"\n" +
 	"is_running\x18\x02 \x01(\bR\tisRunning\x12_\n" +
-	"\x11fast_forward_info\x18\x03 \x01(\v23.temporal.api.common.v1.TimeSkippingFastForwardInfoR\x0ffastForwardInfo\"\xe4\x01\n" +
-	"\x1bTimeSkippingFastForwardInfo\x12;\n" +
-	"\vcreate_time\x18\x01 \x01(\v2\x1a.google.protobuf.TimestampR\n" +
-	"createTime\x12;\n" +
-	"\vtarget_time\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\n" +
+	"\x11fast_forward_info\x18\x03 \x01(\v23.temporal.api.common.v1.TimeSkippingFastForwardInfoR\x0ffastForwardInfo\"\xf6\x01\n" +
+	"\x1bTimeSkippingFastForwardInfo\x12M\n" +
+	"\x15fast_forward_duration\x18\x01 \x01(\v2\x19.google.protobuf.DurationR\x13fastForwardDuration\x12&\n" +
+	"\x0ffast_forward_id\x18\x02 \x01(\tR\rfastForwardId\x12;\n" +
+	"\vtarget_time\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\n" +
 	"targetTime\x12#\n" +
-	"\rhas_completed\x18\x03 \x01(\bR\fhasCompleted\x12&\n" +
-	"\x0ffast_forward_id\x18\x04 \x01(\tR\rfastForwardIdB\x89\x01\n" +
+	"\rhas_completed\x18\x04 \x01(\bR\fhasCompletedB\x89\x01\n" +
 	"\x19io.temporal.api.common.v1B\fMessageProtoP\x01Z#go.temporal.io/api/common/v1;common\xaa\x02\x18Temporalio.Api.Common.V1\xea\x02\x1bTemporalio::Api::Common::V1b\x06proto3"
 
 var (
@@ -2707,7 +2706,7 @@ var file_temporal_api_common_v1_message_proto_depIdxs = []int32{
 	46, // 24: temporal.api.common.v1.TimeSkippingStatePropagation.fast_forward_target_time:type_name -> google.protobuf.Timestamp
 	46, // 25: temporal.api.common.v1.TimeSkippingInfo.current_time:type_name -> google.protobuf.Timestamp
 	24, // 26: temporal.api.common.v1.TimeSkippingInfo.fast_forward_info:type_name -> temporal.api.common.v1.TimeSkippingFastForwardInfo
-	46, // 27: temporal.api.common.v1.TimeSkippingFastForwardInfo.create_time:type_name -> google.protobuf.Timestamp
+	42, // 27: temporal.api.common.v1.TimeSkippingFastForwardInfo.fast_forward_duration:type_name -> google.protobuf.Duration
 	46, // 28: temporal.api.common.v1.TimeSkippingFastForwardInfo.target_time:type_name -> google.protobuf.Timestamp
 	2,  // 29: temporal.api.common.v1.SearchAttributes.IndexedFieldsEntry.value:type_name -> temporal.api.common.v1.Payload
 	2,  // 30: temporal.api.common.v1.Memo.FieldsEntry.value:type_name -> temporal.api.common.v1.Payload
