@@ -66,6 +66,9 @@ const (
 	// waiting for it to complete the fast-forward was overridden by another call that changed the
 	// TimeSkippingConfig.
 	4
+	PollWorkflowExecutionTimeSkippingResponse_RESULT_WORKFLOW_END_BEFORE_FAST_FORWARD_COMPLETION PollWorkflowExecutionTimeSkippingResponse_Result = // The request's `fast_forward_id` matched the execution's current `fast_forward_id`,
+	// but the workflow execution (the whole chain of runs) has completed before fast forward has a chance to complete.
+	5
 )
 
 // Enum value maps for PollWorkflowExecutionTimeSkippingResponse_Result.
@@ -76,13 +79,15 @@ var (
 		2: "RESULT_FAST_FORWARD_COMPLETED",
 		3: "RESULT_FAST_FORWARD_NOT_FOUND",
 		4: "RESULT_FAST_FORWARD_OVERRIDDEN",
+		5: "RESULT_WORKFLOW_END_BEFORE_FAST_FORWARD_COMPLETION",
 	}
 	PollWorkflowExecutionTimeSkippingResponse_Result_value = map[string]int32{
-		"RESULT_UNSPECIFIED":             0,
-		"RESULT_POLL_TIMEOUT":            1,
-		"RESULT_FAST_FORWARD_COMPLETED":  2,
-		"RESULT_FAST_FORWARD_NOT_FOUND":  3,
-		"RESULT_FAST_FORWARD_OVERRIDDEN": 4,
+		"RESULT_UNSPECIFIED":                                 0,
+		"RESULT_POLL_TIMEOUT":                                1,
+		"RESULT_FAST_FORWARD_COMPLETED":                      2,
+		"RESULT_FAST_FORWARD_NOT_FOUND":                      3,
+		"RESULT_FAST_FORWARD_OVERRIDDEN":                     4,
+		"RESULT_WORKFLOW_END_BEFORE_FAST_FORWARD_COMPLETION": 5,
 	}
 )
 
@@ -106,6 +111,8 @@ func (x PollWorkflowExecutionTimeSkippingResponse_Result) String() string {
 
 		// Deprecated: Use PollWorkflowExecutionTimeSkippingResponse_Result.Descriptor instead.
 		return "PollWorkflowExecutionTimeSkippingResponseResultFastForwardOverridden"
+	case PollWorkflowExecutionTimeSkippingResponse_RESULT_WORKFLOW_END_BEFORE_FAST_FORWARD_COMPLETION:
+		return "PollWorkflowExecutionTimeSkippingResponseResultWorkflowEndBeforeFastForwardCompletion"
 	default:
 		return strconv.Itoa(int(x))
 	}
@@ -19137,7 +19144,7 @@ type PollWorkflowExecutionTimeSkippingResponse struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// The result of this poll.
 	Result PollWorkflowExecutionTimeSkippingResponse_Result `protobuf:"varint,1,opt,name=result,proto3,enum=temporal.api.workflowservice.v1.PollWorkflowExecutionTimeSkippingResponse_Result" json:"result,omitempty"`
-	// The execution's most recent fast-forward. Unset if time skipping was enabled without a fast-forward.
+	// The execution's most recent fast forward. Unset if time skipping was enabled without a fast-forward.
 	FastForwardInfo *v14.TimeSkippingFastForwardInfo `protobuf:"bytes,2,opt,name=fast_forward_info,json=fastForwardInfo,proto3" json:"fast_forward_info,omitempty"`
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
@@ -22159,16 +22166,17 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"(PollWorkflowExecutionTimeSkippingRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12X\n" +
 	"\x12workflow_execution\x18\x02 \x01(\v2).temporal.api.common.v1.WorkflowExecutionR\x11workflowExecution\x12&\n" +
-	"\x0ffast_forward_id\x18\x03 \x01(\tR\rfastForwardId\"\x9d\x03\n" +
+	"\x0ffast_forward_id\x18\x03 \x01(\tR\rfastForwardId\"\xd5\x03\n" +
 	")PollWorkflowExecutionTimeSkippingResponse\x12i\n" +
 	"\x06result\x18\x01 \x01(\x0e2Q.temporal.api.workflowservice.v1.PollWorkflowExecutionTimeSkippingResponse.ResultR\x06result\x12_\n" +
-	"\x11fast_forward_info\x18\x02 \x01(\v23.temporal.api.common.v1.TimeSkippingFastForwardInfoR\x0ffastForwardInfo\"\xa3\x01\n" +
+	"\x11fast_forward_info\x18\x02 \x01(\v23.temporal.api.common.v1.TimeSkippingFastForwardInfoR\x0ffastForwardInfo\"\xdb\x01\n" +
 	"\x06Result\x12\x16\n" +
 	"\x12RESULT_UNSPECIFIED\x10\x00\x12\x17\n" +
 	"\x13RESULT_POLL_TIMEOUT\x10\x01\x12!\n" +
 	"\x1dRESULT_FAST_FORWARD_COMPLETED\x10\x02\x12!\n" +
 	"\x1dRESULT_FAST_FORWARD_NOT_FOUND\x10\x03\x12\"\n" +
-	"\x1eRESULT_FAST_FORWARD_OVERRIDDEN\x10\x04B\xbe\x01\n" +
+	"\x1eRESULT_FAST_FORWARD_OVERRIDDEN\x10\x04\x126\n" +
+	"2RESULT_WORKFLOW_END_BEFORE_FAST_FORWARD_COMPLETION\x10\x05B\xbe\x01\n" +
 	"\"io.temporal.api.workflowservice.v1B\x14RequestResponseProtoP\x01Z5go.temporal.io/api/workflowservice/v1;workflowservice\xaa\x02!Temporalio.Api.WorkflowService.V1\xea\x02$Temporalio::Api::WorkflowService::V1b\x06proto3"
 
 var (

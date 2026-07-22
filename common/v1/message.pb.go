@@ -1717,10 +1717,8 @@ type TimeSkippingInfo struct {
 	IsRunning bool `protobuf:"varint,2,opt,name=is_running,json=isRunning,proto3" json:"is_running,omitempty"`
 	// The execution's current fast-forward, if any. Unset if time skipping is enabled without a fast-forward.
 	FastForwardInfo *TimeSkippingFastForwardInfo `protobuf:"bytes,3,opt,name=fast_forward_info,json=fastForwardInfo,proto3" json:"fast_forward_info,omitempty"`
-	// The maximum number of skips allowed per time-skipping session currently in effect.
-	MaxSkipPerSession int32 `protobuf:"varint,4,opt,name=max_skip_per_session,json=maxSkipPerSession,proto3" json:"max_skip_per_session,omitempty"`
-	unknownFields     protoimpl.UnknownFields
-	sizeCache         protoimpl.SizeCache
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
 }
 
 func (x *TimeSkippingInfo) Reset() {
@@ -1772,13 +1770,6 @@ func (x *TimeSkippingInfo) GetFastForwardInfo() *TimeSkippingFastForwardInfo {
 		return x.FastForwardInfo
 	}
 	return nil
-}
-
-func (x *TimeSkippingInfo) GetMaxSkipPerSession() int32 {
-	if x != nil {
-		return x.MaxSkipPerSession
-	}
-	return 0
 }
 
 // TimeSkippingFastForwardInfo describes the current time-skipping fast-forward on an execution.
@@ -2610,13 +2601,12 @@ const file_temporal_api_common_v1_message_proto_rawDesc = "" +
 	"\x1cTimeSkippingStatePropagation\x12S\n" +
 	"\x18initial_skipped_duration\x18\x01 \x01(\v2\x19.google.protobuf.DurationR\x16initialSkippedDuration\x12S\n" +
 	"\x18fast_forward_target_time\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\x15fastForwardTargetTime\x12,\n" +
-	"\x12initial_skip_count\x18\x03 \x01(\x05R\x10initialSkipCount\"\x82\x02\n" +
+	"\x12initial_skip_count\x18\x03 \x01(\x05R\x10initialSkipCount\"\xd1\x01\n" +
 	"\x10TimeSkippingInfo\x12=\n" +
 	"\fcurrent_time\x18\x01 \x01(\v2\x1a.google.protobuf.TimestampR\vcurrentTime\x12\x1d\n" +
 	"\n" +
 	"is_running\x18\x02 \x01(\bR\tisRunning\x12_\n" +
-	"\x11fast_forward_info\x18\x03 \x01(\v23.temporal.api.common.v1.TimeSkippingFastForwardInfoR\x0ffastForwardInfo\x12/\n" +
-	"\x14max_skip_per_session\x18\x04 \x01(\x05R\x11maxSkipPerSession\"\xe4\x01\n" +
+	"\x11fast_forward_info\x18\x03 \x01(\v23.temporal.api.common.v1.TimeSkippingFastForwardInfoR\x0ffastForwardInfo\"\xe4\x01\n" +
 	"\x1bTimeSkippingFastForwardInfo\x12;\n" +
 	"\vcreate_time\x18\x01 \x01(\v2\x1a.google.protobuf.TimestampR\n" +
 	"createTime\x12;\n" +
