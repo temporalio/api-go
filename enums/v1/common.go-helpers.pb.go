@@ -210,3 +210,23 @@ func ExecutionTypeFromString(s string) (ExecutionType, error) {
 	}
 	return ExecutionType(0), fmt.Errorf("%s is not a valid ExecutionType", s)
 }
+
+var (
+	TimeSkippingStopReason_shorthandValue = map[string]int32{
+		"Unspecified":              0,
+		"UserDisabled":             1,
+		"FastForwardCompleted":     2,
+		"MaxSkipPerSessionReached": 3,
+	}
+)
+
+// TimeSkippingStopReasonFromString parses a TimeSkippingStopReason value from  either the protojson
+// canonical SCREAMING_CASE enum or the traditional temporal PascalCase enum to TimeSkippingStopReason
+func TimeSkippingStopReasonFromString(s string) (TimeSkippingStopReason, error) {
+	if v, ok := TimeSkippingStopReason_value[s]; ok {
+		return TimeSkippingStopReason(v), nil
+	} else if v, ok := TimeSkippingStopReason_shorthandValue[s]; ok {
+		return TimeSkippingStopReason(v), nil
+	}
+	return TimeSkippingStopReason(0), fmt.Errorf("%s is not a valid TimeSkippingStopReason", s)
+}

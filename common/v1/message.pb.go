@@ -1717,8 +1717,10 @@ type TimeSkippingInfo struct {
 	IsRunning bool `protobuf:"varint,2,opt,name=is_running,json=isRunning,proto3" json:"is_running,omitempty"`
 	// The execution's current fast-forward, if any. Unset if time skipping is enabled without a fast-forward.
 	FastForwardInfo *TimeSkippingFastForwardInfo `protobuf:"bytes,3,opt,name=fast_forward_info,json=fastForwardInfo,proto3" json:"fast_forward_info,omitempty"`
-	unknownFields   protoimpl.UnknownFields
-	sizeCache       protoimpl.SizeCache
+	// Why time skipping has stopped. Set only when `is_running` is false; `UNSPECIFIED` while it is running.
+	StopReason    v1.TimeSkippingStopReason `protobuf:"varint,4,opt,name=stop_reason,json=stopReason,proto3,enum=temporal.api.enums.v1.TimeSkippingStopReason" json:"stop_reason,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *TimeSkippingInfo) Reset() {
@@ -1770,6 +1772,13 @@ func (x *TimeSkippingInfo) GetFastForwardInfo() *TimeSkippingFastForwardInfo {
 		return x.FastForwardInfo
 	}
 	return nil
+}
+
+func (x *TimeSkippingInfo) GetStopReason() v1.TimeSkippingStopReason {
+	if x != nil {
+		return x.StopReason
+	}
+	return v1.TimeSkippingStopReason(0)
 }
 
 // TimeSkippingFastForwardInfo describes the current time-skipping fast-forward on an execution.
@@ -2601,12 +2610,14 @@ const file_temporal_api_common_v1_message_proto_rawDesc = "" +
 	"\x1cTimeSkippingStatePropagation\x12S\n" +
 	"\x18initial_skipped_duration\x18\x01 \x01(\v2\x19.google.protobuf.DurationR\x16initialSkippedDuration\x12S\n" +
 	"\x18fast_forward_target_time\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\x15fastForwardTargetTime\x12,\n" +
-	"\x12initial_skip_count\x18\x03 \x01(\x05R\x10initialSkipCount\"\xd1\x01\n" +
+	"\x12initial_skip_count\x18\x03 \x01(\x05R\x10initialSkipCount\"\xa1\x02\n" +
 	"\x10TimeSkippingInfo\x12=\n" +
 	"\fcurrent_time\x18\x01 \x01(\v2\x1a.google.protobuf.TimestampR\vcurrentTime\x12\x1d\n" +
 	"\n" +
 	"is_running\x18\x02 \x01(\bR\tisRunning\x12_\n" +
-	"\x11fast_forward_info\x18\x03 \x01(\v23.temporal.api.common.v1.TimeSkippingFastForwardInfoR\x0ffastForwardInfo\"\xf6\x01\n" +
+	"\x11fast_forward_info\x18\x03 \x01(\v23.temporal.api.common.v1.TimeSkippingFastForwardInfoR\x0ffastForwardInfo\x12N\n" +
+	"\vstop_reason\x18\x04 \x01(\x0e2-.temporal.api.enums.v1.TimeSkippingStopReasonR\n" +
+	"stopReason\"\xf6\x01\n" +
 	"\x1bTimeSkippingFastForwardInfo\x12M\n" +
 	"\x15fast_forward_duration\x18\x01 \x01(\v2\x19.google.protobuf.DurationR\x13fastForwardDuration\x12&\n" +
 	"\x0ffast_forward_id\x18\x02 \x01(\tR\rfastForwardId\x12;\n" +
@@ -2676,7 +2687,8 @@ var file_temporal_api_common_v1_message_proto_goTypes = []any{
 	(v1.ResetReapplyType)(0),                      // 44: temporal.api.enums.v1.ResetReapplyType
 	(v1.ResetReapplyExcludeType)(0),               // 45: temporal.api.enums.v1.ResetReapplyExcludeType
 	(*timestamppb.Timestamp)(nil),                 // 46: google.protobuf.Timestamp
-	(v1.EventType)(0),                             // 47: temporal.api.enums.v1.EventType
+	(v1.TimeSkippingStopReason)(0),                // 47: temporal.api.enums.v1.TimeSkippingStopReason
+	(v1.EventType)(0),                             // 48: temporal.api.enums.v1.EventType
 }
 var file_temporal_api_common_v1_message_proto_depIdxs = []int32{
 	40, // 0: temporal.api.common.v1.DataBlob.encoding_type:type_name -> temporal.api.enums.v1.EncodingType
@@ -2706,21 +2718,22 @@ var file_temporal_api_common_v1_message_proto_depIdxs = []int32{
 	46, // 24: temporal.api.common.v1.TimeSkippingStatePropagation.fast_forward_target_time:type_name -> google.protobuf.Timestamp
 	46, // 25: temporal.api.common.v1.TimeSkippingInfo.current_time:type_name -> google.protobuf.Timestamp
 	24, // 26: temporal.api.common.v1.TimeSkippingInfo.fast_forward_info:type_name -> temporal.api.common.v1.TimeSkippingFastForwardInfo
-	42, // 27: temporal.api.common.v1.TimeSkippingFastForwardInfo.fast_forward_duration:type_name -> google.protobuf.Duration
-	46, // 28: temporal.api.common.v1.TimeSkippingFastForwardInfo.target_time:type_name -> google.protobuf.Timestamp
-	2,  // 29: temporal.api.common.v1.SearchAttributes.IndexedFieldsEntry.value:type_name -> temporal.api.common.v1.Payload
-	2,  // 30: temporal.api.common.v1.Memo.FieldsEntry.value:type_name -> temporal.api.common.v1.Payload
-	2,  // 31: temporal.api.common.v1.Header.FieldsEntry.value:type_name -> temporal.api.common.v1.Payload
-	32, // 32: temporal.api.common.v1.Callback.Nexus.header:type_name -> temporal.api.common.v1.Callback.Nexus.HeaderEntry
-	38, // 33: temporal.api.common.v1.Link.WorkflowEvent.event_ref:type_name -> temporal.api.common.v1.Link.WorkflowEvent.EventReference
-	39, // 34: temporal.api.common.v1.Link.WorkflowEvent.request_id_ref:type_name -> temporal.api.common.v1.Link.WorkflowEvent.RequestIdReference
-	47, // 35: temporal.api.common.v1.Link.WorkflowEvent.EventReference.event_type:type_name -> temporal.api.enums.v1.EventType
-	47, // 36: temporal.api.common.v1.Link.WorkflowEvent.RequestIdReference.event_type:type_name -> temporal.api.enums.v1.EventType
-	37, // [37:37] is the sub-list for method output_type
-	37, // [37:37] is the sub-list for method input_type
-	37, // [37:37] is the sub-list for extension type_name
-	37, // [37:37] is the sub-list for extension extendee
-	0,  // [0:37] is the sub-list for field type_name
+	47, // 27: temporal.api.common.v1.TimeSkippingInfo.stop_reason:type_name -> temporal.api.enums.v1.TimeSkippingStopReason
+	42, // 28: temporal.api.common.v1.TimeSkippingFastForwardInfo.fast_forward_duration:type_name -> google.protobuf.Duration
+	46, // 29: temporal.api.common.v1.TimeSkippingFastForwardInfo.target_time:type_name -> google.protobuf.Timestamp
+	2,  // 30: temporal.api.common.v1.SearchAttributes.IndexedFieldsEntry.value:type_name -> temporal.api.common.v1.Payload
+	2,  // 31: temporal.api.common.v1.Memo.FieldsEntry.value:type_name -> temporal.api.common.v1.Payload
+	2,  // 32: temporal.api.common.v1.Header.FieldsEntry.value:type_name -> temporal.api.common.v1.Payload
+	32, // 33: temporal.api.common.v1.Callback.Nexus.header:type_name -> temporal.api.common.v1.Callback.Nexus.HeaderEntry
+	38, // 34: temporal.api.common.v1.Link.WorkflowEvent.event_ref:type_name -> temporal.api.common.v1.Link.WorkflowEvent.EventReference
+	39, // 35: temporal.api.common.v1.Link.WorkflowEvent.request_id_ref:type_name -> temporal.api.common.v1.Link.WorkflowEvent.RequestIdReference
+	48, // 36: temporal.api.common.v1.Link.WorkflowEvent.EventReference.event_type:type_name -> temporal.api.enums.v1.EventType
+	48, // 37: temporal.api.common.v1.Link.WorkflowEvent.RequestIdReference.event_type:type_name -> temporal.api.enums.v1.EventType
+	38, // [38:38] is the sub-list for method output_type
+	38, // [38:38] is the sub-list for method input_type
+	38, // [38:38] is the sub-list for extension type_name
+	38, // [38:38] is the sub-list for extension extendee
+	0,  // [0:38] is the sub-list for field type_name
 }
 
 func init() { file_temporal_api_common_v1_message_proto_init() }

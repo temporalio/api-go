@@ -726,6 +726,75 @@ func (ExecutionType) EnumDescriptor() ([]byte, []int) {
 	return file_temporal_api_enums_v1_common_proto_rawDescGZIP(), []int{9}
 }
 
+// Why time skipping has stopped on an execution.
+type TimeSkippingStopReason int32
+
+const (
+	// Unspecified. Set when time skipping is actively running (`is_running` is true), so no reason applies.
+	TIME_SKIPPING_STOP_REASON_UNSPECIFIED TimeSkippingStopReason = 0
+	// Time skipping is disabled by user configuration.
+	TIME_SKIPPING_STOP_REASON_USER_DISABLED TimeSkippingStopReason = 1
+	// The current fast-forward reached its target time and completed.
+	TIME_SKIPPING_STOP_REASON_FAST_FORWARD_COMPLETED TimeSkippingStopReason = 2
+	// The maximum amount of time skipping allowed per session was reached.
+	TIME_SKIPPING_STOP_REASON_MAX_SKIP_PER_SESSION_REACHED TimeSkippingStopReason = 3
+)
+
+// Enum value maps for TimeSkippingStopReason.
+var (
+	TimeSkippingStopReason_name = map[int32]string{
+		0: "TIME_SKIPPING_STOP_REASON_UNSPECIFIED",
+		1: "TIME_SKIPPING_STOP_REASON_USER_DISABLED",
+		2: "TIME_SKIPPING_STOP_REASON_FAST_FORWARD_COMPLETED",
+		3: "TIME_SKIPPING_STOP_REASON_MAX_SKIP_PER_SESSION_REACHED",
+	}
+	TimeSkippingStopReason_value = map[string]int32{
+		"TIME_SKIPPING_STOP_REASON_UNSPECIFIED":                  0,
+		"TIME_SKIPPING_STOP_REASON_USER_DISABLED":                1,
+		"TIME_SKIPPING_STOP_REASON_FAST_FORWARD_COMPLETED":       2,
+		"TIME_SKIPPING_STOP_REASON_MAX_SKIP_PER_SESSION_REACHED": 3,
+	}
+)
+
+func (x TimeSkippingStopReason) Enum() *TimeSkippingStopReason {
+	p := new(TimeSkippingStopReason)
+	*p = x
+	return p
+}
+
+func (x TimeSkippingStopReason) String() string {
+	switch x {
+	case TIME_SKIPPING_STOP_REASON_UNSPECIFIED:
+		return "Unspecified"
+	case TIME_SKIPPING_STOP_REASON_USER_DISABLED:
+		return "UserDisabled"
+	case TIME_SKIPPING_STOP_REASON_FAST_FORWARD_COMPLETED:
+		return "FastForwardCompleted"
+	case TIME_SKIPPING_STOP_REASON_MAX_SKIP_PER_SESSION_REACHED:
+		return "MaxSkipPerSessionReached"
+	default:
+		return strconv.Itoa(int(x))
+	}
+
+}
+
+func (TimeSkippingStopReason) Descriptor() protoreflect.EnumDescriptor {
+	return file_temporal_api_enums_v1_common_proto_enumTypes[10].Descriptor()
+}
+
+func (TimeSkippingStopReason) Type() protoreflect.EnumType {
+	return &file_temporal_api_enums_v1_common_proto_enumTypes[10]
+}
+
+func (x TimeSkippingStopReason) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use TimeSkippingStopReason.Descriptor instead.
+func (TimeSkippingStopReason) EnumDescriptor() ([]byte, []int) {
+	return file_temporal_api_enums_v1_common_proto_rawDescGZIP(), []int{10}
+}
+
 var File_temporal_api_enums_v1_common_proto protoreflect.FileDescriptor
 
 const file_temporal_api_enums_v1_common_proto_rawDesc = "" +
@@ -786,7 +855,12 @@ const file_temporal_api_enums_v1_common_proto_rawDesc = "" +
 	"\rExecutionType\x12\x1e\n" +
 	"\x1aEXECUTION_TYPE_UNSPECIFIED\x10\x00\x12\x1b\n" +
 	"\x17EXECUTION_TYPE_WORKFLOW\x10\x01\x12\x1b\n" +
-	"\x17EXECUTION_TYPE_ACTIVITY\x10\x02B\x83\x01\n" +
+	"\x17EXECUTION_TYPE_ACTIVITY\x10\x02*\xe2\x01\n" +
+	"\x16TimeSkippingStopReason\x12)\n" +
+	"%TIME_SKIPPING_STOP_REASON_UNSPECIFIED\x10\x00\x12+\n" +
+	"'TIME_SKIPPING_STOP_REASON_USER_DISABLED\x10\x01\x124\n" +
+	"0TIME_SKIPPING_STOP_REASON_FAST_FORWARD_COMPLETED\x10\x02\x12:\n" +
+	"6TIME_SKIPPING_STOP_REASON_MAX_SKIP_PER_SESSION_REACHED\x10\x03B\x83\x01\n" +
 	"\x18io.temporal.api.enums.v1B\vCommonProtoP\x01Z!go.temporal.io/api/enums/v1;enums\xaa\x02\x17Temporalio.Api.Enums.V1\xea\x02\x1aTemporalio::Api::Enums::V1b\x06proto3"
 
 var (
@@ -801,7 +875,7 @@ func file_temporal_api_enums_v1_common_proto_rawDescGZIP() []byte {
 	return file_temporal_api_enums_v1_common_proto_rawDescData
 }
 
-var file_temporal_api_enums_v1_common_proto_enumTypes = make([]protoimpl.EnumInfo, 10)
+var file_temporal_api_enums_v1_common_proto_enumTypes = make([]protoimpl.EnumInfo, 11)
 var file_temporal_api_enums_v1_common_proto_goTypes = []any{
 	(EncodingType)(0),                    // 0: temporal.api.enums.v1.EncodingType
 	(IndexedValueType)(0),                // 1: temporal.api.enums.v1.IndexedValueType
@@ -813,6 +887,7 @@ var file_temporal_api_enums_v1_common_proto_goTypes = []any{
 	(ApplicationErrorCategory)(0),        // 7: temporal.api.enums.v1.ApplicationErrorCategory
 	(WorkerStatus)(0),                    // 8: temporal.api.enums.v1.WorkerStatus
 	(ExecutionType)(0),                   // 9: temporal.api.enums.v1.ExecutionType
+	(TimeSkippingStopReason)(0),          // 10: temporal.api.enums.v1.TimeSkippingStopReason
 }
 var file_temporal_api_enums_v1_common_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for method output_type
@@ -832,7 +907,7 @@ func file_temporal_api_enums_v1_common_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_temporal_api_enums_v1_common_proto_rawDesc), len(file_temporal_api_enums_v1_common_proto_rawDesc)),
-			NumEnums:      10,
+			NumEnums:      11,
 			NumMessages:   0,
 			NumExtensions: 0,
 			NumServices:   0,

@@ -501,8 +501,10 @@ type NamespaceInfo_Capabilities struct {
 	StandaloneActivityStartDelay bool `protobuf:"varint,15,opt,name=standalone_activity_start_delay,json=standaloneActivityStartDelay,proto3" json:"standalone_activity_start_delay,omitempty"`
 	// True if the namespace supports batch operations for standalone activities.
 	StandaloneActivityBatchOperations bool `protobuf:"varint,16,opt,name=standalone_activity_batch_operations,json=standaloneActivityBatchOperations,proto3" json:"standalone_activity_batch_operations,omitempty"`
-	unknownFields                     protoimpl.UnknownFields
-	sizeCache                         protoimpl.SizeCache
+	// True if the namespace supports standalone activity operator commands.
+	StandaloneActivityOperatorCommands bool `protobuf:"varint,17,opt,name=standalone_activity_operator_commands,json=standaloneActivityOperatorCommands,proto3" json:"standalone_activity_operator_commands,omitempty"`
+	unknownFields                      protoimpl.UnknownFields
+	sizeCache                          protoimpl.SizeCache
 }
 
 func (x *NamespaceInfo_Capabilities) Reset() {
@@ -647,6 +649,13 @@ func (x *NamespaceInfo_Capabilities) GetStandaloneActivityBatchOperations() bool
 	return false
 }
 
+func (x *NamespaceInfo_Capabilities) GetStandaloneActivityOperatorCommands() bool {
+	if x != nil {
+		return x.StandaloneActivityOperatorCommands
+	}
+	return false
+}
+
 type NamespaceInfo_Limits struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Maximum size in bytes for payload fields in workflow history events
@@ -707,7 +716,7 @@ var File_temporal_api_namespace_v1_message_proto protoreflect.FileDescriptor
 
 const file_temporal_api_namespace_v1_message_proto_rawDesc = "" +
 	"\n" +
-	"'temporal/api/namespace/v1/message.proto\x12\x19temporal.api.namespace.v1\x1a\x1egoogle/protobuf/duration.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a%temporal/api/enums/v1/namespace.proto\"\x9a\f\n" +
+	"'temporal/api/namespace/v1/message.proto\x12\x19temporal.api.namespace.v1\x1a\x1egoogle/protobuf/duration.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a%temporal/api/enums/v1/namespace.proto\"\xed\f\n" +
 	"\rNamespaceInfo\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12;\n" +
 	"\x05state\x18\x02 \x01(\x0e2%.temporal.api.enums.v1.NamespaceStateR\x05state\x12 \n" +
@@ -721,7 +730,7 @@ const file_temporal_api_namespace_v1_message_proto_rawDesc = "" +
 	"\x12supports_schedules\x18d \x01(\bR\x11supportsSchedules\x1a7\n" +
 	"\tDataEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\x1a\xa0\a\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\x1a\xf3\a\n" +
 	"\fCapabilities\x120\n" +
 	"\x14eager_workflow_start\x18\x01 \x01(\bR\x12eagerWorkflowStart\x12\x1f\n" +
 	"\vsync_update\x18\x02 \x01(\bR\n" +
@@ -740,7 +749,8 @@ const file_temporal_api_namespace_v1_message_proto_rawDesc = "" +
 	"\x1epoller_autoscaling_auto_enroll\x18\r \x01(\bR\x1bpollerAutoscalingAutoEnroll\x12M\n" +
 	"#workflow_task_completion_pagination\x18\x0e \x01(\bR workflowTaskCompletionPagination\x12E\n" +
 	"\x1fstandalone_activity_start_delay\x18\x0f \x01(\bR\x1cstandaloneActivityStartDelay\x12O\n" +
-	"$standalone_activity_batch_operations\x18\x10 \x01(\bR!standaloneActivityBatchOperations\x1an\n" +
+	"$standalone_activity_batch_operations\x18\x10 \x01(\bR!standaloneActivityBatchOperations\x12Q\n" +
+	"%standalone_activity_operator_commands\x18\x11 \x01(\bR\"standaloneActivityOperatorCommands\x1an\n" +
 	"\x06Limits\x121\n" +
 	"\x15blob_size_limit_error\x18\x01 \x01(\x03R\x12blobSizeLimitError\x121\n" +
 	"\x15memo_size_limit_error\x18\x02 \x01(\x03R\x12memoSizeLimitError\"\xcf\x05\n" +
