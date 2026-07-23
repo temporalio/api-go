@@ -58,16 +58,11 @@ const (
 	1
 	PollWorkflowExecutionTimeSkippingResponse_RESULT_FAST_FORWARD_COMPLETED PollWorkflowExecutionTimeSkippingResponse_Result = // The fast-forward identified by the request's `fast_forward_id` reached its target time and completed.
 	2
-	PollWorkflowExecutionTimeSkippingResponse_RESULT_FAST_FORWARD_NOT_FOUND PollWorkflowExecutionTimeSkippingResponse_Result = // The request's `fast_forward_id` does not match the execution's current `fast_forward_id`.
-	// The API returns immediately with this result, and `fast_forward_info` carries the execution's
-	// current fast-forward info.
+	PollWorkflowExecutionTimeSkippingResponse_RESULT_FAST_FORWARD_ID_MISMATCH PollWorkflowExecutionTimeSkippingResponse_Result = // The request's `fast_forward_id` does not match the execution's current `fast_forward_id`.
 	3
-	PollWorkflowExecutionTimeSkippingResponse_RESULT_FAST_FORWARD_OVERRIDDEN PollWorkflowExecutionTimeSkippingResponse_Result = // The request's `fast_forward_id` matched the execution's current `fast_forward_id`, but while
-	// waiting for it to complete the fast-forward was overridden by another call that changed the
-	// TimeSkippingConfig.
-	4
-	PollWorkflowExecutionTimeSkippingResponse_RESULT_WORKFLOW_END_BEFORE_FAST_FORWARD_COMPLETION PollWorkflowExecutionTimeSkippingResponse_Result = // The request's `fast_forward_id` matched the execution's current `fast_forward_id`,
-	// but the workflow execution (the whole chain of runs) has completed before fast forward has a chance to complete.
+	PollWorkflowExecutionTimeSkippingResponse_RESULT_WORKFLOW_ENDED_BEFORE_FAST_FORWARD_COMPLETION PollWorkflowExecutionTimeSkippingResponse_Result = // The request's `fast_forward_id` matched the execution's current `fast_forward_id`,
+	// but the workflow execution (the entire chain of runs) completed before the fast-forward
+	// had a chance to complete.
 	5
 )
 
@@ -77,17 +72,15 @@ var (
 		0: "RESULT_UNSPECIFIED",
 		1: "RESULT_POLL_TIMEOUT",
 		2: "RESULT_FAST_FORWARD_COMPLETED",
-		3: "RESULT_FAST_FORWARD_NOT_FOUND",
-		4: "RESULT_FAST_FORWARD_OVERRIDDEN",
-		5: "RESULT_WORKFLOW_END_BEFORE_FAST_FORWARD_COMPLETION",
+		3: "RESULT_FAST_FORWARD_ID_MISMATCH",
+		5: "RESULT_WORKFLOW_ENDED_BEFORE_FAST_FORWARD_COMPLETION",
 	}
 	PollWorkflowExecutionTimeSkippingResponse_Result_value = map[string]int32{
-		"RESULT_UNSPECIFIED":                                 0,
-		"RESULT_POLL_TIMEOUT":                                1,
-		"RESULT_FAST_FORWARD_COMPLETED":                      2,
-		"RESULT_FAST_FORWARD_NOT_FOUND":                      3,
-		"RESULT_FAST_FORWARD_OVERRIDDEN":                     4,
-		"RESULT_WORKFLOW_END_BEFORE_FAST_FORWARD_COMPLETION": 5,
+		"RESULT_UNSPECIFIED":                                   0,
+		"RESULT_POLL_TIMEOUT":                                  1,
+		"RESULT_FAST_FORWARD_COMPLETED":                        2,
+		"RESULT_FAST_FORWARD_ID_MISMATCH":                      3,
+		"RESULT_WORKFLOW_ENDED_BEFORE_FAST_FORWARD_COMPLETION": 5,
 	}
 )
 
@@ -105,14 +98,12 @@ func (x PollWorkflowExecutionTimeSkippingResponse_Result) String() string {
 		return "PollWorkflowExecutionTimeSkippingResponseResultPollTimeout"
 	case PollWorkflowExecutionTimeSkippingResponse_RESULT_FAST_FORWARD_COMPLETED:
 		return "PollWorkflowExecutionTimeSkippingResponseResultFastForwardCompleted"
-	case PollWorkflowExecutionTimeSkippingResponse_RESULT_FAST_FORWARD_NOT_FOUND:
-		return "PollWorkflowExecutionTimeSkippingResponseResultFastForwardNotFound"
-	case PollWorkflowExecutionTimeSkippingResponse_RESULT_FAST_FORWARD_OVERRIDDEN:
+	case PollWorkflowExecutionTimeSkippingResponse_RESULT_FAST_FORWARD_ID_MISMATCH:
+		return "PollWorkflowExecutionTimeSkippingResponseResultFastForwardIdMismatch"
+	case PollWorkflowExecutionTimeSkippingResponse_RESULT_WORKFLOW_ENDED_BEFORE_FAST_FORWARD_COMPLETION:
 
 		// Deprecated: Use PollWorkflowExecutionTimeSkippingResponse_Result.Descriptor instead.
-		return "PollWorkflowExecutionTimeSkippingResponseResultFastForwardOverridden"
-	case PollWorkflowExecutionTimeSkippingResponse_RESULT_WORKFLOW_END_BEFORE_FAST_FORWARD_COMPLETION:
-		return "PollWorkflowExecutionTimeSkippingResponseResultWorkflowEndBeforeFastForwardCompletion"
+		return "PollWorkflowExecutionTimeSkippingResponseResultWorkflowEndedBeforeFastForwardCompletion"
 	default:
 		return strconv.Itoa(int(x))
 	}
@@ -22169,17 +22160,16 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"(PollWorkflowExecutionTimeSkippingRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12X\n" +
 	"\x12workflow_execution\x18\x02 \x01(\v2).temporal.api.common.v1.WorkflowExecutionR\x11workflowExecution\x12&\n" +
-	"\x0ffast_forward_id\x18\x03 \x01(\tR\rfastForwardId\"\xd5\x03\n" +
+	"\x0ffast_forward_id\x18\x03 \x01(\tR\rfastForwardId\"\xb5\x03\n" +
 	")PollWorkflowExecutionTimeSkippingResponse\x12i\n" +
 	"\x06result\x18\x01 \x01(\x0e2Q.temporal.api.workflowservice.v1.PollWorkflowExecutionTimeSkippingResponse.ResultR\x06result\x12_\n" +
-	"\x11fast_forward_info\x18\x02 \x01(\v23.temporal.api.common.v1.TimeSkippingFastForwardInfoR\x0ffastForwardInfo\"\xdb\x01\n" +
+	"\x11fast_forward_info\x18\x02 \x01(\v23.temporal.api.common.v1.TimeSkippingFastForwardInfoR\x0ffastForwardInfo\"\xbb\x01\n" +
 	"\x06Result\x12\x16\n" +
 	"\x12RESULT_UNSPECIFIED\x10\x00\x12\x17\n" +
 	"\x13RESULT_POLL_TIMEOUT\x10\x01\x12!\n" +
-	"\x1dRESULT_FAST_FORWARD_COMPLETED\x10\x02\x12!\n" +
-	"\x1dRESULT_FAST_FORWARD_NOT_FOUND\x10\x03\x12\"\n" +
-	"\x1eRESULT_FAST_FORWARD_OVERRIDDEN\x10\x04\x126\n" +
-	"2RESULT_WORKFLOW_END_BEFORE_FAST_FORWARD_COMPLETION\x10\x05B\xbe\x01\n" +
+	"\x1dRESULT_FAST_FORWARD_COMPLETED\x10\x02\x12#\n" +
+	"\x1fRESULT_FAST_FORWARD_ID_MISMATCH\x10\x03\x128\n" +
+	"4RESULT_WORKFLOW_ENDED_BEFORE_FAST_FORWARD_COMPLETION\x10\x05B\xbe\x01\n" +
 	"\"io.temporal.api.workflowservice.v1B\x14RequestResponseProtoP\x01Z5go.temporal.io/api/workflowservice/v1;workflowservice\xaa\x02!Temporalio.Api.WorkflowService.V1\xea\x02$Temporalio::Api::WorkflowService::V1b\x06proto3"
 
 var (
