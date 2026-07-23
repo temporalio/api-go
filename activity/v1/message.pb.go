@@ -296,7 +296,8 @@ type ActivityExecutionInfo struct {
 	ExecutionDuration *durationpb.Duration `protobuf:"bytes,16,opt,name=execution_duration,json=executionDuration,proto3" json:"execution_duration,omitempty"`
 	// Time the activity was originally scheduled via a StartActivityExecution request.
 	ScheduleTime *timestamppb.Timestamp `protobuf:"bytes,17,opt,name=schedule_time,json=scheduleTime,proto3" json:"schedule_time,omitempty"`
-	// Scheduled time + schedule to close timeout.
+	// The time at which the activity's Schedule-to-Close timeout expires.
+	// Calculated as `schedule_time` + `start_delay` + `schedule_to_close_timeout`.
 	ExpirationTime *timestamppb.Timestamp `protobuf:"bytes,18,opt,name=expiration_time,json=expirationTime,proto3" json:"expiration_time,omitempty"`
 	// Time when the activity transitioned to a closed state.
 	CloseTime *timestamppb.Timestamp `protobuf:"bytes,19,opt,name=close_time,json=closeTime,proto3" json:"close_time,omitempty"`
