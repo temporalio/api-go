@@ -1569,9 +1569,9 @@ type TimeSkippingConfig struct {
 	//
 	// If this field is not set, the server applies a large default value (e.g. 100). The default can
 	// be changed through dynamic config, and is overridden by this field when set.
-	MaxSkipPerSession int32 `protobuf:"varint,4,opt,name=max_skip_per_session,json=maxSkipPerSession,proto3" json:"max_skip_per_session,omitempty"`
-	unknownFields     protoimpl.UnknownFields
-	sizeCache         protoimpl.SizeCache
+	MaxSessionSkipCount int32 `protobuf:"varint,4,opt,name=max_session_skip_count,json=maxSessionSkipCount,proto3" json:"max_session_skip_count,omitempty"`
+	unknownFields       protoimpl.UnknownFields
+	sizeCache           protoimpl.SizeCache
 }
 
 func (x *TimeSkippingConfig) Reset() {
@@ -1632,9 +1632,9 @@ func (x *TimeSkippingConfig) GetDisablePropagation() bool {
 	return false
 }
 
-func (x *TimeSkippingConfig) GetMaxSkipPerSession() int32 {
+func (x *TimeSkippingConfig) GetMaxSessionSkipCount() int32 {
 	if x != nil {
-		return x.MaxSkipPerSession
+		return x.MaxSessionSkipCount
 	}
 	return 0
 }
@@ -1716,11 +1716,11 @@ type TimeSkippingInfo struct {
 	// max skip allowed checking, or user configuration, it will be false.
 	IsRunning bool `protobuf:"varint,2,opt,name=is_running,json=isRunning,proto3" json:"is_running,omitempty"`
 	// The execution's current fast-forward, if any. Unset if time skipping is enabled without a fast-forward.
-	FastForwardInfo *TimeSkippingFastForwardInfo `protobuf:"bytes,3,opt,name=fast_forward_info,json=fastForwardInfo,proto3" json:"fast_forward_info,omitempty"`
-	// Why time skipping has stopped. Set only when `is_running` is false; `UNSPECIFIED` while it is running.
-	StopReason    v1.TimeSkippingStopReason `protobuf:"varint,4,opt,name=stop_reason,json=stopReason,proto3,enum=temporal.api.enums.v1.TimeSkippingStopReason" json:"stop_reason,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	FastForwardInfo         *TimeSkippingFastForwardInfo `protobuf:"bytes,4,opt,name=fast_forward_info,json=fastForwardInfo,proto3" json:"fast_forward_info,omitempty"`
+	MaxSessionSkipCount     int32                        `protobuf:"varint,5,opt,name=max_session_skip_count,json=maxSessionSkipCount,proto3" json:"max_session_skip_count,omitempty"`
+	CurrentSessionSkipCount int32                        `protobuf:"varint,6,opt,name=current_session_skip_count,json=currentSessionSkipCount,proto3" json:"current_session_skip_count,omitempty"`
+	unknownFields           protoimpl.UnknownFields
+	sizeCache               protoimpl.SizeCache
 }
 
 func (x *TimeSkippingInfo) Reset() {
@@ -1774,11 +1774,18 @@ func (x *TimeSkippingInfo) GetFastForwardInfo() *TimeSkippingFastForwardInfo {
 	return nil
 }
 
-func (x *TimeSkippingInfo) GetStopReason() v1.TimeSkippingStopReason {
+func (x *TimeSkippingInfo) GetMaxSessionSkipCount() int32 {
 	if x != nil {
-		return x.StopReason
+		return x.MaxSessionSkipCount
 	}
-	return v1.TimeSkippingStopReason(0)
+	return 0
+}
+
+func (x *TimeSkippingInfo) GetCurrentSessionSkipCount() int32 {
+	if x != nil {
+		return x.CurrentSessionSkipCount
+	}
+	return 0
 }
 
 // TimeSkippingFastForwardInfo describes the current time-skipping fast-forward on an execution.
@@ -2600,24 +2607,24 @@ const file_temporal_api_common_v1_message_proto_rawDesc = "" +
 	"\x11OnConflictOptions\x12*\n" +
 	"\x11attach_request_id\x18\x01 \x01(\bR\x0fattachRequestId\x12>\n" +
 	"\x1battach_completion_callbacks\x18\x02 \x01(\bR\x19attachCompletionCallbacks\x12!\n" +
-	"\fattach_links\x18\x03 \x01(\bR\vattachLinks\"\xf6\x01\n" +
+	"\fattach_links\x18\x03 \x01(\bR\vattachLinks\"\xfa\x01\n" +
 	"\x12TimeSkippingConfig\x12\x18\n" +
 	"\aenabled\x18\x01 \x01(\bR\aenabled\x12<\n" +
 	"\ffast_forward\x18\x02 \x01(\v2\x19.google.protobuf.DurationR\vfastForward\x12&\n" +
 	"\x0ffast_forward_id\x18\x05 \x01(\tR\rfastForwardId\x12/\n" +
-	"\x13disable_propagation\x18\x03 \x01(\bR\x12disablePropagation\x12/\n" +
-	"\x14max_skip_per_session\x18\x04 \x01(\x05R\x11maxSkipPerSession\"\xf6\x01\n" +
+	"\x13disable_propagation\x18\x03 \x01(\bR\x12disablePropagation\x123\n" +
+	"\x16max_session_skip_count\x18\x04 \x01(\x05R\x13maxSessionSkipCount\"\xf6\x01\n" +
 	"\x1cTimeSkippingStatePropagation\x12S\n" +
 	"\x18initial_skipped_duration\x18\x01 \x01(\v2\x19.google.protobuf.DurationR\x16initialSkippedDuration\x12S\n" +
 	"\x18fast_forward_target_time\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\x15fastForwardTargetTime\x12,\n" +
-	"\x12initial_skip_count\x18\x03 \x01(\x05R\x10initialSkipCount\"\xa1\x02\n" +
+	"\x12initial_skip_count\x18\x03 \x01(\x05R\x10initialSkipCount\"\xc3\x02\n" +
 	"\x10TimeSkippingInfo\x12=\n" +
 	"\fcurrent_time\x18\x01 \x01(\v2\x1a.google.protobuf.TimestampR\vcurrentTime\x12\x1d\n" +
 	"\n" +
 	"is_running\x18\x02 \x01(\bR\tisRunning\x12_\n" +
-	"\x11fast_forward_info\x18\x03 \x01(\v23.temporal.api.common.v1.TimeSkippingFastForwardInfoR\x0ffastForwardInfo\x12N\n" +
-	"\vstop_reason\x18\x04 \x01(\x0e2-.temporal.api.enums.v1.TimeSkippingStopReasonR\n" +
-	"stopReason\"\xf6\x01\n" +
+	"\x11fast_forward_info\x18\x04 \x01(\v23.temporal.api.common.v1.TimeSkippingFastForwardInfoR\x0ffastForwardInfo\x123\n" +
+	"\x16max_session_skip_count\x18\x05 \x01(\x05R\x13maxSessionSkipCount\x12;\n" +
+	"\x1acurrent_session_skip_count\x18\x06 \x01(\x05R\x17currentSessionSkipCount\"\xf6\x01\n" +
 	"\x1bTimeSkippingFastForwardInfo\x12M\n" +
 	"\x15fast_forward_duration\x18\x01 \x01(\v2\x19.google.protobuf.DurationR\x13fastForwardDuration\x12&\n" +
 	"\x0ffast_forward_id\x18\x02 \x01(\tR\rfastForwardId\x12;\n" +
@@ -2687,8 +2694,7 @@ var file_temporal_api_common_v1_message_proto_goTypes = []any{
 	(v1.ResetReapplyType)(0),                      // 44: temporal.api.enums.v1.ResetReapplyType
 	(v1.ResetReapplyExcludeType)(0),               // 45: temporal.api.enums.v1.ResetReapplyExcludeType
 	(*timestamppb.Timestamp)(nil),                 // 46: google.protobuf.Timestamp
-	(v1.TimeSkippingStopReason)(0),                // 47: temporal.api.enums.v1.TimeSkippingStopReason
-	(v1.EventType)(0),                             // 48: temporal.api.enums.v1.EventType
+	(v1.EventType)(0),                             // 47: temporal.api.enums.v1.EventType
 }
 var file_temporal_api_common_v1_message_proto_depIdxs = []int32{
 	40, // 0: temporal.api.common.v1.DataBlob.encoding_type:type_name -> temporal.api.enums.v1.EncodingType
@@ -2718,22 +2724,21 @@ var file_temporal_api_common_v1_message_proto_depIdxs = []int32{
 	46, // 24: temporal.api.common.v1.TimeSkippingStatePropagation.fast_forward_target_time:type_name -> google.protobuf.Timestamp
 	46, // 25: temporal.api.common.v1.TimeSkippingInfo.current_time:type_name -> google.protobuf.Timestamp
 	24, // 26: temporal.api.common.v1.TimeSkippingInfo.fast_forward_info:type_name -> temporal.api.common.v1.TimeSkippingFastForwardInfo
-	47, // 27: temporal.api.common.v1.TimeSkippingInfo.stop_reason:type_name -> temporal.api.enums.v1.TimeSkippingStopReason
-	42, // 28: temporal.api.common.v1.TimeSkippingFastForwardInfo.fast_forward_duration:type_name -> google.protobuf.Duration
-	46, // 29: temporal.api.common.v1.TimeSkippingFastForwardInfo.target_time:type_name -> google.protobuf.Timestamp
-	2,  // 30: temporal.api.common.v1.SearchAttributes.IndexedFieldsEntry.value:type_name -> temporal.api.common.v1.Payload
-	2,  // 31: temporal.api.common.v1.Memo.FieldsEntry.value:type_name -> temporal.api.common.v1.Payload
-	2,  // 32: temporal.api.common.v1.Header.FieldsEntry.value:type_name -> temporal.api.common.v1.Payload
-	32, // 33: temporal.api.common.v1.Callback.Nexus.header:type_name -> temporal.api.common.v1.Callback.Nexus.HeaderEntry
-	38, // 34: temporal.api.common.v1.Link.WorkflowEvent.event_ref:type_name -> temporal.api.common.v1.Link.WorkflowEvent.EventReference
-	39, // 35: temporal.api.common.v1.Link.WorkflowEvent.request_id_ref:type_name -> temporal.api.common.v1.Link.WorkflowEvent.RequestIdReference
-	48, // 36: temporal.api.common.v1.Link.WorkflowEvent.EventReference.event_type:type_name -> temporal.api.enums.v1.EventType
-	48, // 37: temporal.api.common.v1.Link.WorkflowEvent.RequestIdReference.event_type:type_name -> temporal.api.enums.v1.EventType
-	38, // [38:38] is the sub-list for method output_type
-	38, // [38:38] is the sub-list for method input_type
-	38, // [38:38] is the sub-list for extension type_name
-	38, // [38:38] is the sub-list for extension extendee
-	0,  // [0:38] is the sub-list for field type_name
+	42, // 27: temporal.api.common.v1.TimeSkippingFastForwardInfo.fast_forward_duration:type_name -> google.protobuf.Duration
+	46, // 28: temporal.api.common.v1.TimeSkippingFastForwardInfo.target_time:type_name -> google.protobuf.Timestamp
+	2,  // 29: temporal.api.common.v1.SearchAttributes.IndexedFieldsEntry.value:type_name -> temporal.api.common.v1.Payload
+	2,  // 30: temporal.api.common.v1.Memo.FieldsEntry.value:type_name -> temporal.api.common.v1.Payload
+	2,  // 31: temporal.api.common.v1.Header.FieldsEntry.value:type_name -> temporal.api.common.v1.Payload
+	32, // 32: temporal.api.common.v1.Callback.Nexus.header:type_name -> temporal.api.common.v1.Callback.Nexus.HeaderEntry
+	38, // 33: temporal.api.common.v1.Link.WorkflowEvent.event_ref:type_name -> temporal.api.common.v1.Link.WorkflowEvent.EventReference
+	39, // 34: temporal.api.common.v1.Link.WorkflowEvent.request_id_ref:type_name -> temporal.api.common.v1.Link.WorkflowEvent.RequestIdReference
+	47, // 35: temporal.api.common.v1.Link.WorkflowEvent.EventReference.event_type:type_name -> temporal.api.enums.v1.EventType
+	47, // 36: temporal.api.common.v1.Link.WorkflowEvent.RequestIdReference.event_type:type_name -> temporal.api.enums.v1.EventType
+	37, // [37:37] is the sub-list for method output_type
+	37, // [37:37] is the sub-list for method input_type
+	37, // [37:37] is the sub-list for extension type_name
+	37, // [37:37] is the sub-list for extension extendee
+	0,  // [0:37] is the sub-list for field type_name
 }
 
 func init() { file_temporal_api_common_v1_message_proto_init() }
