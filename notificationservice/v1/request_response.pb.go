@@ -24,33 +24,36 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// OnCompleteHandlerRequest is sent when an asynchronous operation completes.
-type OnCompleteHandlerRequest struct {
-	state           protoimpl.MessageState                    `protogen:"open.v1"`
-	SourceOperation *OnCompleteHandlerRequest_SourceOperation `protobuf:"bytes,1,opt,name=source_operation,json=sourceOperation,proto3" json:"source_operation,omitempty"`
-	Outcome         *OnCompleteHandlerRequest_Outcome         `protobuf:"bytes,2,opt,name=outcome,proto3" json:"outcome,omitempty"`
-	// User-supplied data added to the source invocation. (If applicable.)
-	//
-	// There is a relatively maximum size the source context can be, e.g. 10KiB.
-	SourceContext *v1.Payload `protobuf:"bytes,3,opt,name=source_context,json=sourceContext,proto3" json:"source_context,omitempty"`
+// OnCompleteRequest is the request type to the NotificationService's OnComplete operation,
+// allowing for defining completion handlers for arbitrary asynchronous operations.
+//
+// Information about the source operation will be available in the form of a commonpb.Link,
+// which will be available separately from this OnCompleteRequest. e.g. a link to the source
+// standalone Nexus operation would be found in the nexuspb.StartOperationRequest parameter
+// sent to the worker callback. (In addition to this OnCompleteRequest.)
+type OnCompleteRequest struct {
+	state   protoimpl.MessageState     `protogen:"open.v1"`
+	Outcome *OnCompleteRequest_Outcome `protobuf:"bytes,1,opt,name=outcome,proto3" json:"outcome,omitempty"`
+	// User-supplied data which was added to the source invocation. (As applicable.)
+	SourceContext *v1.Payload `protobuf:"bytes,2,opt,name=source_context,json=sourceContext,proto3" json:"source_context,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *OnCompleteHandlerRequest) Reset() {
-	*x = OnCompleteHandlerRequest{}
+func (x *OnCompleteRequest) Reset() {
+	*x = OnCompleteRequest{}
 	mi := &file_temporal_api_notificationservice_v1_request_response_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *OnCompleteHandlerRequest) String() string {
+func (x *OnCompleteRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*OnCompleteHandlerRequest) ProtoMessage() {}
+func (*OnCompleteRequest) ProtoMessage() {}
 
-func (x *OnCompleteHandlerRequest) ProtoReflect() protoreflect.Message {
+func (x *OnCompleteRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_notificationservice_v1_request_response_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -62,53 +65,46 @@ func (x *OnCompleteHandlerRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use OnCompleteHandlerRequest.ProtoReflect.Descriptor instead.
-func (*OnCompleteHandlerRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use OnCompleteRequest.ProtoReflect.Descriptor instead.
+func (*OnCompleteRequest) Descriptor() ([]byte, []int) {
 	return file_temporal_api_notificationservice_v1_request_response_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *OnCompleteHandlerRequest) GetSourceOperation() *OnCompleteHandlerRequest_SourceOperation {
-	if x != nil {
-		return x.SourceOperation
-	}
-	return nil
-}
-
-func (x *OnCompleteHandlerRequest) GetOutcome() *OnCompleteHandlerRequest_Outcome {
+func (x *OnCompleteRequest) GetOutcome() *OnCompleteRequest_Outcome {
 	if x != nil {
 		return x.Outcome
 	}
 	return nil
 }
 
-func (x *OnCompleteHandlerRequest) GetSourceContext() *v1.Payload {
+func (x *OnCompleteRequest) GetSourceContext() *v1.Payload {
 	if x != nil {
 		return x.SourceContext
 	}
 	return nil
 }
 
-// OnCompleteHandlerResponse is the return type from the completion handler.
-type OnCompleteHandlerResponse struct {
+// OnCompleteResponse is the return type of the OnComplete operation.
+type OnCompleteResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *OnCompleteHandlerResponse) Reset() {
-	*x = OnCompleteHandlerResponse{}
+func (x *OnCompleteResponse) Reset() {
+	*x = OnCompleteResponse{}
 	mi := &file_temporal_api_notificationservice_v1_request_response_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *OnCompleteHandlerResponse) String() string {
+func (x *OnCompleteResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*OnCompleteHandlerResponse) ProtoMessage() {}
+func (*OnCompleteResponse) ProtoMessage() {}
 
-func (x *OnCompleteHandlerResponse) ProtoReflect() protoreflect.Message {
+func (x *OnCompleteResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_notificationservice_v1_request_response_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -120,178 +116,38 @@ func (x *OnCompleteHandlerResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use OnCompleteHandlerResponse.ProtoReflect.Descriptor instead.
-func (*OnCompleteHandlerResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use OnCompleteResponse.ProtoReflect.Descriptor instead.
+func (*OnCompleteResponse) Descriptor() ([]byte, []int) {
 	return file_temporal_api_notificationservice_v1_request_response_proto_rawDescGZIP(), []int{1}
 }
 
-type OnCompleteHandlerRequest_NexusOperation struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// The Nexus endpoint.
-	Endpoint string `protobuf:"bytes,1,opt,name=endpoint,proto3" json:"endpoint,omitempty"`
-	// The Nexus service.
-	Service string `protobuf:"bytes,2,opt,name=service,proto3" json:"service,omitempty"`
-	// The Nexus operation.
-	Operation string `protobuf:"bytes,3,opt,name=operation,proto3" json:"operation,omitempty"`
-	// The token the operation produced. (If it was an asynchronous Nexus operation.)
-	OperationToken string `protobuf:"bytes,4,opt,name=operation_token,json=operationToken,proto3" json:"operation_token,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
-}
-
-func (x *OnCompleteHandlerRequest_NexusOperation) Reset() {
-	*x = OnCompleteHandlerRequest_NexusOperation{}
-	mi := &file_temporal_api_notificationservice_v1_request_response_proto_msgTypes[2]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *OnCompleteHandlerRequest_NexusOperation) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*OnCompleteHandlerRequest_NexusOperation) ProtoMessage() {}
-
-func (x *OnCompleteHandlerRequest_NexusOperation) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_notificationservice_v1_request_response_proto_msgTypes[2]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use OnCompleteHandlerRequest_NexusOperation.ProtoReflect.Descriptor instead.
-func (*OnCompleteHandlerRequest_NexusOperation) Descriptor() ([]byte, []int) {
-	return file_temporal_api_notificationservice_v1_request_response_proto_rawDescGZIP(), []int{0, 0}
-}
-
-func (x *OnCompleteHandlerRequest_NexusOperation) GetEndpoint() string {
-	if x != nil {
-		return x.Endpoint
-	}
-	return ""
-}
-
-func (x *OnCompleteHandlerRequest_NexusOperation) GetService() string {
-	if x != nil {
-		return x.Service
-	}
-	return ""
-}
-
-func (x *OnCompleteHandlerRequest_NexusOperation) GetOperation() string {
-	if x != nil {
-		return x.Operation
-	}
-	return ""
-}
-
-func (x *OnCompleteHandlerRequest_NexusOperation) GetOperationToken() string {
-	if x != nil {
-		return x.OperationToken
-	}
-	return ""
-}
-
-// The asynchronous operation for which this completion handler is responding to.
-type OnCompleteHandlerRequest_SourceOperation struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// Types that are valid to be assigned to Variant:
-	//
-	//	*OnCompleteHandlerRequest_SourceOperation_NexusOperation
-	Variant       isOnCompleteHandlerRequest_SourceOperation_Variant `protobuf_oneof:"variant"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *OnCompleteHandlerRequest_SourceOperation) Reset() {
-	*x = OnCompleteHandlerRequest_SourceOperation{}
-	mi := &file_temporal_api_notificationservice_v1_request_response_proto_msgTypes[3]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *OnCompleteHandlerRequest_SourceOperation) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*OnCompleteHandlerRequest_SourceOperation) ProtoMessage() {}
-
-func (x *OnCompleteHandlerRequest_SourceOperation) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_notificationservice_v1_request_response_proto_msgTypes[3]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use OnCompleteHandlerRequest_SourceOperation.ProtoReflect.Descriptor instead.
-func (*OnCompleteHandlerRequest_SourceOperation) Descriptor() ([]byte, []int) {
-	return file_temporal_api_notificationservice_v1_request_response_proto_rawDescGZIP(), []int{0, 1}
-}
-
-func (x *OnCompleteHandlerRequest_SourceOperation) GetVariant() isOnCompleteHandlerRequest_SourceOperation_Variant {
-	if x != nil {
-		return x.Variant
-	}
-	return nil
-}
-
-func (x *OnCompleteHandlerRequest_SourceOperation) GetNexusOperation() *OnCompleteHandlerRequest_NexusOperation {
-	if x != nil {
-		if x, ok := x.Variant.(*OnCompleteHandlerRequest_SourceOperation_NexusOperation); ok {
-			return x.NexusOperation
-		}
-	}
-	return nil
-}
-
-type isOnCompleteHandlerRequest_SourceOperation_Variant interface {
-	isOnCompleteHandlerRequest_SourceOperation_Variant()
-}
-
-type OnCompleteHandlerRequest_SourceOperation_NexusOperation struct {
-	NexusOperation *OnCompleteHandlerRequest_NexusOperation `protobuf:"bytes,4,opt,name=nexus_operation,json=nexusOperation,proto3,oneof"`
-}
-
-func (*OnCompleteHandlerRequest_SourceOperation_NexusOperation) isOnCompleteHandlerRequest_SourceOperation_Variant() {
-}
-
 // The outcome of the source operation.
-type OnCompleteHandlerRequest_Outcome struct {
+type OnCompleteRequest_Outcome struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Types that are valid to be assigned to Result:
 	//
-	//	*OnCompleteHandlerRequest_Outcome_Success
-	//	*OnCompleteHandlerRequest_Outcome_Failure
-	Result        isOnCompleteHandlerRequest_Outcome_Result `protobuf_oneof:"result"`
+	//	*OnCompleteRequest_Outcome_Success
+	//	*OnCompleteRequest_Outcome_Failure
+	Result        isOnCompleteRequest_Outcome_Result `protobuf_oneof:"result"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *OnCompleteHandlerRequest_Outcome) Reset() {
-	*x = OnCompleteHandlerRequest_Outcome{}
-	mi := &file_temporal_api_notificationservice_v1_request_response_proto_msgTypes[4]
+func (x *OnCompleteRequest_Outcome) Reset() {
+	*x = OnCompleteRequest_Outcome{}
+	mi := &file_temporal_api_notificationservice_v1_request_response_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *OnCompleteHandlerRequest_Outcome) String() string {
+func (x *OnCompleteRequest_Outcome) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*OnCompleteHandlerRequest_Outcome) ProtoMessage() {}
+func (*OnCompleteRequest_Outcome) ProtoMessage() {}
 
-func (x *OnCompleteHandlerRequest_Outcome) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_notificationservice_v1_request_response_proto_msgTypes[4]
+func (x *OnCompleteRequest_Outcome) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_api_notificationservice_v1_request_response_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -302,76 +158,67 @@ func (x *OnCompleteHandlerRequest_Outcome) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use OnCompleteHandlerRequest_Outcome.ProtoReflect.Descriptor instead.
-func (*OnCompleteHandlerRequest_Outcome) Descriptor() ([]byte, []int) {
-	return file_temporal_api_notificationservice_v1_request_response_proto_rawDescGZIP(), []int{0, 2}
+// Deprecated: Use OnCompleteRequest_Outcome.ProtoReflect.Descriptor instead.
+func (*OnCompleteRequest_Outcome) Descriptor() ([]byte, []int) {
+	return file_temporal_api_notificationservice_v1_request_response_proto_rawDescGZIP(), []int{0, 0}
 }
 
-func (x *OnCompleteHandlerRequest_Outcome) GetResult() isOnCompleteHandlerRequest_Outcome_Result {
+func (x *OnCompleteRequest_Outcome) GetResult() isOnCompleteRequest_Outcome_Result {
 	if x != nil {
 		return x.Result
 	}
 	return nil
 }
 
-func (x *OnCompleteHandlerRequest_Outcome) GetSuccess() *v1.Payload {
+func (x *OnCompleteRequest_Outcome) GetSuccess() *v1.Payloads {
 	if x != nil {
-		if x, ok := x.Result.(*OnCompleteHandlerRequest_Outcome_Success); ok {
+		if x, ok := x.Result.(*OnCompleteRequest_Outcome_Success); ok {
 			return x.Success
 		}
 	}
 	return nil
 }
 
-func (x *OnCompleteHandlerRequest_Outcome) GetFailure() *v11.Failure {
+func (x *OnCompleteRequest_Outcome) GetFailure() *v11.Failure {
 	if x != nil {
-		if x, ok := x.Result.(*OnCompleteHandlerRequest_Outcome_Failure); ok {
+		if x, ok := x.Result.(*OnCompleteRequest_Outcome_Failure); ok {
 			return x.Failure
 		}
 	}
 	return nil
 }
 
-type isOnCompleteHandlerRequest_Outcome_Result interface {
-	isOnCompleteHandlerRequest_Outcome_Result()
+type isOnCompleteRequest_Outcome_Result interface {
+	isOnCompleteRequest_Outcome_Result()
 }
 
-type OnCompleteHandlerRequest_Outcome_Success struct {
-	// The operation was successful, and resulted in the given payload.
-	Success *v1.Payload `protobuf:"bytes,1,opt,name=success,proto3,oneof"`
+type OnCompleteRequest_Outcome_Success struct {
+	// The operation was successful, and resulted in the given payload(s).
+	Success *v1.Payloads `protobuf:"bytes,1,opt,name=success,proto3,oneof"`
 }
 
-type OnCompleteHandlerRequest_Outcome_Failure struct {
+type OnCompleteRequest_Outcome_Failure struct {
 	// The operation failed. Includes timeout, cancellation, and application errors.
 	Failure *v11.Failure `protobuf:"bytes,2,opt,name=failure,proto3,oneof"`
 }
 
-func (*OnCompleteHandlerRequest_Outcome_Success) isOnCompleteHandlerRequest_Outcome_Result() {}
+func (*OnCompleteRequest_Outcome_Success) isOnCompleteRequest_Outcome_Result() {}
 
-func (*OnCompleteHandlerRequest_Outcome_Failure) isOnCompleteHandlerRequest_Outcome_Result() {}
+func (*OnCompleteRequest_Outcome_Failure) isOnCompleteRequest_Outcome_Result() {}
 
 var File_temporal_api_notificationservice_v1_request_response_proto protoreflect.FileDescriptor
 
 const file_temporal_api_notificationservice_v1_request_response_proto_rawDesc = "" +
 	"\n" +
-	":temporal/api/notificationservice/v1/request_response.proto\x12#temporal.api.notificationservice.v1\x1a$temporal/api/common/v1/message.proto\x1a%temporal/api/failure/v1/message.proto\"\x88\x06\n" +
-	"\x18OnCompleteHandlerRequest\x12x\n" +
-	"\x10source_operation\x18\x01 \x01(\v2M.temporal.api.notificationservice.v1.OnCompleteHandlerRequest.SourceOperationR\x0fsourceOperation\x12_\n" +
-	"\aoutcome\x18\x02 \x01(\v2E.temporal.api.notificationservice.v1.OnCompleteHandlerRequest.OutcomeR\aoutcome\x12F\n" +
-	"\x0esource_context\x18\x03 \x01(\v2\x1f.temporal.api.common.v1.PayloadR\rsourceContext\x1a\x8d\x01\n" +
-	"\x0eNexusOperation\x12\x1a\n" +
-	"\bendpoint\x18\x01 \x01(\tR\bendpoint\x12\x18\n" +
-	"\aservice\x18\x02 \x01(\tR\aservice\x12\x1c\n" +
-	"\toperation\x18\x03 \x01(\tR\toperation\x12'\n" +
-	"\x0foperation_token\x18\x04 \x01(\tR\x0eoperationToken\x1a\xa7\x01\n" +
-	"\x0fSourceOperation\x12w\n" +
-	"\x0fnexus_operation\x18\x04 \x01(\v2L.temporal.api.notificationservice.v1.OnCompleteHandlerRequest.NexusOperationH\x00R\x0enexusOperationB\t\n" +
-	"\avariantJ\x04\b\x01\x10\x02J\x04\b\x02\x10\x03J\x04\b\x03\x10\x04\x1a\x8e\x01\n" +
-	"\aOutcome\x12;\n" +
-	"\asuccess\x18\x01 \x01(\v2\x1f.temporal.api.common.v1.PayloadH\x00R\asuccess\x12<\n" +
+	":temporal/api/notificationservice/v1/request_response.proto\x12#temporal.api.notificationservice.v1\x1a$temporal/api/common/v1/message.proto\x1a%temporal/api/failure/v1/message.proto\"\xc7\x02\n" +
+	"\x11OnCompleteRequest\x12X\n" +
+	"\aoutcome\x18\x01 \x01(\v2>.temporal.api.notificationservice.v1.OnCompleteRequest.OutcomeR\aoutcome\x12F\n" +
+	"\x0esource_context\x18\x02 \x01(\v2\x1f.temporal.api.common.v1.PayloadR\rsourceContext\x1a\x8f\x01\n" +
+	"\aOutcome\x12<\n" +
+	"\asuccess\x18\x01 \x01(\v2 .temporal.api.common.v1.PayloadsH\x00R\asuccess\x12<\n" +
 	"\afailure\x18\x02 \x01(\v2 .temporal.api.failure.v1.FailureH\x00R\afailureB\b\n" +
-	"\x06result\"\x1b\n" +
-	"\x19OnCompleteHandlerResponseB\xd2\x01\n" +
+	"\x06result\"\x14\n" +
+	"\x12OnCompleteResponseB\xd2\x01\n" +
 	"&io.temporal.api.notificationservice.v1B\x14RequestResponseProtoP\x01Z=go.temporal.io/api/notificationservice/v1;notificationservice\xaa\x02%Temporalio.Api.NotificationService.V1\xea\x02(Temporalio::Api::NotificationService::V1b\x06proto3"
 
 var (
@@ -386,28 +233,25 @@ func file_temporal_api_notificationservice_v1_request_response_proto_rawDescGZIP
 	return file_temporal_api_notificationservice_v1_request_response_proto_rawDescData
 }
 
-var file_temporal_api_notificationservice_v1_request_response_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
+var file_temporal_api_notificationservice_v1_request_response_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_temporal_api_notificationservice_v1_request_response_proto_goTypes = []any{
-	(*OnCompleteHandlerRequest)(nil),                 // 0: temporal.api.notificationservice.v1.OnCompleteHandlerRequest
-	(*OnCompleteHandlerResponse)(nil),                // 1: temporal.api.notificationservice.v1.OnCompleteHandlerResponse
-	(*OnCompleteHandlerRequest_NexusOperation)(nil),  // 2: temporal.api.notificationservice.v1.OnCompleteHandlerRequest.NexusOperation
-	(*OnCompleteHandlerRequest_SourceOperation)(nil), // 3: temporal.api.notificationservice.v1.OnCompleteHandlerRequest.SourceOperation
-	(*OnCompleteHandlerRequest_Outcome)(nil),         // 4: temporal.api.notificationservice.v1.OnCompleteHandlerRequest.Outcome
-	(*v1.Payload)(nil),                               // 5: temporal.api.common.v1.Payload
-	(*v11.Failure)(nil),                              // 6: temporal.api.failure.v1.Failure
+	(*OnCompleteRequest)(nil),         // 0: temporal.api.notificationservice.v1.OnCompleteRequest
+	(*OnCompleteResponse)(nil),        // 1: temporal.api.notificationservice.v1.OnCompleteResponse
+	(*OnCompleteRequest_Outcome)(nil), // 2: temporal.api.notificationservice.v1.OnCompleteRequest.Outcome
+	(*v1.Payload)(nil),                // 3: temporal.api.common.v1.Payload
+	(*v1.Payloads)(nil),               // 4: temporal.api.common.v1.Payloads
+	(*v11.Failure)(nil),               // 5: temporal.api.failure.v1.Failure
 }
 var file_temporal_api_notificationservice_v1_request_response_proto_depIdxs = []int32{
-	3, // 0: temporal.api.notificationservice.v1.OnCompleteHandlerRequest.source_operation:type_name -> temporal.api.notificationservice.v1.OnCompleteHandlerRequest.SourceOperation
-	4, // 1: temporal.api.notificationservice.v1.OnCompleteHandlerRequest.outcome:type_name -> temporal.api.notificationservice.v1.OnCompleteHandlerRequest.Outcome
-	5, // 2: temporal.api.notificationservice.v1.OnCompleteHandlerRequest.source_context:type_name -> temporal.api.common.v1.Payload
-	2, // 3: temporal.api.notificationservice.v1.OnCompleteHandlerRequest.SourceOperation.nexus_operation:type_name -> temporal.api.notificationservice.v1.OnCompleteHandlerRequest.NexusOperation
-	5, // 4: temporal.api.notificationservice.v1.OnCompleteHandlerRequest.Outcome.success:type_name -> temporal.api.common.v1.Payload
-	6, // 5: temporal.api.notificationservice.v1.OnCompleteHandlerRequest.Outcome.failure:type_name -> temporal.api.failure.v1.Failure
-	6, // [6:6] is the sub-list for method output_type
-	6, // [6:6] is the sub-list for method input_type
-	6, // [6:6] is the sub-list for extension type_name
-	6, // [6:6] is the sub-list for extension extendee
-	0, // [0:6] is the sub-list for field type_name
+	2, // 0: temporal.api.notificationservice.v1.OnCompleteRequest.outcome:type_name -> temporal.api.notificationservice.v1.OnCompleteRequest.Outcome
+	3, // 1: temporal.api.notificationservice.v1.OnCompleteRequest.source_context:type_name -> temporal.api.common.v1.Payload
+	4, // 2: temporal.api.notificationservice.v1.OnCompleteRequest.Outcome.success:type_name -> temporal.api.common.v1.Payloads
+	5, // 3: temporal.api.notificationservice.v1.OnCompleteRequest.Outcome.failure:type_name -> temporal.api.failure.v1.Failure
+	4, // [4:4] is the sub-list for method output_type
+	4, // [4:4] is the sub-list for method input_type
+	4, // [4:4] is the sub-list for extension type_name
+	4, // [4:4] is the sub-list for extension extendee
+	0, // [0:4] is the sub-list for field type_name
 }
 
 func init() { file_temporal_api_notificationservice_v1_request_response_proto_init() }
@@ -415,12 +259,9 @@ func file_temporal_api_notificationservice_v1_request_response_proto_init() {
 	if File_temporal_api_notificationservice_v1_request_response_proto != nil {
 		return
 	}
-	file_temporal_api_notificationservice_v1_request_response_proto_msgTypes[3].OneofWrappers = []any{
-		(*OnCompleteHandlerRequest_SourceOperation_NexusOperation)(nil),
-	}
-	file_temporal_api_notificationservice_v1_request_response_proto_msgTypes[4].OneofWrappers = []any{
-		(*OnCompleteHandlerRequest_Outcome_Success)(nil),
-		(*OnCompleteHandlerRequest_Outcome_Failure)(nil),
+	file_temporal_api_notificationservice_v1_request_response_proto_msgTypes[2].OneofWrappers = []any{
+		(*OnCompleteRequest_Outcome_Success)(nil),
+		(*OnCompleteRequest_Outcome_Failure)(nil),
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -428,7 +269,7 @@ func file_temporal_api_notificationservice_v1_request_response_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_temporal_api_notificationservice_v1_request_response_proto_rawDesc), len(file_temporal_api_notificationservice_v1_request_response_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   5,
+			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

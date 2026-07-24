@@ -723,6 +723,66 @@ func visitPayloads(
 
 			ctx.Context = prevCtx
 
+		case []*callback.CallbackExecutionInfo:
+			for _, x := range o {
+				if err := visitPayloads(ctx, options, parent, concState, x); err != nil {
+					return err
+				}
+			}
+
+		case *callback.CallbackExecutionInfo:
+
+			if o == nil {
+				continue
+			}
+
+			prevCtx := ctx.Context
+			if options.ContextHook != nil {
+				var hookErr error
+				if ctx.Context, hookErr = options.ContextHook(prevCtx, o); hookErr != nil {
+					return hookErr
+				}
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				concState,
+				o.GetInfo(),
+				o.GetOutcome(),
+			); err != nil {
+				return err
+			}
+
+			ctx.Context = prevCtx
+
+		case *callback.CallbackExecutionOutcome:
+
+			if o == nil {
+				continue
+			}
+
+			prevCtx := ctx.Context
+			if options.ContextHook != nil {
+				var hookErr error
+				if ctx.Context, hookErr = options.ContextHook(prevCtx, o); hookErr != nil {
+					return hookErr
+				}
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				concState,
+				o.GetFailure(),
+			); err != nil {
+				return err
+			}
+
+			ctx.Context = prevCtx
+
 		case *callback.CallbackInfo:
 
 			if o == nil {
@@ -1121,14 +1181,14 @@ func visitPayloads(
 				options,
 				o,
 				concState,
-				o.GetNexusWorker(),
+				o.GetWorker(),
 			); err != nil {
 				return err
 			}
 
 			ctx.Context = prevCtx
 
-		case *common.Callback_NexusWorker:
+		case *common.Callback_Worker:
 
 			if o == nil {
 				continue
@@ -1142,14 +1202,10 @@ func visitPayloads(
 				}
 			}
 
-			if err := visitPayloads(
-				ctx,
-				options,
-				o,
-				concState,
-				o.GetSourceContext(),
-			); err != nil {
-				return err
+			if o.SourceContext != nil {
+				if err := visitPayload(ctx, options, o, concState, &o.SourceContext); err != nil {
+					return err
+				}
 			}
 
 			ctx.Context = prevCtx
@@ -3086,7 +3142,7 @@ func visitPayloads(
 
 			ctx.Context = prevCtx
 
-		case *notificationservice.OnCompleteHandlerRequest:
+		case *notificationservice.OnCompleteRequest:
 
 			if o == nil {
 				continue
@@ -3118,7 +3174,7 @@ func visitPayloads(
 
 			ctx.Context = prevCtx
 
-		case *notificationservice.OnCompleteHandlerRequest_Outcome:
+		case *notificationservice.OnCompleteRequest_Outcome:
 
 			if o == nil {
 				continue
@@ -3132,19 +3188,13 @@ func visitPayloads(
 				}
 			}
 
-			if success := o.GetSuccess(); success != nil {
-				if err := visitPayload(ctx, options, o, concState, &success); err != nil {
-					return err
-				}
-				o.Result = &notificationservice.OnCompleteHandlerRequest_Outcome_Success{Success: success}
-			}
-
 			if err := visitPayloads(
 				ctx,
 				options,
 				o,
 				concState,
 				o.GetFailure(),
+				o.GetSuccess(),
 			); err != nil {
 				return err
 			}
@@ -4393,6 +4443,7 @@ func visitPayloads(
 				options,
 				o,
 				concState,
+				o.GetCompletionCallbacks(),
 				o.GetFailure(),
 				o.GetInfo(),
 			); err != nil {
@@ -6152,6 +6203,40 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 				return err
 			}
 
+		case []*callback.CallbackExecutionInfo:
+			for _, x := range o {
+				if err := visitFailures(ctx, options, x); err != nil {
+					return err
+				}
+			}
+
+		case *callback.CallbackExecutionInfo:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetInfo(),
+				o.GetOutcome(),
+			); err != nil {
+				return err
+			}
+
+		case *callback.CallbackExecutionOutcome:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetFailure(),
+			); err != nil {
+				return err
+			}
+
 		case *callback.CallbackInfo:
 			if o == nil {
 				continue
@@ -6600,7 +6685,7 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 				return err
 			}
 
-		case *notificationservice.OnCompleteHandlerRequest:
+		case *notificationservice.OnCompleteRequest:
 			if o == nil {
 				continue
 			}
@@ -6613,7 +6698,7 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 				return err
 			}
 
-		case *notificationservice.OnCompleteHandlerRequest_Outcome:
+		case *notificationservice.OnCompleteRequest_Outcome:
 			if o == nil {
 				continue
 			}
@@ -6802,6 +6887,7 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 			if err := visitFailures(
 				ctx,
 				options,
+				o.GetCompletionCallbacks(),
 				o.GetFailure(),
 				o.GetInfo(),
 			); err != nil {

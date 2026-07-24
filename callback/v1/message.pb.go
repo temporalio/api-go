@@ -16,6 +16,7 @@ import (
 	v12 "go.temporal.io/api/failure/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
@@ -136,11 +137,157 @@ func (x *CallbackInfo) GetBlockedReason() string {
 	return ""
 }
 
+type CallbackExecutionOutcome struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Types that are valid to be assigned to Value:
+	//
+	//	*CallbackExecutionOutcome_Success
+	//	*CallbackExecutionOutcome_Failure
+	Value         isCallbackExecutionOutcome_Value `protobuf_oneof:"value"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CallbackExecutionOutcome) Reset() {
+	*x = CallbackExecutionOutcome{}
+	mi := &file_temporal_api_callback_v1_message_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CallbackExecutionOutcome) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CallbackExecutionOutcome) ProtoMessage() {}
+
+func (x *CallbackExecutionOutcome) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_api_callback_v1_message_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CallbackExecutionOutcome.ProtoReflect.Descriptor instead.
+func (*CallbackExecutionOutcome) Descriptor() ([]byte, []int) {
+	return file_temporal_api_callback_v1_message_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *CallbackExecutionOutcome) GetValue() isCallbackExecutionOutcome_Value {
+	if x != nil {
+		return x.Value
+	}
+	return nil
+}
+
+func (x *CallbackExecutionOutcome) GetSuccess() *emptypb.Empty {
+	if x != nil {
+		if x, ok := x.Value.(*CallbackExecutionOutcome_Success); ok {
+			return x.Success
+		}
+	}
+	return nil
+}
+
+func (x *CallbackExecutionOutcome) GetFailure() *v12.Failure {
+	if x != nil {
+		if x, ok := x.Value.(*CallbackExecutionOutcome_Failure); ok {
+			return x.Failure
+		}
+	}
+	return nil
+}
+
+type isCallbackExecutionOutcome_Value interface {
+	isCallbackExecutionOutcome_Value()
+}
+
+type CallbackExecutionOutcome_Success struct {
+	// The callback completed successfully. (Which may include delivering a "failed" result successfully.)
+	Success *emptypb.Empty `protobuf:"bytes,1,opt,name=success,proto3,oneof"`
+}
+
+type CallbackExecutionOutcome_Failure struct {
+	// The failure if the callback was not able to complete successfully. e.g. timed out, received an
+	// unretriable error, etc.
+	Failure *v12.Failure `protobuf:"bytes,2,opt,name=failure,proto3,oneof"`
+}
+
+func (*CallbackExecutionOutcome_Success) isCallbackExecutionOutcome_Value() {}
+
+func (*CallbackExecutionOutcome_Failure) isCallbackExecutionOutcome_Value() {}
+
+type CallbackExecutionInfo struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Identifier of the callback's execution. Unique within the containing namespace.
+	CallbackId    string                    `protobuf:"bytes,1,opt,name=callback_id,json=callbackId,proto3" json:"callback_id,omitempty"`
+	Info          *CallbackInfo             `protobuf:"bytes,2,opt,name=info,proto3" json:"info,omitempty"`
+	Outcome       *CallbackExecutionOutcome `protobuf:"bytes,3,opt,name=outcome,proto3" json:"outcome,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CallbackExecutionInfo) Reset() {
+	*x = CallbackExecutionInfo{}
+	mi := &file_temporal_api_callback_v1_message_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CallbackExecutionInfo) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CallbackExecutionInfo) ProtoMessage() {}
+
+func (x *CallbackExecutionInfo) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_api_callback_v1_message_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CallbackExecutionInfo.ProtoReflect.Descriptor instead.
+func (*CallbackExecutionInfo) Descriptor() ([]byte, []int) {
+	return file_temporal_api_callback_v1_message_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *CallbackExecutionInfo) GetCallbackId() string {
+	if x != nil {
+		return x.CallbackId
+	}
+	return ""
+}
+
+func (x *CallbackExecutionInfo) GetInfo() *CallbackInfo {
+	if x != nil {
+		return x.Info
+	}
+	return nil
+}
+
+func (x *CallbackExecutionInfo) GetOutcome() *CallbackExecutionOutcome {
+	if x != nil {
+		return x.Outcome
+	}
+	return nil
+}
+
 var File_temporal_api_callback_v1_message_proto protoreflect.FileDescriptor
 
 const file_temporal_api_callback_v1_message_proto_rawDesc = "" +
 	"\n" +
-	"&temporal/api/callback/v1/message.proto\x12\x18temporal.api.callback.v1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a$temporal/api/common/v1/message.proto\x1a\"temporal/api/enums/v1/common.proto\x1a%temporal/api/failure/v1/message.proto\"\x98\x04\n" +
+	"&temporal/api/callback/v1/message.proto\x12\x18temporal.api.callback.v1\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a$temporal/api/common/v1/message.proto\x1a\"temporal/api/enums/v1/common.proto\x1a%temporal/api/failure/v1/message.proto\"\x98\x04\n" +
 	"\fCallbackInfo\x12<\n" +
 	"\bcallback\x18\x01 \x01(\v2 .temporal.api.common.v1.CallbackR\bcallback\x12G\n" +
 	"\x11registration_time\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\x10registrationTime\x12:\n" +
@@ -149,7 +296,16 @@ const file_temporal_api_callback_v1_message_proto_rawDesc = "" +
 	"\x1alast_attempt_complete_time\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\x17lastAttemptCompleteTime\x12R\n" +
 	"\x14last_attempt_failure\x18\x06 \x01(\v2 .temporal.api.failure.v1.FailureR\x12lastAttemptFailure\x12W\n" +
 	"\x1anext_attempt_schedule_time\x18\a \x01(\v2\x1a.google.protobuf.TimestampR\x17nextAttemptScheduleTime\x12%\n" +
-	"\x0eblocked_reason\x18\b \x01(\tR\rblockedReasonB\x93\x01\n" +
+	"\x0eblocked_reason\x18\b \x01(\tR\rblockedReason\"\x95\x01\n" +
+	"\x18CallbackExecutionOutcome\x122\n" +
+	"\asuccess\x18\x01 \x01(\v2\x16.google.protobuf.EmptyH\x00R\asuccess\x12<\n" +
+	"\afailure\x18\x02 \x01(\v2 .temporal.api.failure.v1.FailureH\x00R\afailureB\a\n" +
+	"\x05value\"\xc2\x01\n" +
+	"\x15CallbackExecutionInfo\x12\x1f\n" +
+	"\vcallback_id\x18\x01 \x01(\tR\n" +
+	"callbackId\x12:\n" +
+	"\x04info\x18\x02 \x01(\v2&.temporal.api.callback.v1.CallbackInfoR\x04info\x12L\n" +
+	"\aoutcome\x18\x03 \x01(\v22.temporal.api.callback.v1.CallbackExecutionOutcomeR\aoutcomeB\x93\x01\n" +
 	"\x1bio.temporal.api.callback.v1B\fMessageProtoP\x01Z'go.temporal.io/api/callback/v1;callback\xaa\x02\x1aTemporalio.Api.Callback.V1\xea\x02\x1dTemporalio::Api::Callback::V1b\x06proto3"
 
 var (
@@ -164,26 +320,33 @@ func file_temporal_api_callback_v1_message_proto_rawDescGZIP() []byte {
 	return file_temporal_api_callback_v1_message_proto_rawDescData
 }
 
-var file_temporal_api_callback_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_temporal_api_callback_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_temporal_api_callback_v1_message_proto_goTypes = []any{
-	(*CallbackInfo)(nil),          // 0: temporal.api.callback.v1.CallbackInfo
-	(*v1.Callback)(nil),           // 1: temporal.api.common.v1.Callback
-	(*timestamppb.Timestamp)(nil), // 2: google.protobuf.Timestamp
-	(v11.CallbackState)(0),        // 3: temporal.api.enums.v1.CallbackState
-	(*v12.Failure)(nil),           // 4: temporal.api.failure.v1.Failure
+	(*CallbackInfo)(nil),             // 0: temporal.api.callback.v1.CallbackInfo
+	(*CallbackExecutionOutcome)(nil), // 1: temporal.api.callback.v1.CallbackExecutionOutcome
+	(*CallbackExecutionInfo)(nil),    // 2: temporal.api.callback.v1.CallbackExecutionInfo
+	(*v1.Callback)(nil),              // 3: temporal.api.common.v1.Callback
+	(*timestamppb.Timestamp)(nil),    // 4: google.protobuf.Timestamp
+	(v11.CallbackState)(0),           // 5: temporal.api.enums.v1.CallbackState
+	(*v12.Failure)(nil),              // 6: temporal.api.failure.v1.Failure
+	(*emptypb.Empty)(nil),            // 7: google.protobuf.Empty
 }
 var file_temporal_api_callback_v1_message_proto_depIdxs = []int32{
-	1, // 0: temporal.api.callback.v1.CallbackInfo.callback:type_name -> temporal.api.common.v1.Callback
-	2, // 1: temporal.api.callback.v1.CallbackInfo.registration_time:type_name -> google.protobuf.Timestamp
-	3, // 2: temporal.api.callback.v1.CallbackInfo.state:type_name -> temporal.api.enums.v1.CallbackState
-	2, // 3: temporal.api.callback.v1.CallbackInfo.last_attempt_complete_time:type_name -> google.protobuf.Timestamp
-	4, // 4: temporal.api.callback.v1.CallbackInfo.last_attempt_failure:type_name -> temporal.api.failure.v1.Failure
-	2, // 5: temporal.api.callback.v1.CallbackInfo.next_attempt_schedule_time:type_name -> google.protobuf.Timestamp
-	6, // [6:6] is the sub-list for method output_type
-	6, // [6:6] is the sub-list for method input_type
-	6, // [6:6] is the sub-list for extension type_name
-	6, // [6:6] is the sub-list for extension extendee
-	0, // [0:6] is the sub-list for field type_name
+	3,  // 0: temporal.api.callback.v1.CallbackInfo.callback:type_name -> temporal.api.common.v1.Callback
+	4,  // 1: temporal.api.callback.v1.CallbackInfo.registration_time:type_name -> google.protobuf.Timestamp
+	5,  // 2: temporal.api.callback.v1.CallbackInfo.state:type_name -> temporal.api.enums.v1.CallbackState
+	4,  // 3: temporal.api.callback.v1.CallbackInfo.last_attempt_complete_time:type_name -> google.protobuf.Timestamp
+	6,  // 4: temporal.api.callback.v1.CallbackInfo.last_attempt_failure:type_name -> temporal.api.failure.v1.Failure
+	4,  // 5: temporal.api.callback.v1.CallbackInfo.next_attempt_schedule_time:type_name -> google.protobuf.Timestamp
+	7,  // 6: temporal.api.callback.v1.CallbackExecutionOutcome.success:type_name -> google.protobuf.Empty
+	6,  // 7: temporal.api.callback.v1.CallbackExecutionOutcome.failure:type_name -> temporal.api.failure.v1.Failure
+	0,  // 8: temporal.api.callback.v1.CallbackExecutionInfo.info:type_name -> temporal.api.callback.v1.CallbackInfo
+	1,  // 9: temporal.api.callback.v1.CallbackExecutionInfo.outcome:type_name -> temporal.api.callback.v1.CallbackExecutionOutcome
+	10, // [10:10] is the sub-list for method output_type
+	10, // [10:10] is the sub-list for method input_type
+	10, // [10:10] is the sub-list for extension type_name
+	10, // [10:10] is the sub-list for extension extendee
+	0,  // [0:10] is the sub-list for field type_name
 }
 
 func init() { file_temporal_api_callback_v1_message_proto_init() }
@@ -191,13 +354,17 @@ func file_temporal_api_callback_v1_message_proto_init() {
 	if File_temporal_api_callback_v1_message_proto != nil {
 		return
 	}
+	file_temporal_api_callback_v1_message_proto_msgTypes[1].OneofWrappers = []any{
+		(*CallbackExecutionOutcome_Success)(nil),
+		(*CallbackExecutionOutcome_Failure)(nil),
+	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_temporal_api_callback_v1_message_proto_rawDesc), len(file_temporal_api_callback_v1_message_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   1,
+			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

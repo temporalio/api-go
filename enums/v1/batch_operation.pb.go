@@ -26,43 +26,88 @@ const (
 type BatchOperationType int32
 
 const (
-	BATCH_OPERATION_TYPE_UNSPECIFIED              BatchOperationType = 0
-	BATCH_OPERATION_TYPE_TERMINATE                BatchOperationType = 1
-	BATCH_OPERATION_TYPE_CANCEL                   BatchOperationType = 2
-	BATCH_OPERATION_TYPE_SIGNAL                   BatchOperationType = 3
-	BATCH_OPERATION_TYPE_DELETE                   BatchOperationType = 4
-	BATCH_OPERATION_TYPE_RESET                    BatchOperationType = 5
-	BATCH_OPERATION_TYPE_UPDATE_EXECUTION_OPTIONS BatchOperationType = 6
-	BATCH_OPERATION_TYPE_UNPAUSE_ACTIVITY         BatchOperationType = 7
-	BATCH_OPERATION_TYPE_UPDATE_ACTIVITY_OPTIONS  BatchOperationType = 8
-	BATCH_OPERATION_TYPE_RESET_ACTIVITY           BatchOperationType = 9
+	BATCH_OPERATION_TYPE_UNSPECIFIED BatchOperationType = 0
+	// DEPRECATED: Use BATCH_OPERATION_TYPE_TERMINATE_WORKFLOW instead.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/enums/v1/batch_operation.proto.
+	BATCH_OPERATION_TYPE_TERMINATE          BatchOperationType = 1
+	BATCH_OPERATION_TYPE_TERMINATE_WORKFLOW BatchOperationType = 13
+	// DEPRECATED: Use BATCH_OPERATION_TYPE_CANCEL_WORKFLOW instead.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/enums/v1/batch_operation.proto.
+	BATCH_OPERATION_TYPE_CANCEL          BatchOperationType = 2
+	BATCH_OPERATION_TYPE_CANCEL_WORKFLOW BatchOperationType = 14
+	// DEPRECATED: Use BATCH_OPERATION_TYPE_SIGNAL_WORKFLOW instead.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/enums/v1/batch_operation.proto.
+	BATCH_OPERATION_TYPE_SIGNAL          BatchOperationType = 3
+	BATCH_OPERATION_TYPE_SIGNAL_WORKFLOW BatchOperationType = 15
+	// DEPRECATED: Use BATCH_OPERATION_TYPE_DELETE_WORKFLOW instead.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/enums/v1/batch_operation.proto.
+	BATCH_OPERATION_TYPE_DELETE          BatchOperationType = 4
+	BATCH_OPERATION_TYPE_DELETE_WORKFLOW BatchOperationType = 16
+	// DEPRECATED: Use BATCH_OPERATION_TYPE_RESET_WORKFLOW instead.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/enums/v1/batch_operation.proto.
+	BATCH_OPERATION_TYPE_RESET          BatchOperationType = 5
+	BATCH_OPERATION_TYPE_RESET_WORKFLOW BatchOperationType = 17
+	// DEPRECATED: Use BATCH_OPERATION_TYPE_UPDATE_WORKFLOW_EXECUTION_OPTIONS instead.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/enums/v1/batch_operation.proto.
+	BATCH_OPERATION_TYPE_UPDATE_EXECUTION_OPTIONS          BatchOperationType = 6
+	BATCH_OPERATION_TYPE_UPDATE_WORKFLOW_EXECUTION_OPTIONS BatchOperationType = 18
+	BATCH_OPERATION_TYPE_UNPAUSE_ACTIVITY                  BatchOperationType = 7
+	BATCH_OPERATION_TYPE_UPDATE_ACTIVITY_OPTIONS           BatchOperationType = 8
+	BATCH_OPERATION_TYPE_RESET_ACTIVITY                    BatchOperationType = 9
+	BATCH_OPERATION_TYPE_TERMINATE_ACTIVITY                BatchOperationType = 10
+	BATCH_OPERATION_TYPE_CANCEL_ACTIVITY                   BatchOperationType = 11
+	BATCH_OPERATION_TYPE_DELETE_ACTIVITY                   BatchOperationType = 12
 )
 
 // Enum value maps for BatchOperationType.
 var (
 	BatchOperationType_name = map[int32]string{
-		0: "BATCH_OPERATION_TYPE_UNSPECIFIED",
-		1: "BATCH_OPERATION_TYPE_TERMINATE",
-		2: "BATCH_OPERATION_TYPE_CANCEL",
-		3: "BATCH_OPERATION_TYPE_SIGNAL",
-		4: "BATCH_OPERATION_TYPE_DELETE",
-		5: "BATCH_OPERATION_TYPE_RESET",
-		6: "BATCH_OPERATION_TYPE_UPDATE_EXECUTION_OPTIONS",
-		7: "BATCH_OPERATION_TYPE_UNPAUSE_ACTIVITY",
-		8: "BATCH_OPERATION_TYPE_UPDATE_ACTIVITY_OPTIONS",
-		9: "BATCH_OPERATION_TYPE_RESET_ACTIVITY",
+		0:  "BATCH_OPERATION_TYPE_UNSPECIFIED",
+		1:  "BATCH_OPERATION_TYPE_TERMINATE",
+		13: "BATCH_OPERATION_TYPE_TERMINATE_WORKFLOW",
+		2:  "BATCH_OPERATION_TYPE_CANCEL",
+		14: "BATCH_OPERATION_TYPE_CANCEL_WORKFLOW",
+		3:  "BATCH_OPERATION_TYPE_SIGNAL",
+		15: "BATCH_OPERATION_TYPE_SIGNAL_WORKFLOW",
+		4:  "BATCH_OPERATION_TYPE_DELETE",
+		16: "BATCH_OPERATION_TYPE_DELETE_WORKFLOW",
+		5:  "BATCH_OPERATION_TYPE_RESET",
+		17: "BATCH_OPERATION_TYPE_RESET_WORKFLOW",
+		6:  "BATCH_OPERATION_TYPE_UPDATE_EXECUTION_OPTIONS",
+		18: "BATCH_OPERATION_TYPE_UPDATE_WORKFLOW_EXECUTION_OPTIONS",
+		7:  "BATCH_OPERATION_TYPE_UNPAUSE_ACTIVITY",
+		8:  "BATCH_OPERATION_TYPE_UPDATE_ACTIVITY_OPTIONS",
+		9:  "BATCH_OPERATION_TYPE_RESET_ACTIVITY",
+		10: "BATCH_OPERATION_TYPE_TERMINATE_ACTIVITY",
+		11: "BATCH_OPERATION_TYPE_CANCEL_ACTIVITY",
+		12: "BATCH_OPERATION_TYPE_DELETE_ACTIVITY",
 	}
 	BatchOperationType_value = map[string]int32{
-		"BATCH_OPERATION_TYPE_UNSPECIFIED":              0,
-		"BATCH_OPERATION_TYPE_TERMINATE":                1,
-		"BATCH_OPERATION_TYPE_CANCEL":                   2,
-		"BATCH_OPERATION_TYPE_SIGNAL":                   3,
-		"BATCH_OPERATION_TYPE_DELETE":                   4,
-		"BATCH_OPERATION_TYPE_RESET":                    5,
-		"BATCH_OPERATION_TYPE_UPDATE_EXECUTION_OPTIONS": 6,
-		"BATCH_OPERATION_TYPE_UNPAUSE_ACTIVITY":         7,
-		"BATCH_OPERATION_TYPE_UPDATE_ACTIVITY_OPTIONS":  8,
-		"BATCH_OPERATION_TYPE_RESET_ACTIVITY":           9,
+		"BATCH_OPERATION_TYPE_UNSPECIFIED":                       0,
+		"BATCH_OPERATION_TYPE_TERMINATE":                         1,
+		"BATCH_OPERATION_TYPE_TERMINATE_WORKFLOW":                13,
+		"BATCH_OPERATION_TYPE_CANCEL":                            2,
+		"BATCH_OPERATION_TYPE_CANCEL_WORKFLOW":                   14,
+		"BATCH_OPERATION_TYPE_SIGNAL":                            3,
+		"BATCH_OPERATION_TYPE_SIGNAL_WORKFLOW":                   15,
+		"BATCH_OPERATION_TYPE_DELETE":                            4,
+		"BATCH_OPERATION_TYPE_DELETE_WORKFLOW":                   16,
+		"BATCH_OPERATION_TYPE_RESET":                             5,
+		"BATCH_OPERATION_TYPE_RESET_WORKFLOW":                    17,
+		"BATCH_OPERATION_TYPE_UPDATE_EXECUTION_OPTIONS":          6,
+		"BATCH_OPERATION_TYPE_UPDATE_WORKFLOW_EXECUTION_OPTIONS": 18,
+		"BATCH_OPERATION_TYPE_UNPAUSE_ACTIVITY":                  7,
+		"BATCH_OPERATION_TYPE_UPDATE_ACTIVITY_OPTIONS":           8,
+		"BATCH_OPERATION_TYPE_RESET_ACTIVITY":                    9,
+		"BATCH_OPERATION_TYPE_TERMINATE_ACTIVITY":                10,
+		"BATCH_OPERATION_TYPE_CANCEL_ACTIVITY":                   11,
+		"BATCH_OPERATION_TYPE_DELETE_ACTIVITY":                   12,
 	}
 )
 
@@ -78,24 +123,44 @@ func (x BatchOperationType) String() string {
 		return "Unspecified"
 	case BATCH_OPERATION_TYPE_TERMINATE:
 		return "Terminate"
+	case BATCH_OPERATION_TYPE_TERMINATE_WORKFLOW:
+		return "TerminateWorkflow"
 	case BATCH_OPERATION_TYPE_CANCEL:
 		return "Cancel"
+	case BATCH_OPERATION_TYPE_CANCEL_WORKFLOW:
+		return "CancelWorkflow"
 	case BATCH_OPERATION_TYPE_SIGNAL:
 		return "Signal"
+	case BATCH_OPERATION_TYPE_SIGNAL_WORKFLOW:
+		return "SignalWorkflow"
 	case BATCH_OPERATION_TYPE_DELETE:
 		return "Delete"
+	case BATCH_OPERATION_TYPE_DELETE_WORKFLOW:
+
+		// Deprecated: Use BatchOperationType.Descriptor instead.
+		return "DeleteWorkflow"
 	case BATCH_OPERATION_TYPE_RESET:
 		return "Reset"
+	case BATCH_OPERATION_TYPE_RESET_WORKFLOW:
+		return "ResetWorkflow"
 	case BATCH_OPERATION_TYPE_UPDATE_EXECUTION_OPTIONS:
 		return "UpdateExecutionOptions"
+	case BATCH_OPERATION_TYPE_UPDATE_WORKFLOW_EXECUTION_OPTIONS:
+		return "UpdateWorkflowExecutionOptions"
 	case BATCH_OPERATION_TYPE_UNPAUSE_ACTIVITY:
 		return "UnpauseActivity"
 	case BATCH_OPERATION_TYPE_UPDATE_ACTIVITY_OPTIONS:
-
-		// Deprecated: Use BatchOperationType.Descriptor instead.
 		return "UpdateActivityOptions"
 	case BATCH_OPERATION_TYPE_RESET_ACTIVITY:
 		return "ResetActivity"
+	case BATCH_OPERATION_TYPE_TERMINATE_ACTIVITY:
+
+		// Enum value maps for BatchOperationState.
+		return "TerminateActivity"
+	case BATCH_OPERATION_TYPE_CANCEL_ACTIVITY:
+		return "CancelActivity"
+	case BATCH_OPERATION_TYPE_DELETE_ACTIVITY:
+		return "DeleteActivity"
 	default:
 		return strconv.Itoa(int(x))
 	}
@@ -127,7 +192,6 @@ const (
 	BATCH_OPERATION_STATE_FAILED      BatchOperationState = 3
 )
 
-// Enum value maps for BatchOperationState.
 var (
 	BatchOperationState_name = map[int32]string{
 		0: "BATCH_OPERATION_STATE_UNSPECIFIED",
@@ -186,18 +250,28 @@ var File_temporal_api_enums_v1_batch_operation_proto protoreflect.FileDescriptor
 
 const file_temporal_api_enums_v1_batch_operation_proto_rawDesc = "" +
 	"\n" +
-	"+temporal/api/enums/v1/batch_operation.proto\x12\x15temporal.api.enums.v1*\x9a\x03\n" +
+	"+temporal/api/enums/v1/batch_operation.proto\x12\x15temporal.api.enums.v1*\xc3\x06\n" +
 	"\x12BatchOperationType\x12$\n" +
-	" BATCH_OPERATION_TYPE_UNSPECIFIED\x10\x00\x12\"\n" +
-	"\x1eBATCH_OPERATION_TYPE_TERMINATE\x10\x01\x12\x1f\n" +
-	"\x1bBATCH_OPERATION_TYPE_CANCEL\x10\x02\x12\x1f\n" +
-	"\x1bBATCH_OPERATION_TYPE_SIGNAL\x10\x03\x12\x1f\n" +
-	"\x1bBATCH_OPERATION_TYPE_DELETE\x10\x04\x12\x1e\n" +
-	"\x1aBATCH_OPERATION_TYPE_RESET\x10\x05\x121\n" +
-	"-BATCH_OPERATION_TYPE_UPDATE_EXECUTION_OPTIONS\x10\x06\x12)\n" +
+	" BATCH_OPERATION_TYPE_UNSPECIFIED\x10\x00\x12&\n" +
+	"\x1eBATCH_OPERATION_TYPE_TERMINATE\x10\x01\x1a\x02\b\x01\x12+\n" +
+	"'BATCH_OPERATION_TYPE_TERMINATE_WORKFLOW\x10\r\x12#\n" +
+	"\x1bBATCH_OPERATION_TYPE_CANCEL\x10\x02\x1a\x02\b\x01\x12(\n" +
+	"$BATCH_OPERATION_TYPE_CANCEL_WORKFLOW\x10\x0e\x12#\n" +
+	"\x1bBATCH_OPERATION_TYPE_SIGNAL\x10\x03\x1a\x02\b\x01\x12(\n" +
+	"$BATCH_OPERATION_TYPE_SIGNAL_WORKFLOW\x10\x0f\x12#\n" +
+	"\x1bBATCH_OPERATION_TYPE_DELETE\x10\x04\x1a\x02\b\x01\x12(\n" +
+	"$BATCH_OPERATION_TYPE_DELETE_WORKFLOW\x10\x10\x12\"\n" +
+	"\x1aBATCH_OPERATION_TYPE_RESET\x10\x05\x1a\x02\b\x01\x12'\n" +
+	"#BATCH_OPERATION_TYPE_RESET_WORKFLOW\x10\x11\x125\n" +
+	"-BATCH_OPERATION_TYPE_UPDATE_EXECUTION_OPTIONS\x10\x06\x1a\x02\b\x01\x12:\n" +
+	"6BATCH_OPERATION_TYPE_UPDATE_WORKFLOW_EXECUTION_OPTIONS\x10\x12\x12)\n" +
 	"%BATCH_OPERATION_TYPE_UNPAUSE_ACTIVITY\x10\a\x120\n" +
 	",BATCH_OPERATION_TYPE_UPDATE_ACTIVITY_OPTIONS\x10\b\x12'\n" +
-	"#BATCH_OPERATION_TYPE_RESET_ACTIVITY\x10\t*\xa6\x01\n" +
+	"#BATCH_OPERATION_TYPE_RESET_ACTIVITY\x10\t\x12+\n" +
+	"'BATCH_OPERATION_TYPE_TERMINATE_ACTIVITY\x10\n" +
+	"\x12(\n" +
+	"$BATCH_OPERATION_TYPE_CANCEL_ACTIVITY\x10\v\x12(\n" +
+	"$BATCH_OPERATION_TYPE_DELETE_ACTIVITY\x10\f*\xa6\x01\n" +
 	"\x13BatchOperationState\x12%\n" +
 	"!BATCH_OPERATION_STATE_UNSPECIFIED\x10\x00\x12!\n" +
 	"\x1dBATCH_OPERATION_STATE_RUNNING\x10\x01\x12#\n" +

@@ -264,6 +264,43 @@ func (this *WorkflowExecution) Equal(that interface{}) bool {
 	return proto.Equal(this, that1)
 }
 
+// Marshal an object of type Execution to the protobuf v3 wire format
+func (val *Execution) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type Execution from the protobuf v3 wire format
+func (val *Execution) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *Execution) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two Execution values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *Execution) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *Execution
+	switch t := that.(type) {
+	case *Execution:
+		that1 = t
+	case Execution:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
 // Marshal an object of type WorkflowType to the protobuf v3 wire format
 func (val *WorkflowType) Marshal() ([]byte, error) {
 	return proto.Marshal(val)

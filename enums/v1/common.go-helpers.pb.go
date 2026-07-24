@@ -191,3 +191,22 @@ func WorkerStatusFromString(s string) (WorkerStatus, error) {
 	}
 	return WorkerStatus(0), fmt.Errorf("%s is not a valid WorkerStatus", s)
 }
+
+var (
+	ExecutionType_shorthandValue = map[string]int32{
+		"Unspecified": 0,
+		"Workflow":    1,
+		"Activity":    2,
+	}
+)
+
+// ExecutionTypeFromString parses a ExecutionType value from  either the protojson
+// canonical SCREAMING_CASE enum or the traditional temporal PascalCase enum to ExecutionType
+func ExecutionTypeFromString(s string) (ExecutionType, error) {
+	if v, ok := ExecutionType_value[s]; ok {
+		return ExecutionType(v), nil
+	} else if v, ok := ExecutionType_shorthandValue[s]; ok {
+		return ExecutionType(v), nil
+	}
+	return ExecutionType(0), fmt.Errorf("%s is not a valid ExecutionType", s)
+}

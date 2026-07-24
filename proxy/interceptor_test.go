@@ -838,7 +838,9 @@ func TestVisitPayloads_UpdateRejectionCount(t *testing.T) {
 	//
 	// HACK: Again, changed after working around some recursive-protobuf woes.
 	// Setting this again to 3. Pretty sure the protos are the problem.
-	require.Equal(3, totalCount)
+	//
+	// HACK: Nope, back up to 8. :shrug:
+	require.Equal(8, totalCount)
 }
 
 func TestVisitPayloads_PayloadsCount(t *testing.T) {

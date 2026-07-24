@@ -14,6 +14,7 @@ var (
 		"Canceled":    4,
 		"Terminated":  5,
 		"TimedOut":    6,
+		"Paused":      7,
 	}
 )
 

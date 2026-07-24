@@ -5,35 +5,35 @@ import (
 	"google.golang.org/protobuf/proto"
 )
 
-// Marshal an object of type OnCompleteHandlerRequest to the protobuf v3 wire format
-func (val *OnCompleteHandlerRequest) Marshal() ([]byte, error) {
+// Marshal an object of type OnCompleteRequest to the protobuf v3 wire format
+func (val *OnCompleteRequest) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
-// Unmarshal an object of type OnCompleteHandlerRequest from the protobuf v3 wire format
-func (val *OnCompleteHandlerRequest) Unmarshal(buf []byte) error {
+// Unmarshal an object of type OnCompleteRequest from the protobuf v3 wire format
+func (val *OnCompleteRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
 // Size returns the size of the object, in bytes, once serialized
-func (val *OnCompleteHandlerRequest) Size() int {
+func (val *OnCompleteRequest) Size() int {
 	return proto.Size(val)
 }
 
-// Equal returns whether two OnCompleteHandlerRequest values are equivalent by recursively
+// Equal returns whether two OnCompleteRequest values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
 // https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
-func (this *OnCompleteHandlerRequest) Equal(that interface{}) bool {
+func (this *OnCompleteRequest) Equal(that interface{}) bool {
 	if that == nil {
 		return this == nil
 	}
 
-	var that1 *OnCompleteHandlerRequest
+	var that1 *OnCompleteRequest
 	switch t := that.(type) {
-	case *OnCompleteHandlerRequest:
+	case *OnCompleteRequest:
 		that1 = t
-	case OnCompleteHandlerRequest:
+	case OnCompleteRequest:
 		that1 = &t
 	default:
 		return false
@@ -42,35 +42,35 @@ func (this *OnCompleteHandlerRequest) Equal(that interface{}) bool {
 	return proto.Equal(this, that1)
 }
 
-// Marshal an object of type OnCompleteHandlerResponse to the protobuf v3 wire format
-func (val *OnCompleteHandlerResponse) Marshal() ([]byte, error) {
+// Marshal an object of type OnCompleteResponse to the protobuf v3 wire format
+func (val *OnCompleteResponse) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
-// Unmarshal an object of type OnCompleteHandlerResponse from the protobuf v3 wire format
-func (val *OnCompleteHandlerResponse) Unmarshal(buf []byte) error {
+// Unmarshal an object of type OnCompleteResponse from the protobuf v3 wire format
+func (val *OnCompleteResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
 // Size returns the size of the object, in bytes, once serialized
-func (val *OnCompleteHandlerResponse) Size() int {
+func (val *OnCompleteResponse) Size() int {
 	return proto.Size(val)
 }
 
-// Equal returns whether two OnCompleteHandlerResponse values are equivalent by recursively
+// Equal returns whether two OnCompleteResponse values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
 // https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
-func (this *OnCompleteHandlerResponse) Equal(that interface{}) bool {
+func (this *OnCompleteResponse) Equal(that interface{}) bool {
 	if that == nil {
 		return this == nil
 	}
 
-	var that1 *OnCompleteHandlerResponse
+	var that1 *OnCompleteResponse
 	switch t := that.(type) {
-	case *OnCompleteHandlerResponse:
+	case *OnCompleteResponse:
 		that1 = t
-	case OnCompleteHandlerResponse:
+	case OnCompleteResponse:
 		that1 = &t
 	default:
 		return false
