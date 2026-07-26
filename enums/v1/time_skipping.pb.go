@@ -23,92 +23,80 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// FastForwardCompletionPollingResult is the result of polling and waiting for a fast-forward to complete
+// FastForwardPollingResult is the result of polling and waiting for a fast-forward to complete
 // on a time-skipping execution.
-// FAST_FORWARD_COMPLETION_POLLING_RESULT_POLL_TIMEOUT and FAST_FORWARD_COMPLETION_POLLING_RESULT_FAST_FORWARD_COMPLETED
-// are the normal poll outcomes; the remaining values indicate potential improper usage of fast-forward on the client side.
-type FastForwardCompletionPollingResult int32
+// FAST_FORWARD_POLLING_RESULT_POLL_TIMEOUT and FAST_FORWARD_POLLING_RESULT_FAST_FORWARD_COMPLETED
+// are the normal poll outcomes; FAST_FORWARD_POLLING_RESULT_FAST_FORWARD_FAILED means the
+// fast-forward can no longer complete.
+type FastForwardPollingResult int32
 
 const (
 	// Never returned; guards against an unset result.
-	FAST_FORWARD_COMPLETION_POLLING_RESULT_UNSPECIFIED FastForwardCompletionPollingResult = 0
+	FAST_FORWARD_POLLING_RESULT_UNSPECIFIED FastForwardPollingResult = 0
 	// The poll timed out server-side before the fast-forward completed. The caller may poll again.
-	FAST_FORWARD_COMPLETION_POLLING_RESULT_POLL_TIMEOUT FastForwardCompletionPollingResult = 1
+	FAST_FORWARD_POLLING_RESULT_POLL_TIMEOUT FastForwardPollingResult = 1
 	// The fast-forward identified by the request's `fast_forward_id` reached its target time and completed.
-	FAST_FORWARD_COMPLETION_POLLING_RESULT_FAST_FORWARD_COMPLETED FastForwardCompletionPollingResult = 2
-	// The request's `fast_forward_id` does not match the execution's current `fast_forward_id`.
-	FAST_FORWARD_COMPLETION_POLLING_RESULT_FAST_FORWARD_ID_MISMATCH FastForwardCompletionPollingResult = 3
-	// The request's `fast_forward_id` matched the execution's current `fast_forward_id`,
-	// but the execution (the entire chain of runs) completed before the fast-forward
-	// had a chance to complete.
-	FAST_FORWARD_COMPLETION_POLLING_RESULT_EXECUTION_ENDED_BEFORE_FAST_FORWARD_COMPLETION FastForwardCompletionPollingResult = 5
-	// The request's `fast_forward_id` matched the execution's current `fast_forward_id`,
-	// but time skipping was disabled (e.g. `max_session_skip_count` was reached) before the
-	// fast-forward could complete.
-	FAST_FORWARD_COMPLETION_POLLING_RESULT_TIME_SKIPPING_DISABLED_BEFORE_FAST_FORWARD_COMPLETION FastForwardCompletionPollingResult = 6
+	FAST_FORWARD_POLLING_RESULT_FAST_FORWARD_COMPLETED FastForwardPollingResult = 2
+	// The fast-forward can no longer complete, which usually indicates improper usage of
+	// fast-forward on the client side. Possible reasons: the `fast_forward_id` does not match
+	// the execution's current fast-forward, the execution ended before the fast-forward
+	// completed, the fast-forward config was updated while the poll was in flight, etc.
+	// See `failed_reason` in the response for the specific cause.
+	FAST_FORWARD_POLLING_RESULT_FAST_FORWARD_FAILED FastForwardPollingResult = 3
 )
 
-// Enum value maps for FastForwardCompletionPollingResult.
+// Enum value maps for FastForwardPollingResult.
 var (
-	FastForwardCompletionPollingResult_name = map[int32]string{
-		0: "FAST_FORWARD_COMPLETION_POLLING_RESULT_UNSPECIFIED",
-		1: "FAST_FORWARD_COMPLETION_POLLING_RESULT_POLL_TIMEOUT",
-		2: "FAST_FORWARD_COMPLETION_POLLING_RESULT_FAST_FORWARD_COMPLETED",
-		3: "FAST_FORWARD_COMPLETION_POLLING_RESULT_FAST_FORWARD_ID_MISMATCH",
-		5: "FAST_FORWARD_COMPLETION_POLLING_RESULT_EXECUTION_ENDED_BEFORE_FAST_FORWARD_COMPLETION",
-		6: "FAST_FORWARD_COMPLETION_POLLING_RESULT_TIME_SKIPPING_DISABLED_BEFORE_FAST_FORWARD_COMPLETION",
+	FastForwardPollingResult_name = map[int32]string{
+		0: "FAST_FORWARD_POLLING_RESULT_UNSPECIFIED",
+		1: "FAST_FORWARD_POLLING_RESULT_POLL_TIMEOUT",
+		2: "FAST_FORWARD_POLLING_RESULT_FAST_FORWARD_COMPLETED",
+		3: "FAST_FORWARD_POLLING_RESULT_FAST_FORWARD_FAILED",
 	}
-	FastForwardCompletionPollingResult_value = map[string]int32{
-		"FAST_FORWARD_COMPLETION_POLLING_RESULT_UNSPECIFIED":                                           0,
-		"FAST_FORWARD_COMPLETION_POLLING_RESULT_POLL_TIMEOUT":                                          1,
-		"FAST_FORWARD_COMPLETION_POLLING_RESULT_FAST_FORWARD_COMPLETED":                                2,
-		"FAST_FORWARD_COMPLETION_POLLING_RESULT_FAST_FORWARD_ID_MISMATCH":                              3,
-		"FAST_FORWARD_COMPLETION_POLLING_RESULT_EXECUTION_ENDED_BEFORE_FAST_FORWARD_COMPLETION":        5,
-		"FAST_FORWARD_COMPLETION_POLLING_RESULT_TIME_SKIPPING_DISABLED_BEFORE_FAST_FORWARD_COMPLETION": 6,
+	FastForwardPollingResult_value = map[string]int32{
+		"FAST_FORWARD_POLLING_RESULT_UNSPECIFIED":            0,
+		"FAST_FORWARD_POLLING_RESULT_POLL_TIMEOUT":           1,
+		"FAST_FORWARD_POLLING_RESULT_FAST_FORWARD_COMPLETED": 2,
+		"FAST_FORWARD_POLLING_RESULT_FAST_FORWARD_FAILED":    3,
 	}
 )
 
-func (x FastForwardCompletionPollingResult) Enum() *FastForwardCompletionPollingResult {
-	p := new(FastForwardCompletionPollingResult)
+func (x FastForwardPollingResult) Enum() *FastForwardPollingResult {
+	p := new(FastForwardPollingResult)
 	*p = x
 	return p
 }
 
-func (x FastForwardCompletionPollingResult) String() string {
+func (x FastForwardPollingResult) String() string {
 	switch x {
-	case FAST_FORWARD_COMPLETION_POLLING_RESULT_UNSPECIFIED:
+	case FAST_FORWARD_POLLING_RESULT_UNSPECIFIED:
 		return "Unspecified"
-	case FAST_FORWARD_COMPLETION_POLLING_RESULT_POLL_TIMEOUT:
+	case FAST_FORWARD_POLLING_RESULT_POLL_TIMEOUT:
 		return "PollTimeout"
-	case FAST_FORWARD_COMPLETION_POLLING_RESULT_FAST_FORWARD_COMPLETED:
+	case FAST_FORWARD_POLLING_RESULT_FAST_FORWARD_COMPLETED:
 		return "FastForwardCompleted"
-	case FAST_FORWARD_COMPLETION_POLLING_RESULT_FAST_FORWARD_ID_MISMATCH:
-		return "FastForwardIdMismatch"
-	case FAST_FORWARD_COMPLETION_POLLING_RESULT_EXECUTION_ENDED_BEFORE_FAST_FORWARD_COMPLETION:
-		return "ExecutionEndedBeforeFastForwardCompletion"
-	case FAST_FORWARD_COMPLETION_POLLING_RESULT_TIME_SKIPPING_DISABLED_BEFORE_FAST_FORWARD_COMPLETION:
-
-		// Deprecated: Use FastForwardCompletionPollingResult.Descriptor instead.
-		return "TimeSkippingDisabledBeforeFastForwardCompletion"
+	case FAST_FORWARD_POLLING_RESULT_FAST_FORWARD_FAILED:
+		return "FastForwardFailed"
 	default:
 		return strconv.Itoa(int(x))
 	}
 
 }
 
-func (FastForwardCompletionPollingResult) Descriptor() protoreflect.EnumDescriptor {
+func (FastForwardPollingResult) Descriptor() protoreflect.EnumDescriptor {
 	return file_temporal_api_enums_v1_time_skipping_proto_enumTypes[0].Descriptor()
 }
 
-func (FastForwardCompletionPollingResult) Type() protoreflect.EnumType {
+func (FastForwardPollingResult) Type() protoreflect.EnumType {
 	return &file_temporal_api_enums_v1_time_skipping_proto_enumTypes[0]
 }
 
-func (x FastForwardCompletionPollingResult) Number() protoreflect.EnumNumber {
+func (x FastForwardPollingResult) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-func (FastForwardCompletionPollingResult) EnumDescriptor() ([]byte, []int) {
+// Deprecated: Use FastForwardPollingResult.Descriptor instead.
+func (FastForwardPollingResult) EnumDescriptor() ([]byte, []int) {
 	return file_temporal_api_enums_v1_time_skipping_proto_rawDescGZIP(), []int{0}
 }
 
@@ -116,14 +104,12 @@ var File_temporal_api_enums_v1_time_skipping_proto protoreflect.FileDescriptor
 
 const file_temporal_api_enums_v1_time_skipping_proto_rawDesc = "" +
 	"\n" +
-	")temporal/api/enums/v1/time_skipping.proto\x12\x15temporal.api.enums.v1*\xda\x03\n" +
-	"\"FastForwardCompletionPollingResult\x126\n" +
-	"2FAST_FORWARD_COMPLETION_POLLING_RESULT_UNSPECIFIED\x10\x00\x127\n" +
-	"3FAST_FORWARD_COMPLETION_POLLING_RESULT_POLL_TIMEOUT\x10\x01\x12A\n" +
-	"=FAST_FORWARD_COMPLETION_POLLING_RESULT_FAST_FORWARD_COMPLETED\x10\x02\x12C\n" +
-	"?FAST_FORWARD_COMPLETION_POLLING_RESULT_FAST_FORWARD_ID_MISMATCH\x10\x03\x12Y\n" +
-	"UFAST_FORWARD_COMPLETION_POLLING_RESULT_EXECUTION_ENDED_BEFORE_FAST_FORWARD_COMPLETION\x10\x05\x12`\n" +
-	"\\FAST_FORWARD_COMPLETION_POLLING_RESULT_TIME_SKIPPING_DISABLED_BEFORE_FAST_FORWARD_COMPLETION\x10\x06B\x89\x01\n" +
+	")temporal/api/enums/v1/time_skipping.proto\x12\x15temporal.api.enums.v1*\xe2\x01\n" +
+	"\x18FastForwardPollingResult\x12+\n" +
+	"'FAST_FORWARD_POLLING_RESULT_UNSPECIFIED\x10\x00\x12,\n" +
+	"(FAST_FORWARD_POLLING_RESULT_POLL_TIMEOUT\x10\x01\x126\n" +
+	"2FAST_FORWARD_POLLING_RESULT_FAST_FORWARD_COMPLETED\x10\x02\x123\n" +
+	"/FAST_FORWARD_POLLING_RESULT_FAST_FORWARD_FAILED\x10\x03B\x89\x01\n" +
 	"\x18io.temporal.api.enums.v1B\x11TimeSkippingProtoP\x01Z!go.temporal.io/api/enums/v1;enums\xaa\x02\x17Temporalio.Api.Enums.V1\xea\x02\x1aTemporalio::Api::Enums::V1b\x06proto3"
 
 var (
@@ -140,7 +126,7 @@ func file_temporal_api_enums_v1_time_skipping_proto_rawDescGZIP() []byte {
 
 var file_temporal_api_enums_v1_time_skipping_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_temporal_api_enums_v1_time_skipping_proto_goTypes = []any{
-	(FastForwardCompletionPollingResult)(0), // 0: temporal.api.enums.v1.FastForwardCompletionPollingResult
+	(FastForwardPollingResult)(0), // 0: temporal.api.enums.v1.FastForwardPollingResult
 }
 var file_temporal_api_enums_v1_time_skipping_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for method output_type

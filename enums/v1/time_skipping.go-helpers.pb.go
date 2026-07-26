@@ -6,23 +6,21 @@ import (
 )
 
 var (
-	FastForwardCompletionPollingResult_shorthandValue = map[string]int32{
-		"Unspecified":           0,
-		"PollTimeout":           1,
-		"FastForwardCompleted":  2,
-		"FastForwardIdMismatch": 3,
-		"ExecutionEndedBeforeFastForwardCompletion":       5,
-		"TimeSkippingDisabledBeforeFastForwardCompletion": 6,
+	FastForwardPollingResult_shorthandValue = map[string]int32{
+		"Unspecified":          0,
+		"PollTimeout":          1,
+		"FastForwardCompleted": 2,
+		"FastForwardFailed":    3,
 	}
 )
 
-// FastForwardCompletionPollingResultFromString parses a FastForwardCompletionPollingResult value from  either the protojson
-// canonical SCREAMING_CASE enum or the traditional temporal PascalCase enum to FastForwardCompletionPollingResult
-func FastForwardCompletionPollingResultFromString(s string) (FastForwardCompletionPollingResult, error) {
-	if v, ok := FastForwardCompletionPollingResult_value[s]; ok {
-		return FastForwardCompletionPollingResult(v), nil
-	} else if v, ok := FastForwardCompletionPollingResult_shorthandValue[s]; ok {
-		return FastForwardCompletionPollingResult(v), nil
+// FastForwardPollingResultFromString parses a FastForwardPollingResult value from  either the protojson
+// canonical SCREAMING_CASE enum or the traditional temporal PascalCase enum to FastForwardPollingResult
+func FastForwardPollingResultFromString(s string) (FastForwardPollingResult, error) {
+	if v, ok := FastForwardPollingResult_value[s]; ok {
+		return FastForwardPollingResult(v), nil
+	} else if v, ok := FastForwardPollingResult_shorthandValue[s]; ok {
+		return FastForwardPollingResult(v), nil
 	}
-	return FastForwardCompletionPollingResult(0), fmt.Errorf("%s is not a valid FastForwardCompletionPollingResult", s)
+	return FastForwardPollingResult(0), fmt.Errorf("%s is not a valid FastForwardPollingResult", s)
 }

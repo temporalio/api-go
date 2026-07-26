@@ -12313,8 +12313,8 @@ type UpdateWorkflowExecutionOptionsResponse struct {
 	// The Workflow Execution time when the options were updated. When time skipping is
 	// enabled, this is the workflow's virtual time rather than wall-clock time.
 	//
-	// This timestamp cannot be used for time-skipping fast-forward info verification,
-	// use `fast_forward_id` instead.
+	// This timestamp cannot be used for time-skipping fast-forward verification,
+	// use `fast_forward_id` in `PollWorkflowExecutionTimeSkippingRequest` instead.
 	UpdateTime    *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=update_time,json=updateTime,proto3" json:"update_time,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -19061,10 +19061,14 @@ func (x *PollWorkflowExecutionTimeSkippingRequest) GetFastForwardId() string {
 type PollWorkflowExecutionTimeSkippingResponse struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// The outcome of the poll for the fast-forward identified by the request's `fast_forward_id`.
-	FastForwardPollingResult v11.FastForwardCompletionPollingResult `protobuf:"varint,1,opt,name=fast_forward_polling_result,json=fastForwardPollingResult,proto3,enum=temporal.api.enums.v1.FastForwardCompletionPollingResult" json:"fast_forward_polling_result,omitempty"`
-	FastForwardInfo          *v14.TimeSkippingFastForwardInfo       `protobuf:"bytes,2,opt,name=fast_forward_info,json=fastForwardInfo,proto3" json:"fast_forward_info,omitempty"`
-	unknownFields            protoimpl.UnknownFields
-	sizeCache                protoimpl.SizeCache
+	FastForwardPollingResult v11.FastForwardPollingResult `protobuf:"varint,1,opt,name=fast_forward_polling_result,json=fastForwardPollingResult,proto3,enum=temporal.api.enums.v1.FastForwardPollingResult" json:"fast_forward_polling_result,omitempty"`
+	// Set only when the result is FAST_FORWARD_POLLING_RESULT_FAST_FORWARD_FAILED; explains why
+	// the fast-forward can no longer complete.
+	FailedReason string `protobuf:"bytes,2,opt,name=failed_reason,json=failedReason,proto3" json:"failed_reason,omitempty"`
+	// The execution's current fast-forward, if any.
+	FastForwardInfo *v14.TimeSkippingFastForwardInfo `protobuf:"bytes,3,opt,name=fast_forward_info,json=fastForwardInfo,proto3" json:"fast_forward_info,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
 }
 
 func (x *PollWorkflowExecutionTimeSkippingResponse) Reset() {
@@ -19097,11 +19101,18 @@ func (*PollWorkflowExecutionTimeSkippingResponse) Descriptor() ([]byte, []int) {
 	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{245}
 }
 
-func (x *PollWorkflowExecutionTimeSkippingResponse) GetFastForwardPollingResult() v11.FastForwardCompletionPollingResult {
+func (x *PollWorkflowExecutionTimeSkippingResponse) GetFastForwardPollingResult() v11.FastForwardPollingResult {
 	if x != nil {
 		return x.FastForwardPollingResult
 	}
-	return v11.FastForwardCompletionPollingResult(0)
+	return v11.FastForwardPollingResult(0)
+}
+
+func (x *PollWorkflowExecutionTimeSkippingResponse) GetFailedReason() string {
+	if x != nil {
+		return x.FailedReason
+	}
+	return ""
 }
 
 func (x *PollWorkflowExecutionTimeSkippingResponse) GetFastForwardInfo() *v14.TimeSkippingFastForwardInfo {
@@ -22083,10 +22094,11 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"(PollWorkflowExecutionTimeSkippingRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12X\n" +
 	"\x12workflow_execution\x18\x02 \x01(\v2).temporal.api.common.v1.WorkflowExecutionR\x11workflowExecution\x12&\n" +
-	"\x0ffast_forward_id\x18\x03 \x01(\tR\rfastForwardId\"\x86\x02\n" +
-	")PollWorkflowExecutionTimeSkippingResponse\x12x\n" +
-	"\x1bfast_forward_polling_result\x18\x01 \x01(\x0e29.temporal.api.enums.v1.FastForwardCompletionPollingResultR\x18fastForwardPollingResult\x12_\n" +
-	"\x11fast_forward_info\x18\x02 \x01(\v23.temporal.api.common.v1.TimeSkippingFastForwardInfoR\x0ffastForwardInfoB\xbe\x01\n" +
+	"\x0ffast_forward_id\x18\x03 \x01(\tR\rfastForwardId\"\xa1\x02\n" +
+	")PollWorkflowExecutionTimeSkippingResponse\x12n\n" +
+	"\x1bfast_forward_polling_result\x18\x01 \x01(\x0e2/.temporal.api.enums.v1.FastForwardPollingResultR\x18fastForwardPollingResult\x12#\n" +
+	"\rfailed_reason\x18\x02 \x01(\tR\ffailedReason\x12_\n" +
+	"\x11fast_forward_info\x18\x03 \x01(\v23.temporal.api.common.v1.TimeSkippingFastForwardInfoR\x0ffastForwardInfoB\xbe\x01\n" +
 	"\"io.temporal.api.workflowservice.v1B\x14RequestResponseProtoP\x01Z5go.temporal.io/api/workflowservice/v1;workflowservice\xaa\x02!Temporalio.Api.WorkflowService.V1\xea\x02$Temporalio::Api::WorkflowService::V1b\x06proto3"
 
 var (
@@ -22525,7 +22537,7 @@ var file_temporal_api_workflowservice_v1_request_response_proto_goTypes = []any{
 	(*v119.NexusOperationExecutionInfo)(nil),                        // 419: temporal.api.nexus.v1.NexusOperationExecutionInfo
 	(v11.NexusOperationWaitStage)(0),                                // 420: temporal.api.enums.v1.NexusOperationWaitStage
 	(*v119.NexusOperationExecutionListInfo)(nil),                    // 421: temporal.api.nexus.v1.NexusOperationExecutionListInfo
-	(v11.FastForwardCompletionPollingResult)(0),                     // 422: temporal.api.enums.v1.FastForwardCompletionPollingResult
+	(v11.FastForwardPollingResult)(0),                               // 422: temporal.api.enums.v1.FastForwardPollingResult
 	(*v14.TimeSkippingFastForwardInfo)(nil),                         // 423: temporal.api.common.v1.TimeSkippingFastForwardInfo
 	(*v110.WorkflowQueryResult)(nil),                                // 424: temporal.api.query.v1.WorkflowQueryResult
 	(v11.IndexedValueType)(0),                                       // 425: temporal.api.enums.v1.IndexedValueType
@@ -22949,7 +22961,7 @@ var file_temporal_api_workflowservice_v1_request_response_proto_depIdxs = []int3
 	278, // 407: temporal.api.workflowservice.v1.CountActivityExecutionsResponse.groups:type_name -> temporal.api.workflowservice.v1.CountActivityExecutionsResponse.AggregationGroup
 	279, // 408: temporal.api.workflowservice.v1.CountNexusOperationExecutionsResponse.groups:type_name -> temporal.api.workflowservice.v1.CountNexusOperationExecutionsResponse.AggregationGroup
 	310, // 409: temporal.api.workflowservice.v1.PollWorkflowExecutionTimeSkippingRequest.workflow_execution:type_name -> temporal.api.common.v1.WorkflowExecution
-	422, // 410: temporal.api.workflowservice.v1.PollWorkflowExecutionTimeSkippingResponse.fast_forward_polling_result:type_name -> temporal.api.enums.v1.FastForwardCompletionPollingResult
+	422, // 410: temporal.api.workflowservice.v1.PollWorkflowExecutionTimeSkippingResponse.fast_forward_polling_result:type_name -> temporal.api.enums.v1.FastForwardPollingResult
 	423, // 411: temporal.api.workflowservice.v1.PollWorkflowExecutionTimeSkippingResponse.fast_forward_info:type_name -> temporal.api.common.v1.TimeSkippingFastForwardInfo
 	315, // 412: temporal.api.workflowservice.v1.PollWorkflowTaskQueueResponse.QueriesEntry.value:type_name -> temporal.api.query.v1.WorkflowQuery
 	424, // 413: temporal.api.workflowservice.v1.RespondWorkflowTaskCompletedRequest.QueryResultsEntry.value:type_name -> temporal.api.query.v1.WorkflowQueryResult
