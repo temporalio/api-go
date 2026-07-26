@@ -1523,7 +1523,7 @@ func (x *OnConflictOptions) GetAttachLinks() bool {
 
 // The configuration for time skipping of an execution.
 // When time skipping is enabled, virtual time advances automatically whenever there is no in-flight work.
-// Options like fast_forward, disable_propagation, and max_skip_per_session are provided for granular
+// Options like fast_forward, disable_propagation, and max_session_skip_count are provided for granular
 // control of the execution's time skipping behavior. See each field's comment for a detailed explanation.
 //
 // An example of workflows with time skipping:
@@ -1531,7 +1531,7 @@ func (x *OnConflictOptions) GetAttachLinks() bool {
 // In-flight work includes activities, child workflows, Nexus operations, signal/cancel external workflow operations, etc.
 // User timers are not classified as in-flight work and will be skipped over; the virtual clock may also skip to the
 // time point of the registered fast-forward when there is no in-flight work.
-// Every time time is skipped, the skip count is incremented by one; max_skip_per_session bounds the number of skips allowed within a single time-skipping session.
+// Every time time is skipped, the skip count is incremented by one; max_session_skip_count bounds the number of skips allowed within a single time-skipping session.
 // For child workflows, by default, if the parent execution is skipping time, the child execution will also skip time,
 // but a parent's fast_forward won't affect its child's execution. A flag is provided to disable propagation of the
 // "enabled" flag to child workflows; regardless of that flag, a child workflow inherits the virtual time from the
@@ -1546,11 +1546,11 @@ type TimeSkippingConfig struct {
 	// a schedule with the timeskipping policy enabled), inherit the "enabled" flag and skip time when possible.
 	// This flag disables that inheritance.
 	DisablePropagation bool `protobuf:"varint,3,opt,name=disable_propagation,json=disablePropagation,proto3" json:"disable_propagation,omitempty"`
-	// The maximum number of skips allowed within a single time-skipping session, where a session
-	// runs from when time skipping is enabled until it is disabled. It protects the execution from
-	// unlimited retries when backoff is skipped.
+	// The maximum number of skips allowed every time this field is updated. It protects the execution from
+	// situations like unlimited retries when backoff is skipped.
+	//
 	// Every time the execution skips time, the skip count is incremented by one, and when it reaches
-	// max_skip_per_session, time skipping is disabled.
+	// max_session_skip_count, time skipping stops.
 	// For an execution with a chain of runs (retry, cron, continue-as-new), the count is accumulated
 	// across all runs within the same session. The count resets to 0 at the start of each new session,
 	// i.e. each time this config is updated to re-enable time skipping.
@@ -1754,14 +1754,19 @@ type TimeSkippingInfo struct {
 	// Current virtual time of the execution. If the execution hasn't skipped
 	// any time yet, it will be the same as wall clock time.
 	CurrentTime *timestamppb.Timestamp `protobuf:"bytes,1,opt,name=current_time,json=currentTime,proto3" json:"current_time,omitempty"`
-	// If the execution is actively trying to skip time automatically when there is a chance,
-	// this field will be set to true. If time has stopped skipping either by fast-forward completion,
-	// max skip allowed checking, or user configuration, it will be false.
-	IsRunning bool `protobuf:"varint,2,opt,name=is_running,json=isRunning,proto3" json:"is_running,omitempty"`
+	// The current effective time-skipping config, which can differ from the config the user last set:
+	// internally-defaulted fields are populated, and `enabled` reflects whether the execution is still
+	// skipping time. The server sets `effective_config.enabled` to false once time skipping stops — e.g.
+	// when `max_session_skip_count` is reached or the fast-forward completes — even if the user last set
+	// it to true. When `effective_config.enabled` is true, the execution is still actively looking for
+	// chances to skip time.
+	EffectiveConfig *TimeSkippingConfig `protobuf:"bytes,2,opt,name=effective_config,json=effectiveConfig,proto3" json:"effective_config,omitempty"`
 	// The execution's current fast-forward, if any. Unset if time skipping is enabled without a fast-forward.
-	FastForwardInfo         *TimeSkippingFastForwardInfo `protobuf:"bytes,4,opt,name=fast_forward_info,json=fastForwardInfo,proto3" json:"fast_forward_info,omitempty"`
-	MaxSessionSkipCount     int32                        `protobuf:"varint,5,opt,name=max_session_skip_count,json=maxSessionSkipCount,proto3" json:"max_session_skip_count,omitempty"`
-	CurrentSessionSkipCount int32                        `protobuf:"varint,6,opt,name=current_session_skip_count,json=currentSessionSkipCount,proto3" json:"current_session_skip_count,omitempty"`
+	FastForwardInfo *TimeSkippingFastForwardInfo `protobuf:"bytes,4,opt,name=fast_forward_info,json=fastForwardInfo,proto3" json:"fast_forward_info,omitempty"`
+	// The number of skips accumulated in the current session. A session starts each time the config is
+	// set or updated to re-enable time skipping, so this resets to 0 then and is bounded by
+	// `max_session_skip_count`.
+	CurrentSessionSkipCount int32 `protobuf:"varint,6,opt,name=current_session_skip_count,json=currentSessionSkipCount,proto3" json:"current_session_skip_count,omitempty"`
 	unknownFields           protoimpl.UnknownFields
 	sizeCache               protoimpl.SizeCache
 }
@@ -1803,11 +1808,11 @@ func (x *TimeSkippingInfo) GetCurrentTime() *timestamppb.Timestamp {
 	return nil
 }
 
-func (x *TimeSkippingInfo) GetIsRunning() bool {
+func (x *TimeSkippingInfo) GetEffectiveConfig() *TimeSkippingConfig {
 	if x != nil {
-		return x.IsRunning
+		return x.EffectiveConfig
 	}
-	return false
+	return nil
 }
 
 func (x *TimeSkippingInfo) GetFastForwardInfo() *TimeSkippingFastForwardInfo {
@@ -1815,13 +1820,6 @@ func (x *TimeSkippingInfo) GetFastForwardInfo() *TimeSkippingFastForwardInfo {
 		return x.FastForwardInfo
 	}
 	return nil
-}
-
-func (x *TimeSkippingInfo) GetMaxSessionSkipCount() int32 {
-	if x != nil {
-		return x.MaxSessionSkipCount
-	}
-	return 0
 }
 
 func (x *TimeSkippingInfo) GetCurrentSessionSkipCount() int32 {
@@ -2662,13 +2660,11 @@ const file_temporal_api_common_v1_message_proto_rawDesc = "" +
 	"\x1cTimeSkippingStatePropagation\x12S\n" +
 	"\x18initial_skipped_duration\x18\x01 \x01(\v2\x19.google.protobuf.DurationR\x16initialSkippedDuration\x12S\n" +
 	"\x18fast_forward_target_time\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\x15fastForwardTargetTime\x12,\n" +
-	"\x12initial_skip_count\x18\x03 \x01(\x05R\x10initialSkipCount\"\xc3\x02\n" +
+	"\x12initial_skip_count\x18\x03 \x01(\x05R\x10initialSkipCount\"\xc6\x02\n" +
 	"\x10TimeSkippingInfo\x12=\n" +
-	"\fcurrent_time\x18\x01 \x01(\v2\x1a.google.protobuf.TimestampR\vcurrentTime\x12\x1d\n" +
-	"\n" +
-	"is_running\x18\x02 \x01(\bR\tisRunning\x12_\n" +
-	"\x11fast_forward_info\x18\x04 \x01(\v23.temporal.api.common.v1.TimeSkippingFastForwardInfoR\x0ffastForwardInfo\x123\n" +
-	"\x16max_session_skip_count\x18\x05 \x01(\x05R\x13maxSessionSkipCount\x12;\n" +
+	"\fcurrent_time\x18\x01 \x01(\v2\x1a.google.protobuf.TimestampR\vcurrentTime\x12U\n" +
+	"\x10effective_config\x18\x02 \x01(\v2*.temporal.api.common.v1.TimeSkippingConfigR\x0feffectiveConfig\x12_\n" +
+	"\x11fast_forward_info\x18\x04 \x01(\v23.temporal.api.common.v1.TimeSkippingFastForwardInfoR\x0ffastForwardInfo\x12;\n" +
 	"\x1acurrent_session_skip_count\x18\x06 \x01(\x05R\x17currentSessionSkipCount\"\xf6\x01\n" +
 	"\x1bTimeSkippingFastForwardInfo\x12M\n" +
 	"\x15fast_forward_duration\x18\x01 \x01(\v2\x19.google.protobuf.DurationR\x13fastForwardDuration\x12&\n" +
@@ -2770,22 +2766,23 @@ var file_temporal_api_common_v1_message_proto_depIdxs = []int32{
 	43, // 24: temporal.api.common.v1.TimeSkippingStatePropagation.initial_skipped_duration:type_name -> google.protobuf.Duration
 	47, // 25: temporal.api.common.v1.TimeSkippingStatePropagation.fast_forward_target_time:type_name -> google.protobuf.Timestamp
 	47, // 26: temporal.api.common.v1.TimeSkippingInfo.current_time:type_name -> google.protobuf.Timestamp
-	25, // 27: temporal.api.common.v1.TimeSkippingInfo.fast_forward_info:type_name -> temporal.api.common.v1.TimeSkippingFastForwardInfo
-	43, // 28: temporal.api.common.v1.TimeSkippingFastForwardInfo.fast_forward_duration:type_name -> google.protobuf.Duration
-	47, // 29: temporal.api.common.v1.TimeSkippingFastForwardInfo.target_time:type_name -> google.protobuf.Timestamp
-	2,  // 30: temporal.api.common.v1.SearchAttributes.IndexedFieldsEntry.value:type_name -> temporal.api.common.v1.Payload
-	2,  // 31: temporal.api.common.v1.Memo.FieldsEntry.value:type_name -> temporal.api.common.v1.Payload
-	2,  // 32: temporal.api.common.v1.Header.FieldsEntry.value:type_name -> temporal.api.common.v1.Payload
-	33, // 33: temporal.api.common.v1.Callback.Nexus.header:type_name -> temporal.api.common.v1.Callback.Nexus.HeaderEntry
-	39, // 34: temporal.api.common.v1.Link.WorkflowEvent.event_ref:type_name -> temporal.api.common.v1.Link.WorkflowEvent.EventReference
-	40, // 35: temporal.api.common.v1.Link.WorkflowEvent.request_id_ref:type_name -> temporal.api.common.v1.Link.WorkflowEvent.RequestIdReference
-	48, // 36: temporal.api.common.v1.Link.WorkflowEvent.EventReference.event_type:type_name -> temporal.api.enums.v1.EventType
-	48, // 37: temporal.api.common.v1.Link.WorkflowEvent.RequestIdReference.event_type:type_name -> temporal.api.enums.v1.EventType
-	38, // [38:38] is the sub-list for method output_type
-	38, // [38:38] is the sub-list for method input_type
-	38, // [38:38] is the sub-list for extension type_name
-	38, // [38:38] is the sub-list for extension extendee
-	0,  // [0:38] is the sub-list for field type_name
+	21, // 27: temporal.api.common.v1.TimeSkippingInfo.effective_config:type_name -> temporal.api.common.v1.TimeSkippingConfig
+	25, // 28: temporal.api.common.v1.TimeSkippingInfo.fast_forward_info:type_name -> temporal.api.common.v1.TimeSkippingFastForwardInfo
+	43, // 29: temporal.api.common.v1.TimeSkippingFastForwardInfo.fast_forward_duration:type_name -> google.protobuf.Duration
+	47, // 30: temporal.api.common.v1.TimeSkippingFastForwardInfo.target_time:type_name -> google.protobuf.Timestamp
+	2,  // 31: temporal.api.common.v1.SearchAttributes.IndexedFieldsEntry.value:type_name -> temporal.api.common.v1.Payload
+	2,  // 32: temporal.api.common.v1.Memo.FieldsEntry.value:type_name -> temporal.api.common.v1.Payload
+	2,  // 33: temporal.api.common.v1.Header.FieldsEntry.value:type_name -> temporal.api.common.v1.Payload
+	33, // 34: temporal.api.common.v1.Callback.Nexus.header:type_name -> temporal.api.common.v1.Callback.Nexus.HeaderEntry
+	39, // 35: temporal.api.common.v1.Link.WorkflowEvent.event_ref:type_name -> temporal.api.common.v1.Link.WorkflowEvent.EventReference
+	40, // 36: temporal.api.common.v1.Link.WorkflowEvent.request_id_ref:type_name -> temporal.api.common.v1.Link.WorkflowEvent.RequestIdReference
+	48, // 37: temporal.api.common.v1.Link.WorkflowEvent.EventReference.event_type:type_name -> temporal.api.enums.v1.EventType
+	48, // 38: temporal.api.common.v1.Link.WorkflowEvent.RequestIdReference.event_type:type_name -> temporal.api.enums.v1.EventType
+	39, // [39:39] is the sub-list for method output_type
+	39, // [39:39] is the sub-list for method input_type
+	39, // [39:39] is the sub-list for extension type_name
+	39, // [39:39] is the sub-list for extension extendee
+	0,  // [0:39] is the sub-list for field type_name
 }
 
 func init() { file_temporal_api_common_v1_message_proto_init() }
