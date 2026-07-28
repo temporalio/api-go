@@ -1,6 +1,10 @@
 [submodule "proto/api"]
+	# DO NOT SUBMIT. This is wired to a long-lived feature branch,
+	# and should be removed after the `api` changes have been merged.
+	branch = feature/worker-callbacks
 	path = proto/api
 	url = https://github.com/temporalio/api
+
 [submodule "proto/api-cloud"]
 	path = proto/api-cloud
 	url = https://github.com/temporalio/api-cloud
