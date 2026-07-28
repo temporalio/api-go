@@ -5059,14 +5059,14 @@ func (x *WorkflowExecutionUnpausedEventAttributes) GetRequestId() string {
 	return ""
 }
 
-// Attributes for an event indicating that time skipping state changed for a workflow execution:
-// either time was advanced, or time skipping was stopped automatically due to the fast_forward completing.
+// Attributes for an event indicating that time skipping state changed for a workflow execution,
+// either time was advanced or time skipping was disabled automatically due to the fast_forward completing.
 // The worker_may_ignore field in HistoryEvent should always be set true for this event.
 type WorkflowExecutionTimeSkippingTransitionedEventAttributes struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// The virtual time point that time skipping advanced to.
 	TargetTime *timestamppb.Timestamp `protobuf:"bytes,1,opt,name=target_time,json=targetTime,proto3" json:"target_time,omitempty"`
-	// When true, time skipping has been stopped automatically due to a call to fast_forward completing.
+	// When true, time skipping has been disabled automatically due to a call to fast_forward completing.
 	// (-- api-linter: core::0140::prepositions=disabled
 	//
 	//	aip.dev/not-precedent: "after" is used to indicate temporal ordering. --)

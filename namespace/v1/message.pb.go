@@ -664,12 +664,8 @@ type NamespaceInfo_Limits struct {
 	BlobSizeLimitError int64 `protobuf:"varint,1,opt,name=blob_size_limit_error,json=blobSizeLimitError,proto3" json:"blob_size_limit_error,omitempty"`
 	// Maximum total memo size in bytes per workflow execution.
 	MemoSizeLimitError int64 `protobuf:"varint,2,opt,name=memo_size_limit_error,json=memoSizeLimitError,proto3" json:"memo_size_limit_error,omitempty"`
-	// Maximum total size in bytes of a single RespondWorkflowTaskCompleted request.
-	// Requests exceeding this fail the workflow task with
-	// WORKFLOW_TASK_FAILED_CAUSE_REQUEST_TOO_LARGE. 0 means no explicit limit.
-	WorkflowTaskCompletionSizeLimitError int64 `protobuf:"varint,3,opt,name=workflow_task_completion_size_limit_error,json=workflowTaskCompletionSizeLimitError,proto3" json:"workflow_task_completion_size_limit_error,omitempty"`
-	unknownFields                        protoimpl.UnknownFields
-	sizeCache                            protoimpl.SizeCache
+	unknownFields      protoimpl.UnknownFields
+	sizeCache          protoimpl.SizeCache
 }
 
 func (x *NamespaceInfo_Limits) Reset() {
@@ -716,18 +712,11 @@ func (x *NamespaceInfo_Limits) GetMemoSizeLimitError() int64 {
 	return 0
 }
 
-func (x *NamespaceInfo_Limits) GetWorkflowTaskCompletionSizeLimitError() int64 {
-	if x != nil {
-		return x.WorkflowTaskCompletionSizeLimitError
-	}
-	return 0
-}
-
 var File_temporal_api_namespace_v1_message_proto protoreflect.FileDescriptor
 
 const file_temporal_api_namespace_v1_message_proto_rawDesc = "" +
 	"\n" +
-	"'temporal/api/namespace/v1/message.proto\x12\x19temporal.api.namespace.v1\x1a\x1egoogle/protobuf/duration.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a%temporal/api/enums/v1/namespace.proto\"\xc7\r\n" +
+	"'temporal/api/namespace/v1/message.proto\x12\x19temporal.api.namespace.v1\x1a\x1egoogle/protobuf/duration.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a%temporal/api/enums/v1/namespace.proto\"\xed\f\n" +
 	"\rNamespaceInfo\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12;\n" +
 	"\x05state\x18\x02 \x01(\x0e2%.temporal.api.enums.v1.NamespaceStateR\x05state\x12 \n" +
@@ -761,11 +750,10 @@ const file_temporal_api_namespace_v1_message_proto_rawDesc = "" +
 	"#workflow_task_completion_pagination\x18\x0e \x01(\bR workflowTaskCompletionPagination\x12E\n" +
 	"\x1fstandalone_activity_start_delay\x18\x0f \x01(\bR\x1cstandaloneActivityStartDelay\x12O\n" +
 	"$standalone_activity_batch_operations\x18\x10 \x01(\bR!standaloneActivityBatchOperations\x12Q\n" +
-	"%standalone_activity_operator_commands\x18\x11 \x01(\bR\"standaloneActivityOperatorCommands\x1a\xc7\x01\n" +
+	"%standalone_activity_operator_commands\x18\x11 \x01(\bR\"standaloneActivityOperatorCommands\x1an\n" +
 	"\x06Limits\x121\n" +
 	"\x15blob_size_limit_error\x18\x01 \x01(\x03R\x12blobSizeLimitError\x121\n" +
-	"\x15memo_size_limit_error\x18\x02 \x01(\x03R\x12memoSizeLimitError\x12W\n" +
-	")workflow_task_completion_size_limit_error\x18\x03 \x01(\x03R$workflowTaskCompletionSizeLimitError\"\xcf\x05\n" +
+	"\x15memo_size_limit_error\x18\x02 \x01(\x03R\x12memoSizeLimitError\"\xcf\x05\n" +
 	"\x0fNamespaceConfig\x12b\n" +
 	" workflow_execution_retention_ttl\x18\x01 \x01(\v2\x19.google.protobuf.DurationR\x1dworkflowExecutionRetentionTtl\x12I\n" +
 	"\fbad_binaries\x18\x02 \x01(\v2&.temporal.api.namespace.v1.BadBinariesR\vbadBinaries\x12Z\n" +

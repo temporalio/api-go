@@ -246,7 +246,7 @@ const (
 	CALLBACK_STATE_FAILED CallbackState = 4
 	// Callback has succeeded.
 	CALLBACK_STATE_SUCCEEDED CallbackState = 5
-	// Callback is blocked (eg: by circuit breaker).
+	// Callback is blocked, e.g. by circuit breaker.
 	CALLBACK_STATE_BLOCKED CallbackState = 6
 )
 
