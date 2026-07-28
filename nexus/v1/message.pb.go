@@ -7,10 +7,6 @@
 package nexus
 
 import (
-	reflect "reflect"
-	sync "sync"
-	unsafe "unsafe"
-
 	v11 "go.temporal.io/api/common/v1"
 	v1 "go.temporal.io/api/enums/v1"
 	v12 "go.temporal.io/api/failure/v1"
@@ -19,6 +15,9 @@ import (
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	durationpb "google.golang.org/protobuf/types/known/durationpb"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
+	reflect "reflect"
+	sync "sync"
+	unsafe "unsafe"
 )
 
 const (
@@ -27,6 +26,69 @@ const (
 	// Verify that runtime/protoimpl is sufficiently up-to-date.
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
+
+// PropagatedNexusSerializationContext represents the context of the Nexus caller that started this execution.
+// Nexus callers can share a workflow or standalone activity with USE_EXISTING only when their
+// endpoint, service, and operation match. A request with a different context is rejected.
+type PropagatedNexusSerializationContext struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Endpoint      string                 `protobuf:"bytes,1,opt,name=endpoint,proto3" json:"endpoint,omitempty"`
+	Service       string                 `protobuf:"bytes,2,opt,name=service,proto3" json:"service,omitempty"`
+	Operation     string                 `protobuf:"bytes,3,opt,name=operation,proto3" json:"operation,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *PropagatedNexusSerializationContext) Reset() {
+	*x = PropagatedNexusSerializationContext{}
+	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *PropagatedNexusSerializationContext) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PropagatedNexusSerializationContext) ProtoMessage() {}
+
+func (x *PropagatedNexusSerializationContext) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[0]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PropagatedNexusSerializationContext.ProtoReflect.Descriptor instead.
+func (*PropagatedNexusSerializationContext) Descriptor() ([]byte, []int) {
+	return file_temporal_api_nexus_v1_message_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *PropagatedNexusSerializationContext) GetEndpoint() string {
+	if x != nil {
+		return x.Endpoint
+	}
+	return ""
+}
+
+func (x *PropagatedNexusSerializationContext) GetService() string {
+	if x != nil {
+		return x.Service
+	}
+	return ""
+}
+
+func (x *PropagatedNexusSerializationContext) GetOperation() string {
+	if x != nil {
+		return x.Operation
+	}
+	return ""
+}
 
 // A general purpose failure message.
 // See: https://github.com/nexus-rpc/api/blob/main/SPEC.md#failure
@@ -44,7 +106,7 @@ type Failure struct {
 
 func (x *Failure) Reset() {
 	*x = Failure{}
-	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[0]
+	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -56,7 +118,7 @@ func (x *Failure) String() string {
 func (*Failure) ProtoMessage() {}
 
 func (x *Failure) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[0]
+	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -69,7 +131,7 @@ func (x *Failure) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Failure.ProtoReflect.Descriptor instead.
 func (*Failure) Descriptor() ([]byte, []int) {
-	return file_temporal_api_nexus_v1_message_proto_rawDescGZIP(), []int{0}
+	return file_temporal_api_nexus_v1_message_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *Failure) GetMessage() string {
@@ -120,7 +182,7 @@ type HandlerError struct {
 
 func (x *HandlerError) Reset() {
 	*x = HandlerError{}
-	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[1]
+	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -132,7 +194,7 @@ func (x *HandlerError) String() string {
 func (*HandlerError) ProtoMessage() {}
 
 func (x *HandlerError) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[1]
+	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -145,7 +207,7 @@ func (x *HandlerError) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use HandlerError.ProtoReflect.Descriptor instead.
 func (*HandlerError) Descriptor() ([]byte, []int) {
-	return file_temporal_api_nexus_v1_message_proto_rawDescGZIP(), []int{1}
+	return file_temporal_api_nexus_v1_message_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *HandlerError) GetErrorType() string {
@@ -180,7 +242,7 @@ type UnsuccessfulOperationError struct {
 
 func (x *UnsuccessfulOperationError) Reset() {
 	*x = UnsuccessfulOperationError{}
-	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[2]
+	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -192,7 +254,7 @@ func (x *UnsuccessfulOperationError) String() string {
 func (*UnsuccessfulOperationError) ProtoMessage() {}
 
 func (x *UnsuccessfulOperationError) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[2]
+	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -205,7 +267,7 @@ func (x *UnsuccessfulOperationError) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UnsuccessfulOperationError.ProtoReflect.Descriptor instead.
 func (*UnsuccessfulOperationError) Descriptor() ([]byte, []int) {
-	return file_temporal_api_nexus_v1_message_proto_rawDescGZIP(), []int{2}
+	return file_temporal_api_nexus_v1_message_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *UnsuccessfulOperationError) GetOperationState() string {
@@ -233,7 +295,7 @@ type Link struct {
 
 func (x *Link) Reset() {
 	*x = Link{}
-	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[3]
+	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -245,7 +307,7 @@ func (x *Link) String() string {
 func (*Link) ProtoMessage() {}
 
 func (x *Link) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[3]
+	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -258,7 +320,7 @@ func (x *Link) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Link.ProtoReflect.Descriptor instead.
 func (*Link) Descriptor() ([]byte, []int) {
-	return file_temporal_api_nexus_v1_message_proto_rawDescGZIP(), []int{3}
+	return file_temporal_api_nexus_v1_message_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *Link) GetUrl() string {
@@ -298,7 +360,7 @@ type StartOperationRequest struct {
 
 func (x *StartOperationRequest) Reset() {
 	*x = StartOperationRequest{}
-	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[4]
+	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -310,7 +372,7 @@ func (x *StartOperationRequest) String() string {
 func (*StartOperationRequest) ProtoMessage() {}
 
 func (x *StartOperationRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[4]
+	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -323,7 +385,7 @@ func (x *StartOperationRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use StartOperationRequest.ProtoReflect.Descriptor instead.
 func (*StartOperationRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_nexus_v1_message_proto_rawDescGZIP(), []int{4}
+	return file_temporal_api_nexus_v1_message_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *StartOperationRequest) GetService() string {
@@ -396,7 +458,7 @@ type CancelOperationRequest struct {
 
 func (x *CancelOperationRequest) Reset() {
 	*x = CancelOperationRequest{}
-	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[5]
+	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -408,7 +470,7 @@ func (x *CancelOperationRequest) String() string {
 func (*CancelOperationRequest) ProtoMessage() {}
 
 func (x *CancelOperationRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[5]
+	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -421,7 +483,7 @@ func (x *CancelOperationRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CancelOperationRequest.ProtoReflect.Descriptor instead.
 func (*CancelOperationRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_nexus_v1_message_proto_rawDescGZIP(), []int{5}
+	return file_temporal_api_nexus_v1_message_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *CancelOperationRequest) GetService() string {
@@ -479,7 +541,7 @@ type Request struct {
 
 func (x *Request) Reset() {
 	*x = Request{}
-	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[6]
+	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -491,7 +553,7 @@ func (x *Request) String() string {
 func (*Request) ProtoMessage() {}
 
 func (x *Request) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[6]
+	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -504,7 +566,7 @@ func (x *Request) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Request.ProtoReflect.Descriptor instead.
 func (*Request) Descriptor() ([]byte, []int) {
-	return file_temporal_api_nexus_v1_message_proto_rawDescGZIP(), []int{6}
+	return file_temporal_api_nexus_v1_message_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *Request) GetHeader() map[string]string {
@@ -592,7 +654,7 @@ type StartOperationResponse struct {
 
 func (x *StartOperationResponse) Reset() {
 	*x = StartOperationResponse{}
-	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[7]
+	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -604,7 +666,7 @@ func (x *StartOperationResponse) String() string {
 func (*StartOperationResponse) ProtoMessage() {}
 
 func (x *StartOperationResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[7]
+	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -617,7 +679,7 @@ func (x *StartOperationResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use StartOperationResponse.ProtoReflect.Descriptor instead.
 func (*StartOperationResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_nexus_v1_message_proto_rawDescGZIP(), []int{7}
+	return file_temporal_api_nexus_v1_message_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *StartOperationResponse) GetVariant() isStartOperationResponse_Variant {
@@ -707,7 +769,7 @@ type CancelOperationResponse struct {
 
 func (x *CancelOperationResponse) Reset() {
 	*x = CancelOperationResponse{}
-	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[8]
+	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -719,7 +781,7 @@ func (x *CancelOperationResponse) String() string {
 func (*CancelOperationResponse) ProtoMessage() {}
 
 func (x *CancelOperationResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[8]
+	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -732,7 +794,7 @@ func (x *CancelOperationResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CancelOperationResponse.ProtoReflect.Descriptor instead.
 func (*CancelOperationResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_nexus_v1_message_proto_rawDescGZIP(), []int{8}
+	return file_temporal_api_nexus_v1_message_proto_rawDescGZIP(), []int{9}
 }
 
 // A response indicating that the handler has successfully processed a request.
@@ -751,7 +813,7 @@ type Response struct {
 
 func (x *Response) Reset() {
 	*x = Response{}
-	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[9]
+	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -763,7 +825,7 @@ func (x *Response) String() string {
 func (*Response) ProtoMessage() {}
 
 func (x *Response) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[9]
+	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -776,7 +838,7 @@ func (x *Response) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Response.ProtoReflect.Descriptor instead.
 func (*Response) Descriptor() ([]byte, []int) {
-	return file_temporal_api_nexus_v1_message_proto_rawDescGZIP(), []int{9}
+	return file_temporal_api_nexus_v1_message_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *Response) GetVariant() isResponse_Variant {
@@ -850,7 +912,7 @@ type Endpoint struct {
 
 func (x *Endpoint) Reset() {
 	*x = Endpoint{}
-	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[10]
+	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -862,7 +924,7 @@ func (x *Endpoint) String() string {
 func (*Endpoint) ProtoMessage() {}
 
 func (x *Endpoint) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[10]
+	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -875,7 +937,7 @@ func (x *Endpoint) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Endpoint.ProtoReflect.Descriptor instead.
 func (*Endpoint) Descriptor() ([]byte, []int) {
-	return file_temporal_api_nexus_v1_message_proto_rawDescGZIP(), []int{10}
+	return file_temporal_api_nexus_v1_message_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *Endpoint) GetVersion() int64 {
@@ -938,7 +1000,7 @@ type EndpointSpec struct {
 
 func (x *EndpointSpec) Reset() {
 	*x = EndpointSpec{}
-	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[11]
+	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[12]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -950,7 +1012,7 @@ func (x *EndpointSpec) String() string {
 func (*EndpointSpec) ProtoMessage() {}
 
 func (x *EndpointSpec) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[11]
+	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[12]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -963,7 +1025,7 @@ func (x *EndpointSpec) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use EndpointSpec.ProtoReflect.Descriptor instead.
 func (*EndpointSpec) Descriptor() ([]byte, []int) {
-	return file_temporal_api_nexus_v1_message_proto_rawDescGZIP(), []int{11}
+	return file_temporal_api_nexus_v1_message_proto_rawDescGZIP(), []int{12}
 }
 
 func (x *EndpointSpec) GetName() string {
@@ -1001,7 +1063,7 @@ type EndpointTarget struct {
 
 func (x *EndpointTarget) Reset() {
 	*x = EndpointTarget{}
-	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[12]
+	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[13]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1013,7 +1075,7 @@ func (x *EndpointTarget) String() string {
 func (*EndpointTarget) ProtoMessage() {}
 
 func (x *EndpointTarget) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[12]
+	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[13]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1026,7 +1088,7 @@ func (x *EndpointTarget) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use EndpointTarget.ProtoReflect.Descriptor instead.
 func (*EndpointTarget) Descriptor() ([]byte, []int) {
-	return file_temporal_api_nexus_v1_message_proto_rawDescGZIP(), []int{12}
+	return file_temporal_api_nexus_v1_message_proto_rawDescGZIP(), []int{13}
 }
 
 func (x *EndpointTarget) GetVariant() isEndpointTarget_Variant {
@@ -1095,7 +1157,7 @@ type NexusOperationExecutionCancellationInfo struct {
 
 func (x *NexusOperationExecutionCancellationInfo) Reset() {
 	*x = NexusOperationExecutionCancellationInfo{}
-	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[13]
+	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[14]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1107,7 +1169,7 @@ func (x *NexusOperationExecutionCancellationInfo) String() string {
 func (*NexusOperationExecutionCancellationInfo) ProtoMessage() {}
 
 func (x *NexusOperationExecutionCancellationInfo) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[13]
+	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[14]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1120,7 +1182,7 @@ func (x *NexusOperationExecutionCancellationInfo) ProtoReflect() protoreflect.Me
 
 // Deprecated: Use NexusOperationExecutionCancellationInfo.ProtoReflect.Descriptor instead.
 func (*NexusOperationExecutionCancellationInfo) Descriptor() ([]byte, []int) {
-	return file_temporal_api_nexus_v1_message_proto_rawDescGZIP(), []int{13}
+	return file_temporal_api_nexus_v1_message_proto_rawDescGZIP(), []int{14}
 }
 
 func (x *NexusOperationExecutionCancellationInfo) GetRequestedTime() *timestamppb.Timestamp {
@@ -1259,7 +1321,7 @@ type NexusOperationExecutionInfo struct {
 
 func (x *NexusOperationExecutionInfo) Reset() {
 	*x = NexusOperationExecutionInfo{}
-	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[14]
+	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[15]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1271,7 +1333,7 @@ func (x *NexusOperationExecutionInfo) String() string {
 func (*NexusOperationExecutionInfo) ProtoMessage() {}
 
 func (x *NexusOperationExecutionInfo) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[14]
+	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[15]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1284,7 +1346,7 @@ func (x *NexusOperationExecutionInfo) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use NexusOperationExecutionInfo.ProtoReflect.Descriptor instead.
 func (*NexusOperationExecutionInfo) Descriptor() ([]byte, []int) {
-	return file_temporal_api_nexus_v1_message_proto_rawDescGZIP(), []int{14}
+	return file_temporal_api_nexus_v1_message_proto_rawDescGZIP(), []int{15}
 }
 
 func (x *NexusOperationExecutionInfo) GetOperationId() string {
@@ -1526,7 +1588,7 @@ type NexusOperationExecutionListInfo struct {
 
 func (x *NexusOperationExecutionListInfo) Reset() {
 	*x = NexusOperationExecutionListInfo{}
-	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[15]
+	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[16]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1538,7 +1600,7 @@ func (x *NexusOperationExecutionListInfo) String() string {
 func (*NexusOperationExecutionListInfo) ProtoMessage() {}
 
 func (x *NexusOperationExecutionListInfo) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[15]
+	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[16]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1551,7 +1613,7 @@ func (x *NexusOperationExecutionListInfo) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use NexusOperationExecutionListInfo.ProtoReflect.Descriptor instead.
 func (*NexusOperationExecutionListInfo) Descriptor() ([]byte, []int) {
-	return file_temporal_api_nexus_v1_message_proto_rawDescGZIP(), []int{15}
+	return file_temporal_api_nexus_v1_message_proto_rawDescGZIP(), []int{16}
 }
 
 func (x *NexusOperationExecutionListInfo) GetOperationId() string {
@@ -1649,7 +1711,7 @@ type Request_Capabilities struct {
 
 func (x *Request_Capabilities) Reset() {
 	*x = Request_Capabilities{}
-	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[18]
+	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[19]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1661,7 +1723,7 @@ func (x *Request_Capabilities) String() string {
 func (*Request_Capabilities) ProtoMessage() {}
 
 func (x *Request_Capabilities) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[18]
+	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[19]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1674,7 +1736,7 @@ func (x *Request_Capabilities) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Request_Capabilities.ProtoReflect.Descriptor instead.
 func (*Request_Capabilities) Descriptor() ([]byte, []int) {
-	return file_temporal_api_nexus_v1_message_proto_rawDescGZIP(), []int{6, 0}
+	return file_temporal_api_nexus_v1_message_proto_rawDescGZIP(), []int{7, 0}
 }
 
 func (x *Request_Capabilities) GetTemporalFailureResponses() bool {
@@ -1695,7 +1757,7 @@ type StartOperationResponse_Sync struct {
 
 func (x *StartOperationResponse_Sync) Reset() {
 	*x = StartOperationResponse_Sync{}
-	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[20]
+	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[21]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1707,7 +1769,7 @@ func (x *StartOperationResponse_Sync) String() string {
 func (*StartOperationResponse_Sync) ProtoMessage() {}
 
 func (x *StartOperationResponse_Sync) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[20]
+	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[21]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1720,7 +1782,7 @@ func (x *StartOperationResponse_Sync) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use StartOperationResponse_Sync.ProtoReflect.Descriptor instead.
 func (*StartOperationResponse_Sync) Descriptor() ([]byte, []int) {
-	return file_temporal_api_nexus_v1_message_proto_rawDescGZIP(), []int{7, 0}
+	return file_temporal_api_nexus_v1_message_proto_rawDescGZIP(), []int{8, 0}
 }
 
 func (x *StartOperationResponse_Sync) GetPayload() *v11.Payload {
@@ -1753,7 +1815,7 @@ type StartOperationResponse_Async struct {
 
 func (x *StartOperationResponse_Async) Reset() {
 	*x = StartOperationResponse_Async{}
-	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[21]
+	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[22]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1765,7 +1827,7 @@ func (x *StartOperationResponse_Async) String() string {
 func (*StartOperationResponse_Async) ProtoMessage() {}
 
 func (x *StartOperationResponse_Async) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[21]
+	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[22]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1778,7 +1840,7 @@ func (x *StartOperationResponse_Async) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use StartOperationResponse_Async.ProtoReflect.Descriptor instead.
 func (*StartOperationResponse_Async) Descriptor() ([]byte, []int) {
-	return file_temporal_api_nexus_v1_message_proto_rawDescGZIP(), []int{7, 1}
+	return file_temporal_api_nexus_v1_message_proto_rawDescGZIP(), []int{8, 1}
 }
 
 // Deprecated: Marked as deprecated in temporal/api/nexus/v1/message.proto.
@@ -1816,7 +1878,7 @@ type EndpointTarget_Worker struct {
 
 func (x *EndpointTarget_Worker) Reset() {
 	*x = EndpointTarget_Worker{}
-	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[22]
+	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[23]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1828,7 +1890,7 @@ func (x *EndpointTarget_Worker) String() string {
 func (*EndpointTarget_Worker) ProtoMessage() {}
 
 func (x *EndpointTarget_Worker) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[22]
+	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[23]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1841,7 +1903,7 @@ func (x *EndpointTarget_Worker) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use EndpointTarget_Worker.ProtoReflect.Descriptor instead.
 func (*EndpointTarget_Worker) Descriptor() ([]byte, []int) {
-	return file_temporal_api_nexus_v1_message_proto_rawDescGZIP(), []int{12, 0}
+	return file_temporal_api_nexus_v1_message_proto_rawDescGZIP(), []int{13, 0}
 }
 
 func (x *EndpointTarget_Worker) GetNamespace() string {
@@ -1871,7 +1933,7 @@ type EndpointTarget_External struct {
 
 func (x *EndpointTarget_External) Reset() {
 	*x = EndpointTarget_External{}
-	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[23]
+	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[24]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1883,7 +1945,7 @@ func (x *EndpointTarget_External) String() string {
 func (*EndpointTarget_External) ProtoMessage() {}
 
 func (x *EndpointTarget_External) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[23]
+	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[24]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1896,7 +1958,7 @@ func (x *EndpointTarget_External) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use EndpointTarget_External.ProtoReflect.Descriptor instead.
 func (*EndpointTarget_External) Descriptor() ([]byte, []int) {
-	return file_temporal_api_nexus_v1_message_proto_rawDescGZIP(), []int{12, 1}
+	return file_temporal_api_nexus_v1_message_proto_rawDescGZIP(), []int{13, 1}
 }
 
 func (x *EndpointTarget_External) GetUrl() string {
@@ -1910,7 +1972,11 @@ var File_temporal_api_nexus_v1_message_proto protoreflect.FileDescriptor
 
 const file_temporal_api_nexus_v1_message_proto_rawDesc = "" +
 	"\n" +
-	"#temporal/api/nexus/v1/message.proto\x12\x15temporal.api.nexus.v1\x1a\x1egoogle/protobuf/duration.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a$temporal/api/common/v1/message.proto\x1a\"temporal/api/enums/v1/common.proto\x1a!temporal/api/enums/v1/nexus.proto\x1a%temporal/api/failure/v1/message.proto\x1a'temporal/api/sdk/v1/user_metadata.proto\"\x9b\x02\n" +
+	"#temporal/api/nexus/v1/message.proto\x12\x15temporal.api.nexus.v1\x1a\x1egoogle/protobuf/duration.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a$temporal/api/common/v1/message.proto\x1a\"temporal/api/enums/v1/common.proto\x1a!temporal/api/enums/v1/nexus.proto\x1a%temporal/api/failure/v1/message.proto\x1a'temporal/api/sdk/v1/user_metadata.proto\"y\n" +
+	"#PropagatedNexusSerializationContext\x12\x1a\n" +
+	"\bendpoint\x18\x01 \x01(\tR\bendpoint\x12\x18\n" +
+	"\aservice\x18\x02 \x01(\tR\aservice\x12\x1c\n" +
+	"\toperation\x18\x03 \x01(\tR\toperation\"\x9b\x02\n" +
 	"\aFailure\x12\x18\n" +
 	"\amessage\x18\x01 \x01(\tR\amessage\x12\x1f\n" +
 	"\vstack_trace\x18\x04 \x01(\tR\n" +
@@ -2077,102 +2143,103 @@ func file_temporal_api_nexus_v1_message_proto_rawDescGZIP() []byte {
 	return file_temporal_api_nexus_v1_message_proto_rawDescData
 }
 
-var file_temporal_api_nexus_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 25)
+var file_temporal_api_nexus_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 26)
 var file_temporal_api_nexus_v1_message_proto_goTypes = []any{
-	(*Failure)(nil),                                 // 0: temporal.api.nexus.v1.Failure
-	(*HandlerError)(nil),                            // 1: temporal.api.nexus.v1.HandlerError
-	(*UnsuccessfulOperationError)(nil),              // 2: temporal.api.nexus.v1.UnsuccessfulOperationError
-	(*Link)(nil),                                    // 3: temporal.api.nexus.v1.Link
-	(*StartOperationRequest)(nil),                   // 4: temporal.api.nexus.v1.StartOperationRequest
-	(*CancelOperationRequest)(nil),                  // 5: temporal.api.nexus.v1.CancelOperationRequest
-	(*Request)(nil),                                 // 6: temporal.api.nexus.v1.Request
-	(*StartOperationResponse)(nil),                  // 7: temporal.api.nexus.v1.StartOperationResponse
-	(*CancelOperationResponse)(nil),                 // 8: temporal.api.nexus.v1.CancelOperationResponse
-	(*Response)(nil),                                // 9: temporal.api.nexus.v1.Response
-	(*Endpoint)(nil),                                // 10: temporal.api.nexus.v1.Endpoint
-	(*EndpointSpec)(nil),                            // 11: temporal.api.nexus.v1.EndpointSpec
-	(*EndpointTarget)(nil),                          // 12: temporal.api.nexus.v1.EndpointTarget
-	(*NexusOperationExecutionCancellationInfo)(nil), // 13: temporal.api.nexus.v1.NexusOperationExecutionCancellationInfo
-	(*NexusOperationExecutionInfo)(nil),             // 14: temporal.api.nexus.v1.NexusOperationExecutionInfo
-	(*NexusOperationExecutionListInfo)(nil),         // 15: temporal.api.nexus.v1.NexusOperationExecutionListInfo
-	nil,                                             // 16: temporal.api.nexus.v1.Failure.MetadataEntry
-	nil,                                             // 17: temporal.api.nexus.v1.StartOperationRequest.CallbackHeaderEntry
-	(*Request_Capabilities)(nil),                    // 18: temporal.api.nexus.v1.Request.Capabilities
-	nil,                                             // 19: temporal.api.nexus.v1.Request.HeaderEntry
-	(*StartOperationResponse_Sync)(nil),             // 20: temporal.api.nexus.v1.StartOperationResponse.Sync
-	(*StartOperationResponse_Async)(nil),            // 21: temporal.api.nexus.v1.StartOperationResponse.Async
-	(*EndpointTarget_Worker)(nil),                   // 22: temporal.api.nexus.v1.EndpointTarget.Worker
-	(*EndpointTarget_External)(nil),                 // 23: temporal.api.nexus.v1.EndpointTarget.External
-	nil,                                             // 24: temporal.api.nexus.v1.NexusOperationExecutionInfo.NexusHeaderEntry
-	(v1.NexusHandlerErrorRetryBehavior)(0),          // 25: temporal.api.enums.v1.NexusHandlerErrorRetryBehavior
-	(*v11.Payload)(nil),                             // 26: temporal.api.common.v1.Payload
-	(*timestamppb.Timestamp)(nil),                   // 27: google.protobuf.Timestamp
-	(*v12.Failure)(nil),                             // 28: temporal.api.failure.v1.Failure
-	(v1.NexusOperationCancellationState)(0),         // 29: temporal.api.enums.v1.NexusOperationCancellationState
-	(v1.NexusOperationExecutionStatus)(0),           // 30: temporal.api.enums.v1.NexusOperationExecutionStatus
-	(v1.PendingNexusOperationState)(0),              // 31: temporal.api.enums.v1.PendingNexusOperationState
-	(*durationpb.Duration)(nil),                     // 32: google.protobuf.Duration
-	(*v11.SearchAttributes)(nil),                    // 33: temporal.api.common.v1.SearchAttributes
-	(*v13.UserMetadata)(nil),                        // 34: temporal.api.sdk.v1.UserMetadata
-	(*v11.Link)(nil),                                // 35: temporal.api.common.v1.Link
+	(*PropagatedNexusSerializationContext)(nil), // 0: temporal.api.nexus.v1.PropagatedNexusSerializationContext
+	(*Failure)(nil),                                 // 1: temporal.api.nexus.v1.Failure
+	(*HandlerError)(nil),                            // 2: temporal.api.nexus.v1.HandlerError
+	(*UnsuccessfulOperationError)(nil),              // 3: temporal.api.nexus.v1.UnsuccessfulOperationError
+	(*Link)(nil),                                    // 4: temporal.api.nexus.v1.Link
+	(*StartOperationRequest)(nil),                   // 5: temporal.api.nexus.v1.StartOperationRequest
+	(*CancelOperationRequest)(nil),                  // 6: temporal.api.nexus.v1.CancelOperationRequest
+	(*Request)(nil),                                 // 7: temporal.api.nexus.v1.Request
+	(*StartOperationResponse)(nil),                  // 8: temporal.api.nexus.v1.StartOperationResponse
+	(*CancelOperationResponse)(nil),                 // 9: temporal.api.nexus.v1.CancelOperationResponse
+	(*Response)(nil),                                // 10: temporal.api.nexus.v1.Response
+	(*Endpoint)(nil),                                // 11: temporal.api.nexus.v1.Endpoint
+	(*EndpointSpec)(nil),                            // 12: temporal.api.nexus.v1.EndpointSpec
+	(*EndpointTarget)(nil),                          // 13: temporal.api.nexus.v1.EndpointTarget
+	(*NexusOperationExecutionCancellationInfo)(nil), // 14: temporal.api.nexus.v1.NexusOperationExecutionCancellationInfo
+	(*NexusOperationExecutionInfo)(nil),             // 15: temporal.api.nexus.v1.NexusOperationExecutionInfo
+	(*NexusOperationExecutionListInfo)(nil),         // 16: temporal.api.nexus.v1.NexusOperationExecutionListInfo
+	nil,                                             // 17: temporal.api.nexus.v1.Failure.MetadataEntry
+	nil,                                             // 18: temporal.api.nexus.v1.StartOperationRequest.CallbackHeaderEntry
+	(*Request_Capabilities)(nil),                    // 19: temporal.api.nexus.v1.Request.Capabilities
+	nil,                                             // 20: temporal.api.nexus.v1.Request.HeaderEntry
+	(*StartOperationResponse_Sync)(nil),             // 21: temporal.api.nexus.v1.StartOperationResponse.Sync
+	(*StartOperationResponse_Async)(nil),            // 22: temporal.api.nexus.v1.StartOperationResponse.Async
+	(*EndpointTarget_Worker)(nil),                   // 23: temporal.api.nexus.v1.EndpointTarget.Worker
+	(*EndpointTarget_External)(nil),                 // 24: temporal.api.nexus.v1.EndpointTarget.External
+	nil,                                             // 25: temporal.api.nexus.v1.NexusOperationExecutionInfo.NexusHeaderEntry
+	(v1.NexusHandlerErrorRetryBehavior)(0),          // 26: temporal.api.enums.v1.NexusHandlerErrorRetryBehavior
+	(*v11.Payload)(nil),                             // 27: temporal.api.common.v1.Payload
+	(*timestamppb.Timestamp)(nil),                   // 28: google.protobuf.Timestamp
+	(*v12.Failure)(nil),                             // 29: temporal.api.failure.v1.Failure
+	(v1.NexusOperationCancellationState)(0),         // 30: temporal.api.enums.v1.NexusOperationCancellationState
+	(v1.NexusOperationExecutionStatus)(0),           // 31: temporal.api.enums.v1.NexusOperationExecutionStatus
+	(v1.PendingNexusOperationState)(0),              // 32: temporal.api.enums.v1.PendingNexusOperationState
+	(*durationpb.Duration)(nil),                     // 33: google.protobuf.Duration
+	(*v11.SearchAttributes)(nil),                    // 34: temporal.api.common.v1.SearchAttributes
+	(*v13.UserMetadata)(nil),                        // 35: temporal.api.sdk.v1.UserMetadata
+	(*v11.Link)(nil),                                // 36: temporal.api.common.v1.Link
 }
 var file_temporal_api_nexus_v1_message_proto_depIdxs = []int32{
-	16, // 0: temporal.api.nexus.v1.Failure.metadata:type_name -> temporal.api.nexus.v1.Failure.MetadataEntry
-	0,  // 1: temporal.api.nexus.v1.Failure.cause:type_name -> temporal.api.nexus.v1.Failure
-	0,  // 2: temporal.api.nexus.v1.HandlerError.failure:type_name -> temporal.api.nexus.v1.Failure
-	25, // 3: temporal.api.nexus.v1.HandlerError.retry_behavior:type_name -> temporal.api.enums.v1.NexusHandlerErrorRetryBehavior
-	0,  // 4: temporal.api.nexus.v1.UnsuccessfulOperationError.failure:type_name -> temporal.api.nexus.v1.Failure
-	26, // 5: temporal.api.nexus.v1.StartOperationRequest.payload:type_name -> temporal.api.common.v1.Payload
-	17, // 6: temporal.api.nexus.v1.StartOperationRequest.callback_header:type_name -> temporal.api.nexus.v1.StartOperationRequest.CallbackHeaderEntry
-	3,  // 7: temporal.api.nexus.v1.StartOperationRequest.links:type_name -> temporal.api.nexus.v1.Link
-	19, // 8: temporal.api.nexus.v1.Request.header:type_name -> temporal.api.nexus.v1.Request.HeaderEntry
-	27, // 9: temporal.api.nexus.v1.Request.scheduled_time:type_name -> google.protobuf.Timestamp
-	18, // 10: temporal.api.nexus.v1.Request.capabilities:type_name -> temporal.api.nexus.v1.Request.Capabilities
-	4,  // 11: temporal.api.nexus.v1.Request.start_operation:type_name -> temporal.api.nexus.v1.StartOperationRequest
-	5,  // 12: temporal.api.nexus.v1.Request.cancel_operation:type_name -> temporal.api.nexus.v1.CancelOperationRequest
-	20, // 13: temporal.api.nexus.v1.StartOperationResponse.sync_success:type_name -> temporal.api.nexus.v1.StartOperationResponse.Sync
-	21, // 14: temporal.api.nexus.v1.StartOperationResponse.async_success:type_name -> temporal.api.nexus.v1.StartOperationResponse.Async
-	2,  // 15: temporal.api.nexus.v1.StartOperationResponse.operation_error:type_name -> temporal.api.nexus.v1.UnsuccessfulOperationError
-	28, // 16: temporal.api.nexus.v1.StartOperationResponse.failure:type_name -> temporal.api.failure.v1.Failure
-	7,  // 17: temporal.api.nexus.v1.Response.start_operation:type_name -> temporal.api.nexus.v1.StartOperationResponse
-	8,  // 18: temporal.api.nexus.v1.Response.cancel_operation:type_name -> temporal.api.nexus.v1.CancelOperationResponse
-	11, // 19: temporal.api.nexus.v1.Endpoint.spec:type_name -> temporal.api.nexus.v1.EndpointSpec
-	27, // 20: temporal.api.nexus.v1.Endpoint.created_time:type_name -> google.protobuf.Timestamp
-	27, // 21: temporal.api.nexus.v1.Endpoint.last_modified_time:type_name -> google.protobuf.Timestamp
-	26, // 22: temporal.api.nexus.v1.EndpointSpec.description:type_name -> temporal.api.common.v1.Payload
-	12, // 23: temporal.api.nexus.v1.EndpointSpec.target:type_name -> temporal.api.nexus.v1.EndpointTarget
-	22, // 24: temporal.api.nexus.v1.EndpointTarget.worker:type_name -> temporal.api.nexus.v1.EndpointTarget.Worker
-	23, // 25: temporal.api.nexus.v1.EndpointTarget.external:type_name -> temporal.api.nexus.v1.EndpointTarget.External
-	27, // 26: temporal.api.nexus.v1.NexusOperationExecutionCancellationInfo.requested_time:type_name -> google.protobuf.Timestamp
-	29, // 27: temporal.api.nexus.v1.NexusOperationExecutionCancellationInfo.state:type_name -> temporal.api.enums.v1.NexusOperationCancellationState
-	27, // 28: temporal.api.nexus.v1.NexusOperationExecutionCancellationInfo.last_attempt_complete_time:type_name -> google.protobuf.Timestamp
-	28, // 29: temporal.api.nexus.v1.NexusOperationExecutionCancellationInfo.last_attempt_failure:type_name -> temporal.api.failure.v1.Failure
-	27, // 30: temporal.api.nexus.v1.NexusOperationExecutionCancellationInfo.next_attempt_schedule_time:type_name -> google.protobuf.Timestamp
-	30, // 31: temporal.api.nexus.v1.NexusOperationExecutionInfo.status:type_name -> temporal.api.enums.v1.NexusOperationExecutionStatus
-	31, // 32: temporal.api.nexus.v1.NexusOperationExecutionInfo.state:type_name -> temporal.api.enums.v1.PendingNexusOperationState
-	32, // 33: temporal.api.nexus.v1.NexusOperationExecutionInfo.schedule_to_close_timeout:type_name -> google.protobuf.Duration
-	32, // 34: temporal.api.nexus.v1.NexusOperationExecutionInfo.schedule_to_start_timeout:type_name -> google.protobuf.Duration
-	32, // 35: temporal.api.nexus.v1.NexusOperationExecutionInfo.start_to_close_timeout:type_name -> google.protobuf.Duration
-	27, // 36: temporal.api.nexus.v1.NexusOperationExecutionInfo.schedule_time:type_name -> google.protobuf.Timestamp
-	27, // 37: temporal.api.nexus.v1.NexusOperationExecutionInfo.expiration_time:type_name -> google.protobuf.Timestamp
-	27, // 38: temporal.api.nexus.v1.NexusOperationExecutionInfo.close_time:type_name -> google.protobuf.Timestamp
-	27, // 39: temporal.api.nexus.v1.NexusOperationExecutionInfo.last_attempt_complete_time:type_name -> google.protobuf.Timestamp
-	28, // 40: temporal.api.nexus.v1.NexusOperationExecutionInfo.last_attempt_failure:type_name -> temporal.api.failure.v1.Failure
-	27, // 41: temporal.api.nexus.v1.NexusOperationExecutionInfo.next_attempt_schedule_time:type_name -> google.protobuf.Timestamp
-	32, // 42: temporal.api.nexus.v1.NexusOperationExecutionInfo.execution_duration:type_name -> google.protobuf.Duration
-	13, // 43: temporal.api.nexus.v1.NexusOperationExecutionInfo.cancellation_info:type_name -> temporal.api.nexus.v1.NexusOperationExecutionCancellationInfo
-	33, // 44: temporal.api.nexus.v1.NexusOperationExecutionInfo.search_attributes:type_name -> temporal.api.common.v1.SearchAttributes
-	24, // 45: temporal.api.nexus.v1.NexusOperationExecutionInfo.nexus_header:type_name -> temporal.api.nexus.v1.NexusOperationExecutionInfo.NexusHeaderEntry
-	34, // 46: temporal.api.nexus.v1.NexusOperationExecutionInfo.user_metadata:type_name -> temporal.api.sdk.v1.UserMetadata
-	35, // 47: temporal.api.nexus.v1.NexusOperationExecutionInfo.links:type_name -> temporal.api.common.v1.Link
-	27, // 48: temporal.api.nexus.v1.NexusOperationExecutionListInfo.schedule_time:type_name -> google.protobuf.Timestamp
-	27, // 49: temporal.api.nexus.v1.NexusOperationExecutionListInfo.close_time:type_name -> google.protobuf.Timestamp
-	30, // 50: temporal.api.nexus.v1.NexusOperationExecutionListInfo.status:type_name -> temporal.api.enums.v1.NexusOperationExecutionStatus
-	33, // 51: temporal.api.nexus.v1.NexusOperationExecutionListInfo.search_attributes:type_name -> temporal.api.common.v1.SearchAttributes
-	32, // 52: temporal.api.nexus.v1.NexusOperationExecutionListInfo.execution_duration:type_name -> google.protobuf.Duration
-	26, // 53: temporal.api.nexus.v1.StartOperationResponse.Sync.payload:type_name -> temporal.api.common.v1.Payload
-	3,  // 54: temporal.api.nexus.v1.StartOperationResponse.Sync.links:type_name -> temporal.api.nexus.v1.Link
-	3,  // 55: temporal.api.nexus.v1.StartOperationResponse.Async.links:type_name -> temporal.api.nexus.v1.Link
+	17, // 0: temporal.api.nexus.v1.Failure.metadata:type_name -> temporal.api.nexus.v1.Failure.MetadataEntry
+	1,  // 1: temporal.api.nexus.v1.Failure.cause:type_name -> temporal.api.nexus.v1.Failure
+	1,  // 2: temporal.api.nexus.v1.HandlerError.failure:type_name -> temporal.api.nexus.v1.Failure
+	26, // 3: temporal.api.nexus.v1.HandlerError.retry_behavior:type_name -> temporal.api.enums.v1.NexusHandlerErrorRetryBehavior
+	1,  // 4: temporal.api.nexus.v1.UnsuccessfulOperationError.failure:type_name -> temporal.api.nexus.v1.Failure
+	27, // 5: temporal.api.nexus.v1.StartOperationRequest.payload:type_name -> temporal.api.common.v1.Payload
+	18, // 6: temporal.api.nexus.v1.StartOperationRequest.callback_header:type_name -> temporal.api.nexus.v1.StartOperationRequest.CallbackHeaderEntry
+	4,  // 7: temporal.api.nexus.v1.StartOperationRequest.links:type_name -> temporal.api.nexus.v1.Link
+	20, // 8: temporal.api.nexus.v1.Request.header:type_name -> temporal.api.nexus.v1.Request.HeaderEntry
+	28, // 9: temporal.api.nexus.v1.Request.scheduled_time:type_name -> google.protobuf.Timestamp
+	19, // 10: temporal.api.nexus.v1.Request.capabilities:type_name -> temporal.api.nexus.v1.Request.Capabilities
+	5,  // 11: temporal.api.nexus.v1.Request.start_operation:type_name -> temporal.api.nexus.v1.StartOperationRequest
+	6,  // 12: temporal.api.nexus.v1.Request.cancel_operation:type_name -> temporal.api.nexus.v1.CancelOperationRequest
+	21, // 13: temporal.api.nexus.v1.StartOperationResponse.sync_success:type_name -> temporal.api.nexus.v1.StartOperationResponse.Sync
+	22, // 14: temporal.api.nexus.v1.StartOperationResponse.async_success:type_name -> temporal.api.nexus.v1.StartOperationResponse.Async
+	3,  // 15: temporal.api.nexus.v1.StartOperationResponse.operation_error:type_name -> temporal.api.nexus.v1.UnsuccessfulOperationError
+	29, // 16: temporal.api.nexus.v1.StartOperationResponse.failure:type_name -> temporal.api.failure.v1.Failure
+	8,  // 17: temporal.api.nexus.v1.Response.start_operation:type_name -> temporal.api.nexus.v1.StartOperationResponse
+	9,  // 18: temporal.api.nexus.v1.Response.cancel_operation:type_name -> temporal.api.nexus.v1.CancelOperationResponse
+	12, // 19: temporal.api.nexus.v1.Endpoint.spec:type_name -> temporal.api.nexus.v1.EndpointSpec
+	28, // 20: temporal.api.nexus.v1.Endpoint.created_time:type_name -> google.protobuf.Timestamp
+	28, // 21: temporal.api.nexus.v1.Endpoint.last_modified_time:type_name -> google.protobuf.Timestamp
+	27, // 22: temporal.api.nexus.v1.EndpointSpec.description:type_name -> temporal.api.common.v1.Payload
+	13, // 23: temporal.api.nexus.v1.EndpointSpec.target:type_name -> temporal.api.nexus.v1.EndpointTarget
+	23, // 24: temporal.api.nexus.v1.EndpointTarget.worker:type_name -> temporal.api.nexus.v1.EndpointTarget.Worker
+	24, // 25: temporal.api.nexus.v1.EndpointTarget.external:type_name -> temporal.api.nexus.v1.EndpointTarget.External
+	28, // 26: temporal.api.nexus.v1.NexusOperationExecutionCancellationInfo.requested_time:type_name -> google.protobuf.Timestamp
+	30, // 27: temporal.api.nexus.v1.NexusOperationExecutionCancellationInfo.state:type_name -> temporal.api.enums.v1.NexusOperationCancellationState
+	28, // 28: temporal.api.nexus.v1.NexusOperationExecutionCancellationInfo.last_attempt_complete_time:type_name -> google.protobuf.Timestamp
+	29, // 29: temporal.api.nexus.v1.NexusOperationExecutionCancellationInfo.last_attempt_failure:type_name -> temporal.api.failure.v1.Failure
+	28, // 30: temporal.api.nexus.v1.NexusOperationExecutionCancellationInfo.next_attempt_schedule_time:type_name -> google.protobuf.Timestamp
+	31, // 31: temporal.api.nexus.v1.NexusOperationExecutionInfo.status:type_name -> temporal.api.enums.v1.NexusOperationExecutionStatus
+	32, // 32: temporal.api.nexus.v1.NexusOperationExecutionInfo.state:type_name -> temporal.api.enums.v1.PendingNexusOperationState
+	33, // 33: temporal.api.nexus.v1.NexusOperationExecutionInfo.schedule_to_close_timeout:type_name -> google.protobuf.Duration
+	33, // 34: temporal.api.nexus.v1.NexusOperationExecutionInfo.schedule_to_start_timeout:type_name -> google.protobuf.Duration
+	33, // 35: temporal.api.nexus.v1.NexusOperationExecutionInfo.start_to_close_timeout:type_name -> google.protobuf.Duration
+	28, // 36: temporal.api.nexus.v1.NexusOperationExecutionInfo.schedule_time:type_name -> google.protobuf.Timestamp
+	28, // 37: temporal.api.nexus.v1.NexusOperationExecutionInfo.expiration_time:type_name -> google.protobuf.Timestamp
+	28, // 38: temporal.api.nexus.v1.NexusOperationExecutionInfo.close_time:type_name -> google.protobuf.Timestamp
+	28, // 39: temporal.api.nexus.v1.NexusOperationExecutionInfo.last_attempt_complete_time:type_name -> google.protobuf.Timestamp
+	29, // 40: temporal.api.nexus.v1.NexusOperationExecutionInfo.last_attempt_failure:type_name -> temporal.api.failure.v1.Failure
+	28, // 41: temporal.api.nexus.v1.NexusOperationExecutionInfo.next_attempt_schedule_time:type_name -> google.protobuf.Timestamp
+	33, // 42: temporal.api.nexus.v1.NexusOperationExecutionInfo.execution_duration:type_name -> google.protobuf.Duration
+	14, // 43: temporal.api.nexus.v1.NexusOperationExecutionInfo.cancellation_info:type_name -> temporal.api.nexus.v1.NexusOperationExecutionCancellationInfo
+	34, // 44: temporal.api.nexus.v1.NexusOperationExecutionInfo.search_attributes:type_name -> temporal.api.common.v1.SearchAttributes
+	25, // 45: temporal.api.nexus.v1.NexusOperationExecutionInfo.nexus_header:type_name -> temporal.api.nexus.v1.NexusOperationExecutionInfo.NexusHeaderEntry
+	35, // 46: temporal.api.nexus.v1.NexusOperationExecutionInfo.user_metadata:type_name -> temporal.api.sdk.v1.UserMetadata
+	36, // 47: temporal.api.nexus.v1.NexusOperationExecutionInfo.links:type_name -> temporal.api.common.v1.Link
+	28, // 48: temporal.api.nexus.v1.NexusOperationExecutionListInfo.schedule_time:type_name -> google.protobuf.Timestamp
+	28, // 49: temporal.api.nexus.v1.NexusOperationExecutionListInfo.close_time:type_name -> google.protobuf.Timestamp
+	31, // 50: temporal.api.nexus.v1.NexusOperationExecutionListInfo.status:type_name -> temporal.api.enums.v1.NexusOperationExecutionStatus
+	34, // 51: temporal.api.nexus.v1.NexusOperationExecutionListInfo.search_attributes:type_name -> temporal.api.common.v1.SearchAttributes
+	33, // 52: temporal.api.nexus.v1.NexusOperationExecutionListInfo.execution_duration:type_name -> google.protobuf.Duration
+	27, // 53: temporal.api.nexus.v1.StartOperationResponse.Sync.payload:type_name -> temporal.api.common.v1.Payload
+	4,  // 54: temporal.api.nexus.v1.StartOperationResponse.Sync.links:type_name -> temporal.api.nexus.v1.Link
+	4,  // 55: temporal.api.nexus.v1.StartOperationResponse.Async.links:type_name -> temporal.api.nexus.v1.Link
 	56, // [56:56] is the sub-list for method output_type
 	56, // [56:56] is the sub-list for method input_type
 	56, // [56:56] is the sub-list for extension type_name
@@ -2185,21 +2252,21 @@ func file_temporal_api_nexus_v1_message_proto_init() {
 	if File_temporal_api_nexus_v1_message_proto != nil {
 		return
 	}
-	file_temporal_api_nexus_v1_message_proto_msgTypes[6].OneofWrappers = []any{
+	file_temporal_api_nexus_v1_message_proto_msgTypes[7].OneofWrappers = []any{
 		(*Request_StartOperation)(nil),
 		(*Request_CancelOperation)(nil),
 	}
-	file_temporal_api_nexus_v1_message_proto_msgTypes[7].OneofWrappers = []any{
+	file_temporal_api_nexus_v1_message_proto_msgTypes[8].OneofWrappers = []any{
 		(*StartOperationResponse_SyncSuccess)(nil),
 		(*StartOperationResponse_AsyncSuccess)(nil),
 		(*StartOperationResponse_OperationError)(nil),
 		(*StartOperationResponse_Failure)(nil),
 	}
-	file_temporal_api_nexus_v1_message_proto_msgTypes[9].OneofWrappers = []any{
+	file_temporal_api_nexus_v1_message_proto_msgTypes[10].OneofWrappers = []any{
 		(*Response_StartOperation)(nil),
 		(*Response_CancelOperation)(nil),
 	}
-	file_temporal_api_nexus_v1_message_proto_msgTypes[12].OneofWrappers = []any{
+	file_temporal_api_nexus_v1_message_proto_msgTypes[13].OneofWrappers = []any{
 		(*EndpointTarget_Worker_)(nil),
 		(*EndpointTarget_External_)(nil),
 	}
@@ -2209,7 +2276,7 @@ func file_temporal_api_nexus_v1_message_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_temporal_api_nexus_v1_message_proto_rawDesc), len(file_temporal_api_nexus_v1_message_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   25,
+			NumMessages:   26,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
