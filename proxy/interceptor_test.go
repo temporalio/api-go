@@ -622,391 +622,72 @@ func (t *testGRPCServer) QueryWorkflow(
 	return nil, stWithDetails.Err()
 }
 
-// Recursively crawl and test Payload(s) with Visitor
-func populatePayload(root *proto.Message, msg proto.Message, require *require.Assertions, totalCount *int, count *int) {
-	m := msg.ProtoReflect()
-	fields := m.Descriptor().Fields()
-	// Don't need to parse non-temporal types
-	if !strings.HasPrefix(string(m.Descriptor().FullName()), "temporal.api.") && string(m.Descriptor().FullName()) != "google.protobuf.Any" {
-		return
-	}
+// Verify that intercepting a given proto type will result in
+// visiting the expected number of commonpb.Payload objects.
+func TestVisitedPayloads(t *testing.T) {
+	// Check that the PayloadWalker works as expected.
+	t.Run("Walking", func(t *testing.T) {
+		w := RunPayloadWalker(t, "temporal.api.nexus.v1.Request")
+		w.RequirePayloadCount(1)
+		// The six messages visited are nexus.v1.Request itself plus:
+		// - Request.Capabilities
+		// - StartOperationRequest      (via the variant oneof)
+		// - CancelOperationRequest     (via the variant oneof)
+		// - commonpb.Payload           (StartOperationRequest.payload)
+		// - nexus.v1.Link              (StartOperationRequest.links)
+		//
+		// References to google.protobuf.Timestamp aren't counted, since
+		// they aren't Temporal messages.
+		require.Equal(t, 6, w.MessagesVisited)
+	})
 
-	if m.Descriptor() == nil {
-		panic("fail")
-	}
+	tests := []struct {
+		protoType        string
+		wantPayloadCount int
+	}{
+		{"temporal.api.failure.v1.Failure", 5},
+		{"temporal.api.update.v1.Rejection", 7},
+		{"temporal.api.query.v1.WorkflowQueryResult", 6},
+		{"temporal.api.protocol.v1.Message", 1},
+		{"temporal.api.command.v1.Command", 38},
 
-	// Base case, ensure Visitor can reach Payload from root Message
-	switch i := msg.(type) {
-	case *common.Payload, *common.Payloads:
-		*count++
-		*totalCount++
-		err := VisitPayloads(context.Background(), *root, VisitPayloadsOptions{
-			Visitor: func(ctx *VisitPayloadsContext, p []*common.Payload) ([]*common.Payload, error) {
-				require.Equal(1, *count)
-				*count--
-				return p, nil
-			},
+		// 	repeated temporal.api.command.v1.Command commands - 38
+		// 	map<string, temporal.api.query.v1.WorkflowQueryResult> query_results - 6
+		// 	repeated temporal.api.protocol.v1.Message messages - 1
+		// TOTAL - 45
+		{"temporal.api.workflowservice.v1.RespondWorkflowTaskCompletedRequest", 45},
+
+		{"temporal.api.workflowservice.v1.CountWorkflowExecutionsResponse", 1},
+		{"temporal.api.update.v1.Response", 6},
+		{"temporal.api.errordetails.v1.MultiOperationExecutionFailure.OperationStatus", 1},
+	}
+	for _, test := range tests {
+		t.Run(test.protoType, func(t *testing.T) {
+			w := RunPayloadWalker(t, test.protoType)
+			w.RequirePayloadCount(test.wantPayloadCount)
 		})
-		require.NoError(err)
-		return
-	case *anypb.Any:
-		if i.TypeUrl == "" {
-			// Set to a random proto struct we know contains a payload, to test if we
-			// are able to recurse through Any to reach a payload
-			newAny, err := anypb.New(&update.Request{Input: &update.Input{Args: &common.Payloads{
-				Payloads: []*common.Payload{{Data: []byte("orig-val")}},
-			}}})
-			require.NoError(err)
-			proto.Merge(msg, newAny)
-		}
-		*count++
-		*totalCount++
-		err := VisitPayloads(context.Background(), *root, VisitPayloadsOptions{
-			Visitor: func(ctx *VisitPayloadsContext, p []*common.Payload) ([]*common.Payload, error) {
-				require.Equal(1, *count)
-				*count--
-				return p, nil
-			},
-		})
-		require.NoError(err)
-		return
 	}
-
-	// Go through all fields, populating each then recursing into them to discover Payloads to test
-	// with Visitor
-	for i := 0; i < fields.Len(); i++ {
-		fd := fields.Get(i)
-		value := m.Get(fd)
-
-		if oneof := fd.ContainingOneof(); oneof != nil && fd.Kind() == protoreflect.MessageKind {
-			newMsg := value.Message().New()
-			m.Set(fd, protoreflect.ValueOf(newMsg))
-			populatePayload(root, newMsg.Interface(), require, totalCount, count)
-			// This ensures only 1 payload is set and discoverable from root at a time.
-			m.Clear(fd)
-		} else if fd.IsMap() {
-			mapVal := m.Mutable(fd).Map()
-			require.Equal(0, mapVal.Len())
-			if fd.MapKey().Kind() == protoreflect.StringKind &&
-				fd.MapValue().Kind() == protoreflect.MessageKind &&
-				string(fd.MapValue().Message().FullName()) == "temporal.api.common.v1.Payload" {
-				sampleKey := protoreflect.ValueOf("sample_key").MapKey()
-				mapVal.Set(sampleKey, protoreflect.ValueOf(inputPayload().ProtoReflect()))
-				mapVal.Range(func(key protoreflect.MapKey, val protoreflect.Value) bool {
-					if fd.MapValue().Kind() == protoreflect.MessageKind {
-						populatePayload(root, val.Message().Interface(), require, totalCount, count)
-					}
-					return true
-				})
-				mapVal.Clear(sampleKey)
-			} else if fd.MapValue().Kind() == protoreflect.MessageKind {
-				var sampleKey protoreflect.MapKey
-				switch fd.MapKey().Kind() {
-				case protoreflect.StringKind:
-					sampleKey = protoreflect.ValueOf("sample_key").MapKey()
-				case protoreflect.Int32Kind, protoreflect.Sint32Kind, protoreflect.Sfixed32Kind:
-					sampleKey = protoreflect.ValueOf(int32(1)).MapKey()
-				case protoreflect.Int64Kind, protoreflect.Sint64Kind, protoreflect.Uint64Kind:
-					sampleKey = protoreflect.ValueOf(int64(1)).MapKey()
-				case protoreflect.BoolKind:
-					sampleKey = protoreflect.ValueOf(true).MapKey()
-				default:
-					fmt.Println("Skipping unsupported map key type:", fd.MapKey().Kind())
-					return
-				}
-				mapVal.Set(sampleKey, mapVal.NewValue())
-				mapVal.Range(func(key protoreflect.MapKey, val protoreflect.Value) bool {
-					if fd.MapValue().Kind() == protoreflect.MessageKind {
-						newMsg := val.Message()
-						populatePayload(root, newMsg.Interface(), require, totalCount, count)
-					}
-					return true
-				})
-				// This ensures only 1 payload is set and discoverable from root at a time.
-				mapVal.Clear(sampleKey)
-			}
-		} else if fd.IsList() {
-			if fd.Kind() == protoreflect.MessageKind {
-				listVal := m.Mutable(fd).List()
-				require.Equal(0, listVal.Len())
-
-				sampleVal := listVal.NewElement()
-				listVal.Append(sampleVal)
-
-				val := listVal.Get(0)
-				require.True(val.Message().IsValid())
-				require.Equal(1, listVal.Len())
-				populatePayload(root, sampleVal.Message().Interface(), require, totalCount, count)
-				// This ensures only 1 payload is set and discoverable from root at a time.
-				listVal.Truncate(0)
-			}
-		} else {
-			if fd.Kind() == protoreflect.MessageKind {
-				// Avoid cycles
-				if value.Message().Descriptor().FullName() == m.Descriptor().FullName() {
-					continue
-				}
-
-				var newMsg protoreflect.Message
-				newMsg = value.Message().New()
-				m.Set(fd, protoreflect.ValueOf(newMsg))
-				populatePayload(root, newMsg.Interface(), require, totalCount, count)
-				// This ensures only 1 payload is set and discoverable from root at a time.
-				m.Clear(fd)
-			}
-		}
-		// Validate that all Payloads were found
-		require.Equal(0, *count)
-	}
-}
-
-func TestVisitPayloads_FailureCount(t *testing.T) {
-	require := require.New(t)
-
-	var messageType protoreflect.MessageType
-	protoregistry.GlobalTypes.RangeMessages(func(mt protoreflect.MessageType) bool {
-		if strings.HasPrefix(string(mt.Descriptor().FullName()), "temporal.api.failure.v1.Failure") {
-			messageType = mt
-		}
-		return true
-	})
-
-	// Create empty instance and populate with test values
-	msg := messageType.New().Interface().(proto.Message)
-	var totalCount, count int
-	populatePayload(&msg, msg, require, &totalCount, &count)
-
-	require.Equal(0, count)
-	require.Equal(5, totalCount)
-}
-
-func TestVisitPayloads_UpdateRejectionCount(t *testing.T) {
-	require := require.New(t)
-
-	var messageType protoreflect.MessageType
-	protoregistry.GlobalTypes.RangeMessages(func(mt protoreflect.MessageType) bool {
-		if strings.HasPrefix(string(mt.Descriptor().FullName()), "temporal.api.update.v1.Rejection") {
-			messageType = mt
-		}
-		return true
-	})
-
-	// Create empty instance and populate with test values
-	msg := messageType.New().Interface().(proto.Message)
-	var totalCount, count int
-	populatePayload(&msg, msg, require, &totalCount, &count)
-
-	require.Equal(0, count)
-	require.Equal(7, totalCount)
-}
-
-func TestVisitPayloads_PayloadsCount(t *testing.T) {
-	require := require.New(t)
-
-	var messageType protoreflect.MessageType
-	protoregistry.GlobalTypes.RangeMessages(func(mt protoreflect.MessageType) bool {
-		if strings.HasPrefix(string(mt.Descriptor().FullName()), "temporal.api.query.v1.WorkflowQueryResult") {
-			messageType = mt
-		}
-		return true
-	})
-
-	// Create empty instance and populate with test values
-	msg := messageType.New().Interface().(proto.Message)
-	var totalCount, count int
-	populatePayload(&msg, msg, require, &totalCount, &count)
-
-	require.Equal(0, count)
-	require.Equal(6, totalCount)
-}
-
-func TestVisitPayloads_AnyCount(t *testing.T) {
-	require := require.New(t)
-
-	var messageType protoreflect.MessageType
-	protoregistry.GlobalTypes.RangeMessages(func(mt protoreflect.MessageType) bool {
-		if string(mt.Descriptor().FullName()) == "temporal.api.protocol.v1.Message" {
-			messageType = mt
-		}
-		return true
-	})
-
-	// Create empty instance and populate with test values
-	msg := messageType.New().Interface().(proto.Message)
-	var totalCount, count int
-	populatePayload(&msg, msg, require, &totalCount, &count)
-
-	require.Equal(0, count)
-	require.Equal(1, totalCount)
-}
-
-func TestVisitPayloads_CommandCount(t *testing.T) {
-	require := require.New(t)
-	// UserMetadata - 2
-	// ScheduleActivityTaskCommandAttributes - 2
-	// 		header - 1
-	//  	payloads - 1
-	//	CompleteWorkflowExecutionCommandAttributes - 1
-	//	FailWorkflowExecutionCommandAttributes - 5
-	//		failure - 5
-	//	CancelWorkflowExecutionCommandAttributes - 1
-	//	RecordMarkerCommandAttributes - 7
-	//		details - 1
-	//		header - 1
-	//		failure - 5
-	// 	ContinueAsNewWorkflowExecutionCommandAttributes - 10
-	//		input - 1
-	//		failure - 5
-	//		last_completion_result - 1
-	//		header - 1
-	//		memo - 1
-	//		SearchAttributes - 1
-	//
-	//	StartChildWorkflowExecutionCommandAttributes - 4
-	//		input - 1
-	//		header
-	//		memo
-	//		searchAttributes
-	//	SignalExternalWorkflowExecutionCommandAttributes - 2
-	//		header - 1
-	//		input - 1
-	//	UpsertWorkflowSearchAttributesCommandAttributes - 1
-	//		searchAttributes - 1
-	//	ModifyWorkflowPropertiesCommandAttributes - 1
-	//		memo - 1
-	//	ScheduleNexusOperationCommandAttributes - 1
-	//		input - 1
-	//	EventGroupMarkers (Command.event_group_markers) - 1
-	//		label.label - 1
-	// TOTAL : 38
-	var messageType protoreflect.MessageType
-	protoregistry.GlobalTypes.RangeMessages(func(mt protoreflect.MessageType) bool {
-		if string(mt.Descriptor().FullName()) == "temporal.api.command.v1.Command" {
-			messageType = mt
-		}
-		return true
-	})
-
-	// Create empty instance and populate with test values
-	msg := messageType.New().Interface().(proto.Message)
-	var totalCount, count int
-	populatePayload(&msg, msg, require, &totalCount, &count)
-
-	require.Equal(0, count)
-	require.Equal(38, totalCount)
-}
-
-func TestVisitPayloads_MapCount(t *testing.T) {
-	require := require.New(t)
-
-	var messageType protoreflect.MessageType
-	var totalCount, count int
-
-	// 	repeated temporal.api.command.v1.Command commands - 38
-	// 	map<string, temporal.api.query.v1.WorkflowQueryResult> query_results - 6
-	// 	repeated temporal.api.protocol.v1.Message messages - 1
-	// TOTAL - 45
-	protoregistry.GlobalTypes.RangeMessages(func(mt protoreflect.MessageType) bool {
-		if string(mt.Descriptor().FullName()) == "temporal.api.workflowservice.v1.RespondWorkflowTaskCompletedRequest" {
-			messageType = mt
-		}
-		return true
-	})
-
-	// Create empty instance and populate with test values
-	msg1 := messageType.New().Interface().(proto.Message)
-	totalCount = 0
-	count = 0
-	populatePayload(&msg1, msg1, require, &totalCount, &count)
-
-	require.Equal(0, count)
-	require.Equal(45, totalCount)
-}
-
-func TestVisitPayloads_CountWorkflowExecutionsResponse(t *testing.T) {
-	require := require.New(t)
-
-	var messageType protoreflect.MessageType
-	var totalCount, count int
-
-	protoregistry.GlobalTypes.RangeMessages(func(mt protoreflect.MessageType) bool {
-		if string(mt.Descriptor().FullName()) == "temporal.api.workflowservice.v1.CountWorkflowExecutionsResponse" {
-			messageType = mt
-		}
-		return true
-	})
-
-	// Create empty instance and populate with test values
-	msg1 := messageType.New().Interface().(proto.Message)
-	totalCount = 0
-	count = 0
-	populatePayload(&msg1, msg1, require, &totalCount, &count)
-
-	require.Equal(0, count)
-	require.Equal(1, totalCount)
-}
-
-func TestVisitPayloads_ResponseCount(t *testing.T) {
-	require := require.New(t)
-
-	var messageType protoreflect.MessageType
-	protoregistry.GlobalTypes.RangeMessages(func(mt protoreflect.MessageType) bool {
-		if string(mt.Descriptor().FullName()) == "temporal.api.update.v1.Response" {
-			messageType = mt
-		}
-		return true
-	})
-
-	// Create empty instance and populate with test values
-	msg := messageType.New().Interface().(proto.Message)
-	var totalCount, count int
-	populatePayload(&msg, msg, require, &totalCount, &count)
-
-	require.Equal(0, count)
-	require.Equal(6, totalCount)
-}
-
-func TestVisitPayloads_OperationStatus(t *testing.T) {
-	require := require.New(t)
-
-	var messageType protoreflect.MessageType
-	protoregistry.GlobalTypes.RangeMessages(func(mt protoreflect.MessageType) bool {
-		if string(mt.Descriptor().FullName()) == "temporal.api.errordetails.v1.MultiOperationExecutionFailure.OperationStatus" {
-			messageType = mt
-		}
-		return true
-	})
-
-	// Create empty instance and populate with test values
-	msg := messageType.New().Interface().(proto.Message)
-	var totalCount, count int
-	populatePayload(&msg, msg, require, &totalCount, &count)
-
-	require.Equal(0, count)
-	require.Equal(1, totalCount)
 }
 
 func TestVisitPayloads_Everything(t *testing.T) {
-	require := require.New(t)
-
-	var messageType []protoreflect.MessageType
+	var messageTypes []protoreflect.MessageType
 	protoregistry.GlobalTypes.RangeMessages(func(mt protoreflect.MessageType) bool {
+		fullName := string(mt.Descriptor().FullName())
 		// The base case of passing Payload into the visitor is not supported.
 		// See godoc for VisitPayloads
-		if strings.HasPrefix(string(mt.Descriptor().FullName()), "temporal.api.") && string(mt.Descriptor().FullName()) != "temporal.api.common.v1.Payload" {
-			messageType = append(messageType, mt)
+		if strings.HasPrefix(fullName, temporalPrefix) && fullName != payloadFullName {
+			messageTypes = append(messageTypes, mt)
 		}
 		return true
 	})
-	for _, mt := range messageType {
-		// Create empty instance and populate with test values
-		msg := mt.New().Interface().(proto.Message)
+	require.NotEmpty(t, messageTypes)
 
-		var totalCount, count int
-		populatePayload(&msg, msg, require, &totalCount, &count)
+	for _, mt := range messageTypes {
+		fullName := string(mt.Descriptor().FullName())
 
-		require.Equal(0, count)
-
+		// Visit every Temporal payload we see. This ensures that we don't
+		// panic or fail on some exotic proto types.
+		RunPayloadWalker(t, fullName)
 	}
 }
 
