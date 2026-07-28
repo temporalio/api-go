@@ -340,9 +340,11 @@ type Request struct {
 	// Callbacks to be called by the server when this update reaches a terminal state.
 	CompletionCallbacks []*v11.Callback `protobuf:"bytes,4,rep,name=completion_callbacks,json=completionCallbacks,proto3" json:"completion_callbacks,omitempty"`
 	// Links to be associated with this update.
-	Links         []*v11.Link `protobuf:"bytes,5,rep,name=links,proto3" json:"links,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Links []*v11.Link `protobuf:"bytes,5,rep,name=links,proto3" json:"links,omitempty"`
+	// Serialization context propagated from the Nexus caller that started this update.
+	PropagatedNexusSerializationContext *v11.PropagatedNexusSerializationContext `protobuf:"bytes,6,opt,name=propagated_nexus_serialization_context,json=propagatedNexusSerializationContext,proto3" json:"propagated_nexus_serialization_context,omitempty"`
+	unknownFields                       protoimpl.UnknownFields
+	sizeCache                           protoimpl.SizeCache
 }
 
 func (x *Request) Reset() {
@@ -406,6 +408,13 @@ func (x *Request) GetCompletionCallbacks() []*v11.Callback {
 func (x *Request) GetLinks() []*v11.Link {
 	if x != nil {
 		return x.Links
+	}
+	return nil
+}
+
+func (x *Request) GetPropagatedNexusSerializationContext() *v11.PropagatedNexusSerializationContext {
+	if x != nil {
+		return x.PropagatedNexusSerializationContext
 	}
 	return nil
 }
@@ -616,14 +625,15 @@ const file_temporal_api_update_v1_message_proto_rawDesc = "" +
 	"\x05Input\x126\n" +
 	"\x06header\x18\x01 \x01(\v2\x1e.temporal.api.common.v1.HeaderR\x06header\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x124\n" +
-	"\x04args\x18\x03 \x01(\v2 .temporal.api.common.v1.PayloadsR\x04args\"\x98\x02\n" +
+	"\x04args\x18\x03 \x01(\v2 .temporal.api.common.v1.PayloadsR\x04args\"\xab\x03\n" +
 	"\aRequest\x120\n" +
 	"\x04meta\x18\x01 \x01(\v2\x1c.temporal.api.update.v1.MetaR\x04meta\x123\n" +
 	"\x05input\x18\x02 \x01(\v2\x1d.temporal.api.update.v1.InputR\x05input\x12\x1d\n" +
 	"\n" +
 	"request_id\x18\x03 \x01(\tR\trequestId\x12S\n" +
 	"\x14completion_callbacks\x18\x04 \x03(\v2 .temporal.api.common.v1.CallbackR\x13completionCallbacks\x122\n" +
-	"\x05links\x18\x05 \x03(\v2\x1c.temporal.api.common.v1.LinkR\x05links\"\xa2\x02\n" +
+	"\x05links\x18\x05 \x03(\v2\x1c.temporal.api.common.v1.LinkR\x05links\x12\x90\x01\n" +
+	"&propagated_nexus_serialization_context\x18\x06 \x01(\v2;.temporal.api.common.v1.PropagatedNexusSerializationContextR#propagatedNexusSerializationContext\"\xa2\x02\n" +
 	"\tRejection\x12=\n" +
 	"\x1brejected_request_message_id\x18\x01 \x01(\tR\x18rejectedRequestMessageId\x12N\n" +
 	"$rejected_request_sequencing_event_id\x18\x02 \x01(\x03R rejectedRequestSequencingEventId\x12J\n" +
@@ -662,13 +672,14 @@ var file_temporal_api_update_v1_message_proto_goTypes = []any{
 	(*Rejection)(nil),  // 6: temporal.api.update.v1.Rejection
 	(*Acceptance)(nil), // 7: temporal.api.update.v1.Acceptance
 	(*Response)(nil),   // 8: temporal.api.update.v1.Response
-	(v1.UpdateWorkflowExecutionLifecycleStage)(0), // 9: temporal.api.enums.v1.UpdateWorkflowExecutionLifecycleStage
-	(*v11.WorkflowExecution)(nil),                 // 10: temporal.api.common.v1.WorkflowExecution
-	(*v11.Payloads)(nil),                          // 11: temporal.api.common.v1.Payloads
-	(*v12.Failure)(nil),                           // 12: temporal.api.failure.v1.Failure
-	(*v11.Header)(nil),                            // 13: temporal.api.common.v1.Header
-	(*v11.Callback)(nil),                          // 14: temporal.api.common.v1.Callback
-	(*v11.Link)(nil),                              // 15: temporal.api.common.v1.Link
+	(v1.UpdateWorkflowExecutionLifecycleStage)(0),   // 9: temporal.api.enums.v1.UpdateWorkflowExecutionLifecycleStage
+	(*v11.WorkflowExecution)(nil),                   // 10: temporal.api.common.v1.WorkflowExecution
+	(*v11.Payloads)(nil),                            // 11: temporal.api.common.v1.Payloads
+	(*v12.Failure)(nil),                             // 12: temporal.api.failure.v1.Failure
+	(*v11.Header)(nil),                              // 13: temporal.api.common.v1.Header
+	(*v11.Callback)(nil),                            // 14: temporal.api.common.v1.Callback
+	(*v11.Link)(nil),                                // 15: temporal.api.common.v1.Link
+	(*v11.PropagatedNexusSerializationContext)(nil), // 16: temporal.api.common.v1.PropagatedNexusSerializationContext
 }
 var file_temporal_api_update_v1_message_proto_depIdxs = []int32{
 	9,  // 0: temporal.api.update.v1.WaitPolicy.lifecycle_stage:type_name -> temporal.api.enums.v1.UpdateWorkflowExecutionLifecycleStage
@@ -681,16 +692,17 @@ var file_temporal_api_update_v1_message_proto_depIdxs = []int32{
 	4,  // 7: temporal.api.update.v1.Request.input:type_name -> temporal.api.update.v1.Input
 	14, // 8: temporal.api.update.v1.Request.completion_callbacks:type_name -> temporal.api.common.v1.Callback
 	15, // 9: temporal.api.update.v1.Request.links:type_name -> temporal.api.common.v1.Link
-	5,  // 10: temporal.api.update.v1.Rejection.rejected_request:type_name -> temporal.api.update.v1.Request
-	12, // 11: temporal.api.update.v1.Rejection.failure:type_name -> temporal.api.failure.v1.Failure
-	5,  // 12: temporal.api.update.v1.Acceptance.accepted_request:type_name -> temporal.api.update.v1.Request
-	3,  // 13: temporal.api.update.v1.Response.meta:type_name -> temporal.api.update.v1.Meta
-	2,  // 14: temporal.api.update.v1.Response.outcome:type_name -> temporal.api.update.v1.Outcome
-	15, // [15:15] is the sub-list for method output_type
-	15, // [15:15] is the sub-list for method input_type
-	15, // [15:15] is the sub-list for extension type_name
-	15, // [15:15] is the sub-list for extension extendee
-	0,  // [0:15] is the sub-list for field type_name
+	16, // 10: temporal.api.update.v1.Request.propagated_nexus_serialization_context:type_name -> temporal.api.common.v1.PropagatedNexusSerializationContext
+	5,  // 11: temporal.api.update.v1.Rejection.rejected_request:type_name -> temporal.api.update.v1.Request
+	12, // 12: temporal.api.update.v1.Rejection.failure:type_name -> temporal.api.failure.v1.Failure
+	5,  // 13: temporal.api.update.v1.Acceptance.accepted_request:type_name -> temporal.api.update.v1.Request
+	3,  // 14: temporal.api.update.v1.Response.meta:type_name -> temporal.api.update.v1.Meta
+	2,  // 15: temporal.api.update.v1.Response.outcome:type_name -> temporal.api.update.v1.Outcome
+	16, // [16:16] is the sub-list for method output_type
+	16, // [16:16] is the sub-list for method input_type
+	16, // [16:16] is the sub-list for extension type_name
+	16, // [16:16] is the sub-list for extension extendee
+	0,  // [0:16] is the sub-list for field type_name
 }
 
 func init() { file_temporal_api_update_v1_message_proto_init() }
