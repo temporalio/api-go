@@ -7,7 +7,7 @@ replace go.temporal.io/api => ../..
 require (
 	go.temporal.io/api v1.14.0
 	golang.org/x/tools v0.39.0
-	google.golang.org/protobuf v1.36.10
+	google.golang.org/protobuf v1.36.11
 )
 
 require (
