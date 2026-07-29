@@ -47,6 +47,7 @@ var (
 		"PayloadsTooLarge":                                    37,
 		"ExternalStorageFailure":                              38,
 		"WorkflowPauseRequestedBeforeTaskStarted":             39,
+		"RequestTooLarge":                                     40,
 	}
 )
 
