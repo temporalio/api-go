@@ -12,6 +12,10 @@
 package schedule
 
 import (
+	reflect "reflect"
+	sync "sync"
+	unsafe "unsafe"
+
 	v12 "go.temporal.io/api/common/v1"
 	v1 "go.temporal.io/api/enums/v1"
 	v11 "go.temporal.io/api/workflow/v1"
@@ -19,9 +23,6 @@ import (
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	durationpb "google.golang.org/protobuf/types/known/durationpb"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
-	reflect "reflect"
-	sync "sync"
-	unsafe "unsafe"
 )
 
 const (
