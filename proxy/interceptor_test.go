@@ -645,7 +645,6 @@ func TestVisitedPayloads(t *testing.T) {
 		protoType        string
 		wantPayloadCount int
 	}{
-		{"temporal.api.failure.v1.Failure", 5},
 		{"temporal.api.update.v1.Rejection", 7},
 		{"temporal.api.query.v1.WorkflowQueryResult", 6},
 		{"temporal.api.protocol.v1.Message", 1},
@@ -689,6 +688,104 @@ func TestVisitPayloads_Everything(t *testing.T) {
 		// panic or fail on some exotic proto types.
 		RunPayloadWalker(t, fullName)
 	}
+}
+
+type fakePayloadVisitor struct {
+	payloadsEncountered int
+	anysEncountered     int
+}
+
+func (fpv *fakePayloadVisitor) ToVisitPayloadsOptions() VisitPayloadsOptions {
+	return VisitPayloadsOptions{
+		Visitor: func(_ *VisitPayloadsContext, p []*common.Payload) ([]*common.Payload, error) {
+			fpv.payloadsEncountered++
+			return p, nil
+		},
+		WellKnownAnyVisitor: func(_ *VisitPayloadsContext, _ *anypb.Any) error {
+			fpv.anysEncountered++
+			return nil
+		},
+	}
+}
+
+// The RunPayloadWalker test harness skips self-referential types to avoid
+// blowing up when there are cycles in the proto types. But there are legitimate
+// cases where VisitPayloads(...) is called with a self-referential type
+// and so we test the behavior here.
+//
+// BUG: If there was a cycle in the actual proto graph, we would expect
+// VisitPayloads to stack overflow.
+func TestVisitPayloads_SelfReferentialTypes(t *testing.T) {
+	t.Run("ViaRunPayloadWalker", func(t *testing.T) {
+		w := RunPayloadWalker(t, "temporal.api.failure.v1.Failure")
+		// The test harness confirms that there are 5x Payloads/Any
+		// types in the proto graph.
+		w.RequirePayloadCount(5)
+	})
+
+	t.Run("NestedFailures", func(t *testing.T) {
+		// Create some stock failure_info values, with and without nested Payloads.
+		fiWithPayload1 := &failure.Failure_ApplicationFailureInfo{
+			ApplicationFailureInfo: &failure.ApplicationFailureInfo{
+				Details: &common.Payloads{},
+			},
+		}
+		fiWithPayload2 := &failure.Failure_TimeoutFailureInfo{
+			TimeoutFailureInfo: &failure.TimeoutFailureInfo{
+				LastHeartbeatDetails: &common.Payloads{},
+			},
+		}
+		fiWithoutPayload1 := &failure.Failure_ActivityFailureInfo{
+			ActivityFailureInfo: &failure.ActivityFailureInfo{
+				// Type contains no Payloads.
+			},
+		}
+		fiWithoutPayload2 := &failure.Failure_NexusHandlerFailureInfo{
+			NexusHandlerFailureInfo: &failure.NexusHandlerFailureInfo{
+				// Type contains no Payloads.
+			},
+		}
+
+		// Construct a failurepb.Failure that nests a payload in one
+		// of the self-referential fields that RunPayloadWalker omits.
+		//
+		// - We nest 3x more failure.Failure protos via the cause field.
+		// - Each failure has a failure_info, which may or may not contain
+		//   a Payload.
+		// - We set the encoded_attributes for some, adding a Payload.
+		trickyFailureObj := failure.Failure{
+			Message:           "failure-1",
+			FailureInfo:       fiWithPayload1,
+			EncodedAttributes: &common.Payload{}, // +1 payload
+			Cause: &failure.Failure{
+				Message:     "failure-2",
+				FailureInfo: fiWithoutPayload1,
+				Cause: &failure.Failure{
+					Message:     "failure-3",
+					FailureInfo: fiWithPayload2,
+					Cause: &failure.Failure{
+						Message:           "failure-4",
+						FailureInfo:       fiWithoutPayload2,
+						EncodedAttributes: &common.Payload{}, // +1 payload
+						Cause:             nil,
+					},
+				},
+			},
+		}
+
+		// Create fake visitors that just count the number of payloads
+		// and well known Any types they see.
+		var visitor fakePayloadVisitor
+
+		ctx := context.Background()
+		err := VisitPayloads(ctx, &trickyFailureObj, visitor.ToVisitPayloadsOptions())
+		require.NoError(t, err)
+
+		// 2x Payload from the encoded_attributes.
+		// 2x Payloads from failure_infos (fiWithPayload1, fiWithPayload2).
+		require.Equal(t, 4, visitor.payloadsEncountered, "unexpected number of Payloads encountered")
+		require.Equal(t, 0, visitor.anysEncountered, "unexpected number of Any types encountered")
+	})
 }
 
 // contextHookKey is an unexported key for values injected by ContextHook tests.
