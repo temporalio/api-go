@@ -8,6 +8,7 @@ package worker
 
 import (
 	reflect "reflect"
+	"strconv"
 	sync "sync"
 	unsafe "unsafe"
 
@@ -25,6 +26,408 @@ const (
 	// Verify that runtime/protoimpl is sufficiently up-to-date.
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
+
+type EnvironmentInfo_Architecture int32
+
+const (
+	EnvironmentInfo_ARCHITECTURE_UNSPECIFIED EnvironmentInfo_Architecture = 0
+	EnvironmentInfo_ARCHITECTURE_AMD64       EnvironmentInfo_Architecture = 1
+	EnvironmentInfo_ARCHITECTURE_ARM64       EnvironmentInfo_Architecture = 2
+)
+
+// Enum value maps for EnvironmentInfo_Architecture.
+var (
+	EnvironmentInfo_Architecture_name = map[int32]string{
+		0: "ARCHITECTURE_UNSPECIFIED",
+		1: "ARCHITECTURE_AMD64",
+		2: "ARCHITECTURE_ARM64",
+	}
+	EnvironmentInfo_Architecture_value = map[string]int32{
+		"ARCHITECTURE_UNSPECIFIED": 0,
+		"ARCHITECTURE_AMD64":       1,
+		"ARCHITECTURE_ARM64":       2,
+	}
+)
+
+func (x EnvironmentInfo_Architecture) Enum() *EnvironmentInfo_Architecture {
+	p := new(EnvironmentInfo_Architecture)
+	*p = x
+	return p
+}
+
+func (x EnvironmentInfo_Architecture) String() string {
+	switch x {
+	case EnvironmentInfo_ARCHITECTURE_UNSPECIFIED:
+		return "EnvironmentInfoArchitectureUnspecified"
+	case EnvironmentInfo_ARCHITECTURE_AMD64:
+		return "EnvironmentInfoArchitectureAmd64"
+	case EnvironmentInfo_ARCHITECTURE_ARM64:
+		return "EnvironmentInfoArchitectureArm64"
+	default:
+		return strconv.Itoa(int(x))
+	}
+
+}
+
+func (EnvironmentInfo_Architecture) Descriptor() protoreflect.EnumDescriptor {
+	return file_temporal_api_worker_v1_message_proto_enumTypes[0].Descriptor()
+}
+
+func (EnvironmentInfo_Architecture) Type() protoreflect.EnumType {
+	return &file_temporal_api_worker_v1_message_proto_enumTypes[0]
+}
+
+func (x EnvironmentInfo_Architecture) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use EnvironmentInfo_Architecture.Descriptor instead.
+func (EnvironmentInfo_Architecture) EnumDescriptor() ([]byte, []int) {
+	return file_temporal_api_worker_v1_message_proto_rawDescGZIP(), []int{8, 0}
+}
+
+type EnvironmentInfo_Runtime_RuntimeType int32
+
+const (
+	EnvironmentInfo_Runtime_RUNTIME_TYPE_UNSPECIFIED EnvironmentInfo_Runtime_RuntimeType = // Should never actually be set, exists to follow convention of having a default.
+	// SDKs should just leave `runtimes` empty if none can be determined.
+	0
+	EnvironmentInfo_Runtime_RUNTIME_TYPE_JVM              EnvironmentInfo_Runtime_RuntimeType = 1
+	EnvironmentInfo_Runtime_RUNTIME_TYPE_CPYTHON          EnvironmentInfo_Runtime_RuntimeType = 2
+	EnvironmentInfo_Runtime_RUNTIME_TYPE_NODE             EnvironmentInfo_Runtime_RuntimeType = 3
+	EnvironmentInfo_Runtime_RUNTIME_TYPE_BUN              EnvironmentInfo_Runtime_RuntimeType = 4
+	EnvironmentInfo_Runtime_RUNTIME_TYPE_CRUBY            EnvironmentInfo_Runtime_RuntimeType = 5
+	EnvironmentInfo_Runtime_RUNTIME_TYPE_GO               EnvironmentInfo_Runtime_RuntimeType = 6
+	EnvironmentInfo_Runtime_RUNTIME_TYPE_DOTNET_FRAMEWORK EnvironmentInfo_Runtime_RuntimeType = 7
+	EnvironmentInfo_Runtime_RUNTIME_TYPE_DOTNET_CORE      EnvironmentInfo_Runtime_RuntimeType = 8
+	EnvironmentInfo_Runtime_RUNTIME_TYPE_NATIVE           EnvironmentInfo_Runtime_RuntimeType = 9
+	EnvironmentInfo_Runtime_RUNTIME_TYPE_ROADRUNNER       EnvironmentInfo_Runtime_RuntimeType = 10
+)
+
+// Enum value maps for EnvironmentInfo_Runtime_RuntimeType.
+var (
+	EnvironmentInfo_Runtime_RuntimeType_name = map[int32]string{
+		0:  "RUNTIME_TYPE_UNSPECIFIED",
+		1:  "RUNTIME_TYPE_JVM",
+		2:  "RUNTIME_TYPE_CPYTHON",
+		3:  "RUNTIME_TYPE_NODE",
+		4:  "RUNTIME_TYPE_BUN",
+		5:  "RUNTIME_TYPE_CRUBY",
+		6:  "RUNTIME_TYPE_GO",
+		7:  "RUNTIME_TYPE_DOTNET_FRAMEWORK",
+		8:  "RUNTIME_TYPE_DOTNET_CORE",
+		9:  "RUNTIME_TYPE_NATIVE",
+		10: "RUNTIME_TYPE_ROADRUNNER",
+	}
+	EnvironmentInfo_Runtime_RuntimeType_value = map[string]int32{
+		"RUNTIME_TYPE_UNSPECIFIED":      0,
+		"RUNTIME_TYPE_JVM":              1,
+		"RUNTIME_TYPE_CPYTHON":          2,
+		"RUNTIME_TYPE_NODE":             3,
+		"RUNTIME_TYPE_BUN":              4,
+		"RUNTIME_TYPE_CRUBY":            5,
+		"RUNTIME_TYPE_GO":               6,
+		"RUNTIME_TYPE_DOTNET_FRAMEWORK": 7,
+		"RUNTIME_TYPE_DOTNET_CORE":      8,
+		"RUNTIME_TYPE_NATIVE":           9,
+		"RUNTIME_TYPE_ROADRUNNER":       10,
+	}
+)
+
+func (x EnvironmentInfo_Runtime_RuntimeType) Enum() *EnvironmentInfo_Runtime_RuntimeType {
+	p := new(EnvironmentInfo_Runtime_RuntimeType)
+	*p = x
+	return p
+}
+
+func (x EnvironmentInfo_Runtime_RuntimeType) String() string {
+	switch x {
+	case EnvironmentInfo_Runtime_RUNTIME_TYPE_UNSPECIFIED:
+		return "EnvironmentInfoRuntimeRuntimeTypeUnspecified"
+	case EnvironmentInfo_Runtime_RUNTIME_TYPE_JVM:
+		return "EnvironmentInfoRuntimeRuntimeTypeJvm"
+	case EnvironmentInfo_Runtime_RUNTIME_TYPE_CPYTHON:
+		return "EnvironmentInfoRuntimeRuntimeTypeCpython"
+	case EnvironmentInfo_Runtime_RUNTIME_TYPE_NODE:
+		return "EnvironmentInfoRuntimeRuntimeTypeNode"
+	case EnvironmentInfo_Runtime_RUNTIME_TYPE_BUN:
+		return "EnvironmentInfoRuntimeRuntimeTypeBun"
+	case EnvironmentInfo_Runtime_RUNTIME_TYPE_CRUBY:
+
+		// Deprecated: Use EnvironmentInfo_Runtime_RuntimeType.Descriptor instead.
+		return "EnvironmentInfoRuntimeRuntimeTypeCruby"
+	case EnvironmentInfo_Runtime_RUNTIME_TYPE_GO:
+		return "EnvironmentInfoRuntimeRuntimeTypeGo"
+	case EnvironmentInfo_Runtime_RUNTIME_TYPE_DOTNET_FRAMEWORK:
+		return "EnvironmentInfoRuntimeRuntimeTypeDotnetFramework"
+
+		// What kind of hosting environment we're running in. This list is about what can actually be
+		// detected reliably and is unrelated to what SDKs can actually run in.
+	case EnvironmentInfo_Runtime_RUNTIME_TYPE_DOTNET_CORE:
+		return "EnvironmentInfoRuntimeRuntimeTypeDotnetCore"
+	case EnvironmentInfo_Runtime_RUNTIME_TYPE_NATIVE:
+		return "EnvironmentInfoRuntimeRuntimeTypeNative"
+	case EnvironmentInfo_Runtime_RUNTIME_TYPE_ROADRUNNER:
+
+		// Should never actually be set, exists to follow convention of having a default.
+		// SDKs should just leave `hosting_environments` empty if none can be determined.
+		return "EnvironmentInfoRuntimeRuntimeTypeRoadrunner"
+	default:
+		return strconv.Itoa(int(x))
+	}
+
+}
+
+func (EnvironmentInfo_Runtime_RuntimeType) Descriptor() protoreflect.EnumDescriptor {
+	return file_temporal_api_worker_v1_message_proto_enumTypes[1].Descriptor()
+}
+
+func (EnvironmentInfo_Runtime_RuntimeType) Type() protoreflect.EnumType {
+	return &file_temporal_api_worker_v1_message_proto_enumTypes[1]
+}
+
+func (x EnvironmentInfo_Runtime_RuntimeType) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+func (EnvironmentInfo_Runtime_RuntimeType) EnumDescriptor() ([]byte, []int) {
+	return file_temporal_api_worker_v1_message_proto_rawDescGZIP(), []int{8, 0, 0}
+}
+
+type EnvironmentInfo_HostingEnvironment_HostingEnvironmentType int32
+
+const (
+	EnvironmentInfo_HostingEnvironment_HOSTING_ENVIRONMENT_TYPE_UNSPECIFIED EnvironmentInfo_HostingEnvironment_HostingEnvironmentType = 0
+	EnvironmentInfo_HostingEnvironment_HOSTING_ENVIRONMENT_TYPE_DOCKER      EnvironmentInfo_HostingEnvironment_HostingEnvironmentType = // Should always be in the list if we're running inside a docker container
+	1
+	EnvironmentInfo_HostingEnvironment_HOSTING_ENVIRONMENT_TYPE_K8S EnvironmentInfo_HostingEnvironment_HostingEnvironmentType = // Should always be in the list if we're running inside any k8s environment
+	2
+	EnvironmentInfo_HostingEnvironment_HOSTING_ENVIRONMENT_TYPE_AWS_LAMBDA EnvironmentInfo_HostingEnvironment_HostingEnvironmentType = // Detect via `AWS_LAMBDA_FUNCTION_NAME`
+	3
+	EnvironmentInfo_HostingEnvironment_HOSTING_ENVIRONMENT_TYPE_AWS_ECS EnvironmentInfo_HostingEnvironment_HostingEnvironmentType = // Detect via `ECS_CONTAINER_METADATA_URI_V4` or `ECS_CONTAINER_METADATA_URI`
+	4
+	EnvironmentInfo_HostingEnvironment_HOSTING_ENVIRONMENT_TYPE_GOOGLE_CLOUD_RUN EnvironmentInfo_HostingEnvironment_HostingEnvironmentType = // Detect via `K_SERVICE`
+	6
+	EnvironmentInfo_HostingEnvironment_HOSTING_ENVIRONMENT_TYPE_GOOGLE_APP_ENGINE EnvironmentInfo_HostingEnvironment_HostingEnvironmentType = // Detect via `GAE_SERVICE`
+	7
+	EnvironmentInfo_HostingEnvironment_HOSTING_ENVIRONMENT_TYPE_AZURE_APP_SERVICE EnvironmentInfo_HostingEnvironment_HostingEnvironmentType = // Detect via `WEBSITE_SITE_NAME`
+	8
+	EnvironmentInfo_HostingEnvironment_HOSTING_ENVIRONMENT_TYPE_AZURE_FUNCTIONS EnvironmentInfo_HostingEnvironment_HostingEnvironmentType = // Detect via `FUNCTIONS_EXTENSION_VERSION`
+	9
+	EnvironmentInfo_HostingEnvironment_HOSTING_ENVIRONMENT_TYPE_AZURE_CONTAINER_APPS EnvironmentInfo_HostingEnvironment_HostingEnvironmentType = // Detect via `CONTAINER_APP_NAME`
+	10
+)
+
+// Enum value maps for EnvironmentInfo_HostingEnvironment_HostingEnvironmentType.
+var (
+	EnvironmentInfo_HostingEnvironment_HostingEnvironmentType_name = map[int32]string{
+		0:  "HOSTING_ENVIRONMENT_TYPE_UNSPECIFIED",
+		1:  "HOSTING_ENVIRONMENT_TYPE_DOCKER",
+		2:  "HOSTING_ENVIRONMENT_TYPE_K8S",
+		3:  "HOSTING_ENVIRONMENT_TYPE_AWS_LAMBDA",
+		4:  "HOSTING_ENVIRONMENT_TYPE_AWS_ECS",
+		6:  "HOSTING_ENVIRONMENT_TYPE_GOOGLE_CLOUD_RUN",
+		7:  "HOSTING_ENVIRONMENT_TYPE_GOOGLE_APP_ENGINE",
+		8:  "HOSTING_ENVIRONMENT_TYPE_AZURE_APP_SERVICE",
+		9:  "HOSTING_ENVIRONMENT_TYPE_AZURE_FUNCTIONS",
+		10: "HOSTING_ENVIRONMENT_TYPE_AZURE_CONTAINER_APPS",
+	}
+	EnvironmentInfo_HostingEnvironment_HostingEnvironmentType_value = map[string]int32{
+		"HOSTING_ENVIRONMENT_TYPE_UNSPECIFIED":          0,
+		"HOSTING_ENVIRONMENT_TYPE_DOCKER":               1,
+		"HOSTING_ENVIRONMENT_TYPE_K8S":                  2,
+		"HOSTING_ENVIRONMENT_TYPE_AWS_LAMBDA":           3,
+		"HOSTING_ENVIRONMENT_TYPE_AWS_ECS":              4,
+		"HOSTING_ENVIRONMENT_TYPE_GOOGLE_CLOUD_RUN":     6,
+		"HOSTING_ENVIRONMENT_TYPE_GOOGLE_APP_ENGINE":    7,
+		"HOSTING_ENVIRONMENT_TYPE_AZURE_APP_SERVICE":    8,
+		"HOSTING_ENVIRONMENT_TYPE_AZURE_FUNCTIONS":      9,
+		"HOSTING_ENVIRONMENT_TYPE_AZURE_CONTAINER_APPS": 10,
+	}
+)
+
+func (x EnvironmentInfo_HostingEnvironment_HostingEnvironmentType) Enum() *EnvironmentInfo_HostingEnvironment_HostingEnvironmentType {
+	p := new(EnvironmentInfo_HostingEnvironment_HostingEnvironmentType)
+	*p = x
+	return p
+}
+
+func (x EnvironmentInfo_HostingEnvironment_HostingEnvironmentType) String() string {
+	switch x {
+	case EnvironmentInfo_HostingEnvironment_HOSTING_ENVIRONMENT_TYPE_UNSPECIFIED:
+		return "EnvironmentInfoHostingEnvironmentHostingEnvironmentTypeUnspecified"
+	case EnvironmentInfo_HostingEnvironment_HOSTING_ENVIRONMENT_TYPE_DOCKER:
+		return "EnvironmentInfoHostingEnvironmentHostingEnvironmentTypeDocker"
+	case EnvironmentInfo_HostingEnvironment_HOSTING_ENVIRONMENT_TYPE_K8S:
+		return "EnvironmentInfoHostingEnvironmentHostingEnvironmentTypeK8S"
+	case EnvironmentInfo_HostingEnvironment_HOSTING_ENVIRONMENT_TYPE_AWS_LAMBDA:
+		return "EnvironmentInfoHostingEnvironmentHostingEnvironmentTypeAwsLambda"
+
+		// Deprecated: Use EnvironmentInfo_HostingEnvironment_HostingEnvironmentType.Descriptor instead.
+	case EnvironmentInfo_HostingEnvironment_HOSTING_ENVIRONMENT_TYPE_AWS_ECS:
+		return "EnvironmentInfoHostingEnvironmentHostingEnvironmentTypeAwsEcs"
+	case EnvironmentInfo_HostingEnvironment_HOSTING_ENVIRONMENT_TYPE_GOOGLE_CLOUD_RUN:
+		return "EnvironmentInfoHostingEnvironmentHostingEnvironmentTypeGoogleCloudRun"
+	case EnvironmentInfo_HostingEnvironment_HOSTING_ENVIRONMENT_TYPE_GOOGLE_APP_ENGINE:
+		return "EnvironmentInfoHostingEnvironmentHostingEnvironmentTypeGoogleAppEngine"
+	case EnvironmentInfo_HostingEnvironment_HOSTING_ENVIRONMENT_TYPE_AZURE_APP_SERVICE:
+		return "EnvironmentInfoHostingEnvironmentHostingEnvironmentTypeAzureAppService"
+
+		// Enum value maps for EnvironmentInfo_LinuxPlatform_Libc.
+	case EnvironmentInfo_HostingEnvironment_HOSTING_ENVIRONMENT_TYPE_AZURE_FUNCTIONS:
+		return "EnvironmentInfoHostingEnvironmentHostingEnvironmentTypeAzureFunctions"
+	case EnvironmentInfo_HostingEnvironment_HOSTING_ENVIRONMENT_TYPE_AZURE_CONTAINER_APPS:
+		return "EnvironmentInfoHostingEnvironmentHostingEnvironmentTypeAzureContainerApps"
+	default:
+		return strconv.Itoa(int(x))
+	}
+
+}
+
+func (EnvironmentInfo_HostingEnvironment_HostingEnvironmentType) Descriptor() protoreflect.EnumDescriptor {
+	return file_temporal_api_worker_v1_message_proto_enumTypes[2].Descriptor()
+}
+
+func (EnvironmentInfo_HostingEnvironment_HostingEnvironmentType) Type() protoreflect.EnumType {
+	return &file_temporal_api_worker_v1_message_proto_enumTypes[2]
+}
+
+func (x EnvironmentInfo_HostingEnvironment_HostingEnvironmentType) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+func (EnvironmentInfo_HostingEnvironment_HostingEnvironmentType) EnumDescriptor() ([]byte, []int) {
+	return file_temporal_api_worker_v1_message_proto_rawDescGZIP(), []int{8, 1, 0}
+}
+
+type EnvironmentInfo_LinuxPlatform_Libc int32
+
+const (
+	EnvironmentInfo_LinuxPlatform_LIBC_UNSPECIFIED EnvironmentInfo_LinuxPlatform_Libc = 0
+	EnvironmentInfo_LinuxPlatform_LIBC_GLIBC       EnvironmentInfo_LinuxPlatform_Libc = 1
+	EnvironmentInfo_LinuxPlatform_LIBC_MUSL        EnvironmentInfo_LinuxPlatform_Libc = 2
+)
+
+var (
+	EnvironmentInfo_LinuxPlatform_Libc_name = map[int32]string{
+		0: "LIBC_UNSPECIFIED",
+		1: "LIBC_GLIBC",
+		2: "LIBC_MUSL",
+	}
+	EnvironmentInfo_LinuxPlatform_Libc_value = map[string]int32{
+		"LIBC_UNSPECIFIED": 0,
+		"LIBC_GLIBC":       1,
+		"LIBC_MUSL":        2,
+	}
+)
+
+func (x EnvironmentInfo_LinuxPlatform_Libc) Enum() *EnvironmentInfo_LinuxPlatform_Libc {
+	p := new(EnvironmentInfo_LinuxPlatform_Libc)
+	*p = x
+	return p
+}
+
+func (x EnvironmentInfo_LinuxPlatform_Libc) String() string {
+	switch x {
+	case EnvironmentInfo_LinuxPlatform_LIBC_UNSPECIFIED:
+		return "EnvironmentInfoLinuxPlatformLibcUnspecified"
+	case EnvironmentInfo_LinuxPlatform_LIBC_GLIBC:
+		return "EnvironmentInfoLinuxPlatformLibcGlibc"
+	case EnvironmentInfo_LinuxPlatform_LIBC_MUSL:
+		return "EnvironmentInfoLinuxPlatformLibcMusl"
+	default:
+		return strconv.Itoa(int(x))
+	}
+
+}
+
+func (EnvironmentInfo_LinuxPlatform_Libc) Descriptor() protoreflect.EnumDescriptor {
+	return file_temporal_api_worker_v1_message_proto_enumTypes[3].Descriptor()
+}
+
+func (EnvironmentInfo_LinuxPlatform_Libc) Type() protoreflect.EnumType {
+	return &file_temporal_api_worker_v1_message_proto_enumTypes[3]
+}
+
+func (x EnvironmentInfo_LinuxPlatform_Libc) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use EnvironmentInfo_LinuxPlatform_Libc.Descriptor instead.
+func (EnvironmentInfo_LinuxPlatform_Libc) EnumDescriptor() ([]byte, []int) {
+	return file_temporal_api_worker_v1_message_proto_rawDescGZIP(), []int{8, 3, 0}
+}
+
+type EnvironmentInfo_WindowsPlatform_Crt int32
+
+const (
+	EnvironmentInfo_WindowsPlatform_CRT_UNSPECIFIED EnvironmentInfo_WindowsPlatform_Crt = 0
+	EnvironmentInfo_WindowsPlatform_CRT_UCRT        EnvironmentInfo_WindowsPlatform_Crt = 1
+	EnvironmentInfo_WindowsPlatform_CRT_MSVCRT      EnvironmentInfo_WindowsPlatform_Crt = 2
+	EnvironmentInfo_WindowsPlatform_CRT_MINGW       EnvironmentInfo_WindowsPlatform_Crt = 3
+	EnvironmentInfo_WindowsPlatform_CRT_CYGWIN      EnvironmentInfo_WindowsPlatform_Crt = 4
+)
+
+// Enum value maps for EnvironmentInfo_WindowsPlatform_Crt.
+var (
+	EnvironmentInfo_WindowsPlatform_Crt_name = map[int32]string{
+		0: "CRT_UNSPECIFIED",
+		1: "CRT_UCRT",
+		2: "CRT_MSVCRT",
+		3: "CRT_MINGW",
+		4: "CRT_CYGWIN",
+	}
+	EnvironmentInfo_WindowsPlatform_Crt_value = map[string]int32{
+		"CRT_UNSPECIFIED": 0,
+		"CRT_UCRT":        1,
+		"CRT_MSVCRT":      2,
+		"CRT_MINGW":       3,
+		"CRT_CYGWIN":      4,
+	}
+)
+
+func (x EnvironmentInfo_WindowsPlatform_Crt) Enum() *EnvironmentInfo_WindowsPlatform_Crt {
+	p := new(EnvironmentInfo_WindowsPlatform_Crt)
+	*p = x
+	return p
+}
+
+func (x EnvironmentInfo_WindowsPlatform_Crt) String() string {
+	switch x {
+	case EnvironmentInfo_WindowsPlatform_CRT_UNSPECIFIED:
+		return "EnvironmentInfoWindowsPlatformCrtUnspecified"
+	case EnvironmentInfo_WindowsPlatform_CRT_UCRT:
+		return "EnvironmentInfoWindowsPlatformCrtUcrt"
+	case EnvironmentInfo_WindowsPlatform_CRT_MSVCRT:
+		return "EnvironmentInfoWindowsPlatformCrtMsvcrt"
+	case EnvironmentInfo_WindowsPlatform_CRT_MINGW:
+		return "EnvironmentInfoWindowsPlatformCrtMingw"
+	case EnvironmentInfo_WindowsPlatform_CRT_CYGWIN:
+		return "EnvironmentInfoWindowsPlatformCrtCygwin"
+	default:
+		return strconv.Itoa(
+
+			// Deprecated: Use EnvironmentInfo_WindowsPlatform_Crt.Descriptor instead.
+			int(x))
+	}
+
+}
+
+func (EnvironmentInfo_WindowsPlatform_Crt) Descriptor() protoreflect.EnumDescriptor {
+	return file_temporal_api_worker_v1_message_proto_enumTypes[4].Descriptor()
+}
+
+func (EnvironmentInfo_WindowsPlatform_Crt) Type() protoreflect.EnumType {
+	return &file_temporal_api_worker_v1_message_proto_enumTypes[4]
+}
+
+func (x EnvironmentInfo_WindowsPlatform_Crt) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+func (EnvironmentInfo_WindowsPlatform_Crt) EnumDescriptor() ([]byte, []int) {
+	return file_temporal_api_worker_v1_message_proto_rawDescGZIP(), []int{8, 5, 0}
+}
 
 type WorkerPollerInfo struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
@@ -326,7 +729,9 @@ type WorkerHeartbeat struct {
 	// Plugins currently in use by this SDK.
 	Plugins []*PluginInfo `protobuf:"bytes,23,rep,name=plugins,proto3" json:"plugins,omitempty"`
 	// Storage drivers in use by this SDK.
-	Drivers       []*StorageDriverInfo `protobuf:"bytes,24,rep,name=drivers,proto3" json:"drivers,omitempty"`
+	Drivers []*StorageDriverInfo `protobuf:"bytes,24,rep,name=drivers,proto3" json:"drivers,omitempty"`
+	// Information about the environment this SDK is running in.
+	Environment   *EnvironmentInfo `protobuf:"bytes,25,opt,name=environment,proto3" json:"environment,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -525,6 +930,13 @@ func (x *WorkerHeartbeat) GetPlugins() []*PluginInfo {
 func (x *WorkerHeartbeat) GetDrivers() []*StorageDriverInfo {
 	if x != nil {
 		return x.Drivers
+	}
+	return nil
+}
+
+func (x *WorkerHeartbeat) GetEnvironment() *EnvironmentInfo {
+	if x != nil {
+		return x.Environment
 	}
 	return nil
 }
@@ -831,6 +1243,69 @@ func (x *StorageDriverInfo) GetType() string {
 	return ""
 }
 
+type EnvironmentInfo struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The runtime(s) the SDK is operating in.
+	Runtimes []*EnvironmentInfo_Runtime `protobuf:"bytes,1,rep,name=runtimes,proto3" json:"runtimes,omitempty"`
+	// The hosting environment(s) the SDK is operating in. Repeated to allow for layering (ex: Docker inside k8s).
+	HostingEnvironments []*EnvironmentInfo_HostingEnvironment `protobuf:"bytes,2,rep,name=hosting_environments,json=hostingEnvironments,proto3" json:"hosting_environments,omitempty"`
+	// The platform the SDK is operating on.
+	Platform      *EnvironmentInfo_Platform `protobuf:"bytes,3,opt,name=platform,proto3" json:"platform,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *EnvironmentInfo) Reset() {
+	*x = EnvironmentInfo{}
+	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *EnvironmentInfo) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*EnvironmentInfo) ProtoMessage() {}
+
+func (x *EnvironmentInfo) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use EnvironmentInfo.ProtoReflect.Descriptor instead.
+func (*EnvironmentInfo) Descriptor() ([]byte, []int) {
+	return file_temporal_api_worker_v1_message_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *EnvironmentInfo) GetRuntimes() []*EnvironmentInfo_Runtime {
+	if x != nil {
+		return x.Runtimes
+	}
+	return nil
+}
+
+func (x *EnvironmentInfo) GetHostingEnvironments() []*EnvironmentInfo_HostingEnvironment {
+	if x != nil {
+		return x.HostingEnvironments
+	}
+	return nil
+}
+
+func (x *EnvironmentInfo) GetPlatform() *EnvironmentInfo_Platform {
+	if x != nil {
+		return x.Platform
+	}
+	return nil
+}
+
 // A command sent from the server to a worker.
 type WorkerCommand struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
@@ -844,7 +1319,7 @@ type WorkerCommand struct {
 
 func (x *WorkerCommand) Reset() {
 	*x = WorkerCommand{}
-	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[8]
+	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -856,7 +1331,7 @@ func (x *WorkerCommand) String() string {
 func (*WorkerCommand) ProtoMessage() {}
 
 func (x *WorkerCommand) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[8]
+	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -869,7 +1344,7 @@ func (x *WorkerCommand) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use WorkerCommand.ProtoReflect.Descriptor instead.
 func (*WorkerCommand) Descriptor() ([]byte, []int) {
-	return file_temporal_api_worker_v1_message_proto_rawDescGZIP(), []int{8}
+	return file_temporal_api_worker_v1_message_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *WorkerCommand) GetType() isWorkerCommand_Type {
@@ -908,7 +1383,7 @@ type CancelActivityCommand struct {
 
 func (x *CancelActivityCommand) Reset() {
 	*x = CancelActivityCommand{}
-	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[9]
+	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -920,7 +1395,7 @@ func (x *CancelActivityCommand) String() string {
 func (*CancelActivityCommand) ProtoMessage() {}
 
 func (x *CancelActivityCommand) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[9]
+	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -933,7 +1408,7 @@ func (x *CancelActivityCommand) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CancelActivityCommand.ProtoReflect.Descriptor instead.
 func (*CancelActivityCommand) Descriptor() ([]byte, []int) {
-	return file_temporal_api_worker_v1_message_proto_rawDescGZIP(), []int{9}
+	return file_temporal_api_worker_v1_message_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *CancelActivityCommand) GetTaskToken() []byte {
@@ -956,7 +1431,7 @@ type WorkerCommandResult struct {
 
 func (x *WorkerCommandResult) Reset() {
 	*x = WorkerCommandResult{}
-	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[10]
+	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -968,7 +1443,7 @@ func (x *WorkerCommandResult) String() string {
 func (*WorkerCommandResult) ProtoMessage() {}
 
 func (x *WorkerCommandResult) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[10]
+	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -981,7 +1456,7 @@ func (x *WorkerCommandResult) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use WorkerCommandResult.ProtoReflect.Descriptor instead.
 func (*WorkerCommandResult) Descriptor() ([]byte, []int) {
-	return file_temporal_api_worker_v1_message_proto_rawDescGZIP(), []int{10}
+	return file_temporal_api_worker_v1_message_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *WorkerCommandResult) GetType() isWorkerCommandResult_Type {
@@ -1020,7 +1495,7 @@ type CancelActivityResult struct {
 
 func (x *CancelActivityResult) Reset() {
 	*x = CancelActivityResult{}
-	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[11]
+	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[12]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1032,7 +1507,7 @@ func (x *CancelActivityResult) String() string {
 func (*CancelActivityResult) ProtoMessage() {}
 
 func (x *CancelActivityResult) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[11]
+	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[12]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1045,7 +1520,393 @@ func (x *CancelActivityResult) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CancelActivityResult.ProtoReflect.Descriptor instead.
 func (*CancelActivityResult) Descriptor() ([]byte, []int) {
-	return file_temporal_api_worker_v1_message_proto_rawDescGZIP(), []int{11}
+	return file_temporal_api_worker_v1_message_proto_rawDescGZIP(), []int{12}
+}
+
+type EnvironmentInfo_Runtime struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The type of the runtime.
+	Type EnvironmentInfo_Runtime_RuntimeType `protobuf:"varint,1,opt,name=type,proto3,enum=temporal.api.worker.v1.EnvironmentInfo_Runtime_RuntimeType" json:"type,omitempty"`
+	// The version of the runtime, if obtainable.
+	Version       string `protobuf:"bytes,2,opt,name=version,proto3" json:"version,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *EnvironmentInfo_Runtime) Reset() {
+	*x = EnvironmentInfo_Runtime{}
+	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[13]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *EnvironmentInfo_Runtime) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*EnvironmentInfo_Runtime) ProtoMessage() {}
+
+func (x *EnvironmentInfo_Runtime) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[13]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use EnvironmentInfo_Runtime.ProtoReflect.Descriptor instead.
+func (*EnvironmentInfo_Runtime) Descriptor() ([]byte, []int) {
+	return file_temporal_api_worker_v1_message_proto_rawDescGZIP(), []int{8, 0}
+}
+
+func (x *EnvironmentInfo_Runtime) GetType() EnvironmentInfo_Runtime_RuntimeType {
+	if x != nil {
+		return x.Type
+	}
+	return EnvironmentInfo_Runtime_RUNTIME_TYPE_UNSPECIFIED
+}
+
+func (x *EnvironmentInfo_Runtime) GetVersion() string {
+	if x != nil {
+		return x.Version
+	}
+	return ""
+}
+
+type EnvironmentInfo_HostingEnvironment struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The type of hosting environment.
+	Type EnvironmentInfo_HostingEnvironment_HostingEnvironmentType `protobuf:"varint,1,opt,name=type,proto3,enum=temporal.api.worker.v1.EnvironmentInfo_HostingEnvironment_HostingEnvironmentType" json:"type,omitempty"`
+	// The version of the hosting environment, if obtainable.
+	Version       string `protobuf:"bytes,2,opt,name=version,proto3" json:"version,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *EnvironmentInfo_HostingEnvironment) Reset() {
+	*x = EnvironmentInfo_HostingEnvironment{}
+	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[14]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *EnvironmentInfo_HostingEnvironment) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*EnvironmentInfo_HostingEnvironment) ProtoMessage() {}
+
+func (x *EnvironmentInfo_HostingEnvironment) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[14]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use EnvironmentInfo_HostingEnvironment.ProtoReflect.Descriptor instead.
+func (*EnvironmentInfo_HostingEnvironment) Descriptor() ([]byte, []int) {
+	return file_temporal_api_worker_v1_message_proto_rawDescGZIP(), []int{8, 1}
+}
+
+func (x *EnvironmentInfo_HostingEnvironment) GetType() EnvironmentInfo_HostingEnvironment_HostingEnvironmentType {
+	if x != nil {
+		return x.Type
+	}
+	return EnvironmentInfo_HostingEnvironment_HOSTING_ENVIRONMENT_TYPE_UNSPECIFIED
+}
+
+func (x *EnvironmentInfo_HostingEnvironment) GetVersion() string {
+	if x != nil {
+		return x.Version
+	}
+	return ""
+}
+
+type EnvironmentInfo_Platform struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Types that are valid to be assigned to Variant:
+	//
+	//	*EnvironmentInfo_Platform_Linux
+	//	*EnvironmentInfo_Platform_Macos
+	//	*EnvironmentInfo_Platform_Windows
+	Variant       isEnvironmentInfo_Platform_Variant `protobuf_oneof:"variant"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *EnvironmentInfo_Platform) Reset() {
+	*x = EnvironmentInfo_Platform{}
+	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[15]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *EnvironmentInfo_Platform) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*EnvironmentInfo_Platform) ProtoMessage() {}
+
+func (x *EnvironmentInfo_Platform) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[15]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use EnvironmentInfo_Platform.ProtoReflect.Descriptor instead.
+func (*EnvironmentInfo_Platform) Descriptor() ([]byte, []int) {
+	return file_temporal_api_worker_v1_message_proto_rawDescGZIP(), []int{8, 2}
+}
+
+func (x *EnvironmentInfo_Platform) GetVariant() isEnvironmentInfo_Platform_Variant {
+	if x != nil {
+		return x.Variant
+	}
+	return nil
+}
+
+func (x *EnvironmentInfo_Platform) GetLinux() *EnvironmentInfo_LinuxPlatform {
+	if x != nil {
+		if x, ok := x.Variant.(*EnvironmentInfo_Platform_Linux); ok {
+			return x.Linux
+		}
+	}
+	return nil
+}
+
+func (x *EnvironmentInfo_Platform) GetMacos() *EnvironmentInfo_MacOSPlatform {
+	if x != nil {
+		if x, ok := x.Variant.(*EnvironmentInfo_Platform_Macos); ok {
+			return x.Macos
+		}
+	}
+	return nil
+}
+
+func (x *EnvironmentInfo_Platform) GetWindows() *EnvironmentInfo_WindowsPlatform {
+	if x != nil {
+		if x, ok := x.Variant.(*EnvironmentInfo_Platform_Windows); ok {
+			return x.Windows
+		}
+	}
+	return nil
+}
+
+type isEnvironmentInfo_Platform_Variant interface {
+	isEnvironmentInfo_Platform_Variant()
+}
+
+type EnvironmentInfo_Platform_Linux struct {
+	Linux *EnvironmentInfo_LinuxPlatform `protobuf:"bytes,1,opt,name=linux,proto3,oneof"`
+}
+
+type EnvironmentInfo_Platform_Macos struct {
+	Macos *EnvironmentInfo_MacOSPlatform `protobuf:"bytes,2,opt,name=macos,proto3,oneof"`
+}
+
+type EnvironmentInfo_Platform_Windows struct {
+	Windows *EnvironmentInfo_WindowsPlatform `protobuf:"bytes,3,opt,name=windows,proto3,oneof"`
+}
+
+func (*EnvironmentInfo_Platform_Linux) isEnvironmentInfo_Platform_Variant() {}
+
+func (*EnvironmentInfo_Platform_Macos) isEnvironmentInfo_Platform_Variant() {}
+
+func (*EnvironmentInfo_Platform_Windows) isEnvironmentInfo_Platform_Variant() {}
+
+type EnvironmentInfo_LinuxPlatform struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The Linux kernel or distribution version, if obtainable.
+	Version string `protobuf:"bytes,1,opt,name=version,proto3" json:"version,omitempty"`
+	// The architecture of the worker process.
+	Architecture EnvironmentInfo_Architecture `protobuf:"varint,2,opt,name=architecture,proto3,enum=temporal.api.worker.v1.EnvironmentInfo_Architecture" json:"architecture,omitempty"`
+	// The libc used by the worker process.
+	Libc          EnvironmentInfo_LinuxPlatform_Libc `protobuf:"varint,3,opt,name=libc,proto3,enum=temporal.api.worker.v1.EnvironmentInfo_LinuxPlatform_Libc" json:"libc,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *EnvironmentInfo_LinuxPlatform) Reset() {
+	*x = EnvironmentInfo_LinuxPlatform{}
+	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[16]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *EnvironmentInfo_LinuxPlatform) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*EnvironmentInfo_LinuxPlatform) ProtoMessage() {}
+
+func (x *EnvironmentInfo_LinuxPlatform) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[16]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use EnvironmentInfo_LinuxPlatform.ProtoReflect.Descriptor instead.
+func (*EnvironmentInfo_LinuxPlatform) Descriptor() ([]byte, []int) {
+	return file_temporal_api_worker_v1_message_proto_rawDescGZIP(), []int{8, 3}
+}
+
+func (x *EnvironmentInfo_LinuxPlatform) GetVersion() string {
+	if x != nil {
+		return x.Version
+	}
+	return ""
+}
+
+func (x *EnvironmentInfo_LinuxPlatform) GetArchitecture() EnvironmentInfo_Architecture {
+	if x != nil {
+		return x.Architecture
+	}
+	return EnvironmentInfo_ARCHITECTURE_UNSPECIFIED
+}
+
+func (x *EnvironmentInfo_LinuxPlatform) GetLibc() EnvironmentInfo_LinuxPlatform_Libc {
+	if x != nil {
+		return x.Libc
+	}
+	return EnvironmentInfo_LinuxPlatform_LIBC_UNSPECIFIED
+}
+
+type EnvironmentInfo_MacOSPlatform struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The macOS version, if obtainable.
+	Version string `protobuf:"bytes,1,opt,name=version,proto3" json:"version,omitempty"`
+	// The architecture of the worker process.
+	Architecture  EnvironmentInfo_Architecture `protobuf:"varint,2,opt,name=architecture,proto3,enum=temporal.api.worker.v1.EnvironmentInfo_Architecture" json:"architecture,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *EnvironmentInfo_MacOSPlatform) Reset() {
+	*x = EnvironmentInfo_MacOSPlatform{}
+	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[17]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *EnvironmentInfo_MacOSPlatform) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*EnvironmentInfo_MacOSPlatform) ProtoMessage() {}
+
+func (x *EnvironmentInfo_MacOSPlatform) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[17]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use EnvironmentInfo_MacOSPlatform.ProtoReflect.Descriptor instead.
+func (*EnvironmentInfo_MacOSPlatform) Descriptor() ([]byte, []int) {
+	return file_temporal_api_worker_v1_message_proto_rawDescGZIP(), []int{8, 4}
+}
+
+func (x *EnvironmentInfo_MacOSPlatform) GetVersion() string {
+	if x != nil {
+		return x.Version
+	}
+	return ""
+}
+
+func (x *EnvironmentInfo_MacOSPlatform) GetArchitecture() EnvironmentInfo_Architecture {
+	if x != nil {
+		return x.Architecture
+	}
+	return EnvironmentInfo_ARCHITECTURE_UNSPECIFIED
+}
+
+type EnvironmentInfo_WindowsPlatform struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The Windows version, if obtainable.
+	Version string `protobuf:"bytes,1,opt,name=version,proto3" json:"version,omitempty"`
+	// The architecture of the worker process.
+	Architecture EnvironmentInfo_Architecture `protobuf:"varint,2,opt,name=architecture,proto3,enum=temporal.api.worker.v1.EnvironmentInfo_Architecture" json:"architecture,omitempty"`
+	// The C runtime used by the worker process, if obtainable.
+	Crt           EnvironmentInfo_WindowsPlatform_Crt `protobuf:"varint,3,opt,name=crt,proto3,enum=temporal.api.worker.v1.EnvironmentInfo_WindowsPlatform_Crt" json:"crt,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *EnvironmentInfo_WindowsPlatform) Reset() {
+	*x = EnvironmentInfo_WindowsPlatform{}
+	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[18]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *EnvironmentInfo_WindowsPlatform) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*EnvironmentInfo_WindowsPlatform) ProtoMessage() {}
+
+func (x *EnvironmentInfo_WindowsPlatform) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[18]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use EnvironmentInfo_WindowsPlatform.ProtoReflect.Descriptor instead.
+func (*EnvironmentInfo_WindowsPlatform) Descriptor() ([]byte, []int) {
+	return file_temporal_api_worker_v1_message_proto_rawDescGZIP(), []int{8, 5}
+}
+
+func (x *EnvironmentInfo_WindowsPlatform) GetVersion() string {
+	if x != nil {
+		return x.Version
+	}
+	return ""
+}
+
+func (x *EnvironmentInfo_WindowsPlatform) GetArchitecture() EnvironmentInfo_Architecture {
+	if x != nil {
+		return x.Architecture
+	}
+	return EnvironmentInfo_ARCHITECTURE_UNSPECIFIED
+}
+
+func (x *EnvironmentInfo_WindowsPlatform) GetCrt() EnvironmentInfo_WindowsPlatform_Crt {
+	if x != nil {
+		return x.Crt
+	}
+	return EnvironmentInfo_WindowsPlatform_CRT_UNSPECIFIED
 }
 
 var File_temporal_api_worker_v1_message_proto protoreflect.FileDescriptor
@@ -1071,7 +1932,7 @@ const file_temporal_api_worker_v1_message_proto_rawDesc = "" +
 	"\n" +
 	"process_id\x18\x02 \x01(\tR\tprocessId\x123\n" +
 	"\x16current_host_cpu_usage\x18\x03 \x01(\x02R\x13currentHostCpuUsage\x123\n" +
-	"\x16current_host_mem_usage\x18\x04 \x01(\x02R\x13currentHostMemUsage\"\xaa\r\n" +
+	"\x16current_host_mem_usage\x18\x04 \x01(\x02R\x13currentHostMemUsage\"\xf5\r\n" +
 	"\x0fWorkerHeartbeat\x12.\n" +
 	"\x13worker_instance_key\x18\x01 \x01(\tR\x11workerInstanceKey\x12'\n" +
 	"\x0fworker_identity\x18\x02 \x01(\tR\x0eworkerIdentity\x12C\n" +
@@ -1100,7 +1961,8 @@ const file_temporal_api_worker_v1_message_proto_rawDesc = "" +
 	"\x17total_sticky_cache_miss\x18\x15 \x01(\x05R\x14totalStickyCacheMiss\x129\n" +
 	"\x19current_sticky_cache_size\x18\x16 \x01(\x05R\x16currentStickyCacheSize\x12<\n" +
 	"\aplugins\x18\x17 \x03(\v2\".temporal.api.worker.v1.PluginInfoR\aplugins\x12C\n" +
-	"\adrivers\x18\x18 \x03(\v2).temporal.api.worker.v1.StorageDriverInfoR\adrivers\"`\n" +
+	"\adrivers\x18\x18 \x03(\v2).temporal.api.worker.v1.StorageDriverInfoR\adrivers\x12I\n" +
+	"\venvironment\x18\x19 \x01(\v2'.temporal.api.worker.v1.EnvironmentInfoR\venvironment\"`\n" +
 	"\n" +
 	"WorkerInfo\x12R\n" +
 	"\x10worker_heartbeat\x18\x01 \x01(\v2'.temporal.api.worker.v1.WorkerHeartbeatR\x0fworkerHeartbeat\"\x8f\x05\n" +
@@ -1128,7 +1990,75 @@ const file_temporal_api_worker_v1_message_proto_rawDesc = "" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12\x18\n" +
 	"\aversion\x18\x02 \x01(\tR\aversion\"'\n" +
 	"\x11StorageDriverInfo\x12\x12\n" +
-	"\x04type\x18\x01 \x01(\tR\x04type\"q\n" +
+	"\x04type\x18\x01 \x01(\tR\x04type\"\xd6\x12\n" +
+	"\x0fEnvironmentInfo\x12K\n" +
+	"\bruntimes\x18\x01 \x03(\v2/.temporal.api.worker.v1.EnvironmentInfo.RuntimeR\bruntimes\x12m\n" +
+	"\x14hosting_environments\x18\x02 \x03(\v2:.temporal.api.worker.v1.EnvironmentInfo.HostingEnvironmentR\x13hostingEnvironments\x12L\n" +
+	"\bplatform\x18\x03 \x01(\v20.temporal.api.worker.v1.EnvironmentInfo.PlatformR\bplatform\x1a\xa3\x03\n" +
+	"\aRuntime\x12O\n" +
+	"\x04type\x18\x01 \x01(\x0e2;.temporal.api.worker.v1.EnvironmentInfo.Runtime.RuntimeTypeR\x04type\x12\x18\n" +
+	"\aversion\x18\x02 \x01(\tR\aversion\"\xac\x02\n" +
+	"\vRuntimeType\x12\x1c\n" +
+	"\x18RUNTIME_TYPE_UNSPECIFIED\x10\x00\x12\x14\n" +
+	"\x10RUNTIME_TYPE_JVM\x10\x01\x12\x18\n" +
+	"\x14RUNTIME_TYPE_CPYTHON\x10\x02\x12\x15\n" +
+	"\x11RUNTIME_TYPE_NODE\x10\x03\x12\x14\n" +
+	"\x10RUNTIME_TYPE_BUN\x10\x04\x12\x16\n" +
+	"\x12RUNTIME_TYPE_CRUBY\x10\x05\x12\x13\n" +
+	"\x0fRUNTIME_TYPE_GO\x10\x06\x12!\n" +
+	"\x1dRUNTIME_TYPE_DOTNET_FRAMEWORK\x10\a\x12\x1c\n" +
+	"\x18RUNTIME_TYPE_DOTNET_CORE\x10\b\x12\x17\n" +
+	"\x13RUNTIME_TYPE_NATIVE\x10\t\x12\x1b\n" +
+	"\x17RUNTIME_TYPE_ROADRUNNER\x10\n" +
+	"\x1a\xe0\x04\n" +
+	"\x12HostingEnvironment\x12e\n" +
+	"\x04type\x18\x01 \x01(\x0e2Q.temporal.api.worker.v1.EnvironmentInfo.HostingEnvironment.HostingEnvironmentTypeR\x04type\x12\x18\n" +
+	"\aversion\x18\x02 \x01(\tR\aversion\"\xc8\x03\n" +
+	"\x16HostingEnvironmentType\x12(\n" +
+	"$HOSTING_ENVIRONMENT_TYPE_UNSPECIFIED\x10\x00\x12#\n" +
+	"\x1fHOSTING_ENVIRONMENT_TYPE_DOCKER\x10\x01\x12 \n" +
+	"\x1cHOSTING_ENVIRONMENT_TYPE_K8S\x10\x02\x12'\n" +
+	"#HOSTING_ENVIRONMENT_TYPE_AWS_LAMBDA\x10\x03\x12$\n" +
+	" HOSTING_ENVIRONMENT_TYPE_AWS_ECS\x10\x04\x12-\n" +
+	")HOSTING_ENVIRONMENT_TYPE_GOOGLE_CLOUD_RUN\x10\x06\x12.\n" +
+	"*HOSTING_ENVIRONMENT_TYPE_GOOGLE_APP_ENGINE\x10\a\x12.\n" +
+	"*HOSTING_ENVIRONMENT_TYPE_AZURE_APP_SERVICE\x10\b\x12,\n" +
+	"(HOSTING_ENVIRONMENT_TYPE_AZURE_FUNCTIONS\x10\t\x121\n" +
+	"-HOSTING_ENVIRONMENT_TYPE_AZURE_CONTAINER_APPS\x10\n" +
+	"\x1a\x88\x02\n" +
+	"\bPlatform\x12M\n" +
+	"\x05linux\x18\x01 \x01(\v25.temporal.api.worker.v1.EnvironmentInfo.LinuxPlatformH\x00R\x05linux\x12M\n" +
+	"\x05macos\x18\x02 \x01(\v25.temporal.api.worker.v1.EnvironmentInfo.MacOSPlatformH\x00R\x05macos\x12S\n" +
+	"\awindows\x18\x03 \x01(\v27.temporal.api.worker.v1.EnvironmentInfo.WindowsPlatformH\x00R\awindowsB\t\n" +
+	"\avariant\x1a\x90\x02\n" +
+	"\rLinuxPlatform\x12\x18\n" +
+	"\aversion\x18\x01 \x01(\tR\aversion\x12X\n" +
+	"\farchitecture\x18\x02 \x01(\x0e24.temporal.api.worker.v1.EnvironmentInfo.ArchitectureR\farchitecture\x12N\n" +
+	"\x04libc\x18\x03 \x01(\x0e2:.temporal.api.worker.v1.EnvironmentInfo.LinuxPlatform.LibcR\x04libc\";\n" +
+	"\x04Libc\x12\x14\n" +
+	"\x10LIBC_UNSPECIFIED\x10\x00\x12\x0e\n" +
+	"\n" +
+	"LIBC_GLIBC\x10\x01\x12\r\n" +
+	"\tLIBC_MUSL\x10\x02\x1a\x83\x01\n" +
+	"\rMacOSPlatform\x12\x18\n" +
+	"\aversion\x18\x01 \x01(\tR\aversion\x12X\n" +
+	"\farchitecture\x18\x02 \x01(\x0e24.temporal.api.worker.v1.EnvironmentInfo.ArchitectureR\farchitecture\x1a\xad\x02\n" +
+	"\x0fWindowsPlatform\x12\x18\n" +
+	"\aversion\x18\x01 \x01(\tR\aversion\x12X\n" +
+	"\farchitecture\x18\x02 \x01(\x0e24.temporal.api.worker.v1.EnvironmentInfo.ArchitectureR\farchitecture\x12M\n" +
+	"\x03crt\x18\x03 \x01(\x0e2;.temporal.api.worker.v1.EnvironmentInfo.WindowsPlatform.CrtR\x03crt\"W\n" +
+	"\x03Crt\x12\x13\n" +
+	"\x0fCRT_UNSPECIFIED\x10\x00\x12\f\n" +
+	"\bCRT_UCRT\x10\x01\x12\x0e\n" +
+	"\n" +
+	"CRT_MSVCRT\x10\x02\x12\r\n" +
+	"\tCRT_MINGW\x10\x03\x12\x0e\n" +
+	"\n" +
+	"CRT_CYGWIN\x10\x04\"\\\n" +
+	"\fArchitecture\x12\x1c\n" +
+	"\x18ARCHITECTURE_UNSPECIFIED\x10\x00\x12\x16\n" +
+	"\x12ARCHITECTURE_AMD64\x10\x01\x12\x16\n" +
+	"\x12ARCHITECTURE_ARM64\x10\x02\"q\n" +
 	"\rWorkerCommand\x12X\n" +
 	"\x0fcancel_activity\x18\x01 \x01(\v2-.temporal.api.worker.v1.CancelActivityCommandH\x00R\x0ecancelActivityB\x06\n" +
 	"\x04type\"6\n" +
@@ -1153,56 +2083,83 @@ func file_temporal_api_worker_v1_message_proto_rawDescGZIP() []byte {
 	return file_temporal_api_worker_v1_message_proto_rawDescData
 }
 
-var file_temporal_api_worker_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
+var file_temporal_api_worker_v1_message_proto_enumTypes = make([]protoimpl.EnumInfo, 5)
+var file_temporal_api_worker_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 19)
 var file_temporal_api_worker_v1_message_proto_goTypes = []any{
-	(*WorkerPollerInfo)(nil),           // 0: temporal.api.worker.v1.WorkerPollerInfo
-	(*WorkerSlotsInfo)(nil),            // 1: temporal.api.worker.v1.WorkerSlotsInfo
-	(*WorkerHostInfo)(nil),             // 2: temporal.api.worker.v1.WorkerHostInfo
-	(*WorkerHeartbeat)(nil),            // 3: temporal.api.worker.v1.WorkerHeartbeat
-	(*WorkerInfo)(nil),                 // 4: temporal.api.worker.v1.WorkerInfo
-	(*WorkerListInfo)(nil),             // 5: temporal.api.worker.v1.WorkerListInfo
-	(*PluginInfo)(nil),                 // 6: temporal.api.worker.v1.PluginInfo
-	(*StorageDriverInfo)(nil),          // 7: temporal.api.worker.v1.StorageDriverInfo
-	(*WorkerCommand)(nil),              // 8: temporal.api.worker.v1.WorkerCommand
-	(*CancelActivityCommand)(nil),      // 9: temporal.api.worker.v1.CancelActivityCommand
-	(*WorkerCommandResult)(nil),        // 10: temporal.api.worker.v1.WorkerCommandResult
-	(*CancelActivityResult)(nil),       // 11: temporal.api.worker.v1.CancelActivityResult
-	(*timestamppb.Timestamp)(nil),      // 12: google.protobuf.Timestamp
-	(*v1.WorkerDeploymentVersion)(nil), // 13: temporal.api.deployment.v1.WorkerDeploymentVersion
-	(v11.WorkerStatus)(0),              // 14: temporal.api.enums.v1.WorkerStatus
-	(*durationpb.Duration)(nil),        // 15: google.protobuf.Duration
+	(EnvironmentInfo_Architecture)(0),                              // 0: temporal.api.worker.v1.EnvironmentInfo.Architecture
+	(EnvironmentInfo_Runtime_RuntimeType)(0),                       // 1: temporal.api.worker.v1.EnvironmentInfo.Runtime.RuntimeType
+	(EnvironmentInfo_HostingEnvironment_HostingEnvironmentType)(0), // 2: temporal.api.worker.v1.EnvironmentInfo.HostingEnvironment.HostingEnvironmentType
+	(EnvironmentInfo_LinuxPlatform_Libc)(0),                        // 3: temporal.api.worker.v1.EnvironmentInfo.LinuxPlatform.Libc
+	(EnvironmentInfo_WindowsPlatform_Crt)(0),                       // 4: temporal.api.worker.v1.EnvironmentInfo.WindowsPlatform.Crt
+	(*WorkerPollerInfo)(nil),                                       // 5: temporal.api.worker.v1.WorkerPollerInfo
+	(*WorkerSlotsInfo)(nil),                                        // 6: temporal.api.worker.v1.WorkerSlotsInfo
+	(*WorkerHostInfo)(nil),                                         // 7: temporal.api.worker.v1.WorkerHostInfo
+	(*WorkerHeartbeat)(nil),                                        // 8: temporal.api.worker.v1.WorkerHeartbeat
+	(*WorkerInfo)(nil),                                             // 9: temporal.api.worker.v1.WorkerInfo
+	(*WorkerListInfo)(nil),                                         // 10: temporal.api.worker.v1.WorkerListInfo
+	(*PluginInfo)(nil),                                             // 11: temporal.api.worker.v1.PluginInfo
+	(*StorageDriverInfo)(nil),                                      // 12: temporal.api.worker.v1.StorageDriverInfo
+	(*EnvironmentInfo)(nil),                                        // 13: temporal.api.worker.v1.EnvironmentInfo
+	(*WorkerCommand)(nil),                                          // 14: temporal.api.worker.v1.WorkerCommand
+	(*CancelActivityCommand)(nil),                                  // 15: temporal.api.worker.v1.CancelActivityCommand
+	(*WorkerCommandResult)(nil),                                    // 16: temporal.api.worker.v1.WorkerCommandResult
+	(*CancelActivityResult)(nil),                                   // 17: temporal.api.worker.v1.CancelActivityResult
+	(*EnvironmentInfo_Runtime)(nil),                                // 18: temporal.api.worker.v1.EnvironmentInfo.Runtime
+	(*EnvironmentInfo_HostingEnvironment)(nil),                     // 19: temporal.api.worker.v1.EnvironmentInfo.HostingEnvironment
+	(*EnvironmentInfo_Platform)(nil),                               // 20: temporal.api.worker.v1.EnvironmentInfo.Platform
+	(*EnvironmentInfo_LinuxPlatform)(nil),                          // 21: temporal.api.worker.v1.EnvironmentInfo.LinuxPlatform
+	(*EnvironmentInfo_MacOSPlatform)(nil),                          // 22: temporal.api.worker.v1.EnvironmentInfo.MacOSPlatform
+	(*EnvironmentInfo_WindowsPlatform)(nil),                        // 23: temporal.api.worker.v1.EnvironmentInfo.WindowsPlatform
+	(*timestamppb.Timestamp)(nil),                                  // 24: google.protobuf.Timestamp
+	(*v1.WorkerDeploymentVersion)(nil),                             // 25: temporal.api.deployment.v1.WorkerDeploymentVersion
+	(v11.WorkerStatus)(0),                                          // 26: temporal.api.enums.v1.WorkerStatus
+	(*durationpb.Duration)(nil),                                    // 27: google.protobuf.Duration
 }
 var file_temporal_api_worker_v1_message_proto_depIdxs = []int32{
-	12, // 0: temporal.api.worker.v1.WorkerPollerInfo.last_successful_poll_time:type_name -> google.protobuf.Timestamp
-	2,  // 1: temporal.api.worker.v1.WorkerHeartbeat.host_info:type_name -> temporal.api.worker.v1.WorkerHostInfo
-	13, // 2: temporal.api.worker.v1.WorkerHeartbeat.deployment_version:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersion
-	14, // 3: temporal.api.worker.v1.WorkerHeartbeat.status:type_name -> temporal.api.enums.v1.WorkerStatus
-	12, // 4: temporal.api.worker.v1.WorkerHeartbeat.start_time:type_name -> google.protobuf.Timestamp
-	12, // 5: temporal.api.worker.v1.WorkerHeartbeat.heartbeat_time:type_name -> google.protobuf.Timestamp
-	15, // 6: temporal.api.worker.v1.WorkerHeartbeat.elapsed_since_last_heartbeat:type_name -> google.protobuf.Duration
-	1,  // 7: temporal.api.worker.v1.WorkerHeartbeat.workflow_task_slots_info:type_name -> temporal.api.worker.v1.WorkerSlotsInfo
-	1,  // 8: temporal.api.worker.v1.WorkerHeartbeat.activity_task_slots_info:type_name -> temporal.api.worker.v1.WorkerSlotsInfo
-	1,  // 9: temporal.api.worker.v1.WorkerHeartbeat.nexus_task_slots_info:type_name -> temporal.api.worker.v1.WorkerSlotsInfo
-	1,  // 10: temporal.api.worker.v1.WorkerHeartbeat.local_activity_slots_info:type_name -> temporal.api.worker.v1.WorkerSlotsInfo
-	0,  // 11: temporal.api.worker.v1.WorkerHeartbeat.workflow_poller_info:type_name -> temporal.api.worker.v1.WorkerPollerInfo
-	0,  // 12: temporal.api.worker.v1.WorkerHeartbeat.workflow_sticky_poller_info:type_name -> temporal.api.worker.v1.WorkerPollerInfo
-	0,  // 13: temporal.api.worker.v1.WorkerHeartbeat.activity_poller_info:type_name -> temporal.api.worker.v1.WorkerPollerInfo
-	0,  // 14: temporal.api.worker.v1.WorkerHeartbeat.nexus_poller_info:type_name -> temporal.api.worker.v1.WorkerPollerInfo
-	6,  // 15: temporal.api.worker.v1.WorkerHeartbeat.plugins:type_name -> temporal.api.worker.v1.PluginInfo
-	7,  // 16: temporal.api.worker.v1.WorkerHeartbeat.drivers:type_name -> temporal.api.worker.v1.StorageDriverInfo
-	3,  // 17: temporal.api.worker.v1.WorkerInfo.worker_heartbeat:type_name -> temporal.api.worker.v1.WorkerHeartbeat
-	13, // 18: temporal.api.worker.v1.WorkerListInfo.deployment_version:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersion
-	14, // 19: temporal.api.worker.v1.WorkerListInfo.status:type_name -> temporal.api.enums.v1.WorkerStatus
-	12, // 20: temporal.api.worker.v1.WorkerListInfo.start_time:type_name -> google.protobuf.Timestamp
-	6,  // 21: temporal.api.worker.v1.WorkerListInfo.plugins:type_name -> temporal.api.worker.v1.PluginInfo
-	7,  // 22: temporal.api.worker.v1.WorkerListInfo.drivers:type_name -> temporal.api.worker.v1.StorageDriverInfo
-	9,  // 23: temporal.api.worker.v1.WorkerCommand.cancel_activity:type_name -> temporal.api.worker.v1.CancelActivityCommand
-	11, // 24: temporal.api.worker.v1.WorkerCommandResult.cancel_activity:type_name -> temporal.api.worker.v1.CancelActivityResult
-	25, // [25:25] is the sub-list for method output_type
-	25, // [25:25] is the sub-list for method input_type
-	25, // [25:25] is the sub-list for extension type_name
-	25, // [25:25] is the sub-list for extension extendee
-	0,  // [0:25] is the sub-list for field type_name
+	24, // 0: temporal.api.worker.v1.WorkerPollerInfo.last_successful_poll_time:type_name -> google.protobuf.Timestamp
+	7,  // 1: temporal.api.worker.v1.WorkerHeartbeat.host_info:type_name -> temporal.api.worker.v1.WorkerHostInfo
+	25, // 2: temporal.api.worker.v1.WorkerHeartbeat.deployment_version:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersion
+	26, // 3: temporal.api.worker.v1.WorkerHeartbeat.status:type_name -> temporal.api.enums.v1.WorkerStatus
+	24, // 4: temporal.api.worker.v1.WorkerHeartbeat.start_time:type_name -> google.protobuf.Timestamp
+	24, // 5: temporal.api.worker.v1.WorkerHeartbeat.heartbeat_time:type_name -> google.protobuf.Timestamp
+	27, // 6: temporal.api.worker.v1.WorkerHeartbeat.elapsed_since_last_heartbeat:type_name -> google.protobuf.Duration
+	6,  // 7: temporal.api.worker.v1.WorkerHeartbeat.workflow_task_slots_info:type_name -> temporal.api.worker.v1.WorkerSlotsInfo
+	6,  // 8: temporal.api.worker.v1.WorkerHeartbeat.activity_task_slots_info:type_name -> temporal.api.worker.v1.WorkerSlotsInfo
+	6,  // 9: temporal.api.worker.v1.WorkerHeartbeat.nexus_task_slots_info:type_name -> temporal.api.worker.v1.WorkerSlotsInfo
+	6,  // 10: temporal.api.worker.v1.WorkerHeartbeat.local_activity_slots_info:type_name -> temporal.api.worker.v1.WorkerSlotsInfo
+	5,  // 11: temporal.api.worker.v1.WorkerHeartbeat.workflow_poller_info:type_name -> temporal.api.worker.v1.WorkerPollerInfo
+	5,  // 12: temporal.api.worker.v1.WorkerHeartbeat.workflow_sticky_poller_info:type_name -> temporal.api.worker.v1.WorkerPollerInfo
+	5,  // 13: temporal.api.worker.v1.WorkerHeartbeat.activity_poller_info:type_name -> temporal.api.worker.v1.WorkerPollerInfo
+	5,  // 14: temporal.api.worker.v1.WorkerHeartbeat.nexus_poller_info:type_name -> temporal.api.worker.v1.WorkerPollerInfo
+	11, // 15: temporal.api.worker.v1.WorkerHeartbeat.plugins:type_name -> temporal.api.worker.v1.PluginInfo
+	12, // 16: temporal.api.worker.v1.WorkerHeartbeat.drivers:type_name -> temporal.api.worker.v1.StorageDriverInfo
+	13, // 17: temporal.api.worker.v1.WorkerHeartbeat.environment:type_name -> temporal.api.worker.v1.EnvironmentInfo
+	8,  // 18: temporal.api.worker.v1.WorkerInfo.worker_heartbeat:type_name -> temporal.api.worker.v1.WorkerHeartbeat
+	25, // 19: temporal.api.worker.v1.WorkerListInfo.deployment_version:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersion
+	26, // 20: temporal.api.worker.v1.WorkerListInfo.status:type_name -> temporal.api.enums.v1.WorkerStatus
+	24, // 21: temporal.api.worker.v1.WorkerListInfo.start_time:type_name -> google.protobuf.Timestamp
+	11, // 22: temporal.api.worker.v1.WorkerListInfo.plugins:type_name -> temporal.api.worker.v1.PluginInfo
+	12, // 23: temporal.api.worker.v1.WorkerListInfo.drivers:type_name -> temporal.api.worker.v1.StorageDriverInfo
+	18, // 24: temporal.api.worker.v1.EnvironmentInfo.runtimes:type_name -> temporal.api.worker.v1.EnvironmentInfo.Runtime
+	19, // 25: temporal.api.worker.v1.EnvironmentInfo.hosting_environments:type_name -> temporal.api.worker.v1.EnvironmentInfo.HostingEnvironment
+	20, // 26: temporal.api.worker.v1.EnvironmentInfo.platform:type_name -> temporal.api.worker.v1.EnvironmentInfo.Platform
+	15, // 27: temporal.api.worker.v1.WorkerCommand.cancel_activity:type_name -> temporal.api.worker.v1.CancelActivityCommand
+	17, // 28: temporal.api.worker.v1.WorkerCommandResult.cancel_activity:type_name -> temporal.api.worker.v1.CancelActivityResult
+	1,  // 29: temporal.api.worker.v1.EnvironmentInfo.Runtime.type:type_name -> temporal.api.worker.v1.EnvironmentInfo.Runtime.RuntimeType
+	2,  // 30: temporal.api.worker.v1.EnvironmentInfo.HostingEnvironment.type:type_name -> temporal.api.worker.v1.EnvironmentInfo.HostingEnvironment.HostingEnvironmentType
+	21, // 31: temporal.api.worker.v1.EnvironmentInfo.Platform.linux:type_name -> temporal.api.worker.v1.EnvironmentInfo.LinuxPlatform
+	22, // 32: temporal.api.worker.v1.EnvironmentInfo.Platform.macos:type_name -> temporal.api.worker.v1.EnvironmentInfo.MacOSPlatform
+	23, // 33: temporal.api.worker.v1.EnvironmentInfo.Platform.windows:type_name -> temporal.api.worker.v1.EnvironmentInfo.WindowsPlatform
+	0,  // 34: temporal.api.worker.v1.EnvironmentInfo.LinuxPlatform.architecture:type_name -> temporal.api.worker.v1.EnvironmentInfo.Architecture
+	3,  // 35: temporal.api.worker.v1.EnvironmentInfo.LinuxPlatform.libc:type_name -> temporal.api.worker.v1.EnvironmentInfo.LinuxPlatform.Libc
+	0,  // 36: temporal.api.worker.v1.EnvironmentInfo.MacOSPlatform.architecture:type_name -> temporal.api.worker.v1.EnvironmentInfo.Architecture
+	0,  // 37: temporal.api.worker.v1.EnvironmentInfo.WindowsPlatform.architecture:type_name -> temporal.api.worker.v1.EnvironmentInfo.Architecture
+	4,  // 38: temporal.api.worker.v1.EnvironmentInfo.WindowsPlatform.crt:type_name -> temporal.api.worker.v1.EnvironmentInfo.WindowsPlatform.Crt
+	39, // [39:39] is the sub-list for method output_type
+	39, // [39:39] is the sub-list for method input_type
+	39, // [39:39] is the sub-list for extension type_name
+	39, // [39:39] is the sub-list for extension extendee
+	0,  // [0:39] is the sub-list for field type_name
 }
 
 func init() { file_temporal_api_worker_v1_message_proto_init() }
@@ -1210,24 +2167,30 @@ func file_temporal_api_worker_v1_message_proto_init() {
 	if File_temporal_api_worker_v1_message_proto != nil {
 		return
 	}
-	file_temporal_api_worker_v1_message_proto_msgTypes[8].OneofWrappers = []any{
+	file_temporal_api_worker_v1_message_proto_msgTypes[9].OneofWrappers = []any{
 		(*WorkerCommand_CancelActivity)(nil),
 	}
-	file_temporal_api_worker_v1_message_proto_msgTypes[10].OneofWrappers = []any{
+	file_temporal_api_worker_v1_message_proto_msgTypes[11].OneofWrappers = []any{
 		(*WorkerCommandResult_CancelActivity)(nil),
+	}
+	file_temporal_api_worker_v1_message_proto_msgTypes[15].OneofWrappers = []any{
+		(*EnvironmentInfo_Platform_Linux)(nil),
+		(*EnvironmentInfo_Platform_Macos)(nil),
+		(*EnvironmentInfo_Platform_Windows)(nil),
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_temporal_api_worker_v1_message_proto_rawDesc), len(file_temporal_api_worker_v1_message_proto_rawDesc)),
-			NumEnums:      0,
-			NumMessages:   12,
+			NumEnums:      5,
+			NumMessages:   19,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
 		GoTypes:           file_temporal_api_worker_v1_message_proto_goTypes,
 		DependencyIndexes: file_temporal_api_worker_v1_message_proto_depIdxs,
+		EnumInfos:         file_temporal_api_worker_v1_message_proto_enumTypes,
 		MessageInfos:      file_temporal_api_worker_v1_message_proto_msgTypes,
 	}.Build()
 	File_temporal_api_worker_v1_message_proto = out.File
