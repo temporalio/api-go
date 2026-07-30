@@ -22,13 +22,9 @@ const (
 	anyFullName      = "google.protobuf.Any"
 	temporalPrefix   = "temporal.api."
 
-	// maxWalkDepth bounds how far the walker will descend. The self-reference
-	// guard in walkMessageField only catches a field whose type equals its
-	// immediate parent's; a mutual cycle (A holds a B, B holds an A) would
-	// otherwise recurse until the stack blows. No Temporal API type comes close
-	// to this depth today (the deepest real path is around 12), so tripping this
-	// means a proto change introduced a cycle, and failing loudly beats hanging
-	// CI.
+	// maxWalkDepth bounds how far the walker will descend. If there is a cycle
+	// (e.g. A holds a B, and a B holds an A) we hit this max depth and fail
+	// rather than panic with a stack overflow.
 	maxWalkDepth = 50
 )
 
@@ -45,33 +41,28 @@ const (
 //
 // The zero value is not usable; construct one with RunPayloadWalker.
 type PayloadWalker struct {
+	t *testing.T
+
 	// MessagesVisited is the number of proto messages the walker descended into.
 	// Non-Temporal messages (other than Any) are not walked and not counted.
 	MessagesVisited int
 
 	// PayloadsSeen has one entry per payload container the walker reached, in
-	// discovery order, formatted as "<field path> [<message type>]". Its length
-	// is the payload count that the count-based tests assert on; the entries
-	// themselves are there so a failing test can print which payloads were
-	// actually found rather than just how many. See Report.
+	// discovery order, formatted as "<field path> [<message type>]".
 	PayloadsSeen []string
 
 	// Skipped has one entry per subtree the walker declined to enter, along with
-	// the reason. Skips are expected (self-referential fields such as
-	// Failure.cause would otherwise recurse forever), but a surprising payload
-	// count is often explained by an entry in here.
+	// the reason. (e.g. self-referential fields such as Failure.cause would
+	//recurse forever.)
 	Skipped []string
 
-	t    *testing.T
 	root proto.Message
-
 	// rootName is the full name of the message the walk started from. Kept
 	// separately from path[0] so that Report stays correct no matter where in the
 	// walk it is called from.
 	rootName string
 
-	// path is the field path from root down to the message currently being
-	// walked, e.g. {"temporal.api.command.v1.Command", "record_marker_command_attributes", "failure"}.
+	// path is the field path from root down to the message currently being walked.
 	path []string
 
 	// pendingVisits counts payload containers that have been populated and
@@ -104,23 +95,23 @@ func (w *PayloadWalker) PayloadCount() int { return len(w.PayloadsSeen) }
 
 // RequirePayloadCount asserts the walk found exactly want payload containers,
 // printing every payload it did find when it did not. Prefer this over
-// comparing PayloadCount by hand: when a proto change moves the count, the
-// failure output says which payload appeared or disappeared.
+// comparing PayloadCount by hand for better error messages.
 func (w *PayloadWalker) RequirePayloadCount(want int) {
 	w.t.Helper()
 
-	// Test failing? That doesn't necessarily mean you did something wrong.
-	// If you have added/removed a proto field then the hard-coded number of
-	// Payloads might have changed.
+	// Hello! Test failing? That doesn't necessarily mean you did something
+	// wrong. If you have added/removed a proto field then the hard-coded number
+	// of Payloads we look for in a test might have changed.
+	//
+	// Double check  that is the case (e.g. w.Report() includes a new proto field
+	// you added).
 	require.Equal(
 		w.t, want, w.PayloadCount(),
 		"expected %d payloads reachable from %s, found %d\n%s",
 		want, w.rootName, w.PayloadCount(), w.Report())
 }
 
-// Report renders the walk as a human readable summary. Useful both in failure
-// messages and from a `go test -v` run when working out where a count comes
-// from.
+// Report renders the walk as a human readable summary.
 func (w *PayloadWalker) Report() string {
 	var sb strings.Builder
 	fmt.Fprintf(&sb, "%s: %d messages visited, %d payloads seen\n",
@@ -243,11 +234,7 @@ func (w *PayloadWalker) walkMapField(m protoreflect.Message, fd protoreflect.Fie
 	mapVal := m.Mutable(fd).Map()
 	require.Equal(w.t, 0, mapVal.Len(), "walker expects an empty map at %s", w.pathString())
 
-	key, ok := sampleMapKey(fd.MapKey().Kind())
-	if !ok {
-		w.skip(fmt.Sprintf("unsupported map key kind %s", fd.MapKey().Kind()))
-		return
-	}
+	key := mustGetMapKey(w.t, fd.MapKey().Kind())
 
 	// For map<_, Payload> fields, populate real payload data rather than an empty
 	// message, matching how callers actually use them (e.g. Header.fields).
@@ -262,6 +249,7 @@ func (w *PayloadWalker) walkMapField(m protoreflect.Message, fd protoreflect.Fie
 
 // visitFromRoot records a payload container at the current path and asserts that
 // VisitPayloads, run against the root message, invokes the Visitor exactly once.
+//
 // Exactly one payload is populated at this point, so exactly one call is
 // expected: zero calls means the visitor cannot reach this field, more than one
 // means it visits it repeatedly.
@@ -290,24 +278,24 @@ func (w *PayloadWalker) pathString() string {
 	return strings.Join(w.path, ".")
 }
 
-// sampleMapKey returns an arbitrary map key of the given kind, or false if the
-// walker has no sample for it. The unsupported kinds (uint32, fixed32, fixed64)
-// are not used by any Temporal API map today.
-func sampleMapKey(kind protoreflect.Kind) (protoreflect.MapKey, bool) {
+// mustGetMapKey returns an arbitrary map key of the given kind. Panics
+// if the kind is not supported.
+func mustGetMapKey(t *testing.T, kind protoreflect.Kind) protoreflect.MapKey {
 	switch kind {
 	case protoreflect.StringKind:
-		return protoreflect.ValueOfString("sample_key").MapKey(), true
+		return protoreflect.ValueOfString("sample_key").MapKey()
 	case protoreflect.Int32Kind, protoreflect.Sint32Kind, protoreflect.Sfixed32Kind:
-		return protoreflect.ValueOfInt32(1).MapKey(), true
+		return protoreflect.ValueOfInt32(1).MapKey()
 	case protoreflect.Int64Kind, protoreflect.Sint64Kind, protoreflect.Sfixed64Kind:
-		return protoreflect.ValueOfInt64(1).MapKey(), true
+		return protoreflect.ValueOfInt64(1).MapKey()
 	case protoreflect.Uint64Kind:
-		return protoreflect.ValueOfUint64(1).MapKey(), true
+		return protoreflect.ValueOfUint64(1).MapKey()
 	case protoreflect.BoolKind:
-		return protoreflect.ValueOfBool(true).MapKey(), true
-	default:
-		return protoreflect.MapKey{}, false
+		return protoreflect.ValueOfBool(true).MapKey()
 	}
+
+	t.Fatalf("Map key kind %v not implemented. Please add support for it.", kind)
+	return protoreflect.MapKey{}
 }
 
 // mustGetProtoByName fetches the proto message from its qualified name,
