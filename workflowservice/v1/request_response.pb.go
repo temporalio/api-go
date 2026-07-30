@@ -10984,7 +10984,7 @@ type UpdateActivityExecutionOptionsRequest struct {
 	WorkflowId string `protobuf:"bytes,2,opt,name=workflow_id,json=workflowId,proto3" json:"workflow_id,omitempty"`
 	// The ID of the activity to target.
 	ActivityId string `protobuf:"bytes,3,opt,name=activity_id,json=activityId,proto3" json:"activity_id,omitempty"`
-	// Run ID of the workflow or standalone activity.
+	// Run ID of the workflow or standalone activity. If empty, targets the latest run.
 	RunId string `protobuf:"bytes,4,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
 	// The identity of the client who initiated this request
 	Identity string `protobuf:"bytes,5,opt,name=identity,proto3" json:"identity,omitempty"`
@@ -10999,7 +10999,9 @@ type UpdateActivityExecutionOptionsRequest struct {
 	// restore_original together with other options, the request will be rejected.
 	RestoreOriginal bool `protobuf:"varint,8,opt,name=restore_original,json=restoreOriginal,proto3" json:"restore_original,omitempty"`
 	// Resource ID for routing. Contains "workflow:{workflow_id}" for workflow activities or "activity:{activity_id}" for standalone activities.
-	ResourceId    string `protobuf:"bytes,9,opt,name=resource_id,json=resourceId,proto3" json:"resource_id,omitempty"`
+	ResourceId string `protobuf:"bytes,9,opt,name=resource_id,json=resourceId,proto3" json:"resource_id,omitempty"`
+	// Used to de-dupe update requests.
+	RequestId     string `protobuf:"bytes,10,opt,name=request_id,json=requestId,proto3" json:"request_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -11093,6 +11095,13 @@ func (x *UpdateActivityExecutionOptionsRequest) GetRestoreOriginal() bool {
 func (x *UpdateActivityExecutionOptionsRequest) GetResourceId() string {
 	if x != nil {
 		return x.ResourceId
+	}
+	return ""
+}
+
+func (x *UpdateActivityExecutionOptionsRequest) GetRequestId() string {
+	if x != nil {
+		return x.RequestId
 	}
 	return ""
 }
@@ -11330,7 +11339,7 @@ type PauseActivityExecutionRequest struct {
 	WorkflowId string `protobuf:"bytes,2,opt,name=workflow_id,json=workflowId,proto3" json:"workflow_id,omitempty"`
 	// The ID of the activity to target.
 	ActivityId string `protobuf:"bytes,3,opt,name=activity_id,json=activityId,proto3" json:"activity_id,omitempty"`
-	// Run ID of the workflow or standalone activity.
+	// Run ID of the workflow or standalone activity. If empty, targets the latest run.
 	RunId string `protobuf:"bytes,4,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
 	// The identity of the client who initiated this request.
 	Identity string `protobuf:"bytes,5,opt,name=identity,proto3" json:"identity,omitempty"`
@@ -11670,7 +11679,7 @@ type UnpauseActivityExecutionRequest struct {
 	WorkflowId string `protobuf:"bytes,2,opt,name=workflow_id,json=workflowId,proto3" json:"workflow_id,omitempty"`
 	// The ID of the activity to target.
 	ActivityId string `protobuf:"bytes,3,opt,name=activity_id,json=activityId,proto3" json:"activity_id,omitempty"`
-	// Run ID of the workflow or standalone activity.
+	// Run ID of the workflow or standalone activity. If empty, targets the latest run.
 	RunId string `protobuf:"bytes,4,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
 	// The identity of the client who initiated this request.
 	Identity string `protobuf:"bytes,5,opt,name=identity,proto3" json:"identity,omitempty"`
@@ -11683,7 +11692,9 @@ type UnpauseActivityExecutionRequest struct {
 	// If set, the activity will start at a random time within the specified jitter duration.
 	Jitter *durationpb.Duration `protobuf:"bytes,9,opt,name=jitter,proto3" json:"jitter,omitempty"`
 	// Resource ID for routing. Contains "workflow:{workflow_id}" for workflow activities or "activity:{activity_id}" for standalone activities.
-	ResourceId    string `protobuf:"bytes,10,opt,name=resource_id,json=resourceId,proto3" json:"resource_id,omitempty"`
+	ResourceId string `protobuf:"bytes,10,opt,name=resource_id,json=resourceId,proto3" json:"resource_id,omitempty"`
+	// Used to de-dupe unpause requests.
+	RequestId     string `protobuf:"bytes,11,opt,name=request_id,json=requestId,proto3" json:"request_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -11784,6 +11795,13 @@ func (x *UnpauseActivityExecutionRequest) GetJitter() *durationpb.Duration {
 func (x *UnpauseActivityExecutionRequest) GetResourceId() string {
 	if x != nil {
 		return x.ResourceId
+	}
+	return ""
+}
+
+func (x *UnpauseActivityExecutionRequest) GetRequestId() string {
+	if x != nil {
+		return x.RequestId
 	}
 	return ""
 }
@@ -12042,7 +12060,7 @@ type ResetActivityExecutionRequest struct {
 	WorkflowId string `protobuf:"bytes,2,opt,name=workflow_id,json=workflowId,proto3" json:"workflow_id,omitempty"`
 	// The ID of the activity to target.
 	ActivityId string `protobuf:"bytes,3,opt,name=activity_id,json=activityId,proto3" json:"activity_id,omitempty"`
-	// Run ID of the workflow or standalone activity.
+	// Run ID of the workflow or standalone activity. If empty, targets the latest run.
 	RunId string `protobuf:"bytes,4,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
 	// The identity of the client who initiated this request.
 	Identity string `protobuf:"bytes,5,opt,name=identity,proto3" json:"identity,omitempty"`
@@ -12056,7 +12074,9 @@ type ResetActivityExecutionRequest struct {
 	// They are part of the first schedule event.
 	RestoreOriginalOptions bool `protobuf:"varint,8,opt,name=restore_original_options,json=restoreOriginalOptions,proto3" json:"restore_original_options,omitempty"`
 	// Resource ID for routing. Contains "workflow:{workflow_id}" for workflow activities or "activity:{activity_id}" for standalone activities.
-	ResourceId    string `protobuf:"bytes,9,opt,name=resource_id,json=resourceId,proto3" json:"resource_id,omitempty"`
+	ResourceId string `protobuf:"bytes,9,opt,name=resource_id,json=resourceId,proto3" json:"resource_id,omitempty"`
+	// Used to de-dupe reset requests.
+	RequestId     string `protobuf:"bytes,10,opt,name=request_id,json=requestId,proto3" json:"request_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -12150,6 +12170,13 @@ func (x *ResetActivityExecutionRequest) GetRestoreOriginalOptions() bool {
 func (x *ResetActivityExecutionRequest) GetResourceId() string {
 	if x != nil {
 		return x.ResourceId
+	}
+	return ""
+}
+
+func (x *ResetActivityExecutionRequest) GetRequestId() string {
+	if x != nil {
+		return x.RequestId
 	}
 	return ""
 }
@@ -18314,7 +18341,7 @@ type RequestCancelActivityExecutionRequest struct {
 	state      protoimpl.MessageState `protogen:"open.v1"`
 	Namespace  string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	ActivityId string                 `protobuf:"bytes,2,opt,name=activity_id,json=activityId,proto3" json:"activity_id,omitempty"`
-	// Activity run ID, targets the latest run if run_id is empty.
+	// Activity run ID. If empty, targets the latest run.
 	RunId string `protobuf:"bytes,3,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
 	// The identity of the worker/client.
 	Identity string `protobuf:"bytes,4,opt,name=identity,proto3" json:"identity,omitempty"`
@@ -18439,7 +18466,7 @@ type TerminateActivityExecutionRequest struct {
 	state      protoimpl.MessageState `protogen:"open.v1"`
 	Namespace  string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	ActivityId string                 `protobuf:"bytes,2,opt,name=activity_id,json=activityId,proto3" json:"activity_id,omitempty"`
-	// Activity run ID, targets the latest run if run_id is empty.
+	// Activity run ID. If empty, targets the latest run.
 	RunId string `protobuf:"bytes,3,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
 	// The identity of the worker/client.
 	Identity string `protobuf:"bytes,4,opt,name=identity,proto3" json:"identity,omitempty"`
@@ -21477,7 +21504,7 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\tmatch_all\x18\t \x01(\bH\x00R\bmatchAll\x12)\n" +
 	"\x10restore_original\x18\b \x01(\bR\x0frestoreOriginalB\n" +
 	"\n" +
-	"\bactivity\"\x99\x03\n" +
+	"\bactivity\"\xb8\x03\n" +
 	"%UpdateActivityExecutionOptionsRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12\x1f\n" +
 	"\vworkflow_id\x18\x02 \x01(\tR\n" +
@@ -21491,7 +21518,10 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"updateMask\x12)\n" +
 	"\x10restore_original\x18\b \x01(\bR\x0frestoreOriginal\x12\x1f\n" +
 	"\vresource_id\x18\t \x01(\tR\n" +
-	"resourceId\"u\n" +
+	"resourceId\x12\x1d\n" +
+	"\n" +
+	"request_id\x18\n" +
+	" \x01(\tR\trequestId\"u\n" +
 	"\x1dUpdateActivityOptionsResponse\x12T\n" +
 	"\x10activity_options\x18\x01 \x01(\v2).temporal.api.activity.v1.ActivityOptionsR\x0factivityOptions\"~\n" +
 	"&UpdateActivityExecutionOptionsResponse\x12T\n" +
@@ -21534,7 +21564,7 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\x0freset_heartbeat\x18\b \x01(\bR\x0eresetHeartbeat\x121\n" +
 	"\x06jitter\x18\t \x01(\v2\x19.google.protobuf.DurationR\x06jitterB\n" +
 	"\n" +
-	"\bactivity\"\xf0\x02\n" +
+	"\bactivity\"\x8f\x03\n" +
 	"\x1fUnpauseActivityExecutionRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12\x1f\n" +
 	"\vworkflow_id\x18\x02 \x01(\tR\n" +
@@ -21549,7 +21579,9 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\x06jitter\x18\t \x01(\v2\x19.google.protobuf.DurationR\x06jitter\x12\x1f\n" +
 	"\vresource_id\x18\n" +
 	" \x01(\tR\n" +
-	"resourceId\"\x19\n" +
+	"resourceId\x12\x1d\n" +
+	"\n" +
+	"request_id\x18\v \x01(\tR\trequestId\"\x19\n" +
 	"\x17UnpauseActivityResponse\"\"\n" +
 	" UnpauseActivityExecutionResponse\"\xa3\x03\n" +
 	"\x14ResetActivityRequest\x12\x1c\n" +
@@ -21566,7 +21598,7 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\x06jitter\x18\b \x01(\v2\x19.google.protobuf.DurationR\x06jitter\x128\n" +
 	"\x18restore_original_options\x18\t \x01(\bR\x16restoreOriginalOptionsB\n" +
 	"\n" +
-	"\bactivity\"\xe1\x02\n" +
+	"\bactivity\"\x80\x03\n" +
 	"\x1dResetActivityExecutionRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12\x1f\n" +
 	"\vworkflow_id\x18\x02 \x01(\tR\n" +
@@ -21580,7 +21612,10 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\x06jitter\x18\a \x01(\v2\x19.google.protobuf.DurationR\x06jitter\x128\n" +
 	"\x18restore_original_options\x18\b \x01(\bR\x16restoreOriginalOptions\x12\x1f\n" +
 	"\vresource_id\x18\t \x01(\tR\n" +
-	"resourceId\"\x17\n" +
+	"resourceId\x12\x1d\n" +
+	"\n" +
+	"request_id\x18\n" +
+	" \x01(\tR\trequestId\"\x17\n" +
 	"\x15ResetActivityResponse\" \n" +
 	"\x1eResetActivityExecutionResponse\"\xea\x02\n" +
 	"%UpdateWorkflowExecutionOptionsRequest\x12\x1c\n" +
