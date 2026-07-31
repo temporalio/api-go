@@ -819,6 +819,43 @@ func (this *TimeSkippingConfig) Equal(that interface{}) bool {
 	return proto.Equal(this, that1)
 }
 
+// Marshal an object of type FastForwardConfig to the protobuf v3 wire format
+func (val *FastForwardConfig) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type FastForwardConfig from the protobuf v3 wire format
+func (val *FastForwardConfig) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *FastForwardConfig) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two FastForwardConfig values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *FastForwardConfig) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *FastForwardConfig
+	switch t := that.(type) {
+	case *FastForwardConfig:
+		that1 = t
+	case FastForwardConfig:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
 // Marshal an object of type TimeSkippingStatePropagation to the protobuf v3 wire format
 func (val *TimeSkippingStatePropagation) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
@@ -848,6 +885,80 @@ func (this *TimeSkippingStatePropagation) Equal(that interface{}) bool {
 	case *TimeSkippingStatePropagation:
 		that1 = t
 	case TimeSkippingStatePropagation:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type TimeSkippingInfo to the protobuf v3 wire format
+func (val *TimeSkippingInfo) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type TimeSkippingInfo from the protobuf v3 wire format
+func (val *TimeSkippingInfo) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *TimeSkippingInfo) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two TimeSkippingInfo values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *TimeSkippingInfo) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *TimeSkippingInfo
+	switch t := that.(type) {
+	case *TimeSkippingInfo:
+		that1 = t
+	case TimeSkippingInfo:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type TimeSkippingFastForwardInfo to the protobuf v3 wire format
+func (val *TimeSkippingFastForwardInfo) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type TimeSkippingFastForwardInfo from the protobuf v3 wire format
+func (val *TimeSkippingFastForwardInfo) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *TimeSkippingFastForwardInfo) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two TimeSkippingFastForwardInfo values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *TimeSkippingFastForwardInfo) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *TimeSkippingFastForwardInfo
+	switch t := that.(type) {
+	case *TimeSkippingFastForwardInfo:
+		that1 = t
+	case TimeSkippingFastForwardInfo:
 		that1 = &t
 	default:
 		return false
