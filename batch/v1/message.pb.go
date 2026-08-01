@@ -659,10 +659,6 @@ type BatchOperationUnpauseActivities struct {
 	//	*BatchOperationUnpauseActivities_Type
 	//	*BatchOperationUnpauseActivities_MatchAll
 	Activity isBatchOperationUnpauseActivities_Activity `protobuf_oneof:"activity"`
-	// Setting this flag will also reset the number of attempts.
-	ResetAttempts bool `protobuf:"varint,4,opt,name=reset_attempts,json=resetAttempts,proto3" json:"reset_attempts,omitempty"`
-	// Setting this flag will also reset the heartbeat details.
-	ResetHeartbeat bool `protobuf:"varint,5,opt,name=reset_heartbeat,json=resetHeartbeat,proto3" json:"reset_heartbeat,omitempty"`
 	// If set, the activity will start at a random time within the specified jitter
 	// duration, introducing variability to the start time.
 	Jitter        *durationpb.Duration `protobuf:"bytes,6,opt,name=jitter,proto3" json:"jitter,omitempty"`
@@ -728,20 +724,6 @@ func (x *BatchOperationUnpauseActivities) GetMatchAll() bool {
 		if x, ok := x.Activity.(*BatchOperationUnpauseActivities_MatchAll); ok {
 			return x.MatchAll
 		}
-	}
-	return false
-}
-
-func (x *BatchOperationUnpauseActivities) GetResetAttempts() bool {
-	if x != nil {
-		return x.ResetAttempts
-	}
-	return false
-}
-
-func (x *BatchOperationUnpauseActivities) GetResetHeartbeat() bool {
-	if x != nil {
-		return x.ResetHeartbeat
 	}
 	return false
 }
@@ -1176,16 +1158,14 @@ const file_temporal_api_batch_v1_message_proto_rawDesc = "" +
 	"\bidentity\x18\x01 \x01(\tR\bidentity\x12p\n" +
 	"\x1aworkflow_execution_options\x18\x02 \x01(\v22.temporal.api.workflow.v1.WorkflowExecutionOptionsR\x18workflowExecutionOptions\x12;\n" +
 	"\vupdate_mask\x18\x03 \x01(\v2\x1a.google.protobuf.FieldMaskR\n" +
-	"updateMask\"\x81\x02\n" +
+	"updateMask\"\xde\x01\n" +
 	"\x1fBatchOperationUnpauseActivities\x12\x1a\n" +
 	"\bidentity\x18\x01 \x01(\tR\bidentity\x12\x14\n" +
 	"\x04type\x18\x02 \x01(\tH\x00R\x04type\x12\x1d\n" +
-	"\tmatch_all\x18\x03 \x01(\bH\x00R\bmatchAll\x12%\n" +
-	"\x0ereset_attempts\x18\x04 \x01(\bR\rresetAttempts\x12'\n" +
-	"\x0freset_heartbeat\x18\x05 \x01(\bR\x0eresetHeartbeat\x121\n" +
+	"\tmatch_all\x18\x03 \x01(\bH\x00R\bmatchAll\x121\n" +
 	"\x06jitter\x18\x06 \x01(\v2\x19.google.protobuf.DurationR\x06jitterB\n" +
 	"\n" +
-	"\bactivity\"\x98\x01\n" +
+	"\bactivityJ\x04\b\x04\x10\x05J\x04\b\x05\x10\x06R\x0ereset_attemptsR\x0freset_heartbeat\"\x98\x01\n" +
 	"!BatchOperationTriggerWorkflowRule\x12\x1a\n" +
 	"\bidentity\x18\x01 \x01(\tR\bidentity\x12\x10\n" +
 	"\x02id\x18\x02 \x01(\tH\x00R\x02id\x12=\n" +

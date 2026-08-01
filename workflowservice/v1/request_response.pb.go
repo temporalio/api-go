@@ -11529,10 +11529,6 @@ type UnpauseActivityRequest struct {
 	//	*UnpauseActivityRequest_Type
 	//	*UnpauseActivityRequest_UnpauseAll
 	Activity isUnpauseActivityRequest_Activity `protobuf_oneof:"activity"`
-	// Providing this flag will also reset the number of attempts.
-	ResetAttempts bool `protobuf:"varint,7,opt,name=reset_attempts,json=resetAttempts,proto3" json:"reset_attempts,omitempty"`
-	// Providing this flag will also reset the heartbeat details.
-	ResetHeartbeat bool `protobuf:"varint,8,opt,name=reset_heartbeat,json=resetHeartbeat,proto3" json:"reset_heartbeat,omitempty"`
 	// If set, the activity will start at a random time within the specified jitter duration.
 	Jitter        *durationpb.Duration `protobuf:"bytes,9,opt,name=jitter,proto3" json:"jitter,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -11620,20 +11616,6 @@ func (x *UnpauseActivityRequest) GetUnpauseAll() bool {
 		if x, ok := x.Activity.(*UnpauseActivityRequest_UnpauseAll); ok {
 			return x.UnpauseAll
 		}
-	}
-	return false
-}
-
-func (x *UnpauseActivityRequest) GetResetAttempts() bool {
-	if x != nil {
-		return x.ResetAttempts
-	}
-	return false
-}
-
-func (x *UnpauseActivityRequest) GetResetHeartbeat() bool {
-	if x != nil {
-		return x.ResetHeartbeat
 	}
 	return false
 }
@@ -21533,7 +21515,7 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\n" +
 	"request_id\x18\b \x01(\tR\trequestId\"\x17\n" +
 	"\x15PauseActivityResponse\" \n" +
-	"\x1ePauseActivityExecutionResponse\"\xf5\x02\n" +
+	"\x1ePauseActivityExecutionResponse\"\xd2\x02\n" +
 	"\x16UnpauseActivityRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12G\n" +
 	"\texecution\x18\x02 \x01(\v2).temporal.api.common.v1.WorkflowExecutionR\texecution\x12\x1a\n" +
@@ -21541,12 +21523,10 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\x02id\x18\x04 \x01(\tH\x00R\x02id\x12\x14\n" +
 	"\x04type\x18\x05 \x01(\tH\x00R\x04type\x12!\n" +
 	"\vunpause_all\x18\x06 \x01(\bH\x00R\n" +
-	"unpauseAll\x12%\n" +
-	"\x0ereset_attempts\x18\a \x01(\bR\rresetAttempts\x12'\n" +
-	"\x0freset_heartbeat\x18\b \x01(\bR\x0eresetHeartbeat\x121\n" +
+	"unpauseAll\x121\n" +
 	"\x06jitter\x18\t \x01(\v2\x19.google.protobuf.DurationR\x06jitterB\n" +
 	"\n" +
-	"\bactivity\"\xec\x02\n" +
+	"\bactivityJ\x04\b\a\x10\bJ\x04\b\b\x10\tR\x0ereset_attemptsR\x0freset_heartbeat\"\xec\x02\n" +
 	"\x1fUnpauseActivityExecutionRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12\x1f\n" +
 	"\vworkflow_id\x18\x02 \x01(\tR\n" +
