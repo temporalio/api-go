@@ -11683,10 +11683,6 @@ type UnpauseActivityExecutionRequest struct {
 	RunId string `protobuf:"bytes,4,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
 	// The identity of the client who initiated this request.
 	Identity string `protobuf:"bytes,5,opt,name=identity,proto3" json:"identity,omitempty"`
-	// Providing this flag will also reset the number of attempts.
-	ResetAttempts bool `protobuf:"varint,6,opt,name=reset_attempts,json=resetAttempts,proto3" json:"reset_attempts,omitempty"`
-	// Providing this flag will also reset the heartbeat details.
-	ResetHeartbeat bool `protobuf:"varint,7,opt,name=reset_heartbeat,json=resetHeartbeat,proto3" json:"reset_heartbeat,omitempty"`
 	// Reason to unpause the activity.
 	Reason string `protobuf:"bytes,8,opt,name=reason,proto3" json:"reason,omitempty"`
 	// If set, the activity will start at a random time within the specified jitter duration.
@@ -11762,20 +11758,6 @@ func (x *UnpauseActivityExecutionRequest) GetIdentity() string {
 		return x.Identity
 	}
 	return ""
-}
-
-func (x *UnpauseActivityExecutionRequest) GetResetAttempts() bool {
-	if x != nil {
-		return x.ResetAttempts
-	}
-	return false
-}
-
-func (x *UnpauseActivityExecutionRequest) GetResetHeartbeat() bool {
-	if x != nil {
-		return x.ResetHeartbeat
-	}
-	return false
 }
 
 func (x *UnpauseActivityExecutionRequest) GetReason() string {
@@ -21564,7 +21546,7 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\x0freset_heartbeat\x18\b \x01(\bR\x0eresetHeartbeat\x121\n" +
 	"\x06jitter\x18\t \x01(\v2\x19.google.protobuf.DurationR\x06jitterB\n" +
 	"\n" +
-	"\bactivity\"\x8f\x03\n" +
+	"\bactivity\"\xec\x02\n" +
 	"\x1fUnpauseActivityExecutionRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12\x1f\n" +
 	"\vworkflow_id\x18\x02 \x01(\tR\n" +
@@ -21572,16 +21554,14 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\vactivity_id\x18\x03 \x01(\tR\n" +
 	"activityId\x12\x15\n" +
 	"\x06run_id\x18\x04 \x01(\tR\x05runId\x12\x1a\n" +
-	"\bidentity\x18\x05 \x01(\tR\bidentity\x12%\n" +
-	"\x0ereset_attempts\x18\x06 \x01(\bR\rresetAttempts\x12'\n" +
-	"\x0freset_heartbeat\x18\a \x01(\bR\x0eresetHeartbeat\x12\x16\n" +
+	"\bidentity\x18\x05 \x01(\tR\bidentity\x12\x16\n" +
 	"\x06reason\x18\b \x01(\tR\x06reason\x121\n" +
 	"\x06jitter\x18\t \x01(\v2\x19.google.protobuf.DurationR\x06jitter\x12\x1f\n" +
 	"\vresource_id\x18\n" +
 	" \x01(\tR\n" +
 	"resourceId\x12\x1d\n" +
 	"\n" +
-	"request_id\x18\v \x01(\tR\trequestId\"\x19\n" +
+	"request_id\x18\v \x01(\tR\trequestIdJ\x04\b\x06\x10\aJ\x04\b\a\x10\bR\x0ereset_attemptsR\x0freset_heartbeat\"\x19\n" +
 	"\x17UnpauseActivityResponse\"\"\n" +
 	" UnpauseActivityExecutionResponse\"\xa3\x03\n" +
 	"\x14ResetActivityRequest\x12\x1c\n" +
