@@ -12058,9 +12058,13 @@ type ResetActivityExecutionRequest struct {
 	// Resource ID for routing. Contains "workflow:{workflow_id}" for workflow activities or "activity:{activity_id}" for standalone activities.
 	ResourceId string `protobuf:"bytes,9,opt,name=resource_id,json=resourceId,proto3" json:"resource_id,omitempty"`
 	// Used to de-dupe reset requests.
-	RequestId     string `protobuf:"bytes,10,opt,name=request_id,json=requestId,proto3" json:"request_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	RequestId string `protobuf:"bytes,10,opt,name=request_id,json=requestId,proto3" json:"request_id,omitempty"`
+	// Reset persisted heartbeat details.
+	// Reset always resets the attempt counter. Passing this flag causes reset to additionally
+	// discard any persisted heartbeat details.
+	ResetHeartbeat bool `protobuf:"varint,11,opt,name=reset_heartbeat,json=resetHeartbeat,proto3" json:"reset_heartbeat,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *ResetActivityExecutionRequest) Reset() {
@@ -12161,6 +12165,13 @@ func (x *ResetActivityExecutionRequest) GetRequestId() string {
 		return x.RequestId
 	}
 	return ""
+}
+
+func (x *ResetActivityExecutionRequest) GetResetHeartbeat() bool {
+	if x != nil {
+		return x.ResetHeartbeat
+	}
+	return false
 }
 
 // Deprecated. Use `ResetActivityExecutionRequest`.
@@ -21578,7 +21589,7 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\x06jitter\x18\b \x01(\v2\x19.google.protobuf.DurationR\x06jitter\x128\n" +
 	"\x18restore_original_options\x18\t \x01(\bR\x16restoreOriginalOptionsB\n" +
 	"\n" +
-	"\bactivity\"\x80\x03\n" +
+	"\bactivity\"\xa9\x03\n" +
 	"\x1dResetActivityExecutionRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12\x1f\n" +
 	"\vworkflow_id\x18\x02 \x01(\tR\n" +
@@ -21595,7 +21606,8 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"resourceId\x12\x1d\n" +
 	"\n" +
 	"request_id\x18\n" +
-	" \x01(\tR\trequestId\"\x17\n" +
+	" \x01(\tR\trequestId\x12'\n" +
+	"\x0freset_heartbeat\x18\v \x01(\bR\x0eresetHeartbeat\"\x17\n" +
 	"\x15ResetActivityResponse\" \n" +
 	"\x1eResetActivityExecutionResponse\"\xea\x02\n" +
 	"%UpdateWorkflowExecutionOptionsRequest\x12\x1c\n" +
