@@ -744,34 +744,8 @@ func visitPayloads(
 				o,
 				concState,
 				o.GetCallback(),
-				o.GetLastAttemptFailure(),
-				o.GetOutcome(),
-			); err != nil {
-				return err
-			}
-
-			ctx.Context = prevCtx
-
-		case *callback.CallbackOutcome:
-
-			if o == nil {
-				continue
-			}
-
-			prevCtx := ctx.Context
-			if options.ContextHook != nil {
-				var hookErr error
-				if ctx.Context, hookErr = options.ContextHook(prevCtx, o); hookErr != nil {
-					return hookErr
-				}
-			}
-
-			if err := visitPayloads(
-				ctx,
-				options,
-				o,
-				concState,
 				o.GetFailure(),
+				o.GetLastAttemptFailure(),
 			); err != nil {
 				return err
 			}
@@ -3163,29 +3137,9 @@ func visitPayloads(
 				}
 			}
 
-			if err := visitPayloads(
-				ctx,
-				options,
-				o,
-				concState,
-				o.GetOutcome(),
-			); err != nil {
-				return err
-			}
-
-			ctx.Context = prevCtx
-
-		case *notificationservice.OnCompleteRequest_Outcome:
-
-			if o == nil {
-				continue
-			}
-
-			prevCtx := ctx.Context
-			if options.ContextHook != nil {
-				var hookErr error
-				if ctx.Context, hookErr = options.ContextHook(prevCtx, o); hookErr != nil {
-					return hookErr
+			if o.Success != nil {
+				if err := visitPayload(ctx, options, o, concState, &o.Success); err != nil {
+					return err
 				}
 			}
 
@@ -3195,7 +3149,6 @@ func visitPayloads(
 				o,
 				concState,
 				o.GetFailure(),
-				o.GetSuccess(),
 			); err != nil {
 				return err
 			}
@@ -6212,21 +6165,8 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 			if err := visitFailures(
 				ctx,
 				options,
-				o.GetLastAttemptFailure(),
-				o.GetOutcome(),
-			); err != nil {
-				return err
-			}
-
-		case *callback.CallbackOutcome:
-			if o == nil {
-				continue
-			}
-			ctx.Parent = o
-			if err := visitFailures(
-				ctx,
-				options,
 				o.GetFailure(),
+				o.GetLastAttemptFailure(),
 			); err != nil {
 				return err
 			}
@@ -6687,19 +6627,6 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 			}
 
 		case *notificationservice.OnCompleteRequest:
-			if o == nil {
-				continue
-			}
-			ctx.Parent = o
-			if err := visitFailures(
-				ctx,
-				options,
-				o.GetOutcome(),
-			); err != nil {
-				return err
-			}
-
-		case *notificationservice.OnCompleteRequest_Outcome:
 			if o == nil {
 				continue
 			}
