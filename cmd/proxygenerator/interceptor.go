@@ -547,6 +547,20 @@ func visitPayloads(
 					}
 				}
 				{{range $record.Payloads -}}
+				{{/*
+					Whenever a protobuf field containing the Payload is wrapped within a "oneof"
+					block, we need to emit slightly different code. We can access the Payload via
+					the accessor. But we need to write the result into the "oneof" variant field.
+					
+					e.g. the workflowservice.DescribeNexusOperationExecutionResponse below has
+					a payload exposed as:
+					---
+					oneof outcome {
+						temporal.api.common.v1.Payload result = ...
+						...
+					}
+					---
+				*/}}
 				{{if and (eq $type "*workflowservice.DescribeNexusOperationExecutionResponse") (eq . "Result")}}
 				if o.GetResult() != nil {
 					result := o.GetResult()
@@ -558,6 +572,12 @@ func visitPayloads(
 					result := o.GetResult()
 					if err := visitPayload(ctx, options, o, concState, &result); err != nil { return err }
 					o.Outcome = &workflowservice.PollNexusOperationExecutionResponse_Result{Result: result}
+				}
+				{{else if and (eq $type "*notificationservice.OnCompleteRequest") (eq . "Success")}}
+				if o.GetSuccess() != nil {
+					success := o.GetSuccess()
+					if err := visitPayload(ctx, options, o, concState, &success); err != nil { return err }
+					o.Result = &notificationservice.OnCompleteRequest_Success{Success: success}
 				}
 				{{else if and (eq $type "*command.ScheduleNexusOperationCommandAttributes") (eq . "Input")}}
 				if o.Input != nil {
