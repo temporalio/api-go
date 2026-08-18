@@ -18,6 +18,11 @@ type CustomJSONMarshalOptions struct {
 	// terminated by a newline. If non-empty, then Multiline is treated as true.
 	// Indent can only be composed of space or tab characters.
 	Indent string
+
+	// EmitDefaultValues specifies whether to emit default-valued primitive
+	// fields, empty lists, and empty maps. Presence-sensing fields that are
+	// unset remain omitted rather than being emitted as "null".
+	EmitDefaultValues bool
 }
 
 // Marshal marshals the given [proto.Message] in the JSON format using options in
@@ -25,7 +30,8 @@ type CustomJSONMarshalOptions struct {
 // time across different versions of the program.
 func (o CustomJSONMarshalOptions) Marshal(m proto.Message) ([]byte, error) {
 	return protojson.MarshalOptions{
-		Indent:   o.Indent,
-		Metadata: o.Metadata,
+		Indent:            o.Indent,
+		Metadata:          o.Metadata,
+		EmitDefaultValues: o.EmitDefaultValues,
 	}.Marshal(m)
 }
