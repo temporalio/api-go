@@ -16,6 +16,7 @@ import (
 	v12 "go.temporal.io/api/failure/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
@@ -46,6 +47,16 @@ type CallbackInfo struct {
 	NextAttemptScheduleTime *timestamppb.Timestamp `protobuf:"bytes,7,opt,name=next_attempt_schedule_time,json=nextAttemptScheduleTime,proto3" json:"next_attempt_schedule_time,omitempty"`
 	// If the state is BLOCKED, blocked reason provides additional information.
 	BlockedReason string `protobuf:"bytes,8,opt,name=blocked_reason,json=blockedReason,proto3" json:"blocked_reason,omitempty"`
+	// Server-generated request ID used as an idempotency token when invoking callbacks.
+	// It has no relation to caller-side request_id sent in operations like StartNexusOperationExecutionRequest.
+	RequestId string `protobuf:"bytes,9,opt,name=request_id,json=requestId,proto3" json:"request_id,omitempty"`
+	// Result of the callback's execution, only set when the callback reaches a terminal state.
+	//
+	// Types that are valid to be assigned to Result:
+	//
+	//	*CallbackInfo_Success
+	//	*CallbackInfo_Failure
+	Result        isCallbackInfo_Result `protobuf_oneof:"result"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -136,11 +147,62 @@ func (x *CallbackInfo) GetBlockedReason() string {
 	return ""
 }
 
+func (x *CallbackInfo) GetRequestId() string {
+	if x != nil {
+		return x.RequestId
+	}
+	return ""
+}
+
+func (x *CallbackInfo) GetResult() isCallbackInfo_Result {
+	if x != nil {
+		return x.Result
+	}
+	return nil
+}
+
+func (x *CallbackInfo) GetSuccess() *emptypb.Empty {
+	if x != nil {
+		if x, ok := x.Result.(*CallbackInfo_Success); ok {
+			return x.Success
+		}
+	}
+	return nil
+}
+
+func (x *CallbackInfo) GetFailure() *v12.Failure {
+	if x != nil {
+		if x, ok := x.Result.(*CallbackInfo_Failure); ok {
+			return x.Failure
+		}
+	}
+	return nil
+}
+
+type isCallbackInfo_Result interface {
+	isCallbackInfo_Result()
+}
+
+type CallbackInfo_Success struct {
+	// The callback completed successfully. (Which may include delivering a "failed" result successfully.)
+	Success *emptypb.Empty `protobuf:"bytes,10,opt,name=success,proto3,oneof"`
+}
+
+type CallbackInfo_Failure struct {
+	// The failure if the callback was not able to complete successfully. e.g. timed out, received an
+	// unretriable error, etc.
+	Failure *v12.Failure `protobuf:"bytes,11,opt,name=failure,proto3,oneof"`
+}
+
+func (*CallbackInfo_Success) isCallbackInfo_Result() {}
+
+func (*CallbackInfo_Failure) isCallbackInfo_Result() {}
+
 var File_temporal_api_callback_v1_message_proto protoreflect.FileDescriptor
 
 const file_temporal_api_callback_v1_message_proto_rawDesc = "" +
 	"\n" +
-	"&temporal/api/callback/v1/message.proto\x12\x18temporal.api.callback.v1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a$temporal/api/common/v1/message.proto\x1a\"temporal/api/enums/v1/common.proto\x1a%temporal/api/failure/v1/message.proto\"\x98\x04\n" +
+	"&temporal/api/callback/v1/message.proto\x12\x18temporal.api.callback.v1\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a$temporal/api/common/v1/message.proto\x1a\"temporal/api/enums/v1/common.proto\x1a%temporal/api/failure/v1/message.proto\"\xb3\x05\n" +
 	"\fCallbackInfo\x12<\n" +
 	"\bcallback\x18\x01 \x01(\v2 .temporal.api.common.v1.CallbackR\bcallback\x12G\n" +
 	"\x11registration_time\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\x10registrationTime\x12:\n" +
@@ -149,7 +211,13 @@ const file_temporal_api_callback_v1_message_proto_rawDesc = "" +
 	"\x1alast_attempt_complete_time\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\x17lastAttemptCompleteTime\x12R\n" +
 	"\x14last_attempt_failure\x18\x06 \x01(\v2 .temporal.api.failure.v1.FailureR\x12lastAttemptFailure\x12W\n" +
 	"\x1anext_attempt_schedule_time\x18\a \x01(\v2\x1a.google.protobuf.TimestampR\x17nextAttemptScheduleTime\x12%\n" +
-	"\x0eblocked_reason\x18\b \x01(\tR\rblockedReasonB\x93\x01\n" +
+	"\x0eblocked_reason\x18\b \x01(\tR\rblockedReason\x12\x1d\n" +
+	"\n" +
+	"request_id\x18\t \x01(\tR\trequestId\x122\n" +
+	"\asuccess\x18\n" +
+	" \x01(\v2\x16.google.protobuf.EmptyH\x00R\asuccess\x12<\n" +
+	"\afailure\x18\v \x01(\v2 .temporal.api.failure.v1.FailureH\x00R\afailureB\b\n" +
+	"\x06resultB\x93\x01\n" +
 	"\x1bio.temporal.api.callback.v1B\fMessageProtoP\x01Z'go.temporal.io/api/callback/v1;callback\xaa\x02\x1aTemporalio.Api.Callback.V1\xea\x02\x1dTemporalio::Api::Callback::V1b\x06proto3"
 
 var (
@@ -171,6 +239,7 @@ var file_temporal_api_callback_v1_message_proto_goTypes = []any{
 	(*timestamppb.Timestamp)(nil), // 2: google.protobuf.Timestamp
 	(v11.CallbackState)(0),        // 3: temporal.api.enums.v1.CallbackState
 	(*v12.Failure)(nil),           // 4: temporal.api.failure.v1.Failure
+	(*emptypb.Empty)(nil),         // 5: google.protobuf.Empty
 }
 var file_temporal_api_callback_v1_message_proto_depIdxs = []int32{
 	1, // 0: temporal.api.callback.v1.CallbackInfo.callback:type_name -> temporal.api.common.v1.Callback
@@ -179,17 +248,23 @@ var file_temporal_api_callback_v1_message_proto_depIdxs = []int32{
 	2, // 3: temporal.api.callback.v1.CallbackInfo.last_attempt_complete_time:type_name -> google.protobuf.Timestamp
 	4, // 4: temporal.api.callback.v1.CallbackInfo.last_attempt_failure:type_name -> temporal.api.failure.v1.Failure
 	2, // 5: temporal.api.callback.v1.CallbackInfo.next_attempt_schedule_time:type_name -> google.protobuf.Timestamp
-	6, // [6:6] is the sub-list for method output_type
-	6, // [6:6] is the sub-list for method input_type
-	6, // [6:6] is the sub-list for extension type_name
-	6, // [6:6] is the sub-list for extension extendee
-	0, // [0:6] is the sub-list for field type_name
+	5, // 6: temporal.api.callback.v1.CallbackInfo.success:type_name -> google.protobuf.Empty
+	4, // 7: temporal.api.callback.v1.CallbackInfo.failure:type_name -> temporal.api.failure.v1.Failure
+	8, // [8:8] is the sub-list for method output_type
+	8, // [8:8] is the sub-list for method input_type
+	8, // [8:8] is the sub-list for extension type_name
+	8, // [8:8] is the sub-list for extension extendee
+	0, // [0:8] is the sub-list for field type_name
 }
 
 func init() { file_temporal_api_callback_v1_message_proto_init() }
 func file_temporal_api_callback_v1_message_proto_init() {
 	if File_temporal_api_callback_v1_message_proto != nil {
 		return
+	}
+	file_temporal_api_callback_v1_message_proto_msgTypes[0].OneofWrappers = []any{
+		(*CallbackInfo_Success)(nil),
+		(*CallbackInfo_Failure)(nil),
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{

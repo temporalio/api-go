@@ -23,6 +23,7 @@ import (
 	v19 "go.temporal.io/api/history/v1"
 	v12 "go.temporal.io/api/namespace/v1"
 	v119 "go.temporal.io/api/nexus/v1"
+	v123 "go.temporal.io/api/nexusoperation/v1"
 	v111 "go.temporal.io/api/protocol/v1"
 	v110 "go.temporal.io/api/query/v1"
 	v1 "go.temporal.io/api/replication/v1"
@@ -17356,6 +17357,10 @@ type StartNexusOperationExecutionRequest struct {
 	// Defines how to resolve an operation id conflict with a *running* operation.
 	// The default policy is NEXUS_OPERATION_ID_CONFLICT_POLICY_FAIL.
 	IdConflictPolicy v11.NexusOperationIdConflictPolicy `protobuf:"varint,13,opt,name=id_conflict_policy,json=idConflictPolicy,proto3,enum=temporal.api.enums.v1.NexusOperationIdConflictPolicy" json:"id_conflict_policy,omitempty"`
+	// Defines actions to be done to the existing running standalone Nexus when the conflict policy
+	// NEXUS_OPERATION_ID_CONFLICT_POLICY_USE_EXISTING is used. If not set or set to a empty object
+	// (all options with default value), it won't do modify running operation.
+	OnConflictOptions *v123.OnConflictOptions `protobuf:"bytes,17,opt,name=on_conflict_options,json=onConflictOptions,proto3" json:"on_conflict_options,omitempty"`
 	// Search attributes for indexing.
 	SearchAttributes *v14.SearchAttributes `protobuf:"bytes,14,opt,name=search_attributes,json=searchAttributes,proto3" json:"search_attributes,omitempty"`
 	// Header to attach to the Nexus request.
@@ -17366,7 +17371,12 @@ type StartNexusOperationExecutionRequest struct {
 	// transmitted to Nexus operations that may be external and are not traditional payloads.
 	NexusHeader map[string]string `protobuf:"bytes,15,rep,name=nexus_header,json=nexusHeader,proto3" json:"nexus_header,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	// Metadata for use by user interfaces to display the fixed as-of-start summary and details of the operation.
-	UserMetadata  *v16.UserMetadata `protobuf:"bytes,16,opt,name=user_metadata,json=userMetadata,proto3" json:"user_metadata,omitempty"`
+	UserMetadata *v16.UserMetadata `protobuf:"bytes,16,opt,name=user_metadata,json=userMetadata,proto3" json:"user_metadata,omitempty"`
+	// Completion callbacks to be invoked once the Nexus operation reaches a terminal state.
+	CompletionCallbacks []*v14.Callback `protobuf:"bytes,18,rep,name=completion_callbacks,json=completionCallbacks,proto3" json:"completion_callbacks,omitempty"`
+	// Links to be associated with the Nexus operation. Callbacks may also have associated links;
+	// links already included with a callback should not be duplicated here.
+	Links         []*v14.Link `protobuf:"bytes,19,rep,name=links,proto3" json:"links,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -17492,6 +17502,13 @@ func (x *StartNexusOperationExecutionRequest) GetIdConflictPolicy() v11.NexusOpe
 	return v11.NexusOperationIdConflictPolicy(0)
 }
 
+func (x *StartNexusOperationExecutionRequest) GetOnConflictOptions() *v123.OnConflictOptions {
+	if x != nil {
+		return x.OnConflictOptions
+	}
+	return nil
+}
+
 func (x *StartNexusOperationExecutionRequest) GetSearchAttributes() *v14.SearchAttributes {
 	if x != nil {
 		return x.SearchAttributes
@@ -17509,6 +17526,20 @@ func (x *StartNexusOperationExecutionRequest) GetNexusHeader() map[string]string
 func (x *StartNexusOperationExecutionRequest) GetUserMetadata() *v16.UserMetadata {
 	if x != nil {
 		return x.UserMetadata
+	}
+	return nil
+}
+
+func (x *StartNexusOperationExecutionRequest) GetCompletionCallbacks() []*v14.Callback {
+	if x != nil {
+		return x.CompletionCallbacks
+	}
+	return nil
+}
+
+func (x *StartNexusOperationExecutionRequest) GetLinks() []*v14.Link {
+	if x != nil {
+		return x.Links
 	}
 	return nil
 }
@@ -17678,8 +17709,11 @@ type DescribeNexusOperationExecutionResponse struct {
 	Outcome isDescribeNexusOperationExecutionResponse_Outcome `protobuf_oneof:"outcome"`
 	// Token for follow-on long-poll requests. Absent only if the operation is complete.
 	LongPollToken []byte `protobuf:"bytes,6,opt,name=long_poll_token,json=longPollToken,proto3" json:"long_poll_token,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	// Completion callbacks to be invoked once the Nexus operation reaches a terminal state.
+	// They will remain in the CALLBACK_STATE_STANDBY state until the Nexus operation is finished.
+	CompletionCallbacks []*v123.CallbackInfo `protobuf:"bytes,7,rep,name=completion_callbacks,json=completionCallbacks,proto3" json:"completion_callbacks,omitempty"`
+	unknownFields       protoimpl.UnknownFields
+	sizeCache           protoimpl.SizeCache
 }
 
 func (x *DescribeNexusOperationExecutionResponse) Reset() {
@@ -17761,6 +17795,13 @@ func (x *DescribeNexusOperationExecutionResponse) GetFailure() *v15.Failure {
 func (x *DescribeNexusOperationExecutionResponse) GetLongPollToken() []byte {
 	if x != nil {
 		return x.LongPollToken
+	}
+	return nil
+}
+
+func (x *DescribeNexusOperationExecutionResponse) GetCompletionCallbacks() []*v123.CallbackInfo {
+	if x != nil {
+		return x.CompletionCallbacks
 	}
 	return nil
 }
@@ -20534,7 +20575,7 @@ var File_temporal_api_workflowservice_v1_request_response_proto protoreflect.Fil
 
 const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\n" +
-	"6temporal/api/workflowservice/v1/request_response.proto\x12\x1ftemporal.api.workflowservice.v1\x1a+temporal/api/enums/v1/batch_operation.proto\x1a\"temporal/api/enums/v1/common.proto\x1a$temporal/api/enums/v1/workflow.proto\x1a%temporal/api/enums/v1/namespace.proto\x1a(temporal/api/enums/v1/failed_cause.proto\x1a!temporal/api/enums/v1/query.proto\x1a!temporal/api/enums/v1/reset.proto\x1a&temporal/api/enums/v1/task_queue.proto\x1a&temporal/api/enums/v1/deployment.proto\x1a\"temporal/api/enums/v1/update.proto\x1a)temporal/api/enums/v1/time_skipping.proto\x1a$temporal/api/enums/v1/activity.proto\x1a!temporal/api/enums/v1/nexus.proto\x1a&temporal/api/activity/v1/message.proto\x1a$temporal/api/common/v1/message.proto\x1a%temporal/api/history/v1/message.proto\x1a&temporal/api/workflow/v1/message.proto\x1a%temporal/api/command/v1/message.proto\x1a$temporal/api/compute/v1/config.proto\x1a(temporal/api/deployment/v1/message.proto\x1a%temporal/api/failure/v1/message.proto\x1a$temporal/api/filter/v1/message.proto\x1a&temporal/api/protocol/v1/message.proto\x1a'temporal/api/namespace/v1/message.proto\x1a#temporal/api/query/v1/message.proto\x1a)temporal/api/replication/v1/message.proto\x1a#temporal/api/rules/v1/message.proto\x1a'temporal/api/sdk/v1/worker_config.proto\x1a&temporal/api/schedule/v1/message.proto\x1a'temporal/api/taskqueue/v1/message.proto\x1a$temporal/api/update/v1/message.proto\x1a%temporal/api/version/v1/message.proto\x1a#temporal/api/batch/v1/message.proto\x1a0temporal/api/sdk/v1/task_complete_metadata.proto\x1a'temporal/api/sdk/v1/user_metadata.proto\x1a#temporal/api/nexus/v1/message.proto\x1a$temporal/api/worker/v1/message.proto\x1a\x1egoogle/protobuf/duration.proto\x1a google/protobuf/field_mask.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xf9\x06\n" +
+	"6temporal/api/workflowservice/v1/request_response.proto\x12\x1ftemporal.api.workflowservice.v1\x1a+temporal/api/enums/v1/batch_operation.proto\x1a\"temporal/api/enums/v1/common.proto\x1a$temporal/api/enums/v1/workflow.proto\x1a%temporal/api/enums/v1/namespace.proto\x1a(temporal/api/enums/v1/failed_cause.proto\x1a!temporal/api/enums/v1/query.proto\x1a!temporal/api/enums/v1/reset.proto\x1a&temporal/api/enums/v1/task_queue.proto\x1a&temporal/api/enums/v1/deployment.proto\x1a\"temporal/api/enums/v1/update.proto\x1a)temporal/api/enums/v1/time_skipping.proto\x1a$temporal/api/enums/v1/activity.proto\x1a!temporal/api/enums/v1/nexus.proto\x1a&temporal/api/activity/v1/message.proto\x1a$temporal/api/common/v1/message.proto\x1a%temporal/api/history/v1/message.proto\x1a&temporal/api/workflow/v1/message.proto\x1a%temporal/api/command/v1/message.proto\x1a$temporal/api/compute/v1/config.proto\x1a(temporal/api/deployment/v1/message.proto\x1a%temporal/api/failure/v1/message.proto\x1a$temporal/api/filter/v1/message.proto\x1a&temporal/api/protocol/v1/message.proto\x1a'temporal/api/namespace/v1/message.proto\x1a#temporal/api/query/v1/message.proto\x1a)temporal/api/replication/v1/message.proto\x1a#temporal/api/rules/v1/message.proto\x1a'temporal/api/sdk/v1/worker_config.proto\x1a&temporal/api/schedule/v1/message.proto\x1a'temporal/api/taskqueue/v1/message.proto\x1a$temporal/api/update/v1/message.proto\x1a%temporal/api/version/v1/message.proto\x1a#temporal/api/batch/v1/message.proto\x1a0temporal/api/sdk/v1/task_complete_metadata.proto\x1a'temporal/api/sdk/v1/user_metadata.proto\x1a#temporal/api/nexus/v1/message.proto\x1a,temporal/api/nexusoperation/v1/message.proto\x1a$temporal/api/worker/v1/message.proto\x1a\x1egoogle/protobuf/duration.proto\x1a google/protobuf/field_mask.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xf9\x06\n" +
 	"\x18RegisterNamespaceRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12 \n" +
 	"\vdescription\x18\x02 \x01(\tR\vdescription\x12\x1f\n" +
@@ -21996,7 +22037,8 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\n" +
 	"executions\x18\x01 \x03(\v23.temporal.api.activity.v1.ActivityExecutionListInfoR\n" +
 	"executions\x12&\n" +
-	"\x0fnext_page_token\x18\x02 \x01(\fR\rnextPageToken\"\xc2\b\n" +
+	"\x0fnext_page_token\x18\x02 \x01(\fR\rnextPageToken\"\xae\n" +
+	"\n" +
 	"#StartNexusOperationExecutionRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12\x1a\n" +
 	"\bidentity\x18\x02 \x01(\tR\bidentity\x12\x1d\n" +
@@ -22012,10 +22054,13 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	" \x01(\v2\x19.google.protobuf.DurationR\x13startToCloseTimeout\x125\n" +
 	"\x05input\x18\v \x01(\v2\x1f.temporal.api.common.v1.PayloadR\x05input\x12Z\n" +
 	"\x0fid_reuse_policy\x18\f \x01(\x0e22.temporal.api.enums.v1.NexusOperationIdReusePolicyR\ridReusePolicy\x12c\n" +
-	"\x12id_conflict_policy\x18\r \x01(\x0e25.temporal.api.enums.v1.NexusOperationIdConflictPolicyR\x10idConflictPolicy\x12U\n" +
+	"\x12id_conflict_policy\x18\r \x01(\x0e25.temporal.api.enums.v1.NexusOperationIdConflictPolicyR\x10idConflictPolicy\x12a\n" +
+	"\x13on_conflict_options\x18\x11 \x01(\v21.temporal.api.nexusoperation.v1.OnConflictOptionsR\x11onConflictOptions\x12U\n" +
 	"\x11search_attributes\x18\x0e \x01(\v2(.temporal.api.common.v1.SearchAttributesR\x10searchAttributes\x12x\n" +
 	"\fnexus_header\x18\x0f \x03(\v2U.temporal.api.workflowservice.v1.StartNexusOperationExecutionRequest.NexusHeaderEntryR\vnexusHeader\x12F\n" +
-	"\ruser_metadata\x18\x10 \x01(\v2!.temporal.api.sdk.v1.UserMetadataR\fuserMetadata\x1a>\n" +
+	"\ruser_metadata\x18\x10 \x01(\v2!.temporal.api.sdk.v1.UserMetadataR\fuserMetadata\x12S\n" +
+	"\x14completion_callbacks\x18\x12 \x03(\v2 .temporal.api.common.v1.CallbackR\x13completionCallbacks\x122\n" +
+	"\x05links\x18\x13 \x03(\v2\x1c.temporal.api.common.v1.LinkR\x05links\x1a>\n" +
 	"\x10NexusHeaderEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"W\n" +
@@ -22028,14 +22073,15 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\x06run_id\x18\x03 \x01(\tR\x05runId\x12#\n" +
 	"\rinclude_input\x18\x04 \x01(\bR\fincludeInput\x12'\n" +
 	"\x0finclude_outcome\x18\x05 \x01(\bR\x0eincludeOutcome\x12&\n" +
-	"\x0flong_poll_token\x18\x06 \x01(\fR\rlongPollToken\"\xeb\x02\n" +
+	"\x0flong_poll_token\x18\x06 \x01(\fR\rlongPollToken\"\xcc\x03\n" +
 	"'DescribeNexusOperationExecutionResponse\x12\x15\n" +
 	"\x06run_id\x18\x01 \x01(\tR\x05runId\x12F\n" +
 	"\x04info\x18\x02 \x01(\v22.temporal.api.nexus.v1.NexusOperationExecutionInfoR\x04info\x125\n" +
 	"\x05input\x18\x03 \x01(\v2\x1f.temporal.api.common.v1.PayloadR\x05input\x129\n" +
 	"\x06result\x18\x04 \x01(\v2\x1f.temporal.api.common.v1.PayloadH\x00R\x06result\x12<\n" +
 	"\afailure\x18\x05 \x01(\v2 .temporal.api.failure.v1.FailureH\x00R\afailure\x12&\n" +
-	"\x0flong_poll_token\x18\x06 \x01(\fR\rlongPollTokenB\t\n" +
+	"\x0flong_poll_token\x18\x06 \x01(\fR\rlongPollToken\x12_\n" +
+	"\x14completion_callbacks\x18\a \x03(\v2,.temporal.api.nexusoperation.v1.CallbackInfoR\x13completionCallbacksB\t\n" +
 	"\aoutcome\"\xcb\x01\n" +
 	"\"PollNexusOperationExecutionRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12!\n" +
@@ -22571,21 +22617,23 @@ var file_temporal_api_workflowservice_v1_request_response_proto_goTypes = []any{
 	(*v14.Payload)(nil),                                             // 416: temporal.api.common.v1.Payload
 	(v11.NexusOperationIdReusePolicy)(0),                            // 417: temporal.api.enums.v1.NexusOperationIdReusePolicy
 	(v11.NexusOperationIdConflictPolicy)(0),                         // 418: temporal.api.enums.v1.NexusOperationIdConflictPolicy
-	(*v119.NexusOperationExecutionInfo)(nil),                        // 419: temporal.api.nexus.v1.NexusOperationExecutionInfo
-	(v11.NexusOperationWaitStage)(0),                                // 420: temporal.api.enums.v1.NexusOperationWaitStage
-	(*v119.NexusOperationExecutionListInfo)(nil),                    // 421: temporal.api.nexus.v1.NexusOperationExecutionListInfo
-	(v11.FastForwardPollingResult)(0),                               // 422: temporal.api.enums.v1.FastForwardPollingResult
-	(*v14.TimeSkippingFastForwardInfo)(nil),                         // 423: temporal.api.common.v1.TimeSkippingFastForwardInfo
-	(*v110.WorkflowQueryResult)(nil),                                // 424: temporal.api.query.v1.WorkflowQueryResult
-	(v11.IndexedValueType)(0),                                       // 425: temporal.api.enums.v1.IndexedValueType
-	(v11.RateLimitSource)(0),                                        // 426: temporal.api.enums.v1.RateLimitSource
-	(*v13.TaskQueueVersionInfo)(nil),                                // 427: temporal.api.taskqueue.v1.TaskQueueVersionInfo
-	(*v13.BuildIdAssignmentRule)(nil),                               // 428: temporal.api.taskqueue.v1.BuildIdAssignmentRule
-	(*v13.CompatibleBuildIdRedirectRule)(nil),                       // 429: temporal.api.taskqueue.v1.CompatibleBuildIdRedirectRule
-	(*v18.RoutingConfig)(nil),                                       // 430: temporal.api.deployment.v1.RoutingConfig
-	(*v18.WorkerDeploymentInfo_WorkerDeploymentVersionSummary)(nil), // 431: temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummary
-	(*v121.ComputeConfigScalingGroupUpdate)(nil),                    // 432: temporal.api.compute.v1.ComputeConfigScalingGroupUpdate
-	(*v13.RateLimit)(nil),                                           // 433: temporal.api.taskqueue.v1.RateLimit
+	(*v123.OnConflictOptions)(nil),                                  // 419: temporal.api.nexusoperation.v1.OnConflictOptions
+	(*v119.NexusOperationExecutionInfo)(nil),                        // 420: temporal.api.nexus.v1.NexusOperationExecutionInfo
+	(*v123.CallbackInfo)(nil),                                       // 421: temporal.api.nexusoperation.v1.CallbackInfo
+	(v11.NexusOperationWaitStage)(0),                                // 422: temporal.api.enums.v1.NexusOperationWaitStage
+	(*v119.NexusOperationExecutionListInfo)(nil),                    // 423: temporal.api.nexus.v1.NexusOperationExecutionListInfo
+	(v11.FastForwardPollingResult)(0),                               // 424: temporal.api.enums.v1.FastForwardPollingResult
+	(*v14.TimeSkippingFastForwardInfo)(nil),                         // 425: temporal.api.common.v1.TimeSkippingFastForwardInfo
+	(*v110.WorkflowQueryResult)(nil),                                // 426: temporal.api.query.v1.WorkflowQueryResult
+	(v11.IndexedValueType)(0),                                       // 427: temporal.api.enums.v1.IndexedValueType
+	(v11.RateLimitSource)(0),                                        // 428: temporal.api.enums.v1.RateLimitSource
+	(*v13.TaskQueueVersionInfo)(nil),                                // 429: temporal.api.taskqueue.v1.TaskQueueVersionInfo
+	(*v13.BuildIdAssignmentRule)(nil),                               // 430: temporal.api.taskqueue.v1.BuildIdAssignmentRule
+	(*v13.CompatibleBuildIdRedirectRule)(nil),                       // 431: temporal.api.taskqueue.v1.CompatibleBuildIdRedirectRule
+	(*v18.RoutingConfig)(nil),                                       // 432: temporal.api.deployment.v1.RoutingConfig
+	(*v18.WorkerDeploymentInfo_WorkerDeploymentVersionSummary)(nil), // 433: temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummary
+	(*v121.ComputeConfigScalingGroupUpdate)(nil),                    // 434: temporal.api.compute.v1.ComputeConfigScalingGroupUpdate
+	(*v13.RateLimit)(nil),                                           // 435: temporal.api.taskqueue.v1.RateLimit
 }
 var file_temporal_api_workflowservice_v1_request_response_proto_depIdxs = []int32{
 	280, // 0: temporal.api.workflowservice.v1.RegisterNamespaceRequest.workflow_execution_retention_period:type_name -> google.protobuf.Duration
@@ -22984,59 +23032,63 @@ var file_temporal_api_workflowservice_v1_request_response_proto_depIdxs = []int3
 	416, // 393: temporal.api.workflowservice.v1.StartNexusOperationExecutionRequest.input:type_name -> temporal.api.common.v1.Payload
 	417, // 394: temporal.api.workflowservice.v1.StartNexusOperationExecutionRequest.id_reuse_policy:type_name -> temporal.api.enums.v1.NexusOperationIdReusePolicy
 	418, // 395: temporal.api.workflowservice.v1.StartNexusOperationExecutionRequest.id_conflict_policy:type_name -> temporal.api.enums.v1.NexusOperationIdConflictPolicy
-	298, // 396: temporal.api.workflowservice.v1.StartNexusOperationExecutionRequest.search_attributes:type_name -> temporal.api.common.v1.SearchAttributes
-	277, // 397: temporal.api.workflowservice.v1.StartNexusOperationExecutionRequest.nexus_header:type_name -> temporal.api.workflowservice.v1.StartNexusOperationExecutionRequest.NexusHeaderEntry
-	302, // 398: temporal.api.workflowservice.v1.StartNexusOperationExecutionRequest.user_metadata:type_name -> temporal.api.sdk.v1.UserMetadata
-	419, // 399: temporal.api.workflowservice.v1.DescribeNexusOperationExecutionResponse.info:type_name -> temporal.api.nexus.v1.NexusOperationExecutionInfo
-	416, // 400: temporal.api.workflowservice.v1.DescribeNexusOperationExecutionResponse.input:type_name -> temporal.api.common.v1.Payload
-	416, // 401: temporal.api.workflowservice.v1.DescribeNexusOperationExecutionResponse.result:type_name -> temporal.api.common.v1.Payload
-	300, // 402: temporal.api.workflowservice.v1.DescribeNexusOperationExecutionResponse.failure:type_name -> temporal.api.failure.v1.Failure
-	420, // 403: temporal.api.workflowservice.v1.PollNexusOperationExecutionRequest.wait_stage:type_name -> temporal.api.enums.v1.NexusOperationWaitStage
-	420, // 404: temporal.api.workflowservice.v1.PollNexusOperationExecutionResponse.wait_stage:type_name -> temporal.api.enums.v1.NexusOperationWaitStage
-	416, // 405: temporal.api.workflowservice.v1.PollNexusOperationExecutionResponse.result:type_name -> temporal.api.common.v1.Payload
-	300, // 406: temporal.api.workflowservice.v1.PollNexusOperationExecutionResponse.failure:type_name -> temporal.api.failure.v1.Failure
-	421, // 407: temporal.api.workflowservice.v1.ListNexusOperationExecutionsResponse.operations:type_name -> temporal.api.nexus.v1.NexusOperationExecutionListInfo
-	278, // 408: temporal.api.workflowservice.v1.CountActivityExecutionsResponse.groups:type_name -> temporal.api.workflowservice.v1.CountActivityExecutionsResponse.AggregationGroup
-	279, // 409: temporal.api.workflowservice.v1.CountNexusOperationExecutionsResponse.groups:type_name -> temporal.api.workflowservice.v1.CountNexusOperationExecutionsResponse.AggregationGroup
-	310, // 410: temporal.api.workflowservice.v1.PollWorkflowExecutionTimeSkippingRequest.workflow_execution:type_name -> temporal.api.common.v1.WorkflowExecution
-	422, // 411: temporal.api.workflowservice.v1.PollWorkflowExecutionTimeSkippingResponse.fast_forward_polling_result:type_name -> temporal.api.enums.v1.FastForwardPollingResult
-	423, // 412: temporal.api.workflowservice.v1.PollWorkflowExecutionTimeSkippingResponse.fast_forward_info:type_name -> temporal.api.common.v1.TimeSkippingFastForwardInfo
-	315, // 413: temporal.api.workflowservice.v1.PollWorkflowTaskQueueResponse.QueriesEntry.value:type_name -> temporal.api.query.v1.WorkflowQuery
-	424, // 414: temporal.api.workflowservice.v1.RespondWorkflowTaskCompletedRequest.QueryResultsEntry.value:type_name -> temporal.api.query.v1.WorkflowQueryResult
-	416, // 415: temporal.api.workflowservice.v1.CountWorkflowExecutionsResponse.AggregationGroup.group_values:type_name -> temporal.api.common.v1.Payload
-	425, // 416: temporal.api.workflowservice.v1.GetSearchAttributesResponse.KeysEntry.value:type_name -> temporal.api.enums.v1.IndexedValueType
-	352, // 417: temporal.api.workflowservice.v1.DescribeTaskQueueResponse.StatsByPriorityKeyEntry.value:type_name -> temporal.api.taskqueue.v1.TaskQueueStats
-	426, // 418: temporal.api.workflowservice.v1.DescribeTaskQueueResponse.EffectiveRateLimit.rate_limit_source:type_name -> temporal.api.enums.v1.RateLimitSource
-	427, // 419: temporal.api.workflowservice.v1.DescribeTaskQueueResponse.VersionsInfoEntry.value:type_name -> temporal.api.taskqueue.v1.TaskQueueVersionInfo
-	416, // 420: temporal.api.workflowservice.v1.CountSchedulesResponse.AggregationGroup.group_values:type_name -> temporal.api.common.v1.Payload
-	428, // 421: temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesRequest.InsertBuildIdAssignmentRule.rule:type_name -> temporal.api.taskqueue.v1.BuildIdAssignmentRule
-	428, // 422: temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesRequest.ReplaceBuildIdAssignmentRule.rule:type_name -> temporal.api.taskqueue.v1.BuildIdAssignmentRule
-	429, // 423: temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesRequest.AddCompatibleBuildIdRedirectRule.rule:type_name -> temporal.api.taskqueue.v1.CompatibleBuildIdRedirectRule
-	429, // 424: temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesRequest.ReplaceCompatibleBuildIdRedirectRule.rule:type_name -> temporal.api.taskqueue.v1.CompatibleBuildIdRedirectRule
-	10,  // 425: temporal.api.workflowservice.v1.ExecuteMultiOperationRequest.Operation.start_workflow:type_name -> temporal.api.workflowservice.v1.StartWorkflowExecutionRequest
-	110, // 426: temporal.api.workflowservice.v1.ExecuteMultiOperationRequest.Operation.update_workflow:type_name -> temporal.api.workflowservice.v1.UpdateWorkflowExecutionRequest
-	11,  // 427: temporal.api.workflowservice.v1.ExecuteMultiOperationResponse.Response.start_workflow:type_name -> temporal.api.workflowservice.v1.StartWorkflowExecutionResponse
-	111, // 428: temporal.api.workflowservice.v1.ExecuteMultiOperationResponse.Response.update_workflow:type_name -> temporal.api.workflowservice.v1.UpdateWorkflowExecutionResponse
-	339, // 429: temporal.api.workflowservice.v1.DescribeWorkerDeploymentVersionResponse.VersionTaskQueue.type:type_name -> temporal.api.enums.v1.TaskQueueType
-	352, // 430: temporal.api.workflowservice.v1.DescribeWorkerDeploymentVersionResponse.VersionTaskQueue.stats:type_name -> temporal.api.taskqueue.v1.TaskQueueStats
-	270, // 431: temporal.api.workflowservice.v1.DescribeWorkerDeploymentVersionResponse.VersionTaskQueue.stats_by_priority_key:type_name -> temporal.api.workflowservice.v1.DescribeWorkerDeploymentVersionResponse.VersionTaskQueue.StatsByPriorityKeyEntry
-	352, // 432: temporal.api.workflowservice.v1.DescribeWorkerDeploymentVersionResponse.VersionTaskQueue.StatsByPriorityKeyEntry.value:type_name -> temporal.api.taskqueue.v1.TaskQueueStats
-	316, // 433: temporal.api.workflowservice.v1.ListWorkerDeploymentsResponse.WorkerDeploymentSummary.create_time:type_name -> google.protobuf.Timestamp
-	430, // 434: temporal.api.workflowservice.v1.ListWorkerDeploymentsResponse.WorkerDeploymentSummary.routing_config:type_name -> temporal.api.deployment.v1.RoutingConfig
-	431, // 435: temporal.api.workflowservice.v1.ListWorkerDeploymentsResponse.WorkerDeploymentSummary.latest_version_summary:type_name -> temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummary
-	431, // 436: temporal.api.workflowservice.v1.ListWorkerDeploymentsResponse.WorkerDeploymentSummary.current_version_summary:type_name -> temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummary
-	431, // 437: temporal.api.workflowservice.v1.ListWorkerDeploymentsResponse.WorkerDeploymentSummary.ramping_version_summary:type_name -> temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummary
-	432, // 438: temporal.api.workflowservice.v1.UpdateWorkerDeploymentVersionComputeConfigRequest.ComputeConfigScalingGroupsEntry.value:type_name -> temporal.api.compute.v1.ComputeConfigScalingGroupUpdate
-	432, // 439: temporal.api.workflowservice.v1.ValidateWorkerDeploymentVersionComputeConfigRequest.ComputeConfigScalingGroupsEntry.value:type_name -> temporal.api.compute.v1.ComputeConfigScalingGroupUpdate
-	416, // 440: temporal.api.workflowservice.v1.UpdateWorkerDeploymentVersionMetadataRequest.UpsertEntriesEntry.value:type_name -> temporal.api.common.v1.Payload
-	433, // 441: temporal.api.workflowservice.v1.UpdateTaskQueueConfigRequest.RateLimitUpdate.rate_limit:type_name -> temporal.api.taskqueue.v1.RateLimit
-	416, // 442: temporal.api.workflowservice.v1.CountActivityExecutionsResponse.AggregationGroup.group_values:type_name -> temporal.api.common.v1.Payload
-	416, // 443: temporal.api.workflowservice.v1.CountNexusOperationExecutionsResponse.AggregationGroup.group_values:type_name -> temporal.api.common.v1.Payload
-	444, // [444:444] is the sub-list for method output_type
-	444, // [444:444] is the sub-list for method input_type
-	444, // [444:444] is the sub-list for extension type_name
-	444, // [444:444] is the sub-list for extension extendee
-	0,   // [0:444] is the sub-list for field type_name
+	419, // 396: temporal.api.workflowservice.v1.StartNexusOperationExecutionRequest.on_conflict_options:type_name -> temporal.api.nexusoperation.v1.OnConflictOptions
+	298, // 397: temporal.api.workflowservice.v1.StartNexusOperationExecutionRequest.search_attributes:type_name -> temporal.api.common.v1.SearchAttributes
+	277, // 398: temporal.api.workflowservice.v1.StartNexusOperationExecutionRequest.nexus_header:type_name -> temporal.api.workflowservice.v1.StartNexusOperationExecutionRequest.NexusHeaderEntry
+	302, // 399: temporal.api.workflowservice.v1.StartNexusOperationExecutionRequest.user_metadata:type_name -> temporal.api.sdk.v1.UserMetadata
+	301, // 400: temporal.api.workflowservice.v1.StartNexusOperationExecutionRequest.completion_callbacks:type_name -> temporal.api.common.v1.Callback
+	303, // 401: temporal.api.workflowservice.v1.StartNexusOperationExecutionRequest.links:type_name -> temporal.api.common.v1.Link
+	420, // 402: temporal.api.workflowservice.v1.DescribeNexusOperationExecutionResponse.info:type_name -> temporal.api.nexus.v1.NexusOperationExecutionInfo
+	416, // 403: temporal.api.workflowservice.v1.DescribeNexusOperationExecutionResponse.input:type_name -> temporal.api.common.v1.Payload
+	416, // 404: temporal.api.workflowservice.v1.DescribeNexusOperationExecutionResponse.result:type_name -> temporal.api.common.v1.Payload
+	300, // 405: temporal.api.workflowservice.v1.DescribeNexusOperationExecutionResponse.failure:type_name -> temporal.api.failure.v1.Failure
+	421, // 406: temporal.api.workflowservice.v1.DescribeNexusOperationExecutionResponse.completion_callbacks:type_name -> temporal.api.nexusoperation.v1.CallbackInfo
+	422, // 407: temporal.api.workflowservice.v1.PollNexusOperationExecutionRequest.wait_stage:type_name -> temporal.api.enums.v1.NexusOperationWaitStage
+	422, // 408: temporal.api.workflowservice.v1.PollNexusOperationExecutionResponse.wait_stage:type_name -> temporal.api.enums.v1.NexusOperationWaitStage
+	416, // 409: temporal.api.workflowservice.v1.PollNexusOperationExecutionResponse.result:type_name -> temporal.api.common.v1.Payload
+	300, // 410: temporal.api.workflowservice.v1.PollNexusOperationExecutionResponse.failure:type_name -> temporal.api.failure.v1.Failure
+	423, // 411: temporal.api.workflowservice.v1.ListNexusOperationExecutionsResponse.operations:type_name -> temporal.api.nexus.v1.NexusOperationExecutionListInfo
+	278, // 412: temporal.api.workflowservice.v1.CountActivityExecutionsResponse.groups:type_name -> temporal.api.workflowservice.v1.CountActivityExecutionsResponse.AggregationGroup
+	279, // 413: temporal.api.workflowservice.v1.CountNexusOperationExecutionsResponse.groups:type_name -> temporal.api.workflowservice.v1.CountNexusOperationExecutionsResponse.AggregationGroup
+	310, // 414: temporal.api.workflowservice.v1.PollWorkflowExecutionTimeSkippingRequest.workflow_execution:type_name -> temporal.api.common.v1.WorkflowExecution
+	424, // 415: temporal.api.workflowservice.v1.PollWorkflowExecutionTimeSkippingResponse.fast_forward_polling_result:type_name -> temporal.api.enums.v1.FastForwardPollingResult
+	425, // 416: temporal.api.workflowservice.v1.PollWorkflowExecutionTimeSkippingResponse.fast_forward_info:type_name -> temporal.api.common.v1.TimeSkippingFastForwardInfo
+	315, // 417: temporal.api.workflowservice.v1.PollWorkflowTaskQueueResponse.QueriesEntry.value:type_name -> temporal.api.query.v1.WorkflowQuery
+	426, // 418: temporal.api.workflowservice.v1.RespondWorkflowTaskCompletedRequest.QueryResultsEntry.value:type_name -> temporal.api.query.v1.WorkflowQueryResult
+	416, // 419: temporal.api.workflowservice.v1.CountWorkflowExecutionsResponse.AggregationGroup.group_values:type_name -> temporal.api.common.v1.Payload
+	427, // 420: temporal.api.workflowservice.v1.GetSearchAttributesResponse.KeysEntry.value:type_name -> temporal.api.enums.v1.IndexedValueType
+	352, // 421: temporal.api.workflowservice.v1.DescribeTaskQueueResponse.StatsByPriorityKeyEntry.value:type_name -> temporal.api.taskqueue.v1.TaskQueueStats
+	428, // 422: temporal.api.workflowservice.v1.DescribeTaskQueueResponse.EffectiveRateLimit.rate_limit_source:type_name -> temporal.api.enums.v1.RateLimitSource
+	429, // 423: temporal.api.workflowservice.v1.DescribeTaskQueueResponse.VersionsInfoEntry.value:type_name -> temporal.api.taskqueue.v1.TaskQueueVersionInfo
+	416, // 424: temporal.api.workflowservice.v1.CountSchedulesResponse.AggregationGroup.group_values:type_name -> temporal.api.common.v1.Payload
+	430, // 425: temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesRequest.InsertBuildIdAssignmentRule.rule:type_name -> temporal.api.taskqueue.v1.BuildIdAssignmentRule
+	430, // 426: temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesRequest.ReplaceBuildIdAssignmentRule.rule:type_name -> temporal.api.taskqueue.v1.BuildIdAssignmentRule
+	431, // 427: temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesRequest.AddCompatibleBuildIdRedirectRule.rule:type_name -> temporal.api.taskqueue.v1.CompatibleBuildIdRedirectRule
+	431, // 428: temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesRequest.ReplaceCompatibleBuildIdRedirectRule.rule:type_name -> temporal.api.taskqueue.v1.CompatibleBuildIdRedirectRule
+	10,  // 429: temporal.api.workflowservice.v1.ExecuteMultiOperationRequest.Operation.start_workflow:type_name -> temporal.api.workflowservice.v1.StartWorkflowExecutionRequest
+	110, // 430: temporal.api.workflowservice.v1.ExecuteMultiOperationRequest.Operation.update_workflow:type_name -> temporal.api.workflowservice.v1.UpdateWorkflowExecutionRequest
+	11,  // 431: temporal.api.workflowservice.v1.ExecuteMultiOperationResponse.Response.start_workflow:type_name -> temporal.api.workflowservice.v1.StartWorkflowExecutionResponse
+	111, // 432: temporal.api.workflowservice.v1.ExecuteMultiOperationResponse.Response.update_workflow:type_name -> temporal.api.workflowservice.v1.UpdateWorkflowExecutionResponse
+	339, // 433: temporal.api.workflowservice.v1.DescribeWorkerDeploymentVersionResponse.VersionTaskQueue.type:type_name -> temporal.api.enums.v1.TaskQueueType
+	352, // 434: temporal.api.workflowservice.v1.DescribeWorkerDeploymentVersionResponse.VersionTaskQueue.stats:type_name -> temporal.api.taskqueue.v1.TaskQueueStats
+	270, // 435: temporal.api.workflowservice.v1.DescribeWorkerDeploymentVersionResponse.VersionTaskQueue.stats_by_priority_key:type_name -> temporal.api.workflowservice.v1.DescribeWorkerDeploymentVersionResponse.VersionTaskQueue.StatsByPriorityKeyEntry
+	352, // 436: temporal.api.workflowservice.v1.DescribeWorkerDeploymentVersionResponse.VersionTaskQueue.StatsByPriorityKeyEntry.value:type_name -> temporal.api.taskqueue.v1.TaskQueueStats
+	316, // 437: temporal.api.workflowservice.v1.ListWorkerDeploymentsResponse.WorkerDeploymentSummary.create_time:type_name -> google.protobuf.Timestamp
+	432, // 438: temporal.api.workflowservice.v1.ListWorkerDeploymentsResponse.WorkerDeploymentSummary.routing_config:type_name -> temporal.api.deployment.v1.RoutingConfig
+	433, // 439: temporal.api.workflowservice.v1.ListWorkerDeploymentsResponse.WorkerDeploymentSummary.latest_version_summary:type_name -> temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummary
+	433, // 440: temporal.api.workflowservice.v1.ListWorkerDeploymentsResponse.WorkerDeploymentSummary.current_version_summary:type_name -> temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummary
+	433, // 441: temporal.api.workflowservice.v1.ListWorkerDeploymentsResponse.WorkerDeploymentSummary.ramping_version_summary:type_name -> temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummary
+	434, // 442: temporal.api.workflowservice.v1.UpdateWorkerDeploymentVersionComputeConfigRequest.ComputeConfigScalingGroupsEntry.value:type_name -> temporal.api.compute.v1.ComputeConfigScalingGroupUpdate
+	434, // 443: temporal.api.workflowservice.v1.ValidateWorkerDeploymentVersionComputeConfigRequest.ComputeConfigScalingGroupsEntry.value:type_name -> temporal.api.compute.v1.ComputeConfigScalingGroupUpdate
+	416, // 444: temporal.api.workflowservice.v1.UpdateWorkerDeploymentVersionMetadataRequest.UpsertEntriesEntry.value:type_name -> temporal.api.common.v1.Payload
+	435, // 445: temporal.api.workflowservice.v1.UpdateTaskQueueConfigRequest.RateLimitUpdate.rate_limit:type_name -> temporal.api.taskqueue.v1.RateLimit
+	416, // 446: temporal.api.workflowservice.v1.CountActivityExecutionsResponse.AggregationGroup.group_values:type_name -> temporal.api.common.v1.Payload
+	416, // 447: temporal.api.workflowservice.v1.CountNexusOperationExecutionsResponse.AggregationGroup.group_values:type_name -> temporal.api.common.v1.Payload
+	448, // [448:448] is the sub-list for method output_type
+	448, // [448:448] is the sub-list for method input_type
+	448, // [448:448] is the sub-list for extension type_name
+	448, // [448:448] is the sub-list for extension extendee
+	0,   // [0:448] is the sub-list for field type_name
 }
 
 func init() { file_temporal_api_workflowservice_v1_request_response_proto_init() }
