@@ -547,6 +547,23 @@ func visitPayloads(
 					}
 				}
 				{{range $record.Payloads -}}
+				{{/*
+					NOTE: Whenever a Payload protobuf field is wrapped within a "oneof" block, we
+					need to special case the interceptor logic.
+
+					Consider the 'workflowservice.DescribeNexusOperationExecutionResponse' type:
+					---
+					oneof outcome {
+						temporal.api.common.v1.Payload result = ...
+						...
+					}
+					---
+					
+					We run the payload visitor on the value returned from GetResult(), but there
+					is no 'result' field on the generated type. Instead, we need to assign the visited
+					payload to the 'outcome' field instead. (Via generated the generated
+					DescribeNexusOperationExecutionResponse_Result type.)
+				*/}}
 				{{if and (eq $type "*workflowservice.DescribeNexusOperationExecutionResponse") (eq . "Result")}}
 				if o.GetResult() != nil {
 					result := o.GetResult()
@@ -558,6 +575,12 @@ func visitPayloads(
 					result := o.GetResult()
 					if err := visitPayload(ctx, options, o, concState, &result); err != nil { return err }
 					o.Outcome = &workflowservice.PollNexusOperationExecutionResponse_Result{Result: result}
+				}
+				{{else if and (eq $type "*notificationservice.OnCompleteRequest") (eq . "Success")}}
+				if o.GetSuccess() != nil {
+					success := o.GetSuccess()
+					if err := visitPayload(ctx, options, o, concState, &success); err != nil { return err }
+					o.Result = &notificationservice.OnCompleteRequest_Success{Success: success}
 				}
 				{{else if and (eq $type "*command.ScheduleNexusOperationCommandAttributes") (eq . "Input")}}
 				if o.Input != nil {
