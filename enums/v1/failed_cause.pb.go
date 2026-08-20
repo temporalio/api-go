@@ -615,9 +615,9 @@ type ResourceExhaustedScope int32
 
 const (
 	RESOURCE_EXHAUSTED_SCOPE_UNSPECIFIED ResourceExhaustedScope = 0
-	// Exhausted resource is a system-level resource.
-	RESOURCE_EXHAUSTED_SCOPE_NAMESPACE ResourceExhaustedScope = 1
 	// Exhausted resource is a namespace-level resource.
+	RESOURCE_EXHAUSTED_SCOPE_NAMESPACE ResourceExhaustedScope = 1
+	// Exhausted resource is a system-level resource.
 	RESOURCE_EXHAUSTED_SCOPE_SYSTEM ResourceExhaustedScope = 2
 )
 
