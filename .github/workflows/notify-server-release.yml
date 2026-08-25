@@ -1,0 +1,44 @@
+name: Notify downstream repos of release
+
+# Forwards a published release to temporalio/temporal, whose bump-go-api.yml
+# workflow opens a PR bumping go.temporal.io/api.
+#
+# This fires because publish-release.yml flips the release out of draft using a
+# GitHub App token: events caused by GITHUB_TOKEN do not trigger workflow runs,
+# but events caused by an App token do. Keep that in mind before changing how
+# publish-release.yml authenticates.
+#
+# Note that create-release.yml's `gh release create --draft` fires
+# `release: created`, not `published`, so drafts do not reach here.
+on:
+  release:
+    types:
+      - published
+
+permissions:
+  contents: read
+
+jobs:
+  notify-temporal:
+    name: "Notify temporalio/temporal"
+    runs-on: ubuntu-latest
+    if: ${{ !github.event.release.draft && !github.event.release.prerelease }}
+
+    steps:
+      - name: Generate token
+        id: generate_token
+        uses: actions/create-github-app-token@fee1f7d63c2ff003460e3d139729b119787bc349 # v2.2.2
+        with:
+          app-id: ${{ secrets.TEMPORAL_CICD_APP_ID }}
+          private-key: ${{ secrets.TEMPORAL_CICD_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repositories: temporal
+
+      - name: Dispatch to temporalio/temporal
+        env:
+          GH_TOKEN: ${{ steps.generate_token.outputs.token }}
+          TAG: ${{ github.event.release.tag_name }}
+        run: |
+          gh api --method POST /repos/temporalio/temporal/dispatches \
+            -f "event_type=api-go-release" \
+            -f "client_payload[tag]=$TAG"
