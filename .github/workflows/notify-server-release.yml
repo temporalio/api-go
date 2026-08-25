@@ -1,0 +1,89 @@
+name: Notify downstream repos of release
+
+# Forwards a published release to temporalio/temporal, whose bump-go-api.yml
+# workflow opens a PR bumping go.temporal.io/api.
+#
+# This fires because publish-release.yml flips the release out of draft using a
+# GitHub App token: events caused by GITHUB_TOKEN do not trigger workflow runs,
+# but events caused by an App token do. Keep that in mind before changing how
+# publish-release.yml authenticates.
+#
+# Note that create-release.yml's `gh release create --draft` fires
+# `release: created`, not `published`, so drafts do not reach here.
+on:
+  release:
+    types:
+      - published
+  # Exercise this file when someone edits it. A pull request forwards the newest
+  # already-published release rather than stubbing the dispatch out, so the one
+  # thing this job does is actually tested. temporalio/temporal is normally
+  # already on that version, which is what makes it a no-op at the far end.
+  pull_request:
+    paths:
+      - .github/workflows/notify-server-release.yml
+
+permissions:
+  contents: read
+
+jobs:
+  notify-temporal:
+    name: "Notify temporalio/temporal"
+    runs-on: ubuntu-latest
+    # Spelled out per event rather than filtering on github.event.release alone:
+    # on a pull request that object is null, and `!null` comes out true, so a
+    # release-shaped condition would quietly pass there too.
+    #
+    # Pull requests from forks are skipped because they cannot see the secrets
+    # this job needs. api-go is public, so they do happen.
+    if: >-
+      (github.event_name == 'pull_request' &&
+       github.event.pull_request.head.repo.full_name == github.repository) ||
+      (github.event_name == 'release' &&
+       !github.event.release.draft &&
+       !github.event.release.prerelease)
+
+    steps:
+      - name: Generate token
+        id: generate_token
+        uses: actions/create-github-app-token@fee1f7d63c2ff003460e3d139729b119787bc349 # v2.2.2
+        with:
+          app-id: ${{ secrets.TEMPORAL_CICD_APP_ID }}
+          private-key: ${{ secrets.TEMPORAL_CICD_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repositories: temporal
+
+      - name: Resolve tag to forward
+        id: tag
+        env:
+          # Reading this repo's own releases needs nothing beyond the workflow
+          # token, so the App token stays scoped to temporal alone.
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+        run: |
+          tag=$RELEASE_TAG
+          if [[ -z "$tag" ]]; then
+            # Not a release event, so forward the newest published release.
+            # `gh release view` with no tag reports whichever release is marked
+            # latest, which excludes drafts and prereleases.
+            tag=$(gh release view \
+              --repo "$GITHUB_REPOSITORY" --json tagName --jq .tagName)
+          fi
+
+          # An empty tag would reach temporalio/temporal as a dispatch its
+          # bump-go-api workflow can only fail on, so refuse to send one.
+          if [[ -z "$tag" ]]; then
+            echo "::error::Could not determine a tag to forward"
+            exit 1
+          fi
+
+          echo "Forwarding $tag"
+          echo "tag=$tag" >>"$GITHUB_OUTPUT"
+
+      - name: Dispatch to temporalio/temporal
+        env:
+          GH_TOKEN: ${{ steps.generate_token.outputs.token }}
+          TAG: ${{ steps.tag.outputs.tag }}
+        run: |
+          gh api --method POST /repos/temporalio/temporal/dispatches \
+            -f "event_type=api-go-release" \
+            -f "client_payload[tag]=$TAG"
