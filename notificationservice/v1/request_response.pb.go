@@ -25,7 +25,7 @@ const (
 )
 
 // OnCompleteRequest is the request type to the NotificationService's OnComplete operation,
-// allowing for defining completion handlers for arbitrary asynchronous operations.
+// allowing for defining completion handlers for arbitrary operations.
 //
 // Information about the source operation will be available in the form of a commonpb.Link,
 // which will be available separately from this OnCompleteRequest. e.g. a link to the source

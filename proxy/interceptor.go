@@ -1120,14 +1120,14 @@ func visitPayloads(
 				options,
 				o,
 				concState,
-				o.GetWorker(),
+				o.GetNexusHandler(),
 			); err != nil {
 				return err
 			}
 
 			ctx.Context = prevCtx
 
-		case *common.Callback_Worker:
+		case *common.Callback_NexusHandler:
 
 			if o == nil {
 				continue

@@ -964,7 +964,7 @@ type Callback struct {
 	//
 	//	*Callback_Nexus_
 	//	*Callback_Internal_
-	//	*Callback_Worker_
+	//	*Callback_NexusHandler_
 	Variant isCallback_Variant `protobuf_oneof:"variant"`
 	// Links associated with the callback. It can be used to link to underlying resources of the
 	// callback.
@@ -1028,10 +1028,10 @@ func (x *Callback) GetInternal() *Callback_Internal {
 	return nil
 }
 
-func (x *Callback) GetWorker() *Callback_Worker {
+func (x *Callback) GetNexusHandler() *Callback_NexusHandler {
 	if x != nil {
-		if x, ok := x.Variant.(*Callback_Worker_); ok {
-			return x.Worker
+		if x, ok := x.Variant.(*Callback_NexusHandler_); ok {
+			return x.NexusHandler
 		}
 	}
 	return nil
@@ -1056,15 +1056,15 @@ type Callback_Internal_ struct {
 	Internal *Callback_Internal `protobuf:"bytes,3,opt,name=internal,proto3,oneof"`
 }
 
-type Callback_Worker_ struct {
-	Worker *Callback_Worker `protobuf:"bytes,4,opt,name=worker,proto3,oneof"`
+type Callback_NexusHandler_ struct {
+	NexusHandler *Callback_NexusHandler `protobuf:"bytes,4,opt,name=nexus_handler,json=nexusHandler,proto3,oneof"`
 }
 
 func (*Callback_Nexus_) isCallback_Variant() {}
 
 func (*Callback_Internal_) isCallback_Variant() {}
 
-func (*Callback_Worker_) isCallback_Variant() {}
+func (*Callback_NexusHandler_) isCallback_Variant() {}
 
 // Link can be associated with history events. It might contain information about an external entity
 // related to the history event. For example, workflow A makes a Nexus call that starts workflow B:
@@ -1978,6 +1978,8 @@ func (x *Payload_ExternalPayloadDetails) GetSizeBytes() int64 {
 	return 0
 }
 
+// Nexus callbacks are used to delivery Nexus operation completions, as defined in the Nexus RPC spec:
+// https://github.com/nexus-rpc/api/blob/main/SPEC.md#callback-urls
 type Callback_Nexus struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Callback URL.
@@ -2081,19 +2083,19 @@ func (x *Callback_Internal) GetData() []byte {
 	return nil
 }
 
-// Worker callbacks are requests to invoke a specific shape of Nexus operation on a Temporal worker.
+// NexusHandler callbacks are requests to invoke a specific shape of Nexus operation on a Temporal worker.
 // The specified Nexus operation must have the following:
 // - Input:  temporal.api.notificationservice.v1.OnCompleteRequest
 // - Output: temporal.api.notificationservice.v1.OnCompleteResponse
 //
 // The targeted Nexus service must be registered within the same namespace as the source operation
-// the callback is attached to. (While Nexus allows for cross-namespace operations, worker callbacks
-// are purely "caller-side".)
+// the callback is attached to. (While Nexus allows for cross-namespace operations, NexusHandler callbacks
+// are strictly caller-side.)
 //
-// Worker callbacks are only supported for certain types of operations, e.g. standalone Nexus operations.
+// NexusHandler callbacks are only supported for certain types of operations, e.g. standalone Nexus operations.
 // Attempting to attach a Worker callback for an unsupported operation will result in an INVALID_ARGUMENT
 // error from the server.
-type Callback_Worker struct {
+type Callback_NexusHandler struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Nexus task queue the Temporal worker is listening on.
 	//
@@ -2106,26 +2108,28 @@ type Callback_Worker struct {
 	// Arbitrary user-supplied data from the source operation's callsite. (As applicable, not all operations
 	// support attaching context data.)
 	//
-	// There is a relatively small maximum size the source context can be, e.g. 32KiB.
+	// There are restrictions on the maxium payload size a single callback can carry, as well as the
+	// total sum of all source context payloads attached to an execution. See dynamic configuration
+	// settings: "callback.worker.sourceContext.maxSize", "callback.worker.sourceContext.aggregateMaxSize".
 	SourceContext *Payload `protobuf:"bytes,4,opt,name=source_context,json=sourceContext,proto3" json:"source_context,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *Callback_Worker) Reset() {
-	*x = Callback_Worker{}
+func (x *Callback_NexusHandler) Reset() {
+	*x = Callback_NexusHandler{}
 	mi := &file_temporal_api_common_v1_message_proto_msgTypes[33]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *Callback_Worker) String() string {
+func (x *Callback_NexusHandler) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*Callback_Worker) ProtoMessage() {}
+func (*Callback_NexusHandler) ProtoMessage() {}
 
-func (x *Callback_Worker) ProtoReflect() protoreflect.Message {
+func (x *Callback_NexusHandler) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_common_v1_message_proto_msgTypes[33]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -2137,33 +2141,33 @@ func (x *Callback_Worker) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Callback_Worker.ProtoReflect.Descriptor instead.
-func (*Callback_Worker) Descriptor() ([]byte, []int) {
+// Deprecated: Use Callback_NexusHandler.ProtoReflect.Descriptor instead.
+func (*Callback_NexusHandler) Descriptor() ([]byte, []int) {
 	return file_temporal_api_common_v1_message_proto_rawDescGZIP(), []int{15, 2}
 }
 
-func (x *Callback_Worker) GetTaskQueueName() string {
+func (x *Callback_NexusHandler) GetTaskQueueName() string {
 	if x != nil {
 		return x.TaskQueueName
 	}
 	return ""
 }
 
-func (x *Callback_Worker) GetService() string {
+func (x *Callback_NexusHandler) GetService() string {
 	if x != nil {
 		return x.Service
 	}
 	return ""
 }
 
-func (x *Callback_Worker) GetOperation() string {
+func (x *Callback_NexusHandler) GetOperation() string {
 	if x != nil {
 		return x.Operation
 	}
 	return ""
 }
 
-func (x *Callback_Worker) GetSourceContext() *Payload {
+func (x *Callback_NexusHandler) GetSourceContext() *Payload {
 	if x != nil {
 		return x.SourceContext
 	}
@@ -2522,10 +2526,15 @@ func (x *Link_Workflow) GetReason() string {
 // A link to a worker callback attached to an execution. An execution (e.g. standalone Nexus operation) can have
 // multiple callbacks attached, and will be differentiated by the request_id used when the callback is invoked.
 type Link_Callback struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Namespace     string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
-	Execution     *Execution             `protobuf:"bytes,2,opt,name=execution,proto3" json:"execution,omitempty"`
-	RequestId     string                 `protobuf:"bytes,3,opt,name=request_id,json=requestId,proto3" json:"request_id,omitempty"`
+	state     protoimpl.MessageState `protogen:"open.v1"`
+	Namespace string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	Execution *Execution             `protobuf:"bytes,2,opt,name=execution,proto3" json:"execution,omitempty"`
+	// In most cases, the Execution is sufficient to identify the callback's source. But for some types of execution,
+	// a separate "component ID" is required. e.g. for completion callbacks attached to a workflow update. The
+	// execution would be the workflow itself, with the component_id being the update ID of the update operation.
+	ComponentId string `protobuf:"bytes,3,opt,name=component_id,json=componentId,proto3" json:"component_id,omitempty"`
+	// Server-generate request ID sent when the callback was dispatched.
+	RequestId     string `protobuf:"bytes,4,opt,name=request_id,json=requestId,proto3" json:"request_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -2572,6 +2581,13 @@ func (x *Link_Callback) GetExecution() *Execution {
 		return x.Execution
 	}
 	return nil
+}
+
+func (x *Link_Callback) GetComponentId() string {
+	if x != nil {
+		return x.ComponentId
+	}
+	return ""
 }
 
 func (x *Link_Callback) GetRequestId() string {
@@ -2759,11 +2775,11 @@ const file_temporal_api_common_v1_message_proto_rawDesc = "" +
 	" \x01(\x0e2'.temporal.api.enums.v1.ResetReapplyTypeB\x02\x18\x01R\x10resetReapplyType\x12(\n" +
 	"\x10current_run_only\x18\v \x01(\bR\x0ecurrentRunOnly\x12m\n" +
 	"\x1breset_reapply_exclude_types\x18\f \x03(\x0e2..temporal.api.enums.v1.ResetReapplyExcludeTypeR\x18resetReapplyExcludeTypesB\b\n" +
-	"\x06target\"\x91\x05\n" +
+	"\x06target\"\xaa\x05\n" +
 	"\bCallback\x12>\n" +
 	"\x05nexus\x18\x02 \x01(\v2&.temporal.api.common.v1.Callback.NexusH\x00R\x05nexus\x12G\n" +
-	"\binternal\x18\x03 \x01(\v2).temporal.api.common.v1.Callback.InternalH\x00R\binternal\x12A\n" +
-	"\x06worker\x18\x04 \x01(\v2'.temporal.api.common.v1.Callback.WorkerH\x00R\x06worker\x122\n" +
+	"\binternal\x18\x03 \x01(\v2).temporal.api.common.v1.Callback.InternalH\x00R\binternal\x12T\n" +
+	"\rnexus_handler\x18\x04 \x01(\v2-.temporal.api.common.v1.Callback.NexusHandlerH\x00R\fnexusHandler\x122\n" +
 	"\x05links\x18d \x03(\v2\x1c.temporal.api.common.v1.LinkR\x05links\x1a\xa0\x01\n" +
 	"\x05Nexus\x12\x10\n" +
 	"\x03url\x18\x01 \x01(\tR\x03url\x12J\n" +
@@ -2772,13 +2788,13 @@ const file_temporal_api_common_v1_message_proto_rawDesc = "" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\x1a\x1e\n" +
 	"\bInternal\x12\x12\n" +
-	"\x04data\x18\x01 \x01(\fR\x04data\x1a\xb0\x01\n" +
-	"\x06Worker\x12&\n" +
+	"\x04data\x18\x01 \x01(\fR\x04data\x1a\xb6\x01\n" +
+	"\fNexusHandler\x12&\n" +
 	"\x0ftask_queue_name\x18\x01 \x01(\tR\rtaskQueueName\x12\x18\n" +
 	"\aservice\x18\x02 \x01(\tR\aservice\x12\x1c\n" +
 	"\toperation\x18\x03 \x01(\tR\toperation\x12F\n" +
 	"\x0esource_context\x18\x04 \x01(\v2\x1f.temporal.api.common.v1.PayloadR\rsourceContextB\t\n" +
-	"\avariantJ\x04\b\x01\x10\x02\"\xe1\v\n" +
+	"\avariantJ\x04\b\x01\x10\x02\"\x84\f\n" +
 	"\x04Link\x12S\n" +
 	"\x0eworkflow_event\x18\x01 \x01(\v2*.temporal.api.common.v1.Link.WorkflowEventH\x00R\rworkflowEvent\x12D\n" +
 	"\tbatch_job\x18\x02 \x01(\v2%.temporal.api.common.v1.Link.BatchJobH\x00R\bbatchJob\x12C\n" +
@@ -2819,12 +2835,13 @@ const file_temporal_api_common_v1_message_proto_rawDesc = "" +
 	"\vworkflow_id\x18\x02 \x01(\tR\n" +
 	"workflowId\x12\x15\n" +
 	"\x06run_id\x18\x03 \x01(\tR\x05runId\x12\x16\n" +
-	"\x06reason\x18\x04 \x01(\tR\x06reason\x1a\x88\x01\n" +
+	"\x06reason\x18\x04 \x01(\tR\x06reason\x1a\xab\x01\n" +
 	"\bCallback\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12?\n" +
-	"\texecution\x18\x02 \x01(\v2!.temporal.api.common.v1.ExecutionR\texecution\x12\x1d\n" +
+	"\texecution\x18\x02 \x01(\v2!.temporal.api.common.v1.ExecutionR\texecution\x12!\n" +
+	"\fcomponent_id\x18\x03 \x01(\tR\vcomponentId\x12\x1d\n" +
 	"\n" +
-	"request_id\x18\x03 \x01(\tR\trequestIdB\t\n" +
+	"request_id\x18\x04 \x01(\tR\trequestIdB\t\n" +
 	"\avariant\"3\n" +
 	"\tPrincipal\x12\x12\n" +
 	"\x04type\x18\x01 \x01(\tR\x04type\x12\x12\n" +
@@ -2913,7 +2930,7 @@ var file_temporal_api_common_v1_message_proto_goTypes = []any{
 	nil,                                       // 30: temporal.api.common.v1.Header.FieldsEntry
 	(*Callback_Nexus)(nil),                    // 31: temporal.api.common.v1.Callback.Nexus
 	(*Callback_Internal)(nil),                 // 32: temporal.api.common.v1.Callback.Internal
-	(*Callback_Worker)(nil),                   // 33: temporal.api.common.v1.Callback.Worker
+	(*Callback_NexusHandler)(nil),             // 33: temporal.api.common.v1.Callback.NexusHandler
 	nil,                                       // 34: temporal.api.common.v1.Callback.Nexus.HeaderEntry
 	(*Link_WorkflowEvent)(nil),                // 35: temporal.api.common.v1.Link.WorkflowEvent
 	(*Link_BatchJob)(nil),                     // 36: temporal.api.common.v1.Link.BatchJob
@@ -2949,7 +2966,7 @@ var file_temporal_api_common_v1_message_proto_depIdxs = []int32{
 	48, // 13: temporal.api.common.v1.ResetOptions.reset_reapply_exclude_types:type_name -> temporal.api.enums.v1.ResetReapplyExcludeType
 	31, // 14: temporal.api.common.v1.Callback.nexus:type_name -> temporal.api.common.v1.Callback.Nexus
 	32, // 15: temporal.api.common.v1.Callback.internal:type_name -> temporal.api.common.v1.Callback.Internal
-	33, // 16: temporal.api.common.v1.Callback.worker:type_name -> temporal.api.common.v1.Callback.Worker
+	33, // 16: temporal.api.common.v1.Callback.nexus_handler:type_name -> temporal.api.common.v1.Callback.NexusHandler
 	16, // 17: temporal.api.common.v1.Callback.links:type_name -> temporal.api.common.v1.Link
 	35, // 18: temporal.api.common.v1.Link.workflow_event:type_name -> temporal.api.common.v1.Link.WorkflowEvent
 	36, // 19: temporal.api.common.v1.Link.batch_job:type_name -> temporal.api.common.v1.Link.BatchJob
@@ -2970,7 +2987,7 @@ var file_temporal_api_common_v1_message_proto_depIdxs = []int32{
 	2,  // 34: temporal.api.common.v1.Memo.FieldsEntry.value:type_name -> temporal.api.common.v1.Payload
 	2,  // 35: temporal.api.common.v1.Header.FieldsEntry.value:type_name -> temporal.api.common.v1.Payload
 	34, // 36: temporal.api.common.v1.Callback.Nexus.header:type_name -> temporal.api.common.v1.Callback.Nexus.HeaderEntry
-	2,  // 37: temporal.api.common.v1.Callback.Worker.source_context:type_name -> temporal.api.common.v1.Payload
+	2,  // 37: temporal.api.common.v1.Callback.NexusHandler.source_context:type_name -> temporal.api.common.v1.Payload
 	41, // 38: temporal.api.common.v1.Link.WorkflowEvent.event_ref:type_name -> temporal.api.common.v1.Link.WorkflowEvent.EventReference
 	42, // 39: temporal.api.common.v1.Link.WorkflowEvent.request_id_ref:type_name -> temporal.api.common.v1.Link.WorkflowEvent.RequestIdReference
 	7,  // 40: temporal.api.common.v1.Link.Callback.execution:type_name -> temporal.api.common.v1.Execution
@@ -2997,7 +3014,7 @@ func file_temporal_api_common_v1_message_proto_init() {
 	file_temporal_api_common_v1_message_proto_msgTypes[15].OneofWrappers = []any{
 		(*Callback_Nexus_)(nil),
 		(*Callback_Internal_)(nil),
-		(*Callback_Worker_)(nil),
+		(*Callback_NexusHandler_)(nil),
 	}
 	file_temporal_api_common_v1_message_proto_msgTypes[16].OneofWrappers = []any{
 		(*Link_WorkflowEvent_)(nil),

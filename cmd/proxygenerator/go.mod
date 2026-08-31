@@ -1,6 +1,6 @@
 module go.temporal.io/api/cmd/proxygenerator
 
-go 1.25.4
+go 1.26.4
 
 replace go.temporal.io/api => ../..
 
