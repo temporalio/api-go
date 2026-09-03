@@ -63,6 +63,26 @@ func WorkflowTaskFailedCauseFromString(s string) (WorkflowTaskFailedCause, error
 }
 
 var (
+	ActivityTaskFailedCause_shorthandValue = map[string]int32{
+		"Unspecified":                    0,
+		"PayloadsTooLarge":               1,
+		"ExternalStorageFailure":         2,
+		"ActivityWorkerUnhandledFailure": 3,
+	}
+)
+
+// ActivityTaskFailedCauseFromString parses a ActivityTaskFailedCause value from  either the protojson
+// canonical SCREAMING_CASE enum or the traditional temporal PascalCase enum to ActivityTaskFailedCause
+func ActivityTaskFailedCauseFromString(s string) (ActivityTaskFailedCause, error) {
+	if v, ok := ActivityTaskFailedCause_value[s]; ok {
+		return ActivityTaskFailedCause(v), nil
+	} else if v, ok := ActivityTaskFailedCause_shorthandValue[s]; ok {
+		return ActivityTaskFailedCause(v), nil
+	}
+	return ActivityTaskFailedCause(0), fmt.Errorf("%s is not a valid ActivityTaskFailedCause", s)
+}
+
+var (
 	StartChildWorkflowExecutionFailedCause_shorthandValue = map[string]int32{
 		"Unspecified":               0,
 		"WorkflowAlreadyExists":     1,

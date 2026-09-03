@@ -14,6 +14,7 @@ import (
 	v1 "go.temporal.io/api/enums/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	durationpb "google.golang.org/protobuf/types/known/durationpb"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
@@ -25,10 +26,13 @@ const (
 )
 
 type ClusterReplicationConfig struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	ClusterName   string                 `protobuf:"bytes,1,opt,name=cluster_name,json=clusterName,proto3" json:"cluster_name,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state       protoimpl.MessageState `protogen:"open.v1"`
+	ClusterName string                 `protobuf:"bytes,1,opt,name=cluster_name,json=clusterName,proto3" json:"cluster_name,omitempty"`
+	// Ramp duration when this cluster is added as passive by UpdateNamespace; unset or non-positive disables gradual connect.
+	// This field is not persisted and is omitted from namespace responses.
+	ReplicationRampDuration *durationpb.Duration `protobuf:"bytes,2,opt,name=replication_ramp_duration,json=replicationRampDuration,proto3" json:"replication_ramp_duration,omitempty"`
+	unknownFields           protoimpl.UnknownFields
+	sizeCache               protoimpl.SizeCache
 }
 
 func (x *ClusterReplicationConfig) Reset() {
@@ -66,6 +70,13 @@ func (x *ClusterReplicationConfig) GetClusterName() string {
 		return x.ClusterName
 	}
 	return ""
+}
+
+func (x *ClusterReplicationConfig) GetReplicationRampDuration() *durationpb.Duration {
+	if x != nil {
+		return x.ReplicationRampDuration
+	}
+	return nil
 }
 
 type NamespaceReplicationConfig struct {
@@ -186,9 +197,10 @@ var File_temporal_api_replication_v1_message_proto protoreflect.FileDescriptor
 
 const file_temporal_api_replication_v1_message_proto_rawDesc = "" +
 	"\n" +
-	")temporal/api/replication/v1/message.proto\x12\x1btemporal.api.replication.v1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a%temporal/api/enums/v1/namespace.proto\"=\n" +
+	")temporal/api/replication/v1/message.proto\x12\x1btemporal.api.replication.v1\x1a\x1egoogle/protobuf/duration.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a%temporal/api/enums/v1/namespace.proto\"\x94\x01\n" +
 	"\x18ClusterReplicationConfig\x12!\n" +
-	"\fcluster_name\x18\x01 \x01(\tR\vclusterName\"\xde\x01\n" +
+	"\fcluster_name\x18\x01 \x01(\tR\vclusterName\x12U\n" +
+	"\x19replication_ramp_duration\x18\x02 \x01(\v2\x19.google.protobuf.DurationR\x17replicationRampDuration\"\xde\x01\n" +
 	"\x1aNamespaceReplicationConfig\x12.\n" +
 	"\x13active_cluster_name\x18\x01 \x01(\tR\x11activeClusterName\x12Q\n" +
 	"\bclusters\x18\x02 \x03(\v25.temporal.api.replication.v1.ClusterReplicationConfigR\bclusters\x12=\n" +
@@ -215,18 +227,20 @@ var file_temporal_api_replication_v1_message_proto_goTypes = []any{
 	(*ClusterReplicationConfig)(nil),   // 0: temporal.api.replication.v1.ClusterReplicationConfig
 	(*NamespaceReplicationConfig)(nil), // 1: temporal.api.replication.v1.NamespaceReplicationConfig
 	(*FailoverStatus)(nil),             // 2: temporal.api.replication.v1.FailoverStatus
-	(v1.ReplicationState)(0),           // 3: temporal.api.enums.v1.ReplicationState
-	(*timestamppb.Timestamp)(nil),      // 4: google.protobuf.Timestamp
+	(*durationpb.Duration)(nil),        // 3: google.protobuf.Duration
+	(v1.ReplicationState)(0),           // 4: temporal.api.enums.v1.ReplicationState
+	(*timestamppb.Timestamp)(nil),      // 5: google.protobuf.Timestamp
 }
 var file_temporal_api_replication_v1_message_proto_depIdxs = []int32{
-	0, // 0: temporal.api.replication.v1.NamespaceReplicationConfig.clusters:type_name -> temporal.api.replication.v1.ClusterReplicationConfig
-	3, // 1: temporal.api.replication.v1.NamespaceReplicationConfig.state:type_name -> temporal.api.enums.v1.ReplicationState
-	4, // 2: temporal.api.replication.v1.FailoverStatus.failover_time:type_name -> google.protobuf.Timestamp
-	3, // [3:3] is the sub-list for method output_type
-	3, // [3:3] is the sub-list for method input_type
-	3, // [3:3] is the sub-list for extension type_name
-	3, // [3:3] is the sub-list for extension extendee
-	0, // [0:3] is the sub-list for field type_name
+	3, // 0: temporal.api.replication.v1.ClusterReplicationConfig.replication_ramp_duration:type_name -> google.protobuf.Duration
+	0, // 1: temporal.api.replication.v1.NamespaceReplicationConfig.clusters:type_name -> temporal.api.replication.v1.ClusterReplicationConfig
+	4, // 2: temporal.api.replication.v1.NamespaceReplicationConfig.state:type_name -> temporal.api.enums.v1.ReplicationState
+	5, // 3: temporal.api.replication.v1.FailoverStatus.failover_time:type_name -> google.protobuf.Timestamp
+	4, // [4:4] is the sub-list for method output_type
+	4, // [4:4] is the sub-list for method input_type
+	4, // [4:4] is the sub-list for extension type_name
+	4, // [4:4] is the sub-list for extension extendee
+	0, // [0:4] is the sub-list for field type_name
 }
 
 func init() { file_temporal_api_replication_v1_message_proto_init() }
