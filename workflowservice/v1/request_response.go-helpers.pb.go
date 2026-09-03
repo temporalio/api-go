@@ -9106,3 +9106,77 @@ func (this *PollWorkflowExecutionTimeSkippingResponse) Equal(that interface{}) b
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type LocalExecutionPollOptions to the protobuf v3 wire format
+func (val *LocalExecutionPollOptions) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type LocalExecutionPollOptions from the protobuf v3 wire format
+func (val *LocalExecutionPollOptions) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *LocalExecutionPollOptions) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two LocalExecutionPollOptions values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *LocalExecutionPollOptions) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *LocalExecutionPollOptions
+	switch t := that.(type) {
+	case *LocalExecutionPollOptions:
+		that1 = t
+	case LocalExecutionPollOptions:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type LocalExecutionTaskInfo to the protobuf v3 wire format
+func (val *LocalExecutionTaskInfo) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type LocalExecutionTaskInfo from the protobuf v3 wire format
+func (val *LocalExecutionTaskInfo) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *LocalExecutionTaskInfo) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two LocalExecutionTaskInfo values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *LocalExecutionTaskInfo) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *LocalExecutionTaskInfo
+	switch t := that.(type) {
+	case *LocalExecutionTaskInfo:
+		that1 = t
+	case LocalExecutionTaskInfo:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}

@@ -503,8 +503,10 @@ type NamespaceInfo_Capabilities struct {
 	StandaloneActivityBatchOperations bool `protobuf:"varint,16,opt,name=standalone_activity_batch_operations,json=standaloneActivityBatchOperations,proto3" json:"standalone_activity_batch_operations,omitempty"`
 	// True if the namespace supports standalone activity operator commands.
 	StandaloneActivityOperatorCommands bool `protobuf:"varint,17,opt,name=standalone_activity_operator_commands,json=standaloneActivityOperatorCommands,proto3" json:"standalone_activity_operator_commands,omitempty"`
-	unknownFields                      protoimpl.UnknownFields
-	sizeCache                          protoimpl.SizeCache
+	// True if the namespace permits bridge-owned local workflow execution.
+	LocalExecution bool `protobuf:"varint,18,opt,name=local_execution,json=localExecution,proto3" json:"local_execution,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *NamespaceInfo_Capabilities) Reset() {
@@ -656,6 +658,13 @@ func (x *NamespaceInfo_Capabilities) GetStandaloneActivityOperatorCommands() boo
 	return false
 }
 
+func (x *NamespaceInfo_Capabilities) GetLocalExecution() bool {
+	if x != nil {
+		return x.LocalExecution
+	}
+	return false
+}
+
 type NamespaceInfo_Limits struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Maximum size in bytes for payload fields in workflow history events
@@ -668,8 +677,12 @@ type NamespaceInfo_Limits struct {
 	// Requests exceeding this fail the workflow task with
 	// WORKFLOW_TASK_FAILED_CAUSE_REQUEST_TOO_LARGE. 0 means no explicit limit.
 	WorkflowTaskCompletionSizeLimitError int64 `protobuf:"varint,3,opt,name=workflow_task_completion_size_limit_error,json=workflowTaskCompletionSizeLimitError,proto3" json:"workflow_task_completion_size_limit_error,omitempty"`
-	unknownFields                        protoimpl.UnknownFields
-	sizeCache                            protoimpl.SizeCache
+	// Minimum synchronization interval accepted for local execution acquisition.
+	MinimumLocalExecutionSyncInterval *durationpb.Duration `protobuf:"bytes,4,opt,name=minimum_local_execution_sync_interval,json=minimumLocalExecutionSyncInterval,proto3" json:"minimum_local_execution_sync_interval,omitempty"`
+	// Maximum synchronization interval accepted for local execution acquisition.
+	MaximumLocalExecutionSyncInterval *durationpb.Duration `protobuf:"bytes,5,opt,name=maximum_local_execution_sync_interval,json=maximumLocalExecutionSyncInterval,proto3" json:"maximum_local_execution_sync_interval,omitempty"`
+	unknownFields                     protoimpl.UnknownFields
+	sizeCache                         protoimpl.SizeCache
 }
 
 func (x *NamespaceInfo_Limits) Reset() {
@@ -723,11 +736,25 @@ func (x *NamespaceInfo_Limits) GetWorkflowTaskCompletionSizeLimitError() int64 {
 	return 0
 }
 
+func (x *NamespaceInfo_Limits) GetMinimumLocalExecutionSyncInterval() *durationpb.Duration {
+	if x != nil {
+		return x.MinimumLocalExecutionSyncInterval
+	}
+	return nil
+}
+
+func (x *NamespaceInfo_Limits) GetMaximumLocalExecutionSyncInterval() *durationpb.Duration {
+	if x != nil {
+		return x.MaximumLocalExecutionSyncInterval
+	}
+	return nil
+}
+
 var File_temporal_api_namespace_v1_message_proto protoreflect.FileDescriptor
 
 const file_temporal_api_namespace_v1_message_proto_rawDesc = "" +
 	"\n" +
-	"'temporal/api/namespace/v1/message.proto\x12\x19temporal.api.namespace.v1\x1a\x1egoogle/protobuf/duration.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a%temporal/api/enums/v1/namespace.proto\"\xc7\r\n" +
+	"'temporal/api/namespace/v1/message.proto\x12\x19temporal.api.namespace.v1\x1a\x1egoogle/protobuf/duration.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a%temporal/api/enums/v1/namespace.proto\"\xca\x0f\n" +
 	"\rNamespaceInfo\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12;\n" +
 	"\x05state\x18\x02 \x01(\x0e2%.temporal.api.enums.v1.NamespaceStateR\x05state\x12 \n" +
@@ -741,7 +768,7 @@ const file_temporal_api_namespace_v1_message_proto_rawDesc = "" +
 	"\x12supports_schedules\x18d \x01(\bR\x11supportsSchedules\x1a7\n" +
 	"\tDataEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\x1a\xf3\a\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\x1a\x9c\b\n" +
 	"\fCapabilities\x120\n" +
 	"\x14eager_workflow_start\x18\x01 \x01(\bR\x12eagerWorkflowStart\x12\x1f\n" +
 	"\vsync_update\x18\x02 \x01(\bR\n" +
@@ -761,11 +788,14 @@ const file_temporal_api_namespace_v1_message_proto_rawDesc = "" +
 	"#workflow_task_completion_pagination\x18\x0e \x01(\bR workflowTaskCompletionPagination\x12E\n" +
 	"\x1fstandalone_activity_start_delay\x18\x0f \x01(\bR\x1cstandaloneActivityStartDelay\x12O\n" +
 	"$standalone_activity_batch_operations\x18\x10 \x01(\bR!standaloneActivityBatchOperations\x12Q\n" +
-	"%standalone_activity_operator_commands\x18\x11 \x01(\bR\"standaloneActivityOperatorCommands\x1a\xc7\x01\n" +
+	"%standalone_activity_operator_commands\x18\x11 \x01(\bR\"standaloneActivityOperatorCommands\x12'\n" +
+	"\x0flocal_execution\x18\x12 \x01(\bR\x0elocalExecution\x1a\xa1\x03\n" +
 	"\x06Limits\x121\n" +
 	"\x15blob_size_limit_error\x18\x01 \x01(\x03R\x12blobSizeLimitError\x121\n" +
 	"\x15memo_size_limit_error\x18\x02 \x01(\x03R\x12memoSizeLimitError\x12W\n" +
-	")workflow_task_completion_size_limit_error\x18\x03 \x01(\x03R$workflowTaskCompletionSizeLimitError\"\xcf\x05\n" +
+	")workflow_task_completion_size_limit_error\x18\x03 \x01(\x03R$workflowTaskCompletionSizeLimitError\x12k\n" +
+	"%minimum_local_execution_sync_interval\x18\x04 \x01(\v2\x19.google.protobuf.DurationR!minimumLocalExecutionSyncInterval\x12k\n" +
+	"%maximum_local_execution_sync_interval\x18\x05 \x01(\v2\x19.google.protobuf.DurationR!maximumLocalExecutionSyncInterval\"\xcf\x05\n" +
 	"\x0fNamespaceConfig\x12b\n" +
 	" workflow_execution_retention_ttl\x18\x01 \x01(\v2\x19.google.protobuf.DurationR\x1dworkflowExecutionRetentionTtl\x12I\n" +
 	"\fbad_binaries\x18\x02 \x01(\v2&.temporal.api.namespace.v1.BadBinariesR\vbadBinaries\x12Z\n" +
@@ -845,12 +875,14 @@ var file_temporal_api_namespace_v1_message_proto_depIdxs = []int32{
 	15, // 10: temporal.api.namespace.v1.BadBinaryInfo.create_time:type_name -> google.protobuf.Timestamp
 	11, // 11: temporal.api.namespace.v1.UpdateNamespaceInfo.data:type_name -> temporal.api.namespace.v1.UpdateNamespaceInfo.DataEntry
 	12, // 12: temporal.api.namespace.v1.UpdateNamespaceInfo.state:type_name -> temporal.api.enums.v1.NamespaceState
-	3,  // 13: temporal.api.namespace.v1.BadBinaries.BinariesEntry.value:type_name -> temporal.api.namespace.v1.BadBinaryInfo
-	14, // [14:14] is the sub-list for method output_type
-	14, // [14:14] is the sub-list for method input_type
-	14, // [14:14] is the sub-list for extension type_name
-	14, // [14:14] is the sub-list for extension extendee
-	0,  // [0:14] is the sub-list for field type_name
+	13, // 13: temporal.api.namespace.v1.NamespaceInfo.Limits.minimum_local_execution_sync_interval:type_name -> google.protobuf.Duration
+	13, // 14: temporal.api.namespace.v1.NamespaceInfo.Limits.maximum_local_execution_sync_interval:type_name -> google.protobuf.Duration
+	3,  // 15: temporal.api.namespace.v1.BadBinaries.BinariesEntry.value:type_name -> temporal.api.namespace.v1.BadBinaryInfo
+	16, // [16:16] is the sub-list for method output_type
+	16, // [16:16] is the sub-list for method input_type
+	16, // [16:16] is the sub-list for extension type_name
+	16, // [16:16] is the sub-list for extension extendee
+	0,  // [0:16] is the sub-list for field type_name
 }
 
 func init() { file_temporal_api_namespace_v1_message_proto_init() }
