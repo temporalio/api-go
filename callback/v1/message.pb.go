@@ -46,6 +46,9 @@ type CallbackInfo struct {
 	NextAttemptScheduleTime *timestamppb.Timestamp `protobuf:"bytes,7,opt,name=next_attempt_schedule_time,json=nextAttemptScheduleTime,proto3" json:"next_attempt_schedule_time,omitempty"`
 	// If the state is BLOCKED, blocked reason provides additional information.
 	BlockedReason string `protobuf:"bytes,8,opt,name=blocked_reason,json=blockedReason,proto3" json:"blocked_reason,omitempty"`
+	// Server-generated request ID used as an idempotency token when invoking callbacks.
+	// It has no relation to caller-side request_id sent in operations like StartNexusOperationExecutionRequest.
+	RequestId     string `protobuf:"bytes,9,opt,name=request_id,json=requestId,proto3" json:"request_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -136,11 +139,18 @@ func (x *CallbackInfo) GetBlockedReason() string {
 	return ""
 }
 
+func (x *CallbackInfo) GetRequestId() string {
+	if x != nil {
+		return x.RequestId
+	}
+	return ""
+}
+
 var File_temporal_api_callback_v1_message_proto protoreflect.FileDescriptor
 
 const file_temporal_api_callback_v1_message_proto_rawDesc = "" +
 	"\n" +
-	"&temporal/api/callback/v1/message.proto\x12\x18temporal.api.callback.v1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a$temporal/api/common/v1/message.proto\x1a\"temporal/api/enums/v1/common.proto\x1a%temporal/api/failure/v1/message.proto\"\x98\x04\n" +
+	"&temporal/api/callback/v1/message.proto\x12\x18temporal.api.callback.v1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a$temporal/api/common/v1/message.proto\x1a\"temporal/api/enums/v1/common.proto\x1a%temporal/api/failure/v1/message.proto\"\xb7\x04\n" +
 	"\fCallbackInfo\x12<\n" +
 	"\bcallback\x18\x01 \x01(\v2 .temporal.api.common.v1.CallbackR\bcallback\x12G\n" +
 	"\x11registration_time\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\x10registrationTime\x12:\n" +
@@ -149,7 +159,9 @@ const file_temporal_api_callback_v1_message_proto_rawDesc = "" +
 	"\x1alast_attempt_complete_time\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\x17lastAttemptCompleteTime\x12R\n" +
 	"\x14last_attempt_failure\x18\x06 \x01(\v2 .temporal.api.failure.v1.FailureR\x12lastAttemptFailure\x12W\n" +
 	"\x1anext_attempt_schedule_time\x18\a \x01(\v2\x1a.google.protobuf.TimestampR\x17nextAttemptScheduleTime\x12%\n" +
-	"\x0eblocked_reason\x18\b \x01(\tR\rblockedReasonB\x93\x01\n" +
+	"\x0eblocked_reason\x18\b \x01(\tR\rblockedReason\x12\x1d\n" +
+	"\n" +
+	"request_id\x18\t \x01(\tR\trequestIdB\x93\x01\n" +
 	"\x1bio.temporal.api.callback.v1B\fMessageProtoP\x01Z'go.temporal.io/api/callback/v1;callback\xaa\x02\x1aTemporalio.Api.Callback.V1\xea\x02\x1dTemporalio::Api::Callback::V1b\x06proto3"
 
 var (
