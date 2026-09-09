@@ -1733,6 +1733,9 @@ type CallbackInfo struct {
 	NextAttemptScheduleTime *timestamppb.Timestamp `protobuf:"bytes,8,opt,name=next_attempt_schedule_time,json=nextAttemptScheduleTime,proto3" json:"next_attempt_schedule_time,omitempty"`
 	// If the state is BLOCKED, blocked reason provides additional information.
 	BlockedReason string `protobuf:"bytes,9,opt,name=blocked_reason,json=blockedReason,proto3" json:"blocked_reason,omitempty"`
+	// Server-generated request ID used as an idempotency token when invoking callbacks.
+	// It has no relation to caller-side request_id sent in operations like StartWorkflowExecutionRequest.
+	RequestId     string `protobuf:"bytes,10,opt,name=request_id,json=requestId,proto3" json:"request_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1826,6 +1829,13 @@ func (x *CallbackInfo) GetNextAttemptScheduleTime() *timestamppb.Timestamp {
 func (x *CallbackInfo) GetBlockedReason() string {
 	if x != nil {
 		return x.BlockedReason
+	}
+	return ""
+}
+
+func (x *CallbackInfo) GetRequestId() string {
+	if x != nil {
+		return x.RequestId
 	}
 	return ""
 }
@@ -3450,7 +3460,7 @@ const file_temporal_api_workflow_v1_message_proto_rawDesc = "" +
 	"\x06header\x18\r \x01(\v2\x1e.temporal.api.common.v1.HeaderR\x06header\x12F\n" +
 	"\ruser_metadata\x18\x0e \x01(\v2!.temporal.api.sdk.v1.UserMetadataR\fuserMetadata\x12]\n" +
 	"\x13versioning_override\x18\x0f \x01(\v2,.temporal.api.workflow.v1.VersioningOverrideR\x12versioningOverride\x12<\n" +
-	"\bpriority\x18\x10 \x01(\v2 .temporal.api.common.v1.PriorityR\bpriority\"\xc9\a\n" +
+	"\bpriority\x18\x10 \x01(\v2 .temporal.api.common.v1.PriorityR\bpriority\"\xe8\a\n" +
 	"\fCallbackInfo\x12<\n" +
 	"\bcallback\x18\x01 \x01(\v2 .temporal.api.common.v1.CallbackR\bcallback\x12H\n" +
 	"\atrigger\x18\x02 \x01(\v2..temporal.api.workflow.v1.CallbackInfo.TriggerR\atrigger\x12G\n" +
@@ -3460,7 +3470,10 @@ const file_temporal_api_workflow_v1_message_proto_rawDesc = "" +
 	"\x1alast_attempt_complete_time\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\x17lastAttemptCompleteTime\x12R\n" +
 	"\x14last_attempt_failure\x18\a \x01(\v2 .temporal.api.failure.v1.FailureR\x12lastAttemptFailure\x12W\n" +
 	"\x1anext_attempt_schedule_time\x18\b \x01(\v2\x1a.google.protobuf.TimestampR\x17nextAttemptScheduleTime\x12%\n" +
-	"\x0eblocked_reason\x18\t \x01(\tR\rblockedReason\x1a\x10\n" +
+	"\x0eblocked_reason\x18\t \x01(\tR\rblockedReason\x12\x1d\n" +
+	"\n" +
+	"request_id\x18\n" +
+	" \x01(\tR\trequestId\x1a\x10\n" +
 	"\x0eWorkflowClosed\x1a?\n" +
 	" UpdateWorkflowExecutionCompleted\x12\x1b\n" +
 	"\tupdate_id\x18\x01 \x01(\tR\bupdateId\x1a\x91\x02\n" +
