@@ -154,6 +154,7 @@ var (
 		"CircuitBreakerOpen":      8,
 		"OpsLimit":                9,
 		"WorkerDeploymentLimits":  10,
+		"BandwidthLimit":          11,
 	}
 )
 

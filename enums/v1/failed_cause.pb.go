@@ -606,6 +606,8 @@ const (
 	RESOURCE_EXHAUSTED_CAUSE_OPS_LIMIT ResourceExhaustedCause = 9
 	// Limits related to Worker Deployments are reached.
 	RESOURCE_EXHAUSTED_CAUSE_WORKER_DEPLOYMENT_LIMITS ResourceExhaustedCause = 10
+	// Namespace exceeds bandwidth limit.
+	RESOURCE_EXHAUSTED_CAUSE_BANDWIDTH_LIMIT ResourceExhaustedCause = 11
 )
 
 // Enum value maps for ResourceExhaustedCause.
@@ -622,6 +624,7 @@ var (
 		8:  "RESOURCE_EXHAUSTED_CAUSE_CIRCUIT_BREAKER_OPEN",
 		9:  "RESOURCE_EXHAUSTED_CAUSE_OPS_LIMIT",
 		10: "RESOURCE_EXHAUSTED_CAUSE_WORKER_DEPLOYMENT_LIMITS",
+		11: "RESOURCE_EXHAUSTED_CAUSE_BANDWIDTH_LIMIT",
 	}
 	ResourceExhaustedCause_value = map[string]int32{
 		"RESOURCE_EXHAUSTED_CAUSE_UNSPECIFIED":               0,
@@ -635,6 +638,7 @@ var (
 		"RESOURCE_EXHAUSTED_CAUSE_CIRCUIT_BREAKER_OPEN":      8,
 		"RESOURCE_EXHAUSTED_CAUSE_OPS_LIMIT":                 9,
 		"RESOURCE_EXHAUSTED_CAUSE_WORKER_DEPLOYMENT_LIMITS":  10,
+		"RESOURCE_EXHAUSTED_CAUSE_BANDWIDTH_LIMIT":           11,
 	}
 )
 
@@ -670,6 +674,10 @@ func (x ResourceExhaustedCause) String() string {
 		return "OpsLimit"
 	case RESOURCE_EXHAUSTED_CAUSE_WORKER_DEPLOYMENT_LIMITS:
 		return "WorkerDeploymentLimits"
+	case RESOURCE_EXHAUSTED_CAUSE_BANDWIDTH_LIMIT:
+		return "BandwidthLimit"
+
+		// Exhausted resource is a namespace-level resource.
 	default:
 		return strconv.Itoa(int(x))
 	}
@@ -696,7 +704,7 @@ type ResourceExhaustedScope int32
 
 const (
 	RESOURCE_EXHAUSTED_SCOPE_UNSPECIFIED ResourceExhaustedScope = 0
-	// Exhausted resource is a namespace-level resource.
+
 	RESOURCE_EXHAUSTED_SCOPE_NAMESPACE ResourceExhaustedScope = 1
 	// Exhausted resource is a system-level resource.
 	RESOURCE_EXHAUSTED_SCOPE_SYSTEM ResourceExhaustedScope = 2
@@ -819,7 +827,7 @@ const file_temporal_api_enums_v1_failed_cause_proto_rawDesc = "" +
 	";SIGNAL_EXTERNAL_WORKFLOW_EXECUTION_FAILED_CAUSE_UNSPECIFIED\x10\x00\x12Y\n" +
 	"USIGNAL_EXTERNAL_WORKFLOW_EXECUTION_FAILED_CAUSE_EXTERNAL_WORKFLOW_EXECUTION_NOT_FOUND\x10\x01\x12G\n" +
 	"CSIGNAL_EXTERNAL_WORKFLOW_EXECUTION_FAILED_CAUSE_NAMESPACE_NOT_FOUND\x10\x02\x12O\n" +
-	"KSIGNAL_EXTERNAL_WORKFLOW_EXECUTION_FAILED_CAUSE_SIGNAL_COUNT_LIMIT_EXCEEDED\x10\x03*\x97\x04\n" +
+	"KSIGNAL_EXTERNAL_WORKFLOW_EXECUTION_FAILED_CAUSE_SIGNAL_COUNT_LIMIT_EXCEEDED\x10\x03*\xc5\x04\n" +
 	"\x16ResourceExhaustedCause\x12(\n" +
 	"$RESOURCE_EXHAUSTED_CAUSE_UNSPECIFIED\x10\x00\x12&\n" +
 	"\"RESOURCE_EXHAUSTED_CAUSE_RPS_LIMIT\x10\x01\x12-\n" +
@@ -832,7 +840,8 @@ const file_temporal_api_enums_v1_failed_cause_proto_rawDesc = "" +
 	"-RESOURCE_EXHAUSTED_CAUSE_CIRCUIT_BREAKER_OPEN\x10\b\x12&\n" +
 	"\"RESOURCE_EXHAUSTED_CAUSE_OPS_LIMIT\x10\t\x125\n" +
 	"1RESOURCE_EXHAUSTED_CAUSE_WORKER_DEPLOYMENT_LIMITS\x10\n" +
-	"*\x8f\x01\n" +
+	"\x12,\n" +
+	"(RESOURCE_EXHAUSTED_CAUSE_BANDWIDTH_LIMIT\x10\v*\x8f\x01\n" +
 	"\x16ResourceExhaustedScope\x12(\n" +
 	"$RESOURCE_EXHAUSTED_SCOPE_UNSPECIFIED\x10\x00\x12&\n" +
 	"\"RESOURCE_EXHAUSTED_SCOPE_NAMESPACE\x10\x01\x12#\n" +
