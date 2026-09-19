@@ -194,9 +194,10 @@ func WorkerStatusFromString(s string) (WorkerStatus, error) {
 
 var (
 	ExecutionType_shorthandValue = map[string]int32{
-		"Unspecified": 0,
-		"Workflow":    1,
-		"Activity":    2,
+		"Unspecified":    0,
+		"Workflow":       1,
+		"Activity":       2,
+		"NexusOperation": 3,
 	}
 )
 
