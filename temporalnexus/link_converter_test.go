@@ -971,3 +971,85 @@ func TestNexusLinkToCommonLinkUnsupported(t *testing.T) {
 	})
 	require.False(t, ok)
 }
+
+// ConvertWorkflowLinkToNexusLink used to emit a workflow-event path ending in /history, which
+// ConvertNexusLinkToLinkWorkflow rejects, so its output could never be decoded as a Link_Workflow.
+func TestConvertWorkflowLinkToNexusLink(t *testing.T) {
+	input := &commonpb.Link_Workflow{
+		Namespace:  "ns",
+		WorkflowId: "wf-id",
+		RunId:      "run-id",
+		Reason:     "rejected update",
+	}
+
+	link := temporalnexus.ConvertWorkflowLinkToNexusLink(input)
+	require.Equal(t, temporalnexus.ConvertLinkWorkflowToNexusLink(input), link)
+
+	output, err := temporalnexus.ConvertNexusLinkToLinkWorkflow(link)
+	require.NoError(t, err)
+	if diff := cmp.Diff(input, output, protocmp.Transform()); diff != "" {
+		assert.Fail(t, "Proto mismatch (-want +got):\n"+diff)
+	}
+}
+
+// Every link type builds its path through the same encoder, so escaping is checked for all of
+// them: a space in a path segment is %20, never the form-encoded +, and a literal + survives.
+func TestLinkIDEscapingRoundTrip(t *testing.T) {
+	const id = "id with space+plus/slash%percent"
+	cases := []struct {
+		name string
+		link *commonpb.Link
+	}{
+		{
+			name: "workflow event",
+			link: &commonpb.Link{Variant: &commonpb.Link_WorkflowEvent_{WorkflowEvent: &commonpb.Link_WorkflowEvent{
+				Namespace:  id,
+				WorkflowId: id,
+				RunId:      id,
+				Reference: &commonpb.Link_WorkflowEvent_EventRef{EventRef: &commonpb.Link_WorkflowEvent_EventReference{
+					EventType: enumspb.EVENT_TYPE_WORKFLOW_EXECUTION_STARTED,
+				}},
+			}}},
+		},
+		{
+			name: "workflow",
+			link: &commonpb.Link{Variant: &commonpb.Link_Workflow_{Workflow: &commonpb.Link_Workflow{
+				Namespace:  id,
+				WorkflowId: id,
+				RunId:      id,
+			}}},
+		},
+		{
+			name: "nexus operation",
+			link: &commonpb.Link{Variant: &commonpb.Link_NexusOperation_{NexusOperation: &commonpb.Link_NexusOperation{
+				Namespace:   id,
+				OperationId: id,
+				RunId:       id,
+			}}},
+		},
+		{
+			name: "activity",
+			link: &commonpb.Link{Variant: &commonpb.Link_Activity_{Activity: &commonpb.Link_Activity{
+				Namespace:  id,
+				ActivityId: id,
+				RunId:      id,
+			}}},
+		},
+	}
+
+	for _, tc := range cases {
+		t.Run(tc.name, func(t *testing.T) {
+			nexusLink, ok := temporalnexus.CommonLinkToNexusLink(tc.link)
+			require.True(t, ok)
+			u, err := url.Parse(nexusLink.GetUrl())
+			require.NoError(t, err)
+			require.Contains(t, u.EscapedPath(), "/id%20with%20space+plus%2Fslash%25percent/")
+
+			commonLink, ok := temporalnexus.NexusLinkToCommonLink(nexusLink)
+			require.True(t, ok)
+			if diff := cmp.Diff(tc.link, commonLink, protocmp.Transform()); diff != "" {
+				assert.Fail(t, "Proto mismatch (-want +got):\n"+diff)
+			}
+		})
+	}
+}
