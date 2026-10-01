@@ -972,26 +972,6 @@ func TestNexusLinkToCommonLinkUnsupported(t *testing.T) {
 	require.False(t, ok)
 }
 
-// ConvertWorkflowLinkToNexusLink used to emit a workflow-event path ending in /history, which
-// ConvertNexusLinkToLinkWorkflow rejects, so its output could never be decoded as a Link_Workflow.
-func TestConvertWorkflowLinkToNexusLink(t *testing.T) {
-	input := &commonpb.Link_Workflow{
-		Namespace:  "ns",
-		WorkflowId: "wf-id",
-		RunId:      "run-id",
-		Reason:     "rejected update",
-	}
-
-	link := temporalnexus.ConvertWorkflowLinkToNexusLink(input)
-	require.Equal(t, temporalnexus.ConvertLinkWorkflowToNexusLink(input), link)
-
-	output, err := temporalnexus.ConvertNexusLinkToLinkWorkflow(link)
-	require.NoError(t, err)
-	if diff := cmp.Diff(input, output, protocmp.Transform()); diff != "" {
-		assert.Fail(t, "Proto mismatch (-want +got):\n"+diff)
-	}
-}
-
 // Every link type builds its path through the same encoder, so escaping is checked for all of
 // them: a space in a path segment is %20, never the form-encoded +, and a literal + survives.
 func TestLinkIDEscapingRoundTrip(t *testing.T) {

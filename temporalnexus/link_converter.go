@@ -141,14 +141,6 @@ func ConvertLinkWorkflowToNexusLink(w *commonpb.Link_Workflow) nexus.Link {
 	return workflowLinkType.encode(w.GetNamespace(), w.GetWorkflowId(), w.GetRunId(), rawQuery)
 }
 
-// ConvertWorkflowLinkToNexusLink converts a Link_Workflow into a Nexus Link.
-//
-// Deprecated: Use [ConvertLinkWorkflowToNexusLink], which this now calls. This function previously
-// produced a workflow-event path, ending in /history, that no decoder accepts as a Link_Workflow.
-func ConvertWorkflowLinkToNexusLink(wl *commonpb.Link_Workflow) nexus.Link {
-	return ConvertLinkWorkflowToNexusLink(wl)
-}
-
 // ConvertLinkNexusOperationToNexusLink converts a Link_NexusOperation type to Nexus Link.
 //
 // NOTE: Experimental
@@ -319,10 +311,10 @@ func NexusLinkToCommonLink(link *nexuspb.Link) (*commonpb.Link, bool) {
 	return commonLink, true
 }
 
-// The WorkflowEvent reference names which event in the workflow's history the link points at,
-// either by event ID or by the request ID that produced the event. It is flattened into the query
-// as referenceType plus eventID or requestID, and eventType.
-
+// convertLinkWorkflowEventEventReferenceToURLQuery flattens a WorkflowEvent reference into the
+// link's query. The reference names which event in the workflow's history the link points at,
+// either by event ID or by the request ID that produced the event, and is encoded as referenceType
+// plus eventID or requestID, and eventType.
 func convertLinkWorkflowEventEventReferenceToURLQuery(eventRef *commonpb.Link_WorkflowEvent_EventReference) string {
 	values := url.Values{}
 	values.Set(linkWorkflowEventReferenceTypeKey, eventReferenceType)
