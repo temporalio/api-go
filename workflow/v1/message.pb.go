@@ -7,6 +7,11 @@
 package workflow
 
 import (
+	reflect "reflect"
+	"strconv"
+	sync "sync"
+	unsafe "unsafe"
+
 	v17 "go.temporal.io/api/activity/v1"
 	v1 "go.temporal.io/api/common/v1"
 	v13 "go.temporal.io/api/deployment/v1"
@@ -21,10 +26,6 @@ import (
 	emptypb "google.golang.org/protobuf/types/known/emptypb"
 	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
-	reflect "reflect"
-	"strconv"
-	sync "sync"
-	unsafe "unsafe"
 )
 
 const (
@@ -417,7 +418,7 @@ type WorkflowExecutionExtendedInfo struct {
 	// If the execution has never enabled time skipping, it will be nil.
 	TimeSkippingInfo *v1.TimeSkippingInfo `protobuf:"bytes,9,opt,name=time_skipping_info,json=timeSkippingInfo,proto3" json:"time_skipping_info,omitempty"`
 	// Serialization context propagated from the Nexus caller that started this workflow.
-	PropagatedNexusSerializationContext *v12.PropagatedNexusSerializationContext `protobuf:"bytes,10,opt,name=propagated_nexus_serialization_context,json=propagatedNexusSerializationContext,proto3" json:"propagated_nexus_serialization_context,omitempty"`
+	PropagatedNexusSerializationContext *v12.PropagatedSerializationContext `protobuf:"bytes,10,opt,name=propagated_nexus_serialization_context,json=propagatedNexusSerializationContext,proto3" json:"propagated_nexus_serialization_context,omitempty"`
 	unknownFields                       protoimpl.UnknownFields
 	sizeCache                           protoimpl.SizeCache
 }
@@ -515,7 +516,7 @@ func (x *WorkflowExecutionExtendedInfo) GetTimeSkippingInfo() *v1.TimeSkippingIn
 	return nil
 }
 
-func (x *WorkflowExecutionExtendedInfo) GetPropagatedNexusSerializationContext() *v12.PropagatedNexusSerializationContext {
+func (x *WorkflowExecutionExtendedInfo) GetPropagatedNexusSerializationContext() *v12.PropagatedSerializationContext {
 	if x != nil {
 		return x.PropagatedNexusSerializationContext
 	}
@@ -3338,7 +3339,7 @@ const file_temporal_api_workflow_v1_message_proto_rawDesc = "" +
 	"\x16worker_deployment_name\x18\x17 \x01(\tR\x14workerDeploymentName\x12<\n" +
 	"\bpriority\x18\x18 \x01(\v2 .temporal.api.common.v1.PriorityR\bpriority\x12=\n" +
 	"\x1bexternal_payload_size_bytes\x18\x19 \x01(\x03R\x18externalPayloadSizeBytes\x124\n" +
-	"\x16external_payload_count\x18\x1a \x01(\x03R\x14externalPayloadCount\"\xc2\a\n" +
+	"\x16external_payload_count\x18\x1a \x01(\x03R\x14externalPayloadCount\"\xbd\a\n" +
 	"\x1dWorkflowExecutionExtendedInfo\x12V\n" +
 	"\x19execution_expiration_time\x18\x01 \x01(\v2\x1a.google.protobuf.TimestampR\x17executionExpirationTime\x12J\n" +
 	"\x13run_expiration_time\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\x11runExpirationTime\x12)\n" +
@@ -3350,9 +3351,9 @@ const file_temporal_api_workflow_v1_message_proto_rawDesc = "" +
 	"\x10request_id_infos\x18\a \x03(\v2K.temporal.api.workflow.v1.WorkflowExecutionExtendedInfo.RequestIdInfosEntryR\x0erequestIdInfos\x12S\n" +
 	"\n" +
 	"pause_info\x18\b \x01(\v24.temporal.api.workflow.v1.WorkflowExecutionPauseInfoR\tpauseInfo\x12V\n" +
-	"\x12time_skipping_info\x18\t \x01(\v2(.temporal.api.common.v1.TimeSkippingInfoR\x10timeSkippingInfo\x12\x8f\x01\n" +
+	"\x12time_skipping_info\x18\t \x01(\v2(.temporal.api.common.v1.TimeSkippingInfoR\x10timeSkippingInfo\x12\x8a\x01\n" +
 	"&propagated_nexus_serialization_context\x18\n" +
-	" \x01(\v2:.temporal.api.nexus.v1.PropagatedNexusSerializationContextR#propagatedNexusSerializationContext\x1aj\n" +
+	" \x01(\v25.temporal.api.nexus.v1.PropagatedSerializationContextR#propagatedNexusSerializationContext\x1aj\n" +
 	"\x13RequestIdInfosEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12=\n" +
 	"\x05value\x18\x02 \x01(\v2'.temporal.api.workflow.v1.RequestIdInfoR\x05value:\x028\x01\"\xa3\x06\n" +
@@ -3630,7 +3631,7 @@ var file_temporal_api_workflow_v1_message_proto_goTypes = []any{
 	(*durationpb.Duration)(nil),                           // 40: google.protobuf.Duration
 	(*v1.Priority)(nil),                                   // 41: temporal.api.common.v1.Priority
 	(*v1.TimeSkippingInfo)(nil),                           // 42: temporal.api.common.v1.TimeSkippingInfo
-	(*v12.PropagatedNexusSerializationContext)(nil),       // 43: temporal.api.nexus.v1.PropagatedNexusSerializationContext
+	(*v12.PropagatedSerializationContext)(nil),            // 43: temporal.api.nexus.v1.PropagatedSerializationContext
 	(v11.VersioningBehavior)(0),                           // 44: temporal.api.enums.v1.VersioningBehavior
 	(*v13.Deployment)(nil),                                // 45: temporal.api.deployment.v1.Deployment
 	(*v13.WorkerDeploymentVersion)(nil),                   // 46: temporal.api.deployment.v1.WorkerDeploymentVersion
@@ -3680,7 +3681,7 @@ var file_temporal_api_workflow_v1_message_proto_depIdxs = []int32{
 	22,  // 19: temporal.api.workflow.v1.WorkflowExecutionExtendedInfo.request_id_infos:type_name -> temporal.api.workflow.v1.WorkflowExecutionExtendedInfo.RequestIdInfosEntry
 	21,  // 20: temporal.api.workflow.v1.WorkflowExecutionExtendedInfo.pause_info:type_name -> temporal.api.workflow.v1.WorkflowExecutionPauseInfo
 	42,  // 21: temporal.api.workflow.v1.WorkflowExecutionExtendedInfo.time_skipping_info:type_name -> temporal.api.common.v1.TimeSkippingInfo
-	43,  // 22: temporal.api.workflow.v1.WorkflowExecutionExtendedInfo.propagated_nexus_serialization_context:type_name -> temporal.api.nexus.v1.PropagatedNexusSerializationContext
+	43,  // 22: temporal.api.workflow.v1.WorkflowExecutionExtendedInfo.propagated_nexus_serialization_context:type_name -> temporal.api.nexus.v1.PropagatedSerializationContext
 	44,  // 23: temporal.api.workflow.v1.WorkflowExecutionVersioningInfo.behavior:type_name -> temporal.api.enums.v1.VersioningBehavior
 	45,  // 24: temporal.api.workflow.v1.WorkflowExecutionVersioningInfo.deployment:type_name -> temporal.api.deployment.v1.Deployment
 	46,  // 25: temporal.api.workflow.v1.WorkflowExecutionVersioningInfo.deployment_version:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersion

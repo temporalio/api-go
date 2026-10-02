@@ -7,6 +7,10 @@
 package history
 
 import (
+	reflect "reflect"
+	sync "sync"
+	unsafe "unsafe"
+
 	v1 "go.temporal.io/api/common/v1"
 	v15 "go.temporal.io/api/deployment/v1"
 	v12 "go.temporal.io/api/enums/v1"
@@ -20,9 +24,6 @@ import (
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	durationpb "google.golang.org/protobuf/types/known/durationpb"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
-	reflect "reflect"
-	sync "sync"
-	unsafe "unsafe"
 )
 
 const (
@@ -212,7 +213,7 @@ type WorkflowExecutionStartedEventAttributes struct {
 	// if no time skipping has occurred or there is no previous run.
 	TimeSkippingStatePropagation *v1.TimeSkippingStatePropagation `protobuf:"bytes,43,opt,name=time_skipping_state_propagation,json=timeSkippingStatePropagation,proto3" json:"time_skipping_state_propagation,omitempty"`
 	// Serialization context propagated from the Nexus caller that started this workflow.
-	PropagatedNexusSerializationContext *v16.PropagatedNexusSerializationContext `protobuf:"bytes,44,opt,name=propagated_nexus_serialization_context,json=propagatedNexusSerializationContext,proto3" json:"propagated_nexus_serialization_context,omitempty"`
+	PropagatedNexusSerializationContext *v16.PropagatedSerializationContext `protobuf:"bytes,44,opt,name=propagated_nexus_serialization_context,json=propagatedNexusSerializationContext,proto3" json:"propagated_nexus_serialization_context,omitempty"`
 	unknownFields                       protoimpl.UnknownFields
 	sizeCache                           protoimpl.SizeCache
 }
@@ -537,7 +538,7 @@ func (x *WorkflowExecutionStartedEventAttributes) GetTimeSkippingStatePropagatio
 	return nil
 }
 
-func (x *WorkflowExecutionStartedEventAttributes) GetPropagatedNexusSerializationContext() *v16.PropagatedNexusSerializationContext {
+func (x *WorkflowExecutionStartedEventAttributes) GetPropagatedNexusSerializationContext() *v16.PropagatedSerializationContext {
 	if x != nil {
 		return x.PropagatedNexusSerializationContext
 	}
@@ -7074,7 +7075,7 @@ var File_temporal_api_history_v1_message_proto protoreflect.FileDescriptor
 
 const file_temporal_api_history_v1_message_proto_rawDesc = "" +
 	"\n" +
-	"%temporal/api/history/v1/message.proto\x12\x17temporal.api.history.v1\x1a\x1egoogle/protobuf/duration.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a&temporal/api/enums/v1/event_type.proto\x1a(temporal/api/enums/v1/failed_cause.proto\x1a\"temporal/api/enums/v1/update.proto\x1a$temporal/api/enums/v1/workflow.proto\x1a$temporal/api/common/v1/message.proto\x1a(temporal/api/deployment/v1/message.proto\x1a%temporal/api/failure/v1/message.proto\x1a#temporal/api/nexus/v1/message.proto\x1a'temporal/api/taskqueue/v1/message.proto\x1a$temporal/api/update/v1/message.proto\x1a&temporal/api/workflow/v1/message.proto\x1a0temporal/api/sdk/v1/task_complete_metadata.proto\x1a'temporal/api/sdk/v1/user_metadata.proto\x1a,temporal/api/sdk/v1/event_group_marker.proto\"\xa3\x1a\n" +
+	"%temporal/api/history/v1/message.proto\x12\x17temporal.api.history.v1\x1a\x1egoogle/protobuf/duration.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a&temporal/api/enums/v1/event_type.proto\x1a(temporal/api/enums/v1/failed_cause.proto\x1a\"temporal/api/enums/v1/update.proto\x1a$temporal/api/enums/v1/workflow.proto\x1a$temporal/api/common/v1/message.proto\x1a(temporal/api/deployment/v1/message.proto\x1a%temporal/api/failure/v1/message.proto\x1a#temporal/api/nexus/v1/message.proto\x1a'temporal/api/taskqueue/v1/message.proto\x1a$temporal/api/update/v1/message.proto\x1a&temporal/api/workflow/v1/message.proto\x1a0temporal/api/sdk/v1/task_complete_metadata.proto\x1a'temporal/api/sdk/v1/user_metadata.proto\x1a,temporal/api/sdk/v1/event_group_marker.proto\"\x9e\x1a\n" +
 	"'WorkflowExecutionStartedEventAttributes\x12I\n" +
 	"\rworkflow_type\x18\x01 \x01(\v2$.temporal.api.common.v1.WorkflowTypeR\fworkflowType\x12:\n" +
 	"\x19parent_workflow_namespace\x18\x02 \x01(\tR\x17parentWorkflowNamespace\x12?\n" +
@@ -7119,8 +7120,8 @@ const file_temporal_api_history_v1_message_proto_rawDesc = "" +
 	"\x18eager_execution_accepted\x18& \x01(\bR\x16eagerExecutionAccepted\x12|\n" +
 	"\x1fdeclined_target_version_upgrade\x18( \x01(\v25.temporal.api.history.v1.DeclinedTargetVersionUpgradeR\x1cdeclinedTargetVersionUpgrade\x12\\\n" +
 	"\x14time_skipping_config\x18) \x01(\v2*.temporal.api.common.v1.TimeSkippingConfigR\x12timeSkippingConfig\x12{\n" +
-	"\x1ftime_skipping_state_propagation\x18+ \x01(\v24.temporal.api.common.v1.TimeSkippingStatePropagationR\x1ctimeSkippingStatePropagation\x12\x8f\x01\n" +
-	"&propagated_nexus_serialization_context\x18, \x01(\v2:.temporal.api.nexus.v1.PropagatedNexusSerializationContextR#propagatedNexusSerializationContextJ\x04\b$\x10%J\x04\b*\x10+R parent_pinned_deployment_versionR\x18initial_skipped_duration\"\xab\x01\n" +
+	"\x1ftime_skipping_state_propagation\x18+ \x01(\v24.temporal.api.common.v1.TimeSkippingStatePropagationR\x1ctimeSkippingStatePropagation\x12\x8a\x01\n" +
+	"&propagated_nexus_serialization_context\x18, \x01(\v25.temporal.api.nexus.v1.PropagatedSerializationContextR#propagatedNexusSerializationContextJ\x04\b$\x10%J\x04\b*\x10+R parent_pinned_deployment_versionR\x18initial_skipped_duration\"\xab\x01\n" +
 	"\x1cDeclinedTargetVersionUpgrade\x12b\n" +
 	"\x12deployment_version\x18\x01 \x01(\v23.temporal.api.deployment.v1.WorkerDeploymentVersionR\x11deploymentVersion\x12'\n" +
 	"\x0frevision_number\x18\x02 \x01(\x03R\x0erevisionNumber\"\xde\x01\n" +
@@ -7738,7 +7739,7 @@ var file_temporal_api_history_v1_message_proto_goTypes = []any{
 	(*v15.InheritedAutoUpgradeInfo)(nil),                // 84: temporal.api.deployment.v1.InheritedAutoUpgradeInfo
 	(*v1.TimeSkippingConfig)(nil),                       // 85: temporal.api.common.v1.TimeSkippingConfig
 	(*v1.TimeSkippingStatePropagation)(nil),             // 86: temporal.api.common.v1.TimeSkippingStatePropagation
-	(*v16.PropagatedNexusSerializationContext)(nil),     // 87: temporal.api.nexus.v1.PropagatedNexusSerializationContext
+	(*v16.PropagatedSerializationContext)(nil),          // 87: temporal.api.nexus.v1.PropagatedSerializationContext
 	(v12.RetryState)(0),                                 // 88: temporal.api.enums.v1.RetryState
 	(v12.ContinueAsNewVersioningBehavior)(0),            // 89: temporal.api.enums.v1.ContinueAsNewVersioningBehavior
 	(v12.SuggestContinueAsNewReason)(0),                 // 90: temporal.api.enums.v1.SuggestContinueAsNewReason
@@ -7794,7 +7795,7 @@ var file_temporal_api_history_v1_message_proto_depIdxs = []int32{
 	1,   // 24: temporal.api.history.v1.WorkflowExecutionStartedEventAttributes.declined_target_version_upgrade:type_name -> temporal.api.history.v1.DeclinedTargetVersionUpgrade
 	85,  // 25: temporal.api.history.v1.WorkflowExecutionStartedEventAttributes.time_skipping_config:type_name -> temporal.api.common.v1.TimeSkippingConfig
 	86,  // 26: temporal.api.history.v1.WorkflowExecutionStartedEventAttributes.time_skipping_state_propagation:type_name -> temporal.api.common.v1.TimeSkippingStatePropagation
-	87,  // 27: temporal.api.history.v1.WorkflowExecutionStartedEventAttributes.propagated_nexus_serialization_context:type_name -> temporal.api.nexus.v1.PropagatedNexusSerializationContext
+	87,  // 27: temporal.api.history.v1.WorkflowExecutionStartedEventAttributes.propagated_nexus_serialization_context:type_name -> temporal.api.nexus.v1.PropagatedSerializationContext
 	83,  // 28: temporal.api.history.v1.DeclinedTargetVersionUpgrade.deployment_version:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersion
 	69,  // 29: temporal.api.history.v1.WorkflowExecutionCompletedEventAttributes.result:type_name -> temporal.api.common.v1.Payloads
 	72,  // 30: temporal.api.history.v1.WorkflowExecutionFailedEventAttributes.failure:type_name -> temporal.api.failure.v1.Failure

@@ -7,6 +7,10 @@
 package nexus
 
 import (
+	reflect "reflect"
+	sync "sync"
+	unsafe "unsafe"
+
 	v11 "go.temporal.io/api/common/v1"
 	v1 "go.temporal.io/api/enums/v1"
 	v12 "go.temporal.io/api/failure/v1"
@@ -15,9 +19,6 @@ import (
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	durationpb "google.golang.org/protobuf/types/known/durationpb"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
-	reflect "reflect"
-	sync "sync"
-	unsafe "unsafe"
 )
 
 const (
@@ -27,10 +28,8 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// PropagatedNexusSerializationContext represents the context of the Nexus caller that started this execution.
-// Nexus callers can share a workflow or standalone activity with USE_EXISTING only when their
-// endpoint, service, and operation match. A request with a different context is rejected.
-type PropagatedNexusSerializationContext struct {
+// PropagatedSerializationContext represents the context of the Nexus caller that started this execution.
+type PropagatedSerializationContext struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Endpoint      string                 `protobuf:"bytes,1,opt,name=endpoint,proto3" json:"endpoint,omitempty"`
 	Service       string                 `protobuf:"bytes,2,opt,name=service,proto3" json:"service,omitempty"`
@@ -39,20 +38,20 @@ type PropagatedNexusSerializationContext struct {
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *PropagatedNexusSerializationContext) Reset() {
-	*x = PropagatedNexusSerializationContext{}
+func (x *PropagatedSerializationContext) Reset() {
+	*x = PropagatedSerializationContext{}
 	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *PropagatedNexusSerializationContext) String() string {
+func (x *PropagatedSerializationContext) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*PropagatedNexusSerializationContext) ProtoMessage() {}
+func (*PropagatedSerializationContext) ProtoMessage() {}
 
-func (x *PropagatedNexusSerializationContext) ProtoReflect() protoreflect.Message {
+func (x *PropagatedSerializationContext) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -64,26 +63,26 @@ func (x *PropagatedNexusSerializationContext) ProtoReflect() protoreflect.Messag
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use PropagatedNexusSerializationContext.ProtoReflect.Descriptor instead.
-func (*PropagatedNexusSerializationContext) Descriptor() ([]byte, []int) {
+// Deprecated: Use PropagatedSerializationContext.ProtoReflect.Descriptor instead.
+func (*PropagatedSerializationContext) Descriptor() ([]byte, []int) {
 	return file_temporal_api_nexus_v1_message_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *PropagatedNexusSerializationContext) GetEndpoint() string {
+func (x *PropagatedSerializationContext) GetEndpoint() string {
 	if x != nil {
 		return x.Endpoint
 	}
 	return ""
 }
 
-func (x *PropagatedNexusSerializationContext) GetService() string {
+func (x *PropagatedSerializationContext) GetService() string {
 	if x != nil {
 		return x.Service
 	}
 	return ""
 }
 
-func (x *PropagatedNexusSerializationContext) GetOperation() string {
+func (x *PropagatedSerializationContext) GetOperation() string {
 	if x != nil {
 		return x.Operation
 	}
@@ -1972,8 +1971,8 @@ var File_temporal_api_nexus_v1_message_proto protoreflect.FileDescriptor
 
 const file_temporal_api_nexus_v1_message_proto_rawDesc = "" +
 	"\n" +
-	"#temporal/api/nexus/v1/message.proto\x12\x15temporal.api.nexus.v1\x1a\x1egoogle/protobuf/duration.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a$temporal/api/common/v1/message.proto\x1a\"temporal/api/enums/v1/common.proto\x1a!temporal/api/enums/v1/nexus.proto\x1a%temporal/api/failure/v1/message.proto\x1a'temporal/api/sdk/v1/user_metadata.proto\"y\n" +
-	"#PropagatedNexusSerializationContext\x12\x1a\n" +
+	"#temporal/api/nexus/v1/message.proto\x12\x15temporal.api.nexus.v1\x1a\x1egoogle/protobuf/duration.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a$temporal/api/common/v1/message.proto\x1a\"temporal/api/enums/v1/common.proto\x1a!temporal/api/enums/v1/nexus.proto\x1a%temporal/api/failure/v1/message.proto\x1a'temporal/api/sdk/v1/user_metadata.proto\"t\n" +
+	"\x1ePropagatedSerializationContext\x12\x1a\n" +
 	"\bendpoint\x18\x01 \x01(\tR\bendpoint\x12\x18\n" +
 	"\aservice\x18\x02 \x01(\tR\aservice\x12\x1c\n" +
 	"\toperation\x18\x03 \x01(\tR\toperation\"\x9b\x02\n" +
@@ -2145,7 +2144,7 @@ func file_temporal_api_nexus_v1_message_proto_rawDescGZIP() []byte {
 
 var file_temporal_api_nexus_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 26)
 var file_temporal_api_nexus_v1_message_proto_goTypes = []any{
-	(*PropagatedNexusSerializationContext)(nil), // 0: temporal.api.nexus.v1.PropagatedNexusSerializationContext
+	(*PropagatedSerializationContext)(nil),          // 0: temporal.api.nexus.v1.PropagatedSerializationContext
 	(*Failure)(nil),                                 // 1: temporal.api.nexus.v1.Failure
 	(*HandlerError)(nil),                            // 2: temporal.api.nexus.v1.HandlerError
 	(*UnsuccessfulOperationError)(nil),              // 3: temporal.api.nexus.v1.UnsuccessfulOperationError

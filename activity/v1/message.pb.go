@@ -7,6 +7,10 @@
 package activity
 
 import (
+	reflect "reflect"
+	sync "sync"
+	unsafe "unsafe"
+
 	v17 "go.temporal.io/api/callback/v1"
 	v11 "go.temporal.io/api/common/v1"
 	v14 "go.temporal.io/api/deployment/v1"
@@ -19,9 +23,6 @@ import (
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	durationpb "google.golang.org/protobuf/types/known/durationpb"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
-	reflect "reflect"
-	sync "sync"
-	unsafe "unsafe"
 )
 
 const (
@@ -358,7 +359,7 @@ type ActivityExecutionInfo struct {
 	// `schedule_time + start_delay`. Same as `schedule_time` if `start_delay` is not set.
 	ExecutionTime *timestamppb.Timestamp `protobuf:"bytes,38,opt,name=execution_time,json=executionTime,proto3" json:"execution_time,omitempty"`
 	// Serialization context propagated from the Nexus caller that started this activity.
-	PropagatedNexusSerializationContext *v16.PropagatedNexusSerializationContext `protobuf:"bytes,39,opt,name=propagated_nexus_serialization_context,json=propagatedNexusSerializationContext,proto3" json:"propagated_nexus_serialization_context,omitempty"`
+	PropagatedNexusSerializationContext *v16.PropagatedSerializationContext `protobuf:"bytes,39,opt,name=propagated_nexus_serialization_context,json=propagatedNexusSerializationContext,proto3" json:"propagated_nexus_serialization_context,omitempty"`
 	unknownFields                       protoimpl.UnknownFields
 	sizeCache                           protoimpl.SizeCache
 }
@@ -659,7 +660,7 @@ func (x *ActivityExecutionInfo) GetExecutionTime() *timestamppb.Timestamp {
 	return nil
 }
 
-func (x *ActivityExecutionInfo) GetPropagatedNexusSerializationContext() *v16.PropagatedNexusSerializationContext {
+func (x *ActivityExecutionInfo) GetPropagatedNexusSerializationContext() *v16.PropagatedSerializationContext {
 	if x != nil {
 		return x.PropagatedNexusSerializationContext
 	}
@@ -995,7 +996,7 @@ const file_temporal_api_activity_v1_message_proto_rawDesc = "" +
 	"\fretry_policy\x18\x06 \x01(\v2#.temporal.api.common.v1.RetryPolicyR\vretryPolicy\x12<\n" +
 	"\bpriority\x18\a \x01(\v2 .temporal.api.common.v1.PriorityR\bpriority\x12:\n" +
 	"\vstart_delay\x18\b \x01(\v2\x19.google.protobuf.DurationR\n" +
-	"startDelay\"\x99\x14\n" +
+	"startDelay\"\x94\x14\n" +
 	"\x15ActivityExecutionInfo\x12\x1f\n" +
 	"\vactivity_id\x18\x01 \x01(\tR\n" +
 	"activityId\x12\x15\n" +
@@ -1040,8 +1041,8 @@ const file_temporal_api_activity_v1_message_proto_rawDesc = "" +
 	"sdkVersion\x12:\n" +
 	"\vstart_delay\x18% \x01(\v2\x19.google.protobuf.DurationR\n" +
 	"startDelay\x12A\n" +
-	"\x0eexecution_time\x18& \x01(\v2\x1a.google.protobuf.TimestampR\rexecutionTime\x12\x8f\x01\n" +
-	"&propagated_nexus_serialization_context\x18' \x01(\v2:.temporal.api.nexus.v1.PropagatedNexusSerializationContextR#propagatedNexusSerializationContext\"\xc5\x05\n" +
+	"\x0eexecution_time\x18& \x01(\v2\x1a.google.protobuf.TimestampR\rexecutionTime\x12\x8a\x01\n" +
+	"&propagated_nexus_serialization_context\x18' \x01(\v25.temporal.api.nexus.v1.PropagatedSerializationContextR#propagatedNexusSerializationContext\"\xc5\x05\n" +
 	"\x19ActivityExecutionListInfo\x12\x1f\n" +
 	"\vactivity_id\x18\x01 \x01(\tR\n" +
 	"activityId\x12\x15\n" +
@@ -1082,31 +1083,31 @@ func file_temporal_api_activity_v1_message_proto_rawDescGZIP() []byte {
 
 var file_temporal_api_activity_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
 var file_temporal_api_activity_v1_message_proto_goTypes = []any{
-	(*ActivityExecutionOutcome)(nil),                // 0: temporal.api.activity.v1.ActivityExecutionOutcome
-	(*ActivityOptions)(nil),                         // 1: temporal.api.activity.v1.ActivityOptions
-	(*ActivityExecutionInfo)(nil),                   // 2: temporal.api.activity.v1.ActivityExecutionInfo
-	(*ActivityExecutionListInfo)(nil),               // 3: temporal.api.activity.v1.ActivityExecutionListInfo
-	(*CallbackInfo)(nil),                            // 4: temporal.api.activity.v1.CallbackInfo
-	(*CallbackInfo_ActivityClosed)(nil),             // 5: temporal.api.activity.v1.CallbackInfo.ActivityClosed
-	(*CallbackInfo_Trigger)(nil),                    // 6: temporal.api.activity.v1.CallbackInfo.Trigger
-	(*v11.Payloads)(nil),                            // 7: temporal.api.common.v1.Payloads
-	(*v12.Failure)(nil),                             // 8: temporal.api.failure.v1.Failure
-	(v1.RetryState)(0),                              // 9: temporal.api.enums.v1.RetryState
-	(*v13.TaskQueue)(nil),                           // 10: temporal.api.taskqueue.v1.TaskQueue
-	(*durationpb.Duration)(nil),                     // 11: google.protobuf.Duration
-	(*v11.RetryPolicy)(nil),                         // 12: temporal.api.common.v1.RetryPolicy
-	(*v11.Priority)(nil),                            // 13: temporal.api.common.v1.Priority
-	(*v11.ActivityType)(nil),                        // 14: temporal.api.common.v1.ActivityType
-	(v1.ActivityExecutionStatus)(0),                 // 15: temporal.api.enums.v1.ActivityExecutionStatus
-	(v1.PendingActivityState)(0),                    // 16: temporal.api.enums.v1.PendingActivityState
-	(*timestamppb.Timestamp)(nil),                   // 17: google.protobuf.Timestamp
-	(*v14.WorkerDeploymentVersion)(nil),             // 18: temporal.api.deployment.v1.WorkerDeploymentVersion
-	(*v11.SearchAttributes)(nil),                    // 19: temporal.api.common.v1.SearchAttributes
-	(*v11.Header)(nil),                              // 20: temporal.api.common.v1.Header
-	(*v15.UserMetadata)(nil),                        // 21: temporal.api.sdk.v1.UserMetadata
-	(*v11.Link)(nil),                                // 22: temporal.api.common.v1.Link
-	(*v16.PropagatedNexusSerializationContext)(nil), // 23: temporal.api.nexus.v1.PropagatedNexusSerializationContext
-	(*v17.CallbackInfo)(nil),                        // 24: temporal.api.callback.v1.CallbackInfo
+	(*ActivityExecutionOutcome)(nil),           // 0: temporal.api.activity.v1.ActivityExecutionOutcome
+	(*ActivityOptions)(nil),                    // 1: temporal.api.activity.v1.ActivityOptions
+	(*ActivityExecutionInfo)(nil),              // 2: temporal.api.activity.v1.ActivityExecutionInfo
+	(*ActivityExecutionListInfo)(nil),          // 3: temporal.api.activity.v1.ActivityExecutionListInfo
+	(*CallbackInfo)(nil),                       // 4: temporal.api.activity.v1.CallbackInfo
+	(*CallbackInfo_ActivityClosed)(nil),        // 5: temporal.api.activity.v1.CallbackInfo.ActivityClosed
+	(*CallbackInfo_Trigger)(nil),               // 6: temporal.api.activity.v1.CallbackInfo.Trigger
+	(*v11.Payloads)(nil),                       // 7: temporal.api.common.v1.Payloads
+	(*v12.Failure)(nil),                        // 8: temporal.api.failure.v1.Failure
+	(v1.RetryState)(0),                         // 9: temporal.api.enums.v1.RetryState
+	(*v13.TaskQueue)(nil),                      // 10: temporal.api.taskqueue.v1.TaskQueue
+	(*durationpb.Duration)(nil),                // 11: google.protobuf.Duration
+	(*v11.RetryPolicy)(nil),                    // 12: temporal.api.common.v1.RetryPolicy
+	(*v11.Priority)(nil),                       // 13: temporal.api.common.v1.Priority
+	(*v11.ActivityType)(nil),                   // 14: temporal.api.common.v1.ActivityType
+	(v1.ActivityExecutionStatus)(0),            // 15: temporal.api.enums.v1.ActivityExecutionStatus
+	(v1.PendingActivityState)(0),               // 16: temporal.api.enums.v1.PendingActivityState
+	(*timestamppb.Timestamp)(nil),              // 17: google.protobuf.Timestamp
+	(*v14.WorkerDeploymentVersion)(nil),        // 18: temporal.api.deployment.v1.WorkerDeploymentVersion
+	(*v11.SearchAttributes)(nil),               // 19: temporal.api.common.v1.SearchAttributes
+	(*v11.Header)(nil),                         // 20: temporal.api.common.v1.Header
+	(*v15.UserMetadata)(nil),                   // 21: temporal.api.sdk.v1.UserMetadata
+	(*v11.Link)(nil),                           // 22: temporal.api.common.v1.Link
+	(*v16.PropagatedSerializationContext)(nil), // 23: temporal.api.nexus.v1.PropagatedSerializationContext
+	(*v17.CallbackInfo)(nil),                   // 24: temporal.api.callback.v1.CallbackInfo
 }
 var file_temporal_api_activity_v1_message_proto_depIdxs = []int32{
 	7,  // 0: temporal.api.activity.v1.ActivityExecutionOutcome.result:type_name -> temporal.api.common.v1.Payloads
@@ -1147,7 +1148,7 @@ var file_temporal_api_activity_v1_message_proto_depIdxs = []int32{
 	22, // 35: temporal.api.activity.v1.ActivityExecutionInfo.links:type_name -> temporal.api.common.v1.Link
 	11, // 36: temporal.api.activity.v1.ActivityExecutionInfo.start_delay:type_name -> google.protobuf.Duration
 	17, // 37: temporal.api.activity.v1.ActivityExecutionInfo.execution_time:type_name -> google.protobuf.Timestamp
-	23, // 38: temporal.api.activity.v1.ActivityExecutionInfo.propagated_nexus_serialization_context:type_name -> temporal.api.nexus.v1.PropagatedNexusSerializationContext
+	23, // 38: temporal.api.activity.v1.ActivityExecutionInfo.propagated_nexus_serialization_context:type_name -> temporal.api.nexus.v1.PropagatedSerializationContext
 	14, // 39: temporal.api.activity.v1.ActivityExecutionListInfo.activity_type:type_name -> temporal.api.common.v1.ActivityType
 	17, // 40: temporal.api.activity.v1.ActivityExecutionListInfo.schedule_time:type_name -> google.protobuf.Timestamp
 	17, // 41: temporal.api.activity.v1.ActivityExecutionListInfo.close_time:type_name -> google.protobuf.Timestamp
