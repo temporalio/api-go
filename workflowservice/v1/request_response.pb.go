@@ -7,10 +7,6 @@
 package workflowservice
 
 import (
-	reflect "reflect"
-	sync "sync"
-	unsafe "unsafe"
-
 	v120 "go.temporal.io/api/activity/v1"
 	v118 "go.temporal.io/api/batch/v1"
 	v112 "go.temporal.io/api/command/v1"
@@ -40,6 +36,9 @@ import (
 	durationpb "google.golang.org/protobuf/types/known/durationpb"
 	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
+	reflect "reflect"
+	sync "sync"
+	unsafe "unsafe"
 )
 
 const (
@@ -1660,9 +1659,9 @@ type PollWorkflowTaskQueueResponse struct {
 	// ignore stale updates.
 	// The weighted list of poller groups IDs that client should use for future polls to this task
 	// queue. Client is expected to:
-	//  1. Maintain minimum number of pollers no less than the number of groups.
-	//  2. Try to assign the next poll to a group without any pending polls,
-	//  3. If every group has some pending polls, assign the next poll to a group randomly
+	//   1. Maintain minimum number of pollers no less than the number of groups.
+	//   2. Try to assign the next poll to a group without any pending polls,
+	//   3. If every group has some pending polls, assign the next poll to a group randomly
 	//     according to the weights.
 	//
 	// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
@@ -1670,9 +1669,9 @@ type PollWorkflowTaskQueueResponse struct {
 	// The weighted, versioned list of poller groups IDs that client should use for future polls to
 	// this task queue. Client should ignore this if it has already applied a snapshot with a
 	// version greater than or equal to `poller_groups_info.version`. Client is expected to:
-	//  1. Maintain minimum number of pollers no less than the number of groups.
-	//  2. Try to assign the next poll to a group without any pending polls,
-	//  3. If every group has some pending polls, assign the next poll to a group randomly
+	//   1. Maintain minimum number of pollers no less than the number of groups.
+	//   2. Try to assign the next poll to a group without any pending polls,
+	//   3. If every group has some pending polls, assign the next poll to a group randomly
 	//     according to the weights.
 	PollerGroupsInfo *v13.PollerGroupsInfo `protobuf:"bytes,19,opt,name=poller_groups_info,json=pollerGroupsInfo,proto3" json:"poller_groups_info,omitempty"`
 	unknownFields    protoimpl.UnknownFields
@@ -2516,14 +2515,12 @@ type PollActivityTaskQueueResponse struct {
 	// First scheduled -> final result reported timeout
 	//
 	// (-- api-linter: core::0140::prepositions=disabled
-	//
-	//	aip.dev/not-precedent: "to" is used to indicate interval. --)
+	//     aip.dev/not-precedent: "to" is used to indicate interval. --)
 	ScheduleToCloseTimeout *durationpb.Duration `protobuf:"bytes,14,opt,name=schedule_to_close_timeout,json=scheduleToCloseTimeout,proto3" json:"schedule_to_close_timeout,omitempty"`
 	// Current attempt start -> final result reported timeout
 	//
 	// (-- api-linter: core::0140::prepositions=disabled
-	//
-	//	aip.dev/not-precedent: "to" is used to indicate interval. --)
+	//     aip.dev/not-precedent: "to" is used to indicate interval. --)
 	StartToCloseTimeout *durationpb.Duration `protobuf:"bytes,15,opt,name=start_to_close_timeout,json=startToCloseTimeout,proto3" json:"start_to_close_timeout,omitempty"`
 	// Window within which the activity must report a heartbeat, or be timed out.
 	HeartbeatTimeout *durationpb.Duration `protobuf:"bytes,16,opt,name=heartbeat_timeout,json=heartbeatTimeout,proto3" json:"heartbeat_timeout,omitempty"`
@@ -2539,9 +2536,9 @@ type PollActivityTaskQueueResponse struct {
 	ActivityRunId string `protobuf:"bytes,20,opt,name=activity_run_id,json=activityRunId,proto3" json:"activity_run_id,omitempty"`
 	// The weighted list of poller groups IDs that client should use for future polls to this task
 	// queue. Client is expected to:
-	//  1. Maintain minimum number of pollers no less than the number of groups.
-	//  2. Try to assign the next poll to a group without any pending polls,
-	//  3. If every group has some pending polls, assign the next poll to a group randomly
+	//   1. Maintain minimum number of pollers no less than the number of groups.
+	//   2. Try to assign the next poll to a group without any pending polls,
+	//   3. If every group has some pending polls, assign the next poll to a group randomly
 	//     according to the weights.
 	//
 	// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
@@ -2549,9 +2546,9 @@ type PollActivityTaskQueueResponse struct {
 	// The weighted, versioned list of poller groups IDs that client should use for future polls to
 	// this task queue. Client should ignore this if it has already applied a snapshot with a
 	// version greater than or equal to `poller_groups_info.version`. Client is expected to:
-	//  1. Maintain minimum number of pollers no less than the number of groups.
-	//  2. Try to assign the next poll to a group without any pending polls,
-	//  3. If every group has some pending polls, assign the next poll to a group randomly
+	//   1. Maintain minimum number of pollers no less than the number of groups.
+	//   2. Try to assign the next poll to a group without any pending polls,
+	//   3. If every group has some pending polls, assign the next poll to a group randomly
 	//     according to the weights.
 	PollerGroupsInfo *v13.PollerGroupsInfo `protobuf:"bytes,22,opt,name=poller_groups_info,json=pollerGroupsInfo,proto3" json:"poller_groups_info,omitempty"`
 	unknownFields    protoimpl.UnknownFields
@@ -6791,8 +6788,7 @@ type DescribeTaskQueueResponse struct {
 	// Task queue stats breakdown by priority key. Only contains actively used priority keys.
 	// Only set if `report_stats` is set on the request.
 	// (-- api-linter: core::0140::prepositions=disabled
-	//
-	//	aip.dev/not-precedent: "by" is used to clarify the keys and values. --)
+	//     aip.dev/not-precedent: "by" is used to clarify the keys and values. --)
 	StatsByPriorityKey map[int32]*v13.TaskQueueStats `protobuf:"bytes,8,rep,name=stats_by_priority_key,json=statsByPriorityKey,proto3" json:"stats_by_priority_key,omitempty" protobuf_key:"varint,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	// Specifies which Worker Deployment Version(s) Server routes this Task Queue's tasks to.
 	// When not present, it means the tasks are routed to Unversioned workers (workers with
@@ -7471,11 +7467,11 @@ type DescribeScheduleResponse struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// The complete current schedule details. This may not match the schedule as
 	// created because:
-	//   - some types of schedule specs may get compiled into others (e.g.
-	//     CronString into StructuredCalendarSpec)
-	//   - some unspecified fields may be replaced by defaults
-	//   - some fields in the state are modified automatically
-	//   - the schedule may have been modified by UpdateSchedule or PatchSchedule
+	// - some types of schedule specs may get compiled into others (e.g.
+	//   CronString into StructuredCalendarSpec)
+	// - some unspecified fields may be replaced by defaults
+	// - some fields in the state are modified automatically
+	// - the schedule may have been modified by UpdateSchedule or PatchSchedule
 	Schedule *v116.Schedule `protobuf:"bytes,1,opt,name=schedule,proto3" json:"schedule,omitempty"`
 	// Extra schedule state info.
 	Info *v116.ScheduleInfo `protobuf:"bytes,2,opt,name=info,proto3" json:"info,omitempty"`
@@ -8401,8 +8397,7 @@ type UpdateWorkerBuildIdCompatibilityRequest_AddNewBuildIdInNewDefaultSet struct
 	// incompatible with all previous sets/versions.
 	//
 	// (-- api-linter: core::0140::prepositions=disabled
-	//
-	//	aip.dev/not-precedent: In makes perfect sense here. --)
+	//     aip.dev/not-precedent: In makes perfect sense here. --)
 	AddNewBuildIdInNewDefaultSet string `protobuf:"bytes,3,opt,name=add_new_build_id_in_new_default_set,json=addNewBuildIdInNewDefaultSet,proto3,oneof"`
 }
 
@@ -8416,8 +8411,7 @@ type UpdateWorkerBuildIdCompatibilityRequest_PromoteSetByBuildId struct {
 	// an existing build id within it. This field's value is the extant build id.
 	//
 	// (-- api-linter: core::0140::prepositions=disabled
-	//
-	//	aip.dev/not-precedent: Names are hard. --)
+	//     aip.dev/not-precedent: Names are hard. --)
 	PromoteSetByBuildId string `protobuf:"bytes,5,opt,name=promote_set_by_build_id,json=promoteSetByBuildId,proto3,oneof"`
 }
 
@@ -8425,8 +8419,7 @@ type UpdateWorkerBuildIdCompatibilityRequest_PromoteBuildIdWithinSet struct {
 	// Promote an existing build id within some set to be the current default for that set.
 	//
 	// (-- api-linter: core::0140::prepositions=disabled
-	//
-	//	aip.dev/not-precedent: Within makes perfect sense here. --)
+	//     aip.dev/not-precedent: Within makes perfect sense here. --)
 	PromoteBuildIdWithinSet string `protobuf:"bytes,6,opt,name=promote_build_id_within_set,json=promoteBuildIdWithinSet,proto3,oneof"`
 }
 
@@ -9142,8 +9135,7 @@ type UpdateWorkflowExecutionRequest struct {
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// The target Workflow Id and (optionally) a specific Run Id thereof.
 	// (-- api-linter: core::0203::optional=disabled
-	//
-	//	aip.dev/not-precedent: false positive triggered by the word "optional" --)
+	//     aip.dev/not-precedent: false positive triggered by the word "optional" --)
 	WorkflowExecution *v14.WorkflowExecution `protobuf:"bytes,2,opt,name=workflow_execution,json=workflowExecution,proto3" json:"workflow_execution,omitempty"`
 	// If set, this call will error if the most recent (if no Run Id is set on
 	// `workflow_execution`), or specified (if it is) Workflow Execution is not
@@ -10374,9 +10366,9 @@ type PollNexusTaskQueueResponse struct {
 	PollerGroupId string `protobuf:"bytes,4,opt,name=poller_group_id,json=pollerGroupId,proto3" json:"poller_group_id,omitempty"`
 	// The weighted list of poller groups IDs that client should use for future polls to this task
 	// queue. Client is expected to:
-	//  1. Maintain minimum number of pollers no less than the number of groups.
-	//  2. Try to assign the next poll to a group without any pending polls,
-	//  3. If every group has some pending polls, assign the next poll to a group randomly
+	//   1. Maintain minimum number of pollers no less than the number of groups.
+	//   2. Try to assign the next poll to a group without any pending polls,
+	//   3. If every group has some pending polls, assign the next poll to a group randomly
 	//     according to the weights.
 	//
 	// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
@@ -10384,9 +10376,9 @@ type PollNexusTaskQueueResponse struct {
 	// The weighted, versioned list of poller groups IDs that client should use for future polls to
 	// this task queue. Client should ignore this if it has already applied a snapshot with a
 	// version greater than or equal to `poller_groups_info.version`. Client is expected to:
-	//  1. Maintain minimum number of pollers no less than the number of groups.
-	//  2. Try to assign the next poll to a group without any pending polls,
-	//  3. If every group has some pending polls, assign the next poll to a group randomly
+	//   1. Maintain minimum number of pollers no less than the number of groups.
+	//   2. Try to assign the next poll to a group without any pending polls,
+	//   3. If every group has some pending polls, assign the next poll to a group randomly
 	//     according to the weights.
 	PollerGroupsInfo *v13.PollerGroupsInfo `protobuf:"bytes,6,opt,name=poller_groups_info,json=pollerGroupsInfo,proto3" json:"poller_groups_info,omitempty"`
 	unknownFields    protoimpl.UnknownFields
@@ -12276,8 +12268,7 @@ type UpdateWorkflowExecutionOptionsRequest struct {
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// The target Workflow Id and (optionally) a specific Run Id thereof.
 	// (-- api-linter: core::0203::optional=disabled
-	//
-	//	aip.dev/not-precedent: false positive triggered by the word "optional" --)
+	//     aip.dev/not-precedent: false positive triggered by the word "optional" --)
 	WorkflowExecution *v14.WorkflowExecution `protobuf:"bytes,2,opt,name=workflow_execution,json=workflowExecution,proto3" json:"workflow_execution,omitempty"`
 	// Workflow Execution options. Partial updates are accepted and controlled by update_mask.
 	WorkflowExecutionOptions *v17.WorkflowExecutionOptions `protobuf:"bytes,3,opt,name=workflow_execution_options,json=workflowExecutionOptions,proto3" json:"workflow_execution_options,omitempty"`
@@ -13024,7 +13015,6 @@ type SetWorkerDeploymentCurrentVersionRequest struct {
 	//     add_rate of 0.)
 	//   - Task Queues that are moved to another Worker Deployment (inferred by the Task Queue
 	//     having a different Current Version than the Current Version of this deployment.)
-	//
 	// WARNING: Do not set this flag unless you are sure that the missing task queue pollers are not
 	// needed. If the request is unexpectedly rejected due to missing pollers, then that means the
 	// pollers have not reached to the server yet. Only set this if you expect those pollers to
@@ -13231,7 +13221,6 @@ type SetWorkerDeploymentRampingVersionRequest struct {
 	//     add_rate of 0.)
 	//   - Task Queues that are moved to another Worker Deployment (inferred by the Task Queue
 	//     having a different Current Version than the Current Version of this deployment.)
-	//
 	// WARNING: Do not set this flag unless you are sure that the missing task queue poller are not
 	// needed. If the request is unexpectedly rejected due to missing pollers, then that means the
 	// pollers have not reached to the server yet. Only set this if you expect those pollers to
@@ -15504,16 +15493,16 @@ type ListWorkersRequest struct {
 	NextPageToken []byte                 `protobuf:"bytes,3,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
 	// `query` in ListWorkers is used to filter workers based on worker attributes.
 	// Supported attributes:
-	// * WorkerInstanceKey
-	// * WorkerIdentity
-	// * HostName
-	// * TaskQueue
-	// * DeploymentName
-	// * BuildId
-	// * SdkName
-	// * SdkVersion
-	// * StartTime
-	// * Status
+	//* WorkerInstanceKey
+	//* WorkerIdentity
+	//* HostName
+	//* TaskQueue
+	//* DeploymentName
+	//* BuildId
+	//* SdkName
+	//* SdkVersion
+	//* StartTime
+	//* Status
 	Query string `protobuf:"bytes,4,opt,name=query,proto3" json:"query,omitempty"`
 	// When true, the response will include system workers that are created implicitly
 	// by the server and not by the user. By default, system workers are excluded.
@@ -16586,24 +16575,21 @@ type StartActivityExecutionRequest struct {
 	// retries will be attempted. Either this or `start_to_close_timeout` must be specified.
 	//
 	// (-- api-linter: core::0140::prepositions=disabled
-	//
-	//	aip.dev/not-precedent: "to" is used to indicate interval. --)
+	//     aip.dev/not-precedent: "to" is used to indicate interval. --)
 	ScheduleToCloseTimeout *durationpb.Duration `protobuf:"bytes,7,opt,name=schedule_to_close_timeout,json=scheduleToCloseTimeout,proto3" json:"schedule_to_close_timeout,omitempty"`
 	// Limits time an activity task can stay in a task queue before a worker picks it up. This
 	// timeout is always non retryable, as all a retry would achieve is to put it back into the same
 	// queue. Defaults to `schedule_to_close_timeout` if not specified.
 	//
 	// (-- api-linter: core::0140::prepositions=disabled
-	//
-	//	aip.dev/not-precedent: "to" is used to indicate interval. --)
+	//     aip.dev/not-precedent: "to" is used to indicate interval. --)
 	ScheduleToStartTimeout *durationpb.Duration `protobuf:"bytes,8,opt,name=schedule_to_start_timeout,json=scheduleToStartTimeout,proto3" json:"schedule_to_start_timeout,omitempty"`
 	// Maximum time an activity is allowed to execute after being picked up by a worker. This
 	// timeout is always retryable. Either this or `schedule_to_close_timeout` must be
 	// specified.
 	//
 	// (-- api-linter: core::0140::prepositions=disabled
-	//
-	//	aip.dev/not-precedent: "to" is used to indicate interval. --)
+	//     aip.dev/not-precedent: "to" is used to indicate interval. --)
 	StartToCloseTimeout *durationpb.Duration `protobuf:"bytes,9,opt,name=start_to_close_timeout,json=startToCloseTimeout,proto3" json:"start_to_close_timeout,omitempty"`
 	// Maximum permitted time between successful worker heartbeats.
 	HeartbeatTimeout *durationpb.Duration `protobuf:"bytes,10,opt,name=heartbeat_timeout,json=heartbeatTimeout,proto3" json:"heartbeat_timeout,omitempty"`
@@ -16634,9 +16620,12 @@ type StartActivityExecutionRequest struct {
 	// Options for handling conflicts when using ACTIVITY_ID_CONFLICT_POLICY_USE_EXISTING.
 	OnConflictOptions *v14.OnConflictOptions `protobuf:"bytes,21,opt,name=on_conflict_options,json=onConflictOptions,proto3" json:"on_conflict_options,omitempty"`
 	// Time to wait before making the first activity task available for dispatch. This delay is not applied to retry attempts.
-	StartDelay    *durationpb.Duration `protobuf:"bytes,22,opt,name=start_delay,json=startDelay,proto3" json:"start_delay,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	StartDelay *durationpb.Duration `protobuf:"bytes,22,opt,name=start_delay,json=startDelay,proto3" json:"start_delay,omitempty"`
+	// Request that the first activity task be returned directly in the start response instead of
+	// being dispatched through a task queue. The server may decline this request.
+	RequestEagerExecution bool `protobuf:"varint,23,opt,name=request_eager_execution,json=requestEagerExecution,proto3" json:"request_eager_execution,omitempty"`
+	unknownFields         protoimpl.UnknownFields
+	sizeCache             protoimpl.SizeCache
 }
 
 func (x *StartActivityExecutionRequest) Reset() {
@@ -16823,6 +16812,13 @@ func (x *StartActivityExecutionRequest) GetStartDelay() *durationpb.Duration {
 	return nil
 }
 
+func (x *StartActivityExecutionRequest) GetRequestEagerExecution() bool {
+	if x != nil {
+		return x.RequestEagerExecution
+	}
+	return false
+}
+
 type StartActivityExecutionResponse struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// The run ID of the activity that was started - or used (via ACTIVITY_ID_CONFLICT_POLICY_USE_EXISTING).
@@ -16830,9 +16826,12 @@ type StartActivityExecutionResponse struct {
 	// If true, a new activity was started.
 	Started bool `protobuf:"varint,2,opt,name=started,proto3" json:"started,omitempty"`
 	// Link to the started activity.
-	Link          *v14.Link `protobuf:"bytes,3,opt,name=link,proto3" json:"link,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Link *v14.Link `protobuf:"bytes,3,opt,name=link,proto3" json:"link,omitempty"`
+	// The first activity task when eager execution was requested and accepted.
+	// This is set only for the first attempt of a newly started activity.
+	EagerActivityTask *PollActivityTaskQueueResponse `protobuf:"bytes,4,opt,name=eager_activity_task,json=eagerActivityTask,proto3" json:"eager_activity_task,omitempty"`
+	unknownFields     protoimpl.UnknownFields
+	sizeCache         protoimpl.SizeCache
 }
 
 func (x *StartActivityExecutionResponse) Reset() {
@@ -16882,6 +16881,13 @@ func (x *StartActivityExecutionResponse) GetStarted() bool {
 func (x *StartActivityExecutionResponse) GetLink() *v14.Link {
 	if x != nil {
 		return x.Link
+	}
+	return nil
+}
+
+func (x *StartActivityExecutionResponse) GetEagerActivityTask() *PollActivityTaskQueueResponse {
+	if x != nil {
+		return x.EagerActivityTask
 	}
 	return nil
 }
@@ -17349,24 +17355,21 @@ type StartNexusOperationExecutionRequest struct {
 	// Indicates how long the caller is willing to wait for operation completion.
 	// Calls are retried internally by the server.
 	// (-- api-linter: core::0140::prepositions=disabled
-	//
-	//	aip.dev/not-precedent: "to" is used to indicate interval. --)
+	//     aip.dev/not-precedent: "to" is used to indicate interval. --)
 	ScheduleToCloseTimeout *durationpb.Duration `protobuf:"bytes,8,opt,name=schedule_to_close_timeout,json=scheduleToCloseTimeout,proto3" json:"schedule_to_close_timeout,omitempty"`
 	// Schedule-to-start timeout for this operation.
 	// Indicates how long the caller is willing to wait for the operation to be started (or completed if synchronous)
 	// by the handler.
 	// If not set or zero, no schedule-to-start timeout is enforced.
 	// (-- api-linter: core::0140::prepositions=disabled
-	//
-	//	aip.dev/not-precedent: "to" is used to indicate interval. --)
+	//     aip.dev/not-precedent: "to" is used to indicate interval. --)
 	ScheduleToStartTimeout *durationpb.Duration `protobuf:"bytes,9,opt,name=schedule_to_start_timeout,json=scheduleToStartTimeout,proto3" json:"schedule_to_start_timeout,omitempty"`
 	// Start-to-close timeout for this operation.
 	// Indicates how long the caller is willing to wait for an asynchronous operation to complete after it has been
 	// started. Synchronous operations ignore this timeout.
 	// If not set or zero, no start-to-close timeout is enforced.
 	// (-- api-linter: core::0140::prepositions=disabled
-	//
-	//	aip.dev/not-precedent: "to" is used to indicate interval. --)
+	//     aip.dev/not-precedent: "to" is used to indicate interval. --)
 	StartToCloseTimeout *durationpb.Duration `protobuf:"bytes,10,opt,name=start_to_close_timeout,json=startToCloseTimeout,proto3" json:"start_to_close_timeout,omitempty"`
 	// Serialized input to the operation. Passed as the request payload.
 	Input *v14.Payload `protobuf:"bytes,11,opt,name=input,proto3" json:"input,omitempty"`
@@ -19219,8 +19222,7 @@ type RespondWorkflowTaskCompletedRequest_Capabilities struct {
 	// speculative task included command events the SDK had not previously processed.
 	//
 	// (-- api-linter: core::0140::prepositions=disabled
-	//
-	//	aip.dev/not-precedent: "with" used to describe the workflow task. --)
+	//     aip.dev/not-precedent: "with" used to describe the workflow task. --)
 	DiscardSpeculativeWorkflowTaskWithEvents bool `protobuf:"varint,1,opt,name=discard_speculative_workflow_task_with_events,json=discardSpeculativeWorkflowTaskWithEvents,proto3" json:"discard_speculative_workflow_task_with_events,omitempty"`
 	unknownFields                            protoimpl.UnknownFields
 	sizeCache                                protoimpl.SizeCache
@@ -20278,8 +20280,7 @@ type DescribeWorkerDeploymentVersionResponse_VersionTaskQueue struct {
 	// Task queue stats breakdown by priority key. Only contains actively used priority keys.
 	// Only set if `report_task_queue_stats` is set to true in the request.
 	// (-- api-linter: core::0140::prepositions=disabled
-	//
-	//	aip.dev/not-precedent: "by" is used to clarify the key. --)
+	//     aip.dev/not-precedent: "by" is used to clarify the key. --)
 	StatsByPriorityKey map[int32]*v13.TaskQueueStats `protobuf:"bytes,4,rep,name=stats_by_priority_key,json=statsByPriorityKey,proto3" json:"stats_by_priority_key,omitempty" protobuf_key:"varint,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	unknownFields      protoimpl.UnknownFields
 	sizeCache          protoimpl.SizeCache
@@ -21992,7 +21993,7 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\x06reason\x18\x05 \x01(\tR\x06reason\x12\x1d\n" +
 	"\n" +
 	"request_id\x18\x06 \x01(\tR\trequestId\"\"\n" +
-	" UnpauseWorkflowExecutionResponse\"\xd7\v\n" +
+	" UnpauseWorkflowExecutionResponse\"\x8f\f\n" +
 	"\x1dStartActivityExecutionRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12\x1a\n" +
 	"\bidentity\x18\x02 \x01(\tR\bidentity\x12\x1d\n" +
@@ -22020,11 +22021,13 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\x05links\x18\x14 \x03(\v2\x1c.temporal.api.common.v1.LinkR\x05links\x12Y\n" +
 	"\x13on_conflict_options\x18\x15 \x01(\v2).temporal.api.common.v1.OnConflictOptionsR\x11onConflictOptions\x12:\n" +
 	"\vstart_delay\x18\x16 \x01(\v2\x19.google.protobuf.DurationR\n" +
-	"startDelay\"\x83\x01\n" +
+	"startDelay\x126\n" +
+	"\x17request_eager_execution\x18\x17 \x01(\bR\x15requestEagerExecution\"\xf3\x01\n" +
 	"\x1eStartActivityExecutionResponse\x12\x15\n" +
 	"\x06run_id\x18\x01 \x01(\tR\x05runId\x12\x18\n" +
 	"\astarted\x18\x02 \x01(\bR\astarted\x120\n" +
-	"\x04link\x18\x03 \x01(\v2\x1c.temporal.api.common.v1.LinkR\x04link\"\xdc\x02\n" +
+	"\x04link\x18\x03 \x01(\v2\x1c.temporal.api.common.v1.LinkR\x04link\x12n\n" +
+	"\x13eager_activity_task\x18\x04 \x01(\v2>.temporal.api.workflowservice.v1.PollActivityTaskQueueResponseR\x11eagerActivityTask\"\xdc\x02\n" +
 	" DescribeActivityExecutionRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12\x1f\n" +
 	"\vactivity_id\x18\x02 \x01(\tR\n" +
@@ -23045,75 +23048,76 @@ var file_temporal_api_workflowservice_v1_request_response_proto_depIdxs = []int3
 	412, // 383: temporal.api.workflowservice.v1.StartActivityExecutionRequest.on_conflict_options:type_name -> temporal.api.common.v1.OnConflictOptions
 	280, // 384: temporal.api.workflowservice.v1.StartActivityExecutionRequest.start_delay:type_name -> google.protobuf.Duration
 	303, // 385: temporal.api.workflowservice.v1.StartActivityExecutionResponse.link:type_name -> temporal.api.common.v1.Link
-	413, // 386: temporal.api.workflowservice.v1.DescribeActivityExecutionResponse.info:type_name -> temporal.api.activity.v1.ActivityExecutionInfo
-	293, // 387: temporal.api.workflowservice.v1.DescribeActivityExecutionResponse.input:type_name -> temporal.api.common.v1.Payloads
-	414, // 388: temporal.api.workflowservice.v1.DescribeActivityExecutionResponse.outcome:type_name -> temporal.api.activity.v1.ActivityExecutionOutcome
-	415, // 389: temporal.api.workflowservice.v1.DescribeActivityExecutionResponse.callbacks:type_name -> temporal.api.activity.v1.CallbackInfo
-	414, // 390: temporal.api.workflowservice.v1.PollActivityExecutionResponse.outcome:type_name -> temporal.api.activity.v1.ActivityExecutionOutcome
-	416, // 391: temporal.api.workflowservice.v1.ListActivityExecutionsResponse.executions:type_name -> temporal.api.activity.v1.ActivityExecutionListInfo
-	280, // 392: temporal.api.workflowservice.v1.StartNexusOperationExecutionRequest.schedule_to_close_timeout:type_name -> google.protobuf.Duration
-	280, // 393: temporal.api.workflowservice.v1.StartNexusOperationExecutionRequest.schedule_to_start_timeout:type_name -> google.protobuf.Duration
-	280, // 394: temporal.api.workflowservice.v1.StartNexusOperationExecutionRequest.start_to_close_timeout:type_name -> google.protobuf.Duration
-	417, // 395: temporal.api.workflowservice.v1.StartNexusOperationExecutionRequest.input:type_name -> temporal.api.common.v1.Payload
-	418, // 396: temporal.api.workflowservice.v1.StartNexusOperationExecutionRequest.id_reuse_policy:type_name -> temporal.api.enums.v1.NexusOperationIdReusePolicy
-	419, // 397: temporal.api.workflowservice.v1.StartNexusOperationExecutionRequest.id_conflict_policy:type_name -> temporal.api.enums.v1.NexusOperationIdConflictPolicy
-	420, // 398: temporal.api.workflowservice.v1.StartNexusOperationExecutionRequest.on_conflict_options:type_name -> temporal.api.nexusoperation.v1.OnConflictOptions
-	298, // 399: temporal.api.workflowservice.v1.StartNexusOperationExecutionRequest.search_attributes:type_name -> temporal.api.common.v1.SearchAttributes
-	277, // 400: temporal.api.workflowservice.v1.StartNexusOperationExecutionRequest.nexus_header:type_name -> temporal.api.workflowservice.v1.StartNexusOperationExecutionRequest.NexusHeaderEntry
-	302, // 401: temporal.api.workflowservice.v1.StartNexusOperationExecutionRequest.user_metadata:type_name -> temporal.api.sdk.v1.UserMetadata
-	301, // 402: temporal.api.workflowservice.v1.StartNexusOperationExecutionRequest.completion_callbacks:type_name -> temporal.api.common.v1.Callback
-	303, // 403: temporal.api.workflowservice.v1.StartNexusOperationExecutionRequest.links:type_name -> temporal.api.common.v1.Link
-	421, // 404: temporal.api.workflowservice.v1.DescribeNexusOperationExecutionResponse.info:type_name -> temporal.api.nexus.v1.NexusOperationExecutionInfo
-	417, // 405: temporal.api.workflowservice.v1.DescribeNexusOperationExecutionResponse.input:type_name -> temporal.api.common.v1.Payload
-	417, // 406: temporal.api.workflowservice.v1.DescribeNexusOperationExecutionResponse.result:type_name -> temporal.api.common.v1.Payload
-	300, // 407: temporal.api.workflowservice.v1.DescribeNexusOperationExecutionResponse.failure:type_name -> temporal.api.failure.v1.Failure
-	422, // 408: temporal.api.workflowservice.v1.DescribeNexusOperationExecutionResponse.completion_callbacks:type_name -> temporal.api.nexusoperation.v1.CallbackInfo
-	423, // 409: temporal.api.workflowservice.v1.PollNexusOperationExecutionRequest.wait_stage:type_name -> temporal.api.enums.v1.NexusOperationWaitStage
-	423, // 410: temporal.api.workflowservice.v1.PollNexusOperationExecutionResponse.wait_stage:type_name -> temporal.api.enums.v1.NexusOperationWaitStage
-	417, // 411: temporal.api.workflowservice.v1.PollNexusOperationExecutionResponse.result:type_name -> temporal.api.common.v1.Payload
-	300, // 412: temporal.api.workflowservice.v1.PollNexusOperationExecutionResponse.failure:type_name -> temporal.api.failure.v1.Failure
-	424, // 413: temporal.api.workflowservice.v1.ListNexusOperationExecutionsResponse.operations:type_name -> temporal.api.nexus.v1.NexusOperationExecutionListInfo
-	278, // 414: temporal.api.workflowservice.v1.CountActivityExecutionsResponse.groups:type_name -> temporal.api.workflowservice.v1.CountActivityExecutionsResponse.AggregationGroup
-	279, // 415: temporal.api.workflowservice.v1.CountNexusOperationExecutionsResponse.groups:type_name -> temporal.api.workflowservice.v1.CountNexusOperationExecutionsResponse.AggregationGroup
-	310, // 416: temporal.api.workflowservice.v1.PollWorkflowExecutionTimeSkippingRequest.workflow_execution:type_name -> temporal.api.common.v1.WorkflowExecution
-	425, // 417: temporal.api.workflowservice.v1.PollWorkflowExecutionTimeSkippingResponse.fast_forward_polling_result:type_name -> temporal.api.enums.v1.FastForwardPollingResult
-	426, // 418: temporal.api.workflowservice.v1.PollWorkflowExecutionTimeSkippingResponse.fast_forward_info:type_name -> temporal.api.common.v1.TimeSkippingFastForwardInfo
-	315, // 419: temporal.api.workflowservice.v1.PollWorkflowTaskQueueResponse.QueriesEntry.value:type_name -> temporal.api.query.v1.WorkflowQuery
-	427, // 420: temporal.api.workflowservice.v1.RespondWorkflowTaskCompletedRequest.QueryResultsEntry.value:type_name -> temporal.api.query.v1.WorkflowQueryResult
-	417, // 421: temporal.api.workflowservice.v1.CountWorkflowExecutionsResponse.AggregationGroup.group_values:type_name -> temporal.api.common.v1.Payload
-	428, // 422: temporal.api.workflowservice.v1.GetSearchAttributesResponse.KeysEntry.value:type_name -> temporal.api.enums.v1.IndexedValueType
-	353, // 423: temporal.api.workflowservice.v1.DescribeTaskQueueResponse.StatsByPriorityKeyEntry.value:type_name -> temporal.api.taskqueue.v1.TaskQueueStats
-	429, // 424: temporal.api.workflowservice.v1.DescribeTaskQueueResponse.EffectiveRateLimit.rate_limit_source:type_name -> temporal.api.enums.v1.RateLimitSource
-	430, // 425: temporal.api.workflowservice.v1.DescribeTaskQueueResponse.VersionsInfoEntry.value:type_name -> temporal.api.taskqueue.v1.TaskQueueVersionInfo
-	417, // 426: temporal.api.workflowservice.v1.CountSchedulesResponse.AggregationGroup.group_values:type_name -> temporal.api.common.v1.Payload
-	431, // 427: temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesRequest.InsertBuildIdAssignmentRule.rule:type_name -> temporal.api.taskqueue.v1.BuildIdAssignmentRule
-	431, // 428: temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesRequest.ReplaceBuildIdAssignmentRule.rule:type_name -> temporal.api.taskqueue.v1.BuildIdAssignmentRule
-	432, // 429: temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesRequest.AddCompatibleBuildIdRedirectRule.rule:type_name -> temporal.api.taskqueue.v1.CompatibleBuildIdRedirectRule
-	432, // 430: temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesRequest.ReplaceCompatibleBuildIdRedirectRule.rule:type_name -> temporal.api.taskqueue.v1.CompatibleBuildIdRedirectRule
-	10,  // 431: temporal.api.workflowservice.v1.ExecuteMultiOperationRequest.Operation.start_workflow:type_name -> temporal.api.workflowservice.v1.StartWorkflowExecutionRequest
-	110, // 432: temporal.api.workflowservice.v1.ExecuteMultiOperationRequest.Operation.update_workflow:type_name -> temporal.api.workflowservice.v1.UpdateWorkflowExecutionRequest
-	11,  // 433: temporal.api.workflowservice.v1.ExecuteMultiOperationResponse.Response.start_workflow:type_name -> temporal.api.workflowservice.v1.StartWorkflowExecutionResponse
-	111, // 434: temporal.api.workflowservice.v1.ExecuteMultiOperationResponse.Response.update_workflow:type_name -> temporal.api.workflowservice.v1.UpdateWorkflowExecutionResponse
-	340, // 435: temporal.api.workflowservice.v1.DescribeWorkerDeploymentVersionResponse.VersionTaskQueue.type:type_name -> temporal.api.enums.v1.TaskQueueType
-	353, // 436: temporal.api.workflowservice.v1.DescribeWorkerDeploymentVersionResponse.VersionTaskQueue.stats:type_name -> temporal.api.taskqueue.v1.TaskQueueStats
-	270, // 437: temporal.api.workflowservice.v1.DescribeWorkerDeploymentVersionResponse.VersionTaskQueue.stats_by_priority_key:type_name -> temporal.api.workflowservice.v1.DescribeWorkerDeploymentVersionResponse.VersionTaskQueue.StatsByPriorityKeyEntry
-	353, // 438: temporal.api.workflowservice.v1.DescribeWorkerDeploymentVersionResponse.VersionTaskQueue.StatsByPriorityKeyEntry.value:type_name -> temporal.api.taskqueue.v1.TaskQueueStats
-	316, // 439: temporal.api.workflowservice.v1.ListWorkerDeploymentsResponse.WorkerDeploymentSummary.create_time:type_name -> google.protobuf.Timestamp
-	433, // 440: temporal.api.workflowservice.v1.ListWorkerDeploymentsResponse.WorkerDeploymentSummary.routing_config:type_name -> temporal.api.deployment.v1.RoutingConfig
-	434, // 441: temporal.api.workflowservice.v1.ListWorkerDeploymentsResponse.WorkerDeploymentSummary.latest_version_summary:type_name -> temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummary
-	434, // 442: temporal.api.workflowservice.v1.ListWorkerDeploymentsResponse.WorkerDeploymentSummary.current_version_summary:type_name -> temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummary
-	434, // 443: temporal.api.workflowservice.v1.ListWorkerDeploymentsResponse.WorkerDeploymentSummary.ramping_version_summary:type_name -> temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummary
-	435, // 444: temporal.api.workflowservice.v1.UpdateWorkerDeploymentVersionComputeConfigRequest.ComputeConfigScalingGroupsEntry.value:type_name -> temporal.api.compute.v1.ComputeConfigScalingGroupUpdate
-	435, // 445: temporal.api.workflowservice.v1.ValidateWorkerDeploymentVersionComputeConfigRequest.ComputeConfigScalingGroupsEntry.value:type_name -> temporal.api.compute.v1.ComputeConfigScalingGroupUpdate
-	417, // 446: temporal.api.workflowservice.v1.UpdateWorkerDeploymentVersionMetadataRequest.UpsertEntriesEntry.value:type_name -> temporal.api.common.v1.Payload
-	436, // 447: temporal.api.workflowservice.v1.UpdateTaskQueueConfigRequest.RateLimitUpdate.rate_limit:type_name -> temporal.api.taskqueue.v1.RateLimit
-	417, // 448: temporal.api.workflowservice.v1.CountActivityExecutionsResponse.AggregationGroup.group_values:type_name -> temporal.api.common.v1.Payload
-	417, // 449: temporal.api.workflowservice.v1.CountNexusOperationExecutionsResponse.AggregationGroup.group_values:type_name -> temporal.api.common.v1.Payload
-	450, // [450:450] is the sub-list for method output_type
-	450, // [450:450] is the sub-list for method input_type
-	450, // [450:450] is the sub-list for extension type_name
-	450, // [450:450] is the sub-list for extension extendee
-	0,   // [0:450] is the sub-list for field type_name
+	23,  // 386: temporal.api.workflowservice.v1.StartActivityExecutionResponse.eager_activity_task:type_name -> temporal.api.workflowservice.v1.PollActivityTaskQueueResponse
+	413, // 387: temporal.api.workflowservice.v1.DescribeActivityExecutionResponse.info:type_name -> temporal.api.activity.v1.ActivityExecutionInfo
+	293, // 388: temporal.api.workflowservice.v1.DescribeActivityExecutionResponse.input:type_name -> temporal.api.common.v1.Payloads
+	414, // 389: temporal.api.workflowservice.v1.DescribeActivityExecutionResponse.outcome:type_name -> temporal.api.activity.v1.ActivityExecutionOutcome
+	415, // 390: temporal.api.workflowservice.v1.DescribeActivityExecutionResponse.callbacks:type_name -> temporal.api.activity.v1.CallbackInfo
+	414, // 391: temporal.api.workflowservice.v1.PollActivityExecutionResponse.outcome:type_name -> temporal.api.activity.v1.ActivityExecutionOutcome
+	416, // 392: temporal.api.workflowservice.v1.ListActivityExecutionsResponse.executions:type_name -> temporal.api.activity.v1.ActivityExecutionListInfo
+	280, // 393: temporal.api.workflowservice.v1.StartNexusOperationExecutionRequest.schedule_to_close_timeout:type_name -> google.protobuf.Duration
+	280, // 394: temporal.api.workflowservice.v1.StartNexusOperationExecutionRequest.schedule_to_start_timeout:type_name -> google.protobuf.Duration
+	280, // 395: temporal.api.workflowservice.v1.StartNexusOperationExecutionRequest.start_to_close_timeout:type_name -> google.protobuf.Duration
+	417, // 396: temporal.api.workflowservice.v1.StartNexusOperationExecutionRequest.input:type_name -> temporal.api.common.v1.Payload
+	418, // 397: temporal.api.workflowservice.v1.StartNexusOperationExecutionRequest.id_reuse_policy:type_name -> temporal.api.enums.v1.NexusOperationIdReusePolicy
+	419, // 398: temporal.api.workflowservice.v1.StartNexusOperationExecutionRequest.id_conflict_policy:type_name -> temporal.api.enums.v1.NexusOperationIdConflictPolicy
+	420, // 399: temporal.api.workflowservice.v1.StartNexusOperationExecutionRequest.on_conflict_options:type_name -> temporal.api.nexusoperation.v1.OnConflictOptions
+	298, // 400: temporal.api.workflowservice.v1.StartNexusOperationExecutionRequest.search_attributes:type_name -> temporal.api.common.v1.SearchAttributes
+	277, // 401: temporal.api.workflowservice.v1.StartNexusOperationExecutionRequest.nexus_header:type_name -> temporal.api.workflowservice.v1.StartNexusOperationExecutionRequest.NexusHeaderEntry
+	302, // 402: temporal.api.workflowservice.v1.StartNexusOperationExecutionRequest.user_metadata:type_name -> temporal.api.sdk.v1.UserMetadata
+	301, // 403: temporal.api.workflowservice.v1.StartNexusOperationExecutionRequest.completion_callbacks:type_name -> temporal.api.common.v1.Callback
+	303, // 404: temporal.api.workflowservice.v1.StartNexusOperationExecutionRequest.links:type_name -> temporal.api.common.v1.Link
+	421, // 405: temporal.api.workflowservice.v1.DescribeNexusOperationExecutionResponse.info:type_name -> temporal.api.nexus.v1.NexusOperationExecutionInfo
+	417, // 406: temporal.api.workflowservice.v1.DescribeNexusOperationExecutionResponse.input:type_name -> temporal.api.common.v1.Payload
+	417, // 407: temporal.api.workflowservice.v1.DescribeNexusOperationExecutionResponse.result:type_name -> temporal.api.common.v1.Payload
+	300, // 408: temporal.api.workflowservice.v1.DescribeNexusOperationExecutionResponse.failure:type_name -> temporal.api.failure.v1.Failure
+	422, // 409: temporal.api.workflowservice.v1.DescribeNexusOperationExecutionResponse.completion_callbacks:type_name -> temporal.api.nexusoperation.v1.CallbackInfo
+	423, // 410: temporal.api.workflowservice.v1.PollNexusOperationExecutionRequest.wait_stage:type_name -> temporal.api.enums.v1.NexusOperationWaitStage
+	423, // 411: temporal.api.workflowservice.v1.PollNexusOperationExecutionResponse.wait_stage:type_name -> temporal.api.enums.v1.NexusOperationWaitStage
+	417, // 412: temporal.api.workflowservice.v1.PollNexusOperationExecutionResponse.result:type_name -> temporal.api.common.v1.Payload
+	300, // 413: temporal.api.workflowservice.v1.PollNexusOperationExecutionResponse.failure:type_name -> temporal.api.failure.v1.Failure
+	424, // 414: temporal.api.workflowservice.v1.ListNexusOperationExecutionsResponse.operations:type_name -> temporal.api.nexus.v1.NexusOperationExecutionListInfo
+	278, // 415: temporal.api.workflowservice.v1.CountActivityExecutionsResponse.groups:type_name -> temporal.api.workflowservice.v1.CountActivityExecutionsResponse.AggregationGroup
+	279, // 416: temporal.api.workflowservice.v1.CountNexusOperationExecutionsResponse.groups:type_name -> temporal.api.workflowservice.v1.CountNexusOperationExecutionsResponse.AggregationGroup
+	310, // 417: temporal.api.workflowservice.v1.PollWorkflowExecutionTimeSkippingRequest.workflow_execution:type_name -> temporal.api.common.v1.WorkflowExecution
+	425, // 418: temporal.api.workflowservice.v1.PollWorkflowExecutionTimeSkippingResponse.fast_forward_polling_result:type_name -> temporal.api.enums.v1.FastForwardPollingResult
+	426, // 419: temporal.api.workflowservice.v1.PollWorkflowExecutionTimeSkippingResponse.fast_forward_info:type_name -> temporal.api.common.v1.TimeSkippingFastForwardInfo
+	315, // 420: temporal.api.workflowservice.v1.PollWorkflowTaskQueueResponse.QueriesEntry.value:type_name -> temporal.api.query.v1.WorkflowQuery
+	427, // 421: temporal.api.workflowservice.v1.RespondWorkflowTaskCompletedRequest.QueryResultsEntry.value:type_name -> temporal.api.query.v1.WorkflowQueryResult
+	417, // 422: temporal.api.workflowservice.v1.CountWorkflowExecutionsResponse.AggregationGroup.group_values:type_name -> temporal.api.common.v1.Payload
+	428, // 423: temporal.api.workflowservice.v1.GetSearchAttributesResponse.KeysEntry.value:type_name -> temporal.api.enums.v1.IndexedValueType
+	353, // 424: temporal.api.workflowservice.v1.DescribeTaskQueueResponse.StatsByPriorityKeyEntry.value:type_name -> temporal.api.taskqueue.v1.TaskQueueStats
+	429, // 425: temporal.api.workflowservice.v1.DescribeTaskQueueResponse.EffectiveRateLimit.rate_limit_source:type_name -> temporal.api.enums.v1.RateLimitSource
+	430, // 426: temporal.api.workflowservice.v1.DescribeTaskQueueResponse.VersionsInfoEntry.value:type_name -> temporal.api.taskqueue.v1.TaskQueueVersionInfo
+	417, // 427: temporal.api.workflowservice.v1.CountSchedulesResponse.AggregationGroup.group_values:type_name -> temporal.api.common.v1.Payload
+	431, // 428: temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesRequest.InsertBuildIdAssignmentRule.rule:type_name -> temporal.api.taskqueue.v1.BuildIdAssignmentRule
+	431, // 429: temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesRequest.ReplaceBuildIdAssignmentRule.rule:type_name -> temporal.api.taskqueue.v1.BuildIdAssignmentRule
+	432, // 430: temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesRequest.AddCompatibleBuildIdRedirectRule.rule:type_name -> temporal.api.taskqueue.v1.CompatibleBuildIdRedirectRule
+	432, // 431: temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesRequest.ReplaceCompatibleBuildIdRedirectRule.rule:type_name -> temporal.api.taskqueue.v1.CompatibleBuildIdRedirectRule
+	10,  // 432: temporal.api.workflowservice.v1.ExecuteMultiOperationRequest.Operation.start_workflow:type_name -> temporal.api.workflowservice.v1.StartWorkflowExecutionRequest
+	110, // 433: temporal.api.workflowservice.v1.ExecuteMultiOperationRequest.Operation.update_workflow:type_name -> temporal.api.workflowservice.v1.UpdateWorkflowExecutionRequest
+	11,  // 434: temporal.api.workflowservice.v1.ExecuteMultiOperationResponse.Response.start_workflow:type_name -> temporal.api.workflowservice.v1.StartWorkflowExecutionResponse
+	111, // 435: temporal.api.workflowservice.v1.ExecuteMultiOperationResponse.Response.update_workflow:type_name -> temporal.api.workflowservice.v1.UpdateWorkflowExecutionResponse
+	340, // 436: temporal.api.workflowservice.v1.DescribeWorkerDeploymentVersionResponse.VersionTaskQueue.type:type_name -> temporal.api.enums.v1.TaskQueueType
+	353, // 437: temporal.api.workflowservice.v1.DescribeWorkerDeploymentVersionResponse.VersionTaskQueue.stats:type_name -> temporal.api.taskqueue.v1.TaskQueueStats
+	270, // 438: temporal.api.workflowservice.v1.DescribeWorkerDeploymentVersionResponse.VersionTaskQueue.stats_by_priority_key:type_name -> temporal.api.workflowservice.v1.DescribeWorkerDeploymentVersionResponse.VersionTaskQueue.StatsByPriorityKeyEntry
+	353, // 439: temporal.api.workflowservice.v1.DescribeWorkerDeploymentVersionResponse.VersionTaskQueue.StatsByPriorityKeyEntry.value:type_name -> temporal.api.taskqueue.v1.TaskQueueStats
+	316, // 440: temporal.api.workflowservice.v1.ListWorkerDeploymentsResponse.WorkerDeploymentSummary.create_time:type_name -> google.protobuf.Timestamp
+	433, // 441: temporal.api.workflowservice.v1.ListWorkerDeploymentsResponse.WorkerDeploymentSummary.routing_config:type_name -> temporal.api.deployment.v1.RoutingConfig
+	434, // 442: temporal.api.workflowservice.v1.ListWorkerDeploymentsResponse.WorkerDeploymentSummary.latest_version_summary:type_name -> temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummary
+	434, // 443: temporal.api.workflowservice.v1.ListWorkerDeploymentsResponse.WorkerDeploymentSummary.current_version_summary:type_name -> temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummary
+	434, // 444: temporal.api.workflowservice.v1.ListWorkerDeploymentsResponse.WorkerDeploymentSummary.ramping_version_summary:type_name -> temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummary
+	435, // 445: temporal.api.workflowservice.v1.UpdateWorkerDeploymentVersionComputeConfigRequest.ComputeConfigScalingGroupsEntry.value:type_name -> temporal.api.compute.v1.ComputeConfigScalingGroupUpdate
+	435, // 446: temporal.api.workflowservice.v1.ValidateWorkerDeploymentVersionComputeConfigRequest.ComputeConfigScalingGroupsEntry.value:type_name -> temporal.api.compute.v1.ComputeConfigScalingGroupUpdate
+	417, // 447: temporal.api.workflowservice.v1.UpdateWorkerDeploymentVersionMetadataRequest.UpsertEntriesEntry.value:type_name -> temporal.api.common.v1.Payload
+	436, // 448: temporal.api.workflowservice.v1.UpdateTaskQueueConfigRequest.RateLimitUpdate.rate_limit:type_name -> temporal.api.taskqueue.v1.RateLimit
+	417, // 449: temporal.api.workflowservice.v1.CountActivityExecutionsResponse.AggregationGroup.group_values:type_name -> temporal.api.common.v1.Payload
+	417, // 450: temporal.api.workflowservice.v1.CountNexusOperationExecutionsResponse.AggregationGroup.group_values:type_name -> temporal.api.common.v1.Payload
+	451, // [451:451] is the sub-list for method output_type
+	451, // [451:451] is the sub-list for method input_type
+	451, // [451:451] is the sub-list for extension type_name
+	451, // [451:451] is the sub-list for extension extendee
+	0,   // [0:451] is the sub-list for field type_name
 }
 
 func init() { file_temporal_api_workflowservice_v1_request_response_proto_init() }
