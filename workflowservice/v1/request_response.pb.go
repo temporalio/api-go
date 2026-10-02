@@ -11,6 +11,7 @@ import (
 	sync "sync"
 	unsafe "unsafe"
 
+	_ "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
 	v120 "go.temporal.io/api/activity/v1"
 	v118 "go.temporal.io/api/batch/v1"
 	v112 "go.temporal.io/api/command/v1"
@@ -20594,7 +20595,7 @@ var File_temporal_api_workflowservice_v1_request_response_proto protoreflect.Fil
 
 const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\n" +
-	"6temporal/api/workflowservice/v1/request_response.proto\x12\x1ftemporal.api.workflowservice.v1\x1a+temporal/api/enums/v1/batch_operation.proto\x1a\"temporal/api/enums/v1/common.proto\x1a$temporal/api/enums/v1/workflow.proto\x1a%temporal/api/enums/v1/namespace.proto\x1a(temporal/api/enums/v1/failed_cause.proto\x1a!temporal/api/enums/v1/query.proto\x1a!temporal/api/enums/v1/reset.proto\x1a&temporal/api/enums/v1/task_queue.proto\x1a&temporal/api/enums/v1/deployment.proto\x1a\"temporal/api/enums/v1/update.proto\x1a)temporal/api/enums/v1/time_skipping.proto\x1a$temporal/api/enums/v1/activity.proto\x1a!temporal/api/enums/v1/nexus.proto\x1a&temporal/api/activity/v1/message.proto\x1a$temporal/api/common/v1/message.proto\x1a%temporal/api/history/v1/message.proto\x1a&temporal/api/workflow/v1/message.proto\x1a%temporal/api/command/v1/message.proto\x1a$temporal/api/compute/v1/config.proto\x1a(temporal/api/deployment/v1/message.proto\x1a%temporal/api/failure/v1/message.proto\x1a$temporal/api/filter/v1/message.proto\x1a&temporal/api/protocol/v1/message.proto\x1a'temporal/api/namespace/v1/message.proto\x1a#temporal/api/query/v1/message.proto\x1a)temporal/api/replication/v1/message.proto\x1a#temporal/api/rules/v1/message.proto\x1a'temporal/api/sdk/v1/worker_config.proto\x1a&temporal/api/schedule/v1/message.proto\x1a'temporal/api/taskqueue/v1/message.proto\x1a$temporal/api/update/v1/message.proto\x1a%temporal/api/version/v1/message.proto\x1a#temporal/api/batch/v1/message.proto\x1a0temporal/api/sdk/v1/task_complete_metadata.proto\x1a'temporal/api/sdk/v1/user_metadata.proto\x1a#temporal/api/nexus/v1/message.proto\x1a,temporal/api/nexusoperation/v1/message.proto\x1a$temporal/api/worker/v1/message.proto\x1a\x1egoogle/protobuf/duration.proto\x1a google/protobuf/field_mask.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xf9\x06\n" +
+	"6temporal/api/workflowservice/v1/request_response.proto\x12\x1ftemporal.api.workflowservice.v1\x1a+temporal/api/enums/v1/batch_operation.proto\x1a\"temporal/api/enums/v1/common.proto\x1a$temporal/api/enums/v1/workflow.proto\x1a%temporal/api/enums/v1/namespace.proto\x1a(temporal/api/enums/v1/failed_cause.proto\x1a!temporal/api/enums/v1/query.proto\x1a!temporal/api/enums/v1/reset.proto\x1a&temporal/api/enums/v1/task_queue.proto\x1a&temporal/api/enums/v1/deployment.proto\x1a\"temporal/api/enums/v1/update.proto\x1a)temporal/api/enums/v1/time_skipping.proto\x1a$temporal/api/enums/v1/activity.proto\x1a!temporal/api/enums/v1/nexus.proto\x1a&temporal/api/activity/v1/message.proto\x1a$temporal/api/common/v1/message.proto\x1a%temporal/api/history/v1/message.proto\x1a&temporal/api/workflow/v1/message.proto\x1a%temporal/api/command/v1/message.proto\x1a$temporal/api/compute/v1/config.proto\x1a(temporal/api/deployment/v1/message.proto\x1a%temporal/api/failure/v1/message.proto\x1a$temporal/api/filter/v1/message.proto\x1a&temporal/api/protocol/v1/message.proto\x1a'temporal/api/namespace/v1/message.proto\x1a#temporal/api/query/v1/message.proto\x1a)temporal/api/replication/v1/message.proto\x1a#temporal/api/rules/v1/message.proto\x1a'temporal/api/sdk/v1/worker_config.proto\x1a&temporal/api/schedule/v1/message.proto\x1a'temporal/api/taskqueue/v1/message.proto\x1a$temporal/api/update/v1/message.proto\x1a%temporal/api/version/v1/message.proto\x1a#temporal/api/batch/v1/message.proto\x1a0temporal/api/sdk/v1/task_complete_metadata.proto\x1a'temporal/api/sdk/v1/user_metadata.proto\x1a#temporal/api/nexus/v1/message.proto\x1a,temporal/api/nexusoperation/v1/message.proto\x1a$temporal/api/worker/v1/message.proto\x1a\x1egoogle/protobuf/duration.proto\x1a google/protobuf/field_mask.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1bbuf/validate/validate.proto\"\xf9\x06\n" +
 	"\x18RegisterNamespaceRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12 \n" +
 	"\vdescription\x18\x02 \x01(\tR\vdescription\x12\x1f\n" +
@@ -22059,17 +22060,17 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\n" +
 	"executions\x18\x01 \x03(\v23.temporal.api.activity.v1.ActivityExecutionListInfoR\n" +
 	"executions\x12&\n" +
-	"\x0fnext_page_token\x18\x02 \x01(\fR\rnextPageToken\"\xae\n" +
+	"\x0fnext_page_token\x18\x02 \x01(\fR\rnextPageToken\"\xd6\n" +
 	"\n" +
-	"#StartNexusOperationExecutionRequest\x12\x1c\n" +
-	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12\x1a\n" +
+	"#StartNexusOperationExecutionRequest\x12$\n" +
+	"\tnamespace\x18\x01 \x01(\tB\x06\xbaH\x03\xc8\x01\x01R\tnamespace\x12\x1a\n" +
 	"\bidentity\x18\x02 \x01(\tR\bidentity\x12\x1d\n" +
 	"\n" +
-	"request_id\x18\x03 \x01(\tR\trequestId\x12!\n" +
-	"\foperation_id\x18\x04 \x01(\tR\voperationId\x12\x1a\n" +
-	"\bendpoint\x18\x05 \x01(\tR\bendpoint\x12\x18\n" +
-	"\aservice\x18\x06 \x01(\tR\aservice\x12\x1c\n" +
-	"\toperation\x18\a \x01(\tR\toperation\x12T\n" +
+	"request_id\x18\x03 \x01(\tR\trequestId\x12)\n" +
+	"\foperation_id\x18\x04 \x01(\tB\x06\xbaH\x03\xc8\x01\x01R\voperationId\x12\"\n" +
+	"\bendpoint\x18\x05 \x01(\tB\x06\xbaH\x03\xc8\x01\x01R\bendpoint\x12 \n" +
+	"\aservice\x18\x06 \x01(\tB\x06\xbaH\x03\xc8\x01\x01R\aservice\x12$\n" +
+	"\toperation\x18\a \x01(\tB\x06\xbaH\x03\xc8\x01\x01R\toperation\x12T\n" +
 	"\x19schedule_to_close_timeout\x18\b \x01(\v2\x19.google.protobuf.DurationR\x16scheduleToCloseTimeout\x12T\n" +
 	"\x19schedule_to_start_timeout\x18\t \x01(\v2\x19.google.protobuf.DurationR\x16scheduleToStartTimeout\x12N\n" +
 	"\x16start_to_close_timeout\x18\n" +
@@ -22085,13 +22086,13 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\x05links\x18\x13 \x03(\v2\x1c.temporal.api.common.v1.LinkR\x05links\x1a>\n" +
 	"\x10NexusHeaderEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"W\n" +
-	"$StartNexusOperationExecutionResponse\x12\x15\n" +
-	"\x06run_id\x18\x01 \x01(\tR\x05runId\x12\x18\n" +
-	"\astarted\x18\x02 \x01(\bR\astarted\"\xf6\x01\n" +
-	"&DescribeNexusOperationExecutionRequest\x12\x1c\n" +
-	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12!\n" +
-	"\foperation_id\x18\x02 \x01(\tR\voperationId\x12\x15\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"_\n" +
+	"$StartNexusOperationExecutionResponse\x12\x1d\n" +
+	"\x06run_id\x18\x01 \x01(\tB\x06\xbaH\x03\xc8\x01\x01R\x05runId\x12\x18\n" +
+	"\astarted\x18\x02 \x01(\bR\astarted\"\x86\x02\n" +
+	"&DescribeNexusOperationExecutionRequest\x12$\n" +
+	"\tnamespace\x18\x01 \x01(\tB\x06\xbaH\x03\xc8\x01\x01R\tnamespace\x12)\n" +
+	"\foperation_id\x18\x02 \x01(\tB\x06\xbaH\x03\xc8\x01\x01R\voperationId\x12\x15\n" +
 	"\x06run_id\x18\x03 \x01(\tR\x05runId\x12#\n" +
 	"\rinclude_input\x18\x04 \x01(\bR\fincludeInput\x12'\n" +
 	"\x0finclude_outcome\x18\x05 \x01(\bR\x0eincludeOutcome\x12&\n" +
@@ -22104,10 +22105,10 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\afailure\x18\x05 \x01(\v2 .temporal.api.failure.v1.FailureH\x00R\afailure\x12&\n" +
 	"\x0flong_poll_token\x18\x06 \x01(\fR\rlongPollToken\x12_\n" +
 	"\x14completion_callbacks\x18\a \x03(\v2,.temporal.api.nexusoperation.v1.CallbackInfoR\x13completionCallbacksB\t\n" +
-	"\aoutcome\"\xcb\x01\n" +
-	"\"PollNexusOperationExecutionRequest\x12\x1c\n" +
-	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12!\n" +
-	"\foperation_id\x18\x02 \x01(\tR\voperationId\x12\x15\n" +
+	"\aoutcome\"\xdb\x01\n" +
+	"\"PollNexusOperationExecutionRequest\x12$\n" +
+	"\tnamespace\x18\x01 \x01(\tB\x06\xbaH\x03\xc8\x01\x01R\tnamespace\x12)\n" +
+	"\foperation_id\x18\x02 \x01(\tB\x06\xbaH\x03\xc8\x01\x01R\voperationId\x12\x15\n" +
 	"\x06run_id\x18\x03 \x01(\tR\x05runId\x12M\n" +
 	"\n" +
 	"wait_stage\x18\x04 \x01(\x0e2..temporal.api.enums.v1.NexusOperationWaitStageR\twaitStage\"\xb8\x02\n" +
@@ -22118,9 +22119,9 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\x0foperation_token\x18\x03 \x01(\tR\x0eoperationToken\x129\n" +
 	"\x06result\x18\x04 \x01(\v2\x1f.temporal.api.common.v1.PayloadH\x00R\x06result\x12<\n" +
 	"\afailure\x18\x05 \x01(\v2 .temporal.api.failure.v1.FailureH\x00R\afailureB\t\n" +
-	"\aoutcome\"\x9e\x01\n" +
-	"#ListNexusOperationExecutionsRequest\x12\x1c\n" +
-	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12\x1b\n" +
+	"\aoutcome\"\xa6\x01\n" +
+	"#ListNexusOperationExecutionsRequest\x12$\n" +
+	"\tnamespace\x18\x01 \x01(\tB\x06\xbaH\x03\xc8\x01\x01R\tnamespace\x12\x1b\n" +
 	"\tpage_size\x18\x02 \x01(\x05R\bpageSize\x12&\n" +
 	"\x0fnext_page_token\x18\x03 \x01(\fR\rnextPageToken\x12\x14\n" +
 	"\x05query\x18\x04 \x01(\tR\x05query\"\xa6\x01\n" +
@@ -22137,9 +22138,9 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\x06groups\x18\x02 \x03(\v2Q.temporal.api.workflowservice.v1.CountActivityExecutionsResponse.AggregationGroupR\x06groups\x1al\n" +
 	"\x10AggregationGroup\x12B\n" +
 	"\fgroup_values\x18\x01 \x03(\v2\x1f.temporal.api.common.v1.PayloadR\vgroupValues\x12\x14\n" +
-	"\x05count\x18\x02 \x01(\x03R\x05count\"Z\n" +
-	"$CountNexusOperationExecutionsRequest\x12\x1c\n" +
-	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12\x14\n" +
+	"\x05count\x18\x02 \x01(\x03R\x05count\"b\n" +
+	"$CountNexusOperationExecutionsRequest\x12$\n" +
+	"\tnamespace\x18\x01 \x01(\tB\x06\xbaH\x03\xc8\x01\x01R\tnamespace\x12\x14\n" +
 	"\x05query\x18\x02 \x01(\tR\x05query\"\x9c\x02\n" +
 	"%CountNexusOperationExecutionsResponse\x12\x14\n" +
 	"\x05count\x18\x01 \x01(\x03R\x05count\x12o\n" +
@@ -22172,28 +22173,28 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\vactivity_id\x18\x02 \x01(\tR\n" +
 	"activityId\x12\x15\n" +
 	"\x06run_id\x18\x03 \x01(\tR\x05runId\"!\n" +
-	"\x1fDeleteActivityExecutionResponse\"\xd8\x01\n" +
-	"+RequestCancelNexusOperationExecutionRequest\x12\x1c\n" +
-	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12!\n" +
-	"\foperation_id\x18\x02 \x01(\tR\voperationId\x12\x15\n" +
+	"\x1fDeleteActivityExecutionResponse\"\xe8\x01\n" +
+	"+RequestCancelNexusOperationExecutionRequest\x12$\n" +
+	"\tnamespace\x18\x01 \x01(\tB\x06\xbaH\x03\xc8\x01\x01R\tnamespace\x12)\n" +
+	"\foperation_id\x18\x02 \x01(\tB\x06\xbaH\x03\xc8\x01\x01R\voperationId\x12\x15\n" +
 	"\x06run_id\x18\x03 \x01(\tR\x05runId\x12\x1a\n" +
 	"\bidentity\x18\x04 \x01(\tR\bidentity\x12\x1d\n" +
 	"\n" +
 	"request_id\x18\x05 \x01(\tR\trequestId\x12\x16\n" +
 	"\x06reason\x18\x06 \x01(\tR\x06reason\".\n" +
-	",RequestCancelNexusOperationExecutionResponse\"\xd4\x01\n" +
-	"'TerminateNexusOperationExecutionRequest\x12\x1c\n" +
-	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12!\n" +
-	"\foperation_id\x18\x02 \x01(\tR\voperationId\x12\x15\n" +
+	",RequestCancelNexusOperationExecutionResponse\"\xe4\x01\n" +
+	"'TerminateNexusOperationExecutionRequest\x12$\n" +
+	"\tnamespace\x18\x01 \x01(\tB\x06\xbaH\x03\xc8\x01\x01R\tnamespace\x12)\n" +
+	"\foperation_id\x18\x02 \x01(\tB\x06\xbaH\x03\xc8\x01\x01R\voperationId\x12\x15\n" +
 	"\x06run_id\x18\x03 \x01(\tR\x05runId\x12\x1a\n" +
 	"\bidentity\x18\x04 \x01(\tR\bidentity\x12\x1d\n" +
 	"\n" +
 	"request_id\x18\x05 \x01(\tR\trequestId\x12\x16\n" +
 	"\x06reason\x18\x06 \x01(\tR\x06reason\"*\n" +
-	"(TerminateNexusOperationExecutionResponse\"~\n" +
-	"$DeleteNexusOperationExecutionRequest\x12\x1c\n" +
-	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12!\n" +
-	"\foperation_id\x18\x02 \x01(\tR\voperationId\x12\x15\n" +
+	"(TerminateNexusOperationExecutionResponse\"\x8e\x01\n" +
+	"$DeleteNexusOperationExecutionRequest\x12$\n" +
+	"\tnamespace\x18\x01 \x01(\tB\x06\xbaH\x03\xc8\x01\x01R\tnamespace\x12)\n" +
+	"\foperation_id\x18\x02 \x01(\tB\x06\xbaH\x03\xc8\x01\x01R\voperationId\x12\x15\n" +
 	"\x06run_id\x18\x03 \x01(\tR\x05runId\"'\n" +
 	"%DeleteNexusOperationExecutionResponse\"\xca\x01\n" +
 	"(PollWorkflowExecutionTimeSkippingRequest\x12\x1c\n" +
