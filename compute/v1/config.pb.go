@@ -30,6 +30,9 @@ type ComputeConfigScalingGroup struct {
 	// If not provided, this scaling group serves all not otherwise defined
 	// task types.
 	TaskQueueTypes []v1.TaskQueueType `protobuf:"varint,1,rep,packed,name=task_queue_types,json=taskQueueTypes,proto3,enum=temporal.api.enums.v1.TaskQueueType" json:"task_queue_types,omitempty"`
+	// Optional. If set, this scaling group is used only while the namespace is
+	// active in this region.
+	RegionId string `protobuf:"bytes,2,opt,name=region_id,json=regionId,proto3" json:"region_id,omitempty"`
 	// Stores instructions for a worker control plane controller how to respond
 	// to worker lifeycle events.
 	Provider *ComputeProvider `protobuf:"bytes,3,opt,name=provider,proto3" json:"provider,omitempty"`
@@ -75,6 +78,13 @@ func (x *ComputeConfigScalingGroup) GetTaskQueueTypes() []v1.TaskQueueType {
 		return x.TaskQueueTypes
 	}
 	return nil
+}
+
+func (x *ComputeConfigScalingGroup) GetRegionId() string {
+	if x != nil {
+		return x.RegionId
+	}
+	return ""
 }
 
 func (x *ComputeConfigScalingGroup) GetProvider() *ComputeProvider {
@@ -153,7 +163,7 @@ type ComputeConfigScalingGroupUpdate struct {
 	//   - Empty mask for an existing scaling group is no-op: no change.
 	//   - Non-empty mask for an existing scaling group will update/unset only to the fields
 	//     mentioned in the mask.
-	//   - Accepted paths: "task_queue_types", "provider", "provider.type", "provider.details",
+	//   - Accepted paths: "task_queue_types", "region_id", "provider", "provider.type", "provider.details",
 	//     "provider.nexus_endpoint", "scaler", "scaler.type", "scaler.details"
 	UpdateMask    *fieldmaskpb.FieldMask `protobuf:"bytes,2,opt,name=update_mask,json=updateMask,proto3" json:"update_mask,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -253,6 +263,7 @@ type ComputeConfigScalingGroupSummary struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
 	TaskQueueTypes []v1.TaskQueueType     `protobuf:"varint,1,rep,packed,name=task_queue_types,json=taskQueueTypes,proto3,enum=temporal.api.enums.v1.TaskQueueType" json:"task_queue_types,omitempty"`
 	ProviderType   string                 `protobuf:"bytes,2,opt,name=provider_type,json=providerType,proto3" json:"provider_type,omitempty"`
+	RegionId       string                 `protobuf:"bytes,3,opt,name=region_id,json=regionId,proto3" json:"region_id,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -301,13 +312,21 @@ func (x *ComputeConfigScalingGroupSummary) GetProviderType() string {
 	return ""
 }
 
+func (x *ComputeConfigScalingGroupSummary) GetRegionId() string {
+	if x != nil {
+		return x.RegionId
+	}
+	return ""
+}
+
 var File_temporal_api_compute_v1_config_proto protoreflect.FileDescriptor
 
 const file_temporal_api_compute_v1_config_proto_rawDesc = "" +
 	"\n" +
-	"$temporal/api/compute/v1/config.proto\x12\x17temporal.api.compute.v1\x1a&temporal/api/compute/v1/provider.proto\x1a$temporal/api/compute/v1/scaler.proto\x1a&temporal/api/enums/v1/task_queue.proto\x1a google/protobuf/field_mask.proto\"\xf1\x01\n" +
+	"$temporal/api/compute/v1/config.proto\x12\x17temporal.api.compute.v1\x1a&temporal/api/compute/v1/provider.proto\x1a$temporal/api/compute/v1/scaler.proto\x1a&temporal/api/enums/v1/task_queue.proto\x1a google/protobuf/field_mask.proto\"\x8e\x02\n" +
 	"\x19ComputeConfigScalingGroup\x12N\n" +
-	"\x10task_queue_types\x18\x01 \x03(\x0e2$.temporal.api.enums.v1.TaskQueueTypeR\x0etaskQueueTypes\x12D\n" +
+	"\x10task_queue_types\x18\x01 \x03(\x0e2$.temporal.api.enums.v1.TaskQueueTypeR\x0etaskQueueTypes\x12\x1b\n" +
+	"\tregion_id\x18\x02 \x01(\tR\bregionId\x12D\n" +
 	"\bprovider\x18\x03 \x01(\v2(.temporal.api.compute.v1.ComputeProviderR\bprovider\x12>\n" +
 	"\x06scaler\x18\x04 \x01(\v2&.temporal.api.compute.v1.ComputeScalerR\x06scaler\"\xe7\x01\n" +
 	"\rComputeConfig\x12`\n" +
@@ -323,10 +342,11 @@ const file_temporal_api_compute_v1_config_proto_rawDesc = "" +
 	"\x0escaling_groups\x18\x01 \x03(\v2@.temporal.api.compute.v1.ComputeConfigSummary.ScalingGroupsEntryR\rscalingGroups\x1a{\n" +
 	"\x12ScalingGroupsEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12O\n" +
-	"\x05value\x18\x02 \x01(\v29.temporal.api.compute.v1.ComputeConfigScalingGroupSummaryR\x05value:\x028\x01\"\x97\x01\n" +
+	"\x05value\x18\x02 \x01(\v29.temporal.api.compute.v1.ComputeConfigScalingGroupSummaryR\x05value:\x028\x01\"\xb4\x01\n" +
 	" ComputeConfigScalingGroupSummary\x12N\n" +
 	"\x10task_queue_types\x18\x01 \x03(\x0e2$.temporal.api.enums.v1.TaskQueueTypeR\x0etaskQueueTypes\x12#\n" +
-	"\rprovider_type\x18\x02 \x01(\tR\fproviderTypeB\x8d\x01\n" +
+	"\rprovider_type\x18\x02 \x01(\tR\fproviderType\x12\x1b\n" +
+	"\tregion_id\x18\x03 \x01(\tR\bregionIdB\x8d\x01\n" +
 	"\x1aio.temporal.api.compute.v1B\vConfigProtoP\x01Z%go.temporal.io/api/compute/v1;compute\xaa\x02\x19Temporalio.Api.Compute.V1\xea\x02\x1cTemporalio::Api::Compute::V1b\x06proto3"
 
 var (
