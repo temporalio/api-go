@@ -12,6 +12,7 @@ import (
 	unsafe "unsafe"
 
 	v1 "go.temporal.io/api/history/v1"
+	v11 "go.temporal.io/api/workflowservice/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 )
@@ -67,8 +68,8 @@ func (x *WorkflowExecution) GetHistory() *v1.History {
 	return nil
 }
 
-// WorkflowExecutions is used by the Cloud Export feature to deserialize
-// the exported file. It encapsulates a collection of workflow execution information.
+// WorkflowExecutions is the legacy Cloud Export file format containing only workflow executions.
+// New exporters should use ExportedExecutions.
 type WorkflowExecutions struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Items         []*WorkflowExecution   `protobuf:"bytes,1,rep,name=items,proto3" json:"items,omitempty"`
@@ -113,15 +114,120 @@ func (x *WorkflowExecutions) GetItems() []*WorkflowExecution {
 	return nil
 }
 
+type ActivityExecution struct {
+	state         protoimpl.MessageState                 `protogen:"open.v1"`
+	Activity      *v11.DescribeActivityExecutionResponse `protobuf:"bytes,1,opt,name=activity,proto3" json:"activity,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ActivityExecution) Reset() {
+	*x = ActivityExecution{}
+	mi := &file_temporal_api_export_v1_message_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ActivityExecution) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ActivityExecution) ProtoMessage() {}
+
+func (x *ActivityExecution) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_api_export_v1_message_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ActivityExecution.ProtoReflect.Descriptor instead.
+func (*ActivityExecution) Descriptor() ([]byte, []int) {
+	return file_temporal_api_export_v1_message_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *ActivityExecution) GetActivity() *v11.DescribeActivityExecutionResponse {
+	if x != nil {
+		return x.Activity
+	}
+	return nil
+}
+
+// ExportedExecutions is used by the Cloud Export feature to deserialize the exported file.
+// It encapsulates workflow execution information and contains other execution types.
+type ExportedExecutions struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Workflows     []*WorkflowExecution   `protobuf:"bytes,1,rep,name=workflows,proto3" json:"workflows,omitempty"`
+	Activities    []*ActivityExecution   `protobuf:"bytes,2,rep,name=activities,proto3" json:"activities,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ExportedExecutions) Reset() {
+	*x = ExportedExecutions{}
+	mi := &file_temporal_api_export_v1_message_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ExportedExecutions) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ExportedExecutions) ProtoMessage() {}
+
+func (x *ExportedExecutions) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_api_export_v1_message_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ExportedExecutions.ProtoReflect.Descriptor instead.
+func (*ExportedExecutions) Descriptor() ([]byte, []int) {
+	return file_temporal_api_export_v1_message_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *ExportedExecutions) GetWorkflows() []*WorkflowExecution {
+	if x != nil {
+		return x.Workflows
+	}
+	return nil
+}
+
+func (x *ExportedExecutions) GetActivities() []*ActivityExecution {
+	if x != nil {
+		return x.Activities
+	}
+	return nil
+}
+
 var File_temporal_api_export_v1_message_proto protoreflect.FileDescriptor
 
 const file_temporal_api_export_v1_message_proto_rawDesc = "" +
 	"\n" +
-	"$temporal/api/export/v1/message.proto\x12\x16temporal.api.export.v1\x1a%temporal/api/history/v1/message.proto\"O\n" +
+	"$temporal/api/export/v1/message.proto\x12\x16temporal.api.export.v1\x1a%temporal/api/history/v1/message.proto\x1a6temporal/api/workflowservice/v1/request_response.proto\"O\n" +
 	"\x11WorkflowExecution\x12:\n" +
 	"\ahistory\x18\x01 \x01(\v2 .temporal.api.history.v1.HistoryR\ahistory\"U\n" +
 	"\x12WorkflowExecutions\x12?\n" +
-	"\x05items\x18\x01 \x03(\v2).temporal.api.export.v1.WorkflowExecutionR\x05itemsB\x89\x01\n" +
+	"\x05items\x18\x01 \x03(\v2).temporal.api.export.v1.WorkflowExecutionR\x05items\"s\n" +
+	"\x11ActivityExecution\x12^\n" +
+	"\bactivity\x18\x01 \x01(\v2B.temporal.api.workflowservice.v1.DescribeActivityExecutionResponseR\bactivity\"\xa8\x01\n" +
+	"\x12ExportedExecutions\x12G\n" +
+	"\tworkflows\x18\x01 \x03(\v2).temporal.api.export.v1.WorkflowExecutionR\tworkflows\x12I\n" +
+	"\n" +
+	"activities\x18\x02 \x03(\v2).temporal.api.export.v1.ActivityExecutionR\n" +
+	"activitiesB\x89\x01\n" +
 	"\x19io.temporal.api.export.v1B\fMessageProtoP\x01Z#go.temporal.io/api/export/v1;export\xaa\x02\x18Temporalio.Api.Export.V1\xea\x02\x1bTemporalio::Api::Export::V1b\x06proto3"
 
 var (
@@ -136,20 +242,26 @@ func file_temporal_api_export_v1_message_proto_rawDescGZIP() []byte {
 	return file_temporal_api_export_v1_message_proto_rawDescData
 }
 
-var file_temporal_api_export_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_temporal_api_export_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_temporal_api_export_v1_message_proto_goTypes = []any{
-	(*WorkflowExecution)(nil),  // 0: temporal.api.export.v1.WorkflowExecution
-	(*WorkflowExecutions)(nil), // 1: temporal.api.export.v1.WorkflowExecutions
-	(*v1.History)(nil),         // 2: temporal.api.history.v1.History
+	(*WorkflowExecution)(nil),                     // 0: temporal.api.export.v1.WorkflowExecution
+	(*WorkflowExecutions)(nil),                    // 1: temporal.api.export.v1.WorkflowExecutions
+	(*ActivityExecution)(nil),                     // 2: temporal.api.export.v1.ActivityExecution
+	(*ExportedExecutions)(nil),                    // 3: temporal.api.export.v1.ExportedExecutions
+	(*v1.History)(nil),                            // 4: temporal.api.history.v1.History
+	(*v11.DescribeActivityExecutionResponse)(nil), // 5: temporal.api.workflowservice.v1.DescribeActivityExecutionResponse
 }
 var file_temporal_api_export_v1_message_proto_depIdxs = []int32{
-	2, // 0: temporal.api.export.v1.WorkflowExecution.history:type_name -> temporal.api.history.v1.History
+	4, // 0: temporal.api.export.v1.WorkflowExecution.history:type_name -> temporal.api.history.v1.History
 	0, // 1: temporal.api.export.v1.WorkflowExecutions.items:type_name -> temporal.api.export.v1.WorkflowExecution
-	2, // [2:2] is the sub-list for method output_type
-	2, // [2:2] is the sub-list for method input_type
-	2, // [2:2] is the sub-list for extension type_name
-	2, // [2:2] is the sub-list for extension extendee
-	0, // [0:2] is the sub-list for field type_name
+	5, // 2: temporal.api.export.v1.ActivityExecution.activity:type_name -> temporal.api.workflowservice.v1.DescribeActivityExecutionResponse
+	0, // 3: temporal.api.export.v1.ExportedExecutions.workflows:type_name -> temporal.api.export.v1.WorkflowExecution
+	2, // 4: temporal.api.export.v1.ExportedExecutions.activities:type_name -> temporal.api.export.v1.ActivityExecution
+	5, // [5:5] is the sub-list for method output_type
+	5, // [5:5] is the sub-list for method input_type
+	5, // [5:5] is the sub-list for extension type_name
+	5, // [5:5] is the sub-list for extension extendee
+	0, // [0:5] is the sub-list for field type_name
 }
 
 func init() { file_temporal_api_export_v1_message_proto_init() }
@@ -163,7 +275,7 @@ func file_temporal_api_export_v1_message_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_temporal_api_export_v1_message_proto_rawDesc), len(file_temporal_api_export_v1_message_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   2,
+			NumMessages:   4,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
