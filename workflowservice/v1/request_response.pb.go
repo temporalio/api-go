@@ -1297,6 +1297,8 @@ type GetWorkflowExecutionHistoryResponse struct {
 	NextPageToken []byte `protobuf:"bytes,3,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
 	Archived      bool   `protobuf:"varint,4,opt,name=archived,proto3" json:"archived,omitempty"`
 	// Serialization context propagated from the Nexus caller that started this run.
+	// Returned on the initial request (without next_page_token) when present. Clients should
+	// retain it across paginated responses, which may omit it.
 	PropagatedNexusSerializationContext *v19.PropagatedSerializationContext `protobuf:"bytes,5,opt,name=propagated_nexus_serialization_context,json=propagatedNexusSerializationContext,proto3" json:"propagated_nexus_serialization_context,omitempty"`
 	unknownFields                       protoimpl.UnknownFields
 	sizeCache                           protoimpl.SizeCache
