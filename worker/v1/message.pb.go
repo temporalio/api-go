@@ -102,6 +102,10 @@ const (
 	EnvironmentInfo_Runtime_RUNTIME_TYPE_DOTNET_CORE      EnvironmentInfo_Runtime_RuntimeType = 8
 	EnvironmentInfo_Runtime_RUNTIME_TYPE_NATIVE           EnvironmentInfo_Runtime_RuntimeType = 9
 	EnvironmentInfo_Runtime_RUNTIME_TYPE_ROADRUNNER       EnvironmentInfo_Runtime_RuntimeType = 10
+	EnvironmentInfo_Runtime_RUNTIME_TYPE_GRAAL_AOT        EnvironmentInfo_Runtime_RuntimeType = // Report when the application is compiled ahead-of-time as a GraalVM native image.
+	11
+	EnvironmentInfo_Runtime_RUNTIME_TYPE_KOTLIN EnvironmentInfo_Runtime_RuntimeType = // Report when any registered Workflow or Activity implementation is a Kotlin class.
+	12
 )
 
 // Enum value maps for EnvironmentInfo_Runtime_RuntimeType.
@@ -118,6 +122,8 @@ var (
 		8:  "RUNTIME_TYPE_DOTNET_CORE",
 		9:  "RUNTIME_TYPE_NATIVE",
 		10: "RUNTIME_TYPE_ROADRUNNER",
+		11: "RUNTIME_TYPE_GRAAL_AOT",
+		12: "RUNTIME_TYPE_KOTLIN",
 	}
 	EnvironmentInfo_Runtime_RuntimeType_value = map[string]int32{
 		"RUNTIME_TYPE_UNSPECIFIED":      0,
@@ -131,6 +137,8 @@ var (
 		"RUNTIME_TYPE_DOTNET_CORE":      8,
 		"RUNTIME_TYPE_NATIVE":           9,
 		"RUNTIME_TYPE_ROADRUNNER":       10,
+		"RUNTIME_TYPE_GRAAL_AOT":        11,
+		"RUNTIME_TYPE_KOTLIN":           12,
 	}
 )
 
@@ -172,8 +180,15 @@ func (x EnvironmentInfo_Runtime_RuntimeType) String() string {
 		// Should never actually be set, exists to follow convention of having a default.
 		// SDKs should just leave `hosting_environments` empty if none can be determined.
 		return "EnvironmentInfoRuntimeRuntimeTypeRoadrunner"
+	case EnvironmentInfo_Runtime_RUNTIME_TYPE_GRAAL_AOT:
+		return "EnvironmentInfoRuntimeRuntimeTypeGraalAot"
+	case EnvironmentInfo_Runtime_RUNTIME_TYPE_KOTLIN:
+		return "EnvironmentInfoRuntimeRuntimeTypeKotlin"
 	default:
-		return strconv.Itoa(int(x))
+		return strconv.
+
+			// Should always be in the list if we're running inside a docker container
+			Itoa(int(x))
 	}
 
 }
@@ -198,9 +213,8 @@ type EnvironmentInfo_HostingEnvironment_HostingEnvironmentType int32
 
 const (
 	EnvironmentInfo_HostingEnvironment_HOSTING_ENVIRONMENT_TYPE_UNSPECIFIED EnvironmentInfo_HostingEnvironment_HostingEnvironmentType = 0
-	EnvironmentInfo_HostingEnvironment_HOSTING_ENVIRONMENT_TYPE_DOCKER      EnvironmentInfo_HostingEnvironment_HostingEnvironmentType = // Should always be in the list if we're running inside a docker container
-	1
-	EnvironmentInfo_HostingEnvironment_HOSTING_ENVIRONMENT_TYPE_K8S EnvironmentInfo_HostingEnvironment_HostingEnvironmentType = // Should always be in the list if we're running inside any k8s environment
+	EnvironmentInfo_HostingEnvironment_HOSTING_ENVIRONMENT_TYPE_DOCKER      EnvironmentInfo_HostingEnvironment_HostingEnvironmentType = 1
+	EnvironmentInfo_HostingEnvironment_HOSTING_ENVIRONMENT_TYPE_K8S         EnvironmentInfo_HostingEnvironment_HostingEnvironmentType = // Should always be in the list if we're running inside any k8s environment
 	2
 	EnvironmentInfo_HostingEnvironment_HOSTING_ENVIRONMENT_TYPE_AWS_LAMBDA EnvironmentInfo_HostingEnvironment_HostingEnvironmentType = // Detect via `AWS_LAMBDA_FUNCTION_NAME`
 	3
@@ -1990,14 +2004,14 @@ const file_temporal_api_worker_v1_message_proto_rawDesc = "" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12\x18\n" +
 	"\aversion\x18\x02 \x01(\tR\aversion\"'\n" +
 	"\x11StorageDriverInfo\x12\x12\n" +
-	"\x04type\x18\x01 \x01(\tR\x04type\"\xd6\x12\n" +
+	"\x04type\x18\x01 \x01(\tR\x04type\"\x8b\x13\n" +
 	"\x0fEnvironmentInfo\x12K\n" +
 	"\bruntimes\x18\x01 \x03(\v2/.temporal.api.worker.v1.EnvironmentInfo.RuntimeR\bruntimes\x12m\n" +
 	"\x14hosting_environments\x18\x02 \x03(\v2:.temporal.api.worker.v1.EnvironmentInfo.HostingEnvironmentR\x13hostingEnvironments\x12L\n" +
-	"\bplatform\x18\x03 \x01(\v20.temporal.api.worker.v1.EnvironmentInfo.PlatformR\bplatform\x1a\xa3\x03\n" +
+	"\bplatform\x18\x03 \x01(\v20.temporal.api.worker.v1.EnvironmentInfo.PlatformR\bplatform\x1a\xd8\x03\n" +
 	"\aRuntime\x12O\n" +
 	"\x04type\x18\x01 \x01(\x0e2;.temporal.api.worker.v1.EnvironmentInfo.Runtime.RuntimeTypeR\x04type\x12\x18\n" +
-	"\aversion\x18\x02 \x01(\tR\aversion\"\xac\x02\n" +
+	"\aversion\x18\x02 \x01(\tR\aversion\"\xe1\x02\n" +
 	"\vRuntimeType\x12\x1c\n" +
 	"\x18RUNTIME_TYPE_UNSPECIFIED\x10\x00\x12\x14\n" +
 	"\x10RUNTIME_TYPE_JVM\x10\x01\x12\x18\n" +
@@ -2010,7 +2024,9 @@ const file_temporal_api_worker_v1_message_proto_rawDesc = "" +
 	"\x18RUNTIME_TYPE_DOTNET_CORE\x10\b\x12\x17\n" +
 	"\x13RUNTIME_TYPE_NATIVE\x10\t\x12\x1b\n" +
 	"\x17RUNTIME_TYPE_ROADRUNNER\x10\n" +
-	"\x1a\xe0\x04\n" +
+	"\x12\x1a\n" +
+	"\x16RUNTIME_TYPE_GRAAL_AOT\x10\v\x12\x17\n" +
+	"\x13RUNTIME_TYPE_KOTLIN\x10\f\x1a\xe0\x04\n" +
 	"\x12HostingEnvironment\x12e\n" +
 	"\x04type\x18\x01 \x01(\x0e2Q.temporal.api.worker.v1.EnvironmentInfo.HostingEnvironment.HostingEnvironmentTypeR\x04type\x12\x18\n" +
 	"\aversion\x18\x02 \x01(\tR\aversion\"\xc8\x03\n" +
