@@ -360,8 +360,11 @@ type ActivityExecutionInfo struct {
 	ExecutionTime *timestamppb.Timestamp `protobuf:"bytes,38,opt,name=execution_time,json=executionTime,proto3" json:"execution_time,omitempty"`
 	// Serialization context propagated from the Nexus caller that started this activity.
 	PropagatedNexusSerializationContext *v16.PropagatedSerializationContext `protobuf:"bytes,39,opt,name=propagated_nexus_serialization_context,json=propagatedNexusSerializationContext,proto3" json:"propagated_nexus_serialization_context,omitempty"`
-	unknownFields                       protoimpl.UnknownFields
-	sizeCache                           protoimpl.SizeCache
+	// Indicates whether eager execution was requested for this activity and accepted by the server
+	// for its first task.
+	EagerExecutionAccepted bool `protobuf:"varint,40,opt,name=eager_execution_accepted,json=eagerExecutionAccepted,proto3" json:"eager_execution_accepted,omitempty"`
+	unknownFields          protoimpl.UnknownFields
+	sizeCache              protoimpl.SizeCache
 }
 
 func (x *ActivityExecutionInfo) Reset() {
@@ -665,6 +668,13 @@ func (x *ActivityExecutionInfo) GetPropagatedNexusSerializationContext() *v16.Pr
 		return x.PropagatedNexusSerializationContext
 	}
 	return nil
+}
+
+func (x *ActivityExecutionInfo) GetEagerExecutionAccepted() bool {
+	if x != nil {
+		return x.EagerExecutionAccepted
+	}
+	return false
 }
 
 // Limited activity information returned in the list response.
@@ -996,7 +1006,7 @@ const file_temporal_api_activity_v1_message_proto_rawDesc = "" +
 	"\fretry_policy\x18\x06 \x01(\v2#.temporal.api.common.v1.RetryPolicyR\vretryPolicy\x12<\n" +
 	"\bpriority\x18\a \x01(\v2 .temporal.api.common.v1.PriorityR\bpriority\x12:\n" +
 	"\vstart_delay\x18\b \x01(\v2\x19.google.protobuf.DurationR\n" +
-	"startDelay\"\x94\x14\n" +
+	"startDelay\"\xce\x14\n" +
 	"\x15ActivityExecutionInfo\x12\x1f\n" +
 	"\vactivity_id\x18\x01 \x01(\tR\n" +
 	"activityId\x12\x15\n" +
@@ -1042,7 +1052,8 @@ const file_temporal_api_activity_v1_message_proto_rawDesc = "" +
 	"\vstart_delay\x18% \x01(\v2\x19.google.protobuf.DurationR\n" +
 	"startDelay\x12A\n" +
 	"\x0eexecution_time\x18& \x01(\v2\x1a.google.protobuf.TimestampR\rexecutionTime\x12\x8a\x01\n" +
-	"&propagated_nexus_serialization_context\x18' \x01(\v25.temporal.api.nexus.v1.PropagatedSerializationContextR#propagatedNexusSerializationContext\"\xc5\x05\n" +
+	"&propagated_nexus_serialization_context\x18' \x01(\v25.temporal.api.nexus.v1.PropagatedSerializationContextR#propagatedNexusSerializationContext\x128\n" +
+	"\x18eager_execution_accepted\x18( \x01(\bR\x16eagerExecutionAccepted\"\xc5\x05\n" +
 	"\x19ActivityExecutionListInfo\x12\x1f\n" +
 	"\vactivity_id\x18\x01 \x01(\tR\n" +
 	"activityId\x12\x15\n" +

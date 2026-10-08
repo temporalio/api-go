@@ -5798,6 +5798,32 @@ func visitPayloads(
 
 			ctx.Context = prevCtx
 
+		case *workflowservice.StartActivityExecutionResponse:
+
+			if o == nil {
+				continue
+			}
+
+			prevCtx := ctx.Context
+			if options.ContextHook != nil {
+				var hookErr error
+				if ctx.Context, hookErr = options.ContextHook(prevCtx, o); hookErr != nil {
+					return hookErr
+				}
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				concState,
+				o.GetEagerActivityTask(),
+			); err != nil {
+				return err
+			}
+
+			ctx.Context = prevCtx
+
 		case *workflowservice.StartBatchOperationRequest:
 
 			if o == nil {
