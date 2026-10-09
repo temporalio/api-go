@@ -12,28 +12,28 @@ import (
 	unsafe "unsafe"
 
 	v120 "go.temporal.io/api/activity/v1"
-	v118 "go.temporal.io/api/batch/v1"
-	v112 "go.temporal.io/api/command/v1"
+	v119 "go.temporal.io/api/batch/v1"
+	v113 "go.temporal.io/api/command/v1"
 	v14 "go.temporal.io/api/common/v1"
 	v121 "go.temporal.io/api/compute/v1"
 	v18 "go.temporal.io/api/deployment/v1"
 	v11 "go.temporal.io/api/enums/v1"
 	v15 "go.temporal.io/api/failure/v1"
-	v113 "go.temporal.io/api/filter/v1"
-	v19 "go.temporal.io/api/history/v1"
+	v114 "go.temporal.io/api/filter/v1"
+	v110 "go.temporal.io/api/history/v1"
 	v12 "go.temporal.io/api/namespace/v1"
-	v119 "go.temporal.io/api/nexus/v1"
+	v19 "go.temporal.io/api/nexus/v1"
 	v123 "go.temporal.io/api/nexusoperation/v1"
-	v111 "go.temporal.io/api/protocol/v1"
-	v110 "go.temporal.io/api/query/v1"
+	v112 "go.temporal.io/api/protocol/v1"
+	v111 "go.temporal.io/api/query/v1"
 	v1 "go.temporal.io/api/replication/v1"
 	v122 "go.temporal.io/api/rules/v1"
-	v116 "go.temporal.io/api/schedule/v1"
+	v117 "go.temporal.io/api/schedule/v1"
 	v16 "go.temporal.io/api/sdk/v1"
 	v13 "go.temporal.io/api/taskqueue/v1"
-	v117 "go.temporal.io/api/update/v1"
-	v115 "go.temporal.io/api/version/v1"
-	v114 "go.temporal.io/api/worker/v1"
+	v118 "go.temporal.io/api/update/v1"
+	v116 "go.temporal.io/api/version/v1"
+	v115 "go.temporal.io/api/worker/v1"
 	v17 "go.temporal.io/api/workflow/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -850,10 +850,12 @@ type StartWorkflowExecutionRequest struct {
 	EagerWorkerDeploymentOptions *v18.WorkerDeploymentOptions `protobuf:"bytes,28,opt,name=eager_worker_deployment_options,json=eagerWorkerDeploymentOptions,proto3" json:"eager_worker_deployment_options,omitempty"`
 	// Time-skipping configuration. If not set, time skipping is disabled.
 	TimeSkippingConfig *v14.TimeSkippingConfig `protobuf:"bytes,29,opt,name=time_skipping_config,json=timeSkippingConfig,proto3" json:"time_skipping_config,omitempty"`
+	// Serialization context propagated from the Nexus caller that started this workflow.
+	PropagatedNexusSerializationContext *v19.PropagatedSerializationContext `protobuf:"bytes,30,opt,name=propagated_nexus_serialization_context,json=propagatedNexusSerializationContext,proto3" json:"propagated_nexus_serialization_context,omitempty"`
 	// Time-skipping state propagated by the execution that started this workflow.
 	// This field is intended for use by the Temporal server, for example when a schedule
 	// starts a workflow, and is not intended to be set by external clients.
-	TimeSkippingStatePropagation *v14.TimeSkippingStatePropagation `protobuf:"bytes,30,opt,name=time_skipping_state_propagation,json=timeSkippingStatePropagation,proto3" json:"time_skipping_state_propagation,omitempty"`
+	TimeSkippingStatePropagation *v14.TimeSkippingStatePropagation `protobuf:"bytes,31,opt,name=time_skipping_state_propagation,json=timeSkippingStatePropagation,proto3" json:"time_skipping_state_propagation,omitempty"`
 	unknownFields                protoimpl.UnknownFields
 	sizeCache                    protoimpl.SizeCache
 }
@@ -1091,6 +1093,13 @@ func (x *StartWorkflowExecutionRequest) GetTimeSkippingConfig() *v14.TimeSkippin
 	return nil
 }
 
+func (x *StartWorkflowExecutionRequest) GetPropagatedNexusSerializationContext() *v19.PropagatedSerializationContext {
+	if x != nil {
+		return x.PropagatedNexusSerializationContext
+	}
+	return nil
+}
+
 func (x *StartWorkflowExecutionRequest) GetTimeSkippingStatePropagation() *v14.TimeSkippingStatePropagation {
 	if x != nil {
 		return x.TimeSkippingStatePropagation
@@ -1291,15 +1300,19 @@ func (x *GetWorkflowExecutionHistoryRequest) GetSkipArchival() bool {
 
 type GetWorkflowExecutionHistoryResponse struct {
 	state   protoimpl.MessageState `protogen:"open.v1"`
-	History *v19.History           `protobuf:"bytes,1,opt,name=history,proto3" json:"history,omitempty"`
+	History *v110.History          `protobuf:"bytes,1,opt,name=history,proto3" json:"history,omitempty"`
 	// Raw history is an alternate representation of history that may be returned if configured on
 	// the frontend. This is not supported by all SDKs. Either this or `history` will be set.
 	RawHistory []*v14.DataBlob `protobuf:"bytes,2,rep,name=raw_history,json=rawHistory,proto3" json:"raw_history,omitempty"`
 	// Will be set if there are more history events than were included in this response
 	NextPageToken []byte `protobuf:"bytes,3,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
 	Archived      bool   `protobuf:"varint,4,opt,name=archived,proto3" json:"archived,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	// Serialization context propagated from the Nexus caller that started this run.
+	// Returned on the initial request (without next_page_token) when present. Clients should
+	// retain it across paginated responses, which may omit it.
+	PropagatedNexusSerializationContext *v19.PropagatedSerializationContext `protobuf:"bytes,5,opt,name=propagated_nexus_serialization_context,json=propagatedNexusSerializationContext,proto3" json:"propagated_nexus_serialization_context,omitempty"`
+	unknownFields                       protoimpl.UnknownFields
+	sizeCache                           protoimpl.SizeCache
 }
 
 func (x *GetWorkflowExecutionHistoryResponse) Reset() {
@@ -1332,7 +1345,7 @@ func (*GetWorkflowExecutionHistoryResponse) Descriptor() ([]byte, []int) {
 	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{13}
 }
 
-func (x *GetWorkflowExecutionHistoryResponse) GetHistory() *v19.History {
+func (x *GetWorkflowExecutionHistoryResponse) GetHistory() *v110.History {
 	if x != nil {
 		return x.History
 	}
@@ -1358,6 +1371,13 @@ func (x *GetWorkflowExecutionHistoryResponse) GetArchived() bool {
 		return x.Archived
 	}
 	return false
+}
+
+func (x *GetWorkflowExecutionHistoryResponse) GetPropagatedNexusSerializationContext() *v19.PropagatedSerializationContext {
+	if x != nil {
+		return x.PropagatedNexusSerializationContext
+	}
+	return nil
 }
 
 type GetWorkflowExecutionHistoryReverseRequest struct {
@@ -1430,7 +1450,7 @@ func (x *GetWorkflowExecutionHistoryReverseRequest) GetNextPageToken() []byte {
 
 type GetWorkflowExecutionHistoryReverseResponse struct {
 	state   protoimpl.MessageState `protogen:"open.v1"`
-	History *v19.History           `protobuf:"bytes,1,opt,name=history,proto3" json:"history,omitempty"`
+	History *v110.History          `protobuf:"bytes,1,opt,name=history,proto3" json:"history,omitempty"`
 	// Will be set if there are more history events than were included in this response
 	NextPageToken []byte `protobuf:"bytes,3,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -1467,7 +1487,7 @@ func (*GetWorkflowExecutionHistoryReverseResponse) Descriptor() ([]byte, []int) 
 	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{15}
 }
 
-func (x *GetWorkflowExecutionHistoryReverseResponse) GetHistory() *v19.History {
+func (x *GetWorkflowExecutionHistoryReverseResponse) GetHistory() *v110.History {
 	if x != nil {
 		return x.History
 	}
@@ -1641,7 +1661,7 @@ type PollWorkflowTaskQueueResponse struct {
 	// The history for this workflow, which will either be complete or partial. Partial histories
 	// are sent to workers who have signaled that they are using a sticky queue when completing
 	// a workflow task.
-	History *v19.History `protobuf:"bytes,8,opt,name=history,proto3" json:"history,omitempty"`
+	History *v110.History `protobuf:"bytes,8,opt,name=history,proto3" json:"history,omitempty"`
 	// Will be set if there are more history events than were included in this response. Such events
 	// should be fetched via `GetWorkflowExecutionHistory`.
 	NextPageToken []byte `protobuf:"bytes,9,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
@@ -1649,7 +1669,7 @@ type PollWorkflowTaskQueueResponse struct {
 	// `RespondQueryTaskCompleted`. If the workflow is already closed (queries are permitted on
 	// closed workflows) then the `history` field will be populated with the entire history. It
 	// may also be populated if this task originates on a non-sticky queue.
-	Query *v110.WorkflowQuery `protobuf:"bytes,10,opt,name=query,proto3" json:"query,omitempty"`
+	Query *v111.WorkflowQuery `protobuf:"bytes,10,opt,name=query,proto3" json:"query,omitempty"`
 	// The task queue this task originated from, which will always be the original non-sticky name
 	// for the queue, even if this response came from polling a sticky queue.
 	WorkflowExecutionTaskQueue *v13.TaskQueue `protobuf:"bytes,11,opt,name=workflow_execution_task_queue,json=workflowExecutionTaskQueue,proto3" json:"workflow_execution_task_queue,omitempty"`
@@ -1659,9 +1679,9 @@ type PollWorkflowTaskQueueResponse struct {
 	StartedTime *timestamppb.Timestamp `protobuf:"bytes,13,opt,name=started_time,json=startedTime,proto3" json:"started_time,omitempty"`
 	// Queries that should be executed after applying the history in this task. Responses should be
 	// attached to `RespondWorkflowTaskCompletedRequest::query_results`
-	Queries map[string]*v110.WorkflowQuery `protobuf:"bytes,14,rep,name=queries,proto3" json:"queries,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	Queries map[string]*v111.WorkflowQuery `protobuf:"bytes,14,rep,name=queries,proto3" json:"queries,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	// Protocol messages piggybacking on a WFT as a transport
-	Messages []*v111.Message `protobuf:"bytes,15,rep,name=messages,proto3" json:"messages,omitempty"`
+	Messages []*v112.Message `protobuf:"bytes,15,rep,name=messages,proto3" json:"messages,omitempty"`
 	// Server-advised information the SDK may use to adjust its poller count.
 	PollerScalingDecision *v13.PollerScalingDecision `protobuf:"bytes,16,opt,name=poller_scaling_decision,json=pollerScalingDecision,proto3" json:"poller_scaling_decision,omitempty"`
 	// This poller group ID identifies the owner of the workflow task awaiting for query response.
@@ -1769,7 +1789,7 @@ func (x *PollWorkflowTaskQueueResponse) GetBacklogCountHint() int64 {
 	return 0
 }
 
-func (x *PollWorkflowTaskQueueResponse) GetHistory() *v19.History {
+func (x *PollWorkflowTaskQueueResponse) GetHistory() *v110.History {
 	if x != nil {
 		return x.History
 	}
@@ -1783,7 +1803,7 @@ func (x *PollWorkflowTaskQueueResponse) GetNextPageToken() []byte {
 	return nil
 }
 
-func (x *PollWorkflowTaskQueueResponse) GetQuery() *v110.WorkflowQuery {
+func (x *PollWorkflowTaskQueueResponse) GetQuery() *v111.WorkflowQuery {
 	if x != nil {
 		return x.Query
 	}
@@ -1811,14 +1831,14 @@ func (x *PollWorkflowTaskQueueResponse) GetStartedTime() *timestamppb.Timestamp 
 	return nil
 }
 
-func (x *PollWorkflowTaskQueueResponse) GetQueries() map[string]*v110.WorkflowQuery {
+func (x *PollWorkflowTaskQueueResponse) GetQueries() map[string]*v111.WorkflowQuery {
 	if x != nil {
 		return x.Queries
 	}
 	return nil
 }
 
-func (x *PollWorkflowTaskQueueResponse) GetMessages() []*v111.Message {
+func (x *PollWorkflowTaskQueueResponse) GetMessages() []*v112.Message {
 	if x != nil {
 		return x.Messages
 	}
@@ -1859,7 +1879,7 @@ type RespondWorkflowTaskCompletedRequest struct {
 	// The task token as received in `PollWorkflowTaskQueueResponse`
 	TaskToken []byte `protobuf:"bytes,1,opt,name=task_token,json=taskToken,proto3" json:"task_token,omitempty"`
 	// A list of commands generated when driving the workflow code in response to the new task
-	Commands []*v112.Command `protobuf:"bytes,2,rep,name=commands,proto3" json:"commands,omitempty"`
+	Commands []*v113.Command `protobuf:"bytes,2,rep,name=commands,proto3" json:"commands,omitempty"`
 	// The identity of the worker/client
 	Identity string `protobuf:"bytes,3,opt,name=identity,proto3" json:"identity,omitempty"`
 	// May be set by workers to indicate that the worker desires future tasks to be provided with
@@ -1879,7 +1899,7 @@ type RespondWorkflowTaskCompletedRequest struct {
 	// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
 	BinaryChecksum string `protobuf:"bytes,7,opt,name=binary_checksum,json=binaryChecksum,proto3" json:"binary_checksum,omitempty"`
 	// Responses to the `queries` field in the task being responded to
-	QueryResults map[string]*v110.WorkflowQueryResult `protobuf:"bytes,8,rep,name=query_results,json=queryResults,proto3" json:"query_results,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	QueryResults map[string]*v111.WorkflowQueryResult `protobuf:"bytes,8,rep,name=query_results,json=queryResults,proto3" json:"query_results,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	Namespace    string                               `protobuf:"bytes,9,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// Resource ID for routing. Contains the workflow ID from the original task.
 	ResourceId string `protobuf:"bytes,18,opt,name=resource_id,json=resourceId,proto3" json:"resource_id,omitempty"`
@@ -1891,7 +1911,7 @@ type RespondWorkflowTaskCompletedRequest struct {
 	// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
 	WorkerVersionStamp *v14.WorkerVersionStamp `protobuf:"bytes,10,opt,name=worker_version_stamp,json=workerVersionStamp,proto3" json:"worker_version_stamp,omitempty"`
 	// Protocol messages piggybacking on a WFT as a transport
-	Messages []*v111.Message `protobuf:"bytes,11,rep,name=messages,proto3" json:"messages,omitempty"`
+	Messages []*v112.Message `protobuf:"bytes,11,rep,name=messages,proto3" json:"messages,omitempty"`
 	// Data the SDK wishes to record for itself, but server need not interpret, and does not
 	// directly impact workflow state.
 	SdkMetadata *v16.WorkflowTaskCompletedMetadata `protobuf:"bytes,12,opt,name=sdk_metadata,json=sdkMetadata,proto3" json:"sdk_metadata,omitempty"`
@@ -1965,7 +1985,7 @@ func (x *RespondWorkflowTaskCompletedRequest) GetTaskToken() []byte {
 	return nil
 }
 
-func (x *RespondWorkflowTaskCompletedRequest) GetCommands() []*v112.Command {
+func (x *RespondWorkflowTaskCompletedRequest) GetCommands() []*v113.Command {
 	if x != nil {
 		return x.Commands
 	}
@@ -2008,7 +2028,7 @@ func (x *RespondWorkflowTaskCompletedRequest) GetBinaryChecksum() string {
 	return ""
 }
 
-func (x *RespondWorkflowTaskCompletedRequest) GetQueryResults() map[string]*v110.WorkflowQueryResult {
+func (x *RespondWorkflowTaskCompletedRequest) GetQueryResults() map[string]*v111.WorkflowQueryResult {
 	if x != nil {
 		return x.QueryResults
 	}
@@ -2037,7 +2057,7 @@ func (x *RespondWorkflowTaskCompletedRequest) GetWorkerVersionStamp() *v14.Worke
 	return nil
 }
 
-func (x *RespondWorkflowTaskCompletedRequest) GetMessages() []*v111.Message {
+func (x *RespondWorkflowTaskCompletedRequest) GetMessages() []*v112.Message {
 	if x != nil {
 		return x.Messages
 	}
@@ -2200,7 +2220,7 @@ type RespondWorkflowTaskFailedRequest struct {
 	// Resource ID for routing. Contains the workflow ID from the original task.
 	ResourceId string `protobuf:"bytes,11,opt,name=resource_id,json=resourceId,proto3" json:"resource_id,omitempty"`
 	// Protocol messages piggybacking on a WFT as a transport
-	Messages []*v111.Message `protobuf:"bytes,7,rep,name=messages,proto3" json:"messages,omitempty"`
+	Messages []*v112.Message `protobuf:"bytes,7,rep,name=messages,proto3" json:"messages,omitempty"`
 	// Version info of the worker who processed this task. This message's `build_id` field should
 	// always be set by SDKs. Workers opting into versioning will also set the `use_versioning`
 	// field to true. See message docstrings for more.
@@ -2300,7 +2320,7 @@ func (x *RespondWorkflowTaskFailedRequest) GetResourceId() string {
 	return ""
 }
 
-func (x *RespondWorkflowTaskFailedRequest) GetMessages() []*v111.Message {
+func (x *RespondWorkflowTaskFailedRequest) GetMessages() []*v112.Message {
 	if x != nil {
 		return x.Messages
 	}
@@ -2565,8 +2585,10 @@ type PollActivityTaskQueueResponse struct {
 	//  3. If every group has some pending polls, assign the next poll to a group randomly
 	//     according to the weights.
 	PollerGroupsInfo *v13.PollerGroupsInfo `protobuf:"bytes,22,opt,name=poller_groups_info,json=pollerGroupsInfo,proto3" json:"poller_groups_info,omitempty"`
-	unknownFields    protoimpl.UnknownFields
-	sizeCache        protoimpl.SizeCache
+	// Serialization context propagated from the Nexus caller that started this activity.
+	PropagatedNexusSerializationContext *v19.PropagatedSerializationContext `protobuf:"bytes,23,opt,name=propagated_nexus_serialization_context,json=propagatedNexusSerializationContext,proto3" json:"propagated_nexus_serialization_context,omitempty"`
+	unknownFields                       protoimpl.UnknownFields
+	sizeCache                           protoimpl.SizeCache
 }
 
 func (x *PollActivityTaskQueueResponse) Reset() {
@@ -2750,6 +2772,13 @@ func (x *PollActivityTaskQueueResponse) GetPollerGroupInfos() []*v13.PollerGroup
 func (x *PollActivityTaskQueueResponse) GetPollerGroupsInfo() *v13.PollerGroupsInfo {
 	if x != nil {
 		return x.PollerGroupsInfo
+	}
+	return nil
+}
+
+func (x *PollActivityTaskQueueResponse) GetPropagatedNexusSerializationContext() *v19.PropagatedSerializationContext {
+	if x != nil {
+		return x.PropagatedNexusSerializationContext
 	}
 	return nil
 }
@@ -5055,7 +5084,7 @@ type ListOpenWorkflowExecutionsRequest struct {
 	Namespace       string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	MaximumPageSize int32                  `protobuf:"varint,2,opt,name=maximum_page_size,json=maximumPageSize,proto3" json:"maximum_page_size,omitempty"`
 	NextPageToken   []byte                 `protobuf:"bytes,3,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
-	StartTimeFilter *v113.StartTimeFilter  `protobuf:"bytes,4,opt,name=start_time_filter,json=startTimeFilter,proto3" json:"start_time_filter,omitempty"`
+	StartTimeFilter *v114.StartTimeFilter  `protobuf:"bytes,4,opt,name=start_time_filter,json=startTimeFilter,proto3" json:"start_time_filter,omitempty"`
 	// Types that are valid to be assigned to Filters:
 	//
 	//	*ListOpenWorkflowExecutionsRequest_ExecutionFilter
@@ -5116,7 +5145,7 @@ func (x *ListOpenWorkflowExecutionsRequest) GetNextPageToken() []byte {
 	return nil
 }
 
-func (x *ListOpenWorkflowExecutionsRequest) GetStartTimeFilter() *v113.StartTimeFilter {
+func (x *ListOpenWorkflowExecutionsRequest) GetStartTimeFilter() *v114.StartTimeFilter {
 	if x != nil {
 		return x.StartTimeFilter
 	}
@@ -5130,7 +5159,7 @@ func (x *ListOpenWorkflowExecutionsRequest) GetFilters() isListOpenWorkflowExecu
 	return nil
 }
 
-func (x *ListOpenWorkflowExecutionsRequest) GetExecutionFilter() *v113.WorkflowExecutionFilter {
+func (x *ListOpenWorkflowExecutionsRequest) GetExecutionFilter() *v114.WorkflowExecutionFilter {
 	if x != nil {
 		if x, ok := x.Filters.(*ListOpenWorkflowExecutionsRequest_ExecutionFilter); ok {
 			return x.ExecutionFilter
@@ -5139,7 +5168,7 @@ func (x *ListOpenWorkflowExecutionsRequest) GetExecutionFilter() *v113.WorkflowE
 	return nil
 }
 
-func (x *ListOpenWorkflowExecutionsRequest) GetTypeFilter() *v113.WorkflowTypeFilter {
+func (x *ListOpenWorkflowExecutionsRequest) GetTypeFilter() *v114.WorkflowTypeFilter {
 	if x != nil {
 		if x, ok := x.Filters.(*ListOpenWorkflowExecutionsRequest_TypeFilter); ok {
 			return x.TypeFilter
@@ -5153,11 +5182,11 @@ type isListOpenWorkflowExecutionsRequest_Filters interface {
 }
 
 type ListOpenWorkflowExecutionsRequest_ExecutionFilter struct {
-	ExecutionFilter *v113.WorkflowExecutionFilter `protobuf:"bytes,5,opt,name=execution_filter,json=executionFilter,proto3,oneof"`
+	ExecutionFilter *v114.WorkflowExecutionFilter `protobuf:"bytes,5,opt,name=execution_filter,json=executionFilter,proto3,oneof"`
 }
 
 type ListOpenWorkflowExecutionsRequest_TypeFilter struct {
-	TypeFilter *v113.WorkflowTypeFilter `protobuf:"bytes,6,opt,name=type_filter,json=typeFilter,proto3,oneof"`
+	TypeFilter *v114.WorkflowTypeFilter `protobuf:"bytes,6,opt,name=type_filter,json=typeFilter,proto3,oneof"`
 }
 
 func (*ListOpenWorkflowExecutionsRequest_ExecutionFilter) isListOpenWorkflowExecutionsRequest_Filters() {
@@ -5222,7 +5251,7 @@ type ListClosedWorkflowExecutionsRequest struct {
 	Namespace       string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	MaximumPageSize int32                  `protobuf:"varint,2,opt,name=maximum_page_size,json=maximumPageSize,proto3" json:"maximum_page_size,omitempty"`
 	NextPageToken   []byte                 `protobuf:"bytes,3,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
-	StartTimeFilter *v113.StartTimeFilter  `protobuf:"bytes,4,opt,name=start_time_filter,json=startTimeFilter,proto3" json:"start_time_filter,omitempty"`
+	StartTimeFilter *v114.StartTimeFilter  `protobuf:"bytes,4,opt,name=start_time_filter,json=startTimeFilter,proto3" json:"start_time_filter,omitempty"`
 	// Types that are valid to be assigned to Filters:
 	//
 	//	*ListClosedWorkflowExecutionsRequest_ExecutionFilter
@@ -5284,7 +5313,7 @@ func (x *ListClosedWorkflowExecutionsRequest) GetNextPageToken() []byte {
 	return nil
 }
 
-func (x *ListClosedWorkflowExecutionsRequest) GetStartTimeFilter() *v113.StartTimeFilter {
+func (x *ListClosedWorkflowExecutionsRequest) GetStartTimeFilter() *v114.StartTimeFilter {
 	if x != nil {
 		return x.StartTimeFilter
 	}
@@ -5298,7 +5327,7 @@ func (x *ListClosedWorkflowExecutionsRequest) GetFilters() isListClosedWorkflowE
 	return nil
 }
 
-func (x *ListClosedWorkflowExecutionsRequest) GetExecutionFilter() *v113.WorkflowExecutionFilter {
+func (x *ListClosedWorkflowExecutionsRequest) GetExecutionFilter() *v114.WorkflowExecutionFilter {
 	if x != nil {
 		if x, ok := x.Filters.(*ListClosedWorkflowExecutionsRequest_ExecutionFilter); ok {
 			return x.ExecutionFilter
@@ -5307,7 +5336,7 @@ func (x *ListClosedWorkflowExecutionsRequest) GetExecutionFilter() *v113.Workflo
 	return nil
 }
 
-func (x *ListClosedWorkflowExecutionsRequest) GetTypeFilter() *v113.WorkflowTypeFilter {
+func (x *ListClosedWorkflowExecutionsRequest) GetTypeFilter() *v114.WorkflowTypeFilter {
 	if x != nil {
 		if x, ok := x.Filters.(*ListClosedWorkflowExecutionsRequest_TypeFilter); ok {
 			return x.TypeFilter
@@ -5316,7 +5345,7 @@ func (x *ListClosedWorkflowExecutionsRequest) GetTypeFilter() *v113.WorkflowType
 	return nil
 }
 
-func (x *ListClosedWorkflowExecutionsRequest) GetStatusFilter() *v113.StatusFilter {
+func (x *ListClosedWorkflowExecutionsRequest) GetStatusFilter() *v114.StatusFilter {
 	if x != nil {
 		if x, ok := x.Filters.(*ListClosedWorkflowExecutionsRequest_StatusFilter); ok {
 			return x.StatusFilter
@@ -5330,15 +5359,15 @@ type isListClosedWorkflowExecutionsRequest_Filters interface {
 }
 
 type ListClosedWorkflowExecutionsRequest_ExecutionFilter struct {
-	ExecutionFilter *v113.WorkflowExecutionFilter `protobuf:"bytes,5,opt,name=execution_filter,json=executionFilter,proto3,oneof"`
+	ExecutionFilter *v114.WorkflowExecutionFilter `protobuf:"bytes,5,opt,name=execution_filter,json=executionFilter,proto3,oneof"`
 }
 
 type ListClosedWorkflowExecutionsRequest_TypeFilter struct {
-	TypeFilter *v113.WorkflowTypeFilter `protobuf:"bytes,6,opt,name=type_filter,json=typeFilter,proto3,oneof"`
+	TypeFilter *v114.WorkflowTypeFilter `protobuf:"bytes,6,opt,name=type_filter,json=typeFilter,proto3,oneof"`
 }
 
 type ListClosedWorkflowExecutionsRequest_StatusFilter struct {
-	StatusFilter *v113.StatusFilter `protobuf:"bytes,7,opt,name=status_filter,json=statusFilter,proto3,oneof"`
+	StatusFilter *v114.StatusFilter `protobuf:"bytes,7,opt,name=status_filter,json=statusFilter,proto3,oneof"`
 }
 
 func (*ListClosedWorkflowExecutionsRequest_ExecutionFilter) isListClosedWorkflowExecutionsRequest_Filters() {
@@ -6205,7 +6234,7 @@ type ShutdownWorkerRequest struct {
 	StickyTaskQueue string                `protobuf:"bytes,2,opt,name=sticky_task_queue,json=stickyTaskQueue,proto3" json:"sticky_task_queue,omitempty"`
 	Identity        string                `protobuf:"bytes,3,opt,name=identity,proto3" json:"identity,omitempty"`
 	Reason          string                `protobuf:"bytes,4,opt,name=reason,proto3" json:"reason,omitempty"`
-	WorkerHeartbeat *v114.WorkerHeartbeat `protobuf:"bytes,5,opt,name=worker_heartbeat,json=workerHeartbeat,proto3" json:"worker_heartbeat,omitempty"`
+	WorkerHeartbeat *v115.WorkerHeartbeat `protobuf:"bytes,5,opt,name=worker_heartbeat,json=workerHeartbeat,proto3" json:"worker_heartbeat,omitempty"`
 	// Technically this is also sent in the WorkerHeartbeat, but
 	// since worker heartbeating can be turned off, this needs
 	// to be a separate, top-level field.
@@ -6279,7 +6308,7 @@ func (x *ShutdownWorkerRequest) GetReason() string {
 	return ""
 }
 
-func (x *ShutdownWorkerRequest) GetWorkerHeartbeat() *v114.WorkerHeartbeat {
+func (x *ShutdownWorkerRequest) GetWorkerHeartbeat() *v115.WorkerHeartbeat {
 	if x != nil {
 		return x.WorkerHeartbeat
 	}
@@ -6347,7 +6376,7 @@ type QueryWorkflowRequest struct {
 	state     protoimpl.MessageState `protogen:"open.v1"`
 	Namespace string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	Execution *v14.WorkflowExecution `protobuf:"bytes,2,opt,name=execution,proto3" json:"execution,omitempty"`
-	Query     *v110.WorkflowQuery    `protobuf:"bytes,3,opt,name=query,proto3" json:"query,omitempty"`
+	Query     *v111.WorkflowQuery    `protobuf:"bytes,3,opt,name=query,proto3" json:"query,omitempty"`
 	// QueryRejectCondition can used to reject the query if workflow state does not satisfy condition.
 	// Default: QUERY_REJECT_CONDITION_NONE.
 	QueryRejectCondition v11.QueryRejectCondition `protobuf:"varint,4,opt,name=query_reject_condition,json=queryRejectCondition,proto3,enum=temporal.api.enums.v1.QueryRejectCondition" json:"query_reject_condition,omitempty"`
@@ -6399,7 +6428,7 @@ func (x *QueryWorkflowRequest) GetExecution() *v14.WorkflowExecution {
 	return nil
 }
 
-func (x *QueryWorkflowRequest) GetQuery() *v110.WorkflowQuery {
+func (x *QueryWorkflowRequest) GetQuery() *v111.WorkflowQuery {
 	if x != nil {
 		return x.Query
 	}
@@ -6416,7 +6445,7 @@ func (x *QueryWorkflowRequest) GetQueryRejectCondition() v11.QueryRejectConditio
 type QueryWorkflowResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	QueryResult   *v14.Payloads          `protobuf:"bytes,1,opt,name=query_result,json=queryResult,proto3" json:"query_result,omitempty"`
-	QueryRejected *v110.QueryRejected    `protobuf:"bytes,2,opt,name=query_rejected,json=queryRejected,proto3" json:"query_rejected,omitempty"`
+	QueryRejected *v111.QueryRejected    `protobuf:"bytes,2,opt,name=query_rejected,json=queryRejected,proto3" json:"query_rejected,omitempty"`
 	// Holds the link to the Workflow execution that processed the Query.
 	Link          *v14.Link `protobuf:"bytes,3,opt,name=link,proto3" json:"link,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -6460,7 +6489,7 @@ func (x *QueryWorkflowResponse) GetQueryResult() *v14.Payloads {
 	return nil
 }
 
-func (x *QueryWorkflowResponse) GetQueryRejected() *v110.QueryRejected {
+func (x *QueryWorkflowResponse) GetQueryRejected() *v111.QueryRejected {
 	if x != nil {
 		return x.QueryRejected
 	}
@@ -6965,7 +6994,7 @@ type GetClusterInfoResponse struct {
 	SupportedClients         map[string]string `protobuf:"bytes,1,rep,name=supported_clients,json=supportedClients,proto3" json:"supported_clients,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	ServerVersion            string            `protobuf:"bytes,2,opt,name=server_version,json=serverVersion,proto3" json:"server_version,omitempty"`
 	ClusterId                string            `protobuf:"bytes,3,opt,name=cluster_id,json=clusterId,proto3" json:"cluster_id,omitempty"`
-	VersionInfo              *v115.VersionInfo `protobuf:"bytes,4,opt,name=version_info,json=versionInfo,proto3" json:"version_info,omitempty"`
+	VersionInfo              *v116.VersionInfo `protobuf:"bytes,4,opt,name=version_info,json=versionInfo,proto3" json:"version_info,omitempty"`
 	ClusterName              string            `protobuf:"bytes,5,opt,name=cluster_name,json=clusterName,proto3" json:"cluster_name,omitempty"`
 	HistoryShardCount        int32             `protobuf:"varint,6,opt,name=history_shard_count,json=historyShardCount,proto3" json:"history_shard_count,omitempty"`
 	PersistenceStore         string            `protobuf:"bytes,7,opt,name=persistence_store,json=persistenceStore,proto3" json:"persistence_store,omitempty"`
@@ -7027,7 +7056,7 @@ func (x *GetClusterInfoResponse) GetClusterId() string {
 	return ""
 }
 
-func (x *GetClusterInfoResponse) GetVersionInfo() *v115.VersionInfo {
+func (x *GetClusterInfoResponse) GetVersionInfo() *v116.VersionInfo {
 	if x != nil {
 		return x.VersionInfo
 	}
@@ -7280,9 +7309,9 @@ type CreateScheduleRequest struct {
 	// The id of the new schedule.
 	ScheduleId string `protobuf:"bytes,2,opt,name=schedule_id,json=scheduleId,proto3" json:"schedule_id,omitempty"`
 	// The schedule spec, policies, action, and initial state.
-	Schedule *v116.Schedule `protobuf:"bytes,3,opt,name=schedule,proto3" json:"schedule,omitempty"`
+	Schedule *v117.Schedule `protobuf:"bytes,3,opt,name=schedule,proto3" json:"schedule,omitempty"`
 	// Optional initial patch (e.g. to run the action once immediately).
-	InitialPatch *v116.SchedulePatch `protobuf:"bytes,4,opt,name=initial_patch,json=initialPatch,proto3" json:"initial_patch,omitempty"`
+	InitialPatch *v117.SchedulePatch `protobuf:"bytes,4,opt,name=initial_patch,json=initialPatch,proto3" json:"initial_patch,omitempty"`
 	// The identity of the client who initiated this request.
 	Identity string `protobuf:"bytes,5,opt,name=identity,proto3" json:"identity,omitempty"`
 	// A unique identifier for this create request for idempotence. Typically UUIDv4.
@@ -7338,14 +7367,14 @@ func (x *CreateScheduleRequest) GetScheduleId() string {
 	return ""
 }
 
-func (x *CreateScheduleRequest) GetSchedule() *v116.Schedule {
+func (x *CreateScheduleRequest) GetSchedule() *v117.Schedule {
 	if x != nil {
 		return x.Schedule
 	}
 	return nil
 }
 
-func (x *CreateScheduleRequest) GetInitialPatch() *v116.SchedulePatch {
+func (x *CreateScheduleRequest) GetInitialPatch() *v117.SchedulePatch {
 	if x != nil {
 		return x.InitialPatch
 	}
@@ -7487,9 +7516,9 @@ type DescribeScheduleResponse struct {
 	//   - some unspecified fields may be replaced by defaults
 	//   - some fields in the state are modified automatically
 	//   - the schedule may have been modified by UpdateSchedule or PatchSchedule
-	Schedule *v116.Schedule `protobuf:"bytes,1,opt,name=schedule,proto3" json:"schedule,omitempty"`
+	Schedule *v117.Schedule `protobuf:"bytes,1,opt,name=schedule,proto3" json:"schedule,omitempty"`
 	// Extra schedule state info.
-	Info *v116.ScheduleInfo `protobuf:"bytes,2,opt,name=info,proto3" json:"info,omitempty"`
+	Info *v117.ScheduleInfo `protobuf:"bytes,2,opt,name=info,proto3" json:"info,omitempty"`
 	// The memo and search attributes that the schedule was created with.
 	Memo             *v14.Memo             `protobuf:"bytes,3,opt,name=memo,proto3" json:"memo,omitempty"`
 	SearchAttributes *v14.SearchAttributes `protobuf:"bytes,4,opt,name=search_attributes,json=searchAttributes,proto3" json:"search_attributes,omitempty"`
@@ -7531,14 +7560,14 @@ func (*DescribeScheduleResponse) Descriptor() ([]byte, []int) {
 	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{87}
 }
 
-func (x *DescribeScheduleResponse) GetSchedule() *v116.Schedule {
+func (x *DescribeScheduleResponse) GetSchedule() *v117.Schedule {
 	if x != nil {
 		return x.Schedule
 	}
 	return nil
 }
 
-func (x *DescribeScheduleResponse) GetInfo() *v116.ScheduleInfo {
+func (x *DescribeScheduleResponse) GetInfo() *v117.ScheduleInfo {
 	if x != nil {
 		return x.Info
 	}
@@ -7574,7 +7603,7 @@ type UpdateScheduleRequest struct {
 	ScheduleId string `protobuf:"bytes,2,opt,name=schedule_id,json=scheduleId,proto3" json:"schedule_id,omitempty"`
 	// The new schedule. The four main fields of the schedule (spec, action,
 	// policies, state) are replaced completely by the values in this message.
-	Schedule *v116.Schedule `protobuf:"bytes,3,opt,name=schedule,proto3" json:"schedule,omitempty"`
+	Schedule *v117.Schedule `protobuf:"bytes,3,opt,name=schedule,proto3" json:"schedule,omitempty"`
 	// This can be the value of conflict_token from a DescribeScheduleResponse,
 	// which will cause this request to fail if the schedule has been modified
 	// between the Describe and this Update.
@@ -7642,7 +7671,7 @@ func (x *UpdateScheduleRequest) GetScheduleId() string {
 	return ""
 }
 
-func (x *UpdateScheduleRequest) GetSchedule() *v116.Schedule {
+func (x *UpdateScheduleRequest) GetSchedule() *v117.Schedule {
 	if x != nil {
 		return x.Schedule
 	}
@@ -7726,7 +7755,7 @@ type PatchScheduleRequest struct {
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// The id of the schedule to patch.
 	ScheduleId string              `protobuf:"bytes,2,opt,name=schedule_id,json=scheduleId,proto3" json:"schedule_id,omitempty"`
-	Patch      *v116.SchedulePatch `protobuf:"bytes,3,opt,name=patch,proto3" json:"patch,omitempty"`
+	Patch      *v117.SchedulePatch `protobuf:"bytes,3,opt,name=patch,proto3" json:"patch,omitempty"`
 	// The identity of the client who initiated this request.
 	Identity string `protobuf:"bytes,4,opt,name=identity,proto3" json:"identity,omitempty"`
 	// A unique identifier for this update request for idempotence. Typically UUIDv4.
@@ -7779,7 +7808,7 @@ func (x *PatchScheduleRequest) GetScheduleId() string {
 	return ""
 }
 
-func (x *PatchScheduleRequest) GetPatch() *v116.SchedulePatch {
+func (x *PatchScheduleRequest) GetPatch() *v117.SchedulePatch {
 	if x != nil {
 		return x.Patch
 	}
@@ -8124,7 +8153,7 @@ func (x *ListSchedulesRequest) GetQuery() string {
 
 type ListSchedulesResponse struct {
 	state         protoimpl.MessageState    `protogen:"open.v1"`
-	Schedules     []*v116.ScheduleListEntry `protobuf:"bytes,1,rep,name=schedules,proto3" json:"schedules,omitempty"`
+	Schedules     []*v117.ScheduleListEntry `protobuf:"bytes,1,rep,name=schedules,proto3" json:"schedules,omitempty"`
 	NextPageToken []byte                    `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -8160,7 +8189,7 @@ func (*ListSchedulesResponse) Descriptor() ([]byte, []int) {
 	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{97}
 }
 
-func (x *ListSchedulesResponse) GetSchedules() []*v116.ScheduleListEntry {
+func (x *ListSchedulesResponse) GetSchedules() []*v117.ScheduleListEntry {
 	if x != nil {
 		return x.Schedules
 	}
@@ -9165,10 +9194,10 @@ type UpdateWorkflowExecutionRequest struct {
 	// server timeout (maximum wait time). If server timeout is expired before
 	// user specified timeout, API call returns even if specified stage is not reached.
 	// Actual reached stage will be included in the response.
-	WaitPolicy *v117.WaitPolicy `protobuf:"bytes,4,opt,name=wait_policy,json=waitPolicy,proto3" json:"wait_policy,omitempty"`
+	WaitPolicy *v118.WaitPolicy `protobuf:"bytes,4,opt,name=wait_policy,json=waitPolicy,proto3" json:"wait_policy,omitempty"`
 	// The request information that will be delivered all the way down to the
 	// Workflow Execution.
-	Request       *v117.Request `protobuf:"bytes,5,opt,name=request,proto3" json:"request,omitempty"`
+	Request       *v118.Request `protobuf:"bytes,5,opt,name=request,proto3" json:"request,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -9224,14 +9253,14 @@ func (x *UpdateWorkflowExecutionRequest) GetFirstExecutionRunId() string {
 	return ""
 }
 
-func (x *UpdateWorkflowExecutionRequest) GetWaitPolicy() *v117.WaitPolicy {
+func (x *UpdateWorkflowExecutionRequest) GetWaitPolicy() *v118.WaitPolicy {
 	if x != nil {
 		return x.WaitPolicy
 	}
 	return nil
 }
 
-func (x *UpdateWorkflowExecutionRequest) GetRequest() *v117.Request {
+func (x *UpdateWorkflowExecutionRequest) GetRequest() *v118.Request {
 	if x != nil {
 		return x.Request
 	}
@@ -9241,11 +9270,11 @@ func (x *UpdateWorkflowExecutionRequest) GetRequest() *v117.Request {
 type UpdateWorkflowExecutionResponse struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Enough information for subsequent poll calls if needed. Never null.
-	UpdateRef *v117.UpdateRef `protobuf:"bytes,1,opt,name=update_ref,json=updateRef,proto3" json:"update_ref,omitempty"`
+	UpdateRef *v118.UpdateRef `protobuf:"bytes,1,opt,name=update_ref,json=updateRef,proto3" json:"update_ref,omitempty"`
 	// The outcome of the Update if and only if the Workflow Update
 	// has completed. If this response is being returned before the Update has
 	// completed then this field will not be set.
-	Outcome *v117.Outcome `protobuf:"bytes,2,opt,name=outcome,proto3" json:"outcome,omitempty"`
+	Outcome *v118.Outcome `protobuf:"bytes,2,opt,name=outcome,proto3" json:"outcome,omitempty"`
 	// The most advanced lifecycle stage that the Update is known to have
 	// reached, where lifecycle stages are ordered
 	// UPDATE_WORKFLOW_EXECUTION_LIFECYCLE_STAGE_UNSPECIFIED <
@@ -9293,14 +9322,14 @@ func (*UpdateWorkflowExecutionResponse) Descriptor() ([]byte, []int) {
 	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{111}
 }
 
-func (x *UpdateWorkflowExecutionResponse) GetUpdateRef() *v117.UpdateRef {
+func (x *UpdateWorkflowExecutionResponse) GetUpdateRef() *v118.UpdateRef {
 	if x != nil {
 		return x.UpdateRef
 	}
 	return nil
 }
 
-func (x *UpdateWorkflowExecutionResponse) GetOutcome() *v117.Outcome {
+func (x *UpdateWorkflowExecutionResponse) GetOutcome() *v118.Outcome {
 	if x != nil {
 		return x.Outcome
 	}
@@ -9456,7 +9485,7 @@ func (x *StartBatchOperationRequest) GetOperation() isStartBatchOperationRequest
 	return nil
 }
 
-func (x *StartBatchOperationRequest) GetTerminationOperation() *v118.BatchOperationTermination {
+func (x *StartBatchOperationRequest) GetTerminationOperation() *v119.BatchOperationTermination {
 	if x != nil {
 		if x, ok := x.Operation.(*StartBatchOperationRequest_TerminationOperation); ok {
 			return x.TerminationOperation
@@ -9465,7 +9494,7 @@ func (x *StartBatchOperationRequest) GetTerminationOperation() *v118.BatchOperat
 	return nil
 }
 
-func (x *StartBatchOperationRequest) GetSignalOperation() *v118.BatchOperationSignal {
+func (x *StartBatchOperationRequest) GetSignalOperation() *v119.BatchOperationSignal {
 	if x != nil {
 		if x, ok := x.Operation.(*StartBatchOperationRequest_SignalOperation); ok {
 			return x.SignalOperation
@@ -9474,7 +9503,7 @@ func (x *StartBatchOperationRequest) GetSignalOperation() *v118.BatchOperationSi
 	return nil
 }
 
-func (x *StartBatchOperationRequest) GetCancellationOperation() *v118.BatchOperationCancellation {
+func (x *StartBatchOperationRequest) GetCancellationOperation() *v119.BatchOperationCancellation {
 	if x != nil {
 		if x, ok := x.Operation.(*StartBatchOperationRequest_CancellationOperation); ok {
 			return x.CancellationOperation
@@ -9483,7 +9512,7 @@ func (x *StartBatchOperationRequest) GetCancellationOperation() *v118.BatchOpera
 	return nil
 }
 
-func (x *StartBatchOperationRequest) GetDeletionOperation() *v118.BatchOperationDeletion {
+func (x *StartBatchOperationRequest) GetDeletionOperation() *v119.BatchOperationDeletion {
 	if x != nil {
 		if x, ok := x.Operation.(*StartBatchOperationRequest_DeletionOperation); ok {
 			return x.DeletionOperation
@@ -9492,7 +9521,7 @@ func (x *StartBatchOperationRequest) GetDeletionOperation() *v118.BatchOperation
 	return nil
 }
 
-func (x *StartBatchOperationRequest) GetResetOperation() *v118.BatchOperationReset {
+func (x *StartBatchOperationRequest) GetResetOperation() *v119.BatchOperationReset {
 	if x != nil {
 		if x, ok := x.Operation.(*StartBatchOperationRequest_ResetOperation); ok {
 			return x.ResetOperation
@@ -9501,7 +9530,7 @@ func (x *StartBatchOperationRequest) GetResetOperation() *v118.BatchOperationRes
 	return nil
 }
 
-func (x *StartBatchOperationRequest) GetUpdateWorkflowOptionsOperation() *v118.BatchOperationUpdateWorkflowExecutionOptions {
+func (x *StartBatchOperationRequest) GetUpdateWorkflowOptionsOperation() *v119.BatchOperationUpdateWorkflowExecutionOptions {
 	if x != nil {
 		if x, ok := x.Operation.(*StartBatchOperationRequest_UpdateWorkflowOptionsOperation); ok {
 			return x.UpdateWorkflowOptionsOperation
@@ -9510,7 +9539,7 @@ func (x *StartBatchOperationRequest) GetUpdateWorkflowOptionsOperation() *v118.B
 	return nil
 }
 
-func (x *StartBatchOperationRequest) GetUnpauseActivitiesOperation() *v118.BatchOperationUnpauseActivities {
+func (x *StartBatchOperationRequest) GetUnpauseActivitiesOperation() *v119.BatchOperationUnpauseActivities {
 	if x != nil {
 		if x, ok := x.Operation.(*StartBatchOperationRequest_UnpauseActivitiesOperation); ok {
 			return x.UnpauseActivitiesOperation
@@ -9519,7 +9548,7 @@ func (x *StartBatchOperationRequest) GetUnpauseActivitiesOperation() *v118.Batch
 	return nil
 }
 
-func (x *StartBatchOperationRequest) GetResetActivitiesOperation() *v118.BatchOperationResetActivities {
+func (x *StartBatchOperationRequest) GetResetActivitiesOperation() *v119.BatchOperationResetActivities {
 	if x != nil {
 		if x, ok := x.Operation.(*StartBatchOperationRequest_ResetActivitiesOperation); ok {
 			return x.ResetActivitiesOperation
@@ -9528,7 +9557,7 @@ func (x *StartBatchOperationRequest) GetResetActivitiesOperation() *v118.BatchOp
 	return nil
 }
 
-func (x *StartBatchOperationRequest) GetUpdateActivityOptionsOperation() *v118.BatchOperationUpdateActivityOptions {
+func (x *StartBatchOperationRequest) GetUpdateActivityOptionsOperation() *v119.BatchOperationUpdateActivityOptions {
 	if x != nil {
 		if x, ok := x.Operation.(*StartBatchOperationRequest_UpdateActivityOptionsOperation); ok {
 			return x.UpdateActivityOptionsOperation
@@ -9537,7 +9566,7 @@ func (x *StartBatchOperationRequest) GetUpdateActivityOptionsOperation() *v118.B
 	return nil
 }
 
-func (x *StartBatchOperationRequest) GetCancelActivitiesOperation() *v118.BatchOperationCancelActivities {
+func (x *StartBatchOperationRequest) GetCancelActivitiesOperation() *v119.BatchOperationCancelActivities {
 	if x != nil {
 		if x, ok := x.Operation.(*StartBatchOperationRequest_CancelActivitiesOperation); ok {
 			return x.CancelActivitiesOperation
@@ -9546,7 +9575,7 @@ func (x *StartBatchOperationRequest) GetCancelActivitiesOperation() *v118.BatchO
 	return nil
 }
 
-func (x *StartBatchOperationRequest) GetTerminateActivitiesOperation() *v118.BatchOperationTerminateActivities {
+func (x *StartBatchOperationRequest) GetTerminateActivitiesOperation() *v119.BatchOperationTerminateActivities {
 	if x != nil {
 		if x, ok := x.Operation.(*StartBatchOperationRequest_TerminateActivitiesOperation); ok {
 			return x.TerminateActivitiesOperation
@@ -9555,7 +9584,7 @@ func (x *StartBatchOperationRequest) GetTerminateActivitiesOperation() *v118.Bat
 	return nil
 }
 
-func (x *StartBatchOperationRequest) GetDeleteActivitiesOperation() *v118.BatchOperationDeleteActivities {
+func (x *StartBatchOperationRequest) GetDeleteActivitiesOperation() *v119.BatchOperationDeleteActivities {
 	if x != nil {
 		if x, ok := x.Operation.(*StartBatchOperationRequest_DeleteActivitiesOperation); ok {
 			return x.DeleteActivitiesOperation
@@ -9569,51 +9598,51 @@ type isStartBatchOperationRequest_Operation interface {
 }
 
 type StartBatchOperationRequest_TerminationOperation struct {
-	TerminationOperation *v118.BatchOperationTermination `protobuf:"bytes,10,opt,name=termination_operation,json=terminationOperation,proto3,oneof"`
+	TerminationOperation *v119.BatchOperationTermination `protobuf:"bytes,10,opt,name=termination_operation,json=terminationOperation,proto3,oneof"`
 }
 
 type StartBatchOperationRequest_SignalOperation struct {
-	SignalOperation *v118.BatchOperationSignal `protobuf:"bytes,11,opt,name=signal_operation,json=signalOperation,proto3,oneof"`
+	SignalOperation *v119.BatchOperationSignal `protobuf:"bytes,11,opt,name=signal_operation,json=signalOperation,proto3,oneof"`
 }
 
 type StartBatchOperationRequest_CancellationOperation struct {
-	CancellationOperation *v118.BatchOperationCancellation `protobuf:"bytes,12,opt,name=cancellation_operation,json=cancellationOperation,proto3,oneof"`
+	CancellationOperation *v119.BatchOperationCancellation `protobuf:"bytes,12,opt,name=cancellation_operation,json=cancellationOperation,proto3,oneof"`
 }
 
 type StartBatchOperationRequest_DeletionOperation struct {
-	DeletionOperation *v118.BatchOperationDeletion `protobuf:"bytes,13,opt,name=deletion_operation,json=deletionOperation,proto3,oneof"`
+	DeletionOperation *v119.BatchOperationDeletion `protobuf:"bytes,13,opt,name=deletion_operation,json=deletionOperation,proto3,oneof"`
 }
 
 type StartBatchOperationRequest_ResetOperation struct {
-	ResetOperation *v118.BatchOperationReset `protobuf:"bytes,14,opt,name=reset_operation,json=resetOperation,proto3,oneof"`
+	ResetOperation *v119.BatchOperationReset `protobuf:"bytes,14,opt,name=reset_operation,json=resetOperation,proto3,oneof"`
 }
 
 type StartBatchOperationRequest_UpdateWorkflowOptionsOperation struct {
-	UpdateWorkflowOptionsOperation *v118.BatchOperationUpdateWorkflowExecutionOptions `protobuf:"bytes,15,opt,name=update_workflow_options_operation,json=updateWorkflowOptionsOperation,proto3,oneof"`
+	UpdateWorkflowOptionsOperation *v119.BatchOperationUpdateWorkflowExecutionOptions `protobuf:"bytes,15,opt,name=update_workflow_options_operation,json=updateWorkflowOptionsOperation,proto3,oneof"`
 }
 
 type StartBatchOperationRequest_UnpauseActivitiesOperation struct {
-	UnpauseActivitiesOperation *v118.BatchOperationUnpauseActivities `protobuf:"bytes,16,opt,name=unpause_activities_operation,json=unpauseActivitiesOperation,proto3,oneof"`
+	UnpauseActivitiesOperation *v119.BatchOperationUnpauseActivities `protobuf:"bytes,16,opt,name=unpause_activities_operation,json=unpauseActivitiesOperation,proto3,oneof"`
 }
 
 type StartBatchOperationRequest_ResetActivitiesOperation struct {
-	ResetActivitiesOperation *v118.BatchOperationResetActivities `protobuf:"bytes,17,opt,name=reset_activities_operation,json=resetActivitiesOperation,proto3,oneof"`
+	ResetActivitiesOperation *v119.BatchOperationResetActivities `protobuf:"bytes,17,opt,name=reset_activities_operation,json=resetActivitiesOperation,proto3,oneof"`
 }
 
 type StartBatchOperationRequest_UpdateActivityOptionsOperation struct {
-	UpdateActivityOptionsOperation *v118.BatchOperationUpdateActivityOptions `protobuf:"bytes,18,opt,name=update_activity_options_operation,json=updateActivityOptionsOperation,proto3,oneof"`
+	UpdateActivityOptionsOperation *v119.BatchOperationUpdateActivityOptions `protobuf:"bytes,18,opt,name=update_activity_options_operation,json=updateActivityOptionsOperation,proto3,oneof"`
 }
 
 type StartBatchOperationRequest_CancelActivitiesOperation struct {
-	CancelActivitiesOperation *v118.BatchOperationCancelActivities `protobuf:"bytes,19,opt,name=cancel_activities_operation,json=cancelActivitiesOperation,proto3,oneof"`
+	CancelActivitiesOperation *v119.BatchOperationCancelActivities `protobuf:"bytes,19,opt,name=cancel_activities_operation,json=cancelActivitiesOperation,proto3,oneof"`
 }
 
 type StartBatchOperationRequest_TerminateActivitiesOperation struct {
-	TerminateActivitiesOperation *v118.BatchOperationTerminateActivities `protobuf:"bytes,20,opt,name=terminate_activities_operation,json=terminateActivitiesOperation,proto3,oneof"`
+	TerminateActivitiesOperation *v119.BatchOperationTerminateActivities `protobuf:"bytes,20,opt,name=terminate_activities_operation,json=terminateActivitiesOperation,proto3,oneof"`
 }
 
 type StartBatchOperationRequest_DeleteActivitiesOperation struct {
-	DeleteActivitiesOperation *v118.BatchOperationDeleteActivities `protobuf:"bytes,21,opt,name=delete_activities_operation,json=deleteActivitiesOperation,proto3,oneof"`
+	DeleteActivitiesOperation *v119.BatchOperationDeleteActivities `protobuf:"bytes,21,opt,name=delete_activities_operation,json=deleteActivitiesOperation,proto3,oneof"`
 }
 
 func (*StartBatchOperationRequest_TerminationOperation) isStartBatchOperationRequest_Operation() {}
@@ -10055,7 +10084,7 @@ func (x *ListBatchOperationsRequest) GetNextPageToken() []byte {
 type ListBatchOperationsResponse struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// BatchOperationInfo contains the basic info about batch operation
-	OperationInfo []*v118.BatchOperationInfo `protobuf:"bytes,1,rep,name=operation_info,json=operationInfo,proto3" json:"operation_info,omitempty"`
+	OperationInfo []*v119.BatchOperationInfo `protobuf:"bytes,1,rep,name=operation_info,json=operationInfo,proto3" json:"operation_info,omitempty"`
 	NextPageToken []byte                     `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -10091,7 +10120,7 @@ func (*ListBatchOperationsResponse) Descriptor() ([]byte, []int) {
 	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{119}
 }
 
-func (x *ListBatchOperationsResponse) GetOperationInfo() []*v118.BatchOperationInfo {
+func (x *ListBatchOperationsResponse) GetOperationInfo() []*v119.BatchOperationInfo {
 	if x != nil {
 		return x.OperationInfo
 	}
@@ -10111,12 +10140,12 @@ type PollWorkflowExecutionUpdateRequest struct {
 	// originally issued.
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// The Update reference returned in the initial UpdateWorkflowExecutionResponse.
-	UpdateRef *v117.UpdateRef `protobuf:"bytes,2,opt,name=update_ref,json=updateRef,proto3" json:"update_ref,omitempty"`
+	UpdateRef *v118.UpdateRef `protobuf:"bytes,2,opt,name=update_ref,json=updateRef,proto3" json:"update_ref,omitempty"`
 	// The identity of the worker/client who is polling this Update outcome.
 	Identity string `protobuf:"bytes,3,opt,name=identity,proto3" json:"identity,omitempty"`
 	// Specifies client's intent to wait for Update results.
 	// Omit to request a non-blocking poll.
-	WaitPolicy    *v117.WaitPolicy `protobuf:"bytes,4,opt,name=wait_policy,json=waitPolicy,proto3" json:"wait_policy,omitempty"`
+	WaitPolicy    *v118.WaitPolicy `protobuf:"bytes,4,opt,name=wait_policy,json=waitPolicy,proto3" json:"wait_policy,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -10158,7 +10187,7 @@ func (x *PollWorkflowExecutionUpdateRequest) GetNamespace() string {
 	return ""
 }
 
-func (x *PollWorkflowExecutionUpdateRequest) GetUpdateRef() *v117.UpdateRef {
+func (x *PollWorkflowExecutionUpdateRequest) GetUpdateRef() *v118.UpdateRef {
 	if x != nil {
 		return x.UpdateRef
 	}
@@ -10172,7 +10201,7 @@ func (x *PollWorkflowExecutionUpdateRequest) GetIdentity() string {
 	return ""
 }
 
-func (x *PollWorkflowExecutionUpdateRequest) GetWaitPolicy() *v117.WaitPolicy {
+func (x *PollWorkflowExecutionUpdateRequest) GetWaitPolicy() *v118.WaitPolicy {
 	if x != nil {
 		return x.WaitPolicy
 	}
@@ -10186,7 +10215,7 @@ type PollWorkflowExecutionUpdateResponse struct {
 	// to the specification of a wait policy that only waits on
 	// UPDATE_WORKFLOW_EXECUTION_LIFECYCLE_STAGE_ACCEPTED) then this field will
 	// not be set.
-	Outcome *v117.Outcome `protobuf:"bytes,1,opt,name=outcome,proto3" json:"outcome,omitempty"`
+	Outcome *v118.Outcome `protobuf:"bytes,1,opt,name=outcome,proto3" json:"outcome,omitempty"`
 	// The most advanced lifecycle stage that the Update is known to have
 	// reached, where lifecycle stages are ordered
 	// UPDATE_WORKFLOW_EXECUTION_LIFECYCLE_STAGE_UNSPECIFIED <
@@ -10199,7 +10228,7 @@ type PollWorkflowExecutionUpdateResponse struct {
 	// may then retry the call as needed.
 	Stage v11.UpdateWorkflowExecutionLifecycleStage `protobuf:"varint,2,opt,name=stage,proto3,enum=temporal.api.enums.v1.UpdateWorkflowExecutionLifecycleStage" json:"stage,omitempty"`
 	// Sufficient information to address this Update.
-	UpdateRef     *v117.UpdateRef `protobuf:"bytes,3,opt,name=update_ref,json=updateRef,proto3" json:"update_ref,omitempty"`
+	UpdateRef     *v118.UpdateRef `protobuf:"bytes,3,opt,name=update_ref,json=updateRef,proto3" json:"update_ref,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -10234,7 +10263,7 @@ func (*PollWorkflowExecutionUpdateResponse) Descriptor() ([]byte, []int) {
 	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{121}
 }
 
-func (x *PollWorkflowExecutionUpdateResponse) GetOutcome() *v117.Outcome {
+func (x *PollWorkflowExecutionUpdateResponse) GetOutcome() *v118.Outcome {
 	if x != nil {
 		return x.Outcome
 	}
@@ -10248,7 +10277,7 @@ func (x *PollWorkflowExecutionUpdateResponse) GetStage() v11.UpdateWorkflowExecu
 	return v11.UpdateWorkflowExecutionLifecycleStage(0)
 }
 
-func (x *PollWorkflowExecutionUpdateResponse) GetUpdateRef() *v117.UpdateRef {
+func (x *PollWorkflowExecutionUpdateResponse) GetUpdateRef() *v118.UpdateRef {
 	if x != nil {
 		return x.UpdateRef
 	}
@@ -10278,7 +10307,7 @@ type PollNexusTaskQueueRequest struct {
 	// Worker deployment options that user has set in the worker.
 	DeploymentOptions *v18.WorkerDeploymentOptions `protobuf:"bytes,6,opt,name=deployment_options,json=deploymentOptions,proto3" json:"deployment_options,omitempty"`
 	// Worker info to be sent to the server.
-	WorkerHeartbeat []*v114.WorkerHeartbeat `protobuf:"bytes,7,rep,name=worker_heartbeat,json=workerHeartbeat,proto3" json:"worker_heartbeat,omitempty"`
+	WorkerHeartbeat []*v115.WorkerHeartbeat `protobuf:"bytes,7,rep,name=worker_heartbeat,json=workerHeartbeat,proto3" json:"worker_heartbeat,omitempty"`
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
@@ -10363,7 +10392,7 @@ func (x *PollNexusTaskQueueRequest) GetDeploymentOptions() *v18.WorkerDeployment
 	return nil
 }
 
-func (x *PollNexusTaskQueueRequest) GetWorkerHeartbeat() []*v114.WorkerHeartbeat {
+func (x *PollNexusTaskQueueRequest) GetWorkerHeartbeat() []*v115.WorkerHeartbeat {
 	if x != nil {
 		return x.WorkerHeartbeat
 	}
@@ -10375,7 +10404,7 @@ type PollNexusTaskQueueResponse struct {
 	// An opaque unique identifier for this task for correlating a completion request the embedded request.
 	TaskToken []byte `protobuf:"bytes,1,opt,name=task_token,json=taskToken,proto3" json:"task_token,omitempty"`
 	// Embedded request as translated from the incoming frontend request.
-	Request *v119.Request `protobuf:"bytes,2,opt,name=request,proto3" json:"request,omitempty"`
+	Request *v19.Request `protobuf:"bytes,2,opt,name=request,proto3" json:"request,omitempty"`
 	// Server-advised information the SDK may use to adjust its poller count.
 	PollerScalingDecision *v13.PollerScalingDecision `protobuf:"bytes,3,opt,name=poller_scaling_decision,json=pollerScalingDecision,proto3" json:"poller_scaling_decision,omitempty"`
 	// This poller group ID identifies the owner of the nexus task awaiting for synchronous
@@ -10441,7 +10470,7 @@ func (x *PollNexusTaskQueueResponse) GetTaskToken() []byte {
 	return nil
 }
 
-func (x *PollNexusTaskQueueResponse) GetRequest() *v119.Request {
+func (x *PollNexusTaskQueueResponse) GetRequest() *v19.Request {
 	if x != nil {
 		return x.Request
 	}
@@ -10485,7 +10514,7 @@ type RespondNexusTaskCompletedRequest struct {
 	// A unique identifier for this task as received via a poll response.
 	TaskToken []byte `protobuf:"bytes,3,opt,name=task_token,json=taskToken,proto3" json:"task_token,omitempty"`
 	// Embedded response to be translated into a frontend response.
-	Response *v119.Response `protobuf:"bytes,4,opt,name=response,proto3" json:"response,omitempty"`
+	Response *v19.Response `protobuf:"bytes,4,opt,name=response,proto3" json:"response,omitempty"`
 	// Client must forward the poller_group_id received in PollNexusTaskQueueResponse for proper
 	// routing of the response.
 	PollerGroupId string `protobuf:"bytes,5,opt,name=poller_group_id,json=pollerGroupId,proto3" json:"poller_group_id,omitempty"`
@@ -10544,7 +10573,7 @@ func (x *RespondNexusTaskCompletedRequest) GetTaskToken() []byte {
 	return nil
 }
 
-func (x *RespondNexusTaskCompletedRequest) GetResponse() *v119.Response {
+func (x *RespondNexusTaskCompletedRequest) GetResponse() *v19.Response {
 	if x != nil {
 		return x.Response
 	}
@@ -10604,7 +10633,7 @@ type RespondNexusTaskFailedRequest struct {
 	// Deprecated. Use the failure field instead.
 	//
 	// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
-	Error *v119.HandlerError `protobuf:"bytes,4,opt,name=error,proto3" json:"error,omitempty"`
+	Error *v19.HandlerError `protobuf:"bytes,4,opt,name=error,proto3" json:"error,omitempty"`
 	// The error the handler failed with. Must contain a NexusHandlerFailureInfo object.
 	Failure *v15.Failure `protobuf:"bytes,5,opt,name=failure,proto3" json:"failure,omitempty"`
 	// Client must forward the poller_group_id received in PollNexusTaskQueueResponse for proper
@@ -10666,7 +10695,7 @@ func (x *RespondNexusTaskFailedRequest) GetTaskToken() []byte {
 }
 
 // Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
-func (x *RespondNexusTaskFailedRequest) GetError() *v119.HandlerError {
+func (x *RespondNexusTaskFailedRequest) GetError() *v19.HandlerError {
 	if x != nil {
 		return x.Error
 	}
@@ -15407,7 +15436,7 @@ type RecordWorkerHeartbeatRequest struct {
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// The identity of the client who initiated this request.
 	Identity        string                  `protobuf:"bytes,2,opt,name=identity,proto3" json:"identity,omitempty"`
-	WorkerHeartbeat []*v114.WorkerHeartbeat `protobuf:"bytes,3,rep,name=worker_heartbeat,json=workerHeartbeat,proto3" json:"worker_heartbeat,omitempty"`
+	WorkerHeartbeat []*v115.WorkerHeartbeat `protobuf:"bytes,3,rep,name=worker_heartbeat,json=workerHeartbeat,proto3" json:"worker_heartbeat,omitempty"`
 	// Resource ID for routing. Contains the worker grouping key.
 	ResourceId    string `protobuf:"bytes,4,opt,name=resource_id,json=resourceId,proto3" json:"resource_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -15458,7 +15487,7 @@ func (x *RecordWorkerHeartbeatRequest) GetIdentity() string {
 	return ""
 }
 
-func (x *RecordWorkerHeartbeatRequest) GetWorkerHeartbeat() []*v114.WorkerHeartbeat {
+func (x *RecordWorkerHeartbeatRequest) GetWorkerHeartbeat() []*v115.WorkerHeartbeat {
 	if x != nil {
 		return x.WorkerHeartbeat
 	}
@@ -15604,9 +15633,9 @@ type ListWorkersResponse struct {
 	// includes expensive runtime metrics. We will stop populating this field in the future.
 	//
 	// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
-	WorkersInfo []*v114.WorkerInfo `protobuf:"bytes,1,rep,name=workers_info,json=workersInfo,proto3" json:"workers_info,omitempty"`
+	WorkersInfo []*v115.WorkerInfo `protobuf:"bytes,1,rep,name=workers_info,json=workersInfo,proto3" json:"workers_info,omitempty"`
 	// Limited worker information.
-	Workers []*v114.WorkerListInfo `protobuf:"bytes,3,rep,name=workers,proto3" json:"workers,omitempty"`
+	Workers []*v115.WorkerListInfo `protobuf:"bytes,3,rep,name=workers,proto3" json:"workers,omitempty"`
 	// Next page token
 	NextPageToken []byte `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -15644,14 +15673,14 @@ func (*ListWorkersResponse) Descriptor() ([]byte, []int) {
 }
 
 // Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
-func (x *ListWorkersResponse) GetWorkersInfo() []*v114.WorkerInfo {
+func (x *ListWorkersResponse) GetWorkersInfo() []*v115.WorkerInfo {
 	if x != nil {
 		return x.WorkersInfo
 	}
 	return nil
 }
 
-func (x *ListWorkersResponse) GetWorkers() []*v114.WorkerListInfo {
+func (x *ListWorkersResponse) GetWorkers() []*v115.WorkerListInfo {
 	if x != nil {
 		return x.Workers
 	}
@@ -16172,7 +16201,7 @@ func (x *DescribeWorkerRequest) GetWorkerInstanceKey() string {
 
 type DescribeWorkerResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	WorkerInfo    *v114.WorkerInfo       `protobuf:"bytes,1,opt,name=worker_info,json=workerInfo,proto3" json:"worker_info,omitempty"`
+	WorkerInfo    *v115.WorkerInfo       `protobuf:"bytes,1,opt,name=worker_info,json=workerInfo,proto3" json:"worker_info,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -16207,7 +16236,7 @@ func (*DescribeWorkerResponse) Descriptor() ([]byte, []int) {
 	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{205}
 }
 
-func (x *DescribeWorkerResponse) GetWorkerInfo() *v114.WorkerInfo {
+func (x *DescribeWorkerResponse) GetWorkerInfo() *v115.WorkerInfo {
 	if x != nil {
 		return x.WorkerInfo
 	}
@@ -16645,9 +16674,16 @@ type StartActivityExecutionRequest struct {
 	// Options for handling conflicts when using ACTIVITY_ID_CONFLICT_POLICY_USE_EXISTING.
 	OnConflictOptions *v14.OnConflictOptions `protobuf:"bytes,21,opt,name=on_conflict_options,json=onConflictOptions,proto3" json:"on_conflict_options,omitempty"`
 	// Time to wait before making the first activity task available for dispatch. This delay is not applied to retry attempts.
-	StartDelay    *durationpb.Duration `protobuf:"bytes,22,opt,name=start_delay,json=startDelay,proto3" json:"start_delay,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	StartDelay *durationpb.Duration `protobuf:"bytes,22,opt,name=start_delay,json=startDelay,proto3" json:"start_delay,omitempty"`
+	// Serialization context propagated from the Nexus caller that started this activity.
+	PropagatedNexusSerializationContext *v19.PropagatedSerializationContext `protobuf:"bytes,23,opt,name=propagated_nexus_serialization_context,json=propagatedNexusSerializationContext,proto3" json:"propagated_nexus_serialization_context,omitempty"`
+	// Request that the first activity task be returned directly in the start response instead of
+	// being dispatched through a task queue. If set to true, the caller is expected to have a
+	// worker available and capable of processing the task. The returned task will be marked as
+	// started. The server may ignore this request.
+	RequestEagerExecution bool `protobuf:"varint,24,opt,name=request_eager_execution,json=requestEagerExecution,proto3" json:"request_eager_execution,omitempty"`
+	unknownFields         protoimpl.UnknownFields
+	sizeCache             protoimpl.SizeCache
 }
 
 func (x *StartActivityExecutionRequest) Reset() {
@@ -16834,6 +16870,20 @@ func (x *StartActivityExecutionRequest) GetStartDelay() *durationpb.Duration {
 	return nil
 }
 
+func (x *StartActivityExecutionRequest) GetPropagatedNexusSerializationContext() *v19.PropagatedSerializationContext {
+	if x != nil {
+		return x.PropagatedNexusSerializationContext
+	}
+	return nil
+}
+
+func (x *StartActivityExecutionRequest) GetRequestEagerExecution() bool {
+	if x != nil {
+		return x.RequestEagerExecution
+	}
+	return false
+}
+
 type StartActivityExecutionResponse struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// The run ID of the activity that was started - or used (via ACTIVITY_ID_CONFLICT_POLICY_USE_EXISTING).
@@ -16841,9 +16891,12 @@ type StartActivityExecutionResponse struct {
 	// If true, a new activity was started.
 	Started bool `protobuf:"varint,2,opt,name=started,proto3" json:"started,omitempty"`
 	// Link to the started activity.
-	Link          *v14.Link `protobuf:"bytes,3,opt,name=link,proto3" json:"link,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Link *v14.Link `protobuf:"bytes,3,opt,name=link,proto3" json:"link,omitempty"`
+	// The first activity task when eager execution was requested and accepted.
+	// This is set only for the first attempt of a newly started activity.
+	EagerActivityTask *PollActivityTaskQueueResponse `protobuf:"bytes,4,opt,name=eager_activity_task,json=eagerActivityTask,proto3" json:"eager_activity_task,omitempty"`
+	unknownFields     protoimpl.UnknownFields
+	sizeCache         protoimpl.SizeCache
 }
 
 func (x *StartActivityExecutionResponse) Reset() {
@@ -16893,6 +16946,13 @@ func (x *StartActivityExecutionResponse) GetStarted() bool {
 func (x *StartActivityExecutionResponse) GetLink() *v14.Link {
 	if x != nil {
 		return x.Link
+	}
+	return nil
+}
+
+func (x *StartActivityExecutionResponse) GetEagerActivityTask() *PollActivityTaskQueueResponse {
+	if x != nil {
+		return x.EagerActivityTask
 	}
 	return nil
 }
@@ -17164,10 +17224,12 @@ func (x *PollActivityExecutionRequest) GetRunId() string {
 type PollActivityExecutionResponse struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// The run ID of the activity, useful when run_id was not specified in the request.
-	RunId         string                         `protobuf:"bytes,1,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
-	Outcome       *v120.ActivityExecutionOutcome `protobuf:"bytes,2,opt,name=outcome,proto3" json:"outcome,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	RunId   string                         `protobuf:"bytes,1,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
+	Outcome *v120.ActivityExecutionOutcome `protobuf:"bytes,2,opt,name=outcome,proto3" json:"outcome,omitempty"`
+	// Serialization context propagated from the Nexus caller that started this activity.
+	PropagatedNexusSerializationContext *v19.PropagatedSerializationContext `protobuf:"bytes,3,opt,name=propagated_nexus_serialization_context,json=propagatedNexusSerializationContext,proto3" json:"propagated_nexus_serialization_context,omitempty"`
+	unknownFields                       protoimpl.UnknownFields
+	sizeCache                           protoimpl.SizeCache
 }
 
 func (x *PollActivityExecutionResponse) Reset() {
@@ -17210,6 +17272,13 @@ func (x *PollActivityExecutionResponse) GetRunId() string {
 func (x *PollActivityExecutionResponse) GetOutcome() *v120.ActivityExecutionOutcome {
 	if x != nil {
 		return x.Outcome
+	}
+	return nil
+}
+
+func (x *PollActivityExecutionResponse) GetPropagatedNexusSerializationContext() *v19.PropagatedSerializationContext {
+	if x != nil {
+		return x.PropagatedNexusSerializationContext
 	}
 	return nil
 }
@@ -17726,7 +17795,7 @@ type DescribeNexusOperationExecutionResponse struct {
 	// The run ID of the operation, useful when run_id was not specified in the request.
 	RunId string `protobuf:"bytes,1,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
 	// Information about the operation.
-	Info *v119.NexusOperationExecutionInfo `protobuf:"bytes,2,opt,name=info,proto3" json:"info,omitempty"`
+	Info *v19.NexusOperationExecutionInfo `protobuf:"bytes,2,opt,name=info,proto3" json:"info,omitempty"`
 	// Serialized operation input, passed as the request payload.
 	// Only set if include_input was true in the request.
 	Input *v14.Payload `protobuf:"bytes,3,opt,name=input,proto3" json:"input,omitempty"`
@@ -17783,7 +17852,7 @@ func (x *DescribeNexusOperationExecutionResponse) GetRunId() string {
 	return ""
 }
 
-func (x *DescribeNexusOperationExecutionResponse) GetInfo() *v119.NexusOperationExecutionInfo {
+func (x *DescribeNexusOperationExecutionResponse) GetInfo() *v19.NexusOperationExecutionInfo {
 	if x != nil {
 		return x.Info
 	}
@@ -17934,6 +18003,9 @@ type PollNexusOperationExecutionResponse struct {
 	WaitStage v11.NexusOperationWaitStage `protobuf:"varint,2,opt,name=wait_stage,json=waitStage,proto3,enum=temporal.api.enums.v1.NexusOperationWaitStage" json:"wait_stage,omitempty"`
 	// Operation token. Only populated for asynchronous operations after a successful StartOperation call.
 	OperationToken string `protobuf:"bytes,3,opt,name=operation_token,json=operationToken,proto3" json:"operation_token,omitempty"`
+	// Serialization context for this operation's payloads, derived from its stored target.
+	// For a reused operation, this is the original execution's context.
+	PropagatedNexusSerializationContext *v19.PropagatedSerializationContext `protobuf:"bytes,6,opt,name=propagated_nexus_serialization_context,json=propagatedNexusSerializationContext,proto3" json:"propagated_nexus_serialization_context,omitempty"`
 	// The operation outcome, available if the operation is in a closed state.
 	//
 	// Types that are valid to be assigned to Outcome:
@@ -17994,6 +18066,13 @@ func (x *PollNexusOperationExecutionResponse) GetOperationToken() string {
 		return x.OperationToken
 	}
 	return ""
+}
+
+func (x *PollNexusOperationExecutionResponse) GetPropagatedNexusSerializationContext() *v19.PropagatedSerializationContext {
+	if x != nil {
+		return x.PropagatedNexusSerializationContext
+	}
+	return nil
 }
 
 func (x *PollNexusOperationExecutionResponse) GetOutcome() isPollNexusOperationExecutionResponse_Outcome {
@@ -18124,8 +18203,8 @@ func (x *ListNexusOperationExecutionsRequest) GetQuery() string {
 }
 
 type ListNexusOperationExecutionsResponse struct {
-	state      protoimpl.MessageState                  `protogen:"open.v1"`
-	Operations []*v119.NexusOperationExecutionListInfo `protobuf:"bytes,1,rep,name=operations,proto3" json:"operations,omitempty"`
+	state      protoimpl.MessageState                 `protogen:"open.v1"`
+	Operations []*v19.NexusOperationExecutionListInfo `protobuf:"bytes,1,rep,name=operations,proto3" json:"operations,omitempty"`
 	// Token to use to fetch the next page. If empty, there is no next page.
 	NextPageToken []byte `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -18162,7 +18241,7 @@ func (*ListNexusOperationExecutionsResponse) Descriptor() ([]byte, []int) {
 	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{227}
 }
 
-func (x *ListNexusOperationExecutionsResponse) GetOperations() []*v119.NexusOperationExecutionListInfo {
+func (x *ListNexusOperationExecutionsResponse) GetOperations() []*v19.NexusOperationExecutionListInfo {
 	if x != nil {
 		return x.Operations
 	}
@@ -20666,7 +20745,7 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\x19DeprecateNamespaceRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12%\n" +
 	"\x0esecurity_token\x18\x02 \x01(\tR\rsecurityToken\"\x1c\n" +
-	"\x1aDeprecateNamespaceResponse\"\xa9\x11\n" +
+	"\x1aDeprecateNamespaceResponse\"\xb6\x12\n" +
 	"\x1dStartWorkflowExecutionRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12\x1f\n" +
 	"\vworkflow_id\x18\x02 \x01(\tR\n" +
@@ -20700,8 +20779,9 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\x13on_conflict_options\x18\x1a \x01(\v2+.temporal.api.workflow.v1.OnConflictOptionsR\x11onConflictOptions\x12<\n" +
 	"\bpriority\x18\x1b \x01(\v2 .temporal.api.common.v1.PriorityR\bpriority\x12z\n" +
 	"\x1feager_worker_deployment_options\x18\x1c \x01(\v23.temporal.api.deployment.v1.WorkerDeploymentOptionsR\x1ceagerWorkerDeploymentOptions\x12\\\n" +
-	"\x14time_skipping_config\x18\x1d \x01(\v2*.temporal.api.common.v1.TimeSkippingConfigR\x12timeSkippingConfig\x12{\n" +
-	"\x1ftime_skipping_state_propagation\x18\x1e \x01(\v24.temporal.api.common.v1.TimeSkippingStatePropagationR\x1ctimeSkippingStatePropagation\"\xf0\x02\n" +
+	"\x14time_skipping_config\x18\x1d \x01(\v2*.temporal.api.common.v1.TimeSkippingConfigR\x12timeSkippingConfig\x12\x8a\x01\n" +
+	"&propagated_nexus_serialization_context\x18\x1e \x01(\v25.temporal.api.nexus.v1.PropagatedSerializationContextR#propagatedNexusSerializationContext\x12{\n" +
+	"\x1ftime_skipping_state_propagation\x18\x1f \x01(\v24.temporal.api.common.v1.TimeSkippingStatePropagationR\x1ctimeSkippingStatePropagation\"\xf0\x02\n" +
 	"\x1eStartWorkflowExecutionResponse\x12\x15\n" +
 	"\x06run_id\x18\x01 \x01(\tR\x05runId\x123\n" +
 	"\x16first_execution_run_id\x18\x06 \x01(\tR\x13firstExecutionRunId\x12\x18\n" +
@@ -20716,13 +20796,14 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\x0fnext_page_token\x18\x04 \x01(\fR\rnextPageToken\x12$\n" +
 	"\x0ewait_new_event\x18\x05 \x01(\bR\fwaitNewEvent\x12h\n" +
 	"\x19history_event_filter_type\x18\x06 \x01(\x0e2-.temporal.api.enums.v1.HistoryEventFilterTypeR\x16historyEventFilterType\x12#\n" +
-	"\rskip_archival\x18\a \x01(\bR\fskipArchival\"\xe8\x01\n" +
+	"\rskip_archival\x18\a \x01(\bR\fskipArchival\"\xf5\x02\n" +
 	"#GetWorkflowExecutionHistoryResponse\x12:\n" +
 	"\ahistory\x18\x01 \x01(\v2 .temporal.api.history.v1.HistoryR\ahistory\x12A\n" +
 	"\vraw_history\x18\x02 \x03(\v2 .temporal.api.common.v1.DataBlobR\n" +
 	"rawHistory\x12&\n" +
 	"\x0fnext_page_token\x18\x03 \x01(\fR\rnextPageToken\x12\x1a\n" +
-	"\barchived\x18\x04 \x01(\bR\barchived\"\xe6\x01\n" +
+	"\barchived\x18\x04 \x01(\bR\barchived\x12\x8a\x01\n" +
+	"&propagated_nexus_serialization_context\x18\x05 \x01(\v25.temporal.api.nexus.v1.PropagatedSerializationContextR#propagatedNexusSerializationContext\"\xe6\x01\n" +
 	")GetWorkflowExecutionHistoryReverseRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12G\n" +
 	"\texecution\x18\x02 \x01(\v2).temporal.api.common.v1.WorkflowExecutionR\texecution\x12*\n" +
@@ -20836,7 +20917,7 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\x19worker_control_task_queue\x18\t \x01(\tR\x16workerControlTaskQueue\x12\\\n" +
 	"\x13task_queue_metadata\x18\x04 \x01(\v2,.temporal.api.taskqueue.v1.TaskQueueMetadataR\x11taskQueueMetadata\x12u\n" +
 	"\x1bworker_version_capabilities\x18\x05 \x01(\v21.temporal.api.common.v1.WorkerVersionCapabilitiesB\x02\x18\x01R\x19workerVersionCapabilities\x12b\n" +
-	"\x12deployment_options\x18\x06 \x01(\v23.temporal.api.deployment.v1.WorkerDeploymentOptionsR\x11deploymentOptionsJ\x04\b\a\x10\bR\x10worker_heartbeat\"\xf9\v\n" +
+	"\x12deployment_options\x18\x06 \x01(\v23.temporal.api.deployment.v1.WorkerDeploymentOptionsR\x11deploymentOptionsJ\x04\b\a\x10\bR\x10worker_heartbeat\"\x86\r\n" +
 	"\x1dPollActivityTaskQueueResponse\x12\x1d\n" +
 	"\n" +
 	"task_token\x18\x01 \x01(\fR\ttaskToken\x12-\n" +
@@ -20862,7 +20943,8 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\bpriority\x18\x13 \x01(\v2 .temporal.api.common.v1.PriorityR\bpriority\x12&\n" +
 	"\x0factivity_run_id\x18\x14 \x01(\tR\ractivityRunId\x12\\\n" +
 	"\x12poller_group_infos\x18\x15 \x03(\v2*.temporal.api.taskqueue.v1.PollerGroupInfoB\x02\x18\x01R\x10pollerGroupInfos\x12Y\n" +
-	"\x12poller_groups_info\x18\x16 \x01(\v2+.temporal.api.taskqueue.v1.PollerGroupsInfoR\x10pollerGroupsInfo\"\xda\x01\n" +
+	"\x12poller_groups_info\x18\x16 \x01(\v2+.temporal.api.taskqueue.v1.PollerGroupsInfoR\x10pollerGroupsInfo\x12\x8a\x01\n" +
+	"&propagated_nexus_serialization_context\x18\x17 \x01(\v25.temporal.api.nexus.v1.PropagatedSerializationContextR#propagatedNexusSerializationContext\"\xda\x01\n" +
 	"\"RecordActivityTaskHeartbeatRequest\x12\x1d\n" +
 	"\n" +
 	"task_token\x18\x01 \x01(\fR\ttaskToken\x12:\n" +
@@ -22004,7 +22086,7 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\x06reason\x18\x05 \x01(\tR\x06reason\x12\x1d\n" +
 	"\n" +
 	"request_id\x18\x06 \x01(\tR\trequestId\"\"\n" +
-	" UnpauseWorkflowExecutionResponse\"\xd7\v\n" +
+	" UnpauseWorkflowExecutionResponse\"\x9c\r\n" +
 	"\x1dStartActivityExecutionRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12\x1a\n" +
 	"\bidentity\x18\x02 \x01(\tR\bidentity\x12\x1d\n" +
@@ -22032,11 +22114,14 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\x05links\x18\x14 \x03(\v2\x1c.temporal.api.common.v1.LinkR\x05links\x12Y\n" +
 	"\x13on_conflict_options\x18\x15 \x01(\v2).temporal.api.common.v1.OnConflictOptionsR\x11onConflictOptions\x12:\n" +
 	"\vstart_delay\x18\x16 \x01(\v2\x19.google.protobuf.DurationR\n" +
-	"startDelay\"\x83\x01\n" +
+	"startDelay\x12\x8a\x01\n" +
+	"&propagated_nexus_serialization_context\x18\x17 \x01(\v25.temporal.api.nexus.v1.PropagatedSerializationContextR#propagatedNexusSerializationContext\x126\n" +
+	"\x17request_eager_execution\x18\x18 \x01(\bR\x15requestEagerExecution\"\xf3\x01\n" +
 	"\x1eStartActivityExecutionResponse\x12\x15\n" +
 	"\x06run_id\x18\x01 \x01(\tR\x05runId\x12\x18\n" +
 	"\astarted\x18\x02 \x01(\bR\astarted\x120\n" +
-	"\x04link\x18\x03 \x01(\v2\x1c.temporal.api.common.v1.LinkR\x04link\"\xdc\x02\n" +
+	"\x04link\x18\x03 \x01(\v2\x1c.temporal.api.common.v1.LinkR\x04link\x12n\n" +
+	"\x13eager_activity_task\x18\x04 \x01(\v2>.temporal.api.workflowservice.v1.PollActivityTaskQueueResponseR\x11eagerActivityTask\"\xdc\x02\n" +
 	" DescribeActivityExecutionRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12\x1f\n" +
 	"\vactivity_id\x18\x02 \x01(\tR\n" +
@@ -22058,10 +22143,11 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12\x1f\n" +
 	"\vactivity_id\x18\x02 \x01(\tR\n" +
 	"activityId\x12\x15\n" +
-	"\x06run_id\x18\x03 \x01(\tR\x05runId\"\x84\x01\n" +
+	"\x06run_id\x18\x03 \x01(\tR\x05runId\"\x91\x02\n" +
 	"\x1dPollActivityExecutionResponse\x12\x15\n" +
 	"\x06run_id\x18\x01 \x01(\tR\x05runId\x12L\n" +
-	"\aoutcome\x18\x02 \x01(\v22.temporal.api.activity.v1.ActivityExecutionOutcomeR\aoutcome\"\x98\x01\n" +
+	"\aoutcome\x18\x02 \x01(\v22.temporal.api.activity.v1.ActivityExecutionOutcomeR\aoutcome\x12\x8a\x01\n" +
+	"&propagated_nexus_serialization_context\x18\x03 \x01(\v25.temporal.api.nexus.v1.PropagatedSerializationContextR#propagatedNexusSerializationContext\"\x98\x01\n" +
 	"\x1dListActivityExecutionsRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12\x1b\n" +
 	"\tpage_size\x18\x02 \x01(\x05R\bpageSize\x12&\n" +
@@ -22122,12 +22208,13 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\foperation_id\x18\x02 \x01(\tR\voperationId\x12\x15\n" +
 	"\x06run_id\x18\x03 \x01(\tR\x05runId\x12M\n" +
 	"\n" +
-	"wait_stage\x18\x04 \x01(\x0e2..temporal.api.enums.v1.NexusOperationWaitStageR\twaitStage\"\xb8\x02\n" +
+	"wait_stage\x18\x04 \x01(\x0e2..temporal.api.enums.v1.NexusOperationWaitStageR\twaitStage\"\xc5\x03\n" +
 	"#PollNexusOperationExecutionResponse\x12\x15\n" +
 	"\x06run_id\x18\x01 \x01(\tR\x05runId\x12M\n" +
 	"\n" +
 	"wait_stage\x18\x02 \x01(\x0e2..temporal.api.enums.v1.NexusOperationWaitStageR\twaitStage\x12'\n" +
-	"\x0foperation_token\x18\x03 \x01(\tR\x0eoperationToken\x129\n" +
+	"\x0foperation_token\x18\x03 \x01(\tR\x0eoperationToken\x12\x8a\x01\n" +
+	"&propagated_nexus_serialization_context\x18\x06 \x01(\v25.temporal.api.nexus.v1.PropagatedSerializationContextR#propagatedNexusSerializationContext\x129\n" +
 	"\x06result\x18\x04 \x01(\v2\x1f.temporal.api.common.v1.PayloadH\x00R\x06result\x12<\n" +
 	"\afailure\x18\x05 \x01(\v2 .temporal.api.failure.v1.FailureH\x00R\afailureB\t\n" +
 	"\aoutcome\"\x9e\x01\n" +
@@ -22541,135 +22628,136 @@ var file_temporal_api_workflowservice_v1_request_response_proto_goTypes = []any{
 	(*v14.Priority)(nil),                                            // 306: temporal.api.common.v1.Priority
 	(*v18.WorkerDeploymentOptions)(nil),                             // 307: temporal.api.deployment.v1.WorkerDeploymentOptions
 	(*v14.TimeSkippingConfig)(nil),                                  // 308: temporal.api.common.v1.TimeSkippingConfig
-	(*v14.TimeSkippingStatePropagation)(nil),                        // 309: temporal.api.common.v1.TimeSkippingStatePropagation
-	(v11.WorkflowExecutionStatus)(0),                                // 310: temporal.api.enums.v1.WorkflowExecutionStatus
-	(*v14.WorkflowExecution)(nil),                                   // 311: temporal.api.common.v1.WorkflowExecution
-	(v11.HistoryEventFilterType)(0),                                 // 312: temporal.api.enums.v1.HistoryEventFilterType
-	(*v19.History)(nil),                                             // 313: temporal.api.history.v1.History
-	(*v14.DataBlob)(nil),                                            // 314: temporal.api.common.v1.DataBlob
-	(*v14.WorkerVersionCapabilities)(nil),                           // 315: temporal.api.common.v1.WorkerVersionCapabilities
-	(*v110.WorkflowQuery)(nil),                                      // 316: temporal.api.query.v1.WorkflowQuery
-	(*timestamppb.Timestamp)(nil),                                   // 317: google.protobuf.Timestamp
-	(*v111.Message)(nil),                                            // 318: temporal.api.protocol.v1.Message
-	(*v13.PollerScalingDecision)(nil),                               // 319: temporal.api.taskqueue.v1.PollerScalingDecision
-	(*v112.Command)(nil),                                            // 320: temporal.api.command.v1.Command
-	(*v13.StickyExecutionAttributes)(nil),                           // 321: temporal.api.taskqueue.v1.StickyExecutionAttributes
-	(*v14.WorkerVersionStamp)(nil),                                  // 322: temporal.api.common.v1.WorkerVersionStamp
-	(*v16.WorkflowTaskCompletedMetadata)(nil),                       // 323: temporal.api.sdk.v1.WorkflowTaskCompletedMetadata
-	(*v14.MeteringMetadata)(nil),                                    // 324: temporal.api.common.v1.MeteringMetadata
-	(*v18.Deployment)(nil),                                          // 325: temporal.api.deployment.v1.Deployment
-	(v11.VersioningBehavior)(0),                                     // 326: temporal.api.enums.v1.VersioningBehavior
-	(v11.WorkflowTaskFailedCause)(0),                                // 327: temporal.api.enums.v1.WorkflowTaskFailedCause
-	(*v13.TaskQueueMetadata)(nil),                                   // 328: temporal.api.taskqueue.v1.TaskQueueMetadata
-	(*v14.ActivityType)(nil),                                        // 329: temporal.api.common.v1.ActivityType
-	(v11.ActivityTaskFailedCause)(0),                                // 330: temporal.api.enums.v1.ActivityTaskFailedCause
-	(v11.ResetReapplyType)(0),                                       // 331: temporal.api.enums.v1.ResetReapplyType
-	(v11.ResetReapplyExcludeType)(0),                                // 332: temporal.api.enums.v1.ResetReapplyExcludeType
-	(*v17.PostResetOperation)(nil),                                  // 333: temporal.api.workflow.v1.PostResetOperation
-	(*v113.StartTimeFilter)(nil),                                    // 334: temporal.api.filter.v1.StartTimeFilter
-	(*v113.WorkflowExecutionFilter)(nil),                            // 335: temporal.api.filter.v1.WorkflowExecutionFilter
-	(*v113.WorkflowTypeFilter)(nil),                                 // 336: temporal.api.filter.v1.WorkflowTypeFilter
-	(*v17.WorkflowExecutionInfo)(nil),                               // 337: temporal.api.workflow.v1.WorkflowExecutionInfo
-	(*v113.StatusFilter)(nil),                                       // 338: temporal.api.filter.v1.StatusFilter
-	(v11.QueryResultType)(0),                                        // 339: temporal.api.enums.v1.QueryResultType
-	(*v114.WorkerHeartbeat)(nil),                                    // 340: temporal.api.worker.v1.WorkerHeartbeat
-	(v11.TaskQueueType)(0),                                          // 341: temporal.api.enums.v1.TaskQueueType
-	(v11.QueryRejectCondition)(0),                                   // 342: temporal.api.enums.v1.QueryRejectCondition
-	(*v110.QueryRejected)(nil),                                      // 343: temporal.api.query.v1.QueryRejected
-	(*v17.WorkflowExecutionConfig)(nil),                             // 344: temporal.api.workflow.v1.WorkflowExecutionConfig
-	(*v17.PendingActivityInfo)(nil),                                 // 345: temporal.api.workflow.v1.PendingActivityInfo
-	(*v17.PendingChildExecutionInfo)(nil),                           // 346: temporal.api.workflow.v1.PendingChildExecutionInfo
-	(*v17.PendingWorkflowTaskInfo)(nil),                             // 347: temporal.api.workflow.v1.PendingWorkflowTaskInfo
-	(*v17.CallbackInfo)(nil),                                        // 348: temporal.api.workflow.v1.CallbackInfo
-	(*v17.PendingNexusOperationInfo)(nil),                           // 349: temporal.api.workflow.v1.PendingNexusOperationInfo
-	(*v17.WorkflowExecutionExtendedInfo)(nil),                       // 350: temporal.api.workflow.v1.WorkflowExecutionExtendedInfo
-	(v11.DescribeTaskQueueMode)(0),                                  // 351: temporal.api.enums.v1.DescribeTaskQueueMode
-	(*v13.TaskQueueVersionSelection)(nil),                           // 352: temporal.api.taskqueue.v1.TaskQueueVersionSelection
-	(*v13.PollerInfo)(nil),                                          // 353: temporal.api.taskqueue.v1.PollerInfo
-	(*v13.TaskQueueStats)(nil),                                      // 354: temporal.api.taskqueue.v1.TaskQueueStats
-	(*v13.TaskQueueVersioningInfo)(nil),                             // 355: temporal.api.taskqueue.v1.TaskQueueVersioningInfo
-	(*v13.TaskQueueConfig)(nil),                                     // 356: temporal.api.taskqueue.v1.TaskQueueConfig
-	(*v13.TaskQueueStatus)(nil),                                     // 357: temporal.api.taskqueue.v1.TaskQueueStatus
-	(*v115.VersionInfo)(nil),                                        // 358: temporal.api.version.v1.VersionInfo
-	(*v13.TaskQueuePartitionMetadata)(nil),                          // 359: temporal.api.taskqueue.v1.TaskQueuePartitionMetadata
-	(*v116.Schedule)(nil),                                           // 360: temporal.api.schedule.v1.Schedule
-	(*v116.SchedulePatch)(nil),                                      // 361: temporal.api.schedule.v1.SchedulePatch
-	(*v116.ScheduleInfo)(nil),                                       // 362: temporal.api.schedule.v1.ScheduleInfo
-	(*v116.ScheduleListEntry)(nil),                                  // 363: temporal.api.schedule.v1.ScheduleListEntry
-	(*v13.CompatibleVersionSet)(nil),                                // 364: temporal.api.taskqueue.v1.CompatibleVersionSet
-	(*v13.TimestampedBuildIdAssignmentRule)(nil),                    // 365: temporal.api.taskqueue.v1.TimestampedBuildIdAssignmentRule
-	(*v13.TimestampedCompatibleBuildIdRedirectRule)(nil),            // 366: temporal.api.taskqueue.v1.TimestampedCompatibleBuildIdRedirectRule
-	(v11.TaskReachability)(0),                                       // 367: temporal.api.enums.v1.TaskReachability
-	(*v13.BuildIdReachability)(nil),                                 // 368: temporal.api.taskqueue.v1.BuildIdReachability
-	(*v117.WaitPolicy)(nil),                                         // 369: temporal.api.update.v1.WaitPolicy
-	(*v117.Request)(nil),                                            // 370: temporal.api.update.v1.Request
-	(*v117.UpdateRef)(nil),                                          // 371: temporal.api.update.v1.UpdateRef
-	(*v117.Outcome)(nil),                                            // 372: temporal.api.update.v1.Outcome
-	(v11.UpdateWorkflowExecutionLifecycleStage)(0),                  // 373: temporal.api.enums.v1.UpdateWorkflowExecutionLifecycleStage
-	(*v14.Execution)(nil),                                           // 374: temporal.api.common.v1.Execution
-	(*v118.BatchOperationTermination)(nil),                          // 375: temporal.api.batch.v1.BatchOperationTermination
-	(*v118.BatchOperationSignal)(nil),                               // 376: temporal.api.batch.v1.BatchOperationSignal
-	(*v118.BatchOperationCancellation)(nil),                         // 377: temporal.api.batch.v1.BatchOperationCancellation
-	(*v118.BatchOperationDeletion)(nil),                             // 378: temporal.api.batch.v1.BatchOperationDeletion
-	(*v118.BatchOperationReset)(nil),                                // 379: temporal.api.batch.v1.BatchOperationReset
-	(*v118.BatchOperationUpdateWorkflowExecutionOptions)(nil),       // 380: temporal.api.batch.v1.BatchOperationUpdateWorkflowExecutionOptions
-	(*v118.BatchOperationUnpauseActivities)(nil),                    // 381: temporal.api.batch.v1.BatchOperationUnpauseActivities
-	(*v118.BatchOperationResetActivities)(nil),                      // 382: temporal.api.batch.v1.BatchOperationResetActivities
-	(*v118.BatchOperationUpdateActivityOptions)(nil),                // 383: temporal.api.batch.v1.BatchOperationUpdateActivityOptions
-	(*v118.BatchOperationCancelActivities)(nil),                     // 384: temporal.api.batch.v1.BatchOperationCancelActivities
-	(*v118.BatchOperationTerminateActivities)(nil),                  // 385: temporal.api.batch.v1.BatchOperationTerminateActivities
-	(*v118.BatchOperationDeleteActivities)(nil),                     // 386: temporal.api.batch.v1.BatchOperationDeleteActivities
-	(v11.BatchOperationType)(0),                                     // 387: temporal.api.enums.v1.BatchOperationType
-	(v11.BatchOperationState)(0),                                    // 388: temporal.api.enums.v1.BatchOperationState
-	(*v118.BatchOperationInfo)(nil),                                 // 389: temporal.api.batch.v1.BatchOperationInfo
-	(*v119.Request)(nil),                                            // 390: temporal.api.nexus.v1.Request
-	(*v119.Response)(nil),                                           // 391: temporal.api.nexus.v1.Response
-	(*v119.HandlerError)(nil),                                       // 392: temporal.api.nexus.v1.HandlerError
-	(*v120.ActivityOptions)(nil),                                    // 393: temporal.api.activity.v1.ActivityOptions
-	(*fieldmaskpb.FieldMask)(nil),                                   // 394: google.protobuf.FieldMask
-	(*v17.WorkflowExecutionOptions)(nil),                            // 395: temporal.api.workflow.v1.WorkflowExecutionOptions
-	(*v18.DeploymentInfo)(nil),                                      // 396: temporal.api.deployment.v1.DeploymentInfo
-	(*v18.WorkerDeploymentVersion)(nil),                             // 397: temporal.api.deployment.v1.WorkerDeploymentVersion
-	(*v18.WorkerDeploymentVersionInfo)(nil),                         // 398: temporal.api.deployment.v1.WorkerDeploymentVersionInfo
-	(*v18.WorkerDeploymentInfo)(nil),                                // 399: temporal.api.deployment.v1.WorkerDeploymentInfo
-	(*v18.DeploymentListInfo)(nil),                                  // 400: temporal.api.deployment.v1.DeploymentListInfo
-	(*v18.UpdateDeploymentMetadata)(nil),                            // 401: temporal.api.deployment.v1.UpdateDeploymentMetadata
-	(*v121.ComputeConfig)(nil),                                      // 402: temporal.api.compute.v1.ComputeConfig
-	(*v18.VersionMetadata)(nil),                                     // 403: temporal.api.deployment.v1.VersionMetadata
-	(v11.DeploymentReachability)(0),                                 // 404: temporal.api.enums.v1.DeploymentReachability
-	(*v122.WorkflowRuleSpec)(nil),                                   // 405: temporal.api.rules.v1.WorkflowRuleSpec
-	(*v122.WorkflowRule)(nil),                                       // 406: temporal.api.rules.v1.WorkflowRule
-	(*v114.WorkerInfo)(nil),                                         // 407: temporal.api.worker.v1.WorkerInfo
-	(*v114.WorkerListInfo)(nil),                                     // 408: temporal.api.worker.v1.WorkerListInfo
-	(*v14.WorkerSelector)(nil),                                      // 409: temporal.api.common.v1.WorkerSelector
-	(*v16.WorkerConfig)(nil),                                        // 410: temporal.api.sdk.v1.WorkerConfig
-	(v11.ActivityIdReusePolicy)(0),                                  // 411: temporal.api.enums.v1.ActivityIdReusePolicy
-	(v11.ActivityIdConflictPolicy)(0),                               // 412: temporal.api.enums.v1.ActivityIdConflictPolicy
-	(*v14.OnConflictOptions)(nil),                                   // 413: temporal.api.common.v1.OnConflictOptions
-	(*v120.ActivityExecutionInfo)(nil),                              // 414: temporal.api.activity.v1.ActivityExecutionInfo
-	(*v120.ActivityExecutionOutcome)(nil),                           // 415: temporal.api.activity.v1.ActivityExecutionOutcome
-	(*v120.CallbackInfo)(nil),                                       // 416: temporal.api.activity.v1.CallbackInfo
-	(*v120.ActivityExecutionListInfo)(nil),                          // 417: temporal.api.activity.v1.ActivityExecutionListInfo
-	(*v14.Payload)(nil),                                             // 418: temporal.api.common.v1.Payload
-	(v11.NexusOperationIdReusePolicy)(0),                            // 419: temporal.api.enums.v1.NexusOperationIdReusePolicy
-	(v11.NexusOperationIdConflictPolicy)(0),                         // 420: temporal.api.enums.v1.NexusOperationIdConflictPolicy
-	(*v123.OnConflictOptions)(nil),                                  // 421: temporal.api.nexusoperation.v1.OnConflictOptions
-	(*v119.NexusOperationExecutionInfo)(nil),                        // 422: temporal.api.nexus.v1.NexusOperationExecutionInfo
-	(*v123.CallbackInfo)(nil),                                       // 423: temporal.api.nexusoperation.v1.CallbackInfo
-	(v11.NexusOperationWaitStage)(0),                                // 424: temporal.api.enums.v1.NexusOperationWaitStage
-	(*v119.NexusOperationExecutionListInfo)(nil),                    // 425: temporal.api.nexus.v1.NexusOperationExecutionListInfo
-	(v11.FastForwardPollingResult)(0),                               // 426: temporal.api.enums.v1.FastForwardPollingResult
-	(*v14.TimeSkippingFastForwardInfo)(nil),                         // 427: temporal.api.common.v1.TimeSkippingFastForwardInfo
-	(*v110.WorkflowQueryResult)(nil),                                // 428: temporal.api.query.v1.WorkflowQueryResult
-	(v11.IndexedValueType)(0),                                       // 429: temporal.api.enums.v1.IndexedValueType
-	(v11.RateLimitSource)(0),                                        // 430: temporal.api.enums.v1.RateLimitSource
-	(*v13.TaskQueueVersionInfo)(nil),                                // 431: temporal.api.taskqueue.v1.TaskQueueVersionInfo
-	(*v13.BuildIdAssignmentRule)(nil),                               // 432: temporal.api.taskqueue.v1.BuildIdAssignmentRule
-	(*v13.CompatibleBuildIdRedirectRule)(nil),                       // 433: temporal.api.taskqueue.v1.CompatibleBuildIdRedirectRule
-	(*v18.RoutingConfig)(nil),                                       // 434: temporal.api.deployment.v1.RoutingConfig
-	(*v18.WorkerDeploymentInfo_WorkerDeploymentVersionSummary)(nil), // 435: temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummary
-	(*v121.ComputeConfigScalingGroupUpdate)(nil),                    // 436: temporal.api.compute.v1.ComputeConfigScalingGroupUpdate
-	(*v13.RateLimit)(nil),                                           // 437: temporal.api.taskqueue.v1.RateLimit
+	(*v19.PropagatedSerializationContext)(nil),                      // 309: temporal.api.nexus.v1.PropagatedSerializationContext
+	(*v14.TimeSkippingStatePropagation)(nil),                        // 310: temporal.api.common.v1.TimeSkippingStatePropagation
+	(v11.WorkflowExecutionStatus)(0),                                // 311: temporal.api.enums.v1.WorkflowExecutionStatus
+	(*v14.WorkflowExecution)(nil),                                   // 312: temporal.api.common.v1.WorkflowExecution
+	(v11.HistoryEventFilterType)(0),                                 // 313: temporal.api.enums.v1.HistoryEventFilterType
+	(*v110.History)(nil),                                            // 314: temporal.api.history.v1.History
+	(*v14.DataBlob)(nil),                                            // 315: temporal.api.common.v1.DataBlob
+	(*v14.WorkerVersionCapabilities)(nil),                           // 316: temporal.api.common.v1.WorkerVersionCapabilities
+	(*v111.WorkflowQuery)(nil),                                      // 317: temporal.api.query.v1.WorkflowQuery
+	(*timestamppb.Timestamp)(nil),                                   // 318: google.protobuf.Timestamp
+	(*v112.Message)(nil),                                            // 319: temporal.api.protocol.v1.Message
+	(*v13.PollerScalingDecision)(nil),                               // 320: temporal.api.taskqueue.v1.PollerScalingDecision
+	(*v113.Command)(nil),                                            // 321: temporal.api.command.v1.Command
+	(*v13.StickyExecutionAttributes)(nil),                           // 322: temporal.api.taskqueue.v1.StickyExecutionAttributes
+	(*v14.WorkerVersionStamp)(nil),                                  // 323: temporal.api.common.v1.WorkerVersionStamp
+	(*v16.WorkflowTaskCompletedMetadata)(nil),                       // 324: temporal.api.sdk.v1.WorkflowTaskCompletedMetadata
+	(*v14.MeteringMetadata)(nil),                                    // 325: temporal.api.common.v1.MeteringMetadata
+	(*v18.Deployment)(nil),                                          // 326: temporal.api.deployment.v1.Deployment
+	(v11.VersioningBehavior)(0),                                     // 327: temporal.api.enums.v1.VersioningBehavior
+	(v11.WorkflowTaskFailedCause)(0),                                // 328: temporal.api.enums.v1.WorkflowTaskFailedCause
+	(*v13.TaskQueueMetadata)(nil),                                   // 329: temporal.api.taskqueue.v1.TaskQueueMetadata
+	(*v14.ActivityType)(nil),                                        // 330: temporal.api.common.v1.ActivityType
+	(v11.ActivityTaskFailedCause)(0),                                // 331: temporal.api.enums.v1.ActivityTaskFailedCause
+	(v11.ResetReapplyType)(0),                                       // 332: temporal.api.enums.v1.ResetReapplyType
+	(v11.ResetReapplyExcludeType)(0),                                // 333: temporal.api.enums.v1.ResetReapplyExcludeType
+	(*v17.PostResetOperation)(nil),                                  // 334: temporal.api.workflow.v1.PostResetOperation
+	(*v114.StartTimeFilter)(nil),                                    // 335: temporal.api.filter.v1.StartTimeFilter
+	(*v114.WorkflowExecutionFilter)(nil),                            // 336: temporal.api.filter.v1.WorkflowExecutionFilter
+	(*v114.WorkflowTypeFilter)(nil),                                 // 337: temporal.api.filter.v1.WorkflowTypeFilter
+	(*v17.WorkflowExecutionInfo)(nil),                               // 338: temporal.api.workflow.v1.WorkflowExecutionInfo
+	(*v114.StatusFilter)(nil),                                       // 339: temporal.api.filter.v1.StatusFilter
+	(v11.QueryResultType)(0),                                        // 340: temporal.api.enums.v1.QueryResultType
+	(*v115.WorkerHeartbeat)(nil),                                    // 341: temporal.api.worker.v1.WorkerHeartbeat
+	(v11.TaskQueueType)(0),                                          // 342: temporal.api.enums.v1.TaskQueueType
+	(v11.QueryRejectCondition)(0),                                   // 343: temporal.api.enums.v1.QueryRejectCondition
+	(*v111.QueryRejected)(nil),                                      // 344: temporal.api.query.v1.QueryRejected
+	(*v17.WorkflowExecutionConfig)(nil),                             // 345: temporal.api.workflow.v1.WorkflowExecutionConfig
+	(*v17.PendingActivityInfo)(nil),                                 // 346: temporal.api.workflow.v1.PendingActivityInfo
+	(*v17.PendingChildExecutionInfo)(nil),                           // 347: temporal.api.workflow.v1.PendingChildExecutionInfo
+	(*v17.PendingWorkflowTaskInfo)(nil),                             // 348: temporal.api.workflow.v1.PendingWorkflowTaskInfo
+	(*v17.CallbackInfo)(nil),                                        // 349: temporal.api.workflow.v1.CallbackInfo
+	(*v17.PendingNexusOperationInfo)(nil),                           // 350: temporal.api.workflow.v1.PendingNexusOperationInfo
+	(*v17.WorkflowExecutionExtendedInfo)(nil),                       // 351: temporal.api.workflow.v1.WorkflowExecutionExtendedInfo
+	(v11.DescribeTaskQueueMode)(0),                                  // 352: temporal.api.enums.v1.DescribeTaskQueueMode
+	(*v13.TaskQueueVersionSelection)(nil),                           // 353: temporal.api.taskqueue.v1.TaskQueueVersionSelection
+	(*v13.PollerInfo)(nil),                                          // 354: temporal.api.taskqueue.v1.PollerInfo
+	(*v13.TaskQueueStats)(nil),                                      // 355: temporal.api.taskqueue.v1.TaskQueueStats
+	(*v13.TaskQueueVersioningInfo)(nil),                             // 356: temporal.api.taskqueue.v1.TaskQueueVersioningInfo
+	(*v13.TaskQueueConfig)(nil),                                     // 357: temporal.api.taskqueue.v1.TaskQueueConfig
+	(*v13.TaskQueueStatus)(nil),                                     // 358: temporal.api.taskqueue.v1.TaskQueueStatus
+	(*v116.VersionInfo)(nil),                                        // 359: temporal.api.version.v1.VersionInfo
+	(*v13.TaskQueuePartitionMetadata)(nil),                          // 360: temporal.api.taskqueue.v1.TaskQueuePartitionMetadata
+	(*v117.Schedule)(nil),                                           // 361: temporal.api.schedule.v1.Schedule
+	(*v117.SchedulePatch)(nil),                                      // 362: temporal.api.schedule.v1.SchedulePatch
+	(*v117.ScheduleInfo)(nil),                                       // 363: temporal.api.schedule.v1.ScheduleInfo
+	(*v117.ScheduleListEntry)(nil),                                  // 364: temporal.api.schedule.v1.ScheduleListEntry
+	(*v13.CompatibleVersionSet)(nil),                                // 365: temporal.api.taskqueue.v1.CompatibleVersionSet
+	(*v13.TimestampedBuildIdAssignmentRule)(nil),                    // 366: temporal.api.taskqueue.v1.TimestampedBuildIdAssignmentRule
+	(*v13.TimestampedCompatibleBuildIdRedirectRule)(nil),            // 367: temporal.api.taskqueue.v1.TimestampedCompatibleBuildIdRedirectRule
+	(v11.TaskReachability)(0),                                       // 368: temporal.api.enums.v1.TaskReachability
+	(*v13.BuildIdReachability)(nil),                                 // 369: temporal.api.taskqueue.v1.BuildIdReachability
+	(*v118.WaitPolicy)(nil),                                         // 370: temporal.api.update.v1.WaitPolicy
+	(*v118.Request)(nil),                                            // 371: temporal.api.update.v1.Request
+	(*v118.UpdateRef)(nil),                                          // 372: temporal.api.update.v1.UpdateRef
+	(*v118.Outcome)(nil),                                            // 373: temporal.api.update.v1.Outcome
+	(v11.UpdateWorkflowExecutionLifecycleStage)(0),                  // 374: temporal.api.enums.v1.UpdateWorkflowExecutionLifecycleStage
+	(*v14.Execution)(nil),                                           // 375: temporal.api.common.v1.Execution
+	(*v119.BatchOperationTermination)(nil),                          // 376: temporal.api.batch.v1.BatchOperationTermination
+	(*v119.BatchOperationSignal)(nil),                               // 377: temporal.api.batch.v1.BatchOperationSignal
+	(*v119.BatchOperationCancellation)(nil),                         // 378: temporal.api.batch.v1.BatchOperationCancellation
+	(*v119.BatchOperationDeletion)(nil),                             // 379: temporal.api.batch.v1.BatchOperationDeletion
+	(*v119.BatchOperationReset)(nil),                                // 380: temporal.api.batch.v1.BatchOperationReset
+	(*v119.BatchOperationUpdateWorkflowExecutionOptions)(nil),       // 381: temporal.api.batch.v1.BatchOperationUpdateWorkflowExecutionOptions
+	(*v119.BatchOperationUnpauseActivities)(nil),                    // 382: temporal.api.batch.v1.BatchOperationUnpauseActivities
+	(*v119.BatchOperationResetActivities)(nil),                      // 383: temporal.api.batch.v1.BatchOperationResetActivities
+	(*v119.BatchOperationUpdateActivityOptions)(nil),                // 384: temporal.api.batch.v1.BatchOperationUpdateActivityOptions
+	(*v119.BatchOperationCancelActivities)(nil),                     // 385: temporal.api.batch.v1.BatchOperationCancelActivities
+	(*v119.BatchOperationTerminateActivities)(nil),                  // 386: temporal.api.batch.v1.BatchOperationTerminateActivities
+	(*v119.BatchOperationDeleteActivities)(nil),                     // 387: temporal.api.batch.v1.BatchOperationDeleteActivities
+	(v11.BatchOperationType)(0),                                     // 388: temporal.api.enums.v1.BatchOperationType
+	(v11.BatchOperationState)(0),                                    // 389: temporal.api.enums.v1.BatchOperationState
+	(*v119.BatchOperationInfo)(nil),                                 // 390: temporal.api.batch.v1.BatchOperationInfo
+	(*v19.Request)(nil),                                             // 391: temporal.api.nexus.v1.Request
+	(*v19.Response)(nil),                                            // 392: temporal.api.nexus.v1.Response
+	(*v19.HandlerError)(nil),                                        // 393: temporal.api.nexus.v1.HandlerError
+	(*v120.ActivityOptions)(nil),                                    // 394: temporal.api.activity.v1.ActivityOptions
+	(*fieldmaskpb.FieldMask)(nil),                                   // 395: google.protobuf.FieldMask
+	(*v17.WorkflowExecutionOptions)(nil),                            // 396: temporal.api.workflow.v1.WorkflowExecutionOptions
+	(*v18.DeploymentInfo)(nil),                                      // 397: temporal.api.deployment.v1.DeploymentInfo
+	(*v18.WorkerDeploymentVersion)(nil),                             // 398: temporal.api.deployment.v1.WorkerDeploymentVersion
+	(*v18.WorkerDeploymentVersionInfo)(nil),                         // 399: temporal.api.deployment.v1.WorkerDeploymentVersionInfo
+	(*v18.WorkerDeploymentInfo)(nil),                                // 400: temporal.api.deployment.v1.WorkerDeploymentInfo
+	(*v18.DeploymentListInfo)(nil),                                  // 401: temporal.api.deployment.v1.DeploymentListInfo
+	(*v18.UpdateDeploymentMetadata)(nil),                            // 402: temporal.api.deployment.v1.UpdateDeploymentMetadata
+	(*v121.ComputeConfig)(nil),                                      // 403: temporal.api.compute.v1.ComputeConfig
+	(*v18.VersionMetadata)(nil),                                     // 404: temporal.api.deployment.v1.VersionMetadata
+	(v11.DeploymentReachability)(0),                                 // 405: temporal.api.enums.v1.DeploymentReachability
+	(*v122.WorkflowRuleSpec)(nil),                                   // 406: temporal.api.rules.v1.WorkflowRuleSpec
+	(*v122.WorkflowRule)(nil),                                       // 407: temporal.api.rules.v1.WorkflowRule
+	(*v115.WorkerInfo)(nil),                                         // 408: temporal.api.worker.v1.WorkerInfo
+	(*v115.WorkerListInfo)(nil),                                     // 409: temporal.api.worker.v1.WorkerListInfo
+	(*v14.WorkerSelector)(nil),                                      // 410: temporal.api.common.v1.WorkerSelector
+	(*v16.WorkerConfig)(nil),                                        // 411: temporal.api.sdk.v1.WorkerConfig
+	(v11.ActivityIdReusePolicy)(0),                                  // 412: temporal.api.enums.v1.ActivityIdReusePolicy
+	(v11.ActivityIdConflictPolicy)(0),                               // 413: temporal.api.enums.v1.ActivityIdConflictPolicy
+	(*v14.OnConflictOptions)(nil),                                   // 414: temporal.api.common.v1.OnConflictOptions
+	(*v120.ActivityExecutionInfo)(nil),                              // 415: temporal.api.activity.v1.ActivityExecutionInfo
+	(*v120.ActivityExecutionOutcome)(nil),                           // 416: temporal.api.activity.v1.ActivityExecutionOutcome
+	(*v120.CallbackInfo)(nil),                                       // 417: temporal.api.activity.v1.CallbackInfo
+	(*v120.ActivityExecutionListInfo)(nil),                          // 418: temporal.api.activity.v1.ActivityExecutionListInfo
+	(*v14.Payload)(nil),                                             // 419: temporal.api.common.v1.Payload
+	(v11.NexusOperationIdReusePolicy)(0),                            // 420: temporal.api.enums.v1.NexusOperationIdReusePolicy
+	(v11.NexusOperationIdConflictPolicy)(0),                         // 421: temporal.api.enums.v1.NexusOperationIdConflictPolicy
+	(*v123.OnConflictOptions)(nil),                                  // 422: temporal.api.nexusoperation.v1.OnConflictOptions
+	(*v19.NexusOperationExecutionInfo)(nil),                         // 423: temporal.api.nexus.v1.NexusOperationExecutionInfo
+	(*v123.CallbackInfo)(nil),                                       // 424: temporal.api.nexusoperation.v1.CallbackInfo
+	(v11.NexusOperationWaitStage)(0),                                // 425: temporal.api.enums.v1.NexusOperationWaitStage
+	(*v19.NexusOperationExecutionListInfo)(nil),                     // 426: temporal.api.nexus.v1.NexusOperationExecutionListInfo
+	(v11.FastForwardPollingResult)(0),                               // 427: temporal.api.enums.v1.FastForwardPollingResult
+	(*v14.TimeSkippingFastForwardInfo)(nil),                         // 428: temporal.api.common.v1.TimeSkippingFastForwardInfo
+	(*v111.WorkflowQueryResult)(nil),                                // 429: temporal.api.query.v1.WorkflowQueryResult
+	(v11.IndexedValueType)(0),                                       // 430: temporal.api.enums.v1.IndexedValueType
+	(v11.RateLimitSource)(0),                                        // 431: temporal.api.enums.v1.RateLimitSource
+	(*v13.TaskQueueVersionInfo)(nil),                                // 432: temporal.api.taskqueue.v1.TaskQueueVersionInfo
+	(*v13.BuildIdAssignmentRule)(nil),                               // 433: temporal.api.taskqueue.v1.BuildIdAssignmentRule
+	(*v13.CompatibleBuildIdRedirectRule)(nil),                       // 434: temporal.api.taskqueue.v1.CompatibleBuildIdRedirectRule
+	(*v18.RoutingConfig)(nil),                                       // 435: temporal.api.deployment.v1.RoutingConfig
+	(*v18.WorkerDeploymentInfo_WorkerDeploymentVersionSummary)(nil), // 436: temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummary
+	(*v121.ComputeConfigScalingGroupUpdate)(nil),                    // 437: temporal.api.compute.v1.ComputeConfigScalingGroupUpdate
+	(*v13.RateLimit)(nil),                                           // 438: temporal.api.taskqueue.v1.RateLimit
 }
 var file_temporal_api_workflowservice_v1_request_response_proto_depIdxs = []int32{
 	280, // 0: temporal.api.workflowservice.v1.RegisterNamespaceRequest.workflow_execution_retention_period:type_name -> google.protobuf.Duration
@@ -22714,420 +22802,427 @@ var file_temporal_api_workflowservice_v1_request_response_proto_depIdxs = []int3
 	306, // 39: temporal.api.workflowservice.v1.StartWorkflowExecutionRequest.priority:type_name -> temporal.api.common.v1.Priority
 	307, // 40: temporal.api.workflowservice.v1.StartWorkflowExecutionRequest.eager_worker_deployment_options:type_name -> temporal.api.deployment.v1.WorkerDeploymentOptions
 	308, // 41: temporal.api.workflowservice.v1.StartWorkflowExecutionRequest.time_skipping_config:type_name -> temporal.api.common.v1.TimeSkippingConfig
-	309, // 42: temporal.api.workflowservice.v1.StartWorkflowExecutionRequest.time_skipping_state_propagation:type_name -> temporal.api.common.v1.TimeSkippingStatePropagation
-	310, // 43: temporal.api.workflowservice.v1.StartWorkflowExecutionResponse.status:type_name -> temporal.api.enums.v1.WorkflowExecutionStatus
-	17,  // 44: temporal.api.workflowservice.v1.StartWorkflowExecutionResponse.eager_workflow_task:type_name -> temporal.api.workflowservice.v1.PollWorkflowTaskQueueResponse
-	303, // 45: temporal.api.workflowservice.v1.StartWorkflowExecutionResponse.link:type_name -> temporal.api.common.v1.Link
-	311, // 46: temporal.api.workflowservice.v1.GetWorkflowExecutionHistoryRequest.execution:type_name -> temporal.api.common.v1.WorkflowExecution
-	312, // 47: temporal.api.workflowservice.v1.GetWorkflowExecutionHistoryRequest.history_event_filter_type:type_name -> temporal.api.enums.v1.HistoryEventFilterType
-	313, // 48: temporal.api.workflowservice.v1.GetWorkflowExecutionHistoryResponse.history:type_name -> temporal.api.history.v1.History
-	314, // 49: temporal.api.workflowservice.v1.GetWorkflowExecutionHistoryResponse.raw_history:type_name -> temporal.api.common.v1.DataBlob
-	311, // 50: temporal.api.workflowservice.v1.GetWorkflowExecutionHistoryReverseRequest.execution:type_name -> temporal.api.common.v1.WorkflowExecution
-	313, // 51: temporal.api.workflowservice.v1.GetWorkflowExecutionHistoryReverseResponse.history:type_name -> temporal.api.history.v1.History
-	292, // 52: temporal.api.workflowservice.v1.PollWorkflowTaskQueueRequest.task_queue:type_name -> temporal.api.taskqueue.v1.TaskQueue
-	315, // 53: temporal.api.workflowservice.v1.PollWorkflowTaskQueueRequest.worker_version_capabilities:type_name -> temporal.api.common.v1.WorkerVersionCapabilities
-	307, // 54: temporal.api.workflowservice.v1.PollWorkflowTaskQueueRequest.deployment_options:type_name -> temporal.api.deployment.v1.WorkerDeploymentOptions
-	311, // 55: temporal.api.workflowservice.v1.PollWorkflowTaskQueueResponse.workflow_execution:type_name -> temporal.api.common.v1.WorkflowExecution
-	291, // 56: temporal.api.workflowservice.v1.PollWorkflowTaskQueueResponse.workflow_type:type_name -> temporal.api.common.v1.WorkflowType
-	313, // 57: temporal.api.workflowservice.v1.PollWorkflowTaskQueueResponse.history:type_name -> temporal.api.history.v1.History
-	316, // 58: temporal.api.workflowservice.v1.PollWorkflowTaskQueueResponse.query:type_name -> temporal.api.query.v1.WorkflowQuery
-	292, // 59: temporal.api.workflowservice.v1.PollWorkflowTaskQueueResponse.workflow_execution_task_queue:type_name -> temporal.api.taskqueue.v1.TaskQueue
-	317, // 60: temporal.api.workflowservice.v1.PollWorkflowTaskQueueResponse.scheduled_time:type_name -> google.protobuf.Timestamp
-	317, // 61: temporal.api.workflowservice.v1.PollWorkflowTaskQueueResponse.started_time:type_name -> google.protobuf.Timestamp
-	247, // 62: temporal.api.workflowservice.v1.PollWorkflowTaskQueueResponse.queries:type_name -> temporal.api.workflowservice.v1.PollWorkflowTaskQueueResponse.QueriesEntry
-	318, // 63: temporal.api.workflowservice.v1.PollWorkflowTaskQueueResponse.messages:type_name -> temporal.api.protocol.v1.Message
-	319, // 64: temporal.api.workflowservice.v1.PollWorkflowTaskQueueResponse.poller_scaling_decision:type_name -> temporal.api.taskqueue.v1.PollerScalingDecision
-	288, // 65: temporal.api.workflowservice.v1.PollWorkflowTaskQueueResponse.poller_group_infos:type_name -> temporal.api.taskqueue.v1.PollerGroupInfo
-	289, // 66: temporal.api.workflowservice.v1.PollWorkflowTaskQueueResponse.poller_groups_info:type_name -> temporal.api.taskqueue.v1.PollerGroupsInfo
-	320, // 67: temporal.api.workflowservice.v1.RespondWorkflowTaskCompletedRequest.commands:type_name -> temporal.api.command.v1.Command
-	321, // 68: temporal.api.workflowservice.v1.RespondWorkflowTaskCompletedRequest.sticky_attributes:type_name -> temporal.api.taskqueue.v1.StickyExecutionAttributes
-	248, // 69: temporal.api.workflowservice.v1.RespondWorkflowTaskCompletedRequest.query_results:type_name -> temporal.api.workflowservice.v1.RespondWorkflowTaskCompletedRequest.QueryResultsEntry
-	322, // 70: temporal.api.workflowservice.v1.RespondWorkflowTaskCompletedRequest.worker_version_stamp:type_name -> temporal.api.common.v1.WorkerVersionStamp
-	318, // 71: temporal.api.workflowservice.v1.RespondWorkflowTaskCompletedRequest.messages:type_name -> temporal.api.protocol.v1.Message
-	323, // 72: temporal.api.workflowservice.v1.RespondWorkflowTaskCompletedRequest.sdk_metadata:type_name -> temporal.api.sdk.v1.WorkflowTaskCompletedMetadata
-	324, // 73: temporal.api.workflowservice.v1.RespondWorkflowTaskCompletedRequest.metering_metadata:type_name -> temporal.api.common.v1.MeteringMetadata
-	249, // 74: temporal.api.workflowservice.v1.RespondWorkflowTaskCompletedRequest.capabilities:type_name -> temporal.api.workflowservice.v1.RespondWorkflowTaskCompletedRequest.Capabilities
-	325, // 75: temporal.api.workflowservice.v1.RespondWorkflowTaskCompletedRequest.deployment:type_name -> temporal.api.deployment.v1.Deployment
-	326, // 76: temporal.api.workflowservice.v1.RespondWorkflowTaskCompletedRequest.versioning_behavior:type_name -> temporal.api.enums.v1.VersioningBehavior
-	307, // 77: temporal.api.workflowservice.v1.RespondWorkflowTaskCompletedRequest.deployment_options:type_name -> temporal.api.deployment.v1.WorkerDeploymentOptions
-	17,  // 78: temporal.api.workflowservice.v1.RespondWorkflowTaskCompletedResponse.workflow_task:type_name -> temporal.api.workflowservice.v1.PollWorkflowTaskQueueResponse
-	23,  // 79: temporal.api.workflowservice.v1.RespondWorkflowTaskCompletedResponse.activity_tasks:type_name -> temporal.api.workflowservice.v1.PollActivityTaskQueueResponse
-	327, // 80: temporal.api.workflowservice.v1.RespondWorkflowTaskFailedRequest.cause:type_name -> temporal.api.enums.v1.WorkflowTaskFailedCause
-	300, // 81: temporal.api.workflowservice.v1.RespondWorkflowTaskFailedRequest.failure:type_name -> temporal.api.failure.v1.Failure
-	318, // 82: temporal.api.workflowservice.v1.RespondWorkflowTaskFailedRequest.messages:type_name -> temporal.api.protocol.v1.Message
-	322, // 83: temporal.api.workflowservice.v1.RespondWorkflowTaskFailedRequest.worker_version:type_name -> temporal.api.common.v1.WorkerVersionStamp
-	325, // 84: temporal.api.workflowservice.v1.RespondWorkflowTaskFailedRequest.deployment:type_name -> temporal.api.deployment.v1.Deployment
-	307, // 85: temporal.api.workflowservice.v1.RespondWorkflowTaskFailedRequest.deployment_options:type_name -> temporal.api.deployment.v1.WorkerDeploymentOptions
-	292, // 86: temporal.api.workflowservice.v1.PollActivityTaskQueueRequest.task_queue:type_name -> temporal.api.taskqueue.v1.TaskQueue
-	328, // 87: temporal.api.workflowservice.v1.PollActivityTaskQueueRequest.task_queue_metadata:type_name -> temporal.api.taskqueue.v1.TaskQueueMetadata
-	315, // 88: temporal.api.workflowservice.v1.PollActivityTaskQueueRequest.worker_version_capabilities:type_name -> temporal.api.common.v1.WorkerVersionCapabilities
-	307, // 89: temporal.api.workflowservice.v1.PollActivityTaskQueueRequest.deployment_options:type_name -> temporal.api.deployment.v1.WorkerDeploymentOptions
-	291, // 90: temporal.api.workflowservice.v1.PollActivityTaskQueueResponse.workflow_type:type_name -> temporal.api.common.v1.WorkflowType
-	311, // 91: temporal.api.workflowservice.v1.PollActivityTaskQueueResponse.workflow_execution:type_name -> temporal.api.common.v1.WorkflowExecution
-	329, // 92: temporal.api.workflowservice.v1.PollActivityTaskQueueResponse.activity_type:type_name -> temporal.api.common.v1.ActivityType
-	299, // 93: temporal.api.workflowservice.v1.PollActivityTaskQueueResponse.header:type_name -> temporal.api.common.v1.Header
-	293, // 94: temporal.api.workflowservice.v1.PollActivityTaskQueueResponse.input:type_name -> temporal.api.common.v1.Payloads
-	293, // 95: temporal.api.workflowservice.v1.PollActivityTaskQueueResponse.heartbeat_details:type_name -> temporal.api.common.v1.Payloads
-	317, // 96: temporal.api.workflowservice.v1.PollActivityTaskQueueResponse.scheduled_time:type_name -> google.protobuf.Timestamp
-	317, // 97: temporal.api.workflowservice.v1.PollActivityTaskQueueResponse.current_attempt_scheduled_time:type_name -> google.protobuf.Timestamp
-	317, // 98: temporal.api.workflowservice.v1.PollActivityTaskQueueResponse.started_time:type_name -> google.protobuf.Timestamp
-	280, // 99: temporal.api.workflowservice.v1.PollActivityTaskQueueResponse.schedule_to_close_timeout:type_name -> google.protobuf.Duration
-	280, // 100: temporal.api.workflowservice.v1.PollActivityTaskQueueResponse.start_to_close_timeout:type_name -> google.protobuf.Duration
-	280, // 101: temporal.api.workflowservice.v1.PollActivityTaskQueueResponse.heartbeat_timeout:type_name -> google.protobuf.Duration
-	296, // 102: temporal.api.workflowservice.v1.PollActivityTaskQueueResponse.retry_policy:type_name -> temporal.api.common.v1.RetryPolicy
-	319, // 103: temporal.api.workflowservice.v1.PollActivityTaskQueueResponse.poller_scaling_decision:type_name -> temporal.api.taskqueue.v1.PollerScalingDecision
-	306, // 104: temporal.api.workflowservice.v1.PollActivityTaskQueueResponse.priority:type_name -> temporal.api.common.v1.Priority
-	288, // 105: temporal.api.workflowservice.v1.PollActivityTaskQueueResponse.poller_group_infos:type_name -> temporal.api.taskqueue.v1.PollerGroupInfo
-	289, // 106: temporal.api.workflowservice.v1.PollActivityTaskQueueResponse.poller_groups_info:type_name -> temporal.api.taskqueue.v1.PollerGroupsInfo
-	293, // 107: temporal.api.workflowservice.v1.RecordActivityTaskHeartbeatRequest.details:type_name -> temporal.api.common.v1.Payloads
-	293, // 108: temporal.api.workflowservice.v1.RecordActivityTaskHeartbeatByIdRequest.details:type_name -> temporal.api.common.v1.Payloads
-	293, // 109: temporal.api.workflowservice.v1.RespondActivityTaskCompletedRequest.result:type_name -> temporal.api.common.v1.Payloads
-	322, // 110: temporal.api.workflowservice.v1.RespondActivityTaskCompletedRequest.worker_version:type_name -> temporal.api.common.v1.WorkerVersionStamp
-	325, // 111: temporal.api.workflowservice.v1.RespondActivityTaskCompletedRequest.deployment:type_name -> temporal.api.deployment.v1.Deployment
-	307, // 112: temporal.api.workflowservice.v1.RespondActivityTaskCompletedRequest.deployment_options:type_name -> temporal.api.deployment.v1.WorkerDeploymentOptions
-	293, // 113: temporal.api.workflowservice.v1.RespondActivityTaskCompletedByIdRequest.result:type_name -> temporal.api.common.v1.Payloads
-	300, // 114: temporal.api.workflowservice.v1.RespondActivityTaskFailedRequest.failure:type_name -> temporal.api.failure.v1.Failure
-	293, // 115: temporal.api.workflowservice.v1.RespondActivityTaskFailedRequest.last_heartbeat_details:type_name -> temporal.api.common.v1.Payloads
-	322, // 116: temporal.api.workflowservice.v1.RespondActivityTaskFailedRequest.worker_version:type_name -> temporal.api.common.v1.WorkerVersionStamp
-	325, // 117: temporal.api.workflowservice.v1.RespondActivityTaskFailedRequest.deployment:type_name -> temporal.api.deployment.v1.Deployment
-	307, // 118: temporal.api.workflowservice.v1.RespondActivityTaskFailedRequest.deployment_options:type_name -> temporal.api.deployment.v1.WorkerDeploymentOptions
-	330, // 119: temporal.api.workflowservice.v1.RespondActivityTaskFailedRequest.cause:type_name -> temporal.api.enums.v1.ActivityTaskFailedCause
-	300, // 120: temporal.api.workflowservice.v1.RespondActivityTaskFailedResponse.failures:type_name -> temporal.api.failure.v1.Failure
-	300, // 121: temporal.api.workflowservice.v1.RespondActivityTaskFailedByIdRequest.failure:type_name -> temporal.api.failure.v1.Failure
-	293, // 122: temporal.api.workflowservice.v1.RespondActivityTaskFailedByIdRequest.last_heartbeat_details:type_name -> temporal.api.common.v1.Payloads
-	330, // 123: temporal.api.workflowservice.v1.RespondActivityTaskFailedByIdRequest.cause:type_name -> temporal.api.enums.v1.ActivityTaskFailedCause
-	300, // 124: temporal.api.workflowservice.v1.RespondActivityTaskFailedByIdResponse.failures:type_name -> temporal.api.failure.v1.Failure
-	293, // 125: temporal.api.workflowservice.v1.RespondActivityTaskCanceledRequest.details:type_name -> temporal.api.common.v1.Payloads
-	322, // 126: temporal.api.workflowservice.v1.RespondActivityTaskCanceledRequest.worker_version:type_name -> temporal.api.common.v1.WorkerVersionStamp
-	325, // 127: temporal.api.workflowservice.v1.RespondActivityTaskCanceledRequest.deployment:type_name -> temporal.api.deployment.v1.Deployment
-	307, // 128: temporal.api.workflowservice.v1.RespondActivityTaskCanceledRequest.deployment_options:type_name -> temporal.api.deployment.v1.WorkerDeploymentOptions
-	293, // 129: temporal.api.workflowservice.v1.RespondActivityTaskCanceledByIdRequest.details:type_name -> temporal.api.common.v1.Payloads
-	307, // 130: temporal.api.workflowservice.v1.RespondActivityTaskCanceledByIdRequest.deployment_options:type_name -> temporal.api.deployment.v1.WorkerDeploymentOptions
-	311, // 131: temporal.api.workflowservice.v1.RequestCancelWorkflowExecutionRequest.workflow_execution:type_name -> temporal.api.common.v1.WorkflowExecution
-	303, // 132: temporal.api.workflowservice.v1.RequestCancelWorkflowExecutionRequest.links:type_name -> temporal.api.common.v1.Link
-	311, // 133: temporal.api.workflowservice.v1.SignalWorkflowExecutionRequest.workflow_execution:type_name -> temporal.api.common.v1.WorkflowExecution
-	293, // 134: temporal.api.workflowservice.v1.SignalWorkflowExecutionRequest.input:type_name -> temporal.api.common.v1.Payloads
-	299, // 135: temporal.api.workflowservice.v1.SignalWorkflowExecutionRequest.header:type_name -> temporal.api.common.v1.Header
-	303, // 136: temporal.api.workflowservice.v1.SignalWorkflowExecutionRequest.links:type_name -> temporal.api.common.v1.Link
-	303, // 137: temporal.api.workflowservice.v1.SignalWorkflowExecutionResponse.link:type_name -> temporal.api.common.v1.Link
-	291, // 138: temporal.api.workflowservice.v1.SignalWithStartWorkflowExecutionRequest.workflow_type:type_name -> temporal.api.common.v1.WorkflowType
-	292, // 139: temporal.api.workflowservice.v1.SignalWithStartWorkflowExecutionRequest.task_queue:type_name -> temporal.api.taskqueue.v1.TaskQueue
-	293, // 140: temporal.api.workflowservice.v1.SignalWithStartWorkflowExecutionRequest.input:type_name -> temporal.api.common.v1.Payloads
-	280, // 141: temporal.api.workflowservice.v1.SignalWithStartWorkflowExecutionRequest.workflow_execution_timeout:type_name -> google.protobuf.Duration
-	280, // 142: temporal.api.workflowservice.v1.SignalWithStartWorkflowExecutionRequest.workflow_run_timeout:type_name -> google.protobuf.Duration
-	280, // 143: temporal.api.workflowservice.v1.SignalWithStartWorkflowExecutionRequest.workflow_task_timeout:type_name -> google.protobuf.Duration
-	294, // 144: temporal.api.workflowservice.v1.SignalWithStartWorkflowExecutionRequest.workflow_id_reuse_policy:type_name -> temporal.api.enums.v1.WorkflowIdReusePolicy
-	295, // 145: temporal.api.workflowservice.v1.SignalWithStartWorkflowExecutionRequest.workflow_id_conflict_policy:type_name -> temporal.api.enums.v1.WorkflowIdConflictPolicy
-	293, // 146: temporal.api.workflowservice.v1.SignalWithStartWorkflowExecutionRequest.signal_input:type_name -> temporal.api.common.v1.Payloads
-	296, // 147: temporal.api.workflowservice.v1.SignalWithStartWorkflowExecutionRequest.retry_policy:type_name -> temporal.api.common.v1.RetryPolicy
-	297, // 148: temporal.api.workflowservice.v1.SignalWithStartWorkflowExecutionRequest.memo:type_name -> temporal.api.common.v1.Memo
-	298, // 149: temporal.api.workflowservice.v1.SignalWithStartWorkflowExecutionRequest.search_attributes:type_name -> temporal.api.common.v1.SearchAttributes
-	299, // 150: temporal.api.workflowservice.v1.SignalWithStartWorkflowExecutionRequest.header:type_name -> temporal.api.common.v1.Header
-	280, // 151: temporal.api.workflowservice.v1.SignalWithStartWorkflowExecutionRequest.workflow_start_delay:type_name -> google.protobuf.Duration
-	302, // 152: temporal.api.workflowservice.v1.SignalWithStartWorkflowExecutionRequest.user_metadata:type_name -> temporal.api.sdk.v1.UserMetadata
-	303, // 153: temporal.api.workflowservice.v1.SignalWithStartWorkflowExecutionRequest.links:type_name -> temporal.api.common.v1.Link
-	304, // 154: temporal.api.workflowservice.v1.SignalWithStartWorkflowExecutionRequest.versioning_override:type_name -> temporal.api.workflow.v1.VersioningOverride
-	306, // 155: temporal.api.workflowservice.v1.SignalWithStartWorkflowExecutionRequest.priority:type_name -> temporal.api.common.v1.Priority
-	308, // 156: temporal.api.workflowservice.v1.SignalWithStartWorkflowExecutionRequest.time_skipping_config:type_name -> temporal.api.common.v1.TimeSkippingConfig
-	303, // 157: temporal.api.workflowservice.v1.SignalWithStartWorkflowExecutionResponse.signal_link:type_name -> temporal.api.common.v1.Link
-	311, // 158: temporal.api.workflowservice.v1.ResetWorkflowExecutionRequest.workflow_execution:type_name -> temporal.api.common.v1.WorkflowExecution
-	331, // 159: temporal.api.workflowservice.v1.ResetWorkflowExecutionRequest.reset_reapply_type:type_name -> temporal.api.enums.v1.ResetReapplyType
-	332, // 160: temporal.api.workflowservice.v1.ResetWorkflowExecutionRequest.reset_reapply_exclude_types:type_name -> temporal.api.enums.v1.ResetReapplyExcludeType
-	333, // 161: temporal.api.workflowservice.v1.ResetWorkflowExecutionRequest.post_reset_operations:type_name -> temporal.api.workflow.v1.PostResetOperation
-	311, // 162: temporal.api.workflowservice.v1.TerminateWorkflowExecutionRequest.workflow_execution:type_name -> temporal.api.common.v1.WorkflowExecution
-	293, // 163: temporal.api.workflowservice.v1.TerminateWorkflowExecutionRequest.details:type_name -> temporal.api.common.v1.Payloads
-	303, // 164: temporal.api.workflowservice.v1.TerminateWorkflowExecutionRequest.links:type_name -> temporal.api.common.v1.Link
-	311, // 165: temporal.api.workflowservice.v1.DeleteWorkflowExecutionRequest.workflow_execution:type_name -> temporal.api.common.v1.WorkflowExecution
-	334, // 166: temporal.api.workflowservice.v1.ListOpenWorkflowExecutionsRequest.start_time_filter:type_name -> temporal.api.filter.v1.StartTimeFilter
-	335, // 167: temporal.api.workflowservice.v1.ListOpenWorkflowExecutionsRequest.execution_filter:type_name -> temporal.api.filter.v1.WorkflowExecutionFilter
-	336, // 168: temporal.api.workflowservice.v1.ListOpenWorkflowExecutionsRequest.type_filter:type_name -> temporal.api.filter.v1.WorkflowTypeFilter
-	337, // 169: temporal.api.workflowservice.v1.ListOpenWorkflowExecutionsResponse.executions:type_name -> temporal.api.workflow.v1.WorkflowExecutionInfo
-	334, // 170: temporal.api.workflowservice.v1.ListClosedWorkflowExecutionsRequest.start_time_filter:type_name -> temporal.api.filter.v1.StartTimeFilter
-	335, // 171: temporal.api.workflowservice.v1.ListClosedWorkflowExecutionsRequest.execution_filter:type_name -> temporal.api.filter.v1.WorkflowExecutionFilter
-	336, // 172: temporal.api.workflowservice.v1.ListClosedWorkflowExecutionsRequest.type_filter:type_name -> temporal.api.filter.v1.WorkflowTypeFilter
-	338, // 173: temporal.api.workflowservice.v1.ListClosedWorkflowExecutionsRequest.status_filter:type_name -> temporal.api.filter.v1.StatusFilter
-	337, // 174: temporal.api.workflowservice.v1.ListClosedWorkflowExecutionsResponse.executions:type_name -> temporal.api.workflow.v1.WorkflowExecutionInfo
-	337, // 175: temporal.api.workflowservice.v1.ListWorkflowExecutionsResponse.executions:type_name -> temporal.api.workflow.v1.WorkflowExecutionInfo
-	337, // 176: temporal.api.workflowservice.v1.ListArchivedWorkflowExecutionsResponse.executions:type_name -> temporal.api.workflow.v1.WorkflowExecutionInfo
-	337, // 177: temporal.api.workflowservice.v1.ScanWorkflowExecutionsResponse.executions:type_name -> temporal.api.workflow.v1.WorkflowExecutionInfo
-	250, // 178: temporal.api.workflowservice.v1.CountWorkflowExecutionsResponse.groups:type_name -> temporal.api.workflowservice.v1.CountWorkflowExecutionsResponse.AggregationGroup
-	251, // 179: temporal.api.workflowservice.v1.GetSearchAttributesResponse.keys:type_name -> temporal.api.workflowservice.v1.GetSearchAttributesResponse.KeysEntry
-	339, // 180: temporal.api.workflowservice.v1.RespondQueryTaskCompletedRequest.completed_type:type_name -> temporal.api.enums.v1.QueryResultType
-	293, // 181: temporal.api.workflowservice.v1.RespondQueryTaskCompletedRequest.query_result:type_name -> temporal.api.common.v1.Payloads
-	300, // 182: temporal.api.workflowservice.v1.RespondQueryTaskCompletedRequest.failure:type_name -> temporal.api.failure.v1.Failure
-	327, // 183: temporal.api.workflowservice.v1.RespondQueryTaskCompletedRequest.cause:type_name -> temporal.api.enums.v1.WorkflowTaskFailedCause
-	311, // 184: temporal.api.workflowservice.v1.ResetStickyTaskQueueRequest.execution:type_name -> temporal.api.common.v1.WorkflowExecution
-	340, // 185: temporal.api.workflowservice.v1.ShutdownWorkerRequest.worker_heartbeat:type_name -> temporal.api.worker.v1.WorkerHeartbeat
-	341, // 186: temporal.api.workflowservice.v1.ShutdownWorkerRequest.task_queue_types:type_name -> temporal.api.enums.v1.TaskQueueType
-	311, // 187: temporal.api.workflowservice.v1.QueryWorkflowRequest.execution:type_name -> temporal.api.common.v1.WorkflowExecution
-	316, // 188: temporal.api.workflowservice.v1.QueryWorkflowRequest.query:type_name -> temporal.api.query.v1.WorkflowQuery
-	342, // 189: temporal.api.workflowservice.v1.QueryWorkflowRequest.query_reject_condition:type_name -> temporal.api.enums.v1.QueryRejectCondition
-	293, // 190: temporal.api.workflowservice.v1.QueryWorkflowResponse.query_result:type_name -> temporal.api.common.v1.Payloads
-	343, // 191: temporal.api.workflowservice.v1.QueryWorkflowResponse.query_rejected:type_name -> temporal.api.query.v1.QueryRejected
-	303, // 192: temporal.api.workflowservice.v1.QueryWorkflowResponse.link:type_name -> temporal.api.common.v1.Link
-	311, // 193: temporal.api.workflowservice.v1.DescribeWorkflowExecutionRequest.execution:type_name -> temporal.api.common.v1.WorkflowExecution
-	344, // 194: temporal.api.workflowservice.v1.DescribeWorkflowExecutionResponse.execution_config:type_name -> temporal.api.workflow.v1.WorkflowExecutionConfig
-	337, // 195: temporal.api.workflowservice.v1.DescribeWorkflowExecutionResponse.workflow_execution_info:type_name -> temporal.api.workflow.v1.WorkflowExecutionInfo
-	345, // 196: temporal.api.workflowservice.v1.DescribeWorkflowExecutionResponse.pending_activities:type_name -> temporal.api.workflow.v1.PendingActivityInfo
-	346, // 197: temporal.api.workflowservice.v1.DescribeWorkflowExecutionResponse.pending_children:type_name -> temporal.api.workflow.v1.PendingChildExecutionInfo
-	347, // 198: temporal.api.workflowservice.v1.DescribeWorkflowExecutionResponse.pending_workflow_task:type_name -> temporal.api.workflow.v1.PendingWorkflowTaskInfo
-	348, // 199: temporal.api.workflowservice.v1.DescribeWorkflowExecutionResponse.callbacks:type_name -> temporal.api.workflow.v1.CallbackInfo
-	349, // 200: temporal.api.workflowservice.v1.DescribeWorkflowExecutionResponse.pending_nexus_operations:type_name -> temporal.api.workflow.v1.PendingNexusOperationInfo
-	350, // 201: temporal.api.workflowservice.v1.DescribeWorkflowExecutionResponse.workflow_extended_info:type_name -> temporal.api.workflow.v1.WorkflowExecutionExtendedInfo
-	292, // 202: temporal.api.workflowservice.v1.DescribeTaskQueueRequest.task_queue:type_name -> temporal.api.taskqueue.v1.TaskQueue
-	341, // 203: temporal.api.workflowservice.v1.DescribeTaskQueueRequest.task_queue_type:type_name -> temporal.api.enums.v1.TaskQueueType
-	351, // 204: temporal.api.workflowservice.v1.DescribeTaskQueueRequest.api_mode:type_name -> temporal.api.enums.v1.DescribeTaskQueueMode
-	352, // 205: temporal.api.workflowservice.v1.DescribeTaskQueueRequest.versions:type_name -> temporal.api.taskqueue.v1.TaskQueueVersionSelection
-	341, // 206: temporal.api.workflowservice.v1.DescribeTaskQueueRequest.task_queue_types:type_name -> temporal.api.enums.v1.TaskQueueType
-	353, // 207: temporal.api.workflowservice.v1.DescribeTaskQueueResponse.pollers:type_name -> temporal.api.taskqueue.v1.PollerInfo
-	354, // 208: temporal.api.workflowservice.v1.DescribeTaskQueueResponse.stats:type_name -> temporal.api.taskqueue.v1.TaskQueueStats
-	252, // 209: temporal.api.workflowservice.v1.DescribeTaskQueueResponse.stats_by_priority_key:type_name -> temporal.api.workflowservice.v1.DescribeTaskQueueResponse.StatsByPriorityKeyEntry
-	355, // 210: temporal.api.workflowservice.v1.DescribeTaskQueueResponse.versioning_info:type_name -> temporal.api.taskqueue.v1.TaskQueueVersioningInfo
-	356, // 211: temporal.api.workflowservice.v1.DescribeTaskQueueResponse.config:type_name -> temporal.api.taskqueue.v1.TaskQueueConfig
-	253, // 212: temporal.api.workflowservice.v1.DescribeTaskQueueResponse.effective_rate_limit:type_name -> temporal.api.workflowservice.v1.DescribeTaskQueueResponse.EffectiveRateLimit
-	357, // 213: temporal.api.workflowservice.v1.DescribeTaskQueueResponse.task_queue_status:type_name -> temporal.api.taskqueue.v1.TaskQueueStatus
-	254, // 214: temporal.api.workflowservice.v1.DescribeTaskQueueResponse.versions_info:type_name -> temporal.api.workflowservice.v1.DescribeTaskQueueResponse.VersionsInfoEntry
-	255, // 215: temporal.api.workflowservice.v1.GetClusterInfoResponse.supported_clients:type_name -> temporal.api.workflowservice.v1.GetClusterInfoResponse.SupportedClientsEntry
-	358, // 216: temporal.api.workflowservice.v1.GetClusterInfoResponse.version_info:type_name -> temporal.api.version.v1.VersionInfo
-	256, // 217: temporal.api.workflowservice.v1.GetSystemInfoResponse.capabilities:type_name -> temporal.api.workflowservice.v1.GetSystemInfoResponse.Capabilities
-	292, // 218: temporal.api.workflowservice.v1.ListTaskQueuePartitionsRequest.task_queue:type_name -> temporal.api.taskqueue.v1.TaskQueue
-	359, // 219: temporal.api.workflowservice.v1.ListTaskQueuePartitionsResponse.activity_task_queue_partitions:type_name -> temporal.api.taskqueue.v1.TaskQueuePartitionMetadata
-	359, // 220: temporal.api.workflowservice.v1.ListTaskQueuePartitionsResponse.workflow_task_queue_partitions:type_name -> temporal.api.taskqueue.v1.TaskQueuePartitionMetadata
-	360, // 221: temporal.api.workflowservice.v1.CreateScheduleRequest.schedule:type_name -> temporal.api.schedule.v1.Schedule
-	361, // 222: temporal.api.workflowservice.v1.CreateScheduleRequest.initial_patch:type_name -> temporal.api.schedule.v1.SchedulePatch
-	297, // 223: temporal.api.workflowservice.v1.CreateScheduleRequest.memo:type_name -> temporal.api.common.v1.Memo
-	298, // 224: temporal.api.workflowservice.v1.CreateScheduleRequest.search_attributes:type_name -> temporal.api.common.v1.SearchAttributes
-	360, // 225: temporal.api.workflowservice.v1.DescribeScheduleResponse.schedule:type_name -> temporal.api.schedule.v1.Schedule
-	362, // 226: temporal.api.workflowservice.v1.DescribeScheduleResponse.info:type_name -> temporal.api.schedule.v1.ScheduleInfo
-	297, // 227: temporal.api.workflowservice.v1.DescribeScheduleResponse.memo:type_name -> temporal.api.common.v1.Memo
-	298, // 228: temporal.api.workflowservice.v1.DescribeScheduleResponse.search_attributes:type_name -> temporal.api.common.v1.SearchAttributes
-	360, // 229: temporal.api.workflowservice.v1.UpdateScheduleRequest.schedule:type_name -> temporal.api.schedule.v1.Schedule
-	298, // 230: temporal.api.workflowservice.v1.UpdateScheduleRequest.search_attributes:type_name -> temporal.api.common.v1.SearchAttributes
-	297, // 231: temporal.api.workflowservice.v1.UpdateScheduleRequest.memo:type_name -> temporal.api.common.v1.Memo
-	361, // 232: temporal.api.workflowservice.v1.PatchScheduleRequest.patch:type_name -> temporal.api.schedule.v1.SchedulePatch
-	317, // 233: temporal.api.workflowservice.v1.ListScheduleMatchingTimesRequest.start_time:type_name -> google.protobuf.Timestamp
-	317, // 234: temporal.api.workflowservice.v1.ListScheduleMatchingTimesRequest.end_time:type_name -> google.protobuf.Timestamp
-	317, // 235: temporal.api.workflowservice.v1.ListScheduleMatchingTimesResponse.start_time:type_name -> google.protobuf.Timestamp
-	363, // 236: temporal.api.workflowservice.v1.ListSchedulesResponse.schedules:type_name -> temporal.api.schedule.v1.ScheduleListEntry
-	257, // 237: temporal.api.workflowservice.v1.CountSchedulesResponse.groups:type_name -> temporal.api.workflowservice.v1.CountSchedulesResponse.AggregationGroup
-	258, // 238: temporal.api.workflowservice.v1.UpdateWorkerBuildIdCompatibilityRequest.add_new_compatible_build_id:type_name -> temporal.api.workflowservice.v1.UpdateWorkerBuildIdCompatibilityRequest.AddNewCompatibleVersion
-	259, // 239: temporal.api.workflowservice.v1.UpdateWorkerBuildIdCompatibilityRequest.merge_sets:type_name -> temporal.api.workflowservice.v1.UpdateWorkerBuildIdCompatibilityRequest.MergeSets
-	364, // 240: temporal.api.workflowservice.v1.GetWorkerBuildIdCompatibilityResponse.major_version_sets:type_name -> temporal.api.taskqueue.v1.CompatibleVersionSet
-	260, // 241: temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesRequest.insert_assignment_rule:type_name -> temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesRequest.InsertBuildIdAssignmentRule
-	261, // 242: temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesRequest.replace_assignment_rule:type_name -> temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesRequest.ReplaceBuildIdAssignmentRule
-	262, // 243: temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesRequest.delete_assignment_rule:type_name -> temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesRequest.DeleteBuildIdAssignmentRule
-	263, // 244: temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesRequest.add_compatible_redirect_rule:type_name -> temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesRequest.AddCompatibleBuildIdRedirectRule
-	264, // 245: temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesRequest.replace_compatible_redirect_rule:type_name -> temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesRequest.ReplaceCompatibleBuildIdRedirectRule
-	265, // 246: temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesRequest.delete_compatible_redirect_rule:type_name -> temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesRequest.DeleteCompatibleBuildIdRedirectRule
-	266, // 247: temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesRequest.commit_build_id:type_name -> temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesRequest.CommitBuildId
-	365, // 248: temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesResponse.assignment_rules:type_name -> temporal.api.taskqueue.v1.TimestampedBuildIdAssignmentRule
-	366, // 249: temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesResponse.compatible_redirect_rules:type_name -> temporal.api.taskqueue.v1.TimestampedCompatibleBuildIdRedirectRule
-	365, // 250: temporal.api.workflowservice.v1.GetWorkerVersioningRulesResponse.assignment_rules:type_name -> temporal.api.taskqueue.v1.TimestampedBuildIdAssignmentRule
-	366, // 251: temporal.api.workflowservice.v1.GetWorkerVersioningRulesResponse.compatible_redirect_rules:type_name -> temporal.api.taskqueue.v1.TimestampedCompatibleBuildIdRedirectRule
-	367, // 252: temporal.api.workflowservice.v1.GetWorkerTaskReachabilityRequest.reachability:type_name -> temporal.api.enums.v1.TaskReachability
-	368, // 253: temporal.api.workflowservice.v1.GetWorkerTaskReachabilityResponse.build_id_reachability:type_name -> temporal.api.taskqueue.v1.BuildIdReachability
-	311, // 254: temporal.api.workflowservice.v1.UpdateWorkflowExecutionRequest.workflow_execution:type_name -> temporal.api.common.v1.WorkflowExecution
-	369, // 255: temporal.api.workflowservice.v1.UpdateWorkflowExecutionRequest.wait_policy:type_name -> temporal.api.update.v1.WaitPolicy
-	370, // 256: temporal.api.workflowservice.v1.UpdateWorkflowExecutionRequest.request:type_name -> temporal.api.update.v1.Request
-	371, // 257: temporal.api.workflowservice.v1.UpdateWorkflowExecutionResponse.update_ref:type_name -> temporal.api.update.v1.UpdateRef
-	372, // 258: temporal.api.workflowservice.v1.UpdateWorkflowExecutionResponse.outcome:type_name -> temporal.api.update.v1.Outcome
-	373, // 259: temporal.api.workflowservice.v1.UpdateWorkflowExecutionResponse.stage:type_name -> temporal.api.enums.v1.UpdateWorkflowExecutionLifecycleStage
-	303, // 260: temporal.api.workflowservice.v1.UpdateWorkflowExecutionResponse.link:type_name -> temporal.api.common.v1.Link
-	311, // 261: temporal.api.workflowservice.v1.StartBatchOperationRequest.executions:type_name -> temporal.api.common.v1.WorkflowExecution
-	374, // 262: temporal.api.workflowservice.v1.StartBatchOperationRequest.target_executions:type_name -> temporal.api.common.v1.Execution
-	375, // 263: temporal.api.workflowservice.v1.StartBatchOperationRequest.termination_operation:type_name -> temporal.api.batch.v1.BatchOperationTermination
-	376, // 264: temporal.api.workflowservice.v1.StartBatchOperationRequest.signal_operation:type_name -> temporal.api.batch.v1.BatchOperationSignal
-	377, // 265: temporal.api.workflowservice.v1.StartBatchOperationRequest.cancellation_operation:type_name -> temporal.api.batch.v1.BatchOperationCancellation
-	378, // 266: temporal.api.workflowservice.v1.StartBatchOperationRequest.deletion_operation:type_name -> temporal.api.batch.v1.BatchOperationDeletion
-	379, // 267: temporal.api.workflowservice.v1.StartBatchOperationRequest.reset_operation:type_name -> temporal.api.batch.v1.BatchOperationReset
-	380, // 268: temporal.api.workflowservice.v1.StartBatchOperationRequest.update_workflow_options_operation:type_name -> temporal.api.batch.v1.BatchOperationUpdateWorkflowExecutionOptions
-	381, // 269: temporal.api.workflowservice.v1.StartBatchOperationRequest.unpause_activities_operation:type_name -> temporal.api.batch.v1.BatchOperationUnpauseActivities
-	382, // 270: temporal.api.workflowservice.v1.StartBatchOperationRequest.reset_activities_operation:type_name -> temporal.api.batch.v1.BatchOperationResetActivities
-	383, // 271: temporal.api.workflowservice.v1.StartBatchOperationRequest.update_activity_options_operation:type_name -> temporal.api.batch.v1.BatchOperationUpdateActivityOptions
-	384, // 272: temporal.api.workflowservice.v1.StartBatchOperationRequest.cancel_activities_operation:type_name -> temporal.api.batch.v1.BatchOperationCancelActivities
-	385, // 273: temporal.api.workflowservice.v1.StartBatchOperationRequest.terminate_activities_operation:type_name -> temporal.api.batch.v1.BatchOperationTerminateActivities
-	386, // 274: temporal.api.workflowservice.v1.StartBatchOperationRequest.delete_activities_operation:type_name -> temporal.api.batch.v1.BatchOperationDeleteActivities
-	387, // 275: temporal.api.workflowservice.v1.DescribeBatchOperationResponse.operation_type:type_name -> temporal.api.enums.v1.BatchOperationType
-	388, // 276: temporal.api.workflowservice.v1.DescribeBatchOperationResponse.state:type_name -> temporal.api.enums.v1.BatchOperationState
-	317, // 277: temporal.api.workflowservice.v1.DescribeBatchOperationResponse.start_time:type_name -> google.protobuf.Timestamp
-	317, // 278: temporal.api.workflowservice.v1.DescribeBatchOperationResponse.close_time:type_name -> google.protobuf.Timestamp
-	374, // 279: temporal.api.workflowservice.v1.DescribeBatchOperationResponse.executions:type_name -> temporal.api.common.v1.Execution
-	389, // 280: temporal.api.workflowservice.v1.ListBatchOperationsResponse.operation_info:type_name -> temporal.api.batch.v1.BatchOperationInfo
-	371, // 281: temporal.api.workflowservice.v1.PollWorkflowExecutionUpdateRequest.update_ref:type_name -> temporal.api.update.v1.UpdateRef
-	369, // 282: temporal.api.workflowservice.v1.PollWorkflowExecutionUpdateRequest.wait_policy:type_name -> temporal.api.update.v1.WaitPolicy
-	372, // 283: temporal.api.workflowservice.v1.PollWorkflowExecutionUpdateResponse.outcome:type_name -> temporal.api.update.v1.Outcome
-	373, // 284: temporal.api.workflowservice.v1.PollWorkflowExecutionUpdateResponse.stage:type_name -> temporal.api.enums.v1.UpdateWorkflowExecutionLifecycleStage
-	371, // 285: temporal.api.workflowservice.v1.PollWorkflowExecutionUpdateResponse.update_ref:type_name -> temporal.api.update.v1.UpdateRef
-	292, // 286: temporal.api.workflowservice.v1.PollNexusTaskQueueRequest.task_queue:type_name -> temporal.api.taskqueue.v1.TaskQueue
-	315, // 287: temporal.api.workflowservice.v1.PollNexusTaskQueueRequest.worker_version_capabilities:type_name -> temporal.api.common.v1.WorkerVersionCapabilities
-	307, // 288: temporal.api.workflowservice.v1.PollNexusTaskQueueRequest.deployment_options:type_name -> temporal.api.deployment.v1.WorkerDeploymentOptions
-	340, // 289: temporal.api.workflowservice.v1.PollNexusTaskQueueRequest.worker_heartbeat:type_name -> temporal.api.worker.v1.WorkerHeartbeat
-	390, // 290: temporal.api.workflowservice.v1.PollNexusTaskQueueResponse.request:type_name -> temporal.api.nexus.v1.Request
-	319, // 291: temporal.api.workflowservice.v1.PollNexusTaskQueueResponse.poller_scaling_decision:type_name -> temporal.api.taskqueue.v1.PollerScalingDecision
-	288, // 292: temporal.api.workflowservice.v1.PollNexusTaskQueueResponse.poller_group_infos:type_name -> temporal.api.taskqueue.v1.PollerGroupInfo
-	289, // 293: temporal.api.workflowservice.v1.PollNexusTaskQueueResponse.poller_groups_info:type_name -> temporal.api.taskqueue.v1.PollerGroupsInfo
-	391, // 294: temporal.api.workflowservice.v1.RespondNexusTaskCompletedRequest.response:type_name -> temporal.api.nexus.v1.Response
-	392, // 295: temporal.api.workflowservice.v1.RespondNexusTaskFailedRequest.error:type_name -> temporal.api.nexus.v1.HandlerError
-	300, // 296: temporal.api.workflowservice.v1.RespondNexusTaskFailedRequest.failure:type_name -> temporal.api.failure.v1.Failure
-	267, // 297: temporal.api.workflowservice.v1.ExecuteMultiOperationRequest.operations:type_name -> temporal.api.workflowservice.v1.ExecuteMultiOperationRequest.Operation
-	268, // 298: temporal.api.workflowservice.v1.ExecuteMultiOperationResponse.responses:type_name -> temporal.api.workflowservice.v1.ExecuteMultiOperationResponse.Response
-	311, // 299: temporal.api.workflowservice.v1.UpdateActivityOptionsRequest.execution:type_name -> temporal.api.common.v1.WorkflowExecution
-	393, // 300: temporal.api.workflowservice.v1.UpdateActivityOptionsRequest.activity_options:type_name -> temporal.api.activity.v1.ActivityOptions
-	394, // 301: temporal.api.workflowservice.v1.UpdateActivityOptionsRequest.update_mask:type_name -> google.protobuf.FieldMask
-	393, // 302: temporal.api.workflowservice.v1.UpdateActivityExecutionOptionsRequest.activity_options:type_name -> temporal.api.activity.v1.ActivityOptions
-	394, // 303: temporal.api.workflowservice.v1.UpdateActivityExecutionOptionsRequest.update_mask:type_name -> google.protobuf.FieldMask
-	393, // 304: temporal.api.workflowservice.v1.UpdateActivityOptionsResponse.activity_options:type_name -> temporal.api.activity.v1.ActivityOptions
-	393, // 305: temporal.api.workflowservice.v1.UpdateActivityExecutionOptionsResponse.activity_options:type_name -> temporal.api.activity.v1.ActivityOptions
-	311, // 306: temporal.api.workflowservice.v1.PauseActivityRequest.execution:type_name -> temporal.api.common.v1.WorkflowExecution
-	311, // 307: temporal.api.workflowservice.v1.UnpauseActivityRequest.execution:type_name -> temporal.api.common.v1.WorkflowExecution
-	280, // 308: temporal.api.workflowservice.v1.UnpauseActivityRequest.jitter:type_name -> google.protobuf.Duration
-	280, // 309: temporal.api.workflowservice.v1.UnpauseActivityExecutionRequest.jitter:type_name -> google.protobuf.Duration
-	311, // 310: temporal.api.workflowservice.v1.ResetActivityRequest.execution:type_name -> temporal.api.common.v1.WorkflowExecution
-	280, // 311: temporal.api.workflowservice.v1.ResetActivityRequest.jitter:type_name -> google.protobuf.Duration
-	280, // 312: temporal.api.workflowservice.v1.ResetActivityExecutionRequest.jitter:type_name -> google.protobuf.Duration
-	311, // 313: temporal.api.workflowservice.v1.UpdateWorkflowExecutionOptionsRequest.workflow_execution:type_name -> temporal.api.common.v1.WorkflowExecution
-	395, // 314: temporal.api.workflowservice.v1.UpdateWorkflowExecutionOptionsRequest.workflow_execution_options:type_name -> temporal.api.workflow.v1.WorkflowExecutionOptions
-	394, // 315: temporal.api.workflowservice.v1.UpdateWorkflowExecutionOptionsRequest.update_mask:type_name -> google.protobuf.FieldMask
-	395, // 316: temporal.api.workflowservice.v1.UpdateWorkflowExecutionOptionsResponse.workflow_execution_options:type_name -> temporal.api.workflow.v1.WorkflowExecutionOptions
-	317, // 317: temporal.api.workflowservice.v1.UpdateWorkflowExecutionOptionsResponse.update_time:type_name -> google.protobuf.Timestamp
-	325, // 318: temporal.api.workflowservice.v1.DescribeDeploymentRequest.deployment:type_name -> temporal.api.deployment.v1.Deployment
-	396, // 319: temporal.api.workflowservice.v1.DescribeDeploymentResponse.deployment_info:type_name -> temporal.api.deployment.v1.DeploymentInfo
-	397, // 320: temporal.api.workflowservice.v1.DescribeWorkerDeploymentVersionRequest.deployment_version:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersion
-	398, // 321: temporal.api.workflowservice.v1.DescribeWorkerDeploymentVersionResponse.worker_deployment_version_info:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersionInfo
-	269, // 322: temporal.api.workflowservice.v1.DescribeWorkerDeploymentVersionResponse.version_task_queues:type_name -> temporal.api.workflowservice.v1.DescribeWorkerDeploymentVersionResponse.VersionTaskQueue
-	399, // 323: temporal.api.workflowservice.v1.DescribeWorkerDeploymentResponse.worker_deployment_info:type_name -> temporal.api.deployment.v1.WorkerDeploymentInfo
-	400, // 324: temporal.api.workflowservice.v1.ListDeploymentsResponse.deployments:type_name -> temporal.api.deployment.v1.DeploymentListInfo
-	325, // 325: temporal.api.workflowservice.v1.SetCurrentDeploymentRequest.deployment:type_name -> temporal.api.deployment.v1.Deployment
-	401, // 326: temporal.api.workflowservice.v1.SetCurrentDeploymentRequest.update_metadata:type_name -> temporal.api.deployment.v1.UpdateDeploymentMetadata
-	396, // 327: temporal.api.workflowservice.v1.SetCurrentDeploymentResponse.current_deployment_info:type_name -> temporal.api.deployment.v1.DeploymentInfo
-	396, // 328: temporal.api.workflowservice.v1.SetCurrentDeploymentResponse.previous_deployment_info:type_name -> temporal.api.deployment.v1.DeploymentInfo
-	397, // 329: temporal.api.workflowservice.v1.SetWorkerDeploymentCurrentVersionResponse.previous_deployment_version:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersion
-	397, // 330: temporal.api.workflowservice.v1.SetWorkerDeploymentRampingVersionResponse.previous_deployment_version:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersion
-	271, // 331: temporal.api.workflowservice.v1.ListWorkerDeploymentsResponse.worker_deployments:type_name -> temporal.api.workflowservice.v1.ListWorkerDeploymentsResponse.WorkerDeploymentSummary
-	397, // 332: temporal.api.workflowservice.v1.CreateWorkerDeploymentVersionRequest.deployment_version:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersion
-	402, // 333: temporal.api.workflowservice.v1.CreateWorkerDeploymentVersionRequest.compute_config:type_name -> temporal.api.compute.v1.ComputeConfig
-	397, // 334: temporal.api.workflowservice.v1.DeleteWorkerDeploymentVersionRequest.deployment_version:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersion
-	397, // 335: temporal.api.workflowservice.v1.UpdateWorkerDeploymentVersionComputeConfigRequest.deployment_version:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersion
-	272, // 336: temporal.api.workflowservice.v1.UpdateWorkerDeploymentVersionComputeConfigRequest.compute_config_scaling_groups:type_name -> temporal.api.workflowservice.v1.UpdateWorkerDeploymentVersionComputeConfigRequest.ComputeConfigScalingGroupsEntry
-	397, // 337: temporal.api.workflowservice.v1.ValidateWorkerDeploymentVersionComputeConfigRequest.deployment_version:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersion
-	273, // 338: temporal.api.workflowservice.v1.ValidateWorkerDeploymentVersionComputeConfigRequest.compute_config_scaling_groups:type_name -> temporal.api.workflowservice.v1.ValidateWorkerDeploymentVersionComputeConfigRequest.ComputeConfigScalingGroupsEntry
-	397, // 339: temporal.api.workflowservice.v1.UpdateWorkerDeploymentVersionMetadataRequest.deployment_version:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersion
-	274, // 340: temporal.api.workflowservice.v1.UpdateWorkerDeploymentVersionMetadataRequest.upsert_entries:type_name -> temporal.api.workflowservice.v1.UpdateWorkerDeploymentVersionMetadataRequest.UpsertEntriesEntry
-	403, // 341: temporal.api.workflowservice.v1.UpdateWorkerDeploymentVersionMetadataResponse.metadata:type_name -> temporal.api.deployment.v1.VersionMetadata
-	396, // 342: temporal.api.workflowservice.v1.GetCurrentDeploymentResponse.current_deployment_info:type_name -> temporal.api.deployment.v1.DeploymentInfo
-	325, // 343: temporal.api.workflowservice.v1.GetDeploymentReachabilityRequest.deployment:type_name -> temporal.api.deployment.v1.Deployment
-	396, // 344: temporal.api.workflowservice.v1.GetDeploymentReachabilityResponse.deployment_info:type_name -> temporal.api.deployment.v1.DeploymentInfo
-	404, // 345: temporal.api.workflowservice.v1.GetDeploymentReachabilityResponse.reachability:type_name -> temporal.api.enums.v1.DeploymentReachability
-	317, // 346: temporal.api.workflowservice.v1.GetDeploymentReachabilityResponse.last_update_time:type_name -> google.protobuf.Timestamp
-	405, // 347: temporal.api.workflowservice.v1.CreateWorkflowRuleRequest.spec:type_name -> temporal.api.rules.v1.WorkflowRuleSpec
-	406, // 348: temporal.api.workflowservice.v1.CreateWorkflowRuleResponse.rule:type_name -> temporal.api.rules.v1.WorkflowRule
-	406, // 349: temporal.api.workflowservice.v1.DescribeWorkflowRuleResponse.rule:type_name -> temporal.api.rules.v1.WorkflowRule
-	406, // 350: temporal.api.workflowservice.v1.ListWorkflowRulesResponse.rules:type_name -> temporal.api.rules.v1.WorkflowRule
-	311, // 351: temporal.api.workflowservice.v1.TriggerWorkflowRuleRequest.execution:type_name -> temporal.api.common.v1.WorkflowExecution
-	405, // 352: temporal.api.workflowservice.v1.TriggerWorkflowRuleRequest.spec:type_name -> temporal.api.rules.v1.WorkflowRuleSpec
-	340, // 353: temporal.api.workflowservice.v1.RecordWorkerHeartbeatRequest.worker_heartbeat:type_name -> temporal.api.worker.v1.WorkerHeartbeat
-	407, // 354: temporal.api.workflowservice.v1.ListWorkersResponse.workers_info:type_name -> temporal.api.worker.v1.WorkerInfo
-	408, // 355: temporal.api.workflowservice.v1.ListWorkersResponse.workers:type_name -> temporal.api.worker.v1.WorkerListInfo
-	341, // 356: temporal.api.workflowservice.v1.UpdateTaskQueueConfigRequest.task_queue_type:type_name -> temporal.api.enums.v1.TaskQueueType
-	275, // 357: temporal.api.workflowservice.v1.UpdateTaskQueueConfigRequest.update_queue_rate_limit:type_name -> temporal.api.workflowservice.v1.UpdateTaskQueueConfigRequest.RateLimitUpdate
-	275, // 358: temporal.api.workflowservice.v1.UpdateTaskQueueConfigRequest.update_fairness_key_rate_limit_default:type_name -> temporal.api.workflowservice.v1.UpdateTaskQueueConfigRequest.RateLimitUpdate
-	276, // 359: temporal.api.workflowservice.v1.UpdateTaskQueueConfigRequest.set_fairness_weight_overrides:type_name -> temporal.api.workflowservice.v1.UpdateTaskQueueConfigRequest.SetFairnessWeightOverridesEntry
-	356, // 360: temporal.api.workflowservice.v1.UpdateTaskQueueConfigResponse.config:type_name -> temporal.api.taskqueue.v1.TaskQueueConfig
-	409, // 361: temporal.api.workflowservice.v1.FetchWorkerConfigRequest.selector:type_name -> temporal.api.common.v1.WorkerSelector
-	410, // 362: temporal.api.workflowservice.v1.FetchWorkerConfigResponse.worker_config:type_name -> temporal.api.sdk.v1.WorkerConfig
-	410, // 363: temporal.api.workflowservice.v1.UpdateWorkerConfigRequest.worker_config:type_name -> temporal.api.sdk.v1.WorkerConfig
-	394, // 364: temporal.api.workflowservice.v1.UpdateWorkerConfigRequest.update_mask:type_name -> google.protobuf.FieldMask
-	409, // 365: temporal.api.workflowservice.v1.UpdateWorkerConfigRequest.selector:type_name -> temporal.api.common.v1.WorkerSelector
-	410, // 366: temporal.api.workflowservice.v1.UpdateWorkerConfigResponse.worker_config:type_name -> temporal.api.sdk.v1.WorkerConfig
-	407, // 367: temporal.api.workflowservice.v1.DescribeWorkerResponse.worker_info:type_name -> temporal.api.worker.v1.WorkerInfo
-	329, // 368: temporal.api.workflowservice.v1.StartActivityExecutionRequest.activity_type:type_name -> temporal.api.common.v1.ActivityType
-	292, // 369: temporal.api.workflowservice.v1.StartActivityExecutionRequest.task_queue:type_name -> temporal.api.taskqueue.v1.TaskQueue
-	280, // 370: temporal.api.workflowservice.v1.StartActivityExecutionRequest.schedule_to_close_timeout:type_name -> google.protobuf.Duration
-	280, // 371: temporal.api.workflowservice.v1.StartActivityExecutionRequest.schedule_to_start_timeout:type_name -> google.protobuf.Duration
-	280, // 372: temporal.api.workflowservice.v1.StartActivityExecutionRequest.start_to_close_timeout:type_name -> google.protobuf.Duration
-	280, // 373: temporal.api.workflowservice.v1.StartActivityExecutionRequest.heartbeat_timeout:type_name -> google.protobuf.Duration
-	296, // 374: temporal.api.workflowservice.v1.StartActivityExecutionRequest.retry_policy:type_name -> temporal.api.common.v1.RetryPolicy
-	293, // 375: temporal.api.workflowservice.v1.StartActivityExecutionRequest.input:type_name -> temporal.api.common.v1.Payloads
-	411, // 376: temporal.api.workflowservice.v1.StartActivityExecutionRequest.id_reuse_policy:type_name -> temporal.api.enums.v1.ActivityIdReusePolicy
-	412, // 377: temporal.api.workflowservice.v1.StartActivityExecutionRequest.id_conflict_policy:type_name -> temporal.api.enums.v1.ActivityIdConflictPolicy
-	298, // 378: temporal.api.workflowservice.v1.StartActivityExecutionRequest.search_attributes:type_name -> temporal.api.common.v1.SearchAttributes
-	299, // 379: temporal.api.workflowservice.v1.StartActivityExecutionRequest.header:type_name -> temporal.api.common.v1.Header
-	302, // 380: temporal.api.workflowservice.v1.StartActivityExecutionRequest.user_metadata:type_name -> temporal.api.sdk.v1.UserMetadata
-	306, // 381: temporal.api.workflowservice.v1.StartActivityExecutionRequest.priority:type_name -> temporal.api.common.v1.Priority
-	301, // 382: temporal.api.workflowservice.v1.StartActivityExecutionRequest.completion_callbacks:type_name -> temporal.api.common.v1.Callback
-	303, // 383: temporal.api.workflowservice.v1.StartActivityExecutionRequest.links:type_name -> temporal.api.common.v1.Link
-	413, // 384: temporal.api.workflowservice.v1.StartActivityExecutionRequest.on_conflict_options:type_name -> temporal.api.common.v1.OnConflictOptions
-	280, // 385: temporal.api.workflowservice.v1.StartActivityExecutionRequest.start_delay:type_name -> google.protobuf.Duration
-	303, // 386: temporal.api.workflowservice.v1.StartActivityExecutionResponse.link:type_name -> temporal.api.common.v1.Link
-	414, // 387: temporal.api.workflowservice.v1.DescribeActivityExecutionResponse.info:type_name -> temporal.api.activity.v1.ActivityExecutionInfo
-	293, // 388: temporal.api.workflowservice.v1.DescribeActivityExecutionResponse.input:type_name -> temporal.api.common.v1.Payloads
-	415, // 389: temporal.api.workflowservice.v1.DescribeActivityExecutionResponse.outcome:type_name -> temporal.api.activity.v1.ActivityExecutionOutcome
-	416, // 390: temporal.api.workflowservice.v1.DescribeActivityExecutionResponse.callbacks:type_name -> temporal.api.activity.v1.CallbackInfo
-	415, // 391: temporal.api.workflowservice.v1.PollActivityExecutionResponse.outcome:type_name -> temporal.api.activity.v1.ActivityExecutionOutcome
-	417, // 392: temporal.api.workflowservice.v1.ListActivityExecutionsResponse.executions:type_name -> temporal.api.activity.v1.ActivityExecutionListInfo
-	280, // 393: temporal.api.workflowservice.v1.StartNexusOperationExecutionRequest.schedule_to_close_timeout:type_name -> google.protobuf.Duration
-	280, // 394: temporal.api.workflowservice.v1.StartNexusOperationExecutionRequest.schedule_to_start_timeout:type_name -> google.protobuf.Duration
-	280, // 395: temporal.api.workflowservice.v1.StartNexusOperationExecutionRequest.start_to_close_timeout:type_name -> google.protobuf.Duration
-	418, // 396: temporal.api.workflowservice.v1.StartNexusOperationExecutionRequest.input:type_name -> temporal.api.common.v1.Payload
-	419, // 397: temporal.api.workflowservice.v1.StartNexusOperationExecutionRequest.id_reuse_policy:type_name -> temporal.api.enums.v1.NexusOperationIdReusePolicy
-	420, // 398: temporal.api.workflowservice.v1.StartNexusOperationExecutionRequest.id_conflict_policy:type_name -> temporal.api.enums.v1.NexusOperationIdConflictPolicy
-	421, // 399: temporal.api.workflowservice.v1.StartNexusOperationExecutionRequest.on_conflict_options:type_name -> temporal.api.nexusoperation.v1.OnConflictOptions
-	298, // 400: temporal.api.workflowservice.v1.StartNexusOperationExecutionRequest.search_attributes:type_name -> temporal.api.common.v1.SearchAttributes
-	277, // 401: temporal.api.workflowservice.v1.StartNexusOperationExecutionRequest.nexus_header:type_name -> temporal.api.workflowservice.v1.StartNexusOperationExecutionRequest.NexusHeaderEntry
-	302, // 402: temporal.api.workflowservice.v1.StartNexusOperationExecutionRequest.user_metadata:type_name -> temporal.api.sdk.v1.UserMetadata
-	301, // 403: temporal.api.workflowservice.v1.StartNexusOperationExecutionRequest.completion_callbacks:type_name -> temporal.api.common.v1.Callback
-	303, // 404: temporal.api.workflowservice.v1.StartNexusOperationExecutionRequest.links:type_name -> temporal.api.common.v1.Link
-	422, // 405: temporal.api.workflowservice.v1.DescribeNexusOperationExecutionResponse.info:type_name -> temporal.api.nexus.v1.NexusOperationExecutionInfo
-	418, // 406: temporal.api.workflowservice.v1.DescribeNexusOperationExecutionResponse.input:type_name -> temporal.api.common.v1.Payload
-	418, // 407: temporal.api.workflowservice.v1.DescribeNexusOperationExecutionResponse.result:type_name -> temporal.api.common.v1.Payload
-	300, // 408: temporal.api.workflowservice.v1.DescribeNexusOperationExecutionResponse.failure:type_name -> temporal.api.failure.v1.Failure
-	423, // 409: temporal.api.workflowservice.v1.DescribeNexusOperationExecutionResponse.completion_callbacks:type_name -> temporal.api.nexusoperation.v1.CallbackInfo
-	424, // 410: temporal.api.workflowservice.v1.PollNexusOperationExecutionRequest.wait_stage:type_name -> temporal.api.enums.v1.NexusOperationWaitStage
-	424, // 411: temporal.api.workflowservice.v1.PollNexusOperationExecutionResponse.wait_stage:type_name -> temporal.api.enums.v1.NexusOperationWaitStage
-	418, // 412: temporal.api.workflowservice.v1.PollNexusOperationExecutionResponse.result:type_name -> temporal.api.common.v1.Payload
-	300, // 413: temporal.api.workflowservice.v1.PollNexusOperationExecutionResponse.failure:type_name -> temporal.api.failure.v1.Failure
-	425, // 414: temporal.api.workflowservice.v1.ListNexusOperationExecutionsResponse.operations:type_name -> temporal.api.nexus.v1.NexusOperationExecutionListInfo
-	278, // 415: temporal.api.workflowservice.v1.CountActivityExecutionsResponse.groups:type_name -> temporal.api.workflowservice.v1.CountActivityExecutionsResponse.AggregationGroup
-	279, // 416: temporal.api.workflowservice.v1.CountNexusOperationExecutionsResponse.groups:type_name -> temporal.api.workflowservice.v1.CountNexusOperationExecutionsResponse.AggregationGroup
-	311, // 417: temporal.api.workflowservice.v1.PollWorkflowExecutionTimeSkippingRequest.workflow_execution:type_name -> temporal.api.common.v1.WorkflowExecution
-	426, // 418: temporal.api.workflowservice.v1.PollWorkflowExecutionTimeSkippingResponse.fast_forward_polling_result:type_name -> temporal.api.enums.v1.FastForwardPollingResult
-	427, // 419: temporal.api.workflowservice.v1.PollWorkflowExecutionTimeSkippingResponse.fast_forward_info:type_name -> temporal.api.common.v1.TimeSkippingFastForwardInfo
-	316, // 420: temporal.api.workflowservice.v1.PollWorkflowTaskQueueResponse.QueriesEntry.value:type_name -> temporal.api.query.v1.WorkflowQuery
-	428, // 421: temporal.api.workflowservice.v1.RespondWorkflowTaskCompletedRequest.QueryResultsEntry.value:type_name -> temporal.api.query.v1.WorkflowQueryResult
-	418, // 422: temporal.api.workflowservice.v1.CountWorkflowExecutionsResponse.AggregationGroup.group_values:type_name -> temporal.api.common.v1.Payload
-	429, // 423: temporal.api.workflowservice.v1.GetSearchAttributesResponse.KeysEntry.value:type_name -> temporal.api.enums.v1.IndexedValueType
-	354, // 424: temporal.api.workflowservice.v1.DescribeTaskQueueResponse.StatsByPriorityKeyEntry.value:type_name -> temporal.api.taskqueue.v1.TaskQueueStats
-	430, // 425: temporal.api.workflowservice.v1.DescribeTaskQueueResponse.EffectiveRateLimit.rate_limit_source:type_name -> temporal.api.enums.v1.RateLimitSource
-	431, // 426: temporal.api.workflowservice.v1.DescribeTaskQueueResponse.VersionsInfoEntry.value:type_name -> temporal.api.taskqueue.v1.TaskQueueVersionInfo
-	418, // 427: temporal.api.workflowservice.v1.CountSchedulesResponse.AggregationGroup.group_values:type_name -> temporal.api.common.v1.Payload
-	432, // 428: temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesRequest.InsertBuildIdAssignmentRule.rule:type_name -> temporal.api.taskqueue.v1.BuildIdAssignmentRule
-	432, // 429: temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesRequest.ReplaceBuildIdAssignmentRule.rule:type_name -> temporal.api.taskqueue.v1.BuildIdAssignmentRule
-	433, // 430: temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesRequest.AddCompatibleBuildIdRedirectRule.rule:type_name -> temporal.api.taskqueue.v1.CompatibleBuildIdRedirectRule
-	433, // 431: temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesRequest.ReplaceCompatibleBuildIdRedirectRule.rule:type_name -> temporal.api.taskqueue.v1.CompatibleBuildIdRedirectRule
-	10,  // 432: temporal.api.workflowservice.v1.ExecuteMultiOperationRequest.Operation.start_workflow:type_name -> temporal.api.workflowservice.v1.StartWorkflowExecutionRequest
-	110, // 433: temporal.api.workflowservice.v1.ExecuteMultiOperationRequest.Operation.update_workflow:type_name -> temporal.api.workflowservice.v1.UpdateWorkflowExecutionRequest
-	11,  // 434: temporal.api.workflowservice.v1.ExecuteMultiOperationResponse.Response.start_workflow:type_name -> temporal.api.workflowservice.v1.StartWorkflowExecutionResponse
-	111, // 435: temporal.api.workflowservice.v1.ExecuteMultiOperationResponse.Response.update_workflow:type_name -> temporal.api.workflowservice.v1.UpdateWorkflowExecutionResponse
-	341, // 436: temporal.api.workflowservice.v1.DescribeWorkerDeploymentVersionResponse.VersionTaskQueue.type:type_name -> temporal.api.enums.v1.TaskQueueType
-	354, // 437: temporal.api.workflowservice.v1.DescribeWorkerDeploymentVersionResponse.VersionTaskQueue.stats:type_name -> temporal.api.taskqueue.v1.TaskQueueStats
-	270, // 438: temporal.api.workflowservice.v1.DescribeWorkerDeploymentVersionResponse.VersionTaskQueue.stats_by_priority_key:type_name -> temporal.api.workflowservice.v1.DescribeWorkerDeploymentVersionResponse.VersionTaskQueue.StatsByPriorityKeyEntry
-	354, // 439: temporal.api.workflowservice.v1.DescribeWorkerDeploymentVersionResponse.VersionTaskQueue.StatsByPriorityKeyEntry.value:type_name -> temporal.api.taskqueue.v1.TaskQueueStats
-	317, // 440: temporal.api.workflowservice.v1.ListWorkerDeploymentsResponse.WorkerDeploymentSummary.create_time:type_name -> google.protobuf.Timestamp
-	434, // 441: temporal.api.workflowservice.v1.ListWorkerDeploymentsResponse.WorkerDeploymentSummary.routing_config:type_name -> temporal.api.deployment.v1.RoutingConfig
-	435, // 442: temporal.api.workflowservice.v1.ListWorkerDeploymentsResponse.WorkerDeploymentSummary.latest_version_summary:type_name -> temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummary
-	435, // 443: temporal.api.workflowservice.v1.ListWorkerDeploymentsResponse.WorkerDeploymentSummary.current_version_summary:type_name -> temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummary
-	435, // 444: temporal.api.workflowservice.v1.ListWorkerDeploymentsResponse.WorkerDeploymentSummary.ramping_version_summary:type_name -> temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummary
-	436, // 445: temporal.api.workflowservice.v1.UpdateWorkerDeploymentVersionComputeConfigRequest.ComputeConfigScalingGroupsEntry.value:type_name -> temporal.api.compute.v1.ComputeConfigScalingGroupUpdate
-	436, // 446: temporal.api.workflowservice.v1.ValidateWorkerDeploymentVersionComputeConfigRequest.ComputeConfigScalingGroupsEntry.value:type_name -> temporal.api.compute.v1.ComputeConfigScalingGroupUpdate
-	418, // 447: temporal.api.workflowservice.v1.UpdateWorkerDeploymentVersionMetadataRequest.UpsertEntriesEntry.value:type_name -> temporal.api.common.v1.Payload
-	437, // 448: temporal.api.workflowservice.v1.UpdateTaskQueueConfigRequest.RateLimitUpdate.rate_limit:type_name -> temporal.api.taskqueue.v1.RateLimit
-	418, // 449: temporal.api.workflowservice.v1.CountActivityExecutionsResponse.AggregationGroup.group_values:type_name -> temporal.api.common.v1.Payload
-	418, // 450: temporal.api.workflowservice.v1.CountNexusOperationExecutionsResponse.AggregationGroup.group_values:type_name -> temporal.api.common.v1.Payload
-	451, // [451:451] is the sub-list for method output_type
-	451, // [451:451] is the sub-list for method input_type
-	451, // [451:451] is the sub-list for extension type_name
-	451, // [451:451] is the sub-list for extension extendee
-	0,   // [0:451] is the sub-list for field type_name
+	309, // 42: temporal.api.workflowservice.v1.StartWorkflowExecutionRequest.propagated_nexus_serialization_context:type_name -> temporal.api.nexus.v1.PropagatedSerializationContext
+	310, // 43: temporal.api.workflowservice.v1.StartWorkflowExecutionRequest.time_skipping_state_propagation:type_name -> temporal.api.common.v1.TimeSkippingStatePropagation
+	311, // 44: temporal.api.workflowservice.v1.StartWorkflowExecutionResponse.status:type_name -> temporal.api.enums.v1.WorkflowExecutionStatus
+	17,  // 45: temporal.api.workflowservice.v1.StartWorkflowExecutionResponse.eager_workflow_task:type_name -> temporal.api.workflowservice.v1.PollWorkflowTaskQueueResponse
+	303, // 46: temporal.api.workflowservice.v1.StartWorkflowExecutionResponse.link:type_name -> temporal.api.common.v1.Link
+	312, // 47: temporal.api.workflowservice.v1.GetWorkflowExecutionHistoryRequest.execution:type_name -> temporal.api.common.v1.WorkflowExecution
+	313, // 48: temporal.api.workflowservice.v1.GetWorkflowExecutionHistoryRequest.history_event_filter_type:type_name -> temporal.api.enums.v1.HistoryEventFilterType
+	314, // 49: temporal.api.workflowservice.v1.GetWorkflowExecutionHistoryResponse.history:type_name -> temporal.api.history.v1.History
+	315, // 50: temporal.api.workflowservice.v1.GetWorkflowExecutionHistoryResponse.raw_history:type_name -> temporal.api.common.v1.DataBlob
+	309, // 51: temporal.api.workflowservice.v1.GetWorkflowExecutionHistoryResponse.propagated_nexus_serialization_context:type_name -> temporal.api.nexus.v1.PropagatedSerializationContext
+	312, // 52: temporal.api.workflowservice.v1.GetWorkflowExecutionHistoryReverseRequest.execution:type_name -> temporal.api.common.v1.WorkflowExecution
+	314, // 53: temporal.api.workflowservice.v1.GetWorkflowExecutionHistoryReverseResponse.history:type_name -> temporal.api.history.v1.History
+	292, // 54: temporal.api.workflowservice.v1.PollWorkflowTaskQueueRequest.task_queue:type_name -> temporal.api.taskqueue.v1.TaskQueue
+	316, // 55: temporal.api.workflowservice.v1.PollWorkflowTaskQueueRequest.worker_version_capabilities:type_name -> temporal.api.common.v1.WorkerVersionCapabilities
+	307, // 56: temporal.api.workflowservice.v1.PollWorkflowTaskQueueRequest.deployment_options:type_name -> temporal.api.deployment.v1.WorkerDeploymentOptions
+	312, // 57: temporal.api.workflowservice.v1.PollWorkflowTaskQueueResponse.workflow_execution:type_name -> temporal.api.common.v1.WorkflowExecution
+	291, // 58: temporal.api.workflowservice.v1.PollWorkflowTaskQueueResponse.workflow_type:type_name -> temporal.api.common.v1.WorkflowType
+	314, // 59: temporal.api.workflowservice.v1.PollWorkflowTaskQueueResponse.history:type_name -> temporal.api.history.v1.History
+	317, // 60: temporal.api.workflowservice.v1.PollWorkflowTaskQueueResponse.query:type_name -> temporal.api.query.v1.WorkflowQuery
+	292, // 61: temporal.api.workflowservice.v1.PollWorkflowTaskQueueResponse.workflow_execution_task_queue:type_name -> temporal.api.taskqueue.v1.TaskQueue
+	318, // 62: temporal.api.workflowservice.v1.PollWorkflowTaskQueueResponse.scheduled_time:type_name -> google.protobuf.Timestamp
+	318, // 63: temporal.api.workflowservice.v1.PollWorkflowTaskQueueResponse.started_time:type_name -> google.protobuf.Timestamp
+	247, // 64: temporal.api.workflowservice.v1.PollWorkflowTaskQueueResponse.queries:type_name -> temporal.api.workflowservice.v1.PollWorkflowTaskQueueResponse.QueriesEntry
+	319, // 65: temporal.api.workflowservice.v1.PollWorkflowTaskQueueResponse.messages:type_name -> temporal.api.protocol.v1.Message
+	320, // 66: temporal.api.workflowservice.v1.PollWorkflowTaskQueueResponse.poller_scaling_decision:type_name -> temporal.api.taskqueue.v1.PollerScalingDecision
+	288, // 67: temporal.api.workflowservice.v1.PollWorkflowTaskQueueResponse.poller_group_infos:type_name -> temporal.api.taskqueue.v1.PollerGroupInfo
+	289, // 68: temporal.api.workflowservice.v1.PollWorkflowTaskQueueResponse.poller_groups_info:type_name -> temporal.api.taskqueue.v1.PollerGroupsInfo
+	321, // 69: temporal.api.workflowservice.v1.RespondWorkflowTaskCompletedRequest.commands:type_name -> temporal.api.command.v1.Command
+	322, // 70: temporal.api.workflowservice.v1.RespondWorkflowTaskCompletedRequest.sticky_attributes:type_name -> temporal.api.taskqueue.v1.StickyExecutionAttributes
+	248, // 71: temporal.api.workflowservice.v1.RespondWorkflowTaskCompletedRequest.query_results:type_name -> temporal.api.workflowservice.v1.RespondWorkflowTaskCompletedRequest.QueryResultsEntry
+	323, // 72: temporal.api.workflowservice.v1.RespondWorkflowTaskCompletedRequest.worker_version_stamp:type_name -> temporal.api.common.v1.WorkerVersionStamp
+	319, // 73: temporal.api.workflowservice.v1.RespondWorkflowTaskCompletedRequest.messages:type_name -> temporal.api.protocol.v1.Message
+	324, // 74: temporal.api.workflowservice.v1.RespondWorkflowTaskCompletedRequest.sdk_metadata:type_name -> temporal.api.sdk.v1.WorkflowTaskCompletedMetadata
+	325, // 75: temporal.api.workflowservice.v1.RespondWorkflowTaskCompletedRequest.metering_metadata:type_name -> temporal.api.common.v1.MeteringMetadata
+	249, // 76: temporal.api.workflowservice.v1.RespondWorkflowTaskCompletedRequest.capabilities:type_name -> temporal.api.workflowservice.v1.RespondWorkflowTaskCompletedRequest.Capabilities
+	326, // 77: temporal.api.workflowservice.v1.RespondWorkflowTaskCompletedRequest.deployment:type_name -> temporal.api.deployment.v1.Deployment
+	327, // 78: temporal.api.workflowservice.v1.RespondWorkflowTaskCompletedRequest.versioning_behavior:type_name -> temporal.api.enums.v1.VersioningBehavior
+	307, // 79: temporal.api.workflowservice.v1.RespondWorkflowTaskCompletedRequest.deployment_options:type_name -> temporal.api.deployment.v1.WorkerDeploymentOptions
+	17,  // 80: temporal.api.workflowservice.v1.RespondWorkflowTaskCompletedResponse.workflow_task:type_name -> temporal.api.workflowservice.v1.PollWorkflowTaskQueueResponse
+	23,  // 81: temporal.api.workflowservice.v1.RespondWorkflowTaskCompletedResponse.activity_tasks:type_name -> temporal.api.workflowservice.v1.PollActivityTaskQueueResponse
+	328, // 82: temporal.api.workflowservice.v1.RespondWorkflowTaskFailedRequest.cause:type_name -> temporal.api.enums.v1.WorkflowTaskFailedCause
+	300, // 83: temporal.api.workflowservice.v1.RespondWorkflowTaskFailedRequest.failure:type_name -> temporal.api.failure.v1.Failure
+	319, // 84: temporal.api.workflowservice.v1.RespondWorkflowTaskFailedRequest.messages:type_name -> temporal.api.protocol.v1.Message
+	323, // 85: temporal.api.workflowservice.v1.RespondWorkflowTaskFailedRequest.worker_version:type_name -> temporal.api.common.v1.WorkerVersionStamp
+	326, // 86: temporal.api.workflowservice.v1.RespondWorkflowTaskFailedRequest.deployment:type_name -> temporal.api.deployment.v1.Deployment
+	307, // 87: temporal.api.workflowservice.v1.RespondWorkflowTaskFailedRequest.deployment_options:type_name -> temporal.api.deployment.v1.WorkerDeploymentOptions
+	292, // 88: temporal.api.workflowservice.v1.PollActivityTaskQueueRequest.task_queue:type_name -> temporal.api.taskqueue.v1.TaskQueue
+	329, // 89: temporal.api.workflowservice.v1.PollActivityTaskQueueRequest.task_queue_metadata:type_name -> temporal.api.taskqueue.v1.TaskQueueMetadata
+	316, // 90: temporal.api.workflowservice.v1.PollActivityTaskQueueRequest.worker_version_capabilities:type_name -> temporal.api.common.v1.WorkerVersionCapabilities
+	307, // 91: temporal.api.workflowservice.v1.PollActivityTaskQueueRequest.deployment_options:type_name -> temporal.api.deployment.v1.WorkerDeploymentOptions
+	291, // 92: temporal.api.workflowservice.v1.PollActivityTaskQueueResponse.workflow_type:type_name -> temporal.api.common.v1.WorkflowType
+	312, // 93: temporal.api.workflowservice.v1.PollActivityTaskQueueResponse.workflow_execution:type_name -> temporal.api.common.v1.WorkflowExecution
+	330, // 94: temporal.api.workflowservice.v1.PollActivityTaskQueueResponse.activity_type:type_name -> temporal.api.common.v1.ActivityType
+	299, // 95: temporal.api.workflowservice.v1.PollActivityTaskQueueResponse.header:type_name -> temporal.api.common.v1.Header
+	293, // 96: temporal.api.workflowservice.v1.PollActivityTaskQueueResponse.input:type_name -> temporal.api.common.v1.Payloads
+	293, // 97: temporal.api.workflowservice.v1.PollActivityTaskQueueResponse.heartbeat_details:type_name -> temporal.api.common.v1.Payloads
+	318, // 98: temporal.api.workflowservice.v1.PollActivityTaskQueueResponse.scheduled_time:type_name -> google.protobuf.Timestamp
+	318, // 99: temporal.api.workflowservice.v1.PollActivityTaskQueueResponse.current_attempt_scheduled_time:type_name -> google.protobuf.Timestamp
+	318, // 100: temporal.api.workflowservice.v1.PollActivityTaskQueueResponse.started_time:type_name -> google.protobuf.Timestamp
+	280, // 101: temporal.api.workflowservice.v1.PollActivityTaskQueueResponse.schedule_to_close_timeout:type_name -> google.protobuf.Duration
+	280, // 102: temporal.api.workflowservice.v1.PollActivityTaskQueueResponse.start_to_close_timeout:type_name -> google.protobuf.Duration
+	280, // 103: temporal.api.workflowservice.v1.PollActivityTaskQueueResponse.heartbeat_timeout:type_name -> google.protobuf.Duration
+	296, // 104: temporal.api.workflowservice.v1.PollActivityTaskQueueResponse.retry_policy:type_name -> temporal.api.common.v1.RetryPolicy
+	320, // 105: temporal.api.workflowservice.v1.PollActivityTaskQueueResponse.poller_scaling_decision:type_name -> temporal.api.taskqueue.v1.PollerScalingDecision
+	306, // 106: temporal.api.workflowservice.v1.PollActivityTaskQueueResponse.priority:type_name -> temporal.api.common.v1.Priority
+	288, // 107: temporal.api.workflowservice.v1.PollActivityTaskQueueResponse.poller_group_infos:type_name -> temporal.api.taskqueue.v1.PollerGroupInfo
+	289, // 108: temporal.api.workflowservice.v1.PollActivityTaskQueueResponse.poller_groups_info:type_name -> temporal.api.taskqueue.v1.PollerGroupsInfo
+	309, // 109: temporal.api.workflowservice.v1.PollActivityTaskQueueResponse.propagated_nexus_serialization_context:type_name -> temporal.api.nexus.v1.PropagatedSerializationContext
+	293, // 110: temporal.api.workflowservice.v1.RecordActivityTaskHeartbeatRequest.details:type_name -> temporal.api.common.v1.Payloads
+	293, // 111: temporal.api.workflowservice.v1.RecordActivityTaskHeartbeatByIdRequest.details:type_name -> temporal.api.common.v1.Payloads
+	293, // 112: temporal.api.workflowservice.v1.RespondActivityTaskCompletedRequest.result:type_name -> temporal.api.common.v1.Payloads
+	323, // 113: temporal.api.workflowservice.v1.RespondActivityTaskCompletedRequest.worker_version:type_name -> temporal.api.common.v1.WorkerVersionStamp
+	326, // 114: temporal.api.workflowservice.v1.RespondActivityTaskCompletedRequest.deployment:type_name -> temporal.api.deployment.v1.Deployment
+	307, // 115: temporal.api.workflowservice.v1.RespondActivityTaskCompletedRequest.deployment_options:type_name -> temporal.api.deployment.v1.WorkerDeploymentOptions
+	293, // 116: temporal.api.workflowservice.v1.RespondActivityTaskCompletedByIdRequest.result:type_name -> temporal.api.common.v1.Payloads
+	300, // 117: temporal.api.workflowservice.v1.RespondActivityTaskFailedRequest.failure:type_name -> temporal.api.failure.v1.Failure
+	293, // 118: temporal.api.workflowservice.v1.RespondActivityTaskFailedRequest.last_heartbeat_details:type_name -> temporal.api.common.v1.Payloads
+	323, // 119: temporal.api.workflowservice.v1.RespondActivityTaskFailedRequest.worker_version:type_name -> temporal.api.common.v1.WorkerVersionStamp
+	326, // 120: temporal.api.workflowservice.v1.RespondActivityTaskFailedRequest.deployment:type_name -> temporal.api.deployment.v1.Deployment
+	307, // 121: temporal.api.workflowservice.v1.RespondActivityTaskFailedRequest.deployment_options:type_name -> temporal.api.deployment.v1.WorkerDeploymentOptions
+	331, // 122: temporal.api.workflowservice.v1.RespondActivityTaskFailedRequest.cause:type_name -> temporal.api.enums.v1.ActivityTaskFailedCause
+	300, // 123: temporal.api.workflowservice.v1.RespondActivityTaskFailedResponse.failures:type_name -> temporal.api.failure.v1.Failure
+	300, // 124: temporal.api.workflowservice.v1.RespondActivityTaskFailedByIdRequest.failure:type_name -> temporal.api.failure.v1.Failure
+	293, // 125: temporal.api.workflowservice.v1.RespondActivityTaskFailedByIdRequest.last_heartbeat_details:type_name -> temporal.api.common.v1.Payloads
+	331, // 126: temporal.api.workflowservice.v1.RespondActivityTaskFailedByIdRequest.cause:type_name -> temporal.api.enums.v1.ActivityTaskFailedCause
+	300, // 127: temporal.api.workflowservice.v1.RespondActivityTaskFailedByIdResponse.failures:type_name -> temporal.api.failure.v1.Failure
+	293, // 128: temporal.api.workflowservice.v1.RespondActivityTaskCanceledRequest.details:type_name -> temporal.api.common.v1.Payloads
+	323, // 129: temporal.api.workflowservice.v1.RespondActivityTaskCanceledRequest.worker_version:type_name -> temporal.api.common.v1.WorkerVersionStamp
+	326, // 130: temporal.api.workflowservice.v1.RespondActivityTaskCanceledRequest.deployment:type_name -> temporal.api.deployment.v1.Deployment
+	307, // 131: temporal.api.workflowservice.v1.RespondActivityTaskCanceledRequest.deployment_options:type_name -> temporal.api.deployment.v1.WorkerDeploymentOptions
+	293, // 132: temporal.api.workflowservice.v1.RespondActivityTaskCanceledByIdRequest.details:type_name -> temporal.api.common.v1.Payloads
+	307, // 133: temporal.api.workflowservice.v1.RespondActivityTaskCanceledByIdRequest.deployment_options:type_name -> temporal.api.deployment.v1.WorkerDeploymentOptions
+	312, // 134: temporal.api.workflowservice.v1.RequestCancelWorkflowExecutionRequest.workflow_execution:type_name -> temporal.api.common.v1.WorkflowExecution
+	303, // 135: temporal.api.workflowservice.v1.RequestCancelWorkflowExecutionRequest.links:type_name -> temporal.api.common.v1.Link
+	312, // 136: temporal.api.workflowservice.v1.SignalWorkflowExecutionRequest.workflow_execution:type_name -> temporal.api.common.v1.WorkflowExecution
+	293, // 137: temporal.api.workflowservice.v1.SignalWorkflowExecutionRequest.input:type_name -> temporal.api.common.v1.Payloads
+	299, // 138: temporal.api.workflowservice.v1.SignalWorkflowExecutionRequest.header:type_name -> temporal.api.common.v1.Header
+	303, // 139: temporal.api.workflowservice.v1.SignalWorkflowExecutionRequest.links:type_name -> temporal.api.common.v1.Link
+	303, // 140: temporal.api.workflowservice.v1.SignalWorkflowExecutionResponse.link:type_name -> temporal.api.common.v1.Link
+	291, // 141: temporal.api.workflowservice.v1.SignalWithStartWorkflowExecutionRequest.workflow_type:type_name -> temporal.api.common.v1.WorkflowType
+	292, // 142: temporal.api.workflowservice.v1.SignalWithStartWorkflowExecutionRequest.task_queue:type_name -> temporal.api.taskqueue.v1.TaskQueue
+	293, // 143: temporal.api.workflowservice.v1.SignalWithStartWorkflowExecutionRequest.input:type_name -> temporal.api.common.v1.Payloads
+	280, // 144: temporal.api.workflowservice.v1.SignalWithStartWorkflowExecutionRequest.workflow_execution_timeout:type_name -> google.protobuf.Duration
+	280, // 145: temporal.api.workflowservice.v1.SignalWithStartWorkflowExecutionRequest.workflow_run_timeout:type_name -> google.protobuf.Duration
+	280, // 146: temporal.api.workflowservice.v1.SignalWithStartWorkflowExecutionRequest.workflow_task_timeout:type_name -> google.protobuf.Duration
+	294, // 147: temporal.api.workflowservice.v1.SignalWithStartWorkflowExecutionRequest.workflow_id_reuse_policy:type_name -> temporal.api.enums.v1.WorkflowIdReusePolicy
+	295, // 148: temporal.api.workflowservice.v1.SignalWithStartWorkflowExecutionRequest.workflow_id_conflict_policy:type_name -> temporal.api.enums.v1.WorkflowIdConflictPolicy
+	293, // 149: temporal.api.workflowservice.v1.SignalWithStartWorkflowExecutionRequest.signal_input:type_name -> temporal.api.common.v1.Payloads
+	296, // 150: temporal.api.workflowservice.v1.SignalWithStartWorkflowExecutionRequest.retry_policy:type_name -> temporal.api.common.v1.RetryPolicy
+	297, // 151: temporal.api.workflowservice.v1.SignalWithStartWorkflowExecutionRequest.memo:type_name -> temporal.api.common.v1.Memo
+	298, // 152: temporal.api.workflowservice.v1.SignalWithStartWorkflowExecutionRequest.search_attributes:type_name -> temporal.api.common.v1.SearchAttributes
+	299, // 153: temporal.api.workflowservice.v1.SignalWithStartWorkflowExecutionRequest.header:type_name -> temporal.api.common.v1.Header
+	280, // 154: temporal.api.workflowservice.v1.SignalWithStartWorkflowExecutionRequest.workflow_start_delay:type_name -> google.protobuf.Duration
+	302, // 155: temporal.api.workflowservice.v1.SignalWithStartWorkflowExecutionRequest.user_metadata:type_name -> temporal.api.sdk.v1.UserMetadata
+	303, // 156: temporal.api.workflowservice.v1.SignalWithStartWorkflowExecutionRequest.links:type_name -> temporal.api.common.v1.Link
+	304, // 157: temporal.api.workflowservice.v1.SignalWithStartWorkflowExecutionRequest.versioning_override:type_name -> temporal.api.workflow.v1.VersioningOverride
+	306, // 158: temporal.api.workflowservice.v1.SignalWithStartWorkflowExecutionRequest.priority:type_name -> temporal.api.common.v1.Priority
+	308, // 159: temporal.api.workflowservice.v1.SignalWithStartWorkflowExecutionRequest.time_skipping_config:type_name -> temporal.api.common.v1.TimeSkippingConfig
+	303, // 160: temporal.api.workflowservice.v1.SignalWithStartWorkflowExecutionResponse.signal_link:type_name -> temporal.api.common.v1.Link
+	312, // 161: temporal.api.workflowservice.v1.ResetWorkflowExecutionRequest.workflow_execution:type_name -> temporal.api.common.v1.WorkflowExecution
+	332, // 162: temporal.api.workflowservice.v1.ResetWorkflowExecutionRequest.reset_reapply_type:type_name -> temporal.api.enums.v1.ResetReapplyType
+	333, // 163: temporal.api.workflowservice.v1.ResetWorkflowExecutionRequest.reset_reapply_exclude_types:type_name -> temporal.api.enums.v1.ResetReapplyExcludeType
+	334, // 164: temporal.api.workflowservice.v1.ResetWorkflowExecutionRequest.post_reset_operations:type_name -> temporal.api.workflow.v1.PostResetOperation
+	312, // 165: temporal.api.workflowservice.v1.TerminateWorkflowExecutionRequest.workflow_execution:type_name -> temporal.api.common.v1.WorkflowExecution
+	293, // 166: temporal.api.workflowservice.v1.TerminateWorkflowExecutionRequest.details:type_name -> temporal.api.common.v1.Payloads
+	303, // 167: temporal.api.workflowservice.v1.TerminateWorkflowExecutionRequest.links:type_name -> temporal.api.common.v1.Link
+	312, // 168: temporal.api.workflowservice.v1.DeleteWorkflowExecutionRequest.workflow_execution:type_name -> temporal.api.common.v1.WorkflowExecution
+	335, // 169: temporal.api.workflowservice.v1.ListOpenWorkflowExecutionsRequest.start_time_filter:type_name -> temporal.api.filter.v1.StartTimeFilter
+	336, // 170: temporal.api.workflowservice.v1.ListOpenWorkflowExecutionsRequest.execution_filter:type_name -> temporal.api.filter.v1.WorkflowExecutionFilter
+	337, // 171: temporal.api.workflowservice.v1.ListOpenWorkflowExecutionsRequest.type_filter:type_name -> temporal.api.filter.v1.WorkflowTypeFilter
+	338, // 172: temporal.api.workflowservice.v1.ListOpenWorkflowExecutionsResponse.executions:type_name -> temporal.api.workflow.v1.WorkflowExecutionInfo
+	335, // 173: temporal.api.workflowservice.v1.ListClosedWorkflowExecutionsRequest.start_time_filter:type_name -> temporal.api.filter.v1.StartTimeFilter
+	336, // 174: temporal.api.workflowservice.v1.ListClosedWorkflowExecutionsRequest.execution_filter:type_name -> temporal.api.filter.v1.WorkflowExecutionFilter
+	337, // 175: temporal.api.workflowservice.v1.ListClosedWorkflowExecutionsRequest.type_filter:type_name -> temporal.api.filter.v1.WorkflowTypeFilter
+	339, // 176: temporal.api.workflowservice.v1.ListClosedWorkflowExecutionsRequest.status_filter:type_name -> temporal.api.filter.v1.StatusFilter
+	338, // 177: temporal.api.workflowservice.v1.ListClosedWorkflowExecutionsResponse.executions:type_name -> temporal.api.workflow.v1.WorkflowExecutionInfo
+	338, // 178: temporal.api.workflowservice.v1.ListWorkflowExecutionsResponse.executions:type_name -> temporal.api.workflow.v1.WorkflowExecutionInfo
+	338, // 179: temporal.api.workflowservice.v1.ListArchivedWorkflowExecutionsResponse.executions:type_name -> temporal.api.workflow.v1.WorkflowExecutionInfo
+	338, // 180: temporal.api.workflowservice.v1.ScanWorkflowExecutionsResponse.executions:type_name -> temporal.api.workflow.v1.WorkflowExecutionInfo
+	250, // 181: temporal.api.workflowservice.v1.CountWorkflowExecutionsResponse.groups:type_name -> temporal.api.workflowservice.v1.CountWorkflowExecutionsResponse.AggregationGroup
+	251, // 182: temporal.api.workflowservice.v1.GetSearchAttributesResponse.keys:type_name -> temporal.api.workflowservice.v1.GetSearchAttributesResponse.KeysEntry
+	340, // 183: temporal.api.workflowservice.v1.RespondQueryTaskCompletedRequest.completed_type:type_name -> temporal.api.enums.v1.QueryResultType
+	293, // 184: temporal.api.workflowservice.v1.RespondQueryTaskCompletedRequest.query_result:type_name -> temporal.api.common.v1.Payloads
+	300, // 185: temporal.api.workflowservice.v1.RespondQueryTaskCompletedRequest.failure:type_name -> temporal.api.failure.v1.Failure
+	328, // 186: temporal.api.workflowservice.v1.RespondQueryTaskCompletedRequest.cause:type_name -> temporal.api.enums.v1.WorkflowTaskFailedCause
+	312, // 187: temporal.api.workflowservice.v1.ResetStickyTaskQueueRequest.execution:type_name -> temporal.api.common.v1.WorkflowExecution
+	341, // 188: temporal.api.workflowservice.v1.ShutdownWorkerRequest.worker_heartbeat:type_name -> temporal.api.worker.v1.WorkerHeartbeat
+	342, // 189: temporal.api.workflowservice.v1.ShutdownWorkerRequest.task_queue_types:type_name -> temporal.api.enums.v1.TaskQueueType
+	312, // 190: temporal.api.workflowservice.v1.QueryWorkflowRequest.execution:type_name -> temporal.api.common.v1.WorkflowExecution
+	317, // 191: temporal.api.workflowservice.v1.QueryWorkflowRequest.query:type_name -> temporal.api.query.v1.WorkflowQuery
+	343, // 192: temporal.api.workflowservice.v1.QueryWorkflowRequest.query_reject_condition:type_name -> temporal.api.enums.v1.QueryRejectCondition
+	293, // 193: temporal.api.workflowservice.v1.QueryWorkflowResponse.query_result:type_name -> temporal.api.common.v1.Payloads
+	344, // 194: temporal.api.workflowservice.v1.QueryWorkflowResponse.query_rejected:type_name -> temporal.api.query.v1.QueryRejected
+	303, // 195: temporal.api.workflowservice.v1.QueryWorkflowResponse.link:type_name -> temporal.api.common.v1.Link
+	312, // 196: temporal.api.workflowservice.v1.DescribeWorkflowExecutionRequest.execution:type_name -> temporal.api.common.v1.WorkflowExecution
+	345, // 197: temporal.api.workflowservice.v1.DescribeWorkflowExecutionResponse.execution_config:type_name -> temporal.api.workflow.v1.WorkflowExecutionConfig
+	338, // 198: temporal.api.workflowservice.v1.DescribeWorkflowExecutionResponse.workflow_execution_info:type_name -> temporal.api.workflow.v1.WorkflowExecutionInfo
+	346, // 199: temporal.api.workflowservice.v1.DescribeWorkflowExecutionResponse.pending_activities:type_name -> temporal.api.workflow.v1.PendingActivityInfo
+	347, // 200: temporal.api.workflowservice.v1.DescribeWorkflowExecutionResponse.pending_children:type_name -> temporal.api.workflow.v1.PendingChildExecutionInfo
+	348, // 201: temporal.api.workflowservice.v1.DescribeWorkflowExecutionResponse.pending_workflow_task:type_name -> temporal.api.workflow.v1.PendingWorkflowTaskInfo
+	349, // 202: temporal.api.workflowservice.v1.DescribeWorkflowExecutionResponse.callbacks:type_name -> temporal.api.workflow.v1.CallbackInfo
+	350, // 203: temporal.api.workflowservice.v1.DescribeWorkflowExecutionResponse.pending_nexus_operations:type_name -> temporal.api.workflow.v1.PendingNexusOperationInfo
+	351, // 204: temporal.api.workflowservice.v1.DescribeWorkflowExecutionResponse.workflow_extended_info:type_name -> temporal.api.workflow.v1.WorkflowExecutionExtendedInfo
+	292, // 205: temporal.api.workflowservice.v1.DescribeTaskQueueRequest.task_queue:type_name -> temporal.api.taskqueue.v1.TaskQueue
+	342, // 206: temporal.api.workflowservice.v1.DescribeTaskQueueRequest.task_queue_type:type_name -> temporal.api.enums.v1.TaskQueueType
+	352, // 207: temporal.api.workflowservice.v1.DescribeTaskQueueRequest.api_mode:type_name -> temporal.api.enums.v1.DescribeTaskQueueMode
+	353, // 208: temporal.api.workflowservice.v1.DescribeTaskQueueRequest.versions:type_name -> temporal.api.taskqueue.v1.TaskQueueVersionSelection
+	342, // 209: temporal.api.workflowservice.v1.DescribeTaskQueueRequest.task_queue_types:type_name -> temporal.api.enums.v1.TaskQueueType
+	354, // 210: temporal.api.workflowservice.v1.DescribeTaskQueueResponse.pollers:type_name -> temporal.api.taskqueue.v1.PollerInfo
+	355, // 211: temporal.api.workflowservice.v1.DescribeTaskQueueResponse.stats:type_name -> temporal.api.taskqueue.v1.TaskQueueStats
+	252, // 212: temporal.api.workflowservice.v1.DescribeTaskQueueResponse.stats_by_priority_key:type_name -> temporal.api.workflowservice.v1.DescribeTaskQueueResponse.StatsByPriorityKeyEntry
+	356, // 213: temporal.api.workflowservice.v1.DescribeTaskQueueResponse.versioning_info:type_name -> temporal.api.taskqueue.v1.TaskQueueVersioningInfo
+	357, // 214: temporal.api.workflowservice.v1.DescribeTaskQueueResponse.config:type_name -> temporal.api.taskqueue.v1.TaskQueueConfig
+	253, // 215: temporal.api.workflowservice.v1.DescribeTaskQueueResponse.effective_rate_limit:type_name -> temporal.api.workflowservice.v1.DescribeTaskQueueResponse.EffectiveRateLimit
+	358, // 216: temporal.api.workflowservice.v1.DescribeTaskQueueResponse.task_queue_status:type_name -> temporal.api.taskqueue.v1.TaskQueueStatus
+	254, // 217: temporal.api.workflowservice.v1.DescribeTaskQueueResponse.versions_info:type_name -> temporal.api.workflowservice.v1.DescribeTaskQueueResponse.VersionsInfoEntry
+	255, // 218: temporal.api.workflowservice.v1.GetClusterInfoResponse.supported_clients:type_name -> temporal.api.workflowservice.v1.GetClusterInfoResponse.SupportedClientsEntry
+	359, // 219: temporal.api.workflowservice.v1.GetClusterInfoResponse.version_info:type_name -> temporal.api.version.v1.VersionInfo
+	256, // 220: temporal.api.workflowservice.v1.GetSystemInfoResponse.capabilities:type_name -> temporal.api.workflowservice.v1.GetSystemInfoResponse.Capabilities
+	292, // 221: temporal.api.workflowservice.v1.ListTaskQueuePartitionsRequest.task_queue:type_name -> temporal.api.taskqueue.v1.TaskQueue
+	360, // 222: temporal.api.workflowservice.v1.ListTaskQueuePartitionsResponse.activity_task_queue_partitions:type_name -> temporal.api.taskqueue.v1.TaskQueuePartitionMetadata
+	360, // 223: temporal.api.workflowservice.v1.ListTaskQueuePartitionsResponse.workflow_task_queue_partitions:type_name -> temporal.api.taskqueue.v1.TaskQueuePartitionMetadata
+	361, // 224: temporal.api.workflowservice.v1.CreateScheduleRequest.schedule:type_name -> temporal.api.schedule.v1.Schedule
+	362, // 225: temporal.api.workflowservice.v1.CreateScheduleRequest.initial_patch:type_name -> temporal.api.schedule.v1.SchedulePatch
+	297, // 226: temporal.api.workflowservice.v1.CreateScheduleRequest.memo:type_name -> temporal.api.common.v1.Memo
+	298, // 227: temporal.api.workflowservice.v1.CreateScheduleRequest.search_attributes:type_name -> temporal.api.common.v1.SearchAttributes
+	361, // 228: temporal.api.workflowservice.v1.DescribeScheduleResponse.schedule:type_name -> temporal.api.schedule.v1.Schedule
+	363, // 229: temporal.api.workflowservice.v1.DescribeScheduleResponse.info:type_name -> temporal.api.schedule.v1.ScheduleInfo
+	297, // 230: temporal.api.workflowservice.v1.DescribeScheduleResponse.memo:type_name -> temporal.api.common.v1.Memo
+	298, // 231: temporal.api.workflowservice.v1.DescribeScheduleResponse.search_attributes:type_name -> temporal.api.common.v1.SearchAttributes
+	361, // 232: temporal.api.workflowservice.v1.UpdateScheduleRequest.schedule:type_name -> temporal.api.schedule.v1.Schedule
+	298, // 233: temporal.api.workflowservice.v1.UpdateScheduleRequest.search_attributes:type_name -> temporal.api.common.v1.SearchAttributes
+	297, // 234: temporal.api.workflowservice.v1.UpdateScheduleRequest.memo:type_name -> temporal.api.common.v1.Memo
+	362, // 235: temporal.api.workflowservice.v1.PatchScheduleRequest.patch:type_name -> temporal.api.schedule.v1.SchedulePatch
+	318, // 236: temporal.api.workflowservice.v1.ListScheduleMatchingTimesRequest.start_time:type_name -> google.protobuf.Timestamp
+	318, // 237: temporal.api.workflowservice.v1.ListScheduleMatchingTimesRequest.end_time:type_name -> google.protobuf.Timestamp
+	318, // 238: temporal.api.workflowservice.v1.ListScheduleMatchingTimesResponse.start_time:type_name -> google.protobuf.Timestamp
+	364, // 239: temporal.api.workflowservice.v1.ListSchedulesResponse.schedules:type_name -> temporal.api.schedule.v1.ScheduleListEntry
+	257, // 240: temporal.api.workflowservice.v1.CountSchedulesResponse.groups:type_name -> temporal.api.workflowservice.v1.CountSchedulesResponse.AggregationGroup
+	258, // 241: temporal.api.workflowservice.v1.UpdateWorkerBuildIdCompatibilityRequest.add_new_compatible_build_id:type_name -> temporal.api.workflowservice.v1.UpdateWorkerBuildIdCompatibilityRequest.AddNewCompatibleVersion
+	259, // 242: temporal.api.workflowservice.v1.UpdateWorkerBuildIdCompatibilityRequest.merge_sets:type_name -> temporal.api.workflowservice.v1.UpdateWorkerBuildIdCompatibilityRequest.MergeSets
+	365, // 243: temporal.api.workflowservice.v1.GetWorkerBuildIdCompatibilityResponse.major_version_sets:type_name -> temporal.api.taskqueue.v1.CompatibleVersionSet
+	260, // 244: temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesRequest.insert_assignment_rule:type_name -> temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesRequest.InsertBuildIdAssignmentRule
+	261, // 245: temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesRequest.replace_assignment_rule:type_name -> temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesRequest.ReplaceBuildIdAssignmentRule
+	262, // 246: temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesRequest.delete_assignment_rule:type_name -> temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesRequest.DeleteBuildIdAssignmentRule
+	263, // 247: temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesRequest.add_compatible_redirect_rule:type_name -> temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesRequest.AddCompatibleBuildIdRedirectRule
+	264, // 248: temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesRequest.replace_compatible_redirect_rule:type_name -> temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesRequest.ReplaceCompatibleBuildIdRedirectRule
+	265, // 249: temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesRequest.delete_compatible_redirect_rule:type_name -> temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesRequest.DeleteCompatibleBuildIdRedirectRule
+	266, // 250: temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesRequest.commit_build_id:type_name -> temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesRequest.CommitBuildId
+	366, // 251: temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesResponse.assignment_rules:type_name -> temporal.api.taskqueue.v1.TimestampedBuildIdAssignmentRule
+	367, // 252: temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesResponse.compatible_redirect_rules:type_name -> temporal.api.taskqueue.v1.TimestampedCompatibleBuildIdRedirectRule
+	366, // 253: temporal.api.workflowservice.v1.GetWorkerVersioningRulesResponse.assignment_rules:type_name -> temporal.api.taskqueue.v1.TimestampedBuildIdAssignmentRule
+	367, // 254: temporal.api.workflowservice.v1.GetWorkerVersioningRulesResponse.compatible_redirect_rules:type_name -> temporal.api.taskqueue.v1.TimestampedCompatibleBuildIdRedirectRule
+	368, // 255: temporal.api.workflowservice.v1.GetWorkerTaskReachabilityRequest.reachability:type_name -> temporal.api.enums.v1.TaskReachability
+	369, // 256: temporal.api.workflowservice.v1.GetWorkerTaskReachabilityResponse.build_id_reachability:type_name -> temporal.api.taskqueue.v1.BuildIdReachability
+	312, // 257: temporal.api.workflowservice.v1.UpdateWorkflowExecutionRequest.workflow_execution:type_name -> temporal.api.common.v1.WorkflowExecution
+	370, // 258: temporal.api.workflowservice.v1.UpdateWorkflowExecutionRequest.wait_policy:type_name -> temporal.api.update.v1.WaitPolicy
+	371, // 259: temporal.api.workflowservice.v1.UpdateWorkflowExecutionRequest.request:type_name -> temporal.api.update.v1.Request
+	372, // 260: temporal.api.workflowservice.v1.UpdateWorkflowExecutionResponse.update_ref:type_name -> temporal.api.update.v1.UpdateRef
+	373, // 261: temporal.api.workflowservice.v1.UpdateWorkflowExecutionResponse.outcome:type_name -> temporal.api.update.v1.Outcome
+	374, // 262: temporal.api.workflowservice.v1.UpdateWorkflowExecutionResponse.stage:type_name -> temporal.api.enums.v1.UpdateWorkflowExecutionLifecycleStage
+	303, // 263: temporal.api.workflowservice.v1.UpdateWorkflowExecutionResponse.link:type_name -> temporal.api.common.v1.Link
+	312, // 264: temporal.api.workflowservice.v1.StartBatchOperationRequest.executions:type_name -> temporal.api.common.v1.WorkflowExecution
+	375, // 265: temporal.api.workflowservice.v1.StartBatchOperationRequest.target_executions:type_name -> temporal.api.common.v1.Execution
+	376, // 266: temporal.api.workflowservice.v1.StartBatchOperationRequest.termination_operation:type_name -> temporal.api.batch.v1.BatchOperationTermination
+	377, // 267: temporal.api.workflowservice.v1.StartBatchOperationRequest.signal_operation:type_name -> temporal.api.batch.v1.BatchOperationSignal
+	378, // 268: temporal.api.workflowservice.v1.StartBatchOperationRequest.cancellation_operation:type_name -> temporal.api.batch.v1.BatchOperationCancellation
+	379, // 269: temporal.api.workflowservice.v1.StartBatchOperationRequest.deletion_operation:type_name -> temporal.api.batch.v1.BatchOperationDeletion
+	380, // 270: temporal.api.workflowservice.v1.StartBatchOperationRequest.reset_operation:type_name -> temporal.api.batch.v1.BatchOperationReset
+	381, // 271: temporal.api.workflowservice.v1.StartBatchOperationRequest.update_workflow_options_operation:type_name -> temporal.api.batch.v1.BatchOperationUpdateWorkflowExecutionOptions
+	382, // 272: temporal.api.workflowservice.v1.StartBatchOperationRequest.unpause_activities_operation:type_name -> temporal.api.batch.v1.BatchOperationUnpauseActivities
+	383, // 273: temporal.api.workflowservice.v1.StartBatchOperationRequest.reset_activities_operation:type_name -> temporal.api.batch.v1.BatchOperationResetActivities
+	384, // 274: temporal.api.workflowservice.v1.StartBatchOperationRequest.update_activity_options_operation:type_name -> temporal.api.batch.v1.BatchOperationUpdateActivityOptions
+	385, // 275: temporal.api.workflowservice.v1.StartBatchOperationRequest.cancel_activities_operation:type_name -> temporal.api.batch.v1.BatchOperationCancelActivities
+	386, // 276: temporal.api.workflowservice.v1.StartBatchOperationRequest.terminate_activities_operation:type_name -> temporal.api.batch.v1.BatchOperationTerminateActivities
+	387, // 277: temporal.api.workflowservice.v1.StartBatchOperationRequest.delete_activities_operation:type_name -> temporal.api.batch.v1.BatchOperationDeleteActivities
+	388, // 278: temporal.api.workflowservice.v1.DescribeBatchOperationResponse.operation_type:type_name -> temporal.api.enums.v1.BatchOperationType
+	389, // 279: temporal.api.workflowservice.v1.DescribeBatchOperationResponse.state:type_name -> temporal.api.enums.v1.BatchOperationState
+	318, // 280: temporal.api.workflowservice.v1.DescribeBatchOperationResponse.start_time:type_name -> google.protobuf.Timestamp
+	318, // 281: temporal.api.workflowservice.v1.DescribeBatchOperationResponse.close_time:type_name -> google.protobuf.Timestamp
+	375, // 282: temporal.api.workflowservice.v1.DescribeBatchOperationResponse.executions:type_name -> temporal.api.common.v1.Execution
+	390, // 283: temporal.api.workflowservice.v1.ListBatchOperationsResponse.operation_info:type_name -> temporal.api.batch.v1.BatchOperationInfo
+	372, // 284: temporal.api.workflowservice.v1.PollWorkflowExecutionUpdateRequest.update_ref:type_name -> temporal.api.update.v1.UpdateRef
+	370, // 285: temporal.api.workflowservice.v1.PollWorkflowExecutionUpdateRequest.wait_policy:type_name -> temporal.api.update.v1.WaitPolicy
+	373, // 286: temporal.api.workflowservice.v1.PollWorkflowExecutionUpdateResponse.outcome:type_name -> temporal.api.update.v1.Outcome
+	374, // 287: temporal.api.workflowservice.v1.PollWorkflowExecutionUpdateResponse.stage:type_name -> temporal.api.enums.v1.UpdateWorkflowExecutionLifecycleStage
+	372, // 288: temporal.api.workflowservice.v1.PollWorkflowExecutionUpdateResponse.update_ref:type_name -> temporal.api.update.v1.UpdateRef
+	292, // 289: temporal.api.workflowservice.v1.PollNexusTaskQueueRequest.task_queue:type_name -> temporal.api.taskqueue.v1.TaskQueue
+	316, // 290: temporal.api.workflowservice.v1.PollNexusTaskQueueRequest.worker_version_capabilities:type_name -> temporal.api.common.v1.WorkerVersionCapabilities
+	307, // 291: temporal.api.workflowservice.v1.PollNexusTaskQueueRequest.deployment_options:type_name -> temporal.api.deployment.v1.WorkerDeploymentOptions
+	341, // 292: temporal.api.workflowservice.v1.PollNexusTaskQueueRequest.worker_heartbeat:type_name -> temporal.api.worker.v1.WorkerHeartbeat
+	391, // 293: temporal.api.workflowservice.v1.PollNexusTaskQueueResponse.request:type_name -> temporal.api.nexus.v1.Request
+	320, // 294: temporal.api.workflowservice.v1.PollNexusTaskQueueResponse.poller_scaling_decision:type_name -> temporal.api.taskqueue.v1.PollerScalingDecision
+	288, // 295: temporal.api.workflowservice.v1.PollNexusTaskQueueResponse.poller_group_infos:type_name -> temporal.api.taskqueue.v1.PollerGroupInfo
+	289, // 296: temporal.api.workflowservice.v1.PollNexusTaskQueueResponse.poller_groups_info:type_name -> temporal.api.taskqueue.v1.PollerGroupsInfo
+	392, // 297: temporal.api.workflowservice.v1.RespondNexusTaskCompletedRequest.response:type_name -> temporal.api.nexus.v1.Response
+	393, // 298: temporal.api.workflowservice.v1.RespondNexusTaskFailedRequest.error:type_name -> temporal.api.nexus.v1.HandlerError
+	300, // 299: temporal.api.workflowservice.v1.RespondNexusTaskFailedRequest.failure:type_name -> temporal.api.failure.v1.Failure
+	267, // 300: temporal.api.workflowservice.v1.ExecuteMultiOperationRequest.operations:type_name -> temporal.api.workflowservice.v1.ExecuteMultiOperationRequest.Operation
+	268, // 301: temporal.api.workflowservice.v1.ExecuteMultiOperationResponse.responses:type_name -> temporal.api.workflowservice.v1.ExecuteMultiOperationResponse.Response
+	312, // 302: temporal.api.workflowservice.v1.UpdateActivityOptionsRequest.execution:type_name -> temporal.api.common.v1.WorkflowExecution
+	394, // 303: temporal.api.workflowservice.v1.UpdateActivityOptionsRequest.activity_options:type_name -> temporal.api.activity.v1.ActivityOptions
+	395, // 304: temporal.api.workflowservice.v1.UpdateActivityOptionsRequest.update_mask:type_name -> google.protobuf.FieldMask
+	394, // 305: temporal.api.workflowservice.v1.UpdateActivityExecutionOptionsRequest.activity_options:type_name -> temporal.api.activity.v1.ActivityOptions
+	395, // 306: temporal.api.workflowservice.v1.UpdateActivityExecutionOptionsRequest.update_mask:type_name -> google.protobuf.FieldMask
+	394, // 307: temporal.api.workflowservice.v1.UpdateActivityOptionsResponse.activity_options:type_name -> temporal.api.activity.v1.ActivityOptions
+	394, // 308: temporal.api.workflowservice.v1.UpdateActivityExecutionOptionsResponse.activity_options:type_name -> temporal.api.activity.v1.ActivityOptions
+	312, // 309: temporal.api.workflowservice.v1.PauseActivityRequest.execution:type_name -> temporal.api.common.v1.WorkflowExecution
+	312, // 310: temporal.api.workflowservice.v1.UnpauseActivityRequest.execution:type_name -> temporal.api.common.v1.WorkflowExecution
+	280, // 311: temporal.api.workflowservice.v1.UnpauseActivityRequest.jitter:type_name -> google.protobuf.Duration
+	280, // 312: temporal.api.workflowservice.v1.UnpauseActivityExecutionRequest.jitter:type_name -> google.protobuf.Duration
+	312, // 313: temporal.api.workflowservice.v1.ResetActivityRequest.execution:type_name -> temporal.api.common.v1.WorkflowExecution
+	280, // 314: temporal.api.workflowservice.v1.ResetActivityRequest.jitter:type_name -> google.protobuf.Duration
+	280, // 315: temporal.api.workflowservice.v1.ResetActivityExecutionRequest.jitter:type_name -> google.protobuf.Duration
+	312, // 316: temporal.api.workflowservice.v1.UpdateWorkflowExecutionOptionsRequest.workflow_execution:type_name -> temporal.api.common.v1.WorkflowExecution
+	396, // 317: temporal.api.workflowservice.v1.UpdateWorkflowExecutionOptionsRequest.workflow_execution_options:type_name -> temporal.api.workflow.v1.WorkflowExecutionOptions
+	395, // 318: temporal.api.workflowservice.v1.UpdateWorkflowExecutionOptionsRequest.update_mask:type_name -> google.protobuf.FieldMask
+	396, // 319: temporal.api.workflowservice.v1.UpdateWorkflowExecutionOptionsResponse.workflow_execution_options:type_name -> temporal.api.workflow.v1.WorkflowExecutionOptions
+	318, // 320: temporal.api.workflowservice.v1.UpdateWorkflowExecutionOptionsResponse.update_time:type_name -> google.protobuf.Timestamp
+	326, // 321: temporal.api.workflowservice.v1.DescribeDeploymentRequest.deployment:type_name -> temporal.api.deployment.v1.Deployment
+	397, // 322: temporal.api.workflowservice.v1.DescribeDeploymentResponse.deployment_info:type_name -> temporal.api.deployment.v1.DeploymentInfo
+	398, // 323: temporal.api.workflowservice.v1.DescribeWorkerDeploymentVersionRequest.deployment_version:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersion
+	399, // 324: temporal.api.workflowservice.v1.DescribeWorkerDeploymentVersionResponse.worker_deployment_version_info:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersionInfo
+	269, // 325: temporal.api.workflowservice.v1.DescribeWorkerDeploymentVersionResponse.version_task_queues:type_name -> temporal.api.workflowservice.v1.DescribeWorkerDeploymentVersionResponse.VersionTaskQueue
+	400, // 326: temporal.api.workflowservice.v1.DescribeWorkerDeploymentResponse.worker_deployment_info:type_name -> temporal.api.deployment.v1.WorkerDeploymentInfo
+	401, // 327: temporal.api.workflowservice.v1.ListDeploymentsResponse.deployments:type_name -> temporal.api.deployment.v1.DeploymentListInfo
+	326, // 328: temporal.api.workflowservice.v1.SetCurrentDeploymentRequest.deployment:type_name -> temporal.api.deployment.v1.Deployment
+	402, // 329: temporal.api.workflowservice.v1.SetCurrentDeploymentRequest.update_metadata:type_name -> temporal.api.deployment.v1.UpdateDeploymentMetadata
+	397, // 330: temporal.api.workflowservice.v1.SetCurrentDeploymentResponse.current_deployment_info:type_name -> temporal.api.deployment.v1.DeploymentInfo
+	397, // 331: temporal.api.workflowservice.v1.SetCurrentDeploymentResponse.previous_deployment_info:type_name -> temporal.api.deployment.v1.DeploymentInfo
+	398, // 332: temporal.api.workflowservice.v1.SetWorkerDeploymentCurrentVersionResponse.previous_deployment_version:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersion
+	398, // 333: temporal.api.workflowservice.v1.SetWorkerDeploymentRampingVersionResponse.previous_deployment_version:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersion
+	271, // 334: temporal.api.workflowservice.v1.ListWorkerDeploymentsResponse.worker_deployments:type_name -> temporal.api.workflowservice.v1.ListWorkerDeploymentsResponse.WorkerDeploymentSummary
+	398, // 335: temporal.api.workflowservice.v1.CreateWorkerDeploymentVersionRequest.deployment_version:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersion
+	403, // 336: temporal.api.workflowservice.v1.CreateWorkerDeploymentVersionRequest.compute_config:type_name -> temporal.api.compute.v1.ComputeConfig
+	398, // 337: temporal.api.workflowservice.v1.DeleteWorkerDeploymentVersionRequest.deployment_version:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersion
+	398, // 338: temporal.api.workflowservice.v1.UpdateWorkerDeploymentVersionComputeConfigRequest.deployment_version:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersion
+	272, // 339: temporal.api.workflowservice.v1.UpdateWorkerDeploymentVersionComputeConfigRequest.compute_config_scaling_groups:type_name -> temporal.api.workflowservice.v1.UpdateWorkerDeploymentVersionComputeConfigRequest.ComputeConfigScalingGroupsEntry
+	398, // 340: temporal.api.workflowservice.v1.ValidateWorkerDeploymentVersionComputeConfigRequest.deployment_version:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersion
+	273, // 341: temporal.api.workflowservice.v1.ValidateWorkerDeploymentVersionComputeConfigRequest.compute_config_scaling_groups:type_name -> temporal.api.workflowservice.v1.ValidateWorkerDeploymentVersionComputeConfigRequest.ComputeConfigScalingGroupsEntry
+	398, // 342: temporal.api.workflowservice.v1.UpdateWorkerDeploymentVersionMetadataRequest.deployment_version:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersion
+	274, // 343: temporal.api.workflowservice.v1.UpdateWorkerDeploymentVersionMetadataRequest.upsert_entries:type_name -> temporal.api.workflowservice.v1.UpdateWorkerDeploymentVersionMetadataRequest.UpsertEntriesEntry
+	404, // 344: temporal.api.workflowservice.v1.UpdateWorkerDeploymentVersionMetadataResponse.metadata:type_name -> temporal.api.deployment.v1.VersionMetadata
+	397, // 345: temporal.api.workflowservice.v1.GetCurrentDeploymentResponse.current_deployment_info:type_name -> temporal.api.deployment.v1.DeploymentInfo
+	326, // 346: temporal.api.workflowservice.v1.GetDeploymentReachabilityRequest.deployment:type_name -> temporal.api.deployment.v1.Deployment
+	397, // 347: temporal.api.workflowservice.v1.GetDeploymentReachabilityResponse.deployment_info:type_name -> temporal.api.deployment.v1.DeploymentInfo
+	405, // 348: temporal.api.workflowservice.v1.GetDeploymentReachabilityResponse.reachability:type_name -> temporal.api.enums.v1.DeploymentReachability
+	318, // 349: temporal.api.workflowservice.v1.GetDeploymentReachabilityResponse.last_update_time:type_name -> google.protobuf.Timestamp
+	406, // 350: temporal.api.workflowservice.v1.CreateWorkflowRuleRequest.spec:type_name -> temporal.api.rules.v1.WorkflowRuleSpec
+	407, // 351: temporal.api.workflowservice.v1.CreateWorkflowRuleResponse.rule:type_name -> temporal.api.rules.v1.WorkflowRule
+	407, // 352: temporal.api.workflowservice.v1.DescribeWorkflowRuleResponse.rule:type_name -> temporal.api.rules.v1.WorkflowRule
+	407, // 353: temporal.api.workflowservice.v1.ListWorkflowRulesResponse.rules:type_name -> temporal.api.rules.v1.WorkflowRule
+	312, // 354: temporal.api.workflowservice.v1.TriggerWorkflowRuleRequest.execution:type_name -> temporal.api.common.v1.WorkflowExecution
+	406, // 355: temporal.api.workflowservice.v1.TriggerWorkflowRuleRequest.spec:type_name -> temporal.api.rules.v1.WorkflowRuleSpec
+	341, // 356: temporal.api.workflowservice.v1.RecordWorkerHeartbeatRequest.worker_heartbeat:type_name -> temporal.api.worker.v1.WorkerHeartbeat
+	408, // 357: temporal.api.workflowservice.v1.ListWorkersResponse.workers_info:type_name -> temporal.api.worker.v1.WorkerInfo
+	409, // 358: temporal.api.workflowservice.v1.ListWorkersResponse.workers:type_name -> temporal.api.worker.v1.WorkerListInfo
+	342, // 359: temporal.api.workflowservice.v1.UpdateTaskQueueConfigRequest.task_queue_type:type_name -> temporal.api.enums.v1.TaskQueueType
+	275, // 360: temporal.api.workflowservice.v1.UpdateTaskQueueConfigRequest.update_queue_rate_limit:type_name -> temporal.api.workflowservice.v1.UpdateTaskQueueConfigRequest.RateLimitUpdate
+	275, // 361: temporal.api.workflowservice.v1.UpdateTaskQueueConfigRequest.update_fairness_key_rate_limit_default:type_name -> temporal.api.workflowservice.v1.UpdateTaskQueueConfigRequest.RateLimitUpdate
+	276, // 362: temporal.api.workflowservice.v1.UpdateTaskQueueConfigRequest.set_fairness_weight_overrides:type_name -> temporal.api.workflowservice.v1.UpdateTaskQueueConfigRequest.SetFairnessWeightOverridesEntry
+	357, // 363: temporal.api.workflowservice.v1.UpdateTaskQueueConfigResponse.config:type_name -> temporal.api.taskqueue.v1.TaskQueueConfig
+	410, // 364: temporal.api.workflowservice.v1.FetchWorkerConfigRequest.selector:type_name -> temporal.api.common.v1.WorkerSelector
+	411, // 365: temporal.api.workflowservice.v1.FetchWorkerConfigResponse.worker_config:type_name -> temporal.api.sdk.v1.WorkerConfig
+	411, // 366: temporal.api.workflowservice.v1.UpdateWorkerConfigRequest.worker_config:type_name -> temporal.api.sdk.v1.WorkerConfig
+	395, // 367: temporal.api.workflowservice.v1.UpdateWorkerConfigRequest.update_mask:type_name -> google.protobuf.FieldMask
+	410, // 368: temporal.api.workflowservice.v1.UpdateWorkerConfigRequest.selector:type_name -> temporal.api.common.v1.WorkerSelector
+	411, // 369: temporal.api.workflowservice.v1.UpdateWorkerConfigResponse.worker_config:type_name -> temporal.api.sdk.v1.WorkerConfig
+	408, // 370: temporal.api.workflowservice.v1.DescribeWorkerResponse.worker_info:type_name -> temporal.api.worker.v1.WorkerInfo
+	330, // 371: temporal.api.workflowservice.v1.StartActivityExecutionRequest.activity_type:type_name -> temporal.api.common.v1.ActivityType
+	292, // 372: temporal.api.workflowservice.v1.StartActivityExecutionRequest.task_queue:type_name -> temporal.api.taskqueue.v1.TaskQueue
+	280, // 373: temporal.api.workflowservice.v1.StartActivityExecutionRequest.schedule_to_close_timeout:type_name -> google.protobuf.Duration
+	280, // 374: temporal.api.workflowservice.v1.StartActivityExecutionRequest.schedule_to_start_timeout:type_name -> google.protobuf.Duration
+	280, // 375: temporal.api.workflowservice.v1.StartActivityExecutionRequest.start_to_close_timeout:type_name -> google.protobuf.Duration
+	280, // 376: temporal.api.workflowservice.v1.StartActivityExecutionRequest.heartbeat_timeout:type_name -> google.protobuf.Duration
+	296, // 377: temporal.api.workflowservice.v1.StartActivityExecutionRequest.retry_policy:type_name -> temporal.api.common.v1.RetryPolicy
+	293, // 378: temporal.api.workflowservice.v1.StartActivityExecutionRequest.input:type_name -> temporal.api.common.v1.Payloads
+	412, // 379: temporal.api.workflowservice.v1.StartActivityExecutionRequest.id_reuse_policy:type_name -> temporal.api.enums.v1.ActivityIdReusePolicy
+	413, // 380: temporal.api.workflowservice.v1.StartActivityExecutionRequest.id_conflict_policy:type_name -> temporal.api.enums.v1.ActivityIdConflictPolicy
+	298, // 381: temporal.api.workflowservice.v1.StartActivityExecutionRequest.search_attributes:type_name -> temporal.api.common.v1.SearchAttributes
+	299, // 382: temporal.api.workflowservice.v1.StartActivityExecutionRequest.header:type_name -> temporal.api.common.v1.Header
+	302, // 383: temporal.api.workflowservice.v1.StartActivityExecutionRequest.user_metadata:type_name -> temporal.api.sdk.v1.UserMetadata
+	306, // 384: temporal.api.workflowservice.v1.StartActivityExecutionRequest.priority:type_name -> temporal.api.common.v1.Priority
+	301, // 385: temporal.api.workflowservice.v1.StartActivityExecutionRequest.completion_callbacks:type_name -> temporal.api.common.v1.Callback
+	303, // 386: temporal.api.workflowservice.v1.StartActivityExecutionRequest.links:type_name -> temporal.api.common.v1.Link
+	414, // 387: temporal.api.workflowservice.v1.StartActivityExecutionRequest.on_conflict_options:type_name -> temporal.api.common.v1.OnConflictOptions
+	280, // 388: temporal.api.workflowservice.v1.StartActivityExecutionRequest.start_delay:type_name -> google.protobuf.Duration
+	309, // 389: temporal.api.workflowservice.v1.StartActivityExecutionRequest.propagated_nexus_serialization_context:type_name -> temporal.api.nexus.v1.PropagatedSerializationContext
+	303, // 390: temporal.api.workflowservice.v1.StartActivityExecutionResponse.link:type_name -> temporal.api.common.v1.Link
+	23,  // 391: temporal.api.workflowservice.v1.StartActivityExecutionResponse.eager_activity_task:type_name -> temporal.api.workflowservice.v1.PollActivityTaskQueueResponse
+	415, // 392: temporal.api.workflowservice.v1.DescribeActivityExecutionResponse.info:type_name -> temporal.api.activity.v1.ActivityExecutionInfo
+	293, // 393: temporal.api.workflowservice.v1.DescribeActivityExecutionResponse.input:type_name -> temporal.api.common.v1.Payloads
+	416, // 394: temporal.api.workflowservice.v1.DescribeActivityExecutionResponse.outcome:type_name -> temporal.api.activity.v1.ActivityExecutionOutcome
+	417, // 395: temporal.api.workflowservice.v1.DescribeActivityExecutionResponse.callbacks:type_name -> temporal.api.activity.v1.CallbackInfo
+	416, // 396: temporal.api.workflowservice.v1.PollActivityExecutionResponse.outcome:type_name -> temporal.api.activity.v1.ActivityExecutionOutcome
+	309, // 397: temporal.api.workflowservice.v1.PollActivityExecutionResponse.propagated_nexus_serialization_context:type_name -> temporal.api.nexus.v1.PropagatedSerializationContext
+	418, // 398: temporal.api.workflowservice.v1.ListActivityExecutionsResponse.executions:type_name -> temporal.api.activity.v1.ActivityExecutionListInfo
+	280, // 399: temporal.api.workflowservice.v1.StartNexusOperationExecutionRequest.schedule_to_close_timeout:type_name -> google.protobuf.Duration
+	280, // 400: temporal.api.workflowservice.v1.StartNexusOperationExecutionRequest.schedule_to_start_timeout:type_name -> google.protobuf.Duration
+	280, // 401: temporal.api.workflowservice.v1.StartNexusOperationExecutionRequest.start_to_close_timeout:type_name -> google.protobuf.Duration
+	419, // 402: temporal.api.workflowservice.v1.StartNexusOperationExecutionRequest.input:type_name -> temporal.api.common.v1.Payload
+	420, // 403: temporal.api.workflowservice.v1.StartNexusOperationExecutionRequest.id_reuse_policy:type_name -> temporal.api.enums.v1.NexusOperationIdReusePolicy
+	421, // 404: temporal.api.workflowservice.v1.StartNexusOperationExecutionRequest.id_conflict_policy:type_name -> temporal.api.enums.v1.NexusOperationIdConflictPolicy
+	422, // 405: temporal.api.workflowservice.v1.StartNexusOperationExecutionRequest.on_conflict_options:type_name -> temporal.api.nexusoperation.v1.OnConflictOptions
+	298, // 406: temporal.api.workflowservice.v1.StartNexusOperationExecutionRequest.search_attributes:type_name -> temporal.api.common.v1.SearchAttributes
+	277, // 407: temporal.api.workflowservice.v1.StartNexusOperationExecutionRequest.nexus_header:type_name -> temporal.api.workflowservice.v1.StartNexusOperationExecutionRequest.NexusHeaderEntry
+	302, // 408: temporal.api.workflowservice.v1.StartNexusOperationExecutionRequest.user_metadata:type_name -> temporal.api.sdk.v1.UserMetadata
+	301, // 409: temporal.api.workflowservice.v1.StartNexusOperationExecutionRequest.completion_callbacks:type_name -> temporal.api.common.v1.Callback
+	303, // 410: temporal.api.workflowservice.v1.StartNexusOperationExecutionRequest.links:type_name -> temporal.api.common.v1.Link
+	423, // 411: temporal.api.workflowservice.v1.DescribeNexusOperationExecutionResponse.info:type_name -> temporal.api.nexus.v1.NexusOperationExecutionInfo
+	419, // 412: temporal.api.workflowservice.v1.DescribeNexusOperationExecutionResponse.input:type_name -> temporal.api.common.v1.Payload
+	419, // 413: temporal.api.workflowservice.v1.DescribeNexusOperationExecutionResponse.result:type_name -> temporal.api.common.v1.Payload
+	300, // 414: temporal.api.workflowservice.v1.DescribeNexusOperationExecutionResponse.failure:type_name -> temporal.api.failure.v1.Failure
+	424, // 415: temporal.api.workflowservice.v1.DescribeNexusOperationExecutionResponse.completion_callbacks:type_name -> temporal.api.nexusoperation.v1.CallbackInfo
+	425, // 416: temporal.api.workflowservice.v1.PollNexusOperationExecutionRequest.wait_stage:type_name -> temporal.api.enums.v1.NexusOperationWaitStage
+	425, // 417: temporal.api.workflowservice.v1.PollNexusOperationExecutionResponse.wait_stage:type_name -> temporal.api.enums.v1.NexusOperationWaitStage
+	309, // 418: temporal.api.workflowservice.v1.PollNexusOperationExecutionResponse.propagated_nexus_serialization_context:type_name -> temporal.api.nexus.v1.PropagatedSerializationContext
+	419, // 419: temporal.api.workflowservice.v1.PollNexusOperationExecutionResponse.result:type_name -> temporal.api.common.v1.Payload
+	300, // 420: temporal.api.workflowservice.v1.PollNexusOperationExecutionResponse.failure:type_name -> temporal.api.failure.v1.Failure
+	426, // 421: temporal.api.workflowservice.v1.ListNexusOperationExecutionsResponse.operations:type_name -> temporal.api.nexus.v1.NexusOperationExecutionListInfo
+	278, // 422: temporal.api.workflowservice.v1.CountActivityExecutionsResponse.groups:type_name -> temporal.api.workflowservice.v1.CountActivityExecutionsResponse.AggregationGroup
+	279, // 423: temporal.api.workflowservice.v1.CountNexusOperationExecutionsResponse.groups:type_name -> temporal.api.workflowservice.v1.CountNexusOperationExecutionsResponse.AggregationGroup
+	312, // 424: temporal.api.workflowservice.v1.PollWorkflowExecutionTimeSkippingRequest.workflow_execution:type_name -> temporal.api.common.v1.WorkflowExecution
+	427, // 425: temporal.api.workflowservice.v1.PollWorkflowExecutionTimeSkippingResponse.fast_forward_polling_result:type_name -> temporal.api.enums.v1.FastForwardPollingResult
+	428, // 426: temporal.api.workflowservice.v1.PollWorkflowExecutionTimeSkippingResponse.fast_forward_info:type_name -> temporal.api.common.v1.TimeSkippingFastForwardInfo
+	317, // 427: temporal.api.workflowservice.v1.PollWorkflowTaskQueueResponse.QueriesEntry.value:type_name -> temporal.api.query.v1.WorkflowQuery
+	429, // 428: temporal.api.workflowservice.v1.RespondWorkflowTaskCompletedRequest.QueryResultsEntry.value:type_name -> temporal.api.query.v1.WorkflowQueryResult
+	419, // 429: temporal.api.workflowservice.v1.CountWorkflowExecutionsResponse.AggregationGroup.group_values:type_name -> temporal.api.common.v1.Payload
+	430, // 430: temporal.api.workflowservice.v1.GetSearchAttributesResponse.KeysEntry.value:type_name -> temporal.api.enums.v1.IndexedValueType
+	355, // 431: temporal.api.workflowservice.v1.DescribeTaskQueueResponse.StatsByPriorityKeyEntry.value:type_name -> temporal.api.taskqueue.v1.TaskQueueStats
+	431, // 432: temporal.api.workflowservice.v1.DescribeTaskQueueResponse.EffectiveRateLimit.rate_limit_source:type_name -> temporal.api.enums.v1.RateLimitSource
+	432, // 433: temporal.api.workflowservice.v1.DescribeTaskQueueResponse.VersionsInfoEntry.value:type_name -> temporal.api.taskqueue.v1.TaskQueueVersionInfo
+	419, // 434: temporal.api.workflowservice.v1.CountSchedulesResponse.AggregationGroup.group_values:type_name -> temporal.api.common.v1.Payload
+	433, // 435: temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesRequest.InsertBuildIdAssignmentRule.rule:type_name -> temporal.api.taskqueue.v1.BuildIdAssignmentRule
+	433, // 436: temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesRequest.ReplaceBuildIdAssignmentRule.rule:type_name -> temporal.api.taskqueue.v1.BuildIdAssignmentRule
+	434, // 437: temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesRequest.AddCompatibleBuildIdRedirectRule.rule:type_name -> temporal.api.taskqueue.v1.CompatibleBuildIdRedirectRule
+	434, // 438: temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesRequest.ReplaceCompatibleBuildIdRedirectRule.rule:type_name -> temporal.api.taskqueue.v1.CompatibleBuildIdRedirectRule
+	10,  // 439: temporal.api.workflowservice.v1.ExecuteMultiOperationRequest.Operation.start_workflow:type_name -> temporal.api.workflowservice.v1.StartWorkflowExecutionRequest
+	110, // 440: temporal.api.workflowservice.v1.ExecuteMultiOperationRequest.Operation.update_workflow:type_name -> temporal.api.workflowservice.v1.UpdateWorkflowExecutionRequest
+	11,  // 441: temporal.api.workflowservice.v1.ExecuteMultiOperationResponse.Response.start_workflow:type_name -> temporal.api.workflowservice.v1.StartWorkflowExecutionResponse
+	111, // 442: temporal.api.workflowservice.v1.ExecuteMultiOperationResponse.Response.update_workflow:type_name -> temporal.api.workflowservice.v1.UpdateWorkflowExecutionResponse
+	342, // 443: temporal.api.workflowservice.v1.DescribeWorkerDeploymentVersionResponse.VersionTaskQueue.type:type_name -> temporal.api.enums.v1.TaskQueueType
+	355, // 444: temporal.api.workflowservice.v1.DescribeWorkerDeploymentVersionResponse.VersionTaskQueue.stats:type_name -> temporal.api.taskqueue.v1.TaskQueueStats
+	270, // 445: temporal.api.workflowservice.v1.DescribeWorkerDeploymentVersionResponse.VersionTaskQueue.stats_by_priority_key:type_name -> temporal.api.workflowservice.v1.DescribeWorkerDeploymentVersionResponse.VersionTaskQueue.StatsByPriorityKeyEntry
+	355, // 446: temporal.api.workflowservice.v1.DescribeWorkerDeploymentVersionResponse.VersionTaskQueue.StatsByPriorityKeyEntry.value:type_name -> temporal.api.taskqueue.v1.TaskQueueStats
+	318, // 447: temporal.api.workflowservice.v1.ListWorkerDeploymentsResponse.WorkerDeploymentSummary.create_time:type_name -> google.protobuf.Timestamp
+	435, // 448: temporal.api.workflowservice.v1.ListWorkerDeploymentsResponse.WorkerDeploymentSummary.routing_config:type_name -> temporal.api.deployment.v1.RoutingConfig
+	436, // 449: temporal.api.workflowservice.v1.ListWorkerDeploymentsResponse.WorkerDeploymentSummary.latest_version_summary:type_name -> temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummary
+	436, // 450: temporal.api.workflowservice.v1.ListWorkerDeploymentsResponse.WorkerDeploymentSummary.current_version_summary:type_name -> temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummary
+	436, // 451: temporal.api.workflowservice.v1.ListWorkerDeploymentsResponse.WorkerDeploymentSummary.ramping_version_summary:type_name -> temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummary
+	437, // 452: temporal.api.workflowservice.v1.UpdateWorkerDeploymentVersionComputeConfigRequest.ComputeConfigScalingGroupsEntry.value:type_name -> temporal.api.compute.v1.ComputeConfigScalingGroupUpdate
+	437, // 453: temporal.api.workflowservice.v1.ValidateWorkerDeploymentVersionComputeConfigRequest.ComputeConfigScalingGroupsEntry.value:type_name -> temporal.api.compute.v1.ComputeConfigScalingGroupUpdate
+	419, // 454: temporal.api.workflowservice.v1.UpdateWorkerDeploymentVersionMetadataRequest.UpsertEntriesEntry.value:type_name -> temporal.api.common.v1.Payload
+	438, // 455: temporal.api.workflowservice.v1.UpdateTaskQueueConfigRequest.RateLimitUpdate.rate_limit:type_name -> temporal.api.taskqueue.v1.RateLimit
+	419, // 456: temporal.api.workflowservice.v1.CountActivityExecutionsResponse.AggregationGroup.group_values:type_name -> temporal.api.common.v1.Payload
+	419, // 457: temporal.api.workflowservice.v1.CountNexusOperationExecutionsResponse.AggregationGroup.group_values:type_name -> temporal.api.common.v1.Payload
+	458, // [458:458] is the sub-list for method output_type
+	458, // [458:458] is the sub-list for method input_type
+	458, // [458:458] is the sub-list for extension type_name
+	458, // [458:458] is the sub-list for extension extendee
+	0,   // [0:458] is the sub-list for field type_name
 }
 
 func init() { file_temporal_api_workflowservice_v1_request_response_proto_init() }

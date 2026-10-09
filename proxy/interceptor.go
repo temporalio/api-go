@@ -1560,6 +1560,66 @@ func visitPayloads(
 
 			ctx.Context = prevCtx
 
+		case []*export.ActivityExecution:
+			for _, x := range o {
+				if err := visitPayloads(ctx, options, parent, concState, x); err != nil {
+					return err
+				}
+			}
+
+		case *export.ActivityExecution:
+
+			if o == nil {
+				continue
+			}
+
+			prevCtx := ctx.Context
+			if options.ContextHook != nil {
+				var hookErr error
+				if ctx.Context, hookErr = options.ContextHook(prevCtx, o); hookErr != nil {
+					return hookErr
+				}
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				concState,
+				o.GetActivity(),
+			); err != nil {
+				return err
+			}
+
+			ctx.Context = prevCtx
+
+		case *export.ExportedExecutions:
+
+			if o == nil {
+				continue
+			}
+
+			prevCtx := ctx.Context
+			if options.ContextHook != nil {
+				var hookErr error
+				if ctx.Context, hookErr = options.ContextHook(prevCtx, o); hookErr != nil {
+					return hookErr
+				}
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				concState,
+				o.GetActivities(),
+				o.GetWorkflows(),
+			); err != nil {
+				return err
+			}
+
+			ctx.Context = prevCtx
+
 		case []*export.WorkflowExecution:
 			for _, x := range o {
 				if err := visitPayloads(ctx, options, parent, concState, x); err != nil {
@@ -5741,6 +5801,32 @@ func visitPayloads(
 
 			ctx.Context = prevCtx
 
+		case *workflowservice.StartActivityExecutionResponse:
+
+			if o == nil {
+				continue
+			}
+
+			prevCtx := ctx.Context
+			if options.ContextHook != nil {
+				var hookErr error
+				if ctx.Context, hookErr = options.ContextHook(prevCtx, o); hookErr != nil {
+					return hookErr
+				}
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				concState,
+				o.GetEagerActivityTask(),
+			); err != nil {
+				return err
+			}
+
+			ctx.Context = prevCtx
+
 		case *workflowservice.StartBatchOperationRequest:
 
 			if o == nil {
@@ -6274,6 +6360,40 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 				ctx,
 				options,
 				o.GetFailure(),
+			); err != nil {
+				return err
+			}
+
+		case []*export.ActivityExecution:
+			for _, x := range o {
+				if err := visitFailures(ctx, options, x); err != nil {
+					return err
+				}
+			}
+
+		case *export.ActivityExecution:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetActivity(),
+			); err != nil {
+				return err
+			}
+
+		case *export.ExportedExecutions:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetActivities(),
+				o.GetWorkflows(),
 			); err != nil {
 				return err
 			}
