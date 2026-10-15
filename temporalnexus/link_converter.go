@@ -115,7 +115,7 @@ type decodedLink struct {
 // decode decodes a link of any variant except Callback into its namespace, id and runID path
 // segments and its URL query. Validation is done by decodeSegments.
 func (lt linkType) decode(link nexus.Link) (decodedLink, error) {
-	segments, err := lt.decodeSegments(link)
+	segments, err := lt.decodeSegments(link, 3)
 	if err != nil {
 		return decodedLink{}, err
 	}
@@ -123,8 +123,8 @@ func (lt linkType) decode(link nexus.Link) (decodedLink, error) {
 }
 
 // decodeSegments validates a Nexus link against this variant (the declared type, the scheme, and
-// a path matching the template exactly) and returns the unescaped variable path segments.
-func (lt linkType) decodeSegments(link nexus.Link) ([]string, error) {
+// a path matching the template exactly) and returns its n unescaped variable path segments.
+func (lt linkType) decodeSegments(link nexus.Link, n int) ([]string, error) {
 	if link.Type != lt.name {
 		return nil, fmt.Errorf("cannot parse link type %q to %q", link.Type, lt.name)
 	}
@@ -135,7 +135,7 @@ func (lt linkType) decodeSegments(link nexus.Link) ([]string, error) {
 		return nil, lt.errorf("invalid scheme: %s", link.URL.Scheme)
 	}
 	matches := lt.pathRE.FindStringSubmatch(link.URL.EscapedPath())
-	if matches == nil {
+	if len(matches) != n+1 {
 		return nil, lt.errorf("malformed URL path")
 	}
 	segments := matches[1:]
@@ -339,7 +339,7 @@ func ConvertNexusLinkToLinkActivity(link nexus.Link) (*commonpb.Link_Activity, e
 //
 // NOTE: Experimental
 func ConvertNexusLinkToLinkCallback(link nexus.Link) (*commonpb.Link_Callback, error) {
-	segments, err := callbackLinkType.decodeSegments(link)
+	segments, err := callbackLinkType.decodeSegments(link, 5)
 	if err != nil {
 		return nil, err
 	}
