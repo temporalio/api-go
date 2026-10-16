@@ -1272,6 +1272,69 @@ func (x *Principal) GetName() string {
 	return ""
 }
 
+// ResolvedPrincipal is a principal returned to an API caller.
+type ResolvedPrincipal struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Low-cardinality category of the principal (e.g., "jwt", "users").
+	Type string `protobuf:"bytes,1,opt,name=type,proto3" json:"type,omitempty"`
+	// Identifier within that category (e.g., sub JWT claim, email address).
+	//
+	// (-- api-linter: core::0140::prepositions=disabled
+	//
+	//	aip.dev/not-precedent: Identifies the principal name snapshot used for this response. --)
+	//
+	// (-- api-linter: core::0142::time-field-type=disabled
+	//
+	//	aip.dev/not-precedent: This string is a principal name snapshot, not a timestamp. --)
+	NameAtWriteTime string `protobuf:"bytes,2,opt,name=name_at_write_time,json=nameAtWriteTime,proto3" json:"name_at_write_time,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
+}
+
+func (x *ResolvedPrincipal) Reset() {
+	*x = ResolvedPrincipal{}
+	mi := &file_temporal_api_common_v1_message_proto_msgTypes[18]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ResolvedPrincipal) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ResolvedPrincipal) ProtoMessage() {}
+
+func (x *ResolvedPrincipal) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_api_common_v1_message_proto_msgTypes[18]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ResolvedPrincipal.ProtoReflect.Descriptor instead.
+func (*ResolvedPrincipal) Descriptor() ([]byte, []int) {
+	return file_temporal_api_common_v1_message_proto_rawDescGZIP(), []int{18}
+}
+
+func (x *ResolvedPrincipal) GetType() string {
+	if x != nil {
+		return x.Type
+	}
+	return ""
+}
+
+func (x *ResolvedPrincipal) GetNameAtWriteTime() string {
+	if x != nil {
+		return x.NameAtWriteTime
+	}
+	return ""
+}
+
 // Priority contains metadata that controls relative ordering of task processing
 // when tasks are backed up in a queue. Initially, Priority will be used in
 // matching (workflow and activity) task queues. Later it may be used in history
@@ -1358,7 +1421,7 @@ type Priority struct {
 
 func (x *Priority) Reset() {
 	*x = Priority{}
-	mi := &file_temporal_api_common_v1_message_proto_msgTypes[18]
+	mi := &file_temporal_api_common_v1_message_proto_msgTypes[19]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1370,7 +1433,7 @@ func (x *Priority) String() string {
 func (*Priority) ProtoMessage() {}
 
 func (x *Priority) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_common_v1_message_proto_msgTypes[18]
+	mi := &file_temporal_api_common_v1_message_proto_msgTypes[19]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1383,7 +1446,7 @@ func (x *Priority) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Priority.ProtoReflect.Descriptor instead.
 func (*Priority) Descriptor() ([]byte, []int) {
-	return file_temporal_api_common_v1_message_proto_rawDescGZIP(), []int{18}
+	return file_temporal_api_common_v1_message_proto_rawDescGZIP(), []int{19}
 }
 
 func (x *Priority) GetPriorityKey() int32 {
@@ -1432,7 +1495,7 @@ type WorkerSelector struct {
 
 func (x *WorkerSelector) Reset() {
 	*x = WorkerSelector{}
-	mi := &file_temporal_api_common_v1_message_proto_msgTypes[19]
+	mi := &file_temporal_api_common_v1_message_proto_msgTypes[20]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1444,7 +1507,7 @@ func (x *WorkerSelector) String() string {
 func (*WorkerSelector) ProtoMessage() {}
 
 func (x *WorkerSelector) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_common_v1_message_proto_msgTypes[19]
+	mi := &file_temporal_api_common_v1_message_proto_msgTypes[20]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1457,7 +1520,7 @@ func (x *WorkerSelector) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use WorkerSelector.ProtoReflect.Descriptor instead.
 func (*WorkerSelector) Descriptor() ([]byte, []int) {
-	return file_temporal_api_common_v1_message_proto_rawDescGZIP(), []int{19}
+	return file_temporal_api_common_v1_message_proto_rawDescGZIP(), []int{20}
 }
 
 func (x *WorkerSelector) GetSelector() isWorkerSelector_Selector {
@@ -1503,7 +1566,7 @@ type OnConflictOptions struct {
 
 func (x *OnConflictOptions) Reset() {
 	*x = OnConflictOptions{}
-	mi := &file_temporal_api_common_v1_message_proto_msgTypes[20]
+	mi := &file_temporal_api_common_v1_message_proto_msgTypes[21]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1515,7 +1578,7 @@ func (x *OnConflictOptions) String() string {
 func (*OnConflictOptions) ProtoMessage() {}
 
 func (x *OnConflictOptions) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_common_v1_message_proto_msgTypes[20]
+	mi := &file_temporal_api_common_v1_message_proto_msgTypes[21]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1528,7 +1591,7 @@ func (x *OnConflictOptions) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use OnConflictOptions.ProtoReflect.Descriptor instead.
 func (*OnConflictOptions) Descriptor() ([]byte, []int) {
-	return file_temporal_api_common_v1_message_proto_rawDescGZIP(), []int{20}
+	return file_temporal_api_common_v1_message_proto_rawDescGZIP(), []int{21}
 }
 
 func (x *OnConflictOptions) GetAttachRequestId() bool {
@@ -1595,7 +1658,7 @@ type TimeSkippingConfig struct {
 
 func (x *TimeSkippingConfig) Reset() {
 	*x = TimeSkippingConfig{}
-	mi := &file_temporal_api_common_v1_message_proto_msgTypes[21]
+	mi := &file_temporal_api_common_v1_message_proto_msgTypes[22]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1607,7 +1670,7 @@ func (x *TimeSkippingConfig) String() string {
 func (*TimeSkippingConfig) ProtoMessage() {}
 
 func (x *TimeSkippingConfig) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_common_v1_message_proto_msgTypes[21]
+	mi := &file_temporal_api_common_v1_message_proto_msgTypes[22]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1620,7 +1683,7 @@ func (x *TimeSkippingConfig) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use TimeSkippingConfig.ProtoReflect.Descriptor instead.
 func (*TimeSkippingConfig) Descriptor() ([]byte, []int) {
-	return file_temporal_api_common_v1_message_proto_rawDescGZIP(), []int{21}
+	return file_temporal_api_common_v1_message_proto_rawDescGZIP(), []int{22}
 }
 
 func (x *TimeSkippingConfig) GetEnabled() bool {
@@ -1673,7 +1736,7 @@ type FastForwardConfig struct {
 
 func (x *FastForwardConfig) Reset() {
 	*x = FastForwardConfig{}
-	mi := &file_temporal_api_common_v1_message_proto_msgTypes[22]
+	mi := &file_temporal_api_common_v1_message_proto_msgTypes[23]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1685,7 +1748,7 @@ func (x *FastForwardConfig) String() string {
 func (*FastForwardConfig) ProtoMessage() {}
 
 func (x *FastForwardConfig) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_common_v1_message_proto_msgTypes[22]
+	mi := &file_temporal_api_common_v1_message_proto_msgTypes[23]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1698,7 +1761,7 @@ func (x *FastForwardConfig) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use FastForwardConfig.ProtoReflect.Descriptor instead.
 func (*FastForwardConfig) Descriptor() ([]byte, []int) {
-	return file_temporal_api_common_v1_message_proto_rawDescGZIP(), []int{22}
+	return file_temporal_api_common_v1_message_proto_rawDescGZIP(), []int{23}
 }
 
 func (x *FastForwardConfig) GetId() string {
@@ -1732,7 +1795,7 @@ type TimeSkippingStatePropagation struct {
 
 func (x *TimeSkippingStatePropagation) Reset() {
 	*x = TimeSkippingStatePropagation{}
-	mi := &file_temporal_api_common_v1_message_proto_msgTypes[23]
+	mi := &file_temporal_api_common_v1_message_proto_msgTypes[24]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1744,7 +1807,7 @@ func (x *TimeSkippingStatePropagation) String() string {
 func (*TimeSkippingStatePropagation) ProtoMessage() {}
 
 func (x *TimeSkippingStatePropagation) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_common_v1_message_proto_msgTypes[23]
+	mi := &file_temporal_api_common_v1_message_proto_msgTypes[24]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1757,7 +1820,7 @@ func (x *TimeSkippingStatePropagation) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use TimeSkippingStatePropagation.ProtoReflect.Descriptor instead.
 func (*TimeSkippingStatePropagation) Descriptor() ([]byte, []int) {
-	return file_temporal_api_common_v1_message_proto_rawDescGZIP(), []int{23}
+	return file_temporal_api_common_v1_message_proto_rawDescGZIP(), []int{24}
 }
 
 func (x *TimeSkippingStatePropagation) GetInitialSkippedDuration() *durationpb.Duration {
@@ -1803,7 +1866,7 @@ type TimeSkippingInfo struct {
 
 func (x *TimeSkippingInfo) Reset() {
 	*x = TimeSkippingInfo{}
-	mi := &file_temporal_api_common_v1_message_proto_msgTypes[24]
+	mi := &file_temporal_api_common_v1_message_proto_msgTypes[25]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1815,7 +1878,7 @@ func (x *TimeSkippingInfo) String() string {
 func (*TimeSkippingInfo) ProtoMessage() {}
 
 func (x *TimeSkippingInfo) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_common_v1_message_proto_msgTypes[24]
+	mi := &file_temporal_api_common_v1_message_proto_msgTypes[25]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1828,7 +1891,7 @@ func (x *TimeSkippingInfo) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use TimeSkippingInfo.ProtoReflect.Descriptor instead.
 func (*TimeSkippingInfo) Descriptor() ([]byte, []int) {
-	return file_temporal_api_common_v1_message_proto_rawDescGZIP(), []int{24}
+	return file_temporal_api_common_v1_message_proto_rawDescGZIP(), []int{25}
 }
 
 func (x *TimeSkippingInfo) GetCurrentTime() *timestamppb.Timestamp {
@@ -1876,7 +1939,7 @@ type TimeSkippingFastForwardInfo struct {
 
 func (x *TimeSkippingFastForwardInfo) Reset() {
 	*x = TimeSkippingFastForwardInfo{}
-	mi := &file_temporal_api_common_v1_message_proto_msgTypes[25]
+	mi := &file_temporal_api_common_v1_message_proto_msgTypes[26]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1888,7 +1951,7 @@ func (x *TimeSkippingFastForwardInfo) String() string {
 func (*TimeSkippingFastForwardInfo) ProtoMessage() {}
 
 func (x *TimeSkippingFastForwardInfo) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_common_v1_message_proto_msgTypes[25]
+	mi := &file_temporal_api_common_v1_message_proto_msgTypes[26]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1901,7 +1964,7 @@ func (x *TimeSkippingFastForwardInfo) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use TimeSkippingFastForwardInfo.ProtoReflect.Descriptor instead.
 func (*TimeSkippingFastForwardInfo) Descriptor() ([]byte, []int) {
-	return file_temporal_api_common_v1_message_proto_rawDescGZIP(), []int{25}
+	return file_temporal_api_common_v1_message_proto_rawDescGZIP(), []int{26}
 }
 
 func (x *TimeSkippingFastForwardInfo) GetFastForwardDuration() *durationpb.Duration {
@@ -1943,7 +2006,7 @@ type Payload_ExternalPayloadDetails struct {
 
 func (x *Payload_ExternalPayloadDetails) Reset() {
 	*x = Payload_ExternalPayloadDetails{}
-	mi := &file_temporal_api_common_v1_message_proto_msgTypes[27]
+	mi := &file_temporal_api_common_v1_message_proto_msgTypes[28]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1955,7 +2018,7 @@ func (x *Payload_ExternalPayloadDetails) String() string {
 func (*Payload_ExternalPayloadDetails) ProtoMessage() {}
 
 func (x *Payload_ExternalPayloadDetails) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_common_v1_message_proto_msgTypes[27]
+	mi := &file_temporal_api_common_v1_message_proto_msgTypes[28]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1992,7 +2055,7 @@ type Callback_Nexus struct {
 
 func (x *Callback_Nexus) Reset() {
 	*x = Callback_Nexus{}
-	mi := &file_temporal_api_common_v1_message_proto_msgTypes[31]
+	mi := &file_temporal_api_common_v1_message_proto_msgTypes[32]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2004,7 +2067,7 @@ func (x *Callback_Nexus) String() string {
 func (*Callback_Nexus) ProtoMessage() {}
 
 func (x *Callback_Nexus) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_common_v1_message_proto_msgTypes[31]
+	mi := &file_temporal_api_common_v1_message_proto_msgTypes[32]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2048,7 +2111,7 @@ type Callback_Internal struct {
 
 func (x *Callback_Internal) Reset() {
 	*x = Callback_Internal{}
-	mi := &file_temporal_api_common_v1_message_proto_msgTypes[32]
+	mi := &file_temporal_api_common_v1_message_proto_msgTypes[33]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2060,7 +2123,7 @@ func (x *Callback_Internal) String() string {
 func (*Callback_Internal) ProtoMessage() {}
 
 func (x *Callback_Internal) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_common_v1_message_proto_msgTypes[32]
+	mi := &file_temporal_api_common_v1_message_proto_msgTypes[33]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2118,7 +2181,7 @@ type Callback_NexusHandler struct {
 
 func (x *Callback_NexusHandler) Reset() {
 	*x = Callback_NexusHandler{}
-	mi := &file_temporal_api_common_v1_message_proto_msgTypes[33]
+	mi := &file_temporal_api_common_v1_message_proto_msgTypes[34]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2130,7 +2193,7 @@ func (x *Callback_NexusHandler) String() string {
 func (*Callback_NexusHandler) ProtoMessage() {}
 
 func (x *Callback_NexusHandler) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_common_v1_message_proto_msgTypes[33]
+	mi := &file_temporal_api_common_v1_message_proto_msgTypes[34]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2193,7 +2256,7 @@ type Link_WorkflowEvent struct {
 
 func (x *Link_WorkflowEvent) Reset() {
 	*x = Link_WorkflowEvent{}
-	mi := &file_temporal_api_common_v1_message_proto_msgTypes[35]
+	mi := &file_temporal_api_common_v1_message_proto_msgTypes[36]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2205,7 +2268,7 @@ func (x *Link_WorkflowEvent) String() string {
 func (*Link_WorkflowEvent) ProtoMessage() {}
 
 func (x *Link_WorkflowEvent) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_common_v1_message_proto_msgTypes[35]
+	mi := &file_temporal_api_common_v1_message_proto_msgTypes[36]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2295,7 +2358,7 @@ type Link_BatchJob struct {
 
 func (x *Link_BatchJob) Reset() {
 	*x = Link_BatchJob{}
-	mi := &file_temporal_api_common_v1_message_proto_msgTypes[36]
+	mi := &file_temporal_api_common_v1_message_proto_msgTypes[37]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2307,7 +2370,7 @@ func (x *Link_BatchJob) String() string {
 func (*Link_BatchJob) ProtoMessage() {}
 
 func (x *Link_BatchJob) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_common_v1_message_proto_msgTypes[36]
+	mi := &file_temporal_api_common_v1_message_proto_msgTypes[37]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2342,7 +2405,7 @@ type Link_Activity struct {
 
 func (x *Link_Activity) Reset() {
 	*x = Link_Activity{}
-	mi := &file_temporal_api_common_v1_message_proto_msgTypes[37]
+	mi := &file_temporal_api_common_v1_message_proto_msgTypes[38]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2354,7 +2417,7 @@ func (x *Link_Activity) String() string {
 func (*Link_Activity) ProtoMessage() {}
 
 func (x *Link_Activity) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_common_v1_message_proto_msgTypes[37]
+	mi := &file_temporal_api_common_v1_message_proto_msgTypes[38]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2403,7 +2466,7 @@ type Link_NexusOperation struct {
 
 func (x *Link_NexusOperation) Reset() {
 	*x = Link_NexusOperation{}
-	mi := &file_temporal_api_common_v1_message_proto_msgTypes[38]
+	mi := &file_temporal_api_common_v1_message_proto_msgTypes[39]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2415,7 +2478,7 @@ func (x *Link_NexusOperation) String() string {
 func (*Link_NexusOperation) ProtoMessage() {}
 
 func (x *Link_NexusOperation) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_common_v1_message_proto_msgTypes[38]
+	mi := &file_temporal_api_common_v1_message_proto_msgTypes[39]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2467,7 +2530,7 @@ type Link_Workflow struct {
 
 func (x *Link_Workflow) Reset() {
 	*x = Link_Workflow{}
-	mi := &file_temporal_api_common_v1_message_proto_msgTypes[39]
+	mi := &file_temporal_api_common_v1_message_proto_msgTypes[40]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2479,7 +2542,7 @@ func (x *Link_Workflow) String() string {
 func (*Link_Workflow) ProtoMessage() {}
 
 func (x *Link_Workflow) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_common_v1_message_proto_msgTypes[39]
+	mi := &file_temporal_api_common_v1_message_proto_msgTypes[40]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2541,7 +2604,7 @@ type Link_Callback struct {
 
 func (x *Link_Callback) Reset() {
 	*x = Link_Callback{}
-	mi := &file_temporal_api_common_v1_message_proto_msgTypes[40]
+	mi := &file_temporal_api_common_v1_message_proto_msgTypes[41]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2553,7 +2616,7 @@ func (x *Link_Callback) String() string {
 func (*Link_Callback) ProtoMessage() {}
 
 func (x *Link_Callback) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_common_v1_message_proto_msgTypes[40]
+	mi := &file_temporal_api_common_v1_message_proto_msgTypes[41]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2608,7 +2671,7 @@ type Link_WorkflowEvent_EventReference struct {
 
 func (x *Link_WorkflowEvent_EventReference) Reset() {
 	*x = Link_WorkflowEvent_EventReference{}
-	mi := &file_temporal_api_common_v1_message_proto_msgTypes[41]
+	mi := &file_temporal_api_common_v1_message_proto_msgTypes[42]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2620,7 +2683,7 @@ func (x *Link_WorkflowEvent_EventReference) String() string {
 func (*Link_WorkflowEvent_EventReference) ProtoMessage() {}
 
 func (x *Link_WorkflowEvent_EventReference) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_common_v1_message_proto_msgTypes[41]
+	mi := &file_temporal_api_common_v1_message_proto_msgTypes[42]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2661,7 +2724,7 @@ type Link_WorkflowEvent_RequestIdReference struct {
 
 func (x *Link_WorkflowEvent_RequestIdReference) Reset() {
 	*x = Link_WorkflowEvent_RequestIdReference{}
-	mi := &file_temporal_api_common_v1_message_proto_msgTypes[42]
+	mi := &file_temporal_api_common_v1_message_proto_msgTypes[43]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2673,7 +2736,7 @@ func (x *Link_WorkflowEvent_RequestIdReference) String() string {
 func (*Link_WorkflowEvent_RequestIdReference) ProtoMessage() {}
 
 func (x *Link_WorkflowEvent_RequestIdReference) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_common_v1_message_proto_msgTypes[42]
+	mi := &file_temporal_api_common_v1_message_proto_msgTypes[43]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2845,7 +2908,10 @@ const file_temporal_api_common_v1_message_proto_rawDesc = "" +
 	"\avariant\"3\n" +
 	"\tPrincipal\x12\x12\n" +
 	"\x04type\x18\x01 \x01(\tR\x04type\x12\x12\n" +
-	"\x04name\x18\x02 \x01(\tR\x04name\"y\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\"T\n" +
+	"\x11ResolvedPrincipal\x12\x12\n" +
+	"\x04type\x18\x01 \x01(\tR\x04type\x12+\n" +
+	"\x12name_at_write_time\x18\x02 \x01(\tR\x0fnameAtWriteTime\"y\n" +
 	"\bPriority\x12!\n" +
 	"\fpriority_key\x18\x01 \x01(\x05R\vpriorityKey\x12!\n" +
 	"\ffairness_key\x18\x02 \x01(\tR\vfairnessKey\x12'\n" +
@@ -2895,7 +2961,7 @@ func file_temporal_api_common_v1_message_proto_rawDescGZIP() []byte {
 	return file_temporal_api_common_v1_message_proto_rawDescData
 }
 
-var file_temporal_api_common_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 43)
+var file_temporal_api_common_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 44)
 var file_temporal_api_common_v1_message_proto_goTypes = []any{
 	(*DataBlob)(nil),                          // 0: temporal.api.common.v1.DataBlob
 	(*Payloads)(nil),                          // 1: temporal.api.common.v1.Payloads
@@ -2915,84 +2981,85 @@ var file_temporal_api_common_v1_message_proto_goTypes = []any{
 	(*Callback)(nil),                          // 15: temporal.api.common.v1.Callback
 	(*Link)(nil),                              // 16: temporal.api.common.v1.Link
 	(*Principal)(nil),                         // 17: temporal.api.common.v1.Principal
-	(*Priority)(nil),                          // 18: temporal.api.common.v1.Priority
-	(*WorkerSelector)(nil),                    // 19: temporal.api.common.v1.WorkerSelector
-	(*OnConflictOptions)(nil),                 // 20: temporal.api.common.v1.OnConflictOptions
-	(*TimeSkippingConfig)(nil),                // 21: temporal.api.common.v1.TimeSkippingConfig
-	(*FastForwardConfig)(nil),                 // 22: temporal.api.common.v1.FastForwardConfig
-	(*TimeSkippingStatePropagation)(nil),      // 23: temporal.api.common.v1.TimeSkippingStatePropagation
-	(*TimeSkippingInfo)(nil),                  // 24: temporal.api.common.v1.TimeSkippingInfo
-	(*TimeSkippingFastForwardInfo)(nil),       // 25: temporal.api.common.v1.TimeSkippingFastForwardInfo
-	nil,                                       // 26: temporal.api.common.v1.Payload.MetadataEntry
-	(*Payload_ExternalPayloadDetails)(nil),    // 27: temporal.api.common.v1.Payload.ExternalPayloadDetails
-	nil,                                       // 28: temporal.api.common.v1.SearchAttributes.IndexedFieldsEntry
-	nil,                                       // 29: temporal.api.common.v1.Memo.FieldsEntry
-	nil,                                       // 30: temporal.api.common.v1.Header.FieldsEntry
-	(*Callback_Nexus)(nil),                    // 31: temporal.api.common.v1.Callback.Nexus
-	(*Callback_Internal)(nil),                 // 32: temporal.api.common.v1.Callback.Internal
-	(*Callback_NexusHandler)(nil),             // 33: temporal.api.common.v1.Callback.NexusHandler
-	nil,                                       // 34: temporal.api.common.v1.Callback.Nexus.HeaderEntry
-	(*Link_WorkflowEvent)(nil),                // 35: temporal.api.common.v1.Link.WorkflowEvent
-	(*Link_BatchJob)(nil),                     // 36: temporal.api.common.v1.Link.BatchJob
-	(*Link_Activity)(nil),                     // 37: temporal.api.common.v1.Link.Activity
-	(*Link_NexusOperation)(nil),               // 38: temporal.api.common.v1.Link.NexusOperation
-	(*Link_Workflow)(nil),                     // 39: temporal.api.common.v1.Link.Workflow
-	(*Link_Callback)(nil),                     // 40: temporal.api.common.v1.Link.Callback
-	(*Link_WorkflowEvent_EventReference)(nil), // 41: temporal.api.common.v1.Link.WorkflowEvent.EventReference
-	(*Link_WorkflowEvent_RequestIdReference)(nil), // 42: temporal.api.common.v1.Link.WorkflowEvent.RequestIdReference
-	(v1.EncodingType)(0),                          // 43: temporal.api.enums.v1.EncodingType
-	(v1.ExecutionType)(0),                         // 44: temporal.api.enums.v1.ExecutionType
-	(*durationpb.Duration)(nil),                   // 45: google.protobuf.Duration
-	(*emptypb.Empty)(nil),                         // 46: google.protobuf.Empty
-	(v1.ResetReapplyType)(0),                      // 47: temporal.api.enums.v1.ResetReapplyType
-	(v1.ResetReapplyExcludeType)(0),               // 48: temporal.api.enums.v1.ResetReapplyExcludeType
-	(*timestamppb.Timestamp)(nil),                 // 49: google.protobuf.Timestamp
-	(v1.EventType)(0),                             // 50: temporal.api.enums.v1.EventType
+	(*ResolvedPrincipal)(nil),                 // 18: temporal.api.common.v1.ResolvedPrincipal
+	(*Priority)(nil),                          // 19: temporal.api.common.v1.Priority
+	(*WorkerSelector)(nil),                    // 20: temporal.api.common.v1.WorkerSelector
+	(*OnConflictOptions)(nil),                 // 21: temporal.api.common.v1.OnConflictOptions
+	(*TimeSkippingConfig)(nil),                // 22: temporal.api.common.v1.TimeSkippingConfig
+	(*FastForwardConfig)(nil),                 // 23: temporal.api.common.v1.FastForwardConfig
+	(*TimeSkippingStatePropagation)(nil),      // 24: temporal.api.common.v1.TimeSkippingStatePropagation
+	(*TimeSkippingInfo)(nil),                  // 25: temporal.api.common.v1.TimeSkippingInfo
+	(*TimeSkippingFastForwardInfo)(nil),       // 26: temporal.api.common.v1.TimeSkippingFastForwardInfo
+	nil,                                       // 27: temporal.api.common.v1.Payload.MetadataEntry
+	(*Payload_ExternalPayloadDetails)(nil),    // 28: temporal.api.common.v1.Payload.ExternalPayloadDetails
+	nil,                                       // 29: temporal.api.common.v1.SearchAttributes.IndexedFieldsEntry
+	nil,                                       // 30: temporal.api.common.v1.Memo.FieldsEntry
+	nil,                                       // 31: temporal.api.common.v1.Header.FieldsEntry
+	(*Callback_Nexus)(nil),                    // 32: temporal.api.common.v1.Callback.Nexus
+	(*Callback_Internal)(nil),                 // 33: temporal.api.common.v1.Callback.Internal
+	(*Callback_NexusHandler)(nil),             // 34: temporal.api.common.v1.Callback.NexusHandler
+	nil,                                       // 35: temporal.api.common.v1.Callback.Nexus.HeaderEntry
+	(*Link_WorkflowEvent)(nil),                // 36: temporal.api.common.v1.Link.WorkflowEvent
+	(*Link_BatchJob)(nil),                     // 37: temporal.api.common.v1.Link.BatchJob
+	(*Link_Activity)(nil),                     // 38: temporal.api.common.v1.Link.Activity
+	(*Link_NexusOperation)(nil),               // 39: temporal.api.common.v1.Link.NexusOperation
+	(*Link_Workflow)(nil),                     // 40: temporal.api.common.v1.Link.Workflow
+	(*Link_Callback)(nil),                     // 41: temporal.api.common.v1.Link.Callback
+	(*Link_WorkflowEvent_EventReference)(nil), // 42: temporal.api.common.v1.Link.WorkflowEvent.EventReference
+	(*Link_WorkflowEvent_RequestIdReference)(nil), // 43: temporal.api.common.v1.Link.WorkflowEvent.RequestIdReference
+	(v1.EncodingType)(0),                          // 44: temporal.api.enums.v1.EncodingType
+	(v1.ExecutionType)(0),                         // 45: temporal.api.enums.v1.ExecutionType
+	(*durationpb.Duration)(nil),                   // 46: google.protobuf.Duration
+	(*emptypb.Empty)(nil),                         // 47: google.protobuf.Empty
+	(v1.ResetReapplyType)(0),                      // 48: temporal.api.enums.v1.ResetReapplyType
+	(v1.ResetReapplyExcludeType)(0),               // 49: temporal.api.enums.v1.ResetReapplyExcludeType
+	(*timestamppb.Timestamp)(nil),                 // 50: google.protobuf.Timestamp
+	(v1.EventType)(0),                             // 51: temporal.api.enums.v1.EventType
 }
 var file_temporal_api_common_v1_message_proto_depIdxs = []int32{
-	43, // 0: temporal.api.common.v1.DataBlob.encoding_type:type_name -> temporal.api.enums.v1.EncodingType
+	44, // 0: temporal.api.common.v1.DataBlob.encoding_type:type_name -> temporal.api.enums.v1.EncodingType
 	2,  // 1: temporal.api.common.v1.Payloads.payloads:type_name -> temporal.api.common.v1.Payload
-	26, // 2: temporal.api.common.v1.Payload.metadata:type_name -> temporal.api.common.v1.Payload.MetadataEntry
-	27, // 3: temporal.api.common.v1.Payload.external_payloads:type_name -> temporal.api.common.v1.Payload.ExternalPayloadDetails
-	28, // 4: temporal.api.common.v1.SearchAttributes.indexed_fields:type_name -> temporal.api.common.v1.SearchAttributes.IndexedFieldsEntry
-	29, // 5: temporal.api.common.v1.Memo.fields:type_name -> temporal.api.common.v1.Memo.FieldsEntry
-	30, // 6: temporal.api.common.v1.Header.fields:type_name -> temporal.api.common.v1.Header.FieldsEntry
-	44, // 7: temporal.api.common.v1.Execution.type:type_name -> temporal.api.enums.v1.ExecutionType
-	45, // 8: temporal.api.common.v1.RetryPolicy.initial_interval:type_name -> google.protobuf.Duration
-	45, // 9: temporal.api.common.v1.RetryPolicy.maximum_interval:type_name -> google.protobuf.Duration
-	46, // 10: temporal.api.common.v1.ResetOptions.first_workflow_task:type_name -> google.protobuf.Empty
-	46, // 11: temporal.api.common.v1.ResetOptions.last_workflow_task:type_name -> google.protobuf.Empty
-	47, // 12: temporal.api.common.v1.ResetOptions.reset_reapply_type:type_name -> temporal.api.enums.v1.ResetReapplyType
-	48, // 13: temporal.api.common.v1.ResetOptions.reset_reapply_exclude_types:type_name -> temporal.api.enums.v1.ResetReapplyExcludeType
-	31, // 14: temporal.api.common.v1.Callback.nexus:type_name -> temporal.api.common.v1.Callback.Nexus
-	32, // 15: temporal.api.common.v1.Callback.internal:type_name -> temporal.api.common.v1.Callback.Internal
-	33, // 16: temporal.api.common.v1.Callback.nexus_handler:type_name -> temporal.api.common.v1.Callback.NexusHandler
+	27, // 2: temporal.api.common.v1.Payload.metadata:type_name -> temporal.api.common.v1.Payload.MetadataEntry
+	28, // 3: temporal.api.common.v1.Payload.external_payloads:type_name -> temporal.api.common.v1.Payload.ExternalPayloadDetails
+	29, // 4: temporal.api.common.v1.SearchAttributes.indexed_fields:type_name -> temporal.api.common.v1.SearchAttributes.IndexedFieldsEntry
+	30, // 5: temporal.api.common.v1.Memo.fields:type_name -> temporal.api.common.v1.Memo.FieldsEntry
+	31, // 6: temporal.api.common.v1.Header.fields:type_name -> temporal.api.common.v1.Header.FieldsEntry
+	45, // 7: temporal.api.common.v1.Execution.type:type_name -> temporal.api.enums.v1.ExecutionType
+	46, // 8: temporal.api.common.v1.RetryPolicy.initial_interval:type_name -> google.protobuf.Duration
+	46, // 9: temporal.api.common.v1.RetryPolicy.maximum_interval:type_name -> google.protobuf.Duration
+	47, // 10: temporal.api.common.v1.ResetOptions.first_workflow_task:type_name -> google.protobuf.Empty
+	47, // 11: temporal.api.common.v1.ResetOptions.last_workflow_task:type_name -> google.protobuf.Empty
+	48, // 12: temporal.api.common.v1.ResetOptions.reset_reapply_type:type_name -> temporal.api.enums.v1.ResetReapplyType
+	49, // 13: temporal.api.common.v1.ResetOptions.reset_reapply_exclude_types:type_name -> temporal.api.enums.v1.ResetReapplyExcludeType
+	32, // 14: temporal.api.common.v1.Callback.nexus:type_name -> temporal.api.common.v1.Callback.Nexus
+	33, // 15: temporal.api.common.v1.Callback.internal:type_name -> temporal.api.common.v1.Callback.Internal
+	34, // 16: temporal.api.common.v1.Callback.nexus_handler:type_name -> temporal.api.common.v1.Callback.NexusHandler
 	16, // 17: temporal.api.common.v1.Callback.links:type_name -> temporal.api.common.v1.Link
-	35, // 18: temporal.api.common.v1.Link.workflow_event:type_name -> temporal.api.common.v1.Link.WorkflowEvent
-	36, // 19: temporal.api.common.v1.Link.batch_job:type_name -> temporal.api.common.v1.Link.BatchJob
-	37, // 20: temporal.api.common.v1.Link.activity:type_name -> temporal.api.common.v1.Link.Activity
-	38, // 21: temporal.api.common.v1.Link.nexus_operation:type_name -> temporal.api.common.v1.Link.NexusOperation
-	39, // 22: temporal.api.common.v1.Link.workflow:type_name -> temporal.api.common.v1.Link.Workflow
-	40, // 23: temporal.api.common.v1.Link.callback:type_name -> temporal.api.common.v1.Link.Callback
-	22, // 24: temporal.api.common.v1.TimeSkippingConfig.fast_forward_config:type_name -> temporal.api.common.v1.FastForwardConfig
-	45, // 25: temporal.api.common.v1.FastForwardConfig.duration:type_name -> google.protobuf.Duration
-	45, // 26: temporal.api.common.v1.TimeSkippingStatePropagation.initial_skipped_duration:type_name -> google.protobuf.Duration
-	49, // 27: temporal.api.common.v1.TimeSkippingStatePropagation.fast_forward_target_time:type_name -> google.protobuf.Timestamp
-	49, // 28: temporal.api.common.v1.TimeSkippingInfo.current_time:type_name -> google.protobuf.Timestamp
-	21, // 29: temporal.api.common.v1.TimeSkippingInfo.effective_config:type_name -> temporal.api.common.v1.TimeSkippingConfig
-	25, // 30: temporal.api.common.v1.TimeSkippingInfo.fast_forward_info:type_name -> temporal.api.common.v1.TimeSkippingFastForwardInfo
-	45, // 31: temporal.api.common.v1.TimeSkippingFastForwardInfo.fast_forward_duration:type_name -> google.protobuf.Duration
-	49, // 32: temporal.api.common.v1.TimeSkippingFastForwardInfo.target_time:type_name -> google.protobuf.Timestamp
+	36, // 18: temporal.api.common.v1.Link.workflow_event:type_name -> temporal.api.common.v1.Link.WorkflowEvent
+	37, // 19: temporal.api.common.v1.Link.batch_job:type_name -> temporal.api.common.v1.Link.BatchJob
+	38, // 20: temporal.api.common.v1.Link.activity:type_name -> temporal.api.common.v1.Link.Activity
+	39, // 21: temporal.api.common.v1.Link.nexus_operation:type_name -> temporal.api.common.v1.Link.NexusOperation
+	40, // 22: temporal.api.common.v1.Link.workflow:type_name -> temporal.api.common.v1.Link.Workflow
+	41, // 23: temporal.api.common.v1.Link.callback:type_name -> temporal.api.common.v1.Link.Callback
+	23, // 24: temporal.api.common.v1.TimeSkippingConfig.fast_forward_config:type_name -> temporal.api.common.v1.FastForwardConfig
+	46, // 25: temporal.api.common.v1.FastForwardConfig.duration:type_name -> google.protobuf.Duration
+	46, // 26: temporal.api.common.v1.TimeSkippingStatePropagation.initial_skipped_duration:type_name -> google.protobuf.Duration
+	50, // 27: temporal.api.common.v1.TimeSkippingStatePropagation.fast_forward_target_time:type_name -> google.protobuf.Timestamp
+	50, // 28: temporal.api.common.v1.TimeSkippingInfo.current_time:type_name -> google.protobuf.Timestamp
+	22, // 29: temporal.api.common.v1.TimeSkippingInfo.effective_config:type_name -> temporal.api.common.v1.TimeSkippingConfig
+	26, // 30: temporal.api.common.v1.TimeSkippingInfo.fast_forward_info:type_name -> temporal.api.common.v1.TimeSkippingFastForwardInfo
+	46, // 31: temporal.api.common.v1.TimeSkippingFastForwardInfo.fast_forward_duration:type_name -> google.protobuf.Duration
+	50, // 32: temporal.api.common.v1.TimeSkippingFastForwardInfo.target_time:type_name -> google.protobuf.Timestamp
 	2,  // 33: temporal.api.common.v1.SearchAttributes.IndexedFieldsEntry.value:type_name -> temporal.api.common.v1.Payload
 	2,  // 34: temporal.api.common.v1.Memo.FieldsEntry.value:type_name -> temporal.api.common.v1.Payload
 	2,  // 35: temporal.api.common.v1.Header.FieldsEntry.value:type_name -> temporal.api.common.v1.Payload
-	34, // 36: temporal.api.common.v1.Callback.Nexus.header:type_name -> temporal.api.common.v1.Callback.Nexus.HeaderEntry
+	35, // 36: temporal.api.common.v1.Callback.Nexus.header:type_name -> temporal.api.common.v1.Callback.Nexus.HeaderEntry
 	2,  // 37: temporal.api.common.v1.Callback.NexusHandler.source_context:type_name -> temporal.api.common.v1.Payload
-	41, // 38: temporal.api.common.v1.Link.WorkflowEvent.event_ref:type_name -> temporal.api.common.v1.Link.WorkflowEvent.EventReference
-	42, // 39: temporal.api.common.v1.Link.WorkflowEvent.request_id_ref:type_name -> temporal.api.common.v1.Link.WorkflowEvent.RequestIdReference
+	42, // 38: temporal.api.common.v1.Link.WorkflowEvent.event_ref:type_name -> temporal.api.common.v1.Link.WorkflowEvent.EventReference
+	43, // 39: temporal.api.common.v1.Link.WorkflowEvent.request_id_ref:type_name -> temporal.api.common.v1.Link.WorkflowEvent.RequestIdReference
 	7,  // 40: temporal.api.common.v1.Link.Callback.execution:type_name -> temporal.api.common.v1.Execution
-	50, // 41: temporal.api.common.v1.Link.WorkflowEvent.EventReference.event_type:type_name -> temporal.api.enums.v1.EventType
-	50, // 42: temporal.api.common.v1.Link.WorkflowEvent.RequestIdReference.event_type:type_name -> temporal.api.enums.v1.EventType
+	51, // 41: temporal.api.common.v1.Link.WorkflowEvent.EventReference.event_type:type_name -> temporal.api.enums.v1.EventType
+	51, // 42: temporal.api.common.v1.Link.WorkflowEvent.RequestIdReference.event_type:type_name -> temporal.api.enums.v1.EventType
 	43, // [43:43] is the sub-list for method output_type
 	43, // [43:43] is the sub-list for method input_type
 	43, // [43:43] is the sub-list for extension type_name
@@ -3024,10 +3091,10 @@ func file_temporal_api_common_v1_message_proto_init() {
 		(*Link_Workflow_)(nil),
 		(*Link_Callback_)(nil),
 	}
-	file_temporal_api_common_v1_message_proto_msgTypes[19].OneofWrappers = []any{
+	file_temporal_api_common_v1_message_proto_msgTypes[20].OneofWrappers = []any{
 		(*WorkerSelector_WorkerInstanceKey)(nil),
 	}
-	file_temporal_api_common_v1_message_proto_msgTypes[35].OneofWrappers = []any{
+	file_temporal_api_common_v1_message_proto_msgTypes[36].OneofWrappers = []any{
 		(*Link_WorkflowEvent_EventRef)(nil),
 		(*Link_WorkflowEvent_RequestIdRef)(nil),
 	}
@@ -3037,7 +3104,7 @@ func file_temporal_api_common_v1_message_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_temporal_api_common_v1_message_proto_rawDesc), len(file_temporal_api_common_v1_message_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   43,
+			NumMessages:   44,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
