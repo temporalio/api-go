@@ -421,6 +421,8 @@ const (
 	PENDING_ACTIVITY_STATE_PAUSED PendingActivityState = 4
 	// PAUSE_REQUESTED means activity is currently running on the worker, but paused on the server
 	PENDING_ACTIVITY_STATE_PAUSE_REQUESTED PendingActivityState = 5
+	// The server has recorded async handoff and is waiting for external completion.
+	PENDING_ACTIVITY_STATE_AWAITING_COMPLETION PendingActivityState = 6
 )
 
 // Enum value maps for PendingActivityState.
@@ -432,14 +434,16 @@ var (
 		3: "PENDING_ACTIVITY_STATE_CANCEL_REQUESTED",
 		4: "PENDING_ACTIVITY_STATE_PAUSED",
 		5: "PENDING_ACTIVITY_STATE_PAUSE_REQUESTED",
+		6: "PENDING_ACTIVITY_STATE_AWAITING_COMPLETION",
 	}
 	PendingActivityState_value = map[string]int32{
-		"PENDING_ACTIVITY_STATE_UNSPECIFIED":      0,
-		"PENDING_ACTIVITY_STATE_SCHEDULED":        1,
-		"PENDING_ACTIVITY_STATE_STARTED":          2,
-		"PENDING_ACTIVITY_STATE_CANCEL_REQUESTED": 3,
-		"PENDING_ACTIVITY_STATE_PAUSED":           4,
-		"PENDING_ACTIVITY_STATE_PAUSE_REQUESTED":  5,
+		"PENDING_ACTIVITY_STATE_UNSPECIFIED":         0,
+		"PENDING_ACTIVITY_STATE_SCHEDULED":           1,
+		"PENDING_ACTIVITY_STATE_STARTED":             2,
+		"PENDING_ACTIVITY_STATE_CANCEL_REQUESTED":    3,
+		"PENDING_ACTIVITY_STATE_PAUSED":              4,
+		"PENDING_ACTIVITY_STATE_PAUSE_REQUESTED":     5,
+		"PENDING_ACTIVITY_STATE_AWAITING_COMPLETION": 6,
 	}
 )
 
@@ -463,6 +467,8 @@ func (x PendingActivityState) String() string {
 		return "Paused"
 	case PENDING_ACTIVITY_STATE_PAUSE_REQUESTED:
 		return "PauseRequested"
+	case PENDING_ACTIVITY_STATE_AWAITING_COMPLETION:
+		return "AwaitingCompletion"
 	default:
 		return strconv.Itoa(int(x))
 	}
@@ -697,6 +703,10 @@ const (
 	TIMEOUT_TYPE_SCHEDULE_TO_START TimeoutType = 2
 	TIMEOUT_TYPE_SCHEDULE_TO_CLOSE TimeoutType = 3
 	TIMEOUT_TYPE_HEARTBEAT         TimeoutType = 4
+	// The worker-owned handoff phase exceeded its configured timeout before accepted handoff.
+	TIMEOUT_TYPE_START_TO_HANDOFF TimeoutType = 5
+	// The external-completion phase exceeded its configured timeout after accepted handoff.
+	TIMEOUT_TYPE_HANDOFF_TO_CLOSE TimeoutType = 6
 )
 
 // Enum value maps for TimeoutType.
@@ -707,6 +717,8 @@ var (
 		2: "TIMEOUT_TYPE_SCHEDULE_TO_START",
 		3: "TIMEOUT_TYPE_SCHEDULE_TO_CLOSE",
 		4: "TIMEOUT_TYPE_HEARTBEAT",
+		5: "TIMEOUT_TYPE_START_TO_HANDOFF",
+		6: "TIMEOUT_TYPE_HANDOFF_TO_CLOSE",
 	}
 	TimeoutType_value = map[string]int32{
 		"TIMEOUT_TYPE_UNSPECIFIED":       0,
@@ -714,6 +726,8 @@ var (
 		"TIMEOUT_TYPE_SCHEDULE_TO_START": 2,
 		"TIMEOUT_TYPE_SCHEDULE_TO_CLOSE": 3,
 		"TIMEOUT_TYPE_HEARTBEAT":         4,
+		"TIMEOUT_TYPE_START_TO_HANDOFF":  5,
+		"TIMEOUT_TYPE_HANDOFF_TO_CLOSE":  6,
 	}
 )
 
@@ -735,6 +749,10 @@ func (x TimeoutType) String() string {
 		return "ScheduleToClose"
 	case TIMEOUT_TYPE_HEARTBEAT:
 		return "Heartbeat"
+	case TIMEOUT_TYPE_START_TO_HANDOFF:
+		return "StartToHandoff"
+	case TIMEOUT_TYPE_HANDOFF_TO_CLOSE:
+		return "HandoffToClose"
 	default:
 		return strconv.Itoa(int(x))
 	}
@@ -1046,14 +1064,15 @@ const file_temporal_api_enums_v1_workflow_proto_rawDesc = "" +
 	"$WORKFLOW_EXECUTION_STATUS_TERMINATED\x10\x05\x12.\n" +
 	"*WORKFLOW_EXECUTION_STATUS_CONTINUED_AS_NEW\x10\x06\x12'\n" +
 	"#WORKFLOW_EXECUTION_STATUS_TIMED_OUT\x10\a\x12$\n" +
-	" WORKFLOW_EXECUTION_STATUS_PAUSED\x10\b*\x84\x02\n" +
+	" WORKFLOW_EXECUTION_STATUS_PAUSED\x10\b*\xb4\x02\n" +
 	"\x14PendingActivityState\x12&\n" +
 	"\"PENDING_ACTIVITY_STATE_UNSPECIFIED\x10\x00\x12$\n" +
 	" PENDING_ACTIVITY_STATE_SCHEDULED\x10\x01\x12\"\n" +
 	"\x1ePENDING_ACTIVITY_STATE_STARTED\x10\x02\x12+\n" +
 	"'PENDING_ACTIVITY_STATE_CANCEL_REQUESTED\x10\x03\x12!\n" +
 	"\x1dPENDING_ACTIVITY_STATE_PAUSED\x10\x04\x12*\n" +
-	"&PENDING_ACTIVITY_STATE_PAUSE_REQUESTED\x10\x05*\x9b\x01\n" +
+	"&PENDING_ACTIVITY_STATE_PAUSE_REQUESTED\x10\x05\x12.\n" +
+	"*PENDING_ACTIVITY_STATE_AWAITING_COMPLETION\x10\x06*\x9b\x01\n" +
 	"\x18PendingWorkflowTaskState\x12+\n" +
 	"'PENDING_WORKFLOW_TASK_STATE_UNSPECIFIED\x10\x00\x12)\n" +
 	"%PENDING_WORKFLOW_TASK_STATE_SCHEDULED\x10\x01\x12'\n" +
@@ -1071,13 +1090,15 @@ const file_temporal_api_enums_v1_workflow_proto_rawDesc = "" +
 	"$RETRY_STATE_MAXIMUM_ATTEMPTS_REACHED\x10\x04\x12$\n" +
 	" RETRY_STATE_RETRY_POLICY_NOT_SET\x10\x05\x12%\n" +
 	"!RETRY_STATE_INTERNAL_SERVER_ERROR\x10\x06\x12 \n" +
-	"\x1cRETRY_STATE_CANCEL_REQUESTED\x10\a*\xb0\x01\n" +
+	"\x1cRETRY_STATE_CANCEL_REQUESTED\x10\a*\xf6\x01\n" +
 	"\vTimeoutType\x12\x1c\n" +
 	"\x18TIMEOUT_TYPE_UNSPECIFIED\x10\x00\x12\x1f\n" +
 	"\x1bTIMEOUT_TYPE_START_TO_CLOSE\x10\x01\x12\"\n" +
 	"\x1eTIMEOUT_TYPE_SCHEDULE_TO_START\x10\x02\x12\"\n" +
 	"\x1eTIMEOUT_TYPE_SCHEDULE_TO_CLOSE\x10\x03\x12\x1a\n" +
-	"\x16TIMEOUT_TYPE_HEARTBEAT\x10\x04*\x7f\n" +
+	"\x16TIMEOUT_TYPE_HEARTBEAT\x10\x04\x12!\n" +
+	"\x1dTIMEOUT_TYPE_START_TO_HANDOFF\x10\x05\x12!\n" +
+	"\x1dTIMEOUT_TYPE_HANDOFF_TO_CLOSE\x10\x06*\x7f\n" +
 	"\x12VersioningBehavior\x12#\n" +
 	"\x1fVERSIONING_BEHAVIOR_UNSPECIFIED\x10\x00\x12\x1e\n" +
 	"\x1aVERSIONING_BEHAVIOR_PINNED\x10\x01\x12$\n" +
