@@ -372,6 +372,10 @@ func (s *workflowServiceProxyServer) RespondActivityTaskFailedById(ctx context.C
 	return s.client.RespondActivityTaskFailedById(s.reqCtx(ctx), in0)
 }
 
+func (s *workflowServiceProxyServer) RespondActivityTaskHandoff(ctx context.Context, in0 *workflowservice.RespondActivityTaskHandoffRequest) (*workflowservice.RespondActivityTaskHandoffResponse, error) {
+	return s.client.RespondActivityTaskHandoff(s.reqCtx(ctx), in0)
+}
+
 func (s *workflowServiceProxyServer) RespondNexusTaskCompleted(ctx context.Context, in0 *workflowservice.RespondNexusTaskCompletedRequest) (*workflowservice.RespondNexusTaskCompletedResponse, error) {
 	return s.client.RespondNexusTaskCompleted(s.reqCtx(ctx), in0)
 }

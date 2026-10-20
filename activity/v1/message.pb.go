@@ -127,11 +127,118 @@ func (*ActivityExecutionOutcome_Result) isActivityExecutionOutcome_Value() {}
 
 func (*ActivityExecutionOutcome_Failure) isActivityExecutionOutcome_Value() {}
 
+// Timeout and retry options for activity handoff and external completion. The completion phase
+// begins when the server durably accepts `RespondActivityTaskHandoff`.
+//
+// Presence, including an empty message, enables two-phase timeouts and retries. Absence preserves
+// existing timeout, retry, and attempt-counting behavior even when handoff is reported.
+// Either `ActivityOptions.start_to_close_timeout` or `ActivityOptions.schedule_to_close_timeout`
+// must be positive; otherwise, both phase timeouts below must be positive so neither phase can
+// wait indefinitely. The earliest applicable deadline wins. `ActivityOptions.start_to_close_timeout`
+// is enforced only when explicitly positive. Only the current phase timeout is active.
+//
+// Positive phase timeouts are capped by positive `ActivityOptions.start_to_close_timeout` and
+// `ActivityOptions.schedule_to_close_timeout` bounds. Positive heartbeat timeouts are capped by
+// their phase timeout and those positive bounds. The server stores and returns normalized values.
+// Increasing a bound does not restore a capped value unless that value is also updated.
+type AsyncHandoffOptions struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Maximum time from the current worker pickup until the server durably accepts handoff. Unset
+	// or zero disables this timeout. On timeout, the server retries according to
+	// `AsyncHandoffOptions.retry_policy`.
+	//
+	// (-- api-linter: core::0140::prepositions=disabled
+	//
+	//	aip.dev/not-precedent: "to" identifies the endpoints of the timeout. --)
+	StartToHandoffTimeout *durationpb.Duration `protobuf:"bytes,1,opt,name=start_to_handoff_timeout,json=startToHandoffTimeout,proto3" json:"start_to_handoff_timeout,omitempty"`
+	// Maximum time from the server durably accepting handoff until the current activity attempt
+	// closes. Unset or zero disables this timeout. On timeout, the server retries according to
+	// `ActivityOptions.retry_policy`.
+	//
+	// (-- api-linter: core::0140::prepositions=disabled
+	//
+	//	aip.dev/not-precedent: "to" identifies the endpoints of the timeout. --)
+	HandoffToCloseTimeout *durationpb.Duration `protobuf:"bytes,2,opt,name=handoff_to_close_timeout,json=handoffToCloseTimeout,proto3" json:"handoff_to_close_timeout,omitempty"`
+	// Maximum time between recorded heartbeats before accepted handoff, initially measured from
+	// worker pickup. Unset or zero disables it; `ActivityOptions.heartbeat_timeout` is not inherited
+	// and applies only after handoff.
+	HeartbeatTimeout *durationpb.Duration `protobuf:"bytes,3,opt,name=heartbeat_timeout,json=heartbeatTimeout,proto3" json:"heartbeat_timeout,omitempty"`
+	// Retry policy for failures and heartbeat or start-to-handoff timeouts before accepted handoff.
+	// Retries increment `ActivityExecutionInfo.handoff_attempt` without incrementing
+	// `ActivityExecutionInfo.attempt`. Exhausting this policy does not fall back to
+	// `ActivityOptions.retry_policy`. If omitted, uses the namespace's default activity retry
+	// policy, independently of `ActivityOptions.retry_policy`.
+	// To change `RetryPolicy.non_retryable_error_types`, replace
+	// `async_handoff_options.retry_policy` as a whole in the update mask.
+	RetryPolicy   *v11.RetryPolicy `protobuf:"bytes,4,opt,name=retry_policy,json=retryPolicy,proto3" json:"retry_policy,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *AsyncHandoffOptions) Reset() {
+	*x = AsyncHandoffOptions{}
+	mi := &file_temporal_api_activity_v1_message_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *AsyncHandoffOptions) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AsyncHandoffOptions) ProtoMessage() {}
+
+func (x *AsyncHandoffOptions) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_api_activity_v1_message_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AsyncHandoffOptions.ProtoReflect.Descriptor instead.
+func (*AsyncHandoffOptions) Descriptor() ([]byte, []int) {
+	return file_temporal_api_activity_v1_message_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *AsyncHandoffOptions) GetStartToHandoffTimeout() *durationpb.Duration {
+	if x != nil {
+		return x.StartToHandoffTimeout
+	}
+	return nil
+}
+
+func (x *AsyncHandoffOptions) GetHandoffToCloseTimeout() *durationpb.Duration {
+	if x != nil {
+		return x.HandoffToCloseTimeout
+	}
+	return nil
+}
+
+func (x *AsyncHandoffOptions) GetHeartbeatTimeout() *durationpb.Duration {
+	if x != nil {
+		return x.HeartbeatTimeout
+	}
+	return nil
+}
+
+func (x *AsyncHandoffOptions) GetRetryPolicy() *v11.RetryPolicy {
+	if x != nil {
+		return x.RetryPolicy
+	}
+	return nil
+}
+
 type ActivityOptions struct {
 	state     protoimpl.MessageState `protogen:"open.v1"`
 	TaskQueue *v13.TaskQueue         `protobuf:"bytes,1,opt,name=task_queue,json=taskQueue,proto3" json:"task_queue,omitempty"`
 	// Indicates how long the caller is willing to wait for an activity completion. Limits how long
-	// retries will be attempted. Either this or `start_to_close_timeout` must be specified.
+	// retries will be attempted. Either this or `start_to_close_timeout` must be specified,
+	// unless `ActivityOptions.async_handoff_options` provides both phase timeouts.
 	//
 	// (-- api-linter: core::0140::prepositions=disabled
 	//
@@ -147,16 +254,25 @@ type ActivityOptions struct {
 	//	aip.dev/not-precedent: "to" is used to indicate interval. --)
 	ScheduleToStartTimeout *durationpb.Duration `protobuf:"bytes,3,opt,name=schedule_to_start_timeout,json=scheduleToStartTimeout,proto3" json:"schedule_to_start_timeout,omitempty"`
 	// Maximum time an activity is allowed to execute after being picked up by a worker. This
-	// timeout is always retryable. Either this or `schedule_to_close_timeout` must be
-	// specified.
+	// timeout is always retryable. Either this or `schedule_to_close_timeout` must be specified,
+	// unless `ActivityOptions.async_handoff_options` provides both phase timeouts.
+	// When `ActivityOptions.async_handoff_options` is present, the start-to-close timeout runs from
+	// the first worker pickup of the activity attempt across both phases, handoff retries, backoff, and
+	// queue waits.
 	//
 	// (-- api-linter: core::0140::prepositions=disabled
 	//
 	//	aip.dev/not-precedent: "to" is used to indicate interval. --)
 	StartToCloseTimeout *durationpb.Duration `protobuf:"bytes,4,opt,name=start_to_close_timeout,json=startToCloseTimeout,proto3" json:"start_to_close_timeout,omitempty"`
 	// Maximum permitted time between successful worker heartbeats.
+	// When `ActivityOptions.async_handoff_options` is present, the activity heartbeat timeout
+	// applies after handoff, starting at accepted handoff.
+	// Before handoff, use `AsyncHandoffOptions.heartbeat_timeout`.
 	HeartbeatTimeout *durationpb.Duration `protobuf:"bytes,5,opt,name=heartbeat_timeout,json=heartbeatTimeout,proto3" json:"heartbeat_timeout,omitempty"`
 	// The retry policy for the activity. Will never exceed `schedule_to_close_timeout`.
+	// When `ActivityOptions.async_handoff_options` is present, this policy handles post-handoff failures
+	// and timeouts, plus start-to-close timeouts in either phase. Other pre-handoff failures use
+	// `AsyncHandoffOptions.retry_policy`.
 	RetryPolicy *v11.RetryPolicy `protobuf:"bytes,6,opt,name=retry_policy,json=retryPolicy,proto3" json:"retry_policy,omitempty"`
 	// Priority metadata. If this message is not present, or any fields are not
 	// present, they inherit the values from the workflow.
@@ -164,14 +280,16 @@ type ActivityOptions struct {
 	// Time to wait before making the first activity task available for dispatch. This delay is not applied to retry attempts.
 	// When updated, the time is added to the original `schedule_time`, not to the current time.
 	// If the resulting time is in the past, the task is made available for dispatch immediately.
-	StartDelay    *durationpb.Duration `protobuf:"bytes,8,opt,name=start_delay,json=startDelay,proto3" json:"start_delay,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	StartDelay *durationpb.Duration `protobuf:"bytes,8,opt,name=start_delay,json=startDelay,proto3" json:"start_delay,omitempty"`
+	// Two-phase timeout and retry settings.
+	AsyncHandoffOptions *AsyncHandoffOptions `protobuf:"bytes,9,opt,name=async_handoff_options,json=asyncHandoffOptions,proto3" json:"async_handoff_options,omitempty"`
+	unknownFields       protoimpl.UnknownFields
+	sizeCache           protoimpl.SizeCache
 }
 
 func (x *ActivityOptions) Reset() {
 	*x = ActivityOptions{}
-	mi := &file_temporal_api_activity_v1_message_proto_msgTypes[1]
+	mi := &file_temporal_api_activity_v1_message_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -183,7 +301,7 @@ func (x *ActivityOptions) String() string {
 func (*ActivityOptions) ProtoMessage() {}
 
 func (x *ActivityOptions) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_activity_v1_message_proto_msgTypes[1]
+	mi := &file_temporal_api_activity_v1_message_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -196,7 +314,7 @@ func (x *ActivityOptions) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ActivityOptions.ProtoReflect.Descriptor instead.
 func (*ActivityOptions) Descriptor() ([]byte, []int) {
-	return file_temporal_api_activity_v1_message_proto_rawDescGZIP(), []int{1}
+	return file_temporal_api_activity_v1_message_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *ActivityOptions) GetTaskQueue() *v13.TaskQueue {
@@ -255,6 +373,13 @@ func (x *ActivityOptions) GetStartDelay() *durationpb.Duration {
 	return nil
 }
 
+func (x *ActivityOptions) GetAsyncHandoffOptions() *AsyncHandoffOptions {
+	if x != nil {
+		return x.AsyncHandoffOptions
+	}
+	return nil
+}
+
 // Information about a standalone activity.
 type ActivityExecutionInfo struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
@@ -291,17 +416,20 @@ type ActivityExecutionInfo struct {
 	//	aip.dev/not-precedent: "to" is used to indicate interval. --)
 	StartToCloseTimeout *durationpb.Duration `protobuf:"bytes,9,opt,name=start_to_close_timeout,json=startToCloseTimeout,proto3" json:"start_to_close_timeout,omitempty"`
 	// Maximum permitted time between successful worker heartbeats.
+	// See `ActivityOptions.heartbeat_timeout` for behavior with handoff options.
 	HeartbeatTimeout *durationpb.Duration `protobuf:"bytes,10,opt,name=heartbeat_timeout,json=heartbeatTimeout,proto3" json:"heartbeat_timeout,omitempty"`
 	// The retry policy for the activity. Will never exceed `schedule_to_close_timeout`.
+	// See `ActivityOptions.retry_policy` for behavior with handoff options.
 	RetryPolicy *v11.RetryPolicy `protobuf:"bytes,11,opt,name=retry_policy,json=retryPolicy,proto3" json:"retry_policy,omitempty"`
 	// Details provided in the last recorded activity heartbeat.
 	// DescribeActivityExecution does not set this field unless include_heartbeat_details was true in the request.
 	HeartbeatDetails *v11.Payloads `protobuf:"bytes,12,opt,name=heartbeat_details,json=heartbeatDetails,proto3" json:"heartbeat_details,omitempty"`
 	// Time the last heartbeat was recorded.
 	LastHeartbeatTime *timestamppb.Timestamp `protobuf:"bytes,13,opt,name=last_heartbeat_time,json=lastHeartbeatTime,proto3" json:"last_heartbeat_time,omitempty"`
-	// Time the last attempt was started.
+	// Time the most recent activity task started.
 	LastStartedTime *timestamppb.Timestamp `protobuf:"bytes,14,opt,name=last_started_time,json=lastStartedTime,proto3" json:"last_started_time,omitempty"`
-	// The attempt this activity is currently on. Incremented each time a new attempt is scheduled.
+	// The attempt this activity is currently on. Activity retries increment this count;
+	// handoff retries increment `ActivityExecutionInfo.handoff_attempt` instead.
 	Attempt int32 `protobuf:"varint,15,opt,name=attempt,proto3" json:"attempt,omitempty"`
 	// How long this activity has been running for, including all attempts and backoff between attempts.
 	ExecutionDuration *durationpb.Duration `protobuf:"bytes,16,opt,name=execution_duration,json=executionDuration,proto3" json:"execution_duration,omitempty"`
@@ -377,13 +505,28 @@ type ActivityExecutionInfo struct {
 	ClosedByPrincipal *v11.ResolvedPrincipal `protobuf:"bytes,42,opt,name=closed_by_principal,json=closedByPrincipal,proto3" json:"closed_by_principal,omitempty"`
 	// Authenticated principal of the worker that most recently interacted with this activity execution.
 	LastWorkerPrincipal *v11.ResolvedPrincipal `protobuf:"bytes,43,opt,name=last_worker_principal,json=lastWorkerPrincipal,proto3" json:"last_worker_principal,omitempty"`
+	// Handoff attempt within the current activity attempt. Starts at 1 when
+	// `ActivityExecutionInfo.async_handoff_options` are configured at creation or added by update.
+	// Increments on handoff retries and resets to 1 on an activity retry or applied reset.
+	// Zero when options are absent.
+	HandoffAttempt int32 `protobuf:"varint,44,opt,name=handoff_attempt,json=handoffAttempt,proto3" json:"handoff_attempt,omitempty"`
+	// Most recent durably recorded handoff time. Retained through retry backoff, waiting for the
+	// next worker pickup, and terminal closure. Cleared when a reset is applied or the next delivery
+	// starts on a worker.
+	AsyncHandoffTime *timestamppb.Timestamp `protobuf:"bytes,45,opt,name=async_handoff_time,json=asyncHandoffTime,proto3" json:"async_handoff_time,omitempty"`
+	// True while the current delivery awaits external completion, independent of
+	// `ActivityExecutionInfo.run_state`. Cleared when the delivery ends or is reset;
+	// pending pause, cancel, or reset requests do not clear it.
+	AwaitingCompletion bool `protobuf:"varint,46,opt,name=awaiting_completion,json=awaitingCompletion,proto3" json:"awaiting_completion,omitempty"`
+	// Server-normalized and defaulted handoff options, if configured.
+	AsyncHandoffOptions *AsyncHandoffOptions `protobuf:"bytes,47,opt,name=async_handoff_options,json=asyncHandoffOptions,proto3" json:"async_handoff_options,omitempty"`
 	unknownFields       protoimpl.UnknownFields
 	sizeCache           protoimpl.SizeCache
 }
 
 func (x *ActivityExecutionInfo) Reset() {
 	*x = ActivityExecutionInfo{}
-	mi := &file_temporal_api_activity_v1_message_proto_msgTypes[2]
+	mi := &file_temporal_api_activity_v1_message_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -395,7 +538,7 @@ func (x *ActivityExecutionInfo) String() string {
 func (*ActivityExecutionInfo) ProtoMessage() {}
 
 func (x *ActivityExecutionInfo) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_activity_v1_message_proto_msgTypes[2]
+	mi := &file_temporal_api_activity_v1_message_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -408,7 +551,7 @@ func (x *ActivityExecutionInfo) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ActivityExecutionInfo.ProtoReflect.Descriptor instead.
 func (*ActivityExecutionInfo) Descriptor() ([]byte, []int) {
-	return file_temporal_api_activity_v1_message_proto_rawDescGZIP(), []int{2}
+	return file_temporal_api_activity_v1_message_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *ActivityExecutionInfo) GetActivityId() string {
@@ -712,6 +855,34 @@ func (x *ActivityExecutionInfo) GetLastWorkerPrincipal() *v11.ResolvedPrincipal 
 	return nil
 }
 
+func (x *ActivityExecutionInfo) GetHandoffAttempt() int32 {
+	if x != nil {
+		return x.HandoffAttempt
+	}
+	return 0
+}
+
+func (x *ActivityExecutionInfo) GetAsyncHandoffTime() *timestamppb.Timestamp {
+	if x != nil {
+		return x.AsyncHandoffTime
+	}
+	return nil
+}
+
+func (x *ActivityExecutionInfo) GetAwaitingCompletion() bool {
+	if x != nil {
+		return x.AwaitingCompletion
+	}
+	return false
+}
+
+func (x *ActivityExecutionInfo) GetAsyncHandoffOptions() *AsyncHandoffOptions {
+	if x != nil {
+		return x.AsyncHandoffOptions
+	}
+	return nil
+}
+
 // Limited activity information returned in the list response.
 // When adding fields here, ensure that it is also present in ActivityExecutionInfo (note that it
 // may already be present in ActivityExecutionInfo but not at the top-level).
@@ -750,7 +921,7 @@ type ActivityExecutionListInfo struct {
 
 func (x *ActivityExecutionListInfo) Reset() {
 	*x = ActivityExecutionListInfo{}
-	mi := &file_temporal_api_activity_v1_message_proto_msgTypes[3]
+	mi := &file_temporal_api_activity_v1_message_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -762,7 +933,7 @@ func (x *ActivityExecutionListInfo) String() string {
 func (*ActivityExecutionListInfo) ProtoMessage() {}
 
 func (x *ActivityExecutionListInfo) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_activity_v1_message_proto_msgTypes[3]
+	mi := &file_temporal_api_activity_v1_message_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -775,7 +946,7 @@ func (x *ActivityExecutionListInfo) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ActivityExecutionListInfo.ProtoReflect.Descriptor instead.
 func (*ActivityExecutionListInfo) Descriptor() ([]byte, []int) {
-	return file_temporal_api_activity_v1_message_proto_rawDescGZIP(), []int{3}
+	return file_temporal_api_activity_v1_message_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *ActivityExecutionListInfo) GetActivityId() string {
@@ -875,7 +1046,7 @@ type CallbackInfo struct {
 
 func (x *CallbackInfo) Reset() {
 	*x = CallbackInfo{}
-	mi := &file_temporal_api_activity_v1_message_proto_msgTypes[4]
+	mi := &file_temporal_api_activity_v1_message_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -887,7 +1058,7 @@ func (x *CallbackInfo) String() string {
 func (*CallbackInfo) ProtoMessage() {}
 
 func (x *CallbackInfo) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_activity_v1_message_proto_msgTypes[4]
+	mi := &file_temporal_api_activity_v1_message_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -900,7 +1071,7 @@ func (x *CallbackInfo) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CallbackInfo.ProtoReflect.Descriptor instead.
 func (*CallbackInfo) Descriptor() ([]byte, []int) {
-	return file_temporal_api_activity_v1_message_proto_rawDescGZIP(), []int{4}
+	return file_temporal_api_activity_v1_message_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *CallbackInfo) GetTrigger() *CallbackInfo_Trigger {
@@ -926,7 +1097,7 @@ type CallbackInfo_ActivityClosed struct {
 
 func (x *CallbackInfo_ActivityClosed) Reset() {
 	*x = CallbackInfo_ActivityClosed{}
-	mi := &file_temporal_api_activity_v1_message_proto_msgTypes[5]
+	mi := &file_temporal_api_activity_v1_message_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -938,7 +1109,7 @@ func (x *CallbackInfo_ActivityClosed) String() string {
 func (*CallbackInfo_ActivityClosed) ProtoMessage() {}
 
 func (x *CallbackInfo_ActivityClosed) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_activity_v1_message_proto_msgTypes[5]
+	mi := &file_temporal_api_activity_v1_message_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -951,7 +1122,7 @@ func (x *CallbackInfo_ActivityClosed) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CallbackInfo_ActivityClosed.ProtoReflect.Descriptor instead.
 func (*CallbackInfo_ActivityClosed) Descriptor() ([]byte, []int) {
-	return file_temporal_api_activity_v1_message_proto_rawDescGZIP(), []int{4, 0}
+	return file_temporal_api_activity_v1_message_proto_rawDescGZIP(), []int{5, 0}
 }
 
 type CallbackInfo_Trigger struct {
@@ -966,7 +1137,7 @@ type CallbackInfo_Trigger struct {
 
 func (x *CallbackInfo_Trigger) Reset() {
 	*x = CallbackInfo_Trigger{}
-	mi := &file_temporal_api_activity_v1_message_proto_msgTypes[6]
+	mi := &file_temporal_api_activity_v1_message_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -978,7 +1149,7 @@ func (x *CallbackInfo_Trigger) String() string {
 func (*CallbackInfo_Trigger) ProtoMessage() {}
 
 func (x *CallbackInfo_Trigger) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_activity_v1_message_proto_msgTypes[6]
+	mi := &file_temporal_api_activity_v1_message_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -991,7 +1162,7 @@ func (x *CallbackInfo_Trigger) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CallbackInfo_Trigger.ProtoReflect.Descriptor instead.
 func (*CallbackInfo_Trigger) Descriptor() ([]byte, []int) {
-	return file_temporal_api_activity_v1_message_proto_rawDescGZIP(), []int{4, 1}
+	return file_temporal_api_activity_v1_message_proto_rawDescGZIP(), []int{5, 1}
 }
 
 func (x *CallbackInfo_Trigger) GetVariant() isCallbackInfo_Trigger_Variant {
@@ -1030,7 +1201,12 @@ const file_temporal_api_activity_v1_message_proto_rawDesc = "" +
 	"\afailure\x18\x02 \x01(\v2 .temporal.api.failure.v1.FailureH\x00R\afailure\x12B\n" +
 	"\vretry_state\x18\x03 \x01(\x0e2!.temporal.api.enums.v1.RetryStateR\n" +
 	"retryStateB\a\n" +
-	"\x05value\"\xdc\x04\n" +
+	"\x05value\"\xcd\x02\n" +
+	"\x13AsyncHandoffOptions\x12R\n" +
+	"\x18start_to_handoff_timeout\x18\x01 \x01(\v2\x19.google.protobuf.DurationR\x15startToHandoffTimeout\x12R\n" +
+	"\x18handoff_to_close_timeout\x18\x02 \x01(\v2\x19.google.protobuf.DurationR\x15handoffToCloseTimeout\x12F\n" +
+	"\x11heartbeat_timeout\x18\x03 \x01(\v2\x19.google.protobuf.DurationR\x10heartbeatTimeout\x12F\n" +
+	"\fretry_policy\x18\x04 \x01(\v2#.temporal.api.common.v1.RetryPolicyR\vretryPolicy\"\xbf\x05\n" +
 	"\x0fActivityOptions\x12C\n" +
 	"\n" +
 	"task_queue\x18\x01 \x01(\v2$.temporal.api.taskqueue.v1.TaskQueueR\ttaskQueue\x12T\n" +
@@ -1041,7 +1217,8 @@ const file_temporal_api_activity_v1_message_proto_rawDesc = "" +
 	"\fretry_policy\x18\x06 \x01(\v2#.temporal.api.common.v1.RetryPolicyR\vretryPolicy\x12<\n" +
 	"\bpriority\x18\a \x01(\v2 .temporal.api.common.v1.PriorityR\bpriority\x12:\n" +
 	"\vstart_delay\x18\b \x01(\v2\x19.google.protobuf.DurationR\n" +
-	"startDelay\"\xe5\x16\n" +
+	"startDelay\x12a\n" +
+	"\x15async_handoff_options\x18\t \x01(\v2-.temporal.api.activity.v1.AsyncHandoffOptionsR\x13asyncHandoffOptions\"\xec\x18\n" +
 	"\x15ActivityExecutionInfo\x12\x1f\n" +
 	"\vactivity_id\x18\x01 \x01(\tR\n" +
 	"activityId\x12\x15\n" +
@@ -1091,7 +1268,11 @@ const file_temporal_api_activity_v1_message_proto_rawDesc = "" +
 	"\x18eager_execution_accepted\x18( \x01(\bR\x16eagerExecutionAccepted\x12[\n" +
 	"\x14started_by_principal\x18) \x01(\v2).temporal.api.common.v1.ResolvedPrincipalR\x12startedByPrincipal\x12Y\n" +
 	"\x13closed_by_principal\x18* \x01(\v2).temporal.api.common.v1.ResolvedPrincipalR\x11closedByPrincipal\x12]\n" +
-	"\x15last_worker_principal\x18+ \x01(\v2).temporal.api.common.v1.ResolvedPrincipalR\x13lastWorkerPrincipal\"\xc5\x05\n" +
+	"\x15last_worker_principal\x18+ \x01(\v2).temporal.api.common.v1.ResolvedPrincipalR\x13lastWorkerPrincipal\x12'\n" +
+	"\x0fhandoff_attempt\x18, \x01(\x05R\x0ehandoffAttempt\x12H\n" +
+	"\x12async_handoff_time\x18- \x01(\v2\x1a.google.protobuf.TimestampR\x10asyncHandoffTime\x12/\n" +
+	"\x13awaiting_completion\x18. \x01(\bR\x12awaitingCompletion\x12a\n" +
+	"\x15async_handoff_options\x18/ \x01(\v2-.temporal.api.activity.v1.AsyncHandoffOptionsR\x13asyncHandoffOptions\"\xc5\x05\n" +
 	"\x19ActivityExecutionListInfo\x12\x1f\n" +
 	"\vactivity_id\x18\x01 \x01(\tR\n" +
 	"activityId\x12\x15\n" +
@@ -1130,93 +1311,101 @@ func file_temporal_api_activity_v1_message_proto_rawDescGZIP() []byte {
 	return file_temporal_api_activity_v1_message_proto_rawDescData
 }
 
-var file_temporal_api_activity_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
+var file_temporal_api_activity_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
 var file_temporal_api_activity_v1_message_proto_goTypes = []any{
 	(*ActivityExecutionOutcome)(nil),           // 0: temporal.api.activity.v1.ActivityExecutionOutcome
-	(*ActivityOptions)(nil),                    // 1: temporal.api.activity.v1.ActivityOptions
-	(*ActivityExecutionInfo)(nil),              // 2: temporal.api.activity.v1.ActivityExecutionInfo
-	(*ActivityExecutionListInfo)(nil),          // 3: temporal.api.activity.v1.ActivityExecutionListInfo
-	(*CallbackInfo)(nil),                       // 4: temporal.api.activity.v1.CallbackInfo
-	(*CallbackInfo_ActivityClosed)(nil),        // 5: temporal.api.activity.v1.CallbackInfo.ActivityClosed
-	(*CallbackInfo_Trigger)(nil),               // 6: temporal.api.activity.v1.CallbackInfo.Trigger
-	(*v11.Payloads)(nil),                       // 7: temporal.api.common.v1.Payloads
-	(*v12.Failure)(nil),                        // 8: temporal.api.failure.v1.Failure
-	(v1.RetryState)(0),                         // 9: temporal.api.enums.v1.RetryState
-	(*v13.TaskQueue)(nil),                      // 10: temporal.api.taskqueue.v1.TaskQueue
+	(*AsyncHandoffOptions)(nil),                // 1: temporal.api.activity.v1.AsyncHandoffOptions
+	(*ActivityOptions)(nil),                    // 2: temporal.api.activity.v1.ActivityOptions
+	(*ActivityExecutionInfo)(nil),              // 3: temporal.api.activity.v1.ActivityExecutionInfo
+	(*ActivityExecutionListInfo)(nil),          // 4: temporal.api.activity.v1.ActivityExecutionListInfo
+	(*CallbackInfo)(nil),                       // 5: temporal.api.activity.v1.CallbackInfo
+	(*CallbackInfo_ActivityClosed)(nil),        // 6: temporal.api.activity.v1.CallbackInfo.ActivityClosed
+	(*CallbackInfo_Trigger)(nil),               // 7: temporal.api.activity.v1.CallbackInfo.Trigger
+	(*v11.Payloads)(nil),                       // 8: temporal.api.common.v1.Payloads
+	(*v12.Failure)(nil),                        // 9: temporal.api.failure.v1.Failure
+	(v1.RetryState)(0),                         // 10: temporal.api.enums.v1.RetryState
 	(*durationpb.Duration)(nil),                // 11: google.protobuf.Duration
 	(*v11.RetryPolicy)(nil),                    // 12: temporal.api.common.v1.RetryPolicy
-	(*v11.Priority)(nil),                       // 13: temporal.api.common.v1.Priority
-	(*v11.ActivityType)(nil),                   // 14: temporal.api.common.v1.ActivityType
-	(v1.ActivityExecutionStatus)(0),            // 15: temporal.api.enums.v1.ActivityExecutionStatus
-	(v1.PendingActivityState)(0),               // 16: temporal.api.enums.v1.PendingActivityState
-	(*timestamppb.Timestamp)(nil),              // 17: google.protobuf.Timestamp
-	(*v14.WorkerDeploymentVersion)(nil),        // 18: temporal.api.deployment.v1.WorkerDeploymentVersion
-	(*v11.SearchAttributes)(nil),               // 19: temporal.api.common.v1.SearchAttributes
-	(*v11.Header)(nil),                         // 20: temporal.api.common.v1.Header
-	(*v15.UserMetadata)(nil),                   // 21: temporal.api.sdk.v1.UserMetadata
-	(*v11.Link)(nil),                           // 22: temporal.api.common.v1.Link
-	(*v16.PropagatedSerializationContext)(nil), // 23: temporal.api.nexus.v1.PropagatedSerializationContext
-	(*v11.ResolvedPrincipal)(nil),              // 24: temporal.api.common.v1.ResolvedPrincipal
-	(*v17.CallbackInfo)(nil),                   // 25: temporal.api.callback.v1.CallbackInfo
+	(*v13.TaskQueue)(nil),                      // 13: temporal.api.taskqueue.v1.TaskQueue
+	(*v11.Priority)(nil),                       // 14: temporal.api.common.v1.Priority
+	(*v11.ActivityType)(nil),                   // 15: temporal.api.common.v1.ActivityType
+	(v1.ActivityExecutionStatus)(0),            // 16: temporal.api.enums.v1.ActivityExecutionStatus
+	(v1.PendingActivityState)(0),               // 17: temporal.api.enums.v1.PendingActivityState
+	(*timestamppb.Timestamp)(nil),              // 18: google.protobuf.Timestamp
+	(*v14.WorkerDeploymentVersion)(nil),        // 19: temporal.api.deployment.v1.WorkerDeploymentVersion
+	(*v11.SearchAttributes)(nil),               // 20: temporal.api.common.v1.SearchAttributes
+	(*v11.Header)(nil),                         // 21: temporal.api.common.v1.Header
+	(*v15.UserMetadata)(nil),                   // 22: temporal.api.sdk.v1.UserMetadata
+	(*v11.Link)(nil),                           // 23: temporal.api.common.v1.Link
+	(*v16.PropagatedSerializationContext)(nil), // 24: temporal.api.nexus.v1.PropagatedSerializationContext
+	(*v11.ResolvedPrincipal)(nil),              // 25: temporal.api.common.v1.ResolvedPrincipal
+	(*v17.CallbackInfo)(nil),                   // 26: temporal.api.callback.v1.CallbackInfo
 }
 var file_temporal_api_activity_v1_message_proto_depIdxs = []int32{
-	7,  // 0: temporal.api.activity.v1.ActivityExecutionOutcome.result:type_name -> temporal.api.common.v1.Payloads
-	8,  // 1: temporal.api.activity.v1.ActivityExecutionOutcome.failure:type_name -> temporal.api.failure.v1.Failure
-	9,  // 2: temporal.api.activity.v1.ActivityExecutionOutcome.retry_state:type_name -> temporal.api.enums.v1.RetryState
-	10, // 3: temporal.api.activity.v1.ActivityOptions.task_queue:type_name -> temporal.api.taskqueue.v1.TaskQueue
-	11, // 4: temporal.api.activity.v1.ActivityOptions.schedule_to_close_timeout:type_name -> google.protobuf.Duration
-	11, // 5: temporal.api.activity.v1.ActivityOptions.schedule_to_start_timeout:type_name -> google.protobuf.Duration
-	11, // 6: temporal.api.activity.v1.ActivityOptions.start_to_close_timeout:type_name -> google.protobuf.Duration
-	11, // 7: temporal.api.activity.v1.ActivityOptions.heartbeat_timeout:type_name -> google.protobuf.Duration
-	12, // 8: temporal.api.activity.v1.ActivityOptions.retry_policy:type_name -> temporal.api.common.v1.RetryPolicy
-	13, // 9: temporal.api.activity.v1.ActivityOptions.priority:type_name -> temporal.api.common.v1.Priority
-	11, // 10: temporal.api.activity.v1.ActivityOptions.start_delay:type_name -> google.protobuf.Duration
-	14, // 11: temporal.api.activity.v1.ActivityExecutionInfo.activity_type:type_name -> temporal.api.common.v1.ActivityType
-	15, // 12: temporal.api.activity.v1.ActivityExecutionInfo.status:type_name -> temporal.api.enums.v1.ActivityExecutionStatus
-	16, // 13: temporal.api.activity.v1.ActivityExecutionInfo.run_state:type_name -> temporal.api.enums.v1.PendingActivityState
-	11, // 14: temporal.api.activity.v1.ActivityExecutionInfo.schedule_to_close_timeout:type_name -> google.protobuf.Duration
-	11, // 15: temporal.api.activity.v1.ActivityExecutionInfo.schedule_to_start_timeout:type_name -> google.protobuf.Duration
-	11, // 16: temporal.api.activity.v1.ActivityExecutionInfo.start_to_close_timeout:type_name -> google.protobuf.Duration
-	11, // 17: temporal.api.activity.v1.ActivityExecutionInfo.heartbeat_timeout:type_name -> google.protobuf.Duration
-	12, // 18: temporal.api.activity.v1.ActivityExecutionInfo.retry_policy:type_name -> temporal.api.common.v1.RetryPolicy
-	7,  // 19: temporal.api.activity.v1.ActivityExecutionInfo.heartbeat_details:type_name -> temporal.api.common.v1.Payloads
-	17, // 20: temporal.api.activity.v1.ActivityExecutionInfo.last_heartbeat_time:type_name -> google.protobuf.Timestamp
-	17, // 21: temporal.api.activity.v1.ActivityExecutionInfo.last_started_time:type_name -> google.protobuf.Timestamp
-	11, // 22: temporal.api.activity.v1.ActivityExecutionInfo.execution_duration:type_name -> google.protobuf.Duration
-	17, // 23: temporal.api.activity.v1.ActivityExecutionInfo.schedule_time:type_name -> google.protobuf.Timestamp
-	17, // 24: temporal.api.activity.v1.ActivityExecutionInfo.expiration_time:type_name -> google.protobuf.Timestamp
-	17, // 25: temporal.api.activity.v1.ActivityExecutionInfo.close_time:type_name -> google.protobuf.Timestamp
-	8,  // 26: temporal.api.activity.v1.ActivityExecutionInfo.last_failure:type_name -> temporal.api.failure.v1.Failure
-	11, // 27: temporal.api.activity.v1.ActivityExecutionInfo.current_retry_interval:type_name -> google.protobuf.Duration
-	17, // 28: temporal.api.activity.v1.ActivityExecutionInfo.last_attempt_complete_time:type_name -> google.protobuf.Timestamp
-	17, // 29: temporal.api.activity.v1.ActivityExecutionInfo.next_attempt_schedule_time:type_name -> google.protobuf.Timestamp
-	18, // 30: temporal.api.activity.v1.ActivityExecutionInfo.last_deployment_version:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersion
-	13, // 31: temporal.api.activity.v1.ActivityExecutionInfo.priority:type_name -> temporal.api.common.v1.Priority
-	19, // 32: temporal.api.activity.v1.ActivityExecutionInfo.search_attributes:type_name -> temporal.api.common.v1.SearchAttributes
-	20, // 33: temporal.api.activity.v1.ActivityExecutionInfo.header:type_name -> temporal.api.common.v1.Header
-	21, // 34: temporal.api.activity.v1.ActivityExecutionInfo.user_metadata:type_name -> temporal.api.sdk.v1.UserMetadata
-	22, // 35: temporal.api.activity.v1.ActivityExecutionInfo.links:type_name -> temporal.api.common.v1.Link
-	11, // 36: temporal.api.activity.v1.ActivityExecutionInfo.start_delay:type_name -> google.protobuf.Duration
-	17, // 37: temporal.api.activity.v1.ActivityExecutionInfo.execution_time:type_name -> google.protobuf.Timestamp
-	23, // 38: temporal.api.activity.v1.ActivityExecutionInfo.propagated_nexus_serialization_context:type_name -> temporal.api.nexus.v1.PropagatedSerializationContext
-	24, // 39: temporal.api.activity.v1.ActivityExecutionInfo.started_by_principal:type_name -> temporal.api.common.v1.ResolvedPrincipal
-	24, // 40: temporal.api.activity.v1.ActivityExecutionInfo.closed_by_principal:type_name -> temporal.api.common.v1.ResolvedPrincipal
-	24, // 41: temporal.api.activity.v1.ActivityExecutionInfo.last_worker_principal:type_name -> temporal.api.common.v1.ResolvedPrincipal
-	14, // 42: temporal.api.activity.v1.ActivityExecutionListInfo.activity_type:type_name -> temporal.api.common.v1.ActivityType
-	17, // 43: temporal.api.activity.v1.ActivityExecutionListInfo.schedule_time:type_name -> google.protobuf.Timestamp
-	17, // 44: temporal.api.activity.v1.ActivityExecutionListInfo.close_time:type_name -> google.protobuf.Timestamp
-	15, // 45: temporal.api.activity.v1.ActivityExecutionListInfo.status:type_name -> temporal.api.enums.v1.ActivityExecutionStatus
-	19, // 46: temporal.api.activity.v1.ActivityExecutionListInfo.search_attributes:type_name -> temporal.api.common.v1.SearchAttributes
-	11, // 47: temporal.api.activity.v1.ActivityExecutionListInfo.execution_duration:type_name -> google.protobuf.Duration
-	17, // 48: temporal.api.activity.v1.ActivityExecutionListInfo.execution_time:type_name -> google.protobuf.Timestamp
-	6,  // 49: temporal.api.activity.v1.CallbackInfo.trigger:type_name -> temporal.api.activity.v1.CallbackInfo.Trigger
-	25, // 50: temporal.api.activity.v1.CallbackInfo.info:type_name -> temporal.api.callback.v1.CallbackInfo
-	5,  // 51: temporal.api.activity.v1.CallbackInfo.Trigger.activity_closed:type_name -> temporal.api.activity.v1.CallbackInfo.ActivityClosed
-	52, // [52:52] is the sub-list for method output_type
-	52, // [52:52] is the sub-list for method input_type
-	52, // [52:52] is the sub-list for extension type_name
-	52, // [52:52] is the sub-list for extension extendee
-	0,  // [0:52] is the sub-list for field type_name
+	8,  // 0: temporal.api.activity.v1.ActivityExecutionOutcome.result:type_name -> temporal.api.common.v1.Payloads
+	9,  // 1: temporal.api.activity.v1.ActivityExecutionOutcome.failure:type_name -> temporal.api.failure.v1.Failure
+	10, // 2: temporal.api.activity.v1.ActivityExecutionOutcome.retry_state:type_name -> temporal.api.enums.v1.RetryState
+	11, // 3: temporal.api.activity.v1.AsyncHandoffOptions.start_to_handoff_timeout:type_name -> google.protobuf.Duration
+	11, // 4: temporal.api.activity.v1.AsyncHandoffOptions.handoff_to_close_timeout:type_name -> google.protobuf.Duration
+	11, // 5: temporal.api.activity.v1.AsyncHandoffOptions.heartbeat_timeout:type_name -> google.protobuf.Duration
+	12, // 6: temporal.api.activity.v1.AsyncHandoffOptions.retry_policy:type_name -> temporal.api.common.v1.RetryPolicy
+	13, // 7: temporal.api.activity.v1.ActivityOptions.task_queue:type_name -> temporal.api.taskqueue.v1.TaskQueue
+	11, // 8: temporal.api.activity.v1.ActivityOptions.schedule_to_close_timeout:type_name -> google.protobuf.Duration
+	11, // 9: temporal.api.activity.v1.ActivityOptions.schedule_to_start_timeout:type_name -> google.protobuf.Duration
+	11, // 10: temporal.api.activity.v1.ActivityOptions.start_to_close_timeout:type_name -> google.protobuf.Duration
+	11, // 11: temporal.api.activity.v1.ActivityOptions.heartbeat_timeout:type_name -> google.protobuf.Duration
+	12, // 12: temporal.api.activity.v1.ActivityOptions.retry_policy:type_name -> temporal.api.common.v1.RetryPolicy
+	14, // 13: temporal.api.activity.v1.ActivityOptions.priority:type_name -> temporal.api.common.v1.Priority
+	11, // 14: temporal.api.activity.v1.ActivityOptions.start_delay:type_name -> google.protobuf.Duration
+	1,  // 15: temporal.api.activity.v1.ActivityOptions.async_handoff_options:type_name -> temporal.api.activity.v1.AsyncHandoffOptions
+	15, // 16: temporal.api.activity.v1.ActivityExecutionInfo.activity_type:type_name -> temporal.api.common.v1.ActivityType
+	16, // 17: temporal.api.activity.v1.ActivityExecutionInfo.status:type_name -> temporal.api.enums.v1.ActivityExecutionStatus
+	17, // 18: temporal.api.activity.v1.ActivityExecutionInfo.run_state:type_name -> temporal.api.enums.v1.PendingActivityState
+	11, // 19: temporal.api.activity.v1.ActivityExecutionInfo.schedule_to_close_timeout:type_name -> google.protobuf.Duration
+	11, // 20: temporal.api.activity.v1.ActivityExecutionInfo.schedule_to_start_timeout:type_name -> google.protobuf.Duration
+	11, // 21: temporal.api.activity.v1.ActivityExecutionInfo.start_to_close_timeout:type_name -> google.protobuf.Duration
+	11, // 22: temporal.api.activity.v1.ActivityExecutionInfo.heartbeat_timeout:type_name -> google.protobuf.Duration
+	12, // 23: temporal.api.activity.v1.ActivityExecutionInfo.retry_policy:type_name -> temporal.api.common.v1.RetryPolicy
+	8,  // 24: temporal.api.activity.v1.ActivityExecutionInfo.heartbeat_details:type_name -> temporal.api.common.v1.Payloads
+	18, // 25: temporal.api.activity.v1.ActivityExecutionInfo.last_heartbeat_time:type_name -> google.protobuf.Timestamp
+	18, // 26: temporal.api.activity.v1.ActivityExecutionInfo.last_started_time:type_name -> google.protobuf.Timestamp
+	11, // 27: temporal.api.activity.v1.ActivityExecutionInfo.execution_duration:type_name -> google.protobuf.Duration
+	18, // 28: temporal.api.activity.v1.ActivityExecutionInfo.schedule_time:type_name -> google.protobuf.Timestamp
+	18, // 29: temporal.api.activity.v1.ActivityExecutionInfo.expiration_time:type_name -> google.protobuf.Timestamp
+	18, // 30: temporal.api.activity.v1.ActivityExecutionInfo.close_time:type_name -> google.protobuf.Timestamp
+	9,  // 31: temporal.api.activity.v1.ActivityExecutionInfo.last_failure:type_name -> temporal.api.failure.v1.Failure
+	11, // 32: temporal.api.activity.v1.ActivityExecutionInfo.current_retry_interval:type_name -> google.protobuf.Duration
+	18, // 33: temporal.api.activity.v1.ActivityExecutionInfo.last_attempt_complete_time:type_name -> google.protobuf.Timestamp
+	18, // 34: temporal.api.activity.v1.ActivityExecutionInfo.next_attempt_schedule_time:type_name -> google.protobuf.Timestamp
+	19, // 35: temporal.api.activity.v1.ActivityExecutionInfo.last_deployment_version:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersion
+	14, // 36: temporal.api.activity.v1.ActivityExecutionInfo.priority:type_name -> temporal.api.common.v1.Priority
+	20, // 37: temporal.api.activity.v1.ActivityExecutionInfo.search_attributes:type_name -> temporal.api.common.v1.SearchAttributes
+	21, // 38: temporal.api.activity.v1.ActivityExecutionInfo.header:type_name -> temporal.api.common.v1.Header
+	22, // 39: temporal.api.activity.v1.ActivityExecutionInfo.user_metadata:type_name -> temporal.api.sdk.v1.UserMetadata
+	23, // 40: temporal.api.activity.v1.ActivityExecutionInfo.links:type_name -> temporal.api.common.v1.Link
+	11, // 41: temporal.api.activity.v1.ActivityExecutionInfo.start_delay:type_name -> google.protobuf.Duration
+	18, // 42: temporal.api.activity.v1.ActivityExecutionInfo.execution_time:type_name -> google.protobuf.Timestamp
+	24, // 43: temporal.api.activity.v1.ActivityExecutionInfo.propagated_nexus_serialization_context:type_name -> temporal.api.nexus.v1.PropagatedSerializationContext
+	25, // 44: temporal.api.activity.v1.ActivityExecutionInfo.started_by_principal:type_name -> temporal.api.common.v1.ResolvedPrincipal
+	25, // 45: temporal.api.activity.v1.ActivityExecutionInfo.closed_by_principal:type_name -> temporal.api.common.v1.ResolvedPrincipal
+	25, // 46: temporal.api.activity.v1.ActivityExecutionInfo.last_worker_principal:type_name -> temporal.api.common.v1.ResolvedPrincipal
+	18, // 47: temporal.api.activity.v1.ActivityExecutionInfo.async_handoff_time:type_name -> google.protobuf.Timestamp
+	1,  // 48: temporal.api.activity.v1.ActivityExecutionInfo.async_handoff_options:type_name -> temporal.api.activity.v1.AsyncHandoffOptions
+	15, // 49: temporal.api.activity.v1.ActivityExecutionListInfo.activity_type:type_name -> temporal.api.common.v1.ActivityType
+	18, // 50: temporal.api.activity.v1.ActivityExecutionListInfo.schedule_time:type_name -> google.protobuf.Timestamp
+	18, // 51: temporal.api.activity.v1.ActivityExecutionListInfo.close_time:type_name -> google.protobuf.Timestamp
+	16, // 52: temporal.api.activity.v1.ActivityExecutionListInfo.status:type_name -> temporal.api.enums.v1.ActivityExecutionStatus
+	20, // 53: temporal.api.activity.v1.ActivityExecutionListInfo.search_attributes:type_name -> temporal.api.common.v1.SearchAttributes
+	11, // 54: temporal.api.activity.v1.ActivityExecutionListInfo.execution_duration:type_name -> google.protobuf.Duration
+	18, // 55: temporal.api.activity.v1.ActivityExecutionListInfo.execution_time:type_name -> google.protobuf.Timestamp
+	7,  // 56: temporal.api.activity.v1.CallbackInfo.trigger:type_name -> temporal.api.activity.v1.CallbackInfo.Trigger
+	26, // 57: temporal.api.activity.v1.CallbackInfo.info:type_name -> temporal.api.callback.v1.CallbackInfo
+	6,  // 58: temporal.api.activity.v1.CallbackInfo.Trigger.activity_closed:type_name -> temporal.api.activity.v1.CallbackInfo.ActivityClosed
+	59, // [59:59] is the sub-list for method output_type
+	59, // [59:59] is the sub-list for method input_type
+	59, // [59:59] is the sub-list for extension type_name
+	59, // [59:59] is the sub-list for extension extendee
+	0,  // [0:59] is the sub-list for field type_name
 }
 
 func init() { file_temporal_api_activity_v1_message_proto_init() }
@@ -1228,7 +1417,7 @@ func file_temporal_api_activity_v1_message_proto_init() {
 		(*ActivityExecutionOutcome_Result)(nil),
 		(*ActivityExecutionOutcome_Failure)(nil),
 	}
-	file_temporal_api_activity_v1_message_proto_msgTypes[6].OneofWrappers = []any{
+	file_temporal_api_activity_v1_message_proto_msgTypes[7].OneofWrappers = []any{
 		(*CallbackInfo_Trigger_ActivityClosed)(nil),
 	}
 	type x struct{}
@@ -1237,7 +1426,7 @@ func file_temporal_api_activity_v1_message_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_temporal_api_activity_v1_message_proto_rawDesc), len(file_temporal_api_activity_v1_message_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   7,
+			NumMessages:   8,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
