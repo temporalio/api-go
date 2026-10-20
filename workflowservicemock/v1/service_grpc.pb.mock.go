@@ -1736,6 +1736,26 @@ func (mr *MockWorkflowServiceClientMockRecorder) RespondActivityTaskFailedById(c
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RespondActivityTaskFailedById", reflect.TypeOf((*MockWorkflowServiceClient)(nil).RespondActivityTaskFailedById), varargs...)
 }
 
+// RespondActivityTaskHandoff mocks base method.
+func (m *MockWorkflowServiceClient) RespondActivityTaskHandoff(ctx context.Context, in *workflowservice.RespondActivityTaskHandoffRequest, opts ...grpc.CallOption) (*workflowservice.RespondActivityTaskHandoffResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "RespondActivityTaskHandoff", varargs...)
+	ret0, _ := ret[0].(*workflowservice.RespondActivityTaskHandoffResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// RespondActivityTaskHandoff indicates an expected call of RespondActivityTaskHandoff.
+func (mr *MockWorkflowServiceClientMockRecorder) RespondActivityTaskHandoff(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RespondActivityTaskHandoff", reflect.TypeOf((*MockWorkflowServiceClient)(nil).RespondActivityTaskHandoff), varargs...)
+}
+
 // RespondNexusTaskCompleted mocks base method.
 func (m *MockWorkflowServiceClient) RespondNexusTaskCompleted(ctx context.Context, in *workflowservice.RespondNexusTaskCompletedRequest, opts ...grpc.CallOption) (*workflowservice.RespondNexusTaskCompletedResponse, error) {
 	m.ctrl.T.Helper()
@@ -3795,6 +3815,21 @@ func (m *MockWorkflowServiceServer) RespondActivityTaskFailedById(arg0 context.C
 func (mr *MockWorkflowServiceServerMockRecorder) RespondActivityTaskFailedById(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RespondActivityTaskFailedById", reflect.TypeOf((*MockWorkflowServiceServer)(nil).RespondActivityTaskFailedById), arg0, arg1)
+}
+
+// RespondActivityTaskHandoff mocks base method.
+func (m *MockWorkflowServiceServer) RespondActivityTaskHandoff(arg0 context.Context, arg1 *workflowservice.RespondActivityTaskHandoffRequest) (*workflowservice.RespondActivityTaskHandoffResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "RespondActivityTaskHandoff", arg0, arg1)
+	ret0, _ := ret[0].(*workflowservice.RespondActivityTaskHandoffResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// RespondActivityTaskHandoff indicates an expected call of RespondActivityTaskHandoff.
+func (mr *MockWorkflowServiceServerMockRecorder) RespondActivityTaskHandoff(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RespondActivityTaskHandoff", reflect.TypeOf((*MockWorkflowServiceServer)(nil).RespondActivityTaskHandoff), arg0, arg1)
 }
 
 // RespondNexusTaskCompleted mocks base method.

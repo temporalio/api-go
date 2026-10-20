@@ -1041,6 +1041,80 @@ func (this *RecordActivityTaskHeartbeatByIdResponse) Equal(that interface{}) boo
 	return proto.Equal(this, that1)
 }
 
+// Marshal an object of type RespondActivityTaskHandoffRequest to the protobuf v3 wire format
+func (val *RespondActivityTaskHandoffRequest) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type RespondActivityTaskHandoffRequest from the protobuf v3 wire format
+func (val *RespondActivityTaskHandoffRequest) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *RespondActivityTaskHandoffRequest) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two RespondActivityTaskHandoffRequest values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *RespondActivityTaskHandoffRequest) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *RespondActivityTaskHandoffRequest
+	switch t := that.(type) {
+	case *RespondActivityTaskHandoffRequest:
+		that1 = t
+	case RespondActivityTaskHandoffRequest:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type RespondActivityTaskHandoffResponse to the protobuf v3 wire format
+func (val *RespondActivityTaskHandoffResponse) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type RespondActivityTaskHandoffResponse from the protobuf v3 wire format
+func (val *RespondActivityTaskHandoffResponse) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *RespondActivityTaskHandoffResponse) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two RespondActivityTaskHandoffResponse values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *RespondActivityTaskHandoffResponse) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *RespondActivityTaskHandoffResponse
+	switch t := that.(type) {
+	case *RespondActivityTaskHandoffResponse:
+		that1 = t
+	case RespondActivityTaskHandoffResponse:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
 // Marshal an object of type RespondActivityTaskCompletedRequest to the protobuf v3 wire format
 func (val *RespondActivityTaskCompletedRequest) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
