@@ -42,6 +42,43 @@ func (this *ActivityExecutionOutcome) Equal(that interface{}) bool {
 	return proto.Equal(this, that1)
 }
 
+// Marshal an object of type AsyncHandoffOptions to the protobuf v3 wire format
+func (val *AsyncHandoffOptions) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type AsyncHandoffOptions from the protobuf v3 wire format
+func (val *AsyncHandoffOptions) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *AsyncHandoffOptions) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two AsyncHandoffOptions values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *AsyncHandoffOptions) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *AsyncHandoffOptions
+	switch t := that.(type) {
+	case *AsyncHandoffOptions:
+		that1 = t
+	case AsyncHandoffOptions:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
 // Marshal an object of type ActivityOptions to the protobuf v3 wire format
 func (val *ActivityOptions) Marshal() ([]byte, error) {
 	return proto.Marshal(val)

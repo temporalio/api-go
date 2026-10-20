@@ -225,6 +225,10 @@ func ExtractTemporalRequestHeaders(ctx context.Context, opts ExtractHeadersOptio
 		if val := r.GetResourceId(); val != "" && len(opts.ExistingMetadata.Get("temporal-resource-id")) == 0 {
 			headers = append(headers, "temporal-resource-id", val)
 		}
+	case *workflowservice.RespondActivityTaskHandoffRequest:
+		if val := r.GetResourceId(); val != "" && len(opts.ExistingMetadata.Get("temporal-resource-id")) == 0 {
+			headers = append(headers, "temporal-resource-id", val)
+		}
 	case *workflowservice.RespondNexusTaskCompletedRequest:
 		if val := r.GetPollerGroupId(); val != "" && len(opts.ExistingMetadata.Get("temporal-resource-id")) == 0 {
 			headers = append(headers, "temporal-resource-id", fmt.Sprintf("poller:%s", val))

@@ -35,6 +35,7 @@ const (
 	WorkflowService_PollActivityTaskQueue_FullMethodName                        = "/temporal.api.workflowservice.v1.WorkflowService/PollActivityTaskQueue"
 	WorkflowService_RecordActivityTaskHeartbeat_FullMethodName                  = "/temporal.api.workflowservice.v1.WorkflowService/RecordActivityTaskHeartbeat"
 	WorkflowService_RecordActivityTaskHeartbeatById_FullMethodName              = "/temporal.api.workflowservice.v1.WorkflowService/RecordActivityTaskHeartbeatById"
+	WorkflowService_RespondActivityTaskHandoff_FullMethodName                   = "/temporal.api.workflowservice.v1.WorkflowService/RespondActivityTaskHandoff"
 	WorkflowService_RespondActivityTaskCompleted_FullMethodName                 = "/temporal.api.workflowservice.v1.WorkflowService/RespondActivityTaskCompleted"
 	WorkflowService_RespondActivityTaskCompletedById_FullMethodName             = "/temporal.api.workflowservice.v1.WorkflowService/RespondActivityTaskCompletedById"
 	WorkflowService_RespondActivityTaskFailed_FullMethodName                    = "/temporal.api.workflowservice.v1.WorkflowService/RespondActivityTaskFailed"
@@ -284,6 +285,15 @@ type WorkflowServiceClient interface {
 	//
 	//	aip.dev/not-precedent: "By" is used to indicate request type. --)
 	RecordActivityTaskHeartbeatById(ctx context.Context, in *RecordActivityTaskHeartbeatByIdRequest, opts ...grpc.CallOption) (*RecordActivityTaskHeartbeatByIdResponse, error)
+	// RespondActivityTaskHandoff durably records that the current activity delivery is awaiting
+	// external completion. Call after the external system durably accepts the submitted work.
+	//
+	// A successful response leaves the task token valid for heartbeats and completion. Repeating
+	// this call with the same valid token succeeds without changing the handoff time or deadlines.
+	// Fails with `NotFound` if the token is no longer valid. Does not support reporting by ID.
+	// A timeout or retry does not stop work already running in the external system; applications
+	// must make external submissions idempotent.
+	RespondActivityTaskHandoff(ctx context.Context, in *RespondActivityTaskHandoffRequest, opts ...grpc.CallOption) (*RespondActivityTaskHandoffResponse, error)
 	// RespondActivityTaskCompleted is called by workers when they successfully complete an activity
 	// task.
 	//
@@ -1031,6 +1041,16 @@ func (c *workflowServiceClient) RecordActivityTaskHeartbeatById(ctx context.Cont
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(RecordActivityTaskHeartbeatByIdResponse)
 	err := c.cc.Invoke(ctx, WorkflowService_RecordActivityTaskHeartbeatById_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *workflowServiceClient) RespondActivityTaskHandoff(ctx context.Context, in *RespondActivityTaskHandoffRequest, opts ...grpc.CallOption) (*RespondActivityTaskHandoffResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(RespondActivityTaskHandoffResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_RespondActivityTaskHandoff_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -2256,6 +2276,15 @@ type WorkflowServiceServer interface {
 	//
 	//	aip.dev/not-precedent: "By" is used to indicate request type. --)
 	RecordActivityTaskHeartbeatById(context.Context, *RecordActivityTaskHeartbeatByIdRequest) (*RecordActivityTaskHeartbeatByIdResponse, error)
+	// RespondActivityTaskHandoff durably records that the current activity delivery is awaiting
+	// external completion. Call after the external system durably accepts the submitted work.
+	//
+	// A successful response leaves the task token valid for heartbeats and completion. Repeating
+	// this call with the same valid token succeeds without changing the handoff time or deadlines.
+	// Fails with `NotFound` if the token is no longer valid. Does not support reporting by ID.
+	// A timeout or retry does not stop work already running in the external system; applications
+	// must make external submissions idempotent.
+	RespondActivityTaskHandoff(context.Context, *RespondActivityTaskHandoffRequest) (*RespondActivityTaskHandoffResponse, error)
 	// RespondActivityTaskCompleted is called by workers when they successfully complete an activity
 	// task.
 	//
@@ -2904,6 +2933,9 @@ func (UnimplementedWorkflowServiceServer) RecordActivityTaskHeartbeat(context.Co
 func (UnimplementedWorkflowServiceServer) RecordActivityTaskHeartbeatById(context.Context, *RecordActivityTaskHeartbeatByIdRequest) (*RecordActivityTaskHeartbeatByIdResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method RecordActivityTaskHeartbeatById not implemented")
 }
+func (UnimplementedWorkflowServiceServer) RespondActivityTaskHandoff(context.Context, *RespondActivityTaskHandoffRequest) (*RespondActivityTaskHandoffResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method RespondActivityTaskHandoff not implemented")
+}
 func (UnimplementedWorkflowServiceServer) RespondActivityTaskCompleted(context.Context, *RespondActivityTaskCompletedRequest) (*RespondActivityTaskCompletedResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method RespondActivityTaskCompleted not implemented")
 }
@@ -3515,6 +3547,24 @@ func _WorkflowService_RecordActivityTaskHeartbeatById_Handler(srv interface{}, c
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(WorkflowServiceServer).RecordActivityTaskHeartbeatById(ctx, req.(*RecordActivityTaskHeartbeatByIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _WorkflowService_RespondActivityTaskHandoff_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RespondActivityTaskHandoffRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WorkflowServiceServer).RespondActivityTaskHandoff(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: WorkflowService_RespondActivityTaskHandoff_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WorkflowServiceServer).RespondActivityTaskHandoff(ctx, req.(*RespondActivityTaskHandoffRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -5529,6 +5579,10 @@ var WorkflowService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "RecordActivityTaskHeartbeatById",
 			Handler:    _WorkflowService_RecordActivityTaskHeartbeatById_Handler,
+		},
+		{
+			MethodName: "RespondActivityTaskHandoff",
+			Handler:    _WorkflowService_RespondActivityTaskHandoff_Handler,
 		},
 		{
 			MethodName: "RespondActivityTaskCompleted",
