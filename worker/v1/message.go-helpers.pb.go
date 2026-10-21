@@ -375,6 +375,43 @@ func (this *WorkerCommand) Equal(that interface{}) bool {
 	return proto.Equal(this, that1)
 }
 
+// Marshal an object of type WorkflowTaskHeartbeatNotificationCommand to the protobuf v3 wire format
+func (val *WorkflowTaskHeartbeatNotificationCommand) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type WorkflowTaskHeartbeatNotificationCommand from the protobuf v3 wire format
+func (val *WorkflowTaskHeartbeatNotificationCommand) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *WorkflowTaskHeartbeatNotificationCommand) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two WorkflowTaskHeartbeatNotificationCommand values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *WorkflowTaskHeartbeatNotificationCommand) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *WorkflowTaskHeartbeatNotificationCommand
+	switch t := that.(type) {
+	case *WorkflowTaskHeartbeatNotificationCommand:
+		that1 = t
+	case WorkflowTaskHeartbeatNotificationCommand:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
 // Marshal an object of type CancelActivityCommand to the protobuf v3 wire format
 func (val *CancelActivityCommand) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
@@ -441,6 +478,43 @@ func (this *WorkerCommandResult) Equal(that interface{}) bool {
 	case *WorkerCommandResult:
 		that1 = t
 	case WorkerCommandResult:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type WorkflowTaskHeartbeatNotificationResult to the protobuf v3 wire format
+func (val *WorkflowTaskHeartbeatNotificationResult) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type WorkflowTaskHeartbeatNotificationResult from the protobuf v3 wire format
+func (val *WorkflowTaskHeartbeatNotificationResult) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *WorkflowTaskHeartbeatNotificationResult) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two WorkflowTaskHeartbeatNotificationResult values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *WorkflowTaskHeartbeatNotificationResult) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *WorkflowTaskHeartbeatNotificationResult
+	switch t := that.(type) {
+	case *WorkflowTaskHeartbeatNotificationResult:
+		that1 = t
+	case WorkflowTaskHeartbeatNotificationResult:
 		that1 = &t
 	default:
 		return false

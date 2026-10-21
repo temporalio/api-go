@@ -1518,6 +1518,8 @@ type PollWorkflowTaskQueueRequest struct {
 	// A dedicated per-worker Nexus task queue on which the server sends control
 	// tasks (e.g. activity cancellation) to this specific worker instance.
 	WorkerControlTaskQueue string `protobuf:"bytes,9,opt,name=worker_control_task_queue,json=workerControlTaskQueue,proto3" json:"worker_control_task_queue,omitempty"`
+	// Whether this worker can heartbeat a running Workflow Task on a worker command.
+	SupportsWorkflowTaskHeartbeatNotification bool `protobuf:"varint,11,opt,name=supports_workflow_task_heartbeat_notification,json=supportsWorkflowTaskHeartbeatNotification,proto3" json:"supports_workflow_task_heartbeat_notification,omitempty"`
 	// Deprecated. Use deployment_options instead.
 	// Each worker process should provide an ID unique to the specific set of code it is running
 	// "checksum" in this field name isn't very accurate, it should be though of as an id.
@@ -1606,6 +1608,13 @@ func (x *PollWorkflowTaskQueueRequest) GetWorkerControlTaskQueue() string {
 		return x.WorkerControlTaskQueue
 	}
 	return ""
+}
+
+func (x *PollWorkflowTaskQueueRequest) GetSupportsWorkflowTaskHeartbeatNotification() bool {
+	if x != nil {
+		return x.SupportsWorkflowTaskHeartbeatNotification
+	}
+	return false
 }
 
 // Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
@@ -20829,7 +20838,7 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\x0fnext_page_token\x18\x04 \x01(\fR\rnextPageToken\"\x90\x01\n" +
 	"*GetWorkflowExecutionHistoryReverseResponse\x12:\n" +
 	"\ahistory\x18\x01 \x01(\v2 .temporal.api.history.v1.HistoryR\ahistory\x12&\n" +
-	"\x0fnext_page_token\x18\x03 \x01(\fR\rnextPageToken\"\xd0\x04\n" +
+	"\x0fnext_page_token\x18\x03 \x01(\fR\rnextPageToken\"\xb2\x05\n" +
 	"\x1cPollWorkflowTaskQueueRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12C\n" +
 	"\n" +
@@ -20838,7 +20847,8 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	" \x01(\tR\rpollerGroupId\x12\x1a\n" +
 	"\bidentity\x18\x03 \x01(\tR\bidentity\x12.\n" +
 	"\x13worker_instance_key\x18\b \x01(\tR\x11workerInstanceKey\x129\n" +
-	"\x19worker_control_task_queue\x18\t \x01(\tR\x16workerControlTaskQueue\x12+\n" +
+	"\x19worker_control_task_queue\x18\t \x01(\tR\x16workerControlTaskQueue\x12`\n" +
+	"-supports_workflow_task_heartbeat_notification\x18\v \x01(\bR)supportsWorkflowTaskHeartbeatNotification\x12+\n" +
 	"\x0fbinary_checksum\x18\x04 \x01(\tB\x02\x18\x01R\x0ebinaryChecksum\x12u\n" +
 	"\x1bworker_version_capabilities\x18\x05 \x01(\v21.temporal.api.common.v1.WorkerVersionCapabilitiesB\x02\x18\x01R\x19workerVersionCapabilities\x12b\n" +
 	"\x12deployment_options\x18\x06 \x01(\v23.temporal.api.deployment.v1.WorkerDeploymentOptionsR\x11deploymentOptionsJ\x04\b\a\x10\bR\x10worker_heartbeat\"\xee\n" +
