@@ -856,8 +856,12 @@ type StartWorkflowExecutionRequest struct {
 	// This field is intended for use by the Temporal server, for example when a schedule
 	// starts a workflow, and is not intended to be set by external clients.
 	TimeSkippingStatePropagation *v14.TimeSkippingStatePropagation `protobuf:"bytes,31,opt,name=time_skipping_state_propagation,json=timeSkippingStatePropagation,proto3" json:"time_skipping_state_propagation,omitempty"`
-	unknownFields                protoimpl.UnknownFields
-	sizeCache                    protoimpl.SizeCache
+	// Experimental. A dedicated per-worker Nexus task queue for control tasks sent to
+	// the worker processing the eager Workflow Task. Only used when eager execution is accepted.
+	// Setting this field indicates that the worker supports Workflow Task heartbeat notifications.
+	WorkerControlTaskQueue string `protobuf:"bytes,32,opt,name=worker_control_task_queue,json=workerControlTaskQueue,proto3" json:"worker_control_task_queue,omitempty"`
+	unknownFields          protoimpl.UnknownFields
+	sizeCache              protoimpl.SizeCache
 }
 
 func (x *StartWorkflowExecutionRequest) Reset() {
@@ -1105,6 +1109,13 @@ func (x *StartWorkflowExecutionRequest) GetTimeSkippingStatePropagation() *v14.T
 		return x.TimeSkippingStatePropagation
 	}
 	return nil
+}
+
+func (x *StartWorkflowExecutionRequest) GetWorkerControlTaskQueue() string {
+	if x != nil {
+		return x.WorkerControlTaskQueue
+	}
+	return ""
 }
 
 type StartWorkflowExecutionResponse struct {
@@ -1515,10 +1526,10 @@ type PollWorkflowTaskQueueRequest struct {
 	// A unique key for this worker instance, used for tracking worker lifecycle.
 	// This is guaranteed to be unique, whereas identity is not guaranteed to be unique.
 	WorkerInstanceKey string `protobuf:"bytes,8,opt,name=worker_instance_key,json=workerInstanceKey,proto3" json:"worker_instance_key,omitempty"`
-	// A dedicated per-worker Nexus task queue on which the server sends control
+	// Experimental. A dedicated per-worker Nexus task queue on which the server sends control
 	// tasks (e.g. activity cancellation) to this specific worker instance.
 	WorkerControlTaskQueue string `protobuf:"bytes,9,opt,name=worker_control_task_queue,json=workerControlTaskQueue,proto3" json:"worker_control_task_queue,omitempty"`
-	// Whether this worker can heartbeat a running Workflow Task on a worker command.
+	// Experimental. Whether this worker can heartbeat a running Workflow Task on a worker command.
 	SupportsWorkflowTaskHeartbeatNotification bool `protobuf:"varint,11,opt,name=supports_workflow_task_heartbeat_notification,json=supportsWorkflowTaskHeartbeatNotification,proto3" json:"supports_workflow_task_heartbeat_notification,omitempty"`
 	// Deprecated. Use deployment_options instead.
 	// Each worker process should provide an ID unique to the specific set of code it is running
@@ -1942,7 +1953,7 @@ type RespondWorkflowTaskCompletedRequest struct {
 	// A unique key for this worker instance, used for tracking worker lifecycle.
 	// This is guaranteed to be unique, whereas identity is not guaranteed to be unique.
 	WorkerInstanceKey string `protobuf:"bytes,19,opt,name=worker_instance_key,json=workerInstanceKey,proto3" json:"worker_instance_key,omitempty"`
-	// A dedicated per-worker Nexus task queue on which the server sends control
+	// Experimental. A dedicated per-worker Nexus task queue on which the server sends control
 	// tasks (e.g. activity cancellation) to this specific worker instance.
 	WorkerControlTaskQueue string `protobuf:"bytes,20,opt,name=worker_control_task_queue,json=workerControlTaskQueue,proto3" json:"worker_control_task_queue,omitempty"`
 	// 0-indexed page number when the workflow task completion is split across multiple
@@ -2409,7 +2420,7 @@ type PollActivityTaskQueueRequest struct {
 	// A unique key for this worker instance, used for tracking worker lifecycle.
 	// This is guaranteed to be unique, whereas identity is not guaranteed to be unique.
 	WorkerInstanceKey string `protobuf:"bytes,8,opt,name=worker_instance_key,json=workerInstanceKey,proto3" json:"worker_instance_key,omitempty"`
-	// A dedicated per-worker Nexus task queue on which the server sends control
+	// Experimental. A dedicated per-worker Nexus task queue on which the server sends control
 	// tasks (e.g. activity cancellation) to this specific worker instance.
 	WorkerControlTaskQueue string                 `protobuf:"bytes,9,opt,name=worker_control_task_queue,json=workerControlTaskQueue,proto3" json:"worker_control_task_queue,omitempty"`
 	TaskQueueMetadata      *v13.TaskQueueMetadata `protobuf:"bytes,4,opt,name=task_queue_metadata,json=taskQueueMetadata,proto3" json:"task_queue_metadata,omitempty"`
@@ -20772,7 +20783,7 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\x19DeprecateNamespaceRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12%\n" +
 	"\x0esecurity_token\x18\x02 \x01(\tR\rsecurityToken\"\x1c\n" +
-	"\x1aDeprecateNamespaceResponse\"\xb6\x12\n" +
+	"\x1aDeprecateNamespaceResponse\"\xf1\x12\n" +
 	"\x1dStartWorkflowExecutionRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12\x1f\n" +
 	"\vworkflow_id\x18\x02 \x01(\tR\n" +
@@ -20808,7 +20819,8 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\x1feager_worker_deployment_options\x18\x1c \x01(\v23.temporal.api.deployment.v1.WorkerDeploymentOptionsR\x1ceagerWorkerDeploymentOptions\x12\\\n" +
 	"\x14time_skipping_config\x18\x1d \x01(\v2*.temporal.api.common.v1.TimeSkippingConfigR\x12timeSkippingConfig\x12\x8a\x01\n" +
 	"&propagated_nexus_serialization_context\x18\x1e \x01(\v25.temporal.api.nexus.v1.PropagatedSerializationContextR#propagatedNexusSerializationContext\x12{\n" +
-	"\x1ftime_skipping_state_propagation\x18\x1f \x01(\v24.temporal.api.common.v1.TimeSkippingStatePropagationR\x1ctimeSkippingStatePropagation\"\xf0\x02\n" +
+	"\x1ftime_skipping_state_propagation\x18\x1f \x01(\v24.temporal.api.common.v1.TimeSkippingStatePropagationR\x1ctimeSkippingStatePropagation\x129\n" +
+	"\x19worker_control_task_queue\x18  \x01(\tR\x16workerControlTaskQueue\"\xf0\x02\n" +
 	"\x1eStartWorkflowExecutionResponse\x12\x15\n" +
 	"\x06run_id\x18\x01 \x01(\tR\x05runId\x123\n" +
 	"\x16first_execution_run_id\x18\x06 \x01(\tR\x13firstExecutionRunId\x12\x18\n" +
