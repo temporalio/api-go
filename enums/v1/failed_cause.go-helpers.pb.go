@@ -155,6 +155,7 @@ var (
 		"OpsLimit":                9,
 		"WorkerDeploymentLimits":  10,
 		"BandwidthLimit":          11,
+		"CallerRpsLimit":          12,
 	}
 )
 
