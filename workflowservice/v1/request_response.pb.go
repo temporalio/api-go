@@ -848,10 +848,12 @@ type StartWorkflowExecutionRequest struct {
 	Priority *v14.Priority `protobuf:"bytes,27,opt,name=priority,proto3" json:"priority,omitempty"`
 	// Deployment Options of the worker who will process the eager task. Passed when `request_eager_execution=true`.
 	EagerWorkerDeploymentOptions *v18.WorkerDeploymentOptions `protobuf:"bytes,28,opt,name=eager_worker_deployment_options,json=eagerWorkerDeploymentOptions,proto3" json:"eager_worker_deployment_options,omitempty"`
+	// Experimental.
 	// Time-skipping configuration. If not set, time skipping is disabled.
 	TimeSkippingConfig *v14.TimeSkippingConfig `protobuf:"bytes,29,opt,name=time_skipping_config,json=timeSkippingConfig,proto3" json:"time_skipping_config,omitempty"`
 	// Serialization context propagated from the Nexus caller that started this workflow.
 	PropagatedNexusSerializationContext *v19.PropagatedSerializationContext `protobuf:"bytes,30,opt,name=propagated_nexus_serialization_context,json=propagatedNexusSerializationContext,proto3" json:"propagated_nexus_serialization_context,omitempty"`
+	// Experimental.
 	// Time-skipping state propagated by the execution that started this workflow.
 	// This field is intended for use by the Temporal server, for example when a schedule
 	// starts a workflow, and is not intended to be set by external clients.
@@ -4395,6 +4397,7 @@ type SignalWithStartWorkflowExecutionRequest struct {
 	VersioningOverride *v17.VersioningOverride `protobuf:"bytes,25,opt,name=versioning_override,json=versioningOverride,proto3" json:"versioning_override,omitempty"`
 	// Priority metadata
 	Priority *v14.Priority `protobuf:"bytes,26,opt,name=priority,proto3" json:"priority,omitempty"`
+	// Experimental.
 	// Time-skipping configuration. If not set, time skipping is disabled.
 	TimeSkippingConfig *v14.TimeSkippingConfig `protobuf:"bytes,27,opt,name=time_skipping_config,json=timeSkippingConfig,proto3" json:"time_skipping_config,omitempty"`
 	unknownFields      protoimpl.UnknownFields
@@ -12417,6 +12420,7 @@ type UpdateWorkflowExecutionOptionsResponse struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Workflow Execution options after update.
 	WorkflowExecutionOptions *v17.WorkflowExecutionOptions `protobuf:"bytes,1,opt,name=workflow_execution_options,json=workflowExecutionOptions,proto3" json:"workflow_execution_options,omitempty"`
+	// Experimental.
 	// The Workflow Execution time when the options were updated. When time skipping is
 	// enabled, this is the workflow's virtual time rather than wall-clock time.
 	//
@@ -19193,6 +19197,7 @@ func (*DeleteNexusOperationExecutionResponse) Descriptor() ([]byte, []int) {
 // execution. Currently the only supported policy is waiting for completion of the fast-forward
 // identified by `fast_forward_id`; the poll also returns once anything else settles that outcome
 // (e.g. the execution ends or time skipping is disabled).
+// Experimental. Might change in the future.
 type PollWorkflowExecutionTimeSkippingRequest struct {
 	state             protoimpl.MessageState `protogen:"open.v1"`
 	Namespace         string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
@@ -19255,6 +19260,8 @@ func (x *PollWorkflowExecutionTimeSkippingRequest) GetFastForwardId() string {
 	return ""
 }
 
+// Result of polling a workflow execution's time-skipping fast-forward.
+// Experimental. Might change in the future.
 type PollWorkflowExecutionTimeSkippingResponse struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// The outcome of the poll for the fast-forward identified by the request's `fast_forward_id`.

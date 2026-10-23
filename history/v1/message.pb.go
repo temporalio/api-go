@@ -202,6 +202,7 @@ type WorkflowExecutionStartedEventAttributes struct {
 	// Used internally by the server during continue-as-new and retry.
 	// Should not be read or interpreted by SDKs.
 	DeclinedTargetVersionUpgrade *DeclinedTargetVersionUpgrade `protobuf:"bytes,40,opt,name=declined_target_version_upgrade,json=declinedTargetVersionUpgrade,proto3" json:"declined_target_version_upgrade,omitempty"`
+	// Experimental.
 	// Initial time-skipping configuration for this workflow execution, recorded at start time.
 	// This may have been set explicitly via the start workflow request, or propagated from a
 	// parent/previous execution.
@@ -209,6 +210,7 @@ type WorkflowExecutionStartedEventAttributes struct {
 	// The configuration may be updated after start via UpdateWorkflowExecutionOptions, which
 	// will be reflected in the WorkflowExecutionOptionsUpdatedEvent.
 	TimeSkippingConfig *v1.TimeSkippingConfig `protobuf:"bytes,41,opt,name=time_skipping_config,json=timeSkippingConfig,proto3" json:"time_skipping_config,omitempty"`
+	// Experimental.
 	// The time-skipping state propagated from a previous run of this workflow. This can be nil
 	// if no time skipping has occurred or there is no previous run.
 	TimeSkippingStatePropagation *v1.TimeSkippingStatePropagation `protobuf:"bytes,43,opt,name=time_skipping_state_propagation,json=timeSkippingStatePropagation,proto3" json:"time_skipping_state_propagation,omitempty"`
@@ -3536,8 +3538,10 @@ type StartChildWorkflowExecutionInitiatedEventAttributes struct {
 	InheritBuildId bool `protobuf:"varint,19,opt,name=inherit_build_id,json=inheritBuildId,proto3" json:"inherit_build_id,omitempty"`
 	// Priority metadata
 	Priority *v1.Priority `protobuf:"bytes,20,opt,name=priority,proto3" json:"priority,omitempty"`
+	// Experimental.
 	// The propagated time-skipping configuration for the child workflow.
 	TimeSkippingConfig *v1.TimeSkippingConfig `protobuf:"bytes,21,opt,name=time_skipping_config,json=timeSkippingConfig,proto3" json:"time_skipping_config,omitempty"`
+	// Experimental.
 	// The time-skipping state propagated from the parent workflow. This can be nil if no time skipping
 	// has occurred or there is no previous run.
 	TimeSkippingStatePropagation *v1.TimeSkippingStatePropagation `protobuf:"bytes,23,opt,name=time_skipping_state_propagation,json=timeSkippingStatePropagation,proto3" json:"time_skipping_state_propagation,omitempty"`
@@ -4433,8 +4437,10 @@ type WorkflowExecutionOptionsUpdatedEventAttributes struct {
 	// Priority override upserted in this event. Represents the full priority; not just partial fields.
 	// Ignored if nil.
 	Priority *v1.Priority `protobuf:"bytes,6,opt,name=priority,proto3" json:"priority,omitempty"`
+	// Experimental.
 	// TimeSkippingConfig override upserted in this event. Represents the full config.
 	TimeSkippingConfig *v1.TimeSkippingConfig `protobuf:"bytes,7,opt,name=time_skipping_config,json=timeSkippingConfig,proto3" json:"time_skipping_config,omitempty"`
+	// Experimental.
 	// Indicates the time skipping config was updated by the recent call to update
 	// workflow execution options.
 	TimeSkippingConfigUpdated bool `protobuf:"varint,9,opt,name=time_skipping_config_updated,json=timeSkippingConfigUpdated,proto3" json:"time_skipping_config_updated,omitempty"`
@@ -5081,6 +5087,7 @@ func (x *WorkflowExecutionUnpausedEventAttributes) GetRequestId() string {
 // Attributes for an event indicating that time skipping state changed for a workflow execution:
 // either time was advanced, or time skipping was stopped automatically due to the fast_forward completing.
 // The worker_may_ignore field in HistoryEvent should always be set true for this event.
+// Experimental. Might change in the future.
 type WorkflowExecutionTimeSkippingTransitionedEventAttributes struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// The virtual time point that time skipping advanced to.
@@ -6830,6 +6837,7 @@ type HistoryEvent_WorkflowExecutionUnpausedEventAttributes struct {
 }
 
 type HistoryEvent_WorkflowExecutionTimeSkippingTransitionedEventAttributes struct {
+	// Experimental.
 	WorkflowExecutionTimeSkippingTransitionedEventAttributes *WorkflowExecutionTimeSkippingTransitionedEventAttributes `protobuf:"bytes,65,opt,name=workflow_execution_time_skipping_transitioned_event_attributes,json=workflowExecutionTimeSkippingTransitionedEventAttributes,proto3,oneof"`
 }
 
