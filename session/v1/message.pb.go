@@ -13,6 +13,7 @@ import (
 
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 const (
@@ -23,15 +24,19 @@ const (
 )
 
 // EXPERIMENTAL. Subject to redesign or removal.
-// Configures a worker's polling for sessions that keep workflow and activity
-// tasks on a stable worker destination. Activities opt into session routing
-// through ActivitySessionOptions on their scheduling commands.
+// Sent on workflow and activity polls. Presence means this worker can serve
+// sessions. Currently, the only supported Session type is Workflow Session
+// (aka Workflow-as-Session). A Workflow Session can receive both workflow
+// tasks and activity tasks of an execution.
 type WorkerSessionOptions struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// Types that are valid to be assigned to Isolation:
+	// Admission control, if unset the worker accepts an arbitrary number of
+	// sessions (bounded by session slots in the future)
+	//
+	// Types that are valid to be assigned to Admission:
 	//
 	//	*WorkerSessionOptions_SingleSession
-	Isolation     isWorkerSessionOptions_Isolation `protobuf_oneof:"isolation"`
+	Admission     isWorkerSessionOptions_Admission `protobuf_oneof:"admission"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -66,44 +71,49 @@ func (*WorkerSessionOptions) Descriptor() ([]byte, []int) {
 	return file_temporal_api_session_v1_message_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *WorkerSessionOptions) GetIsolation() isWorkerSessionOptions_Isolation {
+func (x *WorkerSessionOptions) GetAdmission() isWorkerSessionOptions_Admission {
 	if x != nil {
-		return x.Isolation
+		return x.Admission
 	}
 	return nil
 }
 
 func (x *WorkerSessionOptions) GetSingleSession() *SingleSessionOptions {
 	if x != nil {
-		if x, ok := x.Isolation.(*WorkerSessionOptions_SingleSession); ok {
+		if x, ok := x.Admission.(*WorkerSessionOptions_SingleSession); ok {
 			return x.SingleSession
 		}
 	}
 	return nil
 }
 
-type isWorkerSessionOptions_Isolation interface {
-	isWorkerSessionOptions_Isolation()
+type isWorkerSessionOptions_Admission interface {
+	isWorkerSessionOptions_Admission()
 }
 
 type WorkerSessionOptions_SingleSession struct {
+	// If specified, the worker only polls for work belonging to its session.
 	SingleSession *SingleSessionOptions `protobuf:"bytes,1,opt,name=single_session,json=singleSession,proto3,oneof"`
 }
 
-func (*WorkerSessionOptions_SingleSession) isWorkerSessionOptions_Isolation() {}
+func (*WorkerSessionOptions_SingleSession) isWorkerSessionOptions_Admission() {}
 
 // EXPERIMENTAL. Subject to redesign or removal.
-// Dedicates a sticky destination to the first workflow matched to it.
-// Workflow sticky polls may be forwarded to the normal queue until the first
-// workflow task is dispatched. The server persists that workflow ID and does
-// not forward subsequent polls, including after workflow completion.
-// Activity sticky polls are never forwarded to the normal queue.
+// Serve exactly one session for the worker's lifetime, including across
+// process restarts with the same stable_identity. The server binds the worker
+// to the first session that needs a worker, and dispatches no other work here,
+// even after that session completes.
 type SingleSessionOptions struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// Stable sticky task queue name, shared by workflow and activity polls.
-	// Reuse this value across worker restarts within the same session, but not
-	// across concurrently running workers. This is distinct from worker identity.
-	// The SDK must also set the polled sticky task queue's name to this value.
+	// Identity the binding is stored under. Required; must be non-empty.
+	// Reuse it across restarts of the same session, not across concurrently
+	// running workers. If multiple workers poll with the same stable_identity
+	// concurrently, the server treats them as pollers of a single worker and
+	// process affinity is lost.
+	//
+	// Note: this effectively acts as a configurable sticky queue.
+	// Note: we are currently unsure how this will evolve. May be deprecated as
+	// the session model develops.
 	StableIdentity string `protobuf:"bytes,1,opt,name=stable_identity,json=stableIdentity,proto3" json:"stable_identity,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
@@ -146,12 +156,14 @@ func (x *SingleSessionOptions) GetStableIdentity() string {
 	return ""
 }
 
+// EXPERIMENTAL. Subject to redesign or removal.
+// Resolved activity placement. Unset = normal task-queue routing.
 type ActivitySessionOptions struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// Types that are valid to be assigned to Session:
+	// Types that are valid to be assigned to Placement:
 	//
-	//	*ActivitySessionOptions_UseWorkflowSession
-	Session       isActivitySessionOptions_Session `protobuf_oneof:"session"`
+	//	*ActivitySessionOptions_WorkflowSession
+	Placement     isActivitySessionOptions_Placement `protobuf_oneof:"placement"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -186,47 +198,48 @@ func (*ActivitySessionOptions) Descriptor() ([]byte, []int) {
 	return file_temporal_api_session_v1_message_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *ActivitySessionOptions) GetSession() isActivitySessionOptions_Session {
+func (x *ActivitySessionOptions) GetPlacement() isActivitySessionOptions_Placement {
 	if x != nil {
-		return x.Session
+		return x.Placement
 	}
 	return nil
 }
 
-func (x *ActivitySessionOptions) GetUseWorkflowSession() bool {
+func (x *ActivitySessionOptions) GetWorkflowSession() *emptypb.Empty {
 	if x != nil {
-		if x, ok := x.Session.(*ActivitySessionOptions_UseWorkflowSession); ok {
-			return x.UseWorkflowSession
+		if x, ok := x.Placement.(*ActivitySessionOptions_WorkflowSession); ok {
+			return x.WorkflowSession
 		}
 	}
-	return false
+	return nil
 }
 
-type isActivitySessionOptions_Session interface {
-	isActivitySessionOptions_Session()
+type isActivitySessionOptions_Placement interface {
+	isActivitySessionOptions_Placement()
 }
 
-type ActivitySessionOptions_UseWorkflowSession struct {
-	// Execute this activity as part of its workflow's session.
-	// Currently routes to the workflow's sticky task queue when true.
-	UseWorkflowSession bool `protobuf:"varint,1,opt,name=use_workflow_session,json=useWorkflowSession,proto3,oneof"`
+type ActivitySessionOptions_WorkflowSession struct {
+	// Run in the workflow's current session (on its sticky queue).
+	// Currently requires the activity's task queue to be the workflow's,
+	// and the workflow's worker to serve sessions.
+	WorkflowSession *emptypb.Empty `protobuf:"bytes,1,opt,name=workflow_session,json=workflowSession,proto3,oneof"`
 }
 
-func (*ActivitySessionOptions_UseWorkflowSession) isActivitySessionOptions_Session() {}
+func (*ActivitySessionOptions_WorkflowSession) isActivitySessionOptions_Placement() {}
 
 var File_temporal_api_session_v1_message_proto protoreflect.FileDescriptor
 
 const file_temporal_api_session_v1_message_proto_rawDesc = "" +
 	"\n" +
-	"%temporal/api/session/v1/message.proto\x12\x17temporal.api.session.v1\"{\n" +
+	"%temporal/api/session/v1/message.proto\x12\x17temporal.api.session.v1\x1a\x1bgoogle/protobuf/empty.proto\"{\n" +
 	"\x14WorkerSessionOptions\x12V\n" +
 	"\x0esingle_session\x18\x01 \x01(\v2-.temporal.api.session.v1.SingleSessionOptionsH\x00R\rsingleSessionB\v\n" +
-	"\tisolation\"?\n" +
+	"\tadmission\"?\n" +
 	"\x14SingleSessionOptions\x12'\n" +
-	"\x0fstable_identity\x18\x01 \x01(\tR\x0estableIdentity\"W\n" +
-	"\x16ActivitySessionOptions\x122\n" +
-	"\x14use_workflow_session\x18\x01 \x01(\bH\x00R\x12useWorkflowSessionB\t\n" +
-	"\asessionB\x8e\x01\n" +
+	"\x0fstable_identity\x18\x01 \x01(\tR\x0estableIdentity\"j\n" +
+	"\x16ActivitySessionOptions\x12C\n" +
+	"\x10workflow_session\x18\x01 \x01(\v2\x16.google.protobuf.EmptyH\x00R\x0fworkflowSessionB\v\n" +
+	"\tplacementB\x8e\x01\n" +
 	"\x1aio.temporal.api.session.v1B\fMessageProtoP\x01Z%go.temporal.io/api/session/v1;session\xaa\x02\x19Temporalio.Api.Session.V1\xea\x02\x1cTemporalio::Api::Session::V1b\x06proto3"
 
 var (
@@ -246,14 +259,16 @@ var file_temporal_api_session_v1_message_proto_goTypes = []any{
 	(*WorkerSessionOptions)(nil),   // 0: temporal.api.session.v1.WorkerSessionOptions
 	(*SingleSessionOptions)(nil),   // 1: temporal.api.session.v1.SingleSessionOptions
 	(*ActivitySessionOptions)(nil), // 2: temporal.api.session.v1.ActivitySessionOptions
+	(*emptypb.Empty)(nil),          // 3: google.protobuf.Empty
 }
 var file_temporal_api_session_v1_message_proto_depIdxs = []int32{
 	1, // 0: temporal.api.session.v1.WorkerSessionOptions.single_session:type_name -> temporal.api.session.v1.SingleSessionOptions
-	1, // [1:1] is the sub-list for method output_type
-	1, // [1:1] is the sub-list for method input_type
-	1, // [1:1] is the sub-list for extension type_name
-	1, // [1:1] is the sub-list for extension extendee
-	0, // [0:1] is the sub-list for field type_name
+	3, // 1: temporal.api.session.v1.ActivitySessionOptions.workflow_session:type_name -> google.protobuf.Empty
+	2, // [2:2] is the sub-list for method output_type
+	2, // [2:2] is the sub-list for method input_type
+	2, // [2:2] is the sub-list for extension type_name
+	2, // [2:2] is the sub-list for extension extendee
+	0, // [0:2] is the sub-list for field type_name
 }
 
 func init() { file_temporal_api_session_v1_message_proto_init() }
@@ -265,7 +280,7 @@ func file_temporal_api_session_v1_message_proto_init() {
 		(*WorkerSessionOptions_SingleSession)(nil),
 	}
 	file_temporal_api_session_v1_message_proto_msgTypes[2].OneofWrappers = []any{
-		(*ActivitySessionOptions_UseWorkflowSession)(nil),
+		(*ActivitySessionOptions_WorkflowSession)(nil),
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{

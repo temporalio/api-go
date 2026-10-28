@@ -7,6 +7,10 @@
 package history
 
 import (
+	reflect "reflect"
+	sync "sync"
+	unsafe "unsafe"
+
 	v1 "go.temporal.io/api/common/v1"
 	v15 "go.temporal.io/api/deployment/v1"
 	v12 "go.temporal.io/api/enums/v1"
@@ -21,9 +25,6 @@ import (
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	durationpb "google.golang.org/protobuf/types/known/durationpb"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
-	reflect "reflect"
-	sync "sync"
-	unsafe "unsafe"
 )
 
 const (
@@ -1599,7 +1600,8 @@ type ActivityTaskScheduledEventAttributes struct {
 	// Priority metadata. If this message is not present, or any fields are not
 	// present, they inherit the values from the workflow.
 	Priority *v1.Priority `protobuf:"bytes,14,opt,name=priority,proto3" json:"priority,omitempty"`
-	// Session membership requested when this activity was scheduled.
+	// Preserves the scheduling command's session routing options so activity state
+	// can be reconstructed from history.
 	SessionOptions *v18.ActivitySessionOptions `protobuf:"bytes,15,opt,name=session_options,json=sessionOptions,proto3" json:"session_options,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
