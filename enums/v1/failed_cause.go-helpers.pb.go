@@ -156,6 +156,7 @@ var (
 		"WorkerDeploymentLimits":  10,
 		"BandwidthLimit":          11,
 		"CallerRpsLimit":          12,
+		"ShardPersistenceLimit":   13,
 	}
 )
 
