@@ -1191,16 +1191,27 @@ func TestVisitPayloadsConcurrentOneofPayload(t *testing.T) {
 
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
-			err := VisitPayloads(context.Background(), tc.msg, VisitPayloadsOptions{
+			// The visitor waits for release, which is closed only once the walk has
+			// returned, so its result always arrives after the walk is done, as a
+			// visitor doing real work would.
+			release := make(chan struct{})
+			options := VisitPayloadsOptions{
 				ConcurrencyLimit: 4,
 				Visitor: func(ctx *VisitPayloadsContext, p []*common.Payload) ([]*common.Payload, error) {
-					// Let the generated code move on before the result exists, as a
-					// visitor doing real work would.
-					time.Sleep(10 * time.Millisecond)
+					<-release
 					return []*common.Payload{{Data: append([]byte("visited-"), p[0].Data...)}}, nil
 				},
-			})
+			}
+			c := &payloadConcurrencyState{sem: make(chan struct{}, options.ConcurrencyLimit)}
+			visitCtx := VisitPayloadsContext{Context: context.Background(), Parent: tc.msg}
+
+			// visitPayloads starts the visitor and returns without waiting for it.
+			err := visitPayloads(&visitCtx, &options, nil, c, tc.msg)
+			close(release)
+			c.wg.Wait()
+
 			require.NoError(t, err)
+			require.Nil(t, c.firstErr.Load())
 			require.Equal(t, []byte("visited-result"), tc.get(tc.msg).GetData())
 		})
 	}
