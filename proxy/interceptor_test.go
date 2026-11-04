@@ -645,7 +645,7 @@ func TestVisitedPayloads(t *testing.T) {
 		protoType        string
 		wantPayloadCount int
 	}{
-		{"temporal.api.update.v1.Rejection", 7},
+		{"temporal.api.update.v1.Rejection", 8},
 		{"temporal.api.query.v1.WorkflowQueryResult", 6},
 		{"temporal.api.protocol.v1.Message", 1},
 		{"temporal.api.command.v1.Command", 38},

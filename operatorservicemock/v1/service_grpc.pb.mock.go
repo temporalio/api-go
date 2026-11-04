@@ -136,6 +136,26 @@ func (mr *MockOperatorServiceClientMockRecorder) DeleteNexusEndpoint(ctx, in int
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteNexusEndpoint", reflect.TypeOf((*MockOperatorServiceClient)(nil).DeleteNexusEndpoint), varargs...)
 }
 
+// DescribeNamespaceRestore mocks base method.
+func (m *MockOperatorServiceClient) DescribeNamespaceRestore(ctx context.Context, in *operatorservice.DescribeNamespaceRestoreRequest, opts ...grpc.CallOption) (*operatorservice.DescribeNamespaceRestoreResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "DescribeNamespaceRestore", varargs...)
+	ret0, _ := ret[0].(*operatorservice.DescribeNamespaceRestoreResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// DescribeNamespaceRestore indicates an expected call of DescribeNamespaceRestore.
+func (mr *MockOperatorServiceClientMockRecorder) DescribeNamespaceRestore(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DescribeNamespaceRestore", reflect.TypeOf((*MockOperatorServiceClient)(nil).DescribeNamespaceRestore), varargs...)
+}
+
 // GetNexusEndpoint mocks base method.
 func (m *MockOperatorServiceClient) GetNexusEndpoint(ctx context.Context, in *operatorservice.GetNexusEndpointRequest, opts ...grpc.CallOption) (*operatorservice.GetNexusEndpointResponse, error) {
 	m.ctrl.T.Helper()
@@ -254,6 +274,46 @@ func (mr *MockOperatorServiceClientMockRecorder) RemoveSearchAttributes(ctx, in 
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, in}, opts...)
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RemoveSearchAttributes", reflect.TypeOf((*MockOperatorServiceClient)(nil).RemoveSearchAttributes), varargs...)
+}
+
+// RestoreNamespace mocks base method.
+func (m *MockOperatorServiceClient) RestoreNamespace(ctx context.Context, in *operatorservice.RestoreNamespaceRequest, opts ...grpc.CallOption) (*operatorservice.RestoreNamespaceResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "RestoreNamespace", varargs...)
+	ret0, _ := ret[0].(*operatorservice.RestoreNamespaceResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// RestoreNamespace indicates an expected call of RestoreNamespace.
+func (mr *MockOperatorServiceClientMockRecorder) RestoreNamespace(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RestoreNamespace", reflect.TypeOf((*MockOperatorServiceClient)(nil).RestoreNamespace), varargs...)
+}
+
+// SoftDeleteNamespace mocks base method.
+func (m *MockOperatorServiceClient) SoftDeleteNamespace(ctx context.Context, in *operatorservice.SoftDeleteNamespaceRequest, opts ...grpc.CallOption) (*operatorservice.SoftDeleteNamespaceResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "SoftDeleteNamespace", varargs...)
+	ret0, _ := ret[0].(*operatorservice.SoftDeleteNamespaceResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// SoftDeleteNamespace indicates an expected call of SoftDeleteNamespace.
+func (mr *MockOperatorServiceClientMockRecorder) SoftDeleteNamespace(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SoftDeleteNamespace", reflect.TypeOf((*MockOperatorServiceClient)(nil).SoftDeleteNamespace), varargs...)
 }
 
 // UpdateNexusEndpoint mocks base method.
@@ -377,6 +437,21 @@ func (mr *MockOperatorServiceServerMockRecorder) DeleteNexusEndpoint(arg0, arg1 
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteNexusEndpoint", reflect.TypeOf((*MockOperatorServiceServer)(nil).DeleteNexusEndpoint), arg0, arg1)
 }
 
+// DescribeNamespaceRestore mocks base method.
+func (m *MockOperatorServiceServer) DescribeNamespaceRestore(arg0 context.Context, arg1 *operatorservice.DescribeNamespaceRestoreRequest) (*operatorservice.DescribeNamespaceRestoreResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DescribeNamespaceRestore", arg0, arg1)
+	ret0, _ := ret[0].(*operatorservice.DescribeNamespaceRestoreResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// DescribeNamespaceRestore indicates an expected call of DescribeNamespaceRestore.
+func (mr *MockOperatorServiceServerMockRecorder) DescribeNamespaceRestore(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DescribeNamespaceRestore", reflect.TypeOf((*MockOperatorServiceServer)(nil).DescribeNamespaceRestore), arg0, arg1)
+}
+
 // GetNexusEndpoint mocks base method.
 func (m *MockOperatorServiceServer) GetNexusEndpoint(arg0 context.Context, arg1 *operatorservice.GetNexusEndpointRequest) (*operatorservice.GetNexusEndpointResponse, error) {
 	m.ctrl.T.Helper()
@@ -465,6 +540,36 @@ func (m *MockOperatorServiceServer) RemoveSearchAttributes(arg0 context.Context,
 func (mr *MockOperatorServiceServerMockRecorder) RemoveSearchAttributes(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RemoveSearchAttributes", reflect.TypeOf((*MockOperatorServiceServer)(nil).RemoveSearchAttributes), arg0, arg1)
+}
+
+// RestoreNamespace mocks base method.
+func (m *MockOperatorServiceServer) RestoreNamespace(arg0 context.Context, arg1 *operatorservice.RestoreNamespaceRequest) (*operatorservice.RestoreNamespaceResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "RestoreNamespace", arg0, arg1)
+	ret0, _ := ret[0].(*operatorservice.RestoreNamespaceResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// RestoreNamespace indicates an expected call of RestoreNamespace.
+func (mr *MockOperatorServiceServerMockRecorder) RestoreNamespace(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RestoreNamespace", reflect.TypeOf((*MockOperatorServiceServer)(nil).RestoreNamespace), arg0, arg1)
+}
+
+// SoftDeleteNamespace mocks base method.
+func (m *MockOperatorServiceServer) SoftDeleteNamespace(arg0 context.Context, arg1 *operatorservice.SoftDeleteNamespaceRequest) (*operatorservice.SoftDeleteNamespaceResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "SoftDeleteNamespace", arg0, arg1)
+	ret0, _ := ret[0].(*operatorservice.SoftDeleteNamespaceResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// SoftDeleteNamespace indicates an expected call of SoftDeleteNamespace.
+func (mr *MockOperatorServiceServerMockRecorder) SoftDeleteNamespace(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SoftDeleteNamespace", reflect.TypeOf((*MockOperatorServiceServer)(nil).SoftDeleteNamespace), arg0, arg1)
 }
 
 // UpdateNexusEndpoint mocks base method.

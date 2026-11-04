@@ -246,7 +246,7 @@ const (
 	CALLBACK_STATE_FAILED CallbackState = 4
 	// Callback has succeeded.
 	CALLBACK_STATE_SUCCEEDED CallbackState = 5
-	// Callback is blocked (eg: by circuit breaker).
+	// Callback is blocked, e.g. by circuit breaker.
 	CALLBACK_STATE_BLOCKED CallbackState = 6
 )
 
@@ -673,6 +673,8 @@ const (
 	EXECUTION_TYPE_WORKFLOW ExecutionType = 1
 	// An activity execution archetype. This is reserved for standalone activities.
 	EXECUTION_TYPE_ACTIVITY ExecutionType = 2
+	// A Nexus operation execution archetype. This is reserved for standalone Nexus operations.
+	EXECUTION_TYPE_NEXUS_OPERATION ExecutionType = 3
 )
 
 // Enum value maps for ExecutionType.
@@ -681,11 +683,13 @@ var (
 		0: "EXECUTION_TYPE_UNSPECIFIED",
 		1: "EXECUTION_TYPE_WORKFLOW",
 		2: "EXECUTION_TYPE_ACTIVITY",
+		3: "EXECUTION_TYPE_NEXUS_OPERATION",
 	}
 	ExecutionType_value = map[string]int32{
-		"EXECUTION_TYPE_UNSPECIFIED": 0,
-		"EXECUTION_TYPE_WORKFLOW":    1,
-		"EXECUTION_TYPE_ACTIVITY":    2,
+		"EXECUTION_TYPE_UNSPECIFIED":     0,
+		"EXECUTION_TYPE_WORKFLOW":        1,
+		"EXECUTION_TYPE_ACTIVITY":        2,
+		"EXECUTION_TYPE_NEXUS_OPERATION": 3,
 	}
 )
 
@@ -703,6 +707,8 @@ func (x ExecutionType) String() string {
 		return "Workflow"
 	case EXECUTION_TYPE_ACTIVITY:
 		return "Activity"
+	case EXECUTION_TYPE_NEXUS_OPERATION:
+		return "NexusOperation"
 	default:
 		return strconv.Itoa(int(x))
 	}
@@ -782,11 +788,12 @@ const file_temporal_api_enums_v1_common_proto_rawDesc = "" +
 	"\x19WORKER_STATUS_UNSPECIFIED\x10\x00\x12\x19\n" +
 	"\x15WORKER_STATUS_RUNNING\x10\x01\x12\x1f\n" +
 	"\x1bWORKER_STATUS_SHUTTING_DOWN\x10\x02\x12\x1a\n" +
-	"\x16WORKER_STATUS_SHUTDOWN\x10\x03*i\n" +
+	"\x16WORKER_STATUS_SHUTDOWN\x10\x03*\x8d\x01\n" +
 	"\rExecutionType\x12\x1e\n" +
 	"\x1aEXECUTION_TYPE_UNSPECIFIED\x10\x00\x12\x1b\n" +
 	"\x17EXECUTION_TYPE_WORKFLOW\x10\x01\x12\x1b\n" +
-	"\x17EXECUTION_TYPE_ACTIVITY\x10\x02B\x83\x01\n" +
+	"\x17EXECUTION_TYPE_ACTIVITY\x10\x02\x12\"\n" +
+	"\x1eEXECUTION_TYPE_NEXUS_OPERATION\x10\x03B\x83\x01\n" +
 	"\x18io.temporal.api.enums.v1B\vCommonProtoP\x01Z!go.temporal.io/api/enums/v1;enums\xaa\x02\x17Temporalio.Api.Enums.V1\xea\x02\x1aTemporalio::Api::Enums::V1b\x06proto3"
 
 var (

@@ -24,6 +24,9 @@ const (
 	OperatorService_RemoveSearchAttributes_FullMethodName   = "/temporal.api.operatorservice.v1.OperatorService/RemoveSearchAttributes"
 	OperatorService_ListSearchAttributes_FullMethodName     = "/temporal.api.operatorservice.v1.OperatorService/ListSearchAttributes"
 	OperatorService_DeleteNamespace_FullMethodName          = "/temporal.api.operatorservice.v1.OperatorService/DeleteNamespace"
+	OperatorService_SoftDeleteNamespace_FullMethodName      = "/temporal.api.operatorservice.v1.OperatorService/SoftDeleteNamespace"
+	OperatorService_RestoreNamespace_FullMethodName         = "/temporal.api.operatorservice.v1.OperatorService/RestoreNamespace"
+	OperatorService_DescribeNamespaceRestore_FullMethodName = "/temporal.api.operatorservice.v1.OperatorService/DescribeNamespaceRestore"
 	OperatorService_AddOrUpdateRemoteCluster_FullMethodName = "/temporal.api.operatorservice.v1.OperatorService/AddOrUpdateRemoteCluster"
 	OperatorService_RemoveRemoteCluster_FullMethodName      = "/temporal.api.operatorservice.v1.OperatorService/RemoveRemoteCluster"
 	OperatorService_ListClusters_FullMethodName             = "/temporal.api.operatorservice.v1.OperatorService/ListClusters"
@@ -56,6 +59,17 @@ type OperatorServiceClient interface {
 	ListSearchAttributes(ctx context.Context, in *ListSearchAttributesRequest, opts ...grpc.CallOption) (*ListSearchAttributesResponse, error)
 	// DeleteNamespace synchronously deletes a namespace and asynchronously reclaims all namespace resources.
 	DeleteNamespace(ctx context.Context, in *DeleteNamespaceRequest, opts ...grpc.CallOption) (*DeleteNamespaceResponse, error)
+	// SoftDeleteNamespace moves a namespace to NAMESPACE_STATE_SOFT_DELETED on every cluster in its
+	// replication config. Executions stop making progress, but no data is removed. A running restore
+	// is marked failed. Idempotent.
+	SoftDeleteNamespace(ctx context.Context, in *SoftDeleteNamespaceRequest, opts ...grpc.CallOption) (*SoftDeleteNamespaceResponse, error)
+	// RestoreNamespace moves a soft-deleted namespace back to NAMESPACE_STATE_REGISTERED on every
+	// cluster in its replication config, then starts a job that refreshes every execution so they
+	// resume. Returns UNAVAILABLE until every cluster has the new state; retry until it succeeds.
+	// Idempotent.
+	RestoreNamespace(ctx context.Context, in *RestoreNamespaceRequest, opts ...grpc.CallOption) (*RestoreNamespaceResponse, error)
+	// DescribeNamespaceRestore reports the state and progress of the namespace's most recent restore.
+	DescribeNamespaceRestore(ctx context.Context, in *DescribeNamespaceRestoreRequest, opts ...grpc.CallOption) (*DescribeNamespaceRestoreResponse, error)
 	// AddOrUpdateRemoteCluster adds or updates remote cluster.
 	AddOrUpdateRemoteCluster(ctx context.Context, in *AddOrUpdateRemoteClusterRequest, opts ...grpc.CallOption) (*AddOrUpdateRemoteClusterResponse, error)
 	// RemoveRemoteCluster removes remote cluster.
@@ -125,6 +139,36 @@ func (c *operatorServiceClient) DeleteNamespace(ctx context.Context, in *DeleteN
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(DeleteNamespaceResponse)
 	err := c.cc.Invoke(ctx, OperatorService_DeleteNamespace_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *operatorServiceClient) SoftDeleteNamespace(ctx context.Context, in *SoftDeleteNamespaceRequest, opts ...grpc.CallOption) (*SoftDeleteNamespaceResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SoftDeleteNamespaceResponse)
+	err := c.cc.Invoke(ctx, OperatorService_SoftDeleteNamespace_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *operatorServiceClient) RestoreNamespace(ctx context.Context, in *RestoreNamespaceRequest, opts ...grpc.CallOption) (*RestoreNamespaceResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(RestoreNamespaceResponse)
+	err := c.cc.Invoke(ctx, OperatorService_RestoreNamespace_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *operatorServiceClient) DescribeNamespaceRestore(ctx context.Context, in *DescribeNamespaceRestoreRequest, opts ...grpc.CallOption) (*DescribeNamespaceRestoreResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DescribeNamespaceRestoreResponse)
+	err := c.cc.Invoke(ctx, OperatorService_DescribeNamespaceRestore_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -233,6 +277,17 @@ type OperatorServiceServer interface {
 	ListSearchAttributes(context.Context, *ListSearchAttributesRequest) (*ListSearchAttributesResponse, error)
 	// DeleteNamespace synchronously deletes a namespace and asynchronously reclaims all namespace resources.
 	DeleteNamespace(context.Context, *DeleteNamespaceRequest) (*DeleteNamespaceResponse, error)
+	// SoftDeleteNamespace moves a namespace to NAMESPACE_STATE_SOFT_DELETED on every cluster in its
+	// replication config. Executions stop making progress, but no data is removed. A running restore
+	// is marked failed. Idempotent.
+	SoftDeleteNamespace(context.Context, *SoftDeleteNamespaceRequest) (*SoftDeleteNamespaceResponse, error)
+	// RestoreNamespace moves a soft-deleted namespace back to NAMESPACE_STATE_REGISTERED on every
+	// cluster in its replication config, then starts a job that refreshes every execution so they
+	// resume. Returns UNAVAILABLE until every cluster has the new state; retry until it succeeds.
+	// Idempotent.
+	RestoreNamespace(context.Context, *RestoreNamespaceRequest) (*RestoreNamespaceResponse, error)
+	// DescribeNamespaceRestore reports the state and progress of the namespace's most recent restore.
+	DescribeNamespaceRestore(context.Context, *DescribeNamespaceRestoreRequest) (*DescribeNamespaceRestoreResponse, error)
 	// AddOrUpdateRemoteCluster adds or updates remote cluster.
 	AddOrUpdateRemoteCluster(context.Context, *AddOrUpdateRemoteClusterRequest) (*AddOrUpdateRemoteClusterResponse, error)
 	// RemoveRemoteCluster removes remote cluster.
@@ -279,6 +334,15 @@ func (UnimplementedOperatorServiceServer) ListSearchAttributes(context.Context, 
 }
 func (UnimplementedOperatorServiceServer) DeleteNamespace(context.Context, *DeleteNamespaceRequest) (*DeleteNamespaceResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method DeleteNamespace not implemented")
+}
+func (UnimplementedOperatorServiceServer) SoftDeleteNamespace(context.Context, *SoftDeleteNamespaceRequest) (*SoftDeleteNamespaceResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method SoftDeleteNamespace not implemented")
+}
+func (UnimplementedOperatorServiceServer) RestoreNamespace(context.Context, *RestoreNamespaceRequest) (*RestoreNamespaceResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method RestoreNamespace not implemented")
+}
+func (UnimplementedOperatorServiceServer) DescribeNamespaceRestore(context.Context, *DescribeNamespaceRestoreRequest) (*DescribeNamespaceRestoreResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method DescribeNamespaceRestore not implemented")
 }
 func (UnimplementedOperatorServiceServer) AddOrUpdateRemoteCluster(context.Context, *AddOrUpdateRemoteClusterRequest) (*AddOrUpdateRemoteClusterResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method AddOrUpdateRemoteCluster not implemented")
@@ -393,6 +457,60 @@ func _OperatorService_DeleteNamespace_Handler(srv interface{}, ctx context.Conte
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(OperatorServiceServer).DeleteNamespace(ctx, req.(*DeleteNamespaceRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OperatorService_SoftDeleteNamespace_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SoftDeleteNamespaceRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OperatorServiceServer).SoftDeleteNamespace(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OperatorService_SoftDeleteNamespace_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OperatorServiceServer).SoftDeleteNamespace(ctx, req.(*SoftDeleteNamespaceRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OperatorService_RestoreNamespace_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RestoreNamespaceRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OperatorServiceServer).RestoreNamespace(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OperatorService_RestoreNamespace_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OperatorServiceServer).RestoreNamespace(ctx, req.(*RestoreNamespaceRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OperatorService_DescribeNamespaceRestore_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribeNamespaceRestoreRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OperatorServiceServer).DescribeNamespaceRestore(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OperatorService_DescribeNamespaceRestore_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OperatorServiceServer).DescribeNamespaceRestore(ctx, req.(*DescribeNamespaceRestoreRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -563,6 +681,18 @@ var OperatorService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteNamespace",
 			Handler:    _OperatorService_DeleteNamespace_Handler,
+		},
+		{
+			MethodName: "SoftDeleteNamespace",
+			Handler:    _OperatorService_SoftDeleteNamespace_Handler,
+		},
+		{
+			MethodName: "RestoreNamespace",
+			Handler:    _OperatorService_RestoreNamespace_Handler,
+		},
+		{
+			MethodName: "DescribeNamespaceRestore",
+			Handler:    _OperatorService_DescribeNamespaceRestore_Handler,
 		},
 		{
 			MethodName: "AddOrUpdateRemoteCluster",
