@@ -247,7 +247,8 @@ type ActivityOptions struct {
 	// Limits time an activity task can stay in a task queue before a worker picks it up. This
 	// timeout is always non retryable, as all a retry would achieve is to put it back into the same
 	// queue. Defaults to `schedule_to_close_timeout` or workflow execution timeout if not
-	// specified.
+	// specified. With `async_handoff_options` set, defaults to a positive
+	// `schedule_to_close_timeout`, otherwise remains disabled.
 	//
 	// (-- api-linter: core::0140::prepositions=disabled
 	//
