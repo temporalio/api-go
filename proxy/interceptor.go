@@ -3193,12 +3193,10 @@ func visitPayloads(
 				}
 			}
 
-			if o.GetSuccess() != nil {
-				success := o.GetSuccess()
-				if err := visitPayload(ctx, options, o, concState, &success); err != nil {
+			if w, ok := o.Result.(*notificationservice.OnCompleteRequest_Success); ok && w.Success != nil {
+				if err := visitPayload(ctx, options, o, concState, &w.Success); err != nil {
 					return err
 				}
-				o.Result = &notificationservice.OnCompleteRequest_Success{Success: success}
 			}
 
 			if err := visitPayloads(
@@ -4442,12 +4440,10 @@ func visitPayloads(
 				}
 			}
 
-			if o.GetResult() != nil {
-				result := o.GetResult()
-				if err := visitPayload(ctx, options, o, concState, &result); err != nil {
+			if w, ok := o.Outcome.(*workflowservice.DescribeNexusOperationExecutionResponse_Result); ok && w.Result != nil {
+				if err := visitPayload(ctx, options, o, concState, &w.Result); err != nil {
 					return err
 				}
-				o.Outcome = &workflowservice.DescribeNexusOperationExecutionResponse_Result{Result: result}
 			}
 
 			if err := visitPayloads(
@@ -5029,12 +5025,10 @@ func visitPayloads(
 				}
 			}
 
-			if o.GetResult() != nil {
-				result := o.GetResult()
-				if err := visitPayload(ctx, options, o, concState, &result); err != nil {
+			if w, ok := o.Outcome.(*workflowservice.PollNexusOperationExecutionResponse_Result); ok && w.Result != nil {
+				if err := visitPayload(ctx, options, o, concState, &w.Result); err != nil {
 					return err
 				}
-				o.Outcome = &workflowservice.PollNexusOperationExecutionResponse_Result{Result: result}
 			}
 
 			if err := visitPayloads(
