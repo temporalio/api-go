@@ -12,6 +12,7 @@ import (
 	sync "sync"
 	unsafe "unsafe"
 
+	v12 "go.temporal.io/api/common/v1"
 	v1 "go.temporal.io/api/deployment/v1"
 	v11 "go.temporal.io/api/enums/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -441,6 +442,67 @@ func (x EnvironmentInfo_WindowsPlatform_Crt) Number() protoreflect.EnumNumber {
 
 func (EnvironmentInfo_WindowsPlatform_Crt) EnumDescriptor() ([]byte, []int) {
 	return file_temporal_api_worker_v1_message_proto_rawDescGZIP(), []int{8, 5, 0}
+}
+
+type WorkflowHeartbeatNotificationResult_Outcome int32
+
+const (
+	WorkflowHeartbeatNotificationResult_OUTCOME_UNSPECIFIED WorkflowHeartbeatNotificationResult_Outcome = 0
+	WorkflowHeartbeatNotificationResult_OUTCOME_ACCEPTED    WorkflowHeartbeatNotificationResult_Outcome = // The notification was accepted for the matching Workflow Task.
+	1
+	WorkflowHeartbeatNotificationResult_OUTCOME_TASK_TOKEN_MISMATCH WorkflowHeartbeatNotificationResult_Outcome = // This notification is rejected because its token does not match the current Workflow Task or there is no current Workflow Task.
+	2
+)
+
+// Enum value maps for WorkflowHeartbeatNotificationResult_Outcome.
+var (
+	WorkflowHeartbeatNotificationResult_Outcome_name = map[int32]string{
+		0: "OUTCOME_UNSPECIFIED",
+		1: "OUTCOME_ACCEPTED",
+		2: "OUTCOME_TASK_TOKEN_MISMATCH",
+	}
+	WorkflowHeartbeatNotificationResult_Outcome_value = map[string]int32{
+		"OUTCOME_UNSPECIFIED":         0,
+		"OUTCOME_ACCEPTED":            1,
+		"OUTCOME_TASK_TOKEN_MISMATCH": 2,
+	}
+)
+
+func (x WorkflowHeartbeatNotificationResult_Outcome) Enum() *WorkflowHeartbeatNotificationResult_Outcome {
+	p := new(WorkflowHeartbeatNotificationResult_Outcome)
+	*p = x
+	return p
+}
+
+func (x WorkflowHeartbeatNotificationResult_Outcome) String() string {
+	switch x {
+	case WorkflowHeartbeatNotificationResult_OUTCOME_UNSPECIFIED:
+		return "WorkflowHeartbeatNotificationResultOutcomeUnspecified"
+	case WorkflowHeartbeatNotificationResult_OUTCOME_ACCEPTED:
+		return "WorkflowHeartbeatNotificationResultOutcomeAccepted"
+	case WorkflowHeartbeatNotificationResult_OUTCOME_TASK_TOKEN_MISMATCH:
+		return "WorkflowHeartbeatNotificationResultOutcomeTaskTokenMismatch"
+	default:
+		return strconv.Itoa(int(x))
+	}
+
+}
+
+func (WorkflowHeartbeatNotificationResult_Outcome) Descriptor() protoreflect.EnumDescriptor {
+	return file_temporal_api_worker_v1_message_proto_enumTypes[5].Descriptor()
+}
+
+func (WorkflowHeartbeatNotificationResult_Outcome) Type() protoreflect.EnumType {
+	return &file_temporal_api_worker_v1_message_proto_enumTypes[5]
+}
+
+func (x WorkflowHeartbeatNotificationResult_Outcome) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use WorkflowHeartbeatNotificationResult_Outcome.Descriptor instead.
+func (WorkflowHeartbeatNotificationResult_Outcome) EnumDescriptor() ([]byte, []int) {
+	return file_temporal_api_worker_v1_message_proto_rawDescGZIP(), []int{13, 0}
 }
 
 type WorkerPollerInfo struct {
@@ -1336,6 +1398,7 @@ type WorkerCommand struct {
 	// Types that are valid to be assigned to Type:
 	//
 	//	*WorkerCommand_CancelActivity
+	//	*WorkerCommand_WorkflowHeartbeatNotification
 	Type          isWorkerCommand_Type `protobuf_oneof:"type"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -1387,6 +1450,15 @@ func (x *WorkerCommand) GetCancelActivity() *CancelActivityCommand {
 	return nil
 }
 
+func (x *WorkerCommand) GetWorkflowHeartbeatNotification() *WorkflowHeartbeatNotificationCommand {
+	if x != nil {
+		if x, ok := x.Type.(*WorkerCommand_WorkflowHeartbeatNotification); ok {
+			return x.WorkflowHeartbeatNotification
+		}
+	}
+	return nil
+}
+
 type isWorkerCommand_Type interface {
 	isWorkerCommand_Type()
 }
@@ -1395,7 +1467,67 @@ type WorkerCommand_CancelActivity struct {
 	CancelActivity *CancelActivityCommand `protobuf:"bytes,1,opt,name=cancel_activity,json=cancelActivity,proto3,oneof"`
 }
 
+type WorkerCommand_WorkflowHeartbeatNotification struct {
+	WorkflowHeartbeatNotification *WorkflowHeartbeatNotificationCommand `protobuf:"bytes,2,opt,name=workflow_heartbeat_notification,json=workflowHeartbeatNotification,proto3,oneof"`
+}
+
 func (*WorkerCommand_CancelActivity) isWorkerCommand_Type() {}
+
+func (*WorkerCommand_WorkflowHeartbeatNotification) isWorkerCommand_Type() {}
+
+// Request an early heartbeat of the current Workflow Task.
+type WorkflowHeartbeatNotificationCommand struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The token of the Workflow Task returned to the worker.
+	TaskToken     []byte                 `protobuf:"bytes,1,opt,name=task_token,json=taskToken,proto3" json:"task_token,omitempty"`
+	Execution     *v12.WorkflowExecution `protobuf:"bytes,2,opt,name=execution,proto3" json:"execution,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *WorkflowHeartbeatNotificationCommand) Reset() {
+	*x = WorkflowHeartbeatNotificationCommand{}
+	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[10]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *WorkflowHeartbeatNotificationCommand) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*WorkflowHeartbeatNotificationCommand) ProtoMessage() {}
+
+func (x *WorkflowHeartbeatNotificationCommand) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[10]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use WorkflowHeartbeatNotificationCommand.ProtoReflect.Descriptor instead.
+func (*WorkflowHeartbeatNotificationCommand) Descriptor() ([]byte, []int) {
+	return file_temporal_api_worker_v1_message_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *WorkflowHeartbeatNotificationCommand) GetTaskToken() []byte {
+	if x != nil {
+		return x.TaskToken
+	}
+	return nil
+}
+
+func (x *WorkflowHeartbeatNotificationCommand) GetExecution() *v12.WorkflowExecution {
+	if x != nil {
+		return x.Execution
+	}
+	return nil
+}
 
 // Cancel an activity if it is still running. Otherwise, do nothing.
 type CancelActivityCommand struct {
@@ -1407,7 +1539,7 @@ type CancelActivityCommand struct {
 
 func (x *CancelActivityCommand) Reset() {
 	*x = CancelActivityCommand{}
-	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[10]
+	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1419,7 +1551,7 @@ func (x *CancelActivityCommand) String() string {
 func (*CancelActivityCommand) ProtoMessage() {}
 
 func (x *CancelActivityCommand) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[10]
+	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1432,7 +1564,7 @@ func (x *CancelActivityCommand) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CancelActivityCommand.ProtoReflect.Descriptor instead.
 func (*CancelActivityCommand) Descriptor() ([]byte, []int) {
-	return file_temporal_api_worker_v1_message_proto_rawDescGZIP(), []int{10}
+	return file_temporal_api_worker_v1_message_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *CancelActivityCommand) GetTaskToken() []byte {
@@ -1448,6 +1580,7 @@ type WorkerCommandResult struct {
 	// Types that are valid to be assigned to Type:
 	//
 	//	*WorkerCommandResult_CancelActivity
+	//	*WorkerCommandResult_WorkflowHeartbeatNotification
 	Type          isWorkerCommandResult_Type `protobuf_oneof:"type"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -1455,7 +1588,7 @@ type WorkerCommandResult struct {
 
 func (x *WorkerCommandResult) Reset() {
 	*x = WorkerCommandResult{}
-	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[11]
+	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[12]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1467,7 +1600,7 @@ func (x *WorkerCommandResult) String() string {
 func (*WorkerCommandResult) ProtoMessage() {}
 
 func (x *WorkerCommandResult) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[11]
+	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[12]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1480,7 +1613,7 @@ func (x *WorkerCommandResult) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use WorkerCommandResult.ProtoReflect.Descriptor instead.
 func (*WorkerCommandResult) Descriptor() ([]byte, []int) {
-	return file_temporal_api_worker_v1_message_proto_rawDescGZIP(), []int{11}
+	return file_temporal_api_worker_v1_message_proto_rawDescGZIP(), []int{12}
 }
 
 func (x *WorkerCommandResult) GetType() isWorkerCommandResult_Type {
@@ -1499,6 +1632,15 @@ func (x *WorkerCommandResult) GetCancelActivity() *CancelActivityResult {
 	return nil
 }
 
+func (x *WorkerCommandResult) GetWorkflowHeartbeatNotification() *WorkflowHeartbeatNotificationResult {
+	if x != nil {
+		if x, ok := x.Type.(*WorkerCommandResult_WorkflowHeartbeatNotification); ok {
+			return x.WorkflowHeartbeatNotification
+		}
+	}
+	return nil
+}
+
 type isWorkerCommandResult_Type interface {
 	isWorkerCommandResult_Type()
 }
@@ -1507,7 +1649,70 @@ type WorkerCommandResult_CancelActivity struct {
 	CancelActivity *CancelActivityResult `protobuf:"bytes,1,opt,name=cancel_activity,json=cancelActivity,proto3,oneof"`
 }
 
+type WorkerCommandResult_WorkflowHeartbeatNotification struct {
+	WorkflowHeartbeatNotification *WorkflowHeartbeatNotificationResult `protobuf:"bytes,2,opt,name=workflow_heartbeat_notification,json=workflowHeartbeatNotification,proto3,oneof"`
+}
+
 func (*WorkerCommandResult_CancelActivity) isWorkerCommandResult_Type() {}
+
+func (*WorkerCommandResult_WorkflowHeartbeatNotification) isWorkerCommandResult_Type() {}
+
+// Result of a WorkflowHeartbeatNotificationCommand.
+// A successful result acknowledges the notification, not completion of a Workflow Task heartbeat.
+type WorkflowHeartbeatNotificationResult struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The SDK's result for this notification.
+	Outcome WorkflowHeartbeatNotificationResult_Outcome `protobuf:"varint,1,opt,name=outcome,proto3,enum=temporal.api.worker.v1.WorkflowHeartbeatNotificationResult_Outcome" json:"outcome,omitempty"`
+	// The token of the Workflow Task currently held for the command's Workflow Execution, if any.
+	// This field may be empty when outcome is OUTCOME_ACCEPTED.
+	CurrentTaskToken []byte `protobuf:"bytes,2,opt,name=current_task_token,json=currentTaskToken,proto3" json:"current_task_token,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
+}
+
+func (x *WorkflowHeartbeatNotificationResult) Reset() {
+	*x = WorkflowHeartbeatNotificationResult{}
+	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[13]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *WorkflowHeartbeatNotificationResult) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*WorkflowHeartbeatNotificationResult) ProtoMessage() {}
+
+func (x *WorkflowHeartbeatNotificationResult) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[13]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use WorkflowHeartbeatNotificationResult.ProtoReflect.Descriptor instead.
+func (*WorkflowHeartbeatNotificationResult) Descriptor() ([]byte, []int) {
+	return file_temporal_api_worker_v1_message_proto_rawDescGZIP(), []int{13}
+}
+
+func (x *WorkflowHeartbeatNotificationResult) GetOutcome() WorkflowHeartbeatNotificationResult_Outcome {
+	if x != nil {
+		return x.Outcome
+	}
+	return WorkflowHeartbeatNotificationResult_OUTCOME_UNSPECIFIED
+}
+
+func (x *WorkflowHeartbeatNotificationResult) GetCurrentTaskToken() []byte {
+	if x != nil {
+		return x.CurrentTaskToken
+	}
+	return nil
+}
 
 // Result of a CancelActivityCommand.
 // Treat both successful cancellation and no-op (activity is no longer running) as success.
@@ -1519,7 +1724,7 @@ type CancelActivityResult struct {
 
 func (x *CancelActivityResult) Reset() {
 	*x = CancelActivityResult{}
-	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[12]
+	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[14]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1531,7 +1736,7 @@ func (x *CancelActivityResult) String() string {
 func (*CancelActivityResult) ProtoMessage() {}
 
 func (x *CancelActivityResult) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[12]
+	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[14]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1544,7 +1749,7 @@ func (x *CancelActivityResult) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CancelActivityResult.ProtoReflect.Descriptor instead.
 func (*CancelActivityResult) Descriptor() ([]byte, []int) {
-	return file_temporal_api_worker_v1_message_proto_rawDescGZIP(), []int{12}
+	return file_temporal_api_worker_v1_message_proto_rawDescGZIP(), []int{14}
 }
 
 type EnvironmentInfo_Runtime struct {
@@ -1559,7 +1764,7 @@ type EnvironmentInfo_Runtime struct {
 
 func (x *EnvironmentInfo_Runtime) Reset() {
 	*x = EnvironmentInfo_Runtime{}
-	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[13]
+	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[15]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1571,7 +1776,7 @@ func (x *EnvironmentInfo_Runtime) String() string {
 func (*EnvironmentInfo_Runtime) ProtoMessage() {}
 
 func (x *EnvironmentInfo_Runtime) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[13]
+	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[15]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1613,7 +1818,7 @@ type EnvironmentInfo_HostingEnvironment struct {
 
 func (x *EnvironmentInfo_HostingEnvironment) Reset() {
 	*x = EnvironmentInfo_HostingEnvironment{}
-	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[14]
+	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[16]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1625,7 +1830,7 @@ func (x *EnvironmentInfo_HostingEnvironment) String() string {
 func (*EnvironmentInfo_HostingEnvironment) ProtoMessage() {}
 
 func (x *EnvironmentInfo_HostingEnvironment) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[14]
+	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[16]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1669,7 +1874,7 @@ type EnvironmentInfo_Platform struct {
 
 func (x *EnvironmentInfo_Platform) Reset() {
 	*x = EnvironmentInfo_Platform{}
-	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[15]
+	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[17]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1681,7 +1886,7 @@ func (x *EnvironmentInfo_Platform) String() string {
 func (*EnvironmentInfo_Platform) ProtoMessage() {}
 
 func (x *EnvironmentInfo_Platform) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[15]
+	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[17]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1767,7 +1972,7 @@ type EnvironmentInfo_LinuxPlatform struct {
 
 func (x *EnvironmentInfo_LinuxPlatform) Reset() {
 	*x = EnvironmentInfo_LinuxPlatform{}
-	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[16]
+	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[18]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1779,7 +1984,7 @@ func (x *EnvironmentInfo_LinuxPlatform) String() string {
 func (*EnvironmentInfo_LinuxPlatform) ProtoMessage() {}
 
 func (x *EnvironmentInfo_LinuxPlatform) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[16]
+	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[18]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1828,7 +2033,7 @@ type EnvironmentInfo_MacOSPlatform struct {
 
 func (x *EnvironmentInfo_MacOSPlatform) Reset() {
 	*x = EnvironmentInfo_MacOSPlatform{}
-	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[17]
+	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[19]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1840,7 +2045,7 @@ func (x *EnvironmentInfo_MacOSPlatform) String() string {
 func (*EnvironmentInfo_MacOSPlatform) ProtoMessage() {}
 
 func (x *EnvironmentInfo_MacOSPlatform) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[17]
+	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[19]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1884,7 +2089,7 @@ type EnvironmentInfo_WindowsPlatform struct {
 
 func (x *EnvironmentInfo_WindowsPlatform) Reset() {
 	*x = EnvironmentInfo_WindowsPlatform{}
-	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[18]
+	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[20]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1896,7 +2101,7 @@ func (x *EnvironmentInfo_WindowsPlatform) String() string {
 func (*EnvironmentInfo_WindowsPlatform) ProtoMessage() {}
 
 func (x *EnvironmentInfo_WindowsPlatform) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[18]
+	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[20]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1937,7 +2142,7 @@ var File_temporal_api_worker_v1_message_proto protoreflect.FileDescriptor
 
 const file_temporal_api_worker_v1_message_proto_rawDesc = "" +
 	"\n" +
-	"$temporal/api/worker/v1/message.proto\x12\x16temporal.api.worker.v1\x1a\x1egoogle/protobuf/duration.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a(temporal/api/deployment/v1/message.proto\x1a\"temporal/api/enums/v1/common.proto\"\xe0\x01\n" +
+	"$temporal/api/worker/v1/message.proto\x12\x16temporal.api.worker.v1\x1a\x1egoogle/protobuf/duration.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a$temporal/api/common/v1/message.proto\x1a(temporal/api/deployment/v1/message.proto\x1a\"temporal/api/enums/v1/common.proto\"\xe0\x01\n" +
 	"\x10WorkerPollerInfo\x12'\n" +
 	"\x0fcurrent_pollers\x18\x01 \x01(\x05R\x0ecurrentPollers\x12U\n" +
 	"\x19last_successful_poll_time\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\x16lastSuccessfulPollTime\x12%\n" +
@@ -2085,16 +2290,29 @@ const file_temporal_api_worker_v1_message_proto_rawDesc = "" +
 	"\fArchitecture\x12\x1c\n" +
 	"\x18ARCHITECTURE_UNSPECIFIED\x10\x00\x12\x16\n" +
 	"\x12ARCHITECTURE_AMD64\x10\x01\x12\x16\n" +
-	"\x12ARCHITECTURE_ARM64\x10\x02\"q\n" +
+	"\x12ARCHITECTURE_ARM64\x10\x02\"\xfa\x01\n" +
 	"\rWorkerCommand\x12X\n" +
-	"\x0fcancel_activity\x18\x01 \x01(\v2-.temporal.api.worker.v1.CancelActivityCommandH\x00R\x0ecancelActivityB\x06\n" +
-	"\x04type\"6\n" +
+	"\x0fcancel_activity\x18\x01 \x01(\v2-.temporal.api.worker.v1.CancelActivityCommandH\x00R\x0ecancelActivity\x12\x86\x01\n" +
+	"\x1fworkflow_heartbeat_notification\x18\x02 \x01(\v2<.temporal.api.worker.v1.WorkflowHeartbeatNotificationCommandH\x00R\x1dworkflowHeartbeatNotificationB\x06\n" +
+	"\x04type\"\x8e\x01\n" +
+	"$WorkflowHeartbeatNotificationCommand\x12\x1d\n" +
+	"\n" +
+	"task_token\x18\x01 \x01(\fR\ttaskToken\x12G\n" +
+	"\texecution\x18\x02 \x01(\v2).temporal.api.common.v1.WorkflowExecutionR\texecution\"6\n" +
 	"\x15CancelActivityCommand\x12\x1d\n" +
 	"\n" +
-	"task_token\x18\x01 \x01(\fR\ttaskToken\"v\n" +
+	"task_token\x18\x01 \x01(\fR\ttaskToken\"\xfe\x01\n" +
 	"\x13WorkerCommandResult\x12W\n" +
-	"\x0fcancel_activity\x18\x01 \x01(\v2,.temporal.api.worker.v1.CancelActivityResultH\x00R\x0ecancelActivityB\x06\n" +
-	"\x04type\"\x16\n" +
+	"\x0fcancel_activity\x18\x01 \x01(\v2,.temporal.api.worker.v1.CancelActivityResultH\x00R\x0ecancelActivity\x12\x85\x01\n" +
+	"\x1fworkflow_heartbeat_notification\x18\x02 \x01(\v2;.temporal.api.worker.v1.WorkflowHeartbeatNotificationResultH\x00R\x1dworkflowHeartbeatNotificationB\x06\n" +
+	"\x04type\"\x8d\x02\n" +
+	"#WorkflowHeartbeatNotificationResult\x12]\n" +
+	"\aoutcome\x18\x01 \x01(\x0e2C.temporal.api.worker.v1.WorkflowHeartbeatNotificationResult.OutcomeR\aoutcome\x12,\n" +
+	"\x12current_task_token\x18\x02 \x01(\fR\x10currentTaskToken\"Y\n" +
+	"\aOutcome\x12\x17\n" +
+	"\x13OUTCOME_UNSPECIFIED\x10\x00\x12\x14\n" +
+	"\x10OUTCOME_ACCEPTED\x10\x01\x12\x1f\n" +
+	"\x1bOUTCOME_TASK_TOKEN_MISMATCH\x10\x02\"\x16\n" +
 	"\x14CancelActivityResultB\x89\x01\n" +
 	"\x19io.temporal.api.worker.v1B\fMessageProtoP\x01Z#go.temporal.io/api/worker/v1;worker\xaa\x02\x18Temporalio.Api.Worker.V1\xea\x02\x1bTemporalio::Api::Worker::V1b\x06proto3"
 
@@ -2110,83 +2328,91 @@ func file_temporal_api_worker_v1_message_proto_rawDescGZIP() []byte {
 	return file_temporal_api_worker_v1_message_proto_rawDescData
 }
 
-var file_temporal_api_worker_v1_message_proto_enumTypes = make([]protoimpl.EnumInfo, 5)
-var file_temporal_api_worker_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 19)
+var file_temporal_api_worker_v1_message_proto_enumTypes = make([]protoimpl.EnumInfo, 6)
+var file_temporal_api_worker_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 21)
 var file_temporal_api_worker_v1_message_proto_goTypes = []any{
 	(EnvironmentInfo_Architecture)(0),                              // 0: temporal.api.worker.v1.EnvironmentInfo.Architecture
 	(EnvironmentInfo_Runtime_RuntimeType)(0),                       // 1: temporal.api.worker.v1.EnvironmentInfo.Runtime.RuntimeType
 	(EnvironmentInfo_HostingEnvironment_HostingEnvironmentType)(0), // 2: temporal.api.worker.v1.EnvironmentInfo.HostingEnvironment.HostingEnvironmentType
 	(EnvironmentInfo_LinuxPlatform_Libc)(0),                        // 3: temporal.api.worker.v1.EnvironmentInfo.LinuxPlatform.Libc
 	(EnvironmentInfo_WindowsPlatform_Crt)(0),                       // 4: temporal.api.worker.v1.EnvironmentInfo.WindowsPlatform.Crt
-	(*WorkerPollerInfo)(nil),                                       // 5: temporal.api.worker.v1.WorkerPollerInfo
-	(*WorkerSlotsInfo)(nil),                                        // 6: temporal.api.worker.v1.WorkerSlotsInfo
-	(*WorkerHostInfo)(nil),                                         // 7: temporal.api.worker.v1.WorkerHostInfo
-	(*WorkerHeartbeat)(nil),                                        // 8: temporal.api.worker.v1.WorkerHeartbeat
-	(*WorkerInfo)(nil),                                             // 9: temporal.api.worker.v1.WorkerInfo
-	(*WorkerListInfo)(nil),                                         // 10: temporal.api.worker.v1.WorkerListInfo
-	(*PluginInfo)(nil),                                             // 11: temporal.api.worker.v1.PluginInfo
-	(*StorageDriverInfo)(nil),                                      // 12: temporal.api.worker.v1.StorageDriverInfo
-	(*EnvironmentInfo)(nil),                                        // 13: temporal.api.worker.v1.EnvironmentInfo
-	(*WorkerCommand)(nil),                                          // 14: temporal.api.worker.v1.WorkerCommand
-	(*CancelActivityCommand)(nil),                                  // 15: temporal.api.worker.v1.CancelActivityCommand
-	(*WorkerCommandResult)(nil),                                    // 16: temporal.api.worker.v1.WorkerCommandResult
-	(*CancelActivityResult)(nil),                                   // 17: temporal.api.worker.v1.CancelActivityResult
-	(*EnvironmentInfo_Runtime)(nil),                                // 18: temporal.api.worker.v1.EnvironmentInfo.Runtime
-	(*EnvironmentInfo_HostingEnvironment)(nil),                     // 19: temporal.api.worker.v1.EnvironmentInfo.HostingEnvironment
-	(*EnvironmentInfo_Platform)(nil),                               // 20: temporal.api.worker.v1.EnvironmentInfo.Platform
-	(*EnvironmentInfo_LinuxPlatform)(nil),                          // 21: temporal.api.worker.v1.EnvironmentInfo.LinuxPlatform
-	(*EnvironmentInfo_MacOSPlatform)(nil),                          // 22: temporal.api.worker.v1.EnvironmentInfo.MacOSPlatform
-	(*EnvironmentInfo_WindowsPlatform)(nil),                        // 23: temporal.api.worker.v1.EnvironmentInfo.WindowsPlatform
-	(*timestamppb.Timestamp)(nil),                                  // 24: google.protobuf.Timestamp
-	(*v1.WorkerDeploymentVersion)(nil),                             // 25: temporal.api.deployment.v1.WorkerDeploymentVersion
-	(v11.WorkerStatus)(0),                                          // 26: temporal.api.enums.v1.WorkerStatus
-	(*durationpb.Duration)(nil),                                    // 27: google.protobuf.Duration
+	(WorkflowHeartbeatNotificationResult_Outcome)(0),               // 5: temporal.api.worker.v1.WorkflowHeartbeatNotificationResult.Outcome
+	(*WorkerPollerInfo)(nil),                                       // 6: temporal.api.worker.v1.WorkerPollerInfo
+	(*WorkerSlotsInfo)(nil),                                        // 7: temporal.api.worker.v1.WorkerSlotsInfo
+	(*WorkerHostInfo)(nil),                                         // 8: temporal.api.worker.v1.WorkerHostInfo
+	(*WorkerHeartbeat)(nil),                                        // 9: temporal.api.worker.v1.WorkerHeartbeat
+	(*WorkerInfo)(nil),                                             // 10: temporal.api.worker.v1.WorkerInfo
+	(*WorkerListInfo)(nil),                                         // 11: temporal.api.worker.v1.WorkerListInfo
+	(*PluginInfo)(nil),                                             // 12: temporal.api.worker.v1.PluginInfo
+	(*StorageDriverInfo)(nil),                                      // 13: temporal.api.worker.v1.StorageDriverInfo
+	(*EnvironmentInfo)(nil),                                        // 14: temporal.api.worker.v1.EnvironmentInfo
+	(*WorkerCommand)(nil),                                          // 15: temporal.api.worker.v1.WorkerCommand
+	(*WorkflowHeartbeatNotificationCommand)(nil),                   // 16: temporal.api.worker.v1.WorkflowHeartbeatNotificationCommand
+	(*CancelActivityCommand)(nil),                                  // 17: temporal.api.worker.v1.CancelActivityCommand
+	(*WorkerCommandResult)(nil),                                    // 18: temporal.api.worker.v1.WorkerCommandResult
+	(*WorkflowHeartbeatNotificationResult)(nil),                    // 19: temporal.api.worker.v1.WorkflowHeartbeatNotificationResult
+	(*CancelActivityResult)(nil),                                   // 20: temporal.api.worker.v1.CancelActivityResult
+	(*EnvironmentInfo_Runtime)(nil),                                // 21: temporal.api.worker.v1.EnvironmentInfo.Runtime
+	(*EnvironmentInfo_HostingEnvironment)(nil),                     // 22: temporal.api.worker.v1.EnvironmentInfo.HostingEnvironment
+	(*EnvironmentInfo_Platform)(nil),                               // 23: temporal.api.worker.v1.EnvironmentInfo.Platform
+	(*EnvironmentInfo_LinuxPlatform)(nil),                          // 24: temporal.api.worker.v1.EnvironmentInfo.LinuxPlatform
+	(*EnvironmentInfo_MacOSPlatform)(nil),                          // 25: temporal.api.worker.v1.EnvironmentInfo.MacOSPlatform
+	(*EnvironmentInfo_WindowsPlatform)(nil),                        // 26: temporal.api.worker.v1.EnvironmentInfo.WindowsPlatform
+	(*timestamppb.Timestamp)(nil),                                  // 27: google.protobuf.Timestamp
+	(*v1.WorkerDeploymentVersion)(nil),                             // 28: temporal.api.deployment.v1.WorkerDeploymentVersion
+	(v11.WorkerStatus)(0),                                          // 29: temporal.api.enums.v1.WorkerStatus
+	(*durationpb.Duration)(nil),                                    // 30: google.protobuf.Duration
+	(*v12.WorkflowExecution)(nil),                                  // 31: temporal.api.common.v1.WorkflowExecution
 }
 var file_temporal_api_worker_v1_message_proto_depIdxs = []int32{
-	24, // 0: temporal.api.worker.v1.WorkerPollerInfo.last_successful_poll_time:type_name -> google.protobuf.Timestamp
-	7,  // 1: temporal.api.worker.v1.WorkerHeartbeat.host_info:type_name -> temporal.api.worker.v1.WorkerHostInfo
-	25, // 2: temporal.api.worker.v1.WorkerHeartbeat.deployment_version:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersion
-	26, // 3: temporal.api.worker.v1.WorkerHeartbeat.status:type_name -> temporal.api.enums.v1.WorkerStatus
-	24, // 4: temporal.api.worker.v1.WorkerHeartbeat.start_time:type_name -> google.protobuf.Timestamp
-	24, // 5: temporal.api.worker.v1.WorkerHeartbeat.heartbeat_time:type_name -> google.protobuf.Timestamp
-	27, // 6: temporal.api.worker.v1.WorkerHeartbeat.elapsed_since_last_heartbeat:type_name -> google.protobuf.Duration
-	6,  // 7: temporal.api.worker.v1.WorkerHeartbeat.workflow_task_slots_info:type_name -> temporal.api.worker.v1.WorkerSlotsInfo
-	6,  // 8: temporal.api.worker.v1.WorkerHeartbeat.activity_task_slots_info:type_name -> temporal.api.worker.v1.WorkerSlotsInfo
-	6,  // 9: temporal.api.worker.v1.WorkerHeartbeat.nexus_task_slots_info:type_name -> temporal.api.worker.v1.WorkerSlotsInfo
-	6,  // 10: temporal.api.worker.v1.WorkerHeartbeat.local_activity_slots_info:type_name -> temporal.api.worker.v1.WorkerSlotsInfo
-	5,  // 11: temporal.api.worker.v1.WorkerHeartbeat.workflow_poller_info:type_name -> temporal.api.worker.v1.WorkerPollerInfo
-	5,  // 12: temporal.api.worker.v1.WorkerHeartbeat.workflow_sticky_poller_info:type_name -> temporal.api.worker.v1.WorkerPollerInfo
-	5,  // 13: temporal.api.worker.v1.WorkerHeartbeat.activity_poller_info:type_name -> temporal.api.worker.v1.WorkerPollerInfo
-	5,  // 14: temporal.api.worker.v1.WorkerHeartbeat.nexus_poller_info:type_name -> temporal.api.worker.v1.WorkerPollerInfo
-	11, // 15: temporal.api.worker.v1.WorkerHeartbeat.plugins:type_name -> temporal.api.worker.v1.PluginInfo
-	12, // 16: temporal.api.worker.v1.WorkerHeartbeat.drivers:type_name -> temporal.api.worker.v1.StorageDriverInfo
-	13, // 17: temporal.api.worker.v1.WorkerHeartbeat.environment:type_name -> temporal.api.worker.v1.EnvironmentInfo
-	8,  // 18: temporal.api.worker.v1.WorkerInfo.worker_heartbeat:type_name -> temporal.api.worker.v1.WorkerHeartbeat
-	25, // 19: temporal.api.worker.v1.WorkerListInfo.deployment_version:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersion
-	26, // 20: temporal.api.worker.v1.WorkerListInfo.status:type_name -> temporal.api.enums.v1.WorkerStatus
-	24, // 21: temporal.api.worker.v1.WorkerListInfo.start_time:type_name -> google.protobuf.Timestamp
-	11, // 22: temporal.api.worker.v1.WorkerListInfo.plugins:type_name -> temporal.api.worker.v1.PluginInfo
-	12, // 23: temporal.api.worker.v1.WorkerListInfo.drivers:type_name -> temporal.api.worker.v1.StorageDriverInfo
-	18, // 24: temporal.api.worker.v1.EnvironmentInfo.runtimes:type_name -> temporal.api.worker.v1.EnvironmentInfo.Runtime
-	19, // 25: temporal.api.worker.v1.EnvironmentInfo.hosting_environments:type_name -> temporal.api.worker.v1.EnvironmentInfo.HostingEnvironment
-	20, // 26: temporal.api.worker.v1.EnvironmentInfo.platform:type_name -> temporal.api.worker.v1.EnvironmentInfo.Platform
-	15, // 27: temporal.api.worker.v1.WorkerCommand.cancel_activity:type_name -> temporal.api.worker.v1.CancelActivityCommand
-	17, // 28: temporal.api.worker.v1.WorkerCommandResult.cancel_activity:type_name -> temporal.api.worker.v1.CancelActivityResult
-	1,  // 29: temporal.api.worker.v1.EnvironmentInfo.Runtime.type:type_name -> temporal.api.worker.v1.EnvironmentInfo.Runtime.RuntimeType
-	2,  // 30: temporal.api.worker.v1.EnvironmentInfo.HostingEnvironment.type:type_name -> temporal.api.worker.v1.EnvironmentInfo.HostingEnvironment.HostingEnvironmentType
-	21, // 31: temporal.api.worker.v1.EnvironmentInfo.Platform.linux:type_name -> temporal.api.worker.v1.EnvironmentInfo.LinuxPlatform
-	22, // 32: temporal.api.worker.v1.EnvironmentInfo.Platform.macos:type_name -> temporal.api.worker.v1.EnvironmentInfo.MacOSPlatform
-	23, // 33: temporal.api.worker.v1.EnvironmentInfo.Platform.windows:type_name -> temporal.api.worker.v1.EnvironmentInfo.WindowsPlatform
-	0,  // 34: temporal.api.worker.v1.EnvironmentInfo.LinuxPlatform.architecture:type_name -> temporal.api.worker.v1.EnvironmentInfo.Architecture
-	3,  // 35: temporal.api.worker.v1.EnvironmentInfo.LinuxPlatform.libc:type_name -> temporal.api.worker.v1.EnvironmentInfo.LinuxPlatform.Libc
-	0,  // 36: temporal.api.worker.v1.EnvironmentInfo.MacOSPlatform.architecture:type_name -> temporal.api.worker.v1.EnvironmentInfo.Architecture
-	0,  // 37: temporal.api.worker.v1.EnvironmentInfo.WindowsPlatform.architecture:type_name -> temporal.api.worker.v1.EnvironmentInfo.Architecture
-	4,  // 38: temporal.api.worker.v1.EnvironmentInfo.WindowsPlatform.crt:type_name -> temporal.api.worker.v1.EnvironmentInfo.WindowsPlatform.Crt
-	39, // [39:39] is the sub-list for method output_type
-	39, // [39:39] is the sub-list for method input_type
-	39, // [39:39] is the sub-list for extension type_name
-	39, // [39:39] is the sub-list for extension extendee
-	0,  // [0:39] is the sub-list for field type_name
+	27, // 0: temporal.api.worker.v1.WorkerPollerInfo.last_successful_poll_time:type_name -> google.protobuf.Timestamp
+	8,  // 1: temporal.api.worker.v1.WorkerHeartbeat.host_info:type_name -> temporal.api.worker.v1.WorkerHostInfo
+	28, // 2: temporal.api.worker.v1.WorkerHeartbeat.deployment_version:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersion
+	29, // 3: temporal.api.worker.v1.WorkerHeartbeat.status:type_name -> temporal.api.enums.v1.WorkerStatus
+	27, // 4: temporal.api.worker.v1.WorkerHeartbeat.start_time:type_name -> google.protobuf.Timestamp
+	27, // 5: temporal.api.worker.v1.WorkerHeartbeat.heartbeat_time:type_name -> google.protobuf.Timestamp
+	30, // 6: temporal.api.worker.v1.WorkerHeartbeat.elapsed_since_last_heartbeat:type_name -> google.protobuf.Duration
+	7,  // 7: temporal.api.worker.v1.WorkerHeartbeat.workflow_task_slots_info:type_name -> temporal.api.worker.v1.WorkerSlotsInfo
+	7,  // 8: temporal.api.worker.v1.WorkerHeartbeat.activity_task_slots_info:type_name -> temporal.api.worker.v1.WorkerSlotsInfo
+	7,  // 9: temporal.api.worker.v1.WorkerHeartbeat.nexus_task_slots_info:type_name -> temporal.api.worker.v1.WorkerSlotsInfo
+	7,  // 10: temporal.api.worker.v1.WorkerHeartbeat.local_activity_slots_info:type_name -> temporal.api.worker.v1.WorkerSlotsInfo
+	6,  // 11: temporal.api.worker.v1.WorkerHeartbeat.workflow_poller_info:type_name -> temporal.api.worker.v1.WorkerPollerInfo
+	6,  // 12: temporal.api.worker.v1.WorkerHeartbeat.workflow_sticky_poller_info:type_name -> temporal.api.worker.v1.WorkerPollerInfo
+	6,  // 13: temporal.api.worker.v1.WorkerHeartbeat.activity_poller_info:type_name -> temporal.api.worker.v1.WorkerPollerInfo
+	6,  // 14: temporal.api.worker.v1.WorkerHeartbeat.nexus_poller_info:type_name -> temporal.api.worker.v1.WorkerPollerInfo
+	12, // 15: temporal.api.worker.v1.WorkerHeartbeat.plugins:type_name -> temporal.api.worker.v1.PluginInfo
+	13, // 16: temporal.api.worker.v1.WorkerHeartbeat.drivers:type_name -> temporal.api.worker.v1.StorageDriverInfo
+	14, // 17: temporal.api.worker.v1.WorkerHeartbeat.environment:type_name -> temporal.api.worker.v1.EnvironmentInfo
+	9,  // 18: temporal.api.worker.v1.WorkerInfo.worker_heartbeat:type_name -> temporal.api.worker.v1.WorkerHeartbeat
+	28, // 19: temporal.api.worker.v1.WorkerListInfo.deployment_version:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersion
+	29, // 20: temporal.api.worker.v1.WorkerListInfo.status:type_name -> temporal.api.enums.v1.WorkerStatus
+	27, // 21: temporal.api.worker.v1.WorkerListInfo.start_time:type_name -> google.protobuf.Timestamp
+	12, // 22: temporal.api.worker.v1.WorkerListInfo.plugins:type_name -> temporal.api.worker.v1.PluginInfo
+	13, // 23: temporal.api.worker.v1.WorkerListInfo.drivers:type_name -> temporal.api.worker.v1.StorageDriverInfo
+	21, // 24: temporal.api.worker.v1.EnvironmentInfo.runtimes:type_name -> temporal.api.worker.v1.EnvironmentInfo.Runtime
+	22, // 25: temporal.api.worker.v1.EnvironmentInfo.hosting_environments:type_name -> temporal.api.worker.v1.EnvironmentInfo.HostingEnvironment
+	23, // 26: temporal.api.worker.v1.EnvironmentInfo.platform:type_name -> temporal.api.worker.v1.EnvironmentInfo.Platform
+	17, // 27: temporal.api.worker.v1.WorkerCommand.cancel_activity:type_name -> temporal.api.worker.v1.CancelActivityCommand
+	16, // 28: temporal.api.worker.v1.WorkerCommand.workflow_heartbeat_notification:type_name -> temporal.api.worker.v1.WorkflowHeartbeatNotificationCommand
+	31, // 29: temporal.api.worker.v1.WorkflowHeartbeatNotificationCommand.execution:type_name -> temporal.api.common.v1.WorkflowExecution
+	20, // 30: temporal.api.worker.v1.WorkerCommandResult.cancel_activity:type_name -> temporal.api.worker.v1.CancelActivityResult
+	19, // 31: temporal.api.worker.v1.WorkerCommandResult.workflow_heartbeat_notification:type_name -> temporal.api.worker.v1.WorkflowHeartbeatNotificationResult
+	5,  // 32: temporal.api.worker.v1.WorkflowHeartbeatNotificationResult.outcome:type_name -> temporal.api.worker.v1.WorkflowHeartbeatNotificationResult.Outcome
+	1,  // 33: temporal.api.worker.v1.EnvironmentInfo.Runtime.type:type_name -> temporal.api.worker.v1.EnvironmentInfo.Runtime.RuntimeType
+	2,  // 34: temporal.api.worker.v1.EnvironmentInfo.HostingEnvironment.type:type_name -> temporal.api.worker.v1.EnvironmentInfo.HostingEnvironment.HostingEnvironmentType
+	24, // 35: temporal.api.worker.v1.EnvironmentInfo.Platform.linux:type_name -> temporal.api.worker.v1.EnvironmentInfo.LinuxPlatform
+	25, // 36: temporal.api.worker.v1.EnvironmentInfo.Platform.macos:type_name -> temporal.api.worker.v1.EnvironmentInfo.MacOSPlatform
+	26, // 37: temporal.api.worker.v1.EnvironmentInfo.Platform.windows:type_name -> temporal.api.worker.v1.EnvironmentInfo.WindowsPlatform
+	0,  // 38: temporal.api.worker.v1.EnvironmentInfo.LinuxPlatform.architecture:type_name -> temporal.api.worker.v1.EnvironmentInfo.Architecture
+	3,  // 39: temporal.api.worker.v1.EnvironmentInfo.LinuxPlatform.libc:type_name -> temporal.api.worker.v1.EnvironmentInfo.LinuxPlatform.Libc
+	0,  // 40: temporal.api.worker.v1.EnvironmentInfo.MacOSPlatform.architecture:type_name -> temporal.api.worker.v1.EnvironmentInfo.Architecture
+	0,  // 41: temporal.api.worker.v1.EnvironmentInfo.WindowsPlatform.architecture:type_name -> temporal.api.worker.v1.EnvironmentInfo.Architecture
+	4,  // 42: temporal.api.worker.v1.EnvironmentInfo.WindowsPlatform.crt:type_name -> temporal.api.worker.v1.EnvironmentInfo.WindowsPlatform.Crt
+	43, // [43:43] is the sub-list for method output_type
+	43, // [43:43] is the sub-list for method input_type
+	43, // [43:43] is the sub-list for extension type_name
+	43, // [43:43] is the sub-list for extension extendee
+	0,  // [0:43] is the sub-list for field type_name
 }
 
 func init() { file_temporal_api_worker_v1_message_proto_init() }
@@ -2196,11 +2422,13 @@ func file_temporal_api_worker_v1_message_proto_init() {
 	}
 	file_temporal_api_worker_v1_message_proto_msgTypes[9].OneofWrappers = []any{
 		(*WorkerCommand_CancelActivity)(nil),
+		(*WorkerCommand_WorkflowHeartbeatNotification)(nil),
 	}
-	file_temporal_api_worker_v1_message_proto_msgTypes[11].OneofWrappers = []any{
+	file_temporal_api_worker_v1_message_proto_msgTypes[12].OneofWrappers = []any{
 		(*WorkerCommandResult_CancelActivity)(nil),
+		(*WorkerCommandResult_WorkflowHeartbeatNotification)(nil),
 	}
-	file_temporal_api_worker_v1_message_proto_msgTypes[15].OneofWrappers = []any{
+	file_temporal_api_worker_v1_message_proto_msgTypes[17].OneofWrappers = []any{
 		(*EnvironmentInfo_Platform_Linux)(nil),
 		(*EnvironmentInfo_Platform_Macos)(nil),
 		(*EnvironmentInfo_Platform_Windows)(nil),
@@ -2210,8 +2438,8 @@ func file_temporal_api_worker_v1_message_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_temporal_api_worker_v1_message_proto_rawDesc), len(file_temporal_api_worker_v1_message_proto_rawDesc)),
-			NumEnums:      5,
-			NumMessages:   19,
+			NumEnums:      6,
+			NumMessages:   21,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
