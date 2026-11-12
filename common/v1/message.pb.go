@@ -1630,6 +1630,7 @@ func (x *OnConflictOptions) GetAttachLinks() bool {
 // but a parent's fast_forward won't affect its child's execution. A flag is provided to disable propagation of the
 // "enabled" flag to child workflows; regardless of that flag, a child workflow inherits the virtual time from the
 // parent execution as its start time.
+// Experimental. Might change in the future.
 type TimeSkippingConfig struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Enables or disables time skipping for this workflow execution.
@@ -1714,6 +1715,8 @@ func (x *TimeSkippingConfig) GetMaxSessionSkipCount() int32 {
 	return 0
 }
 
+// Controls a time-skipping fast-forward for an execution.
+// Experimental. Might change in the future.
 type FastForwardConfig struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// A client-supplied ID, required field, set alongside `duration`. It is used to poll for
@@ -1780,6 +1783,7 @@ func (x *FastForwardConfig) GetDuration() *durationpb.Duration {
 
 // The time-skipping state that needs to be propagated from one execution to another, or through a chain of runs
 // within the same execution.
+// Experimental. Might change in the future.
 type TimeSkippingStatePropagation struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// The time skipped by the previous run. It is propagated both to executions started by the
@@ -1845,6 +1849,7 @@ func (x *TimeSkippingStatePropagation) GetInitialSkipCount() int32 {
 }
 
 // Describes the current time-skipping state of a workflow execution.
+// Experimental. Might change in the future.
 type TimeSkippingInfo struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Current virtual time of the execution. If the execution hasn't skipped
@@ -1923,6 +1928,7 @@ func (x *TimeSkippingInfo) GetCurrentSessionSkipCount() int32 {
 }
 
 // TimeSkippingFastForwardInfo describes the current time-skipping fast-forward on an execution.
+// Experimental. Might change in the future.
 type TimeSkippingFastForwardInfo struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// The client-supplied `fast_forward` duration.

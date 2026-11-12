@@ -30,6 +30,9 @@ const (
 	NAMESPACE_STATE_REGISTERED  NamespaceState = 1
 	NAMESPACE_STATE_DEPRECATED  NamespaceState = 2
 	NAMESPACE_STATE_DELETED     NamespaceState = 3
+	// Set by OperatorService.SoftDeleteNamespace. Executions make no progress, but no data is
+	// removed until the namespace is restored or deleted.
+	NAMESPACE_STATE_SOFT_DELETED NamespaceState = 4
 )
 
 // Enum value maps for NamespaceState.
@@ -39,12 +42,14 @@ var (
 		1: "NAMESPACE_STATE_REGISTERED",
 		2: "NAMESPACE_STATE_DEPRECATED",
 		3: "NAMESPACE_STATE_DELETED",
+		4: "NAMESPACE_STATE_SOFT_DELETED",
 	}
 	NamespaceState_value = map[string]int32{
-		"NAMESPACE_STATE_UNSPECIFIED": 0,
-		"NAMESPACE_STATE_REGISTERED":  1,
-		"NAMESPACE_STATE_DEPRECATED":  2,
-		"NAMESPACE_STATE_DELETED":     3,
+		"NAMESPACE_STATE_UNSPECIFIED":  0,
+		"NAMESPACE_STATE_REGISTERED":   1,
+		"NAMESPACE_STATE_DEPRECATED":   2,
+		"NAMESPACE_STATE_DELETED":      3,
+		"NAMESPACE_STATE_SOFT_DELETED": 4,
 	}
 )
 
@@ -64,6 +69,8 @@ func (x NamespaceState) String() string {
 		return "Deprecated"
 	case NAMESPACE_STATE_DELETED:
 		return "Deleted"
+	case NAMESPACE_STATE_SOFT_DELETED:
+		return "SoftDeleted"
 	default:
 		return strconv.Itoa(int(x))
 	}
@@ -85,6 +92,71 @@ func (x NamespaceState) Number() protoreflect.EnumNumber {
 // Deprecated: Use NamespaceState.Descriptor instead.
 func (NamespaceState) EnumDescriptor() ([]byte, []int) {
 	return file_temporal_api_enums_v1_namespace_proto_rawDescGZIP(), []int{0}
+}
+
+// State of a restore started by OperatorService.RestoreNamespace.
+type NamespaceRestoreState int32
+
+const (
+	NAMESPACE_RESTORE_STATE_UNSPECIFIED NamespaceRestoreState = 0
+	NAMESPACE_RESTORE_STATE_RUNNING     NamespaceRestoreState = 1
+	NAMESPACE_RESTORE_STATE_COMPLETED   NamespaceRestoreState = 2
+	NAMESPACE_RESTORE_STATE_FAILED      NamespaceRestoreState = 3
+)
+
+// Enum value maps for NamespaceRestoreState.
+var (
+	NamespaceRestoreState_name = map[int32]string{
+		0: "NAMESPACE_RESTORE_STATE_UNSPECIFIED",
+		1: "NAMESPACE_RESTORE_STATE_RUNNING",
+		2: "NAMESPACE_RESTORE_STATE_COMPLETED",
+		3: "NAMESPACE_RESTORE_STATE_FAILED",
+	}
+	NamespaceRestoreState_value = map[string]int32{
+		"NAMESPACE_RESTORE_STATE_UNSPECIFIED": 0,
+		"NAMESPACE_RESTORE_STATE_RUNNING":     1,
+		"NAMESPACE_RESTORE_STATE_COMPLETED":   2,
+		"NAMESPACE_RESTORE_STATE_FAILED":      3,
+	}
+)
+
+func (x NamespaceRestoreState) Enum() *NamespaceRestoreState {
+	p := new(NamespaceRestoreState)
+	*p = x
+	return p
+}
+
+func (x NamespaceRestoreState) String() string {
+	switch x {
+	case NAMESPACE_RESTORE_STATE_UNSPECIFIED:
+		return "Unspecified"
+	case NAMESPACE_RESTORE_STATE_RUNNING:
+		return "Running"
+	case NAMESPACE_RESTORE_STATE_COMPLETED:
+		return "Completed"
+	case NAMESPACE_RESTORE_STATE_FAILED:
+		return "Failed"
+	default:
+		return strconv.Itoa(int(x))
+	}
+
+}
+
+func (NamespaceRestoreState) Descriptor() protoreflect.EnumDescriptor {
+	return file_temporal_api_enums_v1_namespace_proto_enumTypes[1].Descriptor()
+}
+
+func (NamespaceRestoreState) Type() protoreflect.EnumType {
+	return &file_temporal_api_enums_v1_namespace_proto_enumTypes[1]
+}
+
+func (x NamespaceRestoreState) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use NamespaceRestoreState.Descriptor instead.
+func (NamespaceRestoreState) EnumDescriptor() ([]byte, []int) {
+	return file_temporal_api_enums_v1_namespace_proto_rawDescGZIP(), []int{1}
 }
 
 type ArchivalState int32
@@ -130,11 +202,11 @@ func (x ArchivalState) String() string {
 }
 
 func (ArchivalState) Descriptor() protoreflect.EnumDescriptor {
-	return file_temporal_api_enums_v1_namespace_proto_enumTypes[1].Descriptor()
+	return file_temporal_api_enums_v1_namespace_proto_enumTypes[2].Descriptor()
 }
 
 func (ArchivalState) Type() protoreflect.EnumType {
-	return &file_temporal_api_enums_v1_namespace_proto_enumTypes[1]
+	return &file_temporal_api_enums_v1_namespace_proto_enumTypes[2]
 }
 
 func (x ArchivalState) Number() protoreflect.EnumNumber {
@@ -143,7 +215,7 @@ func (x ArchivalState) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use ArchivalState.Descriptor instead.
 func (ArchivalState) EnumDescriptor() ([]byte, []int) {
-	return file_temporal_api_enums_v1_namespace_proto_rawDescGZIP(), []int{1}
+	return file_temporal_api_enums_v1_namespace_proto_rawDescGZIP(), []int{2}
 }
 
 type ReplicationState int32
@@ -189,11 +261,11 @@ func (x ReplicationState) String() string {
 }
 
 func (ReplicationState) Descriptor() protoreflect.EnumDescriptor {
-	return file_temporal_api_enums_v1_namespace_proto_enumTypes[2].Descriptor()
+	return file_temporal_api_enums_v1_namespace_proto_enumTypes[3].Descriptor()
 }
 
 func (ReplicationState) Type() protoreflect.EnumType {
-	return &file_temporal_api_enums_v1_namespace_proto_enumTypes[2]
+	return &file_temporal_api_enums_v1_namespace_proto_enumTypes[3]
 }
 
 func (x ReplicationState) Number() protoreflect.EnumNumber {
@@ -202,19 +274,25 @@ func (x ReplicationState) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use ReplicationState.Descriptor instead.
 func (ReplicationState) EnumDescriptor() ([]byte, []int) {
-	return file_temporal_api_enums_v1_namespace_proto_rawDescGZIP(), []int{2}
+	return file_temporal_api_enums_v1_namespace_proto_rawDescGZIP(), []int{3}
 }
 
 var File_temporal_api_enums_v1_namespace_proto protoreflect.FileDescriptor
 
 const file_temporal_api_enums_v1_namespace_proto_rawDesc = "" +
 	"\n" +
-	"%temporal/api/enums/v1/namespace.proto\x12\x15temporal.api.enums.v1*\x8e\x01\n" +
+	"%temporal/api/enums/v1/namespace.proto\x12\x15temporal.api.enums.v1*\xb0\x01\n" +
 	"\x0eNamespaceState\x12\x1f\n" +
 	"\x1bNAMESPACE_STATE_UNSPECIFIED\x10\x00\x12\x1e\n" +
 	"\x1aNAMESPACE_STATE_REGISTERED\x10\x01\x12\x1e\n" +
 	"\x1aNAMESPACE_STATE_DEPRECATED\x10\x02\x12\x1b\n" +
-	"\x17NAMESPACE_STATE_DELETED\x10\x03*h\n" +
+	"\x17NAMESPACE_STATE_DELETED\x10\x03\x12 \n" +
+	"\x1cNAMESPACE_STATE_SOFT_DELETED\x10\x04*\xb0\x01\n" +
+	"\x15NamespaceRestoreState\x12'\n" +
+	"#NAMESPACE_RESTORE_STATE_UNSPECIFIED\x10\x00\x12#\n" +
+	"\x1fNAMESPACE_RESTORE_STATE_RUNNING\x10\x01\x12%\n" +
+	"!NAMESPACE_RESTORE_STATE_COMPLETED\x10\x02\x12\"\n" +
+	"\x1eNAMESPACE_RESTORE_STATE_FAILED\x10\x03*h\n" +
 	"\rArchivalState\x12\x1e\n" +
 	"\x1aARCHIVAL_STATE_UNSPECIFIED\x10\x00\x12\x1b\n" +
 	"\x17ARCHIVAL_STATE_DISABLED\x10\x01\x12\x1a\n" +
@@ -237,11 +315,12 @@ func file_temporal_api_enums_v1_namespace_proto_rawDescGZIP() []byte {
 	return file_temporal_api_enums_v1_namespace_proto_rawDescData
 }
 
-var file_temporal_api_enums_v1_namespace_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
+var file_temporal_api_enums_v1_namespace_proto_enumTypes = make([]protoimpl.EnumInfo, 4)
 var file_temporal_api_enums_v1_namespace_proto_goTypes = []any{
-	(NamespaceState)(0),   // 0: temporal.api.enums.v1.NamespaceState
-	(ArchivalState)(0),    // 1: temporal.api.enums.v1.ArchivalState
-	(ReplicationState)(0), // 2: temporal.api.enums.v1.ReplicationState
+	(NamespaceState)(0),        // 0: temporal.api.enums.v1.NamespaceState
+	(NamespaceRestoreState)(0), // 1: temporal.api.enums.v1.NamespaceRestoreState
+	(ArchivalState)(0),         // 2: temporal.api.enums.v1.ArchivalState
+	(ReplicationState)(0),      // 3: temporal.api.enums.v1.ReplicationState
 }
 var file_temporal_api_enums_v1_namespace_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for method output_type
@@ -261,7 +340,7 @@ func file_temporal_api_enums_v1_namespace_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_temporal_api_enums_v1_namespace_proto_rawDesc), len(file_temporal_api_enums_v1_namespace_proto_rawDesc)),
-			NumEnums:      3,
+			NumEnums:      4,
 			NumMessages:   0,
 			NumExtensions: 0,
 			NumServices:   0,

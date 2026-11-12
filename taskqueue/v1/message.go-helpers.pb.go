@@ -79,6 +79,43 @@ func (this *TaskQueueMetadata) Equal(that interface{}) bool {
 	return proto.Equal(this, that1)
 }
 
+// Marshal an object of type PollerPoolInfo to the protobuf v3 wire format
+func (val *PollerPoolInfo) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type PollerPoolInfo from the protobuf v3 wire format
+func (val *PollerPoolInfo) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *PollerPoolInfo) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two PollerPoolInfo values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *PollerPoolInfo) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *PollerPoolInfo
+	switch t := that.(type) {
+	case *PollerPoolInfo:
+		that1 = t
+	case PollerPoolInfo:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
 // Marshal an object of type TaskQueueVersioningInfo to the protobuf v3 wire format
 func (val *TaskQueueVersioningInfo) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
@@ -893,6 +930,43 @@ func (this *RateLimit) Equal(that interface{}) bool {
 	return proto.Equal(this, that1)
 }
 
+// Marshal an object of type ConcurrencyLimit to the protobuf v3 wire format
+func (val *ConcurrencyLimit) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type ConcurrencyLimit from the protobuf v3 wire format
+func (val *ConcurrencyLimit) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *ConcurrencyLimit) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two ConcurrencyLimit values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *ConcurrencyLimit) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *ConcurrencyLimit
+	switch t := that.(type) {
+	case *ConcurrencyLimit:
+		that1 = t
+	case ConcurrencyLimit:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
 // Marshal an object of type ConfigMetadata to the protobuf v3 wire format
 func (val *ConfigMetadata) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
@@ -959,6 +1033,43 @@ func (this *RateLimitConfig) Equal(that interface{}) bool {
 	case *RateLimitConfig:
 		that1 = t
 	case RateLimitConfig:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type ConcurrencyLimitConfig to the protobuf v3 wire format
+func (val *ConcurrencyLimitConfig) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type ConcurrencyLimitConfig from the protobuf v3 wire format
+func (val *ConcurrencyLimitConfig) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *ConcurrencyLimitConfig) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two ConcurrencyLimitConfig values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *ConcurrencyLimitConfig) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *ConcurrencyLimitConfig
+	switch t := that.(type) {
+	case *ConcurrencyLimitConfig:
+		that1 = t
+	case ConcurrencyLimitConfig:
 		that1 = &t
 	default:
 		return false

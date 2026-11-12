@@ -37,6 +37,7 @@ type postProcessor interface {
 }
 
 type genConfig struct {
+	protocPath           string
 	rootDirs             []string
 	outputDir            string
 	excludeDirs          []string
@@ -146,7 +147,7 @@ func runProtoc(ctx context.Context, cfg genConfig, protoDirs []string) error {
 	}
 
 	var stderr bytes.Buffer
-	protoc := exec.CommandContext(ctx, "protoc", args...)
+	protoc := exec.CommandContext(ctx, cfg.protocPath, args...)
 	protoc.Stderr = &stderr
 	protoc.Stdout = os.Stdout
 	if err := protoc.Run(); err != nil {
@@ -154,7 +155,7 @@ func runProtoc(ctx context.Context, cfg genConfig, protoDirs []string) error {
 			return err
 		}
 		stderrstr := strings.TrimSpace(stderr.String())
-		return fmt.Errorf("failed to run `protoc %s`: %w\n%s", strings.Join(args, " "), err, stderrstr)
+		return fmt.Errorf("failed to run `%s %s`: %w\n%s", cfg.protocPath, strings.Join(args, " "), err, stderrstr)
 	}
 	return nil
 }
@@ -243,10 +244,11 @@ func sliceContains[S ~[]E, E comparable](haystack S, needle E) bool {
 }
 
 func main() {
-	var outputDir, enumPrefixPairs, outputDescriptorPath string
+	var protocPath, outputDir, enumPrefixPairs, outputDescriptorPath string
 	var protoRootDirs, protoPlugins, protoIncludes, descriptorSetIn, excludeDirs stringArr
 	var noRewriteString, noRewriteEnum, noStripVersion bool
 	var concurrency int
+	flag.StringVar(&protocPath, "protoc-path", "protoc", "Path to the protoc executable")
 	flag.Var(&protoRootDirs, "root", "Root directories containing the protos to generate code for")
 	flag.StringVar(&outputDir, "output", "api", "Base directory in which to output generated proto files")
 	flag.Var(&protoIncludes, "I", "Directory to include when compiling protos")
@@ -292,6 +294,7 @@ func main() {
 		}
 	}
 	err := compileProtos(ctx, genConfig{
+		protocPath:           protocPath,
 		rootDirs:             protoRootDirs,
 		outputDir:            outputDir,
 		excludeDirs:          excludeDirs,

@@ -22,6 +22,7 @@ import (
 	_ "go.temporal.io/api/filter/v1"
 	"go.temporal.io/api/history/v1"
 	_ "go.temporal.io/api/namespace/v1"
+	"go.temporal.io/api/notificationservice/v1"
 	"go.temporal.io/api/protocol/v1"
 	_ "go.temporal.io/api/query/v1"
 	_ "go.temporal.io/api/schedule/v1"
@@ -1141,6 +1142,79 @@ func TestVisitPayloadsConcurrent(t *testing.T) {
 	require.Equal(t, []byte("visited-map-k1"), startedAttrs.Header.Fields["k1"].Data)
 	require.Equal(t, []byte("visited-map-k2"), startedAttrs.Header.Fields["k2"].Data)
 	require.Equal(t, []byte("visited-nexus-input"), nexusAttrs.Input.Data)
+}
+
+// TestVisitPayloadsConcurrentOneofPayload pins that a payload held directly in a
+// oneof gets the visitor's result written back when visiting concurrently, as a
+// plain payload field does. A visitor that runs after the oneof is reassigned
+// from a copy would leave the original payload in place.
+func TestVisitPayloadsConcurrentOneofPayload(t *testing.T) {
+	tests := []struct {
+		name string
+		msg  proto.Message
+		get  func(proto.Message) *common.Payload
+	}{
+		{
+			name: "DescribeNexusOperationExecutionResponse.result",
+			msg: &workflowservice.DescribeNexusOperationExecutionResponse{
+				Outcome: &workflowservice.DescribeNexusOperationExecutionResponse_Result{
+					Result: &common.Payload{Data: []byte("result")},
+				},
+			},
+			get: func(m proto.Message) *common.Payload {
+				return m.(*workflowservice.DescribeNexusOperationExecutionResponse).GetResult()
+			},
+		},
+		{
+			name: "PollNexusOperationExecutionResponse.result",
+			msg: &workflowservice.PollNexusOperationExecutionResponse{
+				Outcome: &workflowservice.PollNexusOperationExecutionResponse_Result{
+					Result: &common.Payload{Data: []byte("result")},
+				},
+			},
+			get: func(m proto.Message) *common.Payload {
+				return m.(*workflowservice.PollNexusOperationExecutionResponse).GetResult()
+			},
+		},
+		{
+			name: "OnCompleteRequest.success",
+			msg: &notificationservice.OnCompleteRequest{
+				Result: &notificationservice.OnCompleteRequest_Success{
+					Success: &common.Payload{Data: []byte("result")},
+				},
+			},
+			get: func(m proto.Message) *common.Payload {
+				return m.(*notificationservice.OnCompleteRequest).GetSuccess()
+			},
+		},
+	}
+
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			// The visitor waits for release, which is closed only once the walk has
+			// returned, so its result always arrives after the walk is done, as a
+			// visitor doing real work would.
+			release := make(chan struct{})
+			options := VisitPayloadsOptions{
+				ConcurrencyLimit: 4,
+				Visitor: func(ctx *VisitPayloadsContext, p []*common.Payload) ([]*common.Payload, error) {
+					<-release
+					return []*common.Payload{{Data: append([]byte("visited-"), p[0].Data...)}}, nil
+				},
+			}
+			c := &payloadConcurrencyState{sem: make(chan struct{}, options.ConcurrencyLimit)}
+			visitCtx := VisitPayloadsContext{Context: context.Background(), Parent: tc.msg}
+
+			// visitPayloads starts the visitor and returns without waiting for it.
+			err := visitPayloads(&visitCtx, &options, nil, c, tc.msg)
+			close(release)
+			c.wg.Wait()
+
+			require.NoError(t, err)
+			require.Nil(t, c.firstErr.Load())
+			require.Equal(t, []byte("visited-result"), tc.get(tc.msg).GetData())
+		})
+	}
 }
 
 func TestVisitPayloadsConcurrentMaxInflight(t *testing.T) {
