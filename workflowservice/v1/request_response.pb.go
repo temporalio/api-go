@@ -12447,12 +12447,10 @@ type UpdateWorkflowExecutionOptionsResponse struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Workflow Execution options after update.
 	WorkflowExecutionOptions *v17.WorkflowExecutionOptions `protobuf:"bytes,1,opt,name=workflow_execution_options,json=workflowExecutionOptions,proto3" json:"workflow_execution_options,omitempty"`
-	// Experimental.
-	// The Workflow Execution time when the options were updated. When time skipping is
-	// enabled, this is the workflow's virtual time rather than wall-clock time.
-	//
-	// This timestamp cannot be used for time-skipping fast-forward verification,
+	// Deprecated. Not populated by the server; for time-skipping fast-forward verification,
 	// use `fast_forward_id` in `PollWorkflowExecutionTimeSkippingRequest` instead.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
 	UpdateTime    *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=update_time,json=updateTime,proto3" json:"update_time,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -12495,6 +12493,7 @@ func (x *UpdateWorkflowExecutionOptionsResponse) GetWorkflowExecutionOptions() *
 	return nil
 }
 
+// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
 func (x *UpdateWorkflowExecutionOptionsResponse) GetUpdateTime() *timestamppb.Timestamp {
 	if x != nil {
 		return x.UpdateTime
@@ -21896,10 +21895,10 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\x1aworkflow_execution_options\x18\x03 \x01(\v22.temporal.api.workflow.v1.WorkflowExecutionOptionsR\x18workflowExecutionOptions\x12;\n" +
 	"\vupdate_mask\x18\x04 \x01(\v2\x1a.google.protobuf.FieldMaskR\n" +
 	"updateMask\x12\x1a\n" +
-	"\bidentity\x18\x05 \x01(\tR\bidentity\"\xd7\x01\n" +
+	"\bidentity\x18\x05 \x01(\tR\bidentity\"\xdb\x01\n" +
 	"&UpdateWorkflowExecutionOptionsResponse\x12p\n" +
-	"\x1aworkflow_execution_options\x18\x01 \x01(\v22.temporal.api.workflow.v1.WorkflowExecutionOptionsR\x18workflowExecutionOptions\x12;\n" +
-	"\vupdate_time\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\n" +
+	"\x1aworkflow_execution_options\x18\x01 \x01(\v22.temporal.api.workflow.v1.WorkflowExecutionOptionsR\x18workflowExecutionOptions\x12?\n" +
+	"\vupdate_time\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampB\x02\x18\x01R\n" +
 	"updateTime\"\x81\x01\n" +
 	"\x19DescribeDeploymentRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12F\n" +
