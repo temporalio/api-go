@@ -141,11 +141,11 @@ func (*ActivityExecutionOutcome_Failure) isActivityExecutionOutcome_Value() {}
 // `ActivityOptions.schedule_to_close_timeout` bounds. Positive heartbeat timeouts are capped by
 // their phase timeout and those positive bounds. The server stores and returns normalized values.
 // Increasing a bound does not restore a capped value unless that value is also updated.
-type AsyncHandoffOptions struct {
+type HandoffOptions struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Maximum time from the current worker pickup until the server durably accepts handoff. Unset
 	// or zero disables this timeout. On timeout, the server retries according to
-	// `AsyncHandoffOptions.retry_policy`.
+	// `HandoffOptions.retry_policy`.
 	//
 	// (-- api-linter: core::0140::prepositions=disabled
 	//
@@ -164,31 +164,31 @@ type AsyncHandoffOptions struct {
 	// and applies only after handoff.
 	HeartbeatTimeout *durationpb.Duration `protobuf:"bytes,3,opt,name=heartbeat_timeout,json=heartbeatTimeout,proto3" json:"heartbeat_timeout,omitempty"`
 	// Retry policy for failures and heartbeat or start-to-handoff timeouts before accepted handoff.
-	// Retries increment `ActivityExecutionInfo.handoff_attempt` without incrementing
-	// `ActivityExecutionInfo.attempt`. Exhausting this policy does not fall back to
+	// Retries increment `PollActivityTaskQueueResponse.handoff_attempt` without incrementing
+	// `PollActivityTaskQueueResponse.attempt`. Exhausting this policy does not fall back to
 	// `ActivityOptions.retry_policy`. If omitted, uses the namespace's default activity retry
 	// policy, independently of `ActivityOptions.retry_policy`.
 	// To change `RetryPolicy.non_retryable_error_types`, replace
-	// `async_handoff_options.retry_policy` as a whole in the update mask.
+	// `handoff_options.retry_policy` as a whole in the update mask.
 	RetryPolicy   *v11.RetryPolicy `protobuf:"bytes,4,opt,name=retry_policy,json=retryPolicy,proto3" json:"retry_policy,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *AsyncHandoffOptions) Reset() {
-	*x = AsyncHandoffOptions{}
+func (x *HandoffOptions) Reset() {
+	*x = HandoffOptions{}
 	mi := &file_temporal_api_activity_v1_message_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *AsyncHandoffOptions) String() string {
+func (x *HandoffOptions) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*AsyncHandoffOptions) ProtoMessage() {}
+func (*HandoffOptions) ProtoMessage() {}
 
-func (x *AsyncHandoffOptions) ProtoReflect() protoreflect.Message {
+func (x *HandoffOptions) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_activity_v1_message_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -200,33 +200,33 @@ func (x *AsyncHandoffOptions) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use AsyncHandoffOptions.ProtoReflect.Descriptor instead.
-func (*AsyncHandoffOptions) Descriptor() ([]byte, []int) {
+// Deprecated: Use HandoffOptions.ProtoReflect.Descriptor instead.
+func (*HandoffOptions) Descriptor() ([]byte, []int) {
 	return file_temporal_api_activity_v1_message_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *AsyncHandoffOptions) GetStartToHandoffTimeout() *durationpb.Duration {
+func (x *HandoffOptions) GetStartToHandoffTimeout() *durationpb.Duration {
 	if x != nil {
 		return x.StartToHandoffTimeout
 	}
 	return nil
 }
 
-func (x *AsyncHandoffOptions) GetHandoffToCloseTimeout() *durationpb.Duration {
+func (x *HandoffOptions) GetHandoffToCloseTimeout() *durationpb.Duration {
 	if x != nil {
 		return x.HandoffToCloseTimeout
 	}
 	return nil
 }
 
-func (x *AsyncHandoffOptions) GetHeartbeatTimeout() *durationpb.Duration {
+func (x *HandoffOptions) GetHeartbeatTimeout() *durationpb.Duration {
 	if x != nil {
 		return x.HeartbeatTimeout
 	}
 	return nil
 }
 
-func (x *AsyncHandoffOptions) GetRetryPolicy() *v11.RetryPolicy {
+func (x *HandoffOptions) GetRetryPolicy() *v11.RetryPolicy {
 	if x != nil {
 		return x.RetryPolicy
 	}
@@ -238,7 +238,7 @@ type ActivityOptions struct {
 	TaskQueue *v13.TaskQueue         `protobuf:"bytes,1,opt,name=task_queue,json=taskQueue,proto3" json:"task_queue,omitempty"`
 	// Indicates how long the caller is willing to wait for an activity completion. Limits how long
 	// retries will be attempted. Either this or `start_to_close_timeout` must be specified,
-	// unless `ActivityOptions.async_handoff_options` provides both phase timeouts.
+	// unless `ActivityOptions.handoff_options` provides both phase timeouts.
 	//
 	// (-- api-linter: core::0140::prepositions=disabled
 	//
@@ -247,7 +247,7 @@ type ActivityOptions struct {
 	// Limits time an activity task can stay in a task queue before a worker picks it up. This
 	// timeout is always non retryable, as all a retry would achieve is to put it back into the same
 	// queue. Defaults to `schedule_to_close_timeout` or workflow execution timeout if not
-	// specified. With `async_handoff_options` set, defaults to a positive
+	// specified. With `handoff_options` set, defaults to a positive
 	// `schedule_to_close_timeout`, otherwise remains disabled.
 	//
 	// (-- api-linter: core::0140::prepositions=disabled
@@ -256,8 +256,8 @@ type ActivityOptions struct {
 	ScheduleToStartTimeout *durationpb.Duration `protobuf:"bytes,3,opt,name=schedule_to_start_timeout,json=scheduleToStartTimeout,proto3" json:"schedule_to_start_timeout,omitempty"`
 	// Maximum time an activity is allowed to execute after being picked up by a worker. This
 	// timeout is always retryable. Either this or `schedule_to_close_timeout` must be specified,
-	// unless `ActivityOptions.async_handoff_options` provides both phase timeouts.
-	// When `ActivityOptions.async_handoff_options` is present, the start-to-close timeout runs from
+	// unless `ActivityOptions.handoff_options` provides both phase timeouts.
+	// When `ActivityOptions.handoff_options` is present, the start-to-close timeout runs from
 	// the first worker pickup of the activity attempt across both phases, handoff retries, backoff, and
 	// queue waits.
 	//
@@ -266,14 +266,14 @@ type ActivityOptions struct {
 	//	aip.dev/not-precedent: "to" is used to indicate interval. --)
 	StartToCloseTimeout *durationpb.Duration `protobuf:"bytes,4,opt,name=start_to_close_timeout,json=startToCloseTimeout,proto3" json:"start_to_close_timeout,omitempty"`
 	// Maximum permitted time between successful worker heartbeats.
-	// When `ActivityOptions.async_handoff_options` is present, the activity heartbeat timeout
+	// When `ActivityOptions.handoff_options` is present, the activity heartbeat timeout
 	// applies after handoff, starting at accepted handoff.
-	// Before handoff, use `AsyncHandoffOptions.heartbeat_timeout`.
+	// Before handoff, use `HandoffOptions.heartbeat_timeout`.
 	HeartbeatTimeout *durationpb.Duration `protobuf:"bytes,5,opt,name=heartbeat_timeout,json=heartbeatTimeout,proto3" json:"heartbeat_timeout,omitempty"`
 	// The retry policy for the activity. Will never exceed `schedule_to_close_timeout`.
-	// When `ActivityOptions.async_handoff_options` is present, this policy handles post-handoff failures
+	// When `ActivityOptions.handoff_options` is present, this policy handles post-handoff failures
 	// and timeouts, plus start-to-close timeouts in either phase. Other pre-handoff failures use
-	// `AsyncHandoffOptions.retry_policy`.
+	// `HandoffOptions.retry_policy`.
 	RetryPolicy *v11.RetryPolicy `protobuf:"bytes,6,opt,name=retry_policy,json=retryPolicy,proto3" json:"retry_policy,omitempty"`
 	// Priority metadata. If this message is not present, or any fields are not
 	// present, they inherit the values from the workflow.
@@ -283,9 +283,9 @@ type ActivityOptions struct {
 	// If the resulting time is in the past, the task is made available for dispatch immediately.
 	StartDelay *durationpb.Duration `protobuf:"bytes,8,opt,name=start_delay,json=startDelay,proto3" json:"start_delay,omitempty"`
 	// Two-phase timeout and retry settings.
-	AsyncHandoffOptions *AsyncHandoffOptions `protobuf:"bytes,9,opt,name=async_handoff_options,json=asyncHandoffOptions,proto3" json:"async_handoff_options,omitempty"`
-	unknownFields       protoimpl.UnknownFields
-	sizeCache           protoimpl.SizeCache
+	HandoffOptions *HandoffOptions `protobuf:"bytes,9,opt,name=handoff_options,json=handoffOptions,proto3" json:"handoff_options,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *ActivityOptions) Reset() {
@@ -374,9 +374,9 @@ func (x *ActivityOptions) GetStartDelay() *durationpb.Duration {
 	return nil
 }
 
-func (x *ActivityOptions) GetAsyncHandoffOptions() *AsyncHandoffOptions {
+func (x *ActivityOptions) GetHandoffOptions() *HandoffOptions {
 	if x != nil {
-		return x.AsyncHandoffOptions
+		return x.HandoffOptions
 	}
 	return nil
 }
@@ -507,7 +507,7 @@ type ActivityExecutionInfo struct {
 	// Authenticated principal of the worker that most recently interacted with this activity execution.
 	LastWorkerPrincipal *v11.ResolvedPrincipal `protobuf:"bytes,43,opt,name=last_worker_principal,json=lastWorkerPrincipal,proto3" json:"last_worker_principal,omitempty"`
 	// Handoff attempt within the current activity attempt. Starts at 1 when
-	// `ActivityExecutionInfo.async_handoff_options` are configured at creation or added by update.
+	// `ActivityExecutionInfo.handoff_options` are configured at creation or added by update.
 	// Increments on handoff retries and resets to 1 on an activity retry or applied reset.
 	// Zero when options are absent.
 	HandoffAttempt int32 `protobuf:"varint,44,opt,name=handoff_attempt,json=handoffAttempt,proto3" json:"handoff_attempt,omitempty"`
@@ -520,9 +520,9 @@ type ActivityExecutionInfo struct {
 	// pending pause, cancel, or reset requests do not clear it.
 	AwaitingCompletion bool `protobuf:"varint,46,opt,name=awaiting_completion,json=awaitingCompletion,proto3" json:"awaiting_completion,omitempty"`
 	// Server-normalized and defaulted handoff options, if configured.
-	AsyncHandoffOptions *AsyncHandoffOptions `protobuf:"bytes,47,opt,name=async_handoff_options,json=asyncHandoffOptions,proto3" json:"async_handoff_options,omitempty"`
-	unknownFields       protoimpl.UnknownFields
-	sizeCache           protoimpl.SizeCache
+	HandoffOptions *HandoffOptions `protobuf:"bytes,47,opt,name=handoff_options,json=handoffOptions,proto3" json:"handoff_options,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *ActivityExecutionInfo) Reset() {
@@ -877,9 +877,9 @@ func (x *ActivityExecutionInfo) GetAwaitingCompletion() bool {
 	return false
 }
 
-func (x *ActivityExecutionInfo) GetAsyncHandoffOptions() *AsyncHandoffOptions {
+func (x *ActivityExecutionInfo) GetHandoffOptions() *HandoffOptions {
 	if x != nil {
-		return x.AsyncHandoffOptions
+		return x.HandoffOptions
 	}
 	return nil
 }
@@ -1202,12 +1202,12 @@ const file_temporal_api_activity_v1_message_proto_rawDesc = "" +
 	"\afailure\x18\x02 \x01(\v2 .temporal.api.failure.v1.FailureH\x00R\afailure\x12B\n" +
 	"\vretry_state\x18\x03 \x01(\x0e2!.temporal.api.enums.v1.RetryStateR\n" +
 	"retryStateB\a\n" +
-	"\x05value\"\xcd\x02\n" +
-	"\x13AsyncHandoffOptions\x12R\n" +
+	"\x05value\"\xc8\x02\n" +
+	"\x0eHandoffOptions\x12R\n" +
 	"\x18start_to_handoff_timeout\x18\x01 \x01(\v2\x19.google.protobuf.DurationR\x15startToHandoffTimeout\x12R\n" +
 	"\x18handoff_to_close_timeout\x18\x02 \x01(\v2\x19.google.protobuf.DurationR\x15handoffToCloseTimeout\x12F\n" +
 	"\x11heartbeat_timeout\x18\x03 \x01(\v2\x19.google.protobuf.DurationR\x10heartbeatTimeout\x12F\n" +
-	"\fretry_policy\x18\x04 \x01(\v2#.temporal.api.common.v1.RetryPolicyR\vretryPolicy\"\xbf\x05\n" +
+	"\fretry_policy\x18\x04 \x01(\v2#.temporal.api.common.v1.RetryPolicyR\vretryPolicy\"\xaf\x05\n" +
 	"\x0fActivityOptions\x12C\n" +
 	"\n" +
 	"task_queue\x18\x01 \x01(\v2$.temporal.api.taskqueue.v1.TaskQueueR\ttaskQueue\x12T\n" +
@@ -1218,8 +1218,8 @@ const file_temporal_api_activity_v1_message_proto_rawDesc = "" +
 	"\fretry_policy\x18\x06 \x01(\v2#.temporal.api.common.v1.RetryPolicyR\vretryPolicy\x12<\n" +
 	"\bpriority\x18\a \x01(\v2 .temporal.api.common.v1.PriorityR\bpriority\x12:\n" +
 	"\vstart_delay\x18\b \x01(\v2\x19.google.protobuf.DurationR\n" +
-	"startDelay\x12a\n" +
-	"\x15async_handoff_options\x18\t \x01(\v2-.temporal.api.activity.v1.AsyncHandoffOptionsR\x13asyncHandoffOptions\"\xec\x18\n" +
+	"startDelay\x12Q\n" +
+	"\x0fhandoff_options\x18\t \x01(\v2(.temporal.api.activity.v1.HandoffOptionsR\x0ehandoffOptions\"\xdc\x18\n" +
 	"\x15ActivityExecutionInfo\x12\x1f\n" +
 	"\vactivity_id\x18\x01 \x01(\tR\n" +
 	"activityId\x12\x15\n" +
@@ -1272,8 +1272,8 @@ const file_temporal_api_activity_v1_message_proto_rawDesc = "" +
 	"\x15last_worker_principal\x18+ \x01(\v2).temporal.api.common.v1.ResolvedPrincipalR\x13lastWorkerPrincipal\x12'\n" +
 	"\x0fhandoff_attempt\x18, \x01(\x05R\x0ehandoffAttempt\x12H\n" +
 	"\x12async_handoff_time\x18- \x01(\v2\x1a.google.protobuf.TimestampR\x10asyncHandoffTime\x12/\n" +
-	"\x13awaiting_completion\x18. \x01(\bR\x12awaitingCompletion\x12a\n" +
-	"\x15async_handoff_options\x18/ \x01(\v2-.temporal.api.activity.v1.AsyncHandoffOptionsR\x13asyncHandoffOptions\"\xc5\x05\n" +
+	"\x13awaiting_completion\x18. \x01(\bR\x12awaitingCompletion\x12Q\n" +
+	"\x0fhandoff_options\x18/ \x01(\v2(.temporal.api.activity.v1.HandoffOptionsR\x0ehandoffOptions\"\xc5\x05\n" +
 	"\x19ActivityExecutionListInfo\x12\x1f\n" +
 	"\vactivity_id\x18\x01 \x01(\tR\n" +
 	"activityId\x12\x15\n" +
@@ -1315,7 +1315,7 @@ func file_temporal_api_activity_v1_message_proto_rawDescGZIP() []byte {
 var file_temporal_api_activity_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
 var file_temporal_api_activity_v1_message_proto_goTypes = []any{
 	(*ActivityExecutionOutcome)(nil),           // 0: temporal.api.activity.v1.ActivityExecutionOutcome
-	(*AsyncHandoffOptions)(nil),                // 1: temporal.api.activity.v1.AsyncHandoffOptions
+	(*HandoffOptions)(nil),                     // 1: temporal.api.activity.v1.HandoffOptions
 	(*ActivityOptions)(nil),                    // 2: temporal.api.activity.v1.ActivityOptions
 	(*ActivityExecutionInfo)(nil),              // 3: temporal.api.activity.v1.ActivityExecutionInfo
 	(*ActivityExecutionListInfo)(nil),          // 4: temporal.api.activity.v1.ActivityExecutionListInfo
@@ -1346,10 +1346,10 @@ var file_temporal_api_activity_v1_message_proto_depIdxs = []int32{
 	8,  // 0: temporal.api.activity.v1.ActivityExecutionOutcome.result:type_name -> temporal.api.common.v1.Payloads
 	9,  // 1: temporal.api.activity.v1.ActivityExecutionOutcome.failure:type_name -> temporal.api.failure.v1.Failure
 	10, // 2: temporal.api.activity.v1.ActivityExecutionOutcome.retry_state:type_name -> temporal.api.enums.v1.RetryState
-	11, // 3: temporal.api.activity.v1.AsyncHandoffOptions.start_to_handoff_timeout:type_name -> google.protobuf.Duration
-	11, // 4: temporal.api.activity.v1.AsyncHandoffOptions.handoff_to_close_timeout:type_name -> google.protobuf.Duration
-	11, // 5: temporal.api.activity.v1.AsyncHandoffOptions.heartbeat_timeout:type_name -> google.protobuf.Duration
-	12, // 6: temporal.api.activity.v1.AsyncHandoffOptions.retry_policy:type_name -> temporal.api.common.v1.RetryPolicy
+	11, // 3: temporal.api.activity.v1.HandoffOptions.start_to_handoff_timeout:type_name -> google.protobuf.Duration
+	11, // 4: temporal.api.activity.v1.HandoffOptions.handoff_to_close_timeout:type_name -> google.protobuf.Duration
+	11, // 5: temporal.api.activity.v1.HandoffOptions.heartbeat_timeout:type_name -> google.protobuf.Duration
+	12, // 6: temporal.api.activity.v1.HandoffOptions.retry_policy:type_name -> temporal.api.common.v1.RetryPolicy
 	13, // 7: temporal.api.activity.v1.ActivityOptions.task_queue:type_name -> temporal.api.taskqueue.v1.TaskQueue
 	11, // 8: temporal.api.activity.v1.ActivityOptions.schedule_to_close_timeout:type_name -> google.protobuf.Duration
 	11, // 9: temporal.api.activity.v1.ActivityOptions.schedule_to_start_timeout:type_name -> google.protobuf.Duration
@@ -1358,7 +1358,7 @@ var file_temporal_api_activity_v1_message_proto_depIdxs = []int32{
 	12, // 12: temporal.api.activity.v1.ActivityOptions.retry_policy:type_name -> temporal.api.common.v1.RetryPolicy
 	14, // 13: temporal.api.activity.v1.ActivityOptions.priority:type_name -> temporal.api.common.v1.Priority
 	11, // 14: temporal.api.activity.v1.ActivityOptions.start_delay:type_name -> google.protobuf.Duration
-	1,  // 15: temporal.api.activity.v1.ActivityOptions.async_handoff_options:type_name -> temporal.api.activity.v1.AsyncHandoffOptions
+	1,  // 15: temporal.api.activity.v1.ActivityOptions.handoff_options:type_name -> temporal.api.activity.v1.HandoffOptions
 	15, // 16: temporal.api.activity.v1.ActivityExecutionInfo.activity_type:type_name -> temporal.api.common.v1.ActivityType
 	16, // 17: temporal.api.activity.v1.ActivityExecutionInfo.status:type_name -> temporal.api.enums.v1.ActivityExecutionStatus
 	17, // 18: temporal.api.activity.v1.ActivityExecutionInfo.run_state:type_name -> temporal.api.enums.v1.PendingActivityState
@@ -1391,7 +1391,7 @@ var file_temporal_api_activity_v1_message_proto_depIdxs = []int32{
 	25, // 45: temporal.api.activity.v1.ActivityExecutionInfo.closed_by_principal:type_name -> temporal.api.common.v1.ResolvedPrincipal
 	25, // 46: temporal.api.activity.v1.ActivityExecutionInfo.last_worker_principal:type_name -> temporal.api.common.v1.ResolvedPrincipal
 	18, // 47: temporal.api.activity.v1.ActivityExecutionInfo.async_handoff_time:type_name -> google.protobuf.Timestamp
-	1,  // 48: temporal.api.activity.v1.ActivityExecutionInfo.async_handoff_options:type_name -> temporal.api.activity.v1.AsyncHandoffOptions
+	1,  // 48: temporal.api.activity.v1.ActivityExecutionInfo.handoff_options:type_name -> temporal.api.activity.v1.HandoffOptions
 	15, // 49: temporal.api.activity.v1.ActivityExecutionListInfo.activity_type:type_name -> temporal.api.common.v1.ActivityType
 	18, // 50: temporal.api.activity.v1.ActivityExecutionListInfo.schedule_time:type_name -> google.protobuf.Timestamp
 	18, // 51: temporal.api.activity.v1.ActivityExecutionListInfo.close_time:type_name -> google.protobuf.Timestamp
