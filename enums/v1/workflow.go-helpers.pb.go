@@ -113,13 +113,13 @@ func WorkflowExecutionStatusFromString(s string) (WorkflowExecutionStatus, error
 
 var (
 	PendingActivityState_shorthandValue = map[string]int32{
-		"Unspecified":        0,
-		"Scheduled":          1,
-		"Started":            2,
-		"CancelRequested":    3,
-		"Paused":             4,
-		"PauseRequested":     5,
-		"AwaitingCompletion": 6,
+		"Unspecified":     0,
+		"Scheduled":       1,
+		"Started":         2,
+		"CancelRequested": 3,
+		"Paused":          4,
+		"PauseRequested":  5,
+		"HandedOff":       6,
 	}
 )
 

@@ -40,7 +40,7 @@ type ScheduleActivityTaskCommandAttributes struct {
 	// Indicates how long the caller is willing to wait for activity completion. The "schedule" time
 	// is when the activity is initially scheduled, not when the most recent retry is scheduled.
 	// Limits how long retries will be attempted. Either this or `start_to_close_timeout` must be
-	// specified, unless `async_handoff_options` provides both phase timeouts. Without handoff
+	// specified, unless `handoff_options` provides both phase timeouts. Without handoff
 	// options, defaults to the workflow execution timeout when not specified.
 	//
 	// (-- api-linter: core::0140::prepositions=disabled
@@ -52,7 +52,7 @@ type ScheduleActivityTaskCommandAttributes struct {
 	// be set: it's useful in specific scenarios like worker-specific task queues. This timeout is
 	// always non retryable, as all a retry would achieve is to put it back into the same queue.
 	// Defaults to `schedule_to_close_timeout` or workflow execution timeout if that is not
-	// specified. With `async_handoff_options` set, defaults to a positive
+	// specified. With `handoff_options` set, defaults to a positive
 	// `schedule_to_close_timeout`, otherwise remains disabled. More info:
 	// https://docs.temporal.io/docs/content/what-is-a-schedule-to-start-timeout/
 	//
@@ -62,20 +62,20 @@ type ScheduleActivityTaskCommandAttributes struct {
 	ScheduleToStartTimeout *durationpb.Duration `protobuf:"bytes,8,opt,name=schedule_to_start_timeout,json=scheduleToStartTimeout,proto3" json:"schedule_to_start_timeout,omitempty"`
 	// Maximum time an activity is allowed to execute after being picked up by a worker. This
 	// timeout is always retryable. Either this or `schedule_to_close_timeout` must be specified,
-	// unless `async_handoff_options` provides both phase timeouts. With handoff options set,
+	// unless `handoff_options` provides both phase timeouts. With handoff options set,
 	// see `ActivityOptions.start_to_close_timeout` for timing.
 	//
 	// (-- api-linter: core::0140::prepositions=disabled
 	//
 	//	aip.dev/not-precedent: "to" is used to indicate interval. --)
 	StartToCloseTimeout *durationpb.Duration `protobuf:"bytes,9,opt,name=start_to_close_timeout,json=startToCloseTimeout,proto3" json:"start_to_close_timeout,omitempty"`
-	// Maximum permitted time between successful worker heartbeats. With `async_handoff_options`
-	// set, applies after handoff; before handoff, use `AsyncHandoffOptions.heartbeat_timeout`.
+	// Maximum permitted time between successful worker heartbeats. With `handoff_options`
+	// set, applies after handoff; before handoff, use `HandoffOptions.heartbeat_timeout`.
 	HeartbeatTimeout *durationpb.Duration `protobuf:"bytes,10,opt,name=heartbeat_timeout,json=heartbeatTimeout,proto3" json:"heartbeat_timeout,omitempty"`
 	// Activities are provided by a default retry policy which is controlled through the service's
 	// dynamic configuration. Retries will be attempted until `schedule_to_close_timeout` has
 	// elapsed. To disable retries under this policy, set retry_policy.maximum_attempts to 1.
-	// With `async_handoff_options` set, see `ActivityOptions.retry_policy` for applicability.
+	// With `handoff_options` set, see `ActivityOptions.retry_policy` for applicability.
 	RetryPolicy *v1.RetryPolicy `protobuf:"bytes,11,opt,name=retry_policy,json=retryPolicy,proto3" json:"retry_policy,omitempty"`
 	// Request to start the activity directly bypassing matching service and worker polling
 	// The slot for executing the activity should be reserved when setting this field to true.
@@ -87,9 +87,9 @@ type ScheduleActivityTaskCommandAttributes struct {
 	// present, they inherit the values from the workflow.
 	Priority *v1.Priority `protobuf:"bytes,14,opt,name=priority,proto3" json:"priority,omitempty"`
 	// Handoff timeout and retry settings.
-	AsyncHandoffOptions *v12.AsyncHandoffOptions `protobuf:"bytes,15,opt,name=async_handoff_options,json=asyncHandoffOptions,proto3" json:"async_handoff_options,omitempty"`
-	unknownFields       protoimpl.UnknownFields
-	sizeCache           protoimpl.SizeCache
+	HandoffOptions *v12.HandoffOptions `protobuf:"bytes,15,opt,name=handoff_options,json=handoffOptions,proto3" json:"handoff_options,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *ScheduleActivityTaskCommandAttributes) Reset() {
@@ -213,9 +213,9 @@ func (x *ScheduleActivityTaskCommandAttributes) GetPriority() *v1.Priority {
 	return nil
 }
 
-func (x *ScheduleActivityTaskCommandAttributes) GetAsyncHandoffOptions() *v12.AsyncHandoffOptions {
+func (x *ScheduleActivityTaskCommandAttributes) GetHandoffOptions() *v12.HandoffOptions {
 	if x != nil {
-		return x.AsyncHandoffOptions
+		return x.HandoffOptions
 	}
 	return nil
 }
@@ -1845,7 +1845,7 @@ var File_temporal_api_command_v1_message_proto protoreflect.FileDescriptor
 
 const file_temporal_api_command_v1_message_proto_rawDesc = "" +
 	"\n" +
-	"%temporal/api/command/v1/message.proto\x12\x17temporal.api.command.v1\x1a\x1egoogle/protobuf/duration.proto\x1a$temporal/api/enums/v1/workflow.proto\x1a(temporal/api/enums/v1/command_type.proto\x1a&temporal/api/activity/v1/message.proto\x1a$temporal/api/common/v1/message.proto\x1a%temporal/api/failure/v1/message.proto\x1a'temporal/api/taskqueue/v1/message.proto\x1a&temporal/api/workflow/v1/message.proto\x1a'temporal/api/sdk/v1/user_metadata.proto\x1a,temporal/api/sdk/v1/event_group_marker.proto\"\xe6\a\n" +
+	"%temporal/api/command/v1/message.proto\x12\x17temporal.api.command.v1\x1a\x1egoogle/protobuf/duration.proto\x1a$temporal/api/enums/v1/workflow.proto\x1a(temporal/api/enums/v1/command_type.proto\x1a&temporal/api/activity/v1/message.proto\x1a$temporal/api/common/v1/message.proto\x1a%temporal/api/failure/v1/message.proto\x1a'temporal/api/taskqueue/v1/message.proto\x1a&temporal/api/workflow/v1/message.proto\x1a'temporal/api/sdk/v1/user_metadata.proto\x1a,temporal/api/sdk/v1/event_group_marker.proto\"\xd6\a\n" +
 	"%ScheduleActivityTaskCommandAttributes\x12\x1f\n" +
 	"\vactivity_id\x18\x01 \x01(\tR\n" +
 	"activityId\x12I\n" +
@@ -1862,8 +1862,8 @@ const file_temporal_api_command_v1_message_proto_rawDesc = "" +
 	"\fretry_policy\x18\v \x01(\v2#.temporal.api.common.v1.RetryPolicyR\vretryPolicy\x126\n" +
 	"\x17request_eager_execution\x18\f \x01(\bR\x15requestEagerExecution\x121\n" +
 	"\x15use_workflow_build_id\x18\r \x01(\bR\x12useWorkflowBuildId\x12<\n" +
-	"\bpriority\x18\x0e \x01(\v2 .temporal.api.common.v1.PriorityR\bpriority\x12a\n" +
-	"\x15async_handoff_options\x18\x0f \x01(\v2-.temporal.api.activity.v1.AsyncHandoffOptionsR\x13asyncHandoffOptionsJ\x04\b\x03\x10\x04\"Z\n" +
+	"\bpriority\x18\x0e \x01(\v2 .temporal.api.common.v1.PriorityR\bpriority\x12Q\n" +
+	"\x0fhandoff_options\x18\x0f \x01(\v2(.temporal.api.activity.v1.HandoffOptionsR\x0ehandoffOptionsJ\x04\b\x03\x10\x04\"Z\n" +
 	"*RequestCancelActivityTaskCommandAttributes\x12,\n" +
 	"\x12scheduled_event_id\x18\x01 \x01(\x03R\x10scheduledEventId\"\x86\x01\n" +
 	"\x1bStartTimerCommandAttributes\x12\x19\n" +
@@ -2034,7 +2034,7 @@ var file_temporal_api_command_v1_message_proto_goTypes = []any{
 	(*durationpb.Duration)(nil),              // 24: google.protobuf.Duration
 	(*v1.RetryPolicy)(nil),                   // 25: temporal.api.common.v1.RetryPolicy
 	(*v1.Priority)(nil),                      // 26: temporal.api.common.v1.Priority
-	(*v12.AsyncHandoffOptions)(nil),          // 27: temporal.api.activity.v1.AsyncHandoffOptions
+	(*v12.HandoffOptions)(nil),               // 27: temporal.api.activity.v1.HandoffOptions
 	(*v13.Failure)(nil),                      // 28: temporal.api.failure.v1.Failure
 	(*v1.WorkflowExecution)(nil),             // 29: temporal.api.common.v1.WorkflowExecution
 	(*v1.SearchAttributes)(nil),              // 30: temporal.api.common.v1.SearchAttributes
@@ -2061,7 +2061,7 @@ var file_temporal_api_command_v1_message_proto_depIdxs = []int32{
 	24, // 7: temporal.api.command.v1.ScheduleActivityTaskCommandAttributes.heartbeat_timeout:type_name -> google.protobuf.Duration
 	25, // 8: temporal.api.command.v1.ScheduleActivityTaskCommandAttributes.retry_policy:type_name -> temporal.api.common.v1.RetryPolicy
 	26, // 9: temporal.api.command.v1.ScheduleActivityTaskCommandAttributes.priority:type_name -> temporal.api.common.v1.Priority
-	27, // 10: temporal.api.command.v1.ScheduleActivityTaskCommandAttributes.async_handoff_options:type_name -> temporal.api.activity.v1.AsyncHandoffOptions
+	27, // 10: temporal.api.command.v1.ScheduleActivityTaskCommandAttributes.handoff_options:type_name -> temporal.api.activity.v1.HandoffOptions
 	24, // 11: temporal.api.command.v1.StartTimerCommandAttributes.start_to_fire_timeout:type_name -> google.protobuf.Duration
 	23, // 12: temporal.api.command.v1.CompleteWorkflowExecutionCommandAttributes.result:type_name -> temporal.api.common.v1.Payloads
 	28, // 13: temporal.api.command.v1.FailWorkflowExecutionCommandAttributes.failure:type_name -> temporal.api.failure.v1.Failure
