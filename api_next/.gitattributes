@@ -1,0 +1,11 @@
+# vendor is marked as linguist-vendored by default, but this
+# only excluses the code from stats.
+#
+# Forcing it to be linguist-generated will also exclude it from diffs.
+#
+# See https://github.com/github-linguist/linguist/blob/master/docs/overrides.md#summary
+# for more info.
+*.pb.go linguist-generated
+*.mock.go linguist-generated
+internal/protojson/** linguist-vendored
+internal/strcase/** linguist-vendored
