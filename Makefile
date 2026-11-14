@@ -65,16 +65,68 @@ HELPER_FILES = $(shell find ./cmd/protoc-gen-go-helpers)
 go-grpc: clean .go-helpers-installed $(PROTO_OUT)
 	printf $(COLOR) "Compile for go-gRPC..."
 	go run ./cmd/protogen \
-		--root=$(PROTO_ROOT) \
+		--root=$(PROTO_ROOT)/temporal/api \
+		-I=$(PROTO_ROOT) \
 		--output=$(PROTO_OUT) \
 		--exclude=internal \
 		--exclude=proto/api/google \
+		--exclude=$(PROTO_ROOT)/temporal/api_next \
 		-p go-grpc_out=$(PROTO_PATHS) \
 		-p grpc-gateway_out=allow_patch_feature=false,$(PROTO_PATHS) \
 		-p go-helpers_out=$(PROTO_PATHS)
 
 	# cp is safer than mv because mv cannot merge into existing directories
 	cp -rf $(PROTO_OUT)/temporal/api/* $(PROTO_OUT) && rm -rf $(PROTO_OUT)/temporal
+
+API_NEXT_OUT := api_next
+
+API_NEXT_SNAPSHOT_EXCLUDES := --exclude=.git --exclude=$(API_NEXT_OUT) --exclude=proto \
+	--exclude=.gobincache --exclude=.go-helpers-installed --exclude=descriptor_set.pb \
+	--exclude=cmd/protoc-gen-go-helpers/testprotos
+
+.PHONY: api-next
+api-next: .go-helpers-installed mockgen-install
+	printf $(COLOR) "Compile api_next (draft) proto tree..."
+	rm -rf $(API_NEXT_OUT)
+	mkdir -p $(API_NEXT_OUT)
+	rsync -a $(API_NEXT_SNAPSHOT_EXCLUDES) ./ $(API_NEXT_OUT)/
+	# Clear out stale generated code before regenerating below, but leave
+	# workflowservicenexus alone: it's produced by nexus-rpc-gen (the `nexus-gen`
+	# target), not by protogen, so nothing here would regenerate it.
+	find $(API_NEXT_OUT) \( -name "*.pb.go" -o -name "*.pb.gw.go" -o -name "*.go-helpers.go" -o -name "*_test.go" \) -not -path "*/workflowservicenexus/*" -delete
+
+	go run ./cmd/protogen \
+		--root=$(PROTO_ROOT)/temporal/api_next \
+		-I=$(PROTO_ROOT) \
+		--output=$(API_NEXT_OUT) \
+		-p go-grpc_out=paths=source_relative:$(API_NEXT_OUT) \
+		-p grpc-gateway_out=allow_patch_feature=false,paths=source_relative:$(API_NEXT_OUT) \
+		-p go-helpers_out=paths=source_relative,draft_omission=true:$(API_NEXT_OUT)
+	cp -rf $(API_NEXT_OUT)/temporal/api_next/* $(API_NEXT_OUT) && rm -rf $(API_NEXT_OUT)/temporal
+
+	go run ./cmd/protogen \
+		--root=$(PROTO_ROOT)/temporal/api_next \
+		-I=$(PROTO_ROOT) \
+		--output=$(API_NEXT_OUT) \
+		--no-rewrite-enum-const \
+		--no-rewrite-enum-string \
+		--no-strip-version \
+		--output-descriptor=$(API_NEXT_OUT)/descriptor_set.pb
+	# Run the copied module so its replace and output paths both resolve api_next.
+	(cd $(API_NEXT_OUT)/cmd/proxygenerator && go run ./)
+
+	# The service mocks embed the concrete request/response types generated
+	# above, so they have to be regenerated rather than copied from the snapshot.
+	# api_next/go.mod (copied by the snapshot) already gives these the right
+	# module identity, so mockgen infers the same "operatorservice"/"workflowservice"
+	# import aliases it would at the module root.
+	mockgen -package operatorservicemock -source $(API_NEXT_OUT)/operatorservice/v1/service_grpc.pb.go -destination $(API_NEXT_OUT)/operatorservicemock/v1/service_grpc.pb.mock.go
+	mockgen -package workflowservicemock -source $(API_NEXT_OUT)/workflowservice/v1/service_grpc.pb.go -destination $(API_NEXT_OUT)/workflowservicemock/v1/service_grpc.pb.mock.go
+	go run ./cmd/mockgen-fix OperatorService $(API_NEXT_OUT)/operatorservicemock/v1/service_grpc.pb.mock.go
+	go run ./cmd/mockgen-fix WorkflowService $(API_NEXT_OUT)/workflowservicemock/v1/service_grpc.pb.mock.go
+
+	goimports -w $(API_NEXT_OUT)
+	(cd $(API_NEXT_OUT) && go mod tidy)
 
 http-api-docs: go-grpc
 	go run cmd/encode-openapi-spec/main.go \
@@ -108,12 +160,15 @@ goimports:
 gen-proto-desc:
 	printf $(COLOR) "Generating proto descriptors..."
 	go run ./cmd/protogen \
-		--root=$(PROTO_ROOT) \
+		--root=$(PROTO_ROOT)/temporal/api \
+		-I=$(PROTO_ROOT) \
 		--output=$(PROTO_OUT) \
 		--exclude=internal \
 		--exclude=proto/api/google \
+		--exclude=$(PROTO_ROOT)/temporal/api_next \
 		--no-rewrite-enum-const \
 		--no-rewrite-enum-string \
+		--no-strip-version \
 		--output-descriptor=$(PROTO_OUT)/descriptor_set.pb
 
 ##### Plugins & tools #####
@@ -153,6 +208,19 @@ gomodtidy:
 
 ##### Test #####
 
+.PHONY: helper-test-protos
+helper-test-protos:
+	@set -eu; tools_dir=$$(mktemp -d); trap 'rm -rf "$$tools_dir"' EXIT; \
+	GOBIN="$$tools_dir" go install google.golang.org/protobuf/cmd/protoc-gen-go; \
+	go build -o "$$tools_dir/protoc-gen-go-helpers" ./cmd/protoc-gen-go-helpers; \
+	find cmd/protoc-gen-go-helpers/testprotos/draft -name '*.draft.pb.go' -delete; \
+	PATH="$$tools_dir:$(PATH)" go run ./cmd/protogen \
+		--root=cmd/protoc-gen-go-helpers/testprotos/draft \
+		--output=cmd/protoc-gen-go-helpers/testprotos/draft \
+		--no-rewrite-enum-const \
+		--no-rewrite-enum-string \
+		-p go-helpers_out=paths=source_relative,draft_omission=true:cmd/protoc-gen-go-helpers/testprotos/draft
+
 # We need to ensure protos are up to date to test our UTF-8 post-processing
 test: copy-helpers
 	go test -tags protolegacy ./...
@@ -169,4 +237,4 @@ check: generatorcheck
 clean:
 	printf $(COLOR) "Deleting generated go files..."
 	# Delete all directories with *.pb.go and *.mock.go files from $(PROTO_OUT)
-	find $(PROTO_OUT) \( -name "*.pb.go" -o -name "*.mock.go" -o -name "*.go-helpers.go" \) | xargs -I{} dirname {} | egrep -v 'testprotos' | sort -u | xargs rm -rf
+	find $(PROTO_OUT) \( -name "*.pb.go" -o -name "*.mock.go" -o -name "*.go-helpers.go" \) | xargs -I{} dirname {} | egrep -v 'testprotos|api_next' | sort -u | xargs rm -rf

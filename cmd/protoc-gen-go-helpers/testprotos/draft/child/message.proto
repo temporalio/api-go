@@ -1,0 +1,23 @@
+syntax = "proto3";
+package omission.child;
+option go_package = "go.temporal.io/api/cmd/protoc-gen-go-helpers/testprotos/draft/child;child";
+import "annotations/draft.proto";
+message Leaf {
+ string stable = 1;
+ string a = 2 [(temporal.api.protometa.v1.draft) = "feature-a"];
+ string b = 3 [(temporal.api.protometa.v1.draft) = "feature-b"];
+}
+message Stable { string value = 1; }
+enum Level { LEVEL_UNSPECIFIED = 0; LEVEL_HIGH = 1; }
+
+message Draft {
+ option (temporal.api.protometa.v1.draft_message) = "feature-a";
+ string value = 1;
+ string extra = 2 [(temporal.api.protometa.v1.draft) = "feature-b"];
+ message Inner {
+  option (temporal.api.protometa.v1.draft_message) = "feature-b";
+  string value = 1;
+ }
+ enum State { ZERO = 0; ONE = 1; }
+ message Empty {}
+}

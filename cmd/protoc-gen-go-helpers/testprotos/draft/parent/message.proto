@@ -1,0 +1,61 @@
+syntax = "proto3";
+package omission.parent;
+option go_package = "go.temporal.io/api/cmd/protoc-gen-go-helpers/testprotos/draft/parent;parent";
+import "annotations/draft.proto";
+import "child/message.proto";
+message Root {
+ string stable = 1;
+ omission.child.Leaf gated = 2 [(temporal.api.protometa.v1.draft) = "feature-a"];
+ repeated omission.child.Leaf list = 3;
+ map<string, omission.child.Leaf> map = 4;
+ optional int32 optional = 5 [(temporal.api.protometa.v1.draft) = "feature-a"];
+ oneof choice {
+  int32 a = 6 [(temporal.api.protometa.v1.draft) = "feature-a"];
+  omission.child.Leaf leaf = 7;
+  string stable_choice = 8;
+ }
+ Nested nested = 9;
+ repeated string names = 10 [(temporal.api.protometa.v1.draft) = "feature-b"];
+ map<string, int32> counts = 11 [(temporal.api.protometa.v1.draft) = "feature-b"];
+ message Nested { omission.child.Leaf leaf = 1; }
+}
+message CycleA { CycleB b = 1; }
+message CycleB { CycleA a = 1; omission.child.Leaf leaf = 2; }
+message Ancestor { CycleA child = 1; }
+message Scalars {
+ double double = 1 [(temporal.api.protometa.v1.draft) = "feature-a"];
+ float float = 2 [(temporal.api.protometa.v1.draft) = "feature-a"];
+ int32 int32 = 3 [(temporal.api.protometa.v1.draft) = "feature-a"];
+ int64 int64 = 4 [(temporal.api.protometa.v1.draft) = "feature-a"];
+ uint32 uint32 = 5 [(temporal.api.protometa.v1.draft) = "feature-a"];
+ uint64 uint64 = 6 [(temporal.api.protometa.v1.draft) = "feature-a"];
+ sint32 sint32 = 7 [(temporal.api.protometa.v1.draft) = "feature-a"];
+ sint64 sint64 = 8 [(temporal.api.protometa.v1.draft) = "feature-a"];
+ fixed32 fixed32 = 9 [(temporal.api.protometa.v1.draft) = "feature-a"];
+ fixed64 fixed64 = 10 [(temporal.api.protometa.v1.draft) = "feature-a"];
+ sfixed32 sfixed32 = 11 [(temporal.api.protometa.v1.draft) = "feature-a"];
+ sfixed64 sfixed64 = 12 [(temporal.api.protometa.v1.draft) = "feature-a"];
+ bool bool = 13 [(temporal.api.protometa.v1.draft) = "feature-a"];
+ string string = 14 [(temporal.api.protometa.v1.draft) = "feature-a"];
+ bytes bytes = 15 [(temporal.api.protometa.v1.draft) = "feature-a"];
+ enum State { ZERO = 0; ONE = 1; }
+ State enum = 16 [(temporal.api.protometa.v1.draft) = "feature-a"];
+}
+
+message DraftReferences {
+ string stable = 1;
+ omission.child.Draft single = 2;
+ repeated omission.child.Draft list = 3;
+ map<string, omission.child.Draft> by_name = 4;
+ oneof choice {
+  omission.child.Draft draft = 5;
+  string stable_choice = 6;
+ }
+ omission.child.Draft gated = 7 [(temporal.api.protometa.v1.draft) = "feature-b"];
+ omission.child.Draft.Inner inner = 8;
+ omission.child.Draft.State state = 9;
+ repeated omission.child.Draft.State states = 10;
+ map<string, omission.child.Draft.State> state_by_name = 11;
+ omission.child.Draft.Empty empty = 12;
+ omission.child.Draft.Inner gated_inner = 13 [(temporal.api.protometa.v1.draft) = "feature-c"];
+}

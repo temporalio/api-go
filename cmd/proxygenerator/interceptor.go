@@ -6,6 +6,7 @@ import (
 	"go/format"
 	"go/types"
 	"os"
+	"slices"
 	"strings"
 	"text/template"
 
@@ -662,6 +663,7 @@ type TypeRecord struct {
 	Slice    bool     // The API refers to slices of this type
 	Map      bool     // The API refers to maps with this type as the value
 	Matches  bool     // We found methods on this type that can eventually lead to Payload(s)
+	children map[string]string
 }
 
 // isSlice returns true if a type is slice, false otherwise
@@ -785,6 +787,10 @@ func containsMessage(
 			}
 		}
 	}
+	// A cycle can reach a target through an ancestor that is still being checked.
+	// Only positive results can be reused after this traversal completes.
+	delete(memo, fullName)
+
 	return false
 }
 
@@ -899,6 +905,22 @@ func gatherMatchesToTypeRecords(
 			walk(targetTypes, directMatchTypes, types.NewPointer(t), &matchingRecords)
 		}
 	}
+	// Recursive getters may have been visited before their target was marked.
+	for changed := true; changed; {
+		changed = false
+		for _, record := range matchingRecords {
+			for method, child := range record.children {
+				if target := matchingRecords[child]; target != nil && target.Matches && !slices.Contains(record.Methods, method) {
+					record.Matches = true
+					record.Methods = append(record.Methods, method)
+					changed = true
+				}
+			}
+		}
+	}
+	for _, record := range matchingRecords {
+		slices.Sort(record.Methods)
+	}
 	matchingRecords = pruneRecords(matchingRecords)
 	return matchingRecords, nil
 }
@@ -907,13 +929,12 @@ func gatherMatchesToTypeRecords(
 // desired type(s). The return type for each method on this type is walked recursively to decide
 // which methods can lead to the desired type.
 func walk(desired []types.Type, directMatchTypes []types.Type, typ types.Type, records *map[string]*TypeRecord) bool {
-	typeName := typeName(typ)
+	name := typeName(typ)
 
 	// If this type is a slice then walk the underlying type and then make a note we need to encode slices of this type
 	if isSlice(typ) {
 		result := walk(desired, directMatchTypes, elemType(typ), records)
-		if result {
-			record := (*records)[typeName]
+		if record := (*records)[name]; record != nil {
 			record.Slice = true
 		}
 		return result
@@ -922,20 +943,19 @@ func walk(desired []types.Type, directMatchTypes []types.Type, typ types.Type, r
 	// If this type is a map then walk the underlying type and then make a note we need to encode maps with values of this type
 	if isMap(typ) {
 		result := walk(desired, directMatchTypes, elemType(typ), records)
-		if result {
-			record := (*records)[typeName]
+		if record := (*records)[name]; record != nil {
 			record.Map = true
 		}
 		return result
 	}
 
 	// If we've walked this type before, return the previous result
-	if record, ok := (*records)[typeName]; ok {
+	if record, ok := (*records)[name]; ok {
 		return record.Matches
 	}
 
-	record := TypeRecord{}
-	(*records)[typeName] = &record
+	record := TypeRecord{children: map[string]string{}}
+	(*records)[name] = &record
 
 	// Look for all functions with this `typ` type
 	for _, meth := range typeutil.IntuitiveMethodSet(elemType(typ), nil) {
@@ -977,6 +997,9 @@ func walk(desired []types.Type, directMatchTypes []types.Type, typ types.Type, r
 		if typeMatches(resultType, desired...) || walk(desired, directMatchTypes, resultType, records) {
 			record.Matches = true
 			record.Methods = append(record.Methods, methodName)
+		}
+		if !typeMatches(resultType, desired...) {
+			record.children[methodName] = typeName(resultType)
 		}
 	}
 

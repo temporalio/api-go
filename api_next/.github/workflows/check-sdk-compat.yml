@@ -1,0 +1,85 @@
+name: Check sdk-go compatibility
+
+on:
+  workflow_dispatch:
+    inputs:
+      sdk_ref:
+        description: sdk-go ref to check ("latest" for latest release tag)
+        required: true
+        type: string
+        default: latest
+      api_ref:
+        description: api-go ref to check
+        required: true
+        type: string
+        default: main
+  workflow_call:
+    inputs:
+      sdk_ref:
+        description: sdk-go ref to check ("latest" for latest release tag)
+        required: true
+        type: string
+        default: latest
+      api_ref:
+        description: api-go ref to check
+        required: true
+        type: string
+        default: main
+
+jobs:
+  check-sdk-go-compatibility:
+    name: "Check sdk-go compatibility"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Validate inputs
+        id: inputs
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SDK_REF: ${{ inputs.sdk_ref }}
+          API_REF: ${{ inputs.api_ref }}
+        run: |
+          if [[ "$SDK_REF" == "latest" ]]; then
+            SDK_REF=$(gh api /repos/temporalio/sdk-go/releases/latest --jq '.name')
+          fi
+          echo "SDK_REF=$SDK_REF" | tee -a "$GITHUB_OUTPUT"
+          echo "API_REF=$API_REF" | tee -a "$GITHUB_OUTPUT"
+
+      - name: Checkout
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          repository: temporalio/sdk-go
+          ref: ${{ steps.inputs.outputs.SDK_REF }}
+
+      - name: Setup Go
+        uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff # v5.6.0
+        with:
+          go-version: stable
+
+      - name: Update api-go
+        env:
+          API_REF: ${{ steps.inputs.outputs.API_REF }}
+        run: |
+          for f in $(find . -iname go.mod); do
+            cd $(dirname $f)
+            go get go.temporal.io/api@$API_REF
+            go mod tidy
+            cd -
+          done
+
+      # staticcheck config to ignore deprecated symbols (SA1019); other values are part of default config
+      - name: Staticcheck config
+        run: echo 'checks = ["all", "-SA9003", "-ST1000", "-ST1003", "-ST1016", "-ST1020", "-ST1021", "-ST1022", "-ST1023", "-SA1019"]' > staticcheck.conf
+
+      - name: Run check
+        run: go run . check
+        working-directory: ./internal/cmd/build
+
+      - name: Run unit test
+        run: go run . unit-test
+        working-directory: ./internal/cmd/build
+
+      - name: Run integration tests
+        continue-on-error: true
+        run: go run . integration-test -dev-server
+        working-directory: ./internal/cmd/build
