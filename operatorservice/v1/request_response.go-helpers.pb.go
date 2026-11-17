@@ -301,6 +301,228 @@ func (this *DeleteNamespaceResponse) Equal(that interface{}) bool {
 	return proto.Equal(this, that1)
 }
 
+// Marshal an object of type SoftDeleteNamespaceRequest to the protobuf v3 wire format
+func (val *SoftDeleteNamespaceRequest) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type SoftDeleteNamespaceRequest from the protobuf v3 wire format
+func (val *SoftDeleteNamespaceRequest) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *SoftDeleteNamespaceRequest) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two SoftDeleteNamespaceRequest values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *SoftDeleteNamespaceRequest) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *SoftDeleteNamespaceRequest
+	switch t := that.(type) {
+	case *SoftDeleteNamespaceRequest:
+		that1 = t
+	case SoftDeleteNamespaceRequest:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type SoftDeleteNamespaceResponse to the protobuf v3 wire format
+func (val *SoftDeleteNamespaceResponse) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type SoftDeleteNamespaceResponse from the protobuf v3 wire format
+func (val *SoftDeleteNamespaceResponse) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *SoftDeleteNamespaceResponse) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two SoftDeleteNamespaceResponse values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *SoftDeleteNamespaceResponse) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *SoftDeleteNamespaceResponse
+	switch t := that.(type) {
+	case *SoftDeleteNamespaceResponse:
+		that1 = t
+	case SoftDeleteNamespaceResponse:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type RestoreNamespaceRequest to the protobuf v3 wire format
+func (val *RestoreNamespaceRequest) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type RestoreNamespaceRequest from the protobuf v3 wire format
+func (val *RestoreNamespaceRequest) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *RestoreNamespaceRequest) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two RestoreNamespaceRequest values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *RestoreNamespaceRequest) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *RestoreNamespaceRequest
+	switch t := that.(type) {
+	case *RestoreNamespaceRequest:
+		that1 = t
+	case RestoreNamespaceRequest:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type RestoreNamespaceResponse to the protobuf v3 wire format
+func (val *RestoreNamespaceResponse) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type RestoreNamespaceResponse from the protobuf v3 wire format
+func (val *RestoreNamespaceResponse) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *RestoreNamespaceResponse) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two RestoreNamespaceResponse values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *RestoreNamespaceResponse) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *RestoreNamespaceResponse
+	switch t := that.(type) {
+	case *RestoreNamespaceResponse:
+		that1 = t
+	case RestoreNamespaceResponse:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type DescribeNamespaceRestoreRequest to the protobuf v3 wire format
+func (val *DescribeNamespaceRestoreRequest) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type DescribeNamespaceRestoreRequest from the protobuf v3 wire format
+func (val *DescribeNamespaceRestoreRequest) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *DescribeNamespaceRestoreRequest) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two DescribeNamespaceRestoreRequest values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *DescribeNamespaceRestoreRequest) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *DescribeNamespaceRestoreRequest
+	switch t := that.(type) {
+	case *DescribeNamespaceRestoreRequest:
+		that1 = t
+	case DescribeNamespaceRestoreRequest:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type DescribeNamespaceRestoreResponse to the protobuf v3 wire format
+func (val *DescribeNamespaceRestoreResponse) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type DescribeNamespaceRestoreResponse from the protobuf v3 wire format
+func (val *DescribeNamespaceRestoreResponse) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *DescribeNamespaceRestoreResponse) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two DescribeNamespaceRestoreResponse values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *DescribeNamespaceRestoreResponse) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *DescribeNamespaceRestoreResponse
+	switch t := that.(type) {
+	case *DescribeNamespaceRestoreResponse:
+		that1 = t
+	case DescribeNamespaceRestoreResponse:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
 // Marshal an object of type AddOrUpdateRemoteClusterRequest to the protobuf v3 wire format
 func (val *AddOrUpdateRemoteClusterRequest) Marshal() ([]byte, error) {
 	return proto.Marshal(val)

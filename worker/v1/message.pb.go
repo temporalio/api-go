@@ -450,6 +450,9 @@ type WorkerPollerInfo struct {
 	LastSuccessfulPollTime *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=last_successful_poll_time,json=lastSuccessfulPollTime,proto3" json:"last_successful_poll_time,omitempty"`
 	// Set true if the number of concurrent pollers is auto-scaled
 	IsAutoscaling bool `protobuf:"varint,3,opt,name=is_autoscaling,json=isAutoscaling,proto3" json:"is_autoscaling,omitempty"`
+	// Number of pollers this poller pool is currently targeting, which may differ from current_pollers.
+	// 0 if unknown, such as a poller pool of fixed size.
+	TargetPollers int32 `protobuf:"varint,4,opt,name=target_pollers,json=targetPollers,proto3" json:"target_pollers,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -503,6 +506,13 @@ func (x *WorkerPollerInfo) GetIsAutoscaling() bool {
 		return x.IsAutoscaling
 	}
 	return false
+}
+
+func (x *WorkerPollerInfo) GetTargetPollers() int32 {
+	if x != nil {
+		return x.TargetPollers
+	}
+	return 0
 }
 
 type WorkerSlotsInfo struct {
@@ -1927,11 +1937,12 @@ var File_temporal_api_worker_v1_message_proto protoreflect.FileDescriptor
 
 const file_temporal_api_worker_v1_message_proto_rawDesc = "" +
 	"\n" +
-	"$temporal/api/worker/v1/message.proto\x12\x16temporal.api.worker.v1\x1a\x1egoogle/protobuf/duration.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a(temporal/api/deployment/v1/message.proto\x1a\"temporal/api/enums/v1/common.proto\"\xb9\x01\n" +
+	"$temporal/api/worker/v1/message.proto\x12\x16temporal.api.worker.v1\x1a\x1egoogle/protobuf/duration.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a(temporal/api/deployment/v1/message.proto\x1a\"temporal/api/enums/v1/common.proto\"\xe0\x01\n" +
 	"\x10WorkerPollerInfo\x12'\n" +
 	"\x0fcurrent_pollers\x18\x01 \x01(\x05R\x0ecurrentPollers\x12U\n" +
 	"\x19last_successful_poll_time\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\x16lastSuccessfulPollTime\x12%\n" +
-	"\x0eis_autoscaling\x18\x03 \x01(\bR\risAutoscaling\"\x89\x03\n" +
+	"\x0eis_autoscaling\x18\x03 \x01(\bR\risAutoscaling\x12%\n" +
+	"\x0etarget_pollers\x18\x04 \x01(\x05R\rtargetPollers\"\x89\x03\n" +
 	"\x0fWorkerSlotsInfo\x126\n" +
 	"\x17current_available_slots\x18\x01 \x01(\x05R\x15currentAvailableSlots\x12,\n" +
 	"\x12current_used_slots\x18\x02 \x01(\x05R\x10currentUsedSlots\x12,\n" +

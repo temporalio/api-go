@@ -16,6 +16,7 @@ import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	durationpb "google.golang.org/protobuf/types/known/durationpb"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 const (
@@ -418,6 +419,342 @@ func (x *DeleteNamespaceResponse) GetDeletedNamespace() string {
 	return ""
 }
 
+type SoftDeleteNamespaceRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Only one of namespace or namespace_id must be specified to identify namespace.
+	Namespace     string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	NamespaceId   string `protobuf:"bytes,2,opt,name=namespace_id,json=namespaceId,proto3" json:"namespace_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SoftDeleteNamespaceRequest) Reset() {
+	*x = SoftDeleteNamespaceRequest{}
+	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SoftDeleteNamespaceRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SoftDeleteNamespaceRequest) ProtoMessage() {}
+
+func (x *SoftDeleteNamespaceRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SoftDeleteNamespaceRequest.ProtoReflect.Descriptor instead.
+func (*SoftDeleteNamespaceRequest) Descriptor() ([]byte, []int) {
+	return file_temporal_api_operatorservice_v1_request_response_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *SoftDeleteNamespaceRequest) GetNamespace() string {
+	if x != nil {
+		return x.Namespace
+	}
+	return ""
+}
+
+func (x *SoftDeleteNamespaceRequest) GetNamespaceId() string {
+	if x != nil {
+		return x.NamespaceId
+	}
+	return ""
+}
+
+type SoftDeleteNamespaceResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SoftDeleteNamespaceResponse) Reset() {
+	*x = SoftDeleteNamespaceResponse{}
+	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[9]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SoftDeleteNamespaceResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SoftDeleteNamespaceResponse) ProtoMessage() {}
+
+func (x *SoftDeleteNamespaceResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[9]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SoftDeleteNamespaceResponse.ProtoReflect.Descriptor instead.
+func (*SoftDeleteNamespaceResponse) Descriptor() ([]byte, []int) {
+	return file_temporal_api_operatorservice_v1_request_response_proto_rawDescGZIP(), []int{9}
+}
+
+type RestoreNamespaceRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Only one of namespace or namespace_id must be specified to identify namespace.
+	Namespace     string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	NamespaceId   string `protobuf:"bytes,2,opt,name=namespace_id,json=namespaceId,proto3" json:"namespace_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *RestoreNamespaceRequest) Reset() {
+	*x = RestoreNamespaceRequest{}
+	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[10]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RestoreNamespaceRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RestoreNamespaceRequest) ProtoMessage() {}
+
+func (x *RestoreNamespaceRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[10]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RestoreNamespaceRequest.ProtoReflect.Descriptor instead.
+func (*RestoreNamespaceRequest) Descriptor() ([]byte, []int) {
+	return file_temporal_api_operatorservice_v1_request_response_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *RestoreNamespaceRequest) GetNamespace() string {
+	if x != nil {
+		return x.Namespace
+	}
+	return ""
+}
+
+func (x *RestoreNamespaceRequest) GetNamespaceId() string {
+	if x != nil {
+		return x.NamespaceId
+	}
+	return ""
+}
+
+type RestoreNamespaceResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *RestoreNamespaceResponse) Reset() {
+	*x = RestoreNamespaceResponse{}
+	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[11]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RestoreNamespaceResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RestoreNamespaceResponse) ProtoMessage() {}
+
+func (x *RestoreNamespaceResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[11]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RestoreNamespaceResponse.ProtoReflect.Descriptor instead.
+func (*RestoreNamespaceResponse) Descriptor() ([]byte, []int) {
+	return file_temporal_api_operatorservice_v1_request_response_proto_rawDescGZIP(), []int{11}
+}
+
+type DescribeNamespaceRestoreRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Only one of namespace or namespace_id must be specified to identify namespace.
+	Namespace     string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	NamespaceId   string `protobuf:"bytes,2,opt,name=namespace_id,json=namespaceId,proto3" json:"namespace_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DescribeNamespaceRestoreRequest) Reset() {
+	*x = DescribeNamespaceRestoreRequest{}
+	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[12]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DescribeNamespaceRestoreRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DescribeNamespaceRestoreRequest) ProtoMessage() {}
+
+func (x *DescribeNamespaceRestoreRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[12]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DescribeNamespaceRestoreRequest.ProtoReflect.Descriptor instead.
+func (*DescribeNamespaceRestoreRequest) Descriptor() ([]byte, []int) {
+	return file_temporal_api_operatorservice_v1_request_response_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *DescribeNamespaceRestoreRequest) GetNamespace() string {
+	if x != nil {
+		return x.Namespace
+	}
+	return ""
+}
+
+func (x *DescribeNamespaceRestoreRequest) GetNamespaceId() string {
+	if x != nil {
+		return x.NamespaceId
+	}
+	return ""
+}
+
+type DescribeNamespaceRestoreResponse struct {
+	state protoimpl.MessageState   `protogen:"open.v1"`
+	State v1.NamespaceRestoreState `protobuf:"varint,1,opt,name=state,proto3,enum=temporal.api.enums.v1.NamespaceRestoreState" json:"state,omitempty"`
+	// Cluster that runs the restore job.
+	HostCluster string                 `protobuf:"bytes,2,opt,name=host_cluster,json=hostCluster,proto3" json:"host_cluster,omitempty"`
+	StartTime   *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=start_time,json=startTime,proto3" json:"start_time,omitempty"`
+	// Unset while the restore is running.
+	CloseTime *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=close_time,json=closeTime,proto3" json:"close_time,omitempty"`
+	// Run ID of the restore job.
+	RunId string `protobuf:"bytes,5,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
+	// Estimated when the refresh starts.
+	TotalExecutionCount int64 `protobuf:"varint,6,opt,name=total_execution_count,json=totalExecutionCount,proto3" json:"total_execution_count,omitempty"`
+	// Executions processed on every cluster.
+	ProcessedExecutionCount int64                  `protobuf:"varint,7,opt,name=processed_execution_count,json=processedExecutionCount,proto3" json:"processed_execution_count,omitempty"`
+	EstimatedCompletionTime *timestamppb.Timestamp `protobuf:"bytes,8,opt,name=estimated_completion_time,json=estimatedCompletionTime,proto3" json:"estimated_completion_time,omitempty"`
+	unknownFields           protoimpl.UnknownFields
+	sizeCache               protoimpl.SizeCache
+}
+
+func (x *DescribeNamespaceRestoreResponse) Reset() {
+	*x = DescribeNamespaceRestoreResponse{}
+	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[13]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DescribeNamespaceRestoreResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DescribeNamespaceRestoreResponse) ProtoMessage() {}
+
+func (x *DescribeNamespaceRestoreResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[13]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DescribeNamespaceRestoreResponse.ProtoReflect.Descriptor instead.
+func (*DescribeNamespaceRestoreResponse) Descriptor() ([]byte, []int) {
+	return file_temporal_api_operatorservice_v1_request_response_proto_rawDescGZIP(), []int{13}
+}
+
+func (x *DescribeNamespaceRestoreResponse) GetState() v1.NamespaceRestoreState {
+	if x != nil {
+		return x.State
+	}
+	return v1.NamespaceRestoreState(0)
+}
+
+func (x *DescribeNamespaceRestoreResponse) GetHostCluster() string {
+	if x != nil {
+		return x.HostCluster
+	}
+	return ""
+}
+
+func (x *DescribeNamespaceRestoreResponse) GetStartTime() *timestamppb.Timestamp {
+	if x != nil {
+		return x.StartTime
+	}
+	return nil
+}
+
+func (x *DescribeNamespaceRestoreResponse) GetCloseTime() *timestamppb.Timestamp {
+	if x != nil {
+		return x.CloseTime
+	}
+	return nil
+}
+
+func (x *DescribeNamespaceRestoreResponse) GetRunId() string {
+	if x != nil {
+		return x.RunId
+	}
+	return ""
+}
+
+func (x *DescribeNamespaceRestoreResponse) GetTotalExecutionCount() int64 {
+	if x != nil {
+		return x.TotalExecutionCount
+	}
+	return 0
+}
+
+func (x *DescribeNamespaceRestoreResponse) GetProcessedExecutionCount() int64 {
+	if x != nil {
+		return x.ProcessedExecutionCount
+	}
+	return 0
+}
+
+func (x *DescribeNamespaceRestoreResponse) GetEstimatedCompletionTime() *timestamppb.Timestamp {
+	if x != nil {
+		return x.EstimatedCompletionTime
+	}
+	return nil
+}
+
 type AddOrUpdateRemoteClusterRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Frontend Address is a cross cluster accessible address for gRPC traffic. This field is required.
@@ -436,7 +773,7 @@ type AddOrUpdateRemoteClusterRequest struct {
 
 func (x *AddOrUpdateRemoteClusterRequest) Reset() {
 	*x = AddOrUpdateRemoteClusterRequest{}
-	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[8]
+	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[14]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -448,7 +785,7 @@ func (x *AddOrUpdateRemoteClusterRequest) String() string {
 func (*AddOrUpdateRemoteClusterRequest) ProtoMessage() {}
 
 func (x *AddOrUpdateRemoteClusterRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[8]
+	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[14]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -461,7 +798,7 @@ func (x *AddOrUpdateRemoteClusterRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AddOrUpdateRemoteClusterRequest.ProtoReflect.Descriptor instead.
 func (*AddOrUpdateRemoteClusterRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_operatorservice_v1_request_response_proto_rawDescGZIP(), []int{8}
+	return file_temporal_api_operatorservice_v1_request_response_proto_rawDescGZIP(), []int{14}
 }
 
 func (x *AddOrUpdateRemoteClusterRequest) GetFrontendAddress() string {
@@ -500,7 +837,7 @@ type AddOrUpdateRemoteClusterResponse struct {
 
 func (x *AddOrUpdateRemoteClusterResponse) Reset() {
 	*x = AddOrUpdateRemoteClusterResponse{}
-	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[9]
+	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[15]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -512,7 +849,7 @@ func (x *AddOrUpdateRemoteClusterResponse) String() string {
 func (*AddOrUpdateRemoteClusterResponse) ProtoMessage() {}
 
 func (x *AddOrUpdateRemoteClusterResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[9]
+	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[15]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -525,7 +862,7 @@ func (x *AddOrUpdateRemoteClusterResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AddOrUpdateRemoteClusterResponse.ProtoReflect.Descriptor instead.
 func (*AddOrUpdateRemoteClusterResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_operatorservice_v1_request_response_proto_rawDescGZIP(), []int{9}
+	return file_temporal_api_operatorservice_v1_request_response_proto_rawDescGZIP(), []int{15}
 }
 
 type RemoveRemoteClusterRequest struct {
@@ -538,7 +875,7 @@ type RemoveRemoteClusterRequest struct {
 
 func (x *RemoveRemoteClusterRequest) Reset() {
 	*x = RemoveRemoteClusterRequest{}
-	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[10]
+	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[16]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -550,7 +887,7 @@ func (x *RemoveRemoteClusterRequest) String() string {
 func (*RemoveRemoteClusterRequest) ProtoMessage() {}
 
 func (x *RemoveRemoteClusterRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[10]
+	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[16]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -563,7 +900,7 @@ func (x *RemoveRemoteClusterRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RemoveRemoteClusterRequest.ProtoReflect.Descriptor instead.
 func (*RemoveRemoteClusterRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_operatorservice_v1_request_response_proto_rawDescGZIP(), []int{10}
+	return file_temporal_api_operatorservice_v1_request_response_proto_rawDescGZIP(), []int{16}
 }
 
 func (x *RemoveRemoteClusterRequest) GetClusterName() string {
@@ -581,7 +918,7 @@ type RemoveRemoteClusterResponse struct {
 
 func (x *RemoveRemoteClusterResponse) Reset() {
 	*x = RemoveRemoteClusterResponse{}
-	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[11]
+	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[17]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -593,7 +930,7 @@ func (x *RemoveRemoteClusterResponse) String() string {
 func (*RemoveRemoteClusterResponse) ProtoMessage() {}
 
 func (x *RemoveRemoteClusterResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[11]
+	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[17]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -606,7 +943,7 @@ func (x *RemoveRemoteClusterResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RemoveRemoteClusterResponse.ProtoReflect.Descriptor instead.
 func (*RemoveRemoteClusterResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_operatorservice_v1_request_response_proto_rawDescGZIP(), []int{11}
+	return file_temporal_api_operatorservice_v1_request_response_proto_rawDescGZIP(), []int{17}
 }
 
 type ListClustersRequest struct {
@@ -619,7 +956,7 @@ type ListClustersRequest struct {
 
 func (x *ListClustersRequest) Reset() {
 	*x = ListClustersRequest{}
-	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[12]
+	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[18]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -631,7 +968,7 @@ func (x *ListClustersRequest) String() string {
 func (*ListClustersRequest) ProtoMessage() {}
 
 func (x *ListClustersRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[12]
+	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[18]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -644,7 +981,7 @@ func (x *ListClustersRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListClustersRequest.ProtoReflect.Descriptor instead.
 func (*ListClustersRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_operatorservice_v1_request_response_proto_rawDescGZIP(), []int{12}
+	return file_temporal_api_operatorservice_v1_request_response_proto_rawDescGZIP(), []int{18}
 }
 
 func (x *ListClustersRequest) GetPageSize() int32 {
@@ -672,7 +1009,7 @@ type ListClustersResponse struct {
 
 func (x *ListClustersResponse) Reset() {
 	*x = ListClustersResponse{}
-	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[13]
+	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[19]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -684,7 +1021,7 @@ func (x *ListClustersResponse) String() string {
 func (*ListClustersResponse) ProtoMessage() {}
 
 func (x *ListClustersResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[13]
+	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[19]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -697,7 +1034,7 @@ func (x *ListClustersResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListClustersResponse.ProtoReflect.Descriptor instead.
 func (*ListClustersResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_operatorservice_v1_request_response_proto_rawDescGZIP(), []int{13}
+	return file_temporal_api_operatorservice_v1_request_response_proto_rawDescGZIP(), []int{19}
 }
 
 func (x *ListClustersResponse) GetClusters() []*ClusterMetadata {
@@ -738,7 +1075,7 @@ type ClusterMetadata struct {
 
 func (x *ClusterMetadata) Reset() {
 	*x = ClusterMetadata{}
-	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[14]
+	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[20]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -750,7 +1087,7 @@ func (x *ClusterMetadata) String() string {
 func (*ClusterMetadata) ProtoMessage() {}
 
 func (x *ClusterMetadata) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[14]
+	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[20]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -763,7 +1100,7 @@ func (x *ClusterMetadata) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ClusterMetadata.ProtoReflect.Descriptor instead.
 func (*ClusterMetadata) Descriptor() ([]byte, []int) {
-	return file_temporal_api_operatorservice_v1_request_response_proto_rawDescGZIP(), []int{14}
+	return file_temporal_api_operatorservice_v1_request_response_proto_rawDescGZIP(), []int{20}
 }
 
 func (x *ClusterMetadata) GetClusterName() string {
@@ -832,7 +1169,7 @@ type GetNexusEndpointRequest struct {
 
 func (x *GetNexusEndpointRequest) Reset() {
 	*x = GetNexusEndpointRequest{}
-	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[15]
+	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[21]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -844,7 +1181,7 @@ func (x *GetNexusEndpointRequest) String() string {
 func (*GetNexusEndpointRequest) ProtoMessage() {}
 
 func (x *GetNexusEndpointRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[15]
+	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[21]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -857,7 +1194,7 @@ func (x *GetNexusEndpointRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetNexusEndpointRequest.ProtoReflect.Descriptor instead.
 func (*GetNexusEndpointRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_operatorservice_v1_request_response_proto_rawDescGZIP(), []int{15}
+	return file_temporal_api_operatorservice_v1_request_response_proto_rawDescGZIP(), []int{21}
 }
 
 func (x *GetNexusEndpointRequest) GetId() string {
@@ -876,7 +1213,7 @@ type GetNexusEndpointResponse struct {
 
 func (x *GetNexusEndpointResponse) Reset() {
 	*x = GetNexusEndpointResponse{}
-	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[16]
+	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[22]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -888,7 +1225,7 @@ func (x *GetNexusEndpointResponse) String() string {
 func (*GetNexusEndpointResponse) ProtoMessage() {}
 
 func (x *GetNexusEndpointResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[16]
+	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[22]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -901,7 +1238,7 @@ func (x *GetNexusEndpointResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetNexusEndpointResponse.ProtoReflect.Descriptor instead.
 func (*GetNexusEndpointResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_operatorservice_v1_request_response_proto_rawDescGZIP(), []int{16}
+	return file_temporal_api_operatorservice_v1_request_response_proto_rawDescGZIP(), []int{22}
 }
 
 func (x *GetNexusEndpointResponse) GetEndpoint() *v11.Endpoint {
@@ -921,7 +1258,7 @@ type CreateNexusEndpointRequest struct {
 
 func (x *CreateNexusEndpointRequest) Reset() {
 	*x = CreateNexusEndpointRequest{}
-	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[17]
+	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[23]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -933,7 +1270,7 @@ func (x *CreateNexusEndpointRequest) String() string {
 func (*CreateNexusEndpointRequest) ProtoMessage() {}
 
 func (x *CreateNexusEndpointRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[17]
+	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[23]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -946,7 +1283,7 @@ func (x *CreateNexusEndpointRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateNexusEndpointRequest.ProtoReflect.Descriptor instead.
 func (*CreateNexusEndpointRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_operatorservice_v1_request_response_proto_rawDescGZIP(), []int{17}
+	return file_temporal_api_operatorservice_v1_request_response_proto_rawDescGZIP(), []int{23}
 }
 
 func (x *CreateNexusEndpointRequest) GetSpec() *v11.EndpointSpec {
@@ -966,7 +1303,7 @@ type CreateNexusEndpointResponse struct {
 
 func (x *CreateNexusEndpointResponse) Reset() {
 	*x = CreateNexusEndpointResponse{}
-	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[18]
+	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[24]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -978,7 +1315,7 @@ func (x *CreateNexusEndpointResponse) String() string {
 func (*CreateNexusEndpointResponse) ProtoMessage() {}
 
 func (x *CreateNexusEndpointResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[18]
+	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[24]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -991,7 +1328,7 @@ func (x *CreateNexusEndpointResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateNexusEndpointResponse.ProtoReflect.Descriptor instead.
 func (*CreateNexusEndpointResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_operatorservice_v1_request_response_proto_rawDescGZIP(), []int{18}
+	return file_temporal_api_operatorservice_v1_request_response_proto_rawDescGZIP(), []int{24}
 }
 
 func (x *CreateNexusEndpointResponse) GetEndpoint() *v11.Endpoint {
@@ -1014,7 +1351,7 @@ type UpdateNexusEndpointRequest struct {
 
 func (x *UpdateNexusEndpointRequest) Reset() {
 	*x = UpdateNexusEndpointRequest{}
-	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[19]
+	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[25]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1026,7 +1363,7 @@ func (x *UpdateNexusEndpointRequest) String() string {
 func (*UpdateNexusEndpointRequest) ProtoMessage() {}
 
 func (x *UpdateNexusEndpointRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[19]
+	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[25]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1039,7 +1376,7 @@ func (x *UpdateNexusEndpointRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateNexusEndpointRequest.ProtoReflect.Descriptor instead.
 func (*UpdateNexusEndpointRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_operatorservice_v1_request_response_proto_rawDescGZIP(), []int{19}
+	return file_temporal_api_operatorservice_v1_request_response_proto_rawDescGZIP(), []int{25}
 }
 
 func (x *UpdateNexusEndpointRequest) GetId() string {
@@ -1073,7 +1410,7 @@ type UpdateNexusEndpointResponse struct {
 
 func (x *UpdateNexusEndpointResponse) Reset() {
 	*x = UpdateNexusEndpointResponse{}
-	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[20]
+	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[26]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1085,7 +1422,7 @@ func (x *UpdateNexusEndpointResponse) String() string {
 func (*UpdateNexusEndpointResponse) ProtoMessage() {}
 
 func (x *UpdateNexusEndpointResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[20]
+	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[26]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1098,7 +1435,7 @@ func (x *UpdateNexusEndpointResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateNexusEndpointResponse.ProtoReflect.Descriptor instead.
 func (*UpdateNexusEndpointResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_operatorservice_v1_request_response_proto_rawDescGZIP(), []int{20}
+	return file_temporal_api_operatorservice_v1_request_response_proto_rawDescGZIP(), []int{26}
 }
 
 func (x *UpdateNexusEndpointResponse) GetEndpoint() *v11.Endpoint {
@@ -1120,7 +1457,7 @@ type DeleteNexusEndpointRequest struct {
 
 func (x *DeleteNexusEndpointRequest) Reset() {
 	*x = DeleteNexusEndpointRequest{}
-	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[21]
+	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[27]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1132,7 +1469,7 @@ func (x *DeleteNexusEndpointRequest) String() string {
 func (*DeleteNexusEndpointRequest) ProtoMessage() {}
 
 func (x *DeleteNexusEndpointRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[21]
+	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[27]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1145,7 +1482,7 @@ func (x *DeleteNexusEndpointRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteNexusEndpointRequest.ProtoReflect.Descriptor instead.
 func (*DeleteNexusEndpointRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_operatorservice_v1_request_response_proto_rawDescGZIP(), []int{21}
+	return file_temporal_api_operatorservice_v1_request_response_proto_rawDescGZIP(), []int{27}
 }
 
 func (x *DeleteNexusEndpointRequest) GetId() string {
@@ -1170,7 +1507,7 @@ type DeleteNexusEndpointResponse struct {
 
 func (x *DeleteNexusEndpointResponse) Reset() {
 	*x = DeleteNexusEndpointResponse{}
-	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[22]
+	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[28]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1182,7 +1519,7 @@ func (x *DeleteNexusEndpointResponse) String() string {
 func (*DeleteNexusEndpointResponse) ProtoMessage() {}
 
 func (x *DeleteNexusEndpointResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[22]
+	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[28]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1195,7 +1532,7 @@ func (x *DeleteNexusEndpointResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteNexusEndpointResponse.ProtoReflect.Descriptor instead.
 func (*DeleteNexusEndpointResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_operatorservice_v1_request_response_proto_rawDescGZIP(), []int{22}
+	return file_temporal_api_operatorservice_v1_request_response_proto_rawDescGZIP(), []int{28}
 }
 
 type ListNexusEndpointsRequest struct {
@@ -1216,7 +1553,7 @@ type ListNexusEndpointsRequest struct {
 
 func (x *ListNexusEndpointsRequest) Reset() {
 	*x = ListNexusEndpointsRequest{}
-	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[23]
+	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[29]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1228,7 +1565,7 @@ func (x *ListNexusEndpointsRequest) String() string {
 func (*ListNexusEndpointsRequest) ProtoMessage() {}
 
 func (x *ListNexusEndpointsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[23]
+	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[29]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1241,7 +1578,7 @@ func (x *ListNexusEndpointsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListNexusEndpointsRequest.ProtoReflect.Descriptor instead.
 func (*ListNexusEndpointsRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_operatorservice_v1_request_response_proto_rawDescGZIP(), []int{23}
+	return file_temporal_api_operatorservice_v1_request_response_proto_rawDescGZIP(), []int{29}
 }
 
 func (x *ListNexusEndpointsRequest) GetPageSize() int32 {
@@ -1276,7 +1613,7 @@ type ListNexusEndpointsResponse struct {
 
 func (x *ListNexusEndpointsResponse) Reset() {
 	*x = ListNexusEndpointsResponse{}
-	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[24]
+	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[30]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1288,7 +1625,7 @@ func (x *ListNexusEndpointsResponse) String() string {
 func (*ListNexusEndpointsResponse) ProtoMessage() {}
 
 func (x *ListNexusEndpointsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[24]
+	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[30]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1301,7 +1638,7 @@ func (x *ListNexusEndpointsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListNexusEndpointsResponse.ProtoReflect.Descriptor instead.
 func (*ListNexusEndpointsResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_operatorservice_v1_request_response_proto_rawDescGZIP(), []int{24}
+	return file_temporal_api_operatorservice_v1_request_response_proto_rawDescGZIP(), []int{30}
 }
 
 func (x *ListNexusEndpointsResponse) GetNextPageToken() []byte {
@@ -1322,7 +1659,7 @@ var File_temporal_api_operatorservice_v1_request_response_proto protoreflect.Fil
 
 const file_temporal_api_operatorservice_v1_request_response_proto_rawDesc = "" +
 	"\n" +
-	"6temporal/api/operatorservice/v1/request_response.proto\x12\x1ftemporal.api.operatorservice.v1\x1a\"temporal/api/enums/v1/common.proto\x1a#temporal/api/nexus/v1/message.proto\x1a\x1egoogle/protobuf/duration.proto\"\xa8\x02\n" +
+	"6temporal/api/operatorservice/v1/request_response.proto\x12\x1ftemporal.api.operatorservice.v1\x1a\"temporal/api/enums/v1/common.proto\x1a%temporal/api/enums/v1/namespace.proto\x1a#temporal/api/nexus/v1/message.proto\x1a\x1egoogle/protobuf/duration.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xa8\x02\n" +
 	"\x1aAddSearchAttributesRequest\x12~\n" +
 	"\x11search_attributes\x18\x01 \x03(\v2Q.temporal.api.operatorservice.v1.AddSearchAttributesRequest.SearchAttributesEntryR\x10searchAttributes\x12\x1c\n" +
 	"\tnamespace\x18\x02 \x01(\tR\tnamespace\x1al\n" +
@@ -1354,7 +1691,29 @@ const file_temporal_api_operatorservice_v1_request_response_proto_rawDesc = "" +
 	"\fnamespace_id\x18\x02 \x01(\tR\vnamespaceId\x12O\n" +
 	"\x16namespace_delete_delay\x18\x03 \x01(\v2\x19.google.protobuf.DurationR\x14namespaceDeleteDelay\"F\n" +
 	"\x17DeleteNamespaceResponse\x12+\n" +
-	"\x11deleted_namespace\x18\x01 \x01(\tR\x10deletedNamespace\"\xf8\x01\n" +
+	"\x11deleted_namespace\x18\x01 \x01(\tR\x10deletedNamespace\"]\n" +
+	"\x1aSoftDeleteNamespaceRequest\x12\x1c\n" +
+	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12!\n" +
+	"\fnamespace_id\x18\x02 \x01(\tR\vnamespaceId\"\x1d\n" +
+	"\x1bSoftDeleteNamespaceResponse\"Z\n" +
+	"\x17RestoreNamespaceRequest\x12\x1c\n" +
+	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12!\n" +
+	"\fnamespace_id\x18\x02 \x01(\tR\vnamespaceId\"\x1a\n" +
+	"\x18RestoreNamespaceResponse\"b\n" +
+	"\x1fDescribeNamespaceRestoreRequest\x12\x1c\n" +
+	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12!\n" +
+	"\fnamespace_id\x18\x02 \x01(\tR\vnamespaceId\"\xde\x03\n" +
+	" DescribeNamespaceRestoreResponse\x12B\n" +
+	"\x05state\x18\x01 \x01(\x0e2,.temporal.api.enums.v1.NamespaceRestoreStateR\x05state\x12!\n" +
+	"\fhost_cluster\x18\x02 \x01(\tR\vhostCluster\x129\n" +
+	"\n" +
+	"start_time\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\tstartTime\x129\n" +
+	"\n" +
+	"close_time\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\tcloseTime\x12\x15\n" +
+	"\x06run_id\x18\x05 \x01(\tR\x05runId\x122\n" +
+	"\x15total_execution_count\x18\x06 \x01(\x03R\x13totalExecutionCount\x12:\n" +
+	"\x19processed_execution_count\x18\a \x01(\x03R\x17processedExecutionCount\x12V\n" +
+	"\x19estimated_completion_time\x18\b \x01(\v2\x1a.google.protobuf.TimestampR\x17estimatedCompletionTime\"\xf8\x01\n" +
 	"\x1fAddOrUpdateRemoteClusterRequest\x12)\n" +
 	"\x10frontend_address\x18\x01 \x01(\tR\x0ffrontendAddress\x12G\n" +
 	" enable_remote_cluster_connection\x18\x02 \x01(\bR\x1denableRemoteClusterConnection\x122\n" +
@@ -1419,7 +1778,7 @@ func file_temporal_api_operatorservice_v1_request_response_proto_rawDescGZIP() [
 	return file_temporal_api_operatorservice_v1_request_response_proto_rawDescData
 }
 
-var file_temporal_api_operatorservice_v1_request_response_proto_msgTypes = make([]protoimpl.MessageInfo, 29)
+var file_temporal_api_operatorservice_v1_request_response_proto_msgTypes = make([]protoimpl.MessageInfo, 35)
 var file_temporal_api_operatorservice_v1_request_response_proto_goTypes = []any{
 	(*AddSearchAttributesRequest)(nil),       // 0: temporal.api.operatorservice.v1.AddSearchAttributesRequest
 	(*AddSearchAttributesResponse)(nil),      // 1: temporal.api.operatorservice.v1.AddSearchAttributesResponse
@@ -1429,53 +1788,65 @@ var file_temporal_api_operatorservice_v1_request_response_proto_goTypes = []any{
 	(*ListSearchAttributesResponse)(nil),     // 5: temporal.api.operatorservice.v1.ListSearchAttributesResponse
 	(*DeleteNamespaceRequest)(nil),           // 6: temporal.api.operatorservice.v1.DeleteNamespaceRequest
 	(*DeleteNamespaceResponse)(nil),          // 7: temporal.api.operatorservice.v1.DeleteNamespaceResponse
-	(*AddOrUpdateRemoteClusterRequest)(nil),  // 8: temporal.api.operatorservice.v1.AddOrUpdateRemoteClusterRequest
-	(*AddOrUpdateRemoteClusterResponse)(nil), // 9: temporal.api.operatorservice.v1.AddOrUpdateRemoteClusterResponse
-	(*RemoveRemoteClusterRequest)(nil),       // 10: temporal.api.operatorservice.v1.RemoveRemoteClusterRequest
-	(*RemoveRemoteClusterResponse)(nil),      // 11: temporal.api.operatorservice.v1.RemoveRemoteClusterResponse
-	(*ListClustersRequest)(nil),              // 12: temporal.api.operatorservice.v1.ListClustersRequest
-	(*ListClustersResponse)(nil),             // 13: temporal.api.operatorservice.v1.ListClustersResponse
-	(*ClusterMetadata)(nil),                  // 14: temporal.api.operatorservice.v1.ClusterMetadata
-	(*GetNexusEndpointRequest)(nil),          // 15: temporal.api.operatorservice.v1.GetNexusEndpointRequest
-	(*GetNexusEndpointResponse)(nil),         // 16: temporal.api.operatorservice.v1.GetNexusEndpointResponse
-	(*CreateNexusEndpointRequest)(nil),       // 17: temporal.api.operatorservice.v1.CreateNexusEndpointRequest
-	(*CreateNexusEndpointResponse)(nil),      // 18: temporal.api.operatorservice.v1.CreateNexusEndpointResponse
-	(*UpdateNexusEndpointRequest)(nil),       // 19: temporal.api.operatorservice.v1.UpdateNexusEndpointRequest
-	(*UpdateNexusEndpointResponse)(nil),      // 20: temporal.api.operatorservice.v1.UpdateNexusEndpointResponse
-	(*DeleteNexusEndpointRequest)(nil),       // 21: temporal.api.operatorservice.v1.DeleteNexusEndpointRequest
-	(*DeleteNexusEndpointResponse)(nil),      // 22: temporal.api.operatorservice.v1.DeleteNexusEndpointResponse
-	(*ListNexusEndpointsRequest)(nil),        // 23: temporal.api.operatorservice.v1.ListNexusEndpointsRequest
-	(*ListNexusEndpointsResponse)(nil),       // 24: temporal.api.operatorservice.v1.ListNexusEndpointsResponse
-	nil,                                      // 25: temporal.api.operatorservice.v1.AddSearchAttributesRequest.SearchAttributesEntry
-	nil,                                      // 26: temporal.api.operatorservice.v1.ListSearchAttributesResponse.CustomAttributesEntry
-	nil,                                      // 27: temporal.api.operatorservice.v1.ListSearchAttributesResponse.SystemAttributesEntry
-	nil,                                      // 28: temporal.api.operatorservice.v1.ListSearchAttributesResponse.StorageSchemaEntry
-	(*durationpb.Duration)(nil),              // 29: google.protobuf.Duration
-	(*v11.Endpoint)(nil),                     // 30: temporal.api.nexus.v1.Endpoint
-	(*v11.EndpointSpec)(nil),                 // 31: temporal.api.nexus.v1.EndpointSpec
-	(v1.IndexedValueType)(0),                 // 32: temporal.api.enums.v1.IndexedValueType
+	(*SoftDeleteNamespaceRequest)(nil),       // 8: temporal.api.operatorservice.v1.SoftDeleteNamespaceRequest
+	(*SoftDeleteNamespaceResponse)(nil),      // 9: temporal.api.operatorservice.v1.SoftDeleteNamespaceResponse
+	(*RestoreNamespaceRequest)(nil),          // 10: temporal.api.operatorservice.v1.RestoreNamespaceRequest
+	(*RestoreNamespaceResponse)(nil),         // 11: temporal.api.operatorservice.v1.RestoreNamespaceResponse
+	(*DescribeNamespaceRestoreRequest)(nil),  // 12: temporal.api.operatorservice.v1.DescribeNamespaceRestoreRequest
+	(*DescribeNamespaceRestoreResponse)(nil), // 13: temporal.api.operatorservice.v1.DescribeNamespaceRestoreResponse
+	(*AddOrUpdateRemoteClusterRequest)(nil),  // 14: temporal.api.operatorservice.v1.AddOrUpdateRemoteClusterRequest
+	(*AddOrUpdateRemoteClusterResponse)(nil), // 15: temporal.api.operatorservice.v1.AddOrUpdateRemoteClusterResponse
+	(*RemoveRemoteClusterRequest)(nil),       // 16: temporal.api.operatorservice.v1.RemoveRemoteClusterRequest
+	(*RemoveRemoteClusterResponse)(nil),      // 17: temporal.api.operatorservice.v1.RemoveRemoteClusterResponse
+	(*ListClustersRequest)(nil),              // 18: temporal.api.operatorservice.v1.ListClustersRequest
+	(*ListClustersResponse)(nil),             // 19: temporal.api.operatorservice.v1.ListClustersResponse
+	(*ClusterMetadata)(nil),                  // 20: temporal.api.operatorservice.v1.ClusterMetadata
+	(*GetNexusEndpointRequest)(nil),          // 21: temporal.api.operatorservice.v1.GetNexusEndpointRequest
+	(*GetNexusEndpointResponse)(nil),         // 22: temporal.api.operatorservice.v1.GetNexusEndpointResponse
+	(*CreateNexusEndpointRequest)(nil),       // 23: temporal.api.operatorservice.v1.CreateNexusEndpointRequest
+	(*CreateNexusEndpointResponse)(nil),      // 24: temporal.api.operatorservice.v1.CreateNexusEndpointResponse
+	(*UpdateNexusEndpointRequest)(nil),       // 25: temporal.api.operatorservice.v1.UpdateNexusEndpointRequest
+	(*UpdateNexusEndpointResponse)(nil),      // 26: temporal.api.operatorservice.v1.UpdateNexusEndpointResponse
+	(*DeleteNexusEndpointRequest)(nil),       // 27: temporal.api.operatorservice.v1.DeleteNexusEndpointRequest
+	(*DeleteNexusEndpointResponse)(nil),      // 28: temporal.api.operatorservice.v1.DeleteNexusEndpointResponse
+	(*ListNexusEndpointsRequest)(nil),        // 29: temporal.api.operatorservice.v1.ListNexusEndpointsRequest
+	(*ListNexusEndpointsResponse)(nil),       // 30: temporal.api.operatorservice.v1.ListNexusEndpointsResponse
+	nil,                                      // 31: temporal.api.operatorservice.v1.AddSearchAttributesRequest.SearchAttributesEntry
+	nil,                                      // 32: temporal.api.operatorservice.v1.ListSearchAttributesResponse.CustomAttributesEntry
+	nil,                                      // 33: temporal.api.operatorservice.v1.ListSearchAttributesResponse.SystemAttributesEntry
+	nil,                                      // 34: temporal.api.operatorservice.v1.ListSearchAttributesResponse.StorageSchemaEntry
+	(*durationpb.Duration)(nil),              // 35: google.protobuf.Duration
+	(v1.NamespaceRestoreState)(0),            // 36: temporal.api.enums.v1.NamespaceRestoreState
+	(*timestamppb.Timestamp)(nil),            // 37: google.protobuf.Timestamp
+	(*v11.Endpoint)(nil),                     // 38: temporal.api.nexus.v1.Endpoint
+	(*v11.EndpointSpec)(nil),                 // 39: temporal.api.nexus.v1.EndpointSpec
+	(v1.IndexedValueType)(0),                 // 40: temporal.api.enums.v1.IndexedValueType
 }
 var file_temporal_api_operatorservice_v1_request_response_proto_depIdxs = []int32{
-	25, // 0: temporal.api.operatorservice.v1.AddSearchAttributesRequest.search_attributes:type_name -> temporal.api.operatorservice.v1.AddSearchAttributesRequest.SearchAttributesEntry
-	26, // 1: temporal.api.operatorservice.v1.ListSearchAttributesResponse.custom_attributes:type_name -> temporal.api.operatorservice.v1.ListSearchAttributesResponse.CustomAttributesEntry
-	27, // 2: temporal.api.operatorservice.v1.ListSearchAttributesResponse.system_attributes:type_name -> temporal.api.operatorservice.v1.ListSearchAttributesResponse.SystemAttributesEntry
-	28, // 3: temporal.api.operatorservice.v1.ListSearchAttributesResponse.storage_schema:type_name -> temporal.api.operatorservice.v1.ListSearchAttributesResponse.StorageSchemaEntry
-	29, // 4: temporal.api.operatorservice.v1.DeleteNamespaceRequest.namespace_delete_delay:type_name -> google.protobuf.Duration
-	14, // 5: temporal.api.operatorservice.v1.ListClustersResponse.clusters:type_name -> temporal.api.operatorservice.v1.ClusterMetadata
-	30, // 6: temporal.api.operatorservice.v1.GetNexusEndpointResponse.endpoint:type_name -> temporal.api.nexus.v1.Endpoint
-	31, // 7: temporal.api.operatorservice.v1.CreateNexusEndpointRequest.spec:type_name -> temporal.api.nexus.v1.EndpointSpec
-	30, // 8: temporal.api.operatorservice.v1.CreateNexusEndpointResponse.endpoint:type_name -> temporal.api.nexus.v1.Endpoint
-	31, // 9: temporal.api.operatorservice.v1.UpdateNexusEndpointRequest.spec:type_name -> temporal.api.nexus.v1.EndpointSpec
-	30, // 10: temporal.api.operatorservice.v1.UpdateNexusEndpointResponse.endpoint:type_name -> temporal.api.nexus.v1.Endpoint
-	30, // 11: temporal.api.operatorservice.v1.ListNexusEndpointsResponse.endpoints:type_name -> temporal.api.nexus.v1.Endpoint
-	32, // 12: temporal.api.operatorservice.v1.AddSearchAttributesRequest.SearchAttributesEntry.value:type_name -> temporal.api.enums.v1.IndexedValueType
-	32, // 13: temporal.api.operatorservice.v1.ListSearchAttributesResponse.CustomAttributesEntry.value:type_name -> temporal.api.enums.v1.IndexedValueType
-	32, // 14: temporal.api.operatorservice.v1.ListSearchAttributesResponse.SystemAttributesEntry.value:type_name -> temporal.api.enums.v1.IndexedValueType
-	15, // [15:15] is the sub-list for method output_type
-	15, // [15:15] is the sub-list for method input_type
-	15, // [15:15] is the sub-list for extension type_name
-	15, // [15:15] is the sub-list for extension extendee
-	0,  // [0:15] is the sub-list for field type_name
+	31, // 0: temporal.api.operatorservice.v1.AddSearchAttributesRequest.search_attributes:type_name -> temporal.api.operatorservice.v1.AddSearchAttributesRequest.SearchAttributesEntry
+	32, // 1: temporal.api.operatorservice.v1.ListSearchAttributesResponse.custom_attributes:type_name -> temporal.api.operatorservice.v1.ListSearchAttributesResponse.CustomAttributesEntry
+	33, // 2: temporal.api.operatorservice.v1.ListSearchAttributesResponse.system_attributes:type_name -> temporal.api.operatorservice.v1.ListSearchAttributesResponse.SystemAttributesEntry
+	34, // 3: temporal.api.operatorservice.v1.ListSearchAttributesResponse.storage_schema:type_name -> temporal.api.operatorservice.v1.ListSearchAttributesResponse.StorageSchemaEntry
+	35, // 4: temporal.api.operatorservice.v1.DeleteNamespaceRequest.namespace_delete_delay:type_name -> google.protobuf.Duration
+	36, // 5: temporal.api.operatorservice.v1.DescribeNamespaceRestoreResponse.state:type_name -> temporal.api.enums.v1.NamespaceRestoreState
+	37, // 6: temporal.api.operatorservice.v1.DescribeNamespaceRestoreResponse.start_time:type_name -> google.protobuf.Timestamp
+	37, // 7: temporal.api.operatorservice.v1.DescribeNamespaceRestoreResponse.close_time:type_name -> google.protobuf.Timestamp
+	37, // 8: temporal.api.operatorservice.v1.DescribeNamespaceRestoreResponse.estimated_completion_time:type_name -> google.protobuf.Timestamp
+	20, // 9: temporal.api.operatorservice.v1.ListClustersResponse.clusters:type_name -> temporal.api.operatorservice.v1.ClusterMetadata
+	38, // 10: temporal.api.operatorservice.v1.GetNexusEndpointResponse.endpoint:type_name -> temporal.api.nexus.v1.Endpoint
+	39, // 11: temporal.api.operatorservice.v1.CreateNexusEndpointRequest.spec:type_name -> temporal.api.nexus.v1.EndpointSpec
+	38, // 12: temporal.api.operatorservice.v1.CreateNexusEndpointResponse.endpoint:type_name -> temporal.api.nexus.v1.Endpoint
+	39, // 13: temporal.api.operatorservice.v1.UpdateNexusEndpointRequest.spec:type_name -> temporal.api.nexus.v1.EndpointSpec
+	38, // 14: temporal.api.operatorservice.v1.UpdateNexusEndpointResponse.endpoint:type_name -> temporal.api.nexus.v1.Endpoint
+	38, // 15: temporal.api.operatorservice.v1.ListNexusEndpointsResponse.endpoints:type_name -> temporal.api.nexus.v1.Endpoint
+	40, // 16: temporal.api.operatorservice.v1.AddSearchAttributesRequest.SearchAttributesEntry.value:type_name -> temporal.api.enums.v1.IndexedValueType
+	40, // 17: temporal.api.operatorservice.v1.ListSearchAttributesResponse.CustomAttributesEntry.value:type_name -> temporal.api.enums.v1.IndexedValueType
+	40, // 18: temporal.api.operatorservice.v1.ListSearchAttributesResponse.SystemAttributesEntry.value:type_name -> temporal.api.enums.v1.IndexedValueType
+	19, // [19:19] is the sub-list for method output_type
+	19, // [19:19] is the sub-list for method input_type
+	19, // [19:19] is the sub-list for extension type_name
+	19, // [19:19] is the sub-list for extension extendee
+	0,  // [0:19] is the sub-list for field type_name
 }
 
 func init() { file_temporal_api_operatorservice_v1_request_response_proto_init() }
@@ -1489,7 +1860,7 @@ func file_temporal_api_operatorservice_v1_request_response_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_temporal_api_operatorservice_v1_request_response_proto_rawDesc), len(file_temporal_api_operatorservice_v1_request_response_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   29,
+			NumMessages:   35,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

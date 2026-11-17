@@ -876,6 +876,9 @@ type WorkflowServiceClient interface {
 	//
 	//	aip.dev/not-precedent: Nexus operation deletion not exposed to HTTP, users should use cancel or terminate. --)
 	DeleteNexusOperationExecution(ctx context.Context, in *DeleteNexusOperationExecutionRequest, opts ...grpc.CallOption) (*DeleteNexusOperationExecutionResponse, error)
+	// PollWorkflowExecutionTimeSkipping waits for a fast-forward outcome for a workflow execution.
+	//
+	// Experimental. Might change in the future.
 	PollWorkflowExecutionTimeSkipping(ctx context.Context, in *PollWorkflowExecutionTimeSkippingRequest, opts ...grpc.CallOption) (*PollWorkflowExecutionTimeSkippingResponse, error)
 }
 
@@ -2848,6 +2851,9 @@ type WorkflowServiceServer interface {
 	//
 	//	aip.dev/not-precedent: Nexus operation deletion not exposed to HTTP, users should use cancel or terminate. --)
 	DeleteNexusOperationExecution(context.Context, *DeleteNexusOperationExecutionRequest) (*DeleteNexusOperationExecutionResponse, error)
+	// PollWorkflowExecutionTimeSkipping waits for a fast-forward outcome for a workflow execution.
+	//
+	// Experimental. Might change in the future.
 	PollWorkflowExecutionTimeSkipping(context.Context, *PollWorkflowExecutionTimeSkippingRequest) (*PollWorkflowExecutionTimeSkippingResponse, error)
 	mustEmbedUnimplementedWorkflowServiceServer()
 }

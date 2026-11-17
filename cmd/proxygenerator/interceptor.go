@@ -562,28 +562,25 @@ func visitPayloads(
 					}
 					---
 					
-					We run the payload visitor on the value returned from GetResult(), but there
-					is no 'result' field on the generated type. Instead, we need to assign the visited
-					payload to the 'outcome' field instead. (Via generated the generated
-					DescribeNexusOperationExecutionResponse_Result type.)
+					There is no 'result' field on the generated type, so we visit the payload
+					through the field of the generated oneof wrapper
+					(DescribeNexusOperationExecutionResponse_Result) instead. The wrapper is the
+					live value in 'outcome', so a visitor that runs later, as it does when
+					ConcurrencyLimit > 1, still writes its result into the message. Copying the
+					payload out and assigning a new wrapper before the visit completes would
+					drop that result.
 				*/}}
 				{{if and (eq $type "*workflowservice.DescribeNexusOperationExecutionResponse") (eq . "Result")}}
-				if o.GetResult() != nil {
-					result := o.GetResult()
-					if err := visitPayload(ctx, options, o, concState, &result); err != nil { return err }
-					o.Outcome = &workflowservice.DescribeNexusOperationExecutionResponse_Result{Result: result}
+				if w, ok := o.Outcome.(*workflowservice.DescribeNexusOperationExecutionResponse_Result); ok && w.Result != nil {
+					if err := visitPayload(ctx, options, o, concState, &w.Result); err != nil { return err }
 				}
 				{{else if and (eq $type "*workflowservice.PollNexusOperationExecutionResponse") (eq . "Result")}}
-				if o.GetResult() != nil {
-					result := o.GetResult()
-					if err := visitPayload(ctx, options, o, concState, &result); err != nil { return err }
-					o.Outcome = &workflowservice.PollNexusOperationExecutionResponse_Result{Result: result}
+				if w, ok := o.Outcome.(*workflowservice.PollNexusOperationExecutionResponse_Result); ok && w.Result != nil {
+					if err := visitPayload(ctx, options, o, concState, &w.Result); err != nil { return err }
 				}
 				{{else if and (eq $type "*notificationservice.OnCompleteRequest") (eq . "Success")}}
-				if o.GetSuccess() != nil {
-					success := o.GetSuccess()
-					if err := visitPayload(ctx, options, o, concState, &success); err != nil { return err }
-					o.Result = &notificationservice.OnCompleteRequest_Success{Success: success}
+				if w, ok := o.Result.(*notificationservice.OnCompleteRequest_Success); ok && w.Success != nil {
+					if err := visitPayload(ctx, options, o, concState, &w.Success); err != nil { return err }
 				}
 				{{else}}
 				if o.{{.}} != nil {

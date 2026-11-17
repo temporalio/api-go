@@ -11,6 +11,7 @@ var (
 		"Registered":  1,
 		"Deprecated":  2,
 		"Deleted":     3,
+		"SoftDeleted": 4,
 	}
 )
 
@@ -23,6 +24,26 @@ func NamespaceStateFromString(s string) (NamespaceState, error) {
 		return NamespaceState(v), nil
 	}
 	return NamespaceState(0), fmt.Errorf("%s is not a valid NamespaceState", s)
+}
+
+var (
+	NamespaceRestoreState_shorthandValue = map[string]int32{
+		"Unspecified": 0,
+		"Running":     1,
+		"Completed":   2,
+		"Failed":      3,
+	}
+)
+
+// NamespaceRestoreStateFromString parses a NamespaceRestoreState value from  either the protojson
+// canonical SCREAMING_CASE enum or the traditional temporal PascalCase enum to NamespaceRestoreState
+func NamespaceRestoreStateFromString(s string) (NamespaceRestoreState, error) {
+	if v, ok := NamespaceRestoreState_value[s]; ok {
+		return NamespaceRestoreState(v), nil
+	} else if v, ok := NamespaceRestoreState_shorthandValue[s]; ok {
+		return NamespaceRestoreState(v), nil
+	}
+	return NamespaceRestoreState(0), fmt.Errorf("%s is not a valid NamespaceRestoreState", s)
 }
 
 var (

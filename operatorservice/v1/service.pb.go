@@ -26,12 +26,15 @@ var File_temporal_api_operatorservice_v1_service_proto protoreflect.FileDescript
 
 const file_temporal_api_operatorservice_v1_service_proto_rawDesc = "" +
 	"\n" +
-	"-temporal/api/operatorservice/v1/service.proto\x12\x1ftemporal.api.operatorservice.v1\x1a6temporal/api/operatorservice/v1/request_response.proto\x1a\x1cgoogle/api/annotations.proto2\xc6\x11\n" +
+	"-temporal/api/operatorservice/v1/service.proto\x12\x1ftemporal.api.operatorservice.v1\x1a6temporal/api/operatorservice/v1/request_response.proto\x1a\x1cgoogle/api/annotations.proto2\x8b\x15\n" +
 	"\x0fOperatorService\x12\x92\x01\n" +
 	"\x13AddSearchAttributes\x12;.temporal.api.operatorservice.v1.AddSearchAttributesRequest\x1a<.temporal.api.operatorservice.v1.AddSearchAttributesResponse\"\x00\x12\x9b\x01\n" +
 	"\x16RemoveSearchAttributes\x12>.temporal.api.operatorservice.v1.RemoveSearchAttributesRequest\x1a?.temporal.api.operatorservice.v1.RemoveSearchAttributesResponse\"\x00\x12\x82\x02\n" +
 	"\x14ListSearchAttributes\x12<.temporal.api.operatorservice.v1.ListSearchAttributesRequest\x1a=.temporal.api.operatorservice.v1.ListSearchAttributesResponse\"m\x82\xd3\xe4\x93\x02gZ2\x120/api/v1/namespaces/{namespace}/search-attributes\x121/cluster/namespaces/{namespace}/search-attributes\x12\x86\x01\n" +
-	"\x0fDeleteNamespace\x127.temporal.api.operatorservice.v1.DeleteNamespaceRequest\x1a8.temporal.api.operatorservice.v1.DeleteNamespaceResponse\"\x00\x12\xa1\x01\n" +
+	"\x0fDeleteNamespace\x127.temporal.api.operatorservice.v1.DeleteNamespaceRequest\x1a8.temporal.api.operatorservice.v1.DeleteNamespaceResponse\"\x00\x12\x92\x01\n" +
+	"\x13SoftDeleteNamespace\x12;.temporal.api.operatorservice.v1.SoftDeleteNamespaceRequest\x1a<.temporal.api.operatorservice.v1.SoftDeleteNamespaceResponse\"\x00\x12\x89\x01\n" +
+	"\x10RestoreNamespace\x128.temporal.api.operatorservice.v1.RestoreNamespaceRequest\x1a9.temporal.api.operatorservice.v1.RestoreNamespaceResponse\"\x00\x12\xa1\x01\n" +
+	"\x18DescribeNamespaceRestore\x12@.temporal.api.operatorservice.v1.DescribeNamespaceRestoreRequest\x1aA.temporal.api.operatorservice.v1.DescribeNamespaceRestoreResponse\"\x00\x12\xa1\x01\n" +
 	"\x18AddOrUpdateRemoteCluster\x12@.temporal.api.operatorservice.v1.AddOrUpdateRemoteClusterRequest\x1aA.temporal.api.operatorservice.v1.AddOrUpdateRemoteClusterResponse\"\x00\x12\x92\x01\n" +
 	"\x13RemoveRemoteCluster\x12;.temporal.api.operatorservice.v1.RemoveRemoteClusterRequest\x1a<.temporal.api.operatorservice.v1.RemoveRemoteClusterResponse\"\x00\x12}\n" +
 	"\fListClusters\x124.temporal.api.operatorservice.v1.ListClustersRequest\x1a5.temporal.api.operatorservice.v1.ListClustersResponse\"\x00\x12\xce\x01\n" +
@@ -47,54 +50,66 @@ var file_temporal_api_operatorservice_v1_service_proto_goTypes = []any{
 	(*RemoveSearchAttributesRequest)(nil),    // 1: temporal.api.operatorservice.v1.RemoveSearchAttributesRequest
 	(*ListSearchAttributesRequest)(nil),      // 2: temporal.api.operatorservice.v1.ListSearchAttributesRequest
 	(*DeleteNamespaceRequest)(nil),           // 3: temporal.api.operatorservice.v1.DeleteNamespaceRequest
-	(*AddOrUpdateRemoteClusterRequest)(nil),  // 4: temporal.api.operatorservice.v1.AddOrUpdateRemoteClusterRequest
-	(*RemoveRemoteClusterRequest)(nil),       // 5: temporal.api.operatorservice.v1.RemoveRemoteClusterRequest
-	(*ListClustersRequest)(nil),              // 6: temporal.api.operatorservice.v1.ListClustersRequest
-	(*GetNexusEndpointRequest)(nil),          // 7: temporal.api.operatorservice.v1.GetNexusEndpointRequest
-	(*CreateNexusEndpointRequest)(nil),       // 8: temporal.api.operatorservice.v1.CreateNexusEndpointRequest
-	(*UpdateNexusEndpointRequest)(nil),       // 9: temporal.api.operatorservice.v1.UpdateNexusEndpointRequest
-	(*DeleteNexusEndpointRequest)(nil),       // 10: temporal.api.operatorservice.v1.DeleteNexusEndpointRequest
-	(*ListNexusEndpointsRequest)(nil),        // 11: temporal.api.operatorservice.v1.ListNexusEndpointsRequest
-	(*AddSearchAttributesResponse)(nil),      // 12: temporal.api.operatorservice.v1.AddSearchAttributesResponse
-	(*RemoveSearchAttributesResponse)(nil),   // 13: temporal.api.operatorservice.v1.RemoveSearchAttributesResponse
-	(*ListSearchAttributesResponse)(nil),     // 14: temporal.api.operatorservice.v1.ListSearchAttributesResponse
-	(*DeleteNamespaceResponse)(nil),          // 15: temporal.api.operatorservice.v1.DeleteNamespaceResponse
-	(*AddOrUpdateRemoteClusterResponse)(nil), // 16: temporal.api.operatorservice.v1.AddOrUpdateRemoteClusterResponse
-	(*RemoveRemoteClusterResponse)(nil),      // 17: temporal.api.operatorservice.v1.RemoveRemoteClusterResponse
-	(*ListClustersResponse)(nil),             // 18: temporal.api.operatorservice.v1.ListClustersResponse
-	(*GetNexusEndpointResponse)(nil),         // 19: temporal.api.operatorservice.v1.GetNexusEndpointResponse
-	(*CreateNexusEndpointResponse)(nil),      // 20: temporal.api.operatorservice.v1.CreateNexusEndpointResponse
-	(*UpdateNexusEndpointResponse)(nil),      // 21: temporal.api.operatorservice.v1.UpdateNexusEndpointResponse
-	(*DeleteNexusEndpointResponse)(nil),      // 22: temporal.api.operatorservice.v1.DeleteNexusEndpointResponse
-	(*ListNexusEndpointsResponse)(nil),       // 23: temporal.api.operatorservice.v1.ListNexusEndpointsResponse
+	(*SoftDeleteNamespaceRequest)(nil),       // 4: temporal.api.operatorservice.v1.SoftDeleteNamespaceRequest
+	(*RestoreNamespaceRequest)(nil),          // 5: temporal.api.operatorservice.v1.RestoreNamespaceRequest
+	(*DescribeNamespaceRestoreRequest)(nil),  // 6: temporal.api.operatorservice.v1.DescribeNamespaceRestoreRequest
+	(*AddOrUpdateRemoteClusterRequest)(nil),  // 7: temporal.api.operatorservice.v1.AddOrUpdateRemoteClusterRequest
+	(*RemoveRemoteClusterRequest)(nil),       // 8: temporal.api.operatorservice.v1.RemoveRemoteClusterRequest
+	(*ListClustersRequest)(nil),              // 9: temporal.api.operatorservice.v1.ListClustersRequest
+	(*GetNexusEndpointRequest)(nil),          // 10: temporal.api.operatorservice.v1.GetNexusEndpointRequest
+	(*CreateNexusEndpointRequest)(nil),       // 11: temporal.api.operatorservice.v1.CreateNexusEndpointRequest
+	(*UpdateNexusEndpointRequest)(nil),       // 12: temporal.api.operatorservice.v1.UpdateNexusEndpointRequest
+	(*DeleteNexusEndpointRequest)(nil),       // 13: temporal.api.operatorservice.v1.DeleteNexusEndpointRequest
+	(*ListNexusEndpointsRequest)(nil),        // 14: temporal.api.operatorservice.v1.ListNexusEndpointsRequest
+	(*AddSearchAttributesResponse)(nil),      // 15: temporal.api.operatorservice.v1.AddSearchAttributesResponse
+	(*RemoveSearchAttributesResponse)(nil),   // 16: temporal.api.operatorservice.v1.RemoveSearchAttributesResponse
+	(*ListSearchAttributesResponse)(nil),     // 17: temporal.api.operatorservice.v1.ListSearchAttributesResponse
+	(*DeleteNamespaceResponse)(nil),          // 18: temporal.api.operatorservice.v1.DeleteNamespaceResponse
+	(*SoftDeleteNamespaceResponse)(nil),      // 19: temporal.api.operatorservice.v1.SoftDeleteNamespaceResponse
+	(*RestoreNamespaceResponse)(nil),         // 20: temporal.api.operatorservice.v1.RestoreNamespaceResponse
+	(*DescribeNamespaceRestoreResponse)(nil), // 21: temporal.api.operatorservice.v1.DescribeNamespaceRestoreResponse
+	(*AddOrUpdateRemoteClusterResponse)(nil), // 22: temporal.api.operatorservice.v1.AddOrUpdateRemoteClusterResponse
+	(*RemoveRemoteClusterResponse)(nil),      // 23: temporal.api.operatorservice.v1.RemoveRemoteClusterResponse
+	(*ListClustersResponse)(nil),             // 24: temporal.api.operatorservice.v1.ListClustersResponse
+	(*GetNexusEndpointResponse)(nil),         // 25: temporal.api.operatorservice.v1.GetNexusEndpointResponse
+	(*CreateNexusEndpointResponse)(nil),      // 26: temporal.api.operatorservice.v1.CreateNexusEndpointResponse
+	(*UpdateNexusEndpointResponse)(nil),      // 27: temporal.api.operatorservice.v1.UpdateNexusEndpointResponse
+	(*DeleteNexusEndpointResponse)(nil),      // 28: temporal.api.operatorservice.v1.DeleteNexusEndpointResponse
+	(*ListNexusEndpointsResponse)(nil),       // 29: temporal.api.operatorservice.v1.ListNexusEndpointsResponse
 }
 var file_temporal_api_operatorservice_v1_service_proto_depIdxs = []int32{
 	0,  // 0: temporal.api.operatorservice.v1.OperatorService.AddSearchAttributes:input_type -> temporal.api.operatorservice.v1.AddSearchAttributesRequest
 	1,  // 1: temporal.api.operatorservice.v1.OperatorService.RemoveSearchAttributes:input_type -> temporal.api.operatorservice.v1.RemoveSearchAttributesRequest
 	2,  // 2: temporal.api.operatorservice.v1.OperatorService.ListSearchAttributes:input_type -> temporal.api.operatorservice.v1.ListSearchAttributesRequest
 	3,  // 3: temporal.api.operatorservice.v1.OperatorService.DeleteNamespace:input_type -> temporal.api.operatorservice.v1.DeleteNamespaceRequest
-	4,  // 4: temporal.api.operatorservice.v1.OperatorService.AddOrUpdateRemoteCluster:input_type -> temporal.api.operatorservice.v1.AddOrUpdateRemoteClusterRequest
-	5,  // 5: temporal.api.operatorservice.v1.OperatorService.RemoveRemoteCluster:input_type -> temporal.api.operatorservice.v1.RemoveRemoteClusterRequest
-	6,  // 6: temporal.api.operatorservice.v1.OperatorService.ListClusters:input_type -> temporal.api.operatorservice.v1.ListClustersRequest
-	7,  // 7: temporal.api.operatorservice.v1.OperatorService.GetNexusEndpoint:input_type -> temporal.api.operatorservice.v1.GetNexusEndpointRequest
-	8,  // 8: temporal.api.operatorservice.v1.OperatorService.CreateNexusEndpoint:input_type -> temporal.api.operatorservice.v1.CreateNexusEndpointRequest
-	9,  // 9: temporal.api.operatorservice.v1.OperatorService.UpdateNexusEndpoint:input_type -> temporal.api.operatorservice.v1.UpdateNexusEndpointRequest
-	10, // 10: temporal.api.operatorservice.v1.OperatorService.DeleteNexusEndpoint:input_type -> temporal.api.operatorservice.v1.DeleteNexusEndpointRequest
-	11, // 11: temporal.api.operatorservice.v1.OperatorService.ListNexusEndpoints:input_type -> temporal.api.operatorservice.v1.ListNexusEndpointsRequest
-	12, // 12: temporal.api.operatorservice.v1.OperatorService.AddSearchAttributes:output_type -> temporal.api.operatorservice.v1.AddSearchAttributesResponse
-	13, // 13: temporal.api.operatorservice.v1.OperatorService.RemoveSearchAttributes:output_type -> temporal.api.operatorservice.v1.RemoveSearchAttributesResponse
-	14, // 14: temporal.api.operatorservice.v1.OperatorService.ListSearchAttributes:output_type -> temporal.api.operatorservice.v1.ListSearchAttributesResponse
-	15, // 15: temporal.api.operatorservice.v1.OperatorService.DeleteNamespace:output_type -> temporal.api.operatorservice.v1.DeleteNamespaceResponse
-	16, // 16: temporal.api.operatorservice.v1.OperatorService.AddOrUpdateRemoteCluster:output_type -> temporal.api.operatorservice.v1.AddOrUpdateRemoteClusterResponse
-	17, // 17: temporal.api.operatorservice.v1.OperatorService.RemoveRemoteCluster:output_type -> temporal.api.operatorservice.v1.RemoveRemoteClusterResponse
-	18, // 18: temporal.api.operatorservice.v1.OperatorService.ListClusters:output_type -> temporal.api.operatorservice.v1.ListClustersResponse
-	19, // 19: temporal.api.operatorservice.v1.OperatorService.GetNexusEndpoint:output_type -> temporal.api.operatorservice.v1.GetNexusEndpointResponse
-	20, // 20: temporal.api.operatorservice.v1.OperatorService.CreateNexusEndpoint:output_type -> temporal.api.operatorservice.v1.CreateNexusEndpointResponse
-	21, // 21: temporal.api.operatorservice.v1.OperatorService.UpdateNexusEndpoint:output_type -> temporal.api.operatorservice.v1.UpdateNexusEndpointResponse
-	22, // 22: temporal.api.operatorservice.v1.OperatorService.DeleteNexusEndpoint:output_type -> temporal.api.operatorservice.v1.DeleteNexusEndpointResponse
-	23, // 23: temporal.api.operatorservice.v1.OperatorService.ListNexusEndpoints:output_type -> temporal.api.operatorservice.v1.ListNexusEndpointsResponse
-	12, // [12:24] is the sub-list for method output_type
-	0,  // [0:12] is the sub-list for method input_type
+	4,  // 4: temporal.api.operatorservice.v1.OperatorService.SoftDeleteNamespace:input_type -> temporal.api.operatorservice.v1.SoftDeleteNamespaceRequest
+	5,  // 5: temporal.api.operatorservice.v1.OperatorService.RestoreNamespace:input_type -> temporal.api.operatorservice.v1.RestoreNamespaceRequest
+	6,  // 6: temporal.api.operatorservice.v1.OperatorService.DescribeNamespaceRestore:input_type -> temporal.api.operatorservice.v1.DescribeNamespaceRestoreRequest
+	7,  // 7: temporal.api.operatorservice.v1.OperatorService.AddOrUpdateRemoteCluster:input_type -> temporal.api.operatorservice.v1.AddOrUpdateRemoteClusterRequest
+	8,  // 8: temporal.api.operatorservice.v1.OperatorService.RemoveRemoteCluster:input_type -> temporal.api.operatorservice.v1.RemoveRemoteClusterRequest
+	9,  // 9: temporal.api.operatorservice.v1.OperatorService.ListClusters:input_type -> temporal.api.operatorservice.v1.ListClustersRequest
+	10, // 10: temporal.api.operatorservice.v1.OperatorService.GetNexusEndpoint:input_type -> temporal.api.operatorservice.v1.GetNexusEndpointRequest
+	11, // 11: temporal.api.operatorservice.v1.OperatorService.CreateNexusEndpoint:input_type -> temporal.api.operatorservice.v1.CreateNexusEndpointRequest
+	12, // 12: temporal.api.operatorservice.v1.OperatorService.UpdateNexusEndpoint:input_type -> temporal.api.operatorservice.v1.UpdateNexusEndpointRequest
+	13, // 13: temporal.api.operatorservice.v1.OperatorService.DeleteNexusEndpoint:input_type -> temporal.api.operatorservice.v1.DeleteNexusEndpointRequest
+	14, // 14: temporal.api.operatorservice.v1.OperatorService.ListNexusEndpoints:input_type -> temporal.api.operatorservice.v1.ListNexusEndpointsRequest
+	15, // 15: temporal.api.operatorservice.v1.OperatorService.AddSearchAttributes:output_type -> temporal.api.operatorservice.v1.AddSearchAttributesResponse
+	16, // 16: temporal.api.operatorservice.v1.OperatorService.RemoveSearchAttributes:output_type -> temporal.api.operatorservice.v1.RemoveSearchAttributesResponse
+	17, // 17: temporal.api.operatorservice.v1.OperatorService.ListSearchAttributes:output_type -> temporal.api.operatorservice.v1.ListSearchAttributesResponse
+	18, // 18: temporal.api.operatorservice.v1.OperatorService.DeleteNamespace:output_type -> temporal.api.operatorservice.v1.DeleteNamespaceResponse
+	19, // 19: temporal.api.operatorservice.v1.OperatorService.SoftDeleteNamespace:output_type -> temporal.api.operatorservice.v1.SoftDeleteNamespaceResponse
+	20, // 20: temporal.api.operatorservice.v1.OperatorService.RestoreNamespace:output_type -> temporal.api.operatorservice.v1.RestoreNamespaceResponse
+	21, // 21: temporal.api.operatorservice.v1.OperatorService.DescribeNamespaceRestore:output_type -> temporal.api.operatorservice.v1.DescribeNamespaceRestoreResponse
+	22, // 22: temporal.api.operatorservice.v1.OperatorService.AddOrUpdateRemoteCluster:output_type -> temporal.api.operatorservice.v1.AddOrUpdateRemoteClusterResponse
+	23, // 23: temporal.api.operatorservice.v1.OperatorService.RemoveRemoteCluster:output_type -> temporal.api.operatorservice.v1.RemoveRemoteClusterResponse
+	24, // 24: temporal.api.operatorservice.v1.OperatorService.ListClusters:output_type -> temporal.api.operatorservice.v1.ListClustersResponse
+	25, // 25: temporal.api.operatorservice.v1.OperatorService.GetNexusEndpoint:output_type -> temporal.api.operatorservice.v1.GetNexusEndpointResponse
+	26, // 26: temporal.api.operatorservice.v1.OperatorService.CreateNexusEndpoint:output_type -> temporal.api.operatorservice.v1.CreateNexusEndpointResponse
+	27, // 27: temporal.api.operatorservice.v1.OperatorService.UpdateNexusEndpoint:output_type -> temporal.api.operatorservice.v1.UpdateNexusEndpointResponse
+	28, // 28: temporal.api.operatorservice.v1.OperatorService.DeleteNexusEndpoint:output_type -> temporal.api.operatorservice.v1.DeleteNexusEndpointResponse
+	29, // 29: temporal.api.operatorservice.v1.OperatorService.ListNexusEndpoints:output_type -> temporal.api.operatorservice.v1.ListNexusEndpointsResponse
+	15, // [15:30] is the sub-list for method output_type
+	0,  // [0:15] is the sub-list for method input_type
 	0,  // [0:0] is the sub-list for extension type_name
 	0,  // [0:0] is the sub-list for extension extendee
 	0,  // [0:0] is the sub-list for field type_name

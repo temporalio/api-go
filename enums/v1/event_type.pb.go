@@ -189,6 +189,7 @@ const (
 	EVENT_TYPE_WORKFLOW_EXECUTION_PAUSED EventType = 58
 	// An event that indicates that the previously paused workflow execution has been unpaused.
 	EVENT_TYPE_WORKFLOW_EXECUTION_UNPAUSED EventType = 59
+	// Experimental.
 	// An event that indicates time skipping advanced time or was disabled automatically after a bound was reached.
 	EVENT_TYPE_WORKFLOW_EXECUTION_TIME_SKIPPING_TRANSITIONED EventType = 60
 )

@@ -610,6 +610,8 @@ const (
 	RESOURCE_EXHAUSTED_CAUSE_BANDWIDTH_LIMIT ResourceExhaustedCause = 11
 	// Caller exceeds Nexus requests per second limit.
 	RESOURCE_EXHAUSTED_CAUSE_CALLER_RPS_LIMIT ResourceExhaustedCause = 12
+	// Persistence rate limit exceeded on a single shard.
+	RESOURCE_EXHAUSTED_CAUSE_SHARD_PERSISTENCE_LIMIT ResourceExhaustedCause = 13
 )
 
 // Enum value maps for ResourceExhaustedCause.
@@ -628,6 +630,7 @@ var (
 		10: "RESOURCE_EXHAUSTED_CAUSE_WORKER_DEPLOYMENT_LIMITS",
 		11: "RESOURCE_EXHAUSTED_CAUSE_BANDWIDTH_LIMIT",
 		12: "RESOURCE_EXHAUSTED_CAUSE_CALLER_RPS_LIMIT",
+		13: "RESOURCE_EXHAUSTED_CAUSE_SHARD_PERSISTENCE_LIMIT",
 	}
 	ResourceExhaustedCause_value = map[string]int32{
 		"RESOURCE_EXHAUSTED_CAUSE_UNSPECIFIED":               0,
@@ -643,6 +646,7 @@ var (
 		"RESOURCE_EXHAUSTED_CAUSE_WORKER_DEPLOYMENT_LIMITS":  10,
 		"RESOURCE_EXHAUSTED_CAUSE_BANDWIDTH_LIMIT":           11,
 		"RESOURCE_EXHAUSTED_CAUSE_CALLER_RPS_LIMIT":          12,
+		"RESOURCE_EXHAUSTED_CAUSE_SHARD_PERSISTENCE_LIMIT":   13,
 	}
 )
 
@@ -684,6 +688,10 @@ func (x ResourceExhaustedCause) String() string {
 		// Exhausted resource is a namespace-level resource.
 	case RESOURCE_EXHAUSTED_CAUSE_CALLER_RPS_LIMIT:
 		return "CallerRpsLimit"
+	case RESOURCE_EXHAUSTED_CAUSE_SHARD_PERSISTENCE_LIMIT:
+		return "ShardPersistenceLimit"
+
+		// Exhausted resource is a system-level resource.
 	default:
 		return strconv.Itoa(int(x))
 	}
@@ -712,7 +720,7 @@ const (
 	RESOURCE_EXHAUSTED_SCOPE_UNSPECIFIED ResourceExhaustedScope = 0
 
 	RESOURCE_EXHAUSTED_SCOPE_NAMESPACE ResourceExhaustedScope = 1
-	// Exhausted resource is a system-level resource.
+
 	RESOURCE_EXHAUSTED_SCOPE_SYSTEM ResourceExhaustedScope = 2
 )
 
@@ -833,7 +841,7 @@ const file_temporal_api_enums_v1_failed_cause_proto_rawDesc = "" +
 	";SIGNAL_EXTERNAL_WORKFLOW_EXECUTION_FAILED_CAUSE_UNSPECIFIED\x10\x00\x12Y\n" +
 	"USIGNAL_EXTERNAL_WORKFLOW_EXECUTION_FAILED_CAUSE_EXTERNAL_WORKFLOW_EXECUTION_NOT_FOUND\x10\x01\x12G\n" +
 	"CSIGNAL_EXTERNAL_WORKFLOW_EXECUTION_FAILED_CAUSE_NAMESPACE_NOT_FOUND\x10\x02\x12O\n" +
-	"KSIGNAL_EXTERNAL_WORKFLOW_EXECUTION_FAILED_CAUSE_SIGNAL_COUNT_LIMIT_EXCEEDED\x10\x03*\xf4\x04\n" +
+	"KSIGNAL_EXTERNAL_WORKFLOW_EXECUTION_FAILED_CAUSE_SIGNAL_COUNT_LIMIT_EXCEEDED\x10\x03*\xaa\x05\n" +
 	"\x16ResourceExhaustedCause\x12(\n" +
 	"$RESOURCE_EXHAUSTED_CAUSE_UNSPECIFIED\x10\x00\x12&\n" +
 	"\"RESOURCE_EXHAUSTED_CAUSE_RPS_LIMIT\x10\x01\x12-\n" +
@@ -848,7 +856,8 @@ const file_temporal_api_enums_v1_failed_cause_proto_rawDesc = "" +
 	"1RESOURCE_EXHAUSTED_CAUSE_WORKER_DEPLOYMENT_LIMITS\x10\n" +
 	"\x12,\n" +
 	"(RESOURCE_EXHAUSTED_CAUSE_BANDWIDTH_LIMIT\x10\v\x12-\n" +
-	")RESOURCE_EXHAUSTED_CAUSE_CALLER_RPS_LIMIT\x10\f*\x8f\x01\n" +
+	")RESOURCE_EXHAUSTED_CAUSE_CALLER_RPS_LIMIT\x10\f\x124\n" +
+	"0RESOURCE_EXHAUSTED_CAUSE_SHARD_PERSISTENCE_LIMIT\x10\r*\x8f\x01\n" +
 	"\x16ResourceExhaustedScope\x12(\n" +
 	"$RESOURCE_EXHAUSTED_SCOPE_UNSPECIFIED\x10\x00\x12&\n" +
 	"\"RESOURCE_EXHAUSTED_SCOPE_NAMESPACE\x10\x01\x12#\n" +

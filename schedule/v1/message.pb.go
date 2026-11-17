@@ -1049,6 +1049,7 @@ type SchedulePatch struct {
 	// notes field to the value of the string.
 	Pause   string `protobuf:"bytes,3,opt,name=pause,proto3" json:"pause,omitempty"`
 	Unpause string `protobuf:"bytes,4,opt,name=unpause,proto3" json:"unpause,omitempty"`
+	// Experimental.
 	// If set, applies the specified time-skipping configuration to this schedule,
 	// replacing any existing time-skipping configuration.
 	TimeSkippingConfig *v12.TimeSkippingConfig `protobuf:"bytes,5,opt,name=time_skipping_config,json=timeSkippingConfig,proto3" json:"time_skipping_config,omitempty"`
@@ -1154,6 +1155,7 @@ type ScheduleInfo struct {
 	InvalidScheduleError string `protobuf:"bytes,8,opt,name=invalid_schedule_error,json=invalidScheduleError,proto3" json:"invalid_schedule_error,omitempty"`
 	// Size of the schedule's internal state (including payloads) in bytes.
 	StateSizeBytes int64 `protobuf:"varint,12,opt,name=state_size_bytes,json=stateSizeBytes,proto3" json:"state_size_bytes,omitempty"`
+	// Experimental.
 	// Information about time skipping for this schedule.
 	// If the schedule has never enabled time skipping, this will be unset.
 	TimeSkippingInfo *v12.TimeSkippingInfo `protobuf:"bytes,13,opt,name=time_skipping_info,json=timeSkippingInfo,proto3" json:"time_skipping_info,omitempty"`
