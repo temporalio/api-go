@@ -126,3 +126,26 @@ func TestDeepProtoEqual_NotEqual(t *testing.T) {
 	}
 
 }
+
+func TestDeepEqual_Maps(t *testing.T) {
+	left := map[string]*commonpb.WorkflowExecution{
+		"workflow": {WorkflowId: "first"},
+		"unset":    nil,
+	}
+
+	for _, tc := range []struct {
+		name  string
+		right map[string]*commonpb.WorkflowExecution
+		want  bool
+	}{
+		{"equal protobuf values", map[string]*commonpb.WorkflowExecution{"workflow": {WorkflowId: "first"}, "unset": nil}, true},
+		{"different protobuf values", map[string]*commonpb.WorkflowExecution{"workflow": {WorkflowId: "second"}, "unset": nil}, false},
+		{"missing key with nil value", map[string]*commonpb.WorkflowExecution{"workflow": {WorkflowId: "first"}, "other": nil}, false},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			if got := temporalproto.DeepEqual(left, tc.right); got != tc.want {
+				t.Errorf("DeepEqual() = %t, want %t", got, tc.want)
+			}
+		})
+	}
+}
