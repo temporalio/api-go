@@ -513,7 +513,7 @@ type WorkerPollerInfo struct {
 	// Set true if the number of concurrent pollers is auto-scaled
 	IsAutoscaling bool `protobuf:"varint,3,opt,name=is_autoscaling,json=isAutoscaling,proto3" json:"is_autoscaling,omitempty"`
 	// Number of pollers this poller pool is currently targeting, which may differ from current_pollers.
-	// 0 if unknown, such as a poller pool of fixed size.
+	// 0 if the SDK does not report a target. See is_autoscaling for whether the target can change.
 	TargetPollers int32 `protobuf:"varint,4,opt,name=target_pollers,json=targetPollers,proto3" json:"target_pollers,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
