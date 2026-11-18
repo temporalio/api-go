@@ -21,6 +21,7 @@ const (
 	payloadsFullName = "temporal.api.common.v1.Payloads"
 	anyFullName      = "google.protobuf.Any"
 	temporalPrefix   = "temporal.api."
+	computePrefix    = "temporal.api.compute.v1."
 
 	// maxWalkDepth bounds how far the walker will descend. If there is a cycle
 	// (e.g. A holds a B, and a B holds an A) we hit this max depth and fail
@@ -138,6 +139,10 @@ func (w *PayloadWalker) walk(m protoreflect.Message) {
 	// Non-Temporal messages cannot contain payloads. The `Any` type is the exception,
 	// it can wrap one, and the visitor is expected to recurse through it.
 	if !strings.HasPrefix(fullName, temporalPrefix) && fullName != anyFullName {
+		return
+	}
+	if strings.HasPrefix(fullName, computePrefix) {
+		w.skip("compute config payloads are not visited")
 		return
 	}
 	require.LessOrEqual(w.t, len(w.path), maxWalkDepth,

@@ -16,6 +16,8 @@ import (
 	"github.com/stretchr/testify/require"
 	"go.temporal.io/api/command/v1"
 	"go.temporal.io/api/common/v1"
+	"go.temporal.io/api/compute/v1"
+	"go.temporal.io/api/deployment/v1"
 	_ "go.temporal.io/api/enums/v1"
 	"go.temporal.io/api/export/v1"
 	"go.temporal.io/api/failure/v1"
@@ -1568,4 +1570,73 @@ func TestVisitPayloadsLimit1IsSequential(t *testing.T) {
 		require.Equal(t, []byte("xb"), msg2.Input.Payloads[1].Data, "limit=%d", limit)
 		require.Equal(t, []byte("xc"), msg2.Header.Fields["h"].Data, "limit=%d", limit)
 	}
+}
+
+func TestVisitPayloads_SkipsComputeConfigPayloads(t *testing.T) {
+	providerPayload := &common.Payload{Data: []byte("provider-config")}
+	scalerPayload := &common.Payload{Data: []byte("scaler-config")}
+	metadataPayload := &common.Payload{Data: []byte("metadata-val")}
+
+	scalingGroup := &compute.ComputeConfigScalingGroup{
+		Provider: &compute.ComputeProvider{
+			Type:    "aws-lambda",
+			Details: providerPayload,
+		},
+		Scaler: &compute.ComputeScaler{
+			Type:    "rate-based",
+			Details: scalerPayload,
+		},
+	}
+
+	createReq := &workflowservice.CreateWorkerDeploymentVersionRequest{
+		ComputeConfig: &compute.ComputeConfig{
+			ScalingGroups: map[string]*compute.ComputeConfigScalingGroup{
+				"default": scalingGroup,
+			},
+		},
+	}
+	updateReq := &workflowservice.UpdateWorkerDeploymentVersionComputeConfigRequest{
+		ComputeConfigScalingGroups: map[string]*compute.ComputeConfigScalingGroupUpdate{
+			"default": {ScalingGroup: scalingGroup},
+		},
+	}
+	validateReq := &workflowservice.ValidateWorkerDeploymentVersionComputeConfigRequest{
+		ComputeConfigScalingGroups: map[string]*compute.ComputeConfigScalingGroupUpdate{
+			"default": {ScalingGroup: scalingGroup},
+		},
+	}
+
+	for _, msg := range []proto.Message{createReq, updateReq, validateReq, scalingGroup} {
+		err := VisitPayloads(context.Background(), msg, VisitPayloadsOptions{
+			Visitor: func(ctx *VisitPayloadsContext, p []*common.Payload) ([]*common.Payload, error) {
+				t.Fatalf("unexpected visit to compute config payload in %T: %v", msg, p)
+				return p, nil
+			},
+		})
+		require.NoError(t, err)
+	}
+	require.Equal(t, []byte("provider-config"), providerPayload.Data)
+	require.Equal(t, []byte("scaler-config"), scalerPayload.Data)
+
+	// WorkerDeploymentVersionInfo has both ComputeConfig and Metadata; only Metadata.Entries should be visited.
+	versionInfo := &deployment.WorkerDeploymentVersionInfo{
+		ComputeConfig: createReq.ComputeConfig,
+		Metadata: &deployment.VersionMetadata{
+			Entries: map[string]*common.Payload{
+				"k": metadataPayload,
+			},
+		},
+	}
+	var visited int
+	err := VisitPayloads(context.Background(), versionInfo, VisitPayloadsOptions{
+		Visitor: func(ctx *VisitPayloadsContext, p []*common.Payload) ([]*common.Payload, error) {
+			visited++
+			return []*common.Payload{{Data: []byte("visited-metadata")}}, nil
+		},
+	})
+	require.NoError(t, err)
+	require.Equal(t, 1, visited)
+	require.Equal(t, []byte("visited-metadata"), versionInfo.Metadata.Entries["k"].Data)
+	require.Equal(t, []byte("provider-config"), providerPayload.Data)
+	require.Equal(t, []byte("scaler-config"), scalerPayload.Data)
 }
