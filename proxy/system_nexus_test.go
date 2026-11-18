@@ -173,6 +173,29 @@ func TestSystemPayloadRejectsMissingMessageType(t *testing.T) {
 	require.ErrorContains(t, err, "missing")
 }
 
+func TestLegacyMarkedPayloadRetainsExistingBehavior(t *testing.T) {
+	result := &common.Payload{
+		Data: []byte("legacy-result"),
+		Metadata: map[string][]byte{
+			SystemPayloadMetadataKey: []byte(systemPayloadMarkerValue),
+			"encoding":               []byte("json/plain"),
+		},
+	}
+	attrs := &history.NexusOperationCompletedEventAttributes{Result: result}
+
+	var seen []string
+	err := VisitPayloads(context.Background(), attrs, VisitPayloadsOptions{
+		Visitor: func(_ *VisitPayloadsContext, payloads []*common.Payload) ([]*common.Payload, error) {
+			for _, payload := range payloads {
+				seen = append(seen, string(payload.Data))
+			}
+			return payloads, nil
+		},
+	})
+	require.NoError(t, err)
+	require.Equal(t, []string{"legacy-result"}, seen)
+}
+
 func TestUnmarkedPayloadRetainsExistingBehavior(t *testing.T) {
 	cmd := &command.Command{
 		Attributes: &command.Command_ScheduleNexusOperationCommandAttributes{

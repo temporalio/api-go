@@ -31,11 +31,17 @@ func visitSystemPayload(
 		return false, nil
 	}
 
-	if encoding := string(payload.GetMetadata()["encoding"]); encoding != binaryProtobufEncoding {
+	encoding := string(payload.GetMetadata()["encoding"])
+	messageType := string(payload.GetMetadata()["messageType"])
+	// Older servers mark ordinary system Nexus result payloads without a message type.
+	// Keep visiting those as ordinary payloads rather than treating them as envelopes.
+	if messageType == "" && encoding != binaryProtobufEncoding {
+		return false, nil
+	}
+	if encoding != binaryProtobufEncoding {
 		return true, fmt.Errorf("system payload must be encoded as %s but got %q", binaryProtobufEncoding, encoding)
 	}
 
-	messageType := string(payload.GetMetadata()["messageType"])
 	if messageType == "" {
 		return true, fmt.Errorf("system payload is missing the messageType metadata")
 	}
