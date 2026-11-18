@@ -29,7 +29,6 @@ package proxy
 import (
 	"context"
 	"errors"
-	"fmt"
 
 	"google.golang.org/grpc/metadata"
 	"google.golang.org/protobuf/proto"
@@ -71,7 +70,7 @@ func ExtractTemporalRequestHeaders(ctx context.Context, opts ExtractHeadersOptio
 	// Set headers from proto annotations{{if .Methods}}
 	switch r := opts.Request.(type) {
 {{range .Methods}}	case *{{.PackageAlias}}.{{.RequestType}}:
-{{range .Headers}}{{.Code}}{{end}}
+{{range .Headers}}{{.Code}}{{end -}}
 {{end}}	}{{end}}
 
 	return headers, nil
@@ -257,16 +256,16 @@ func generateHeaderCode(headerName, valueTemplate, reqVar string, msgDesc protor
 		return "", fmt.Errorf("failed to generate accessor for %s: %w", fieldPath, err)
 	}
 
-	finalValue := strings.Replace(valueTemplate, "{"+fieldPath+"}", "%s", 1)
-
-	// Generate code that checks if the field value is non-empty and header doesn't exist before formatting and appending
-	if finalValue == "%s" {
-		// No prefix/suffix around the field value, so use it directly
-		return fmt.Sprintf("\t\tif val := %s; val != \"\" && len(opts.ExistingMetadata.Get(%q)) == 0 {\n\t\t\theaders = append(headers, %q, val)\n\t\t}",
-			accessor, headerName, headerName), nil
+	prefix, suffix, _ := strings.Cut(valueTemplate, "{"+fieldPath+"}")
+	value := "val"
+	if prefix != "" {
+		value = fmt.Sprintf("%q + %s", prefix, value)
 	}
-	return fmt.Sprintf("\t\tif val := %s; val != \"\" && len(opts.ExistingMetadata.Get(%q)) == 0 {\n\t\t\theaders = append(headers, %q, fmt.Sprintf(%q, val))\n\t\t}",
-		accessor, headerName, headerName, finalValue), nil
+	if suffix != "" {
+		value = fmt.Sprintf("%s + %q", value, suffix)
+	}
+	return fmt.Sprintf("\t\tif val := %s; val != \"\" && len(opts.ExistingMetadata.Get(%q)) == 0 {\n\t\t\theaders = append(headers, %q, %s)\n\t\t}\n",
+		accessor, headerName, headerName, value), nil
 }
 
 func generateFieldAccessor(fieldPath, varName string, msgDesc protoreflect.MessageDescriptor) (string, error) {
