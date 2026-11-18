@@ -5,6 +5,7 @@
 package json
 
 import (
+	"encoding/base64"
 	"math"
 	"math/bits"
 	"strconv"
@@ -83,6 +84,14 @@ func (e *Encoder) WriteString(s string) error {
 		return err
 	}
 	return nil
+}
+
+// WriteBase64 writes b as a base64-encoded JSON string.
+func (e *Encoder) WriteBase64(b []byte) {
+	e.prepareNext(scalar)
+	e.out = append(e.out, '"')
+	e.out = base64.StdEncoding.AppendEncode(e.out, b)
+	e.out = append(e.out, '"')
 }
 
 // Sentinel error used for indicating invalid UTF-8.

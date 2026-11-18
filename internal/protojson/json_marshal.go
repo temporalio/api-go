@@ -5,7 +5,6 @@
 package protojson
 
 import (
-	"encoding/base64"
 	"fmt"
 
 	"go.temporal.io/api/internal/protojson/errors"
@@ -278,7 +277,7 @@ func (e encoder) marshalSingular(val protoreflect.Value, fd protoreflect.FieldDe
 		e.WriteFloat(val.Float(), 64)
 
 	case protoreflect.BytesKind:
-		e.WriteString(base64.StdEncoding.EncodeToString(val.Bytes()))
+		e.WriteBase64(val.Bytes())
 
 	case protoreflect.EnumKind:
 		if fd.Enum().FullName() == genid.NullValue_enum_fullname {
