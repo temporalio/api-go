@@ -989,11 +989,11 @@ type PendingActivityInfo struct {
 	// reset. Zero when handoff options are absent.
 	HandoffAttempt int32 `protobuf:"varint,26,opt,name=handoff_attempt,json=handoffAttempt,proto3" json:"handoff_attempt,omitempty"`
 	// Most recent durably accepted handoff time. Cleared at the next worker pickup or applied reset.
-	AsyncHandoffTime *timestamppb.Timestamp `protobuf:"bytes,27,opt,name=async_handoff_time,json=asyncHandoffTime,proto3" json:"async_handoff_time,omitempty"`
+	HandoffTime *timestamppb.Timestamp `protobuf:"bytes,27,opt,name=handoff_time,json=handoffTime,proto3" json:"handoff_time,omitempty"`
 	// True while waiting for external completion. Pending pause, cancel, or reset requests do not clear it.
-	AwaitingCompletion bool `protobuf:"varint,28,opt,name=awaiting_completion,json=awaitingCompletion,proto3" json:"awaiting_completion,omitempty"`
-	unknownFields      protoimpl.UnknownFields
-	sizeCache          protoimpl.SizeCache
+	HandedOff     bool `protobuf:"varint,28,opt,name=handed_off,json=handedOff,proto3" json:"handed_off,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *PendingActivityInfo) Reset() {
@@ -1224,16 +1224,16 @@ func (x *PendingActivityInfo) GetHandoffAttempt() int32 {
 	return 0
 }
 
-func (x *PendingActivityInfo) GetAsyncHandoffTime() *timestamppb.Timestamp {
+func (x *PendingActivityInfo) GetHandoffTime() *timestamppb.Timestamp {
 	if x != nil {
-		return x.AsyncHandoffTime
+		return x.HandoffTime
 	}
 	return nil
 }
 
-func (x *PendingActivityInfo) GetAwaitingCompletion() bool {
+func (x *PendingActivityInfo) GetHandedOff() bool {
 	if x != nil {
-		return x.AwaitingCompletion
+		return x.HandedOff
 	}
 	return false
 }
@@ -3413,7 +3413,7 @@ const file_temporal_api_workflow_v1_message_proto_rawDesc = "" +
 	"\x1aworkflow_execution_timeout\x18\x02 \x01(\v2\x19.google.protobuf.DurationR\x18workflowExecutionTimeout\x12K\n" +
 	"\x14workflow_run_timeout\x18\x03 \x01(\v2\x19.google.protobuf.DurationR\x12workflowRunTimeout\x12\\\n" +
 	"\x1ddefault_workflow_task_timeout\x18\x04 \x01(\v2\x19.google.protobuf.DurationR\x1adefaultWorkflowTaskTimeout\x12F\n" +
-	"\ruser_metadata\x18\x05 \x01(\v2!.temporal.api.sdk.v1.UserMetadataR\fuserMetadata\"\xdf\x12\n" +
+	"\ruser_metadata\x18\x05 \x01(\v2!.temporal.api.sdk.v1.UserMetadataR\fuserMetadata\"\xc2\x12\n" +
 	"\x13PendingActivityInfo\x12\x1f\n" +
 	"\vactivity_id\x18\x01 \x01(\tR\n" +
 	"activityId\x12I\n" +
@@ -3443,9 +3443,10 @@ const file_temporal_api_workflow_v1_message_proto_rawDesc = "" +
 	"\n" +
 	"pause_info\x18\x17 \x01(\v27.temporal.api.workflow.v1.PendingActivityInfo.PauseInfoR\tpauseInfo\x12T\n" +
 	"\x10activity_options\x18\x18 \x01(\v2).temporal.api.activity.v1.ActivityOptionsR\x0factivityOptions\x12'\n" +
-	"\x0fhandoff_attempt\x18\x1a \x01(\x05R\x0ehandoffAttempt\x12H\n" +
-	"\x12async_handoff_time\x18\x1b \x01(\v2\x1a.google.protobuf.TimestampR\x10asyncHandoffTime\x12/\n" +
-	"\x13awaiting_completion\x18\x1c \x01(\bR\x12awaitingCompletion\x1a\x94\x03\n" +
+	"\x0fhandoff_attempt\x18\x1a \x01(\x05R\x0ehandoffAttempt\x12=\n" +
+	"\fhandoff_time\x18\x1b \x01(\v2\x1a.google.protobuf.TimestampR\vhandoffTime\x12\x1d\n" +
+	"\n" +
+	"handed_off\x18\x1c \x01(\bR\thandedOff\x1a\x94\x03\n" +
 	"\tPauseInfo\x129\n" +
 	"\n" +
 	"pause_time\x18\x01 \x01(\v2\x1a.google.protobuf.TimestampR\tpauseTime\x12X\n" +
@@ -3748,7 +3749,7 @@ var file_temporal_api_workflow_v1_message_proto_depIdxs = []int32{
 	41,  // 52: temporal.api.workflow.v1.PendingActivityInfo.priority:type_name -> temporal.api.common.v1.Priority
 	23,  // 53: temporal.api.workflow.v1.PendingActivityInfo.pause_info:type_name -> temporal.api.workflow.v1.PendingActivityInfo.PauseInfo
 	55,  // 54: temporal.api.workflow.v1.PendingActivityInfo.activity_options:type_name -> temporal.api.activity.v1.ActivityOptions
-	35,  // 55: temporal.api.workflow.v1.PendingActivityInfo.async_handoff_time:type_name -> google.protobuf.Timestamp
+	35,  // 55: temporal.api.workflow.v1.PendingActivityInfo.handoff_time:type_name -> google.protobuf.Timestamp
 	56,  // 56: temporal.api.workflow.v1.PendingChildExecutionInfo.parent_close_policy:type_name -> temporal.api.enums.v1.ParentClosePolicy
 	57,  // 57: temporal.api.workflow.v1.PendingWorkflowTaskInfo.state:type_name -> temporal.api.enums.v1.PendingWorkflowTaskState
 	35,  // 58: temporal.api.workflow.v1.PendingWorkflowTaskInfo.scheduled_time:type_name -> google.protobuf.Timestamp

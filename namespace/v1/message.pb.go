@@ -504,11 +504,11 @@ type NamespaceInfo_Capabilities struct {
 	// True if the namespace supports standalone activity operator commands.
 	StandaloneActivityOperatorCommands bool `protobuf:"varint,17,opt,name=standalone_activity_operator_commands,json=standaloneActivityOperatorCommands,proto3" json:"standalone_activity_operator_commands,omitempty"`
 	// True if workers can report standalone activity handoff through `RespondActivityTaskHandoff`.
-	StandaloneActivityAsyncHandoff bool `protobuf:"varint,18,opt,name=standalone_activity_async_handoff,json=standaloneActivityAsyncHandoff,proto3" json:"standalone_activity_async_handoff,omitempty"`
+	StandaloneActivityHandoff bool `protobuf:"varint,18,opt,name=standalone_activity_handoff,json=standaloneActivityHandoff,proto3" json:"standalone_activity_handoff,omitempty"`
 	// True if workers can report workflow activity handoff through `RespondActivityTaskHandoff`.
-	WorkflowActivityAsyncHandoff bool `protobuf:"varint,19,opt,name=workflow_activity_async_handoff,json=workflowActivityAsyncHandoff,proto3" json:"workflow_activity_async_handoff,omitempty"`
-	unknownFields                protoimpl.UnknownFields
-	sizeCache                    protoimpl.SizeCache
+	WorkflowActivityHandoff bool `protobuf:"varint,19,opt,name=workflow_activity_handoff,json=workflowActivityHandoff,proto3" json:"workflow_activity_handoff,omitempty"`
+	unknownFields           protoimpl.UnknownFields
+	sizeCache               protoimpl.SizeCache
 }
 
 func (x *NamespaceInfo_Capabilities) Reset() {
@@ -660,16 +660,16 @@ func (x *NamespaceInfo_Capabilities) GetStandaloneActivityOperatorCommands() boo
 	return false
 }
 
-func (x *NamespaceInfo_Capabilities) GetStandaloneActivityAsyncHandoff() bool {
+func (x *NamespaceInfo_Capabilities) GetStandaloneActivityHandoff() bool {
 	if x != nil {
-		return x.StandaloneActivityAsyncHandoff
+		return x.StandaloneActivityHandoff
 	}
 	return false
 }
 
-func (x *NamespaceInfo_Capabilities) GetWorkflowActivityAsyncHandoff() bool {
+func (x *NamespaceInfo_Capabilities) GetWorkflowActivityHandoff() bool {
 	if x != nil {
-		return x.WorkflowActivityAsyncHandoff
+		return x.WorkflowActivityHandoff
 	}
 	return false
 }
@@ -745,7 +745,7 @@ var File_temporal_api_namespace_v1_message_proto protoreflect.FileDescriptor
 
 const file_temporal_api_namespace_v1_message_proto_rawDesc = "" +
 	"\n" +
-	"'temporal/api/namespace/v1/message.proto\x12\x19temporal.api.namespace.v1\x1a\x1egoogle/protobuf/duration.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a%temporal/api/enums/v1/namespace.proto\"\xd9\x0e\n" +
+	"'temporal/api/namespace/v1/message.proto\x12\x19temporal.api.namespace.v1\x1a\x1egoogle/protobuf/duration.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a%temporal/api/enums/v1/namespace.proto\"\xc3\x0e\n" +
 	"\rNamespaceInfo\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12;\n" +
 	"\x05state\x18\x02 \x01(\x0e2%.temporal.api.enums.v1.NamespaceStateR\x05state\x12 \n" +
@@ -759,7 +759,7 @@ const file_temporal_api_namespace_v1_message_proto_rawDesc = "" +
 	"\x12supports_schedules\x18d \x01(\bR\x11supportsSchedules\x1a7\n" +
 	"\tDataEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\x1a\x85\t\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\x1a\xef\b\n" +
 	"\fCapabilities\x120\n" +
 	"\x14eager_workflow_start\x18\x01 \x01(\bR\x12eagerWorkflowStart\x12\x1f\n" +
 	"\vsync_update\x18\x02 \x01(\bR\n" +
@@ -779,9 +779,9 @@ const file_temporal_api_namespace_v1_message_proto_rawDesc = "" +
 	"#workflow_task_completion_pagination\x18\x0e \x01(\bR workflowTaskCompletionPagination\x12E\n" +
 	"\x1fstandalone_activity_start_delay\x18\x0f \x01(\bR\x1cstandaloneActivityStartDelay\x12O\n" +
 	"$standalone_activity_batch_operations\x18\x10 \x01(\bR!standaloneActivityBatchOperations\x12Q\n" +
-	"%standalone_activity_operator_commands\x18\x11 \x01(\bR\"standaloneActivityOperatorCommands\x12I\n" +
-	"!standalone_activity_async_handoff\x18\x12 \x01(\bR\x1estandaloneActivityAsyncHandoff\x12E\n" +
-	"\x1fworkflow_activity_async_handoff\x18\x13 \x01(\bR\x1cworkflowActivityAsyncHandoff\x1a\xc7\x01\n" +
+	"%standalone_activity_operator_commands\x18\x11 \x01(\bR\"standaloneActivityOperatorCommands\x12>\n" +
+	"\x1bstandalone_activity_handoff\x18\x12 \x01(\bR\x19standaloneActivityHandoff\x12:\n" +
+	"\x19workflow_activity_handoff\x18\x13 \x01(\bR\x17workflowActivityHandoff\x1a\xc7\x01\n" +
 	"\x06Limits\x121\n" +
 	"\x15blob_size_limit_error\x18\x01 \x01(\x03R\x12blobSizeLimitError\x121\n" +
 	"\x15memo_size_limit_error\x18\x02 \x01(\x03R\x12memoSizeLimitError\x12W\n" +

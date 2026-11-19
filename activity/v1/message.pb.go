@@ -127,20 +127,25 @@ func (*ActivityExecutionOutcome_Result) isActivityExecutionOutcome_Value() {}
 
 func (*ActivityExecutionOutcome_Failure) isActivityExecutionOutcome_Value() {}
 
-// Timeout and retry options for activity handoff and external completion. The completion phase
-// begins when the server durably accepts `RespondActivityTaskHandoff`.
+// An activity attempt has two phases: before handoff and waiting for external completion.
+// Handoff occurs when the server durably accepts `RespondActivityTaskHandoff`.
+//
+// This message sets the timeouts before handoff and while waiting for external completion.
+// Its heartbeat timeout and retry policy apply only before handoff. After handoff, use the
+// heartbeat timeout and retry policy in `ActivityOptions`.
+// `ActivityOptions.start_to_close_timeout` spans both phases. If it expires, retries use
+// `ActivityOptions.retry_policy`.
 //
 // Presence, including an empty message, enables two-phase timeouts and retries. Absence preserves
 // existing timeout, retry, and attempt-counting behavior even when handoff is reported.
-// Either `ActivityOptions.start_to_close_timeout` or `ActivityOptions.schedule_to_close_timeout`
-// must be positive; otherwise, both phase timeouts below must be positive so neither phase can
-// wait indefinitely. The earliest applicable deadline wins. `ActivityOptions.start_to_close_timeout`
-// is enforced only when explicitly positive. Only the current phase timeout is active.
+// A positive `ActivityOptions.start_to_close_timeout` or `ActivityOptions.schedule_to_close_timeout`
+// is required unless both phase timeouts are positive. An unset or zero start-to-close timeout
+// remains disabled.
 //
-// Positive phase timeouts are capped by positive `ActivityOptions.start_to_close_timeout` and
-// `ActivityOptions.schedule_to_close_timeout` bounds. Positive heartbeat timeouts are capped by
-// their phase timeout and those positive bounds. The server stores and returns normalized values.
-// Increasing a bound does not restore a capped value unless that value is also updated.
+// Phase timeouts are capped by positive `ActivityOptions.start_to_close_timeout` and
+// `ActivityOptions.schedule_to_close_timeout` values. Heartbeat timeouts are also capped by their
+// phase timeout. The server stores and returns the capped values. Increasing a bound does not
+// restore a capped value unless that value is also updated.
 type HandoffOptions struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Maximum time from the current worker pickup until the server durably accepts handoff. Unset
@@ -514,11 +519,11 @@ type ActivityExecutionInfo struct {
 	// Most recent durably recorded handoff time. Retained through retry backoff, waiting for the
 	// next worker pickup, and terminal closure. Cleared when a reset is applied or the next delivery
 	// starts on a worker.
-	AsyncHandoffTime *timestamppb.Timestamp `protobuf:"bytes,45,opt,name=async_handoff_time,json=asyncHandoffTime,proto3" json:"async_handoff_time,omitempty"`
+	HandoffTime *timestamppb.Timestamp `protobuf:"bytes,45,opt,name=handoff_time,json=handoffTime,proto3" json:"handoff_time,omitempty"`
 	// True while the current delivery awaits external completion, independent of
 	// `ActivityExecutionInfo.run_state`. Cleared when the delivery ends or is reset;
 	// pending pause, cancel, or reset requests do not clear it.
-	AwaitingCompletion bool `protobuf:"varint,46,opt,name=awaiting_completion,json=awaitingCompletion,proto3" json:"awaiting_completion,omitempty"`
+	HandedOff bool `protobuf:"varint,46,opt,name=handed_off,json=handedOff,proto3" json:"handed_off,omitempty"`
 	// Server-normalized and defaulted handoff options, if configured.
 	HandoffOptions *HandoffOptions `protobuf:"bytes,47,opt,name=handoff_options,json=handoffOptions,proto3" json:"handoff_options,omitempty"`
 	unknownFields  protoimpl.UnknownFields
@@ -863,16 +868,16 @@ func (x *ActivityExecutionInfo) GetHandoffAttempt() int32 {
 	return 0
 }
 
-func (x *ActivityExecutionInfo) GetAsyncHandoffTime() *timestamppb.Timestamp {
+func (x *ActivityExecutionInfo) GetHandoffTime() *timestamppb.Timestamp {
 	if x != nil {
-		return x.AsyncHandoffTime
+		return x.HandoffTime
 	}
 	return nil
 }
 
-func (x *ActivityExecutionInfo) GetAwaitingCompletion() bool {
+func (x *ActivityExecutionInfo) GetHandedOff() bool {
 	if x != nil {
-		return x.AwaitingCompletion
+		return x.HandedOff
 	}
 	return false
 }
@@ -1219,7 +1224,7 @@ const file_temporal_api_activity_v1_message_proto_rawDesc = "" +
 	"\bpriority\x18\a \x01(\v2 .temporal.api.common.v1.PriorityR\bpriority\x12:\n" +
 	"\vstart_delay\x18\b \x01(\v2\x19.google.protobuf.DurationR\n" +
 	"startDelay\x12Q\n" +
-	"\x0fhandoff_options\x18\t \x01(\v2(.temporal.api.activity.v1.HandoffOptionsR\x0ehandoffOptions\"\xdc\x18\n" +
+	"\x0fhandoff_options\x18\t \x01(\v2(.temporal.api.activity.v1.HandoffOptionsR\x0ehandoffOptions\"\xbf\x18\n" +
 	"\x15ActivityExecutionInfo\x12\x1f\n" +
 	"\vactivity_id\x18\x01 \x01(\tR\n" +
 	"activityId\x12\x15\n" +
@@ -1270,9 +1275,10 @@ const file_temporal_api_activity_v1_message_proto_rawDesc = "" +
 	"\x14started_by_principal\x18) \x01(\v2).temporal.api.common.v1.ResolvedPrincipalR\x12startedByPrincipal\x12Y\n" +
 	"\x13closed_by_principal\x18* \x01(\v2).temporal.api.common.v1.ResolvedPrincipalR\x11closedByPrincipal\x12]\n" +
 	"\x15last_worker_principal\x18+ \x01(\v2).temporal.api.common.v1.ResolvedPrincipalR\x13lastWorkerPrincipal\x12'\n" +
-	"\x0fhandoff_attempt\x18, \x01(\x05R\x0ehandoffAttempt\x12H\n" +
-	"\x12async_handoff_time\x18- \x01(\v2\x1a.google.protobuf.TimestampR\x10asyncHandoffTime\x12/\n" +
-	"\x13awaiting_completion\x18. \x01(\bR\x12awaitingCompletion\x12Q\n" +
+	"\x0fhandoff_attempt\x18, \x01(\x05R\x0ehandoffAttempt\x12=\n" +
+	"\fhandoff_time\x18- \x01(\v2\x1a.google.protobuf.TimestampR\vhandoffTime\x12\x1d\n" +
+	"\n" +
+	"handed_off\x18. \x01(\bR\thandedOff\x12Q\n" +
 	"\x0fhandoff_options\x18/ \x01(\v2(.temporal.api.activity.v1.HandoffOptionsR\x0ehandoffOptions\"\xc5\x05\n" +
 	"\x19ActivityExecutionListInfo\x12\x1f\n" +
 	"\vactivity_id\x18\x01 \x01(\tR\n" +
@@ -1390,7 +1396,7 @@ var file_temporal_api_activity_v1_message_proto_depIdxs = []int32{
 	25, // 44: temporal.api.activity.v1.ActivityExecutionInfo.started_by_principal:type_name -> temporal.api.common.v1.ResolvedPrincipal
 	25, // 45: temporal.api.activity.v1.ActivityExecutionInfo.closed_by_principal:type_name -> temporal.api.common.v1.ResolvedPrincipal
 	25, // 46: temporal.api.activity.v1.ActivityExecutionInfo.last_worker_principal:type_name -> temporal.api.common.v1.ResolvedPrincipal
-	18, // 47: temporal.api.activity.v1.ActivityExecutionInfo.async_handoff_time:type_name -> google.protobuf.Timestamp
+	18, // 47: temporal.api.activity.v1.ActivityExecutionInfo.handoff_time:type_name -> google.protobuf.Timestamp
 	1,  // 48: temporal.api.activity.v1.ActivityExecutionInfo.handoff_options:type_name -> temporal.api.activity.v1.HandoffOptions
 	15, // 49: temporal.api.activity.v1.ActivityExecutionListInfo.activity_type:type_name -> temporal.api.common.v1.ActivityType
 	18, // 50: temporal.api.activity.v1.ActivityExecutionListInfo.schedule_time:type_name -> google.protobuf.Timestamp
