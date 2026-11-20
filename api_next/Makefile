@@ -233,6 +233,8 @@ helper-test-protos:
 # We need to ensure protos are up to date to test our UTF-8 post-processing
 test: copy-helpers
 	go test -race -tags protolegacy ./...
+	go -C cmd/proxygenerator test ./...
+	if [ -f internal/draftwire/go.mod ]; then go -C internal/draftwire test ./...; fi
 
 ##### Check #####
 
