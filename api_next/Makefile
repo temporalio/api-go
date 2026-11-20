@@ -91,7 +91,7 @@ API_NEXT_OUT := api_next
 
 API_NEXT_SNAPSHOT_EXCLUDES := --exclude=.git --exclude=$(API_NEXT_OUT) --exclude=proto \
 	--exclude=.gobincache --exclude=.go-helpers-installed --exclude=descriptor_set.pb \
-	--exclude=cmd/protoc-gen-go-helpers/testprotos
+	--exclude=cmd/protoc-gen-go-helpers/testprotos --exclude=internal/draftwire
 
 .PHONY: api-next
 api-next: .go-helpers-installed mockgen-install
