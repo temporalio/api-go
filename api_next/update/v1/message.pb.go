@@ -345,7 +345,7 @@ type Request struct {
 	Links []*v11.Link `protobuf:"bytes,5,rep,name=links,proto3" json:"links,omitempty"`
 	// Serialization context propagated from the Nexus caller that started this update.
 	PropagatedNexusSerializationContext *v13.PropagatedSerializationContext `protobuf:"bytes,6,opt,name=propagated_nexus_serialization_context,json=propagatedNexusSerializationContext,proto3" json:"propagated_nexus_serialization_context,omitempty"`
-	// User to be associated with this request.
+	// User that triggered the update.
 	User          string `protobuf:"bytes,7,opt,name=user,proto3" json:"user,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -567,8 +567,8 @@ type Response struct {
 	state   protoimpl.MessageState `protogen:"open.v1"`
 	Meta    *Meta                  `protobuf:"bytes,1,opt,name=meta,proto3" json:"meta,omitempty"`
 	Outcome *Outcome               `protobuf:"bytes,2,opt,name=outcome,proto3" json:"outcome,omitempty"`
-	// User that triggered the original user.
-	User          string `protobuf:"bytes,6,opt,name=user,proto3" json:"user,omitempty"`
+	// User that triggered the update.
+	User          string `protobuf:"bytes,3,opt,name=user,proto3" json:"user,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -668,7 +668,7 @@ const file_temporal_api_next_update_v1_message_proto_rawDesc = "" +
 	"\bResponse\x120\n" +
 	"\x04meta\x18\x01 \x01(\v2\x1c.temporal.api.update.v1.MetaR\x04meta\x129\n" +
 	"\aoutcome\x18\x02 \x01(\v2\x1f.temporal.api.update.v1.OutcomeR\aoutcome\x12+\n" +
-	"\x04user\x18\x06 \x01(\tB\x17\xc2\xed/\x13update-user-taggingR\x04userB\x89\x01\n" +
+	"\x04user\x18\x03 \x01(\tB\x17\xc2\xed/\x13update-user-taggingR\x04userB\x89\x01\n" +
 	"\x19io.temporal.api.update.v1B\fMessageProtoP\x01Z#go.temporal.io/api/update/v1;update\xaa\x02\x18Temporalio.Api.Update.V1\xea\x02\x1bTemporalio::Api::Update::V1b\x06proto3"
 
 var (
