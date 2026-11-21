@@ -6,6 +6,8 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/require"
+	"google.golang.org/protobuf/proto"
+	"google.golang.org/protobuf/types/descriptorpb"
 )
 
 func TestWalkExtensionExclusions(t *testing.T) {
@@ -62,4 +64,28 @@ func TestWalkExtensionExclusions(t *testing.T) {
 			require.Equal(t, tt.want, got)
 		})
 	}
+}
+
+func TestCompileProtosExcludesFileAlongsideSibling(t *testing.T) {
+	root := t.TempDir()
+	for _, name := range []string{"excluded.proto", "included.proto"} {
+		require.NoError(t, os.WriteFile(filepath.Join(root, name), []byte("syntax = \"proto3\";\n"), 0644))
+	}
+	descriptorPath := filepath.Join(t.TempDir(), "descriptor.pb")
+	require.NoError(t, compileProtos(t.Context(), genConfig{
+		protocPath:           "protoc",
+		rootDirs:             []string{root},
+		excludeDirs:          []string{"excluded.proto"},
+		includes:             []string{root},
+		outputDescriptorPath: descriptorPath,
+	}))
+	data, err := os.ReadFile(descriptorPath)
+	require.NoError(t, err)
+	var descriptors descriptorpb.FileDescriptorSet
+	require.NoError(t, proto.Unmarshal(data, &descriptors))
+	var names []string
+	for _, file := range descriptors.GetFile() {
+		names = append(names, file.GetName())
+	}
+	require.Equal(t, []string{"included.proto"}, names)
 }
