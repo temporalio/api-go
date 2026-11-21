@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"slices"
 	"strconv"
 	"strings"
 
@@ -284,6 +285,9 @@ func generateDraft(gen *protogen.Plugin) error {
 		for _, service := range file.Services {
 			p.generateMethodLookup(output(), service)
 		}
+		if file.Desc.Package()+"." == draftPrefix && file.Desc.Extensions().ByName("draft") != nil {
+			p.generateTypeLookup(output())
+		}
 	}
 	return nil
 }
@@ -318,6 +322,39 @@ func (p *omissionPlan) generateMethodLookup(g *protogen.GeneratedFile, service *
 	}
 	g.P(`return "", false, false`)
 	g.P("}")
+}
+
+// generateTypeLookup emits, next to the draft options, a switch over every message with an
+// OmitDraftFields method, so a server can skip decoding google.protobuf.Any payloads, such as
+// gRPC status details, that cannot hold draft data.
+func (p *omissionPlan) generateTypeLookup(g *protogen.GeneratedFile) {
+	var names []string
+	for _, m := range p.messages {
+		if p.affected[m.Desc.FullName()] {
+			names = append(names, string(m.Desc.FullName()))
+		}
+	}
+	slices.Sort(names)
+	g.P()
+	g.P("// HasOmitDraftFields reports whether the message with the given full name has an")
+	g.P("// OmitDraftFields method.")
+	g.P("func HasOmitDraftFields(messageFullName string) bool {")
+	if len(names) > 0 {
+		g.P("switch messageFullName {")
+		g.P("case ", strings.Join(quoted(names), ",\n"), ":")
+		g.P("return true")
+		g.P("}")
+	}
+	g.P("return false")
+	g.P("}")
+}
+
+func quoted(names []string) []string {
+	out := make([]string, len(names))
+	for i, name := range names {
+		out[i] = strconv.Quote(name)
+	}
+	return out
 }
 
 func (p *omissionPlan) generateOmitter(g *protogen.GeneratedFile, m *protogen.Message) {
