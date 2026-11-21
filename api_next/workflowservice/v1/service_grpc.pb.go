@@ -182,7 +182,8 @@ type WorkflowServiceClient interface {
 	// Deprecated.
 	//
 	// (-- api-linter: core::0127::http-annotation=disabled
-	//     aip.dev/not-precedent: Deprecated --)
+	//
+	//	aip.dev/not-precedent: Deprecated --)
 	DeprecateNamespace(ctx context.Context, in *DeprecateNamespaceRequest, opts ...grpc.CallOption) (*DeprecateNamespaceResponse, error)
 	// StartWorkflowExecution starts a new workflow execution.
 	//
@@ -199,7 +200,8 @@ type WorkflowServiceClient interface {
 	// equals the status code of the *first* operation that failed to be started.
 	//
 	// (-- api-linter: core::0127::http-annotation=disabled
-	//     aip.dev/not-precedent: To be exposed over HTTP in the future. --)
+	//
+	//	aip.dev/not-precedent: To be exposed over HTTP in the future. --)
 	ExecuteMultiOperation(ctx context.Context, in *ExecuteMultiOperationRequest, opts ...grpc.CallOption) (*ExecuteMultiOperationResponse, error)
 	// GetWorkflowExecutionHistory returns the history of specified workflow execution. Fails with
 	// `NotFound` if the specified workflow execution is unknown to the service.
@@ -216,7 +218,8 @@ type WorkflowServiceClient interface {
 	// this task before handing it to the worker.
 	//
 	// (-- api-linter: core::0127::http-annotation=disabled
-	//     aip.dev/not-precedent: We do not expose worker API to HTTP. --)
+	//
+	//	aip.dev/not-precedent: We do not expose worker API to HTTP. --)
 	PollWorkflowTaskQueue(ctx context.Context, in *PollWorkflowTaskQueueRequest, opts ...grpc.CallOption) (*PollWorkflowTaskQueueResponse, error)
 	// RespondWorkflowTaskCompleted is called by workers to successfully complete workflow tasks
 	// they received from `PollWorkflowTaskQueue`.
@@ -226,7 +229,8 @@ type WorkflowServiceClient interface {
 	// executing the task (ex timer started, activity task scheduled, etc).
 	//
 	// (-- api-linter: core::0127::http-annotation=disabled
-	//     aip.dev/not-precedent: We do not expose worker API to HTTP. --)
+	//
+	//	aip.dev/not-precedent: We do not expose worker API to HTTP. --)
 	RespondWorkflowTaskCompleted(ctx context.Context, in *RespondWorkflowTaskCompletedRequest, opts ...grpc.CallOption) (*RespondWorkflowTaskCompletedResponse, error)
 	// RespondWorkflowTaskFailed is called by workers to indicate the processing of a workflow task
 	// failed.
@@ -239,7 +243,8 @@ type WorkflowServiceClient interface {
 	// for consecutive failures.
 	//
 	// (-- api-linter: core::0127::http-annotation=disabled
-	//     aip.dev/not-precedent: We do not expose worker API to HTTP. --)
+	//
+	//	aip.dev/not-precedent: We do not expose worker API to HTTP. --)
 	RespondWorkflowTaskFailed(ctx context.Context, in *RespondWorkflowTaskFailedRequest, opts ...grpc.CallOption) (*RespondWorkflowTaskFailedResponse, error)
 	// PollActivityTaskQueue is called by workers to process activity tasks from a specific task
 	// queue.
@@ -255,7 +260,8 @@ type WorkflowServiceClient interface {
 	// avoid writing many events in the case of a failure/retry loop.
 	//
 	// (-- api-linter: core::0127::http-annotation=disabled
-	//     aip.dev/not-precedent: We do not expose worker API to HTTP. --)
+	//
+	//	aip.dev/not-precedent: We do not expose worker API to HTTP. --)
 	PollActivityTaskQueue(ctx context.Context, in *PollActivityTaskQueueRequest, opts ...grpc.CallOption) (*PollActivityTaskQueueResponse, error)
 	// RecordActivityTaskHeartbeat is optionally called by workers while they execute activities.
 	//
@@ -275,7 +281,8 @@ type WorkflowServiceClient interface {
 	// namespace/workflow id/activity id instead of task token.
 	//
 	// (-- api-linter: core::0136::prepositions=disabled
-	//     aip.dev/not-precedent: "By" is used to indicate request type. --)
+	//
+	//	aip.dev/not-precedent: "By" is used to indicate request type. --)
 	RecordActivityTaskHeartbeatById(ctx context.Context, in *RecordActivityTaskHeartbeatByIdRequest, opts ...grpc.CallOption) (*RecordActivityTaskHeartbeatByIdResponse, error)
 	// RespondActivityTaskCompleted is called by workers when they successfully complete an activity
 	// task.
@@ -288,7 +295,8 @@ type WorkflowServiceClient interface {
 	// namespace/workflow id/activity id instead of task token.
 	//
 	// (-- api-linter: core::0136::prepositions=disabled
-	//     aip.dev/not-precedent: "By" is used to indicate request type. --)
+	//
+	//	aip.dev/not-precedent: "By" is used to indicate request type. --)
 	RespondActivityTaskCompletedById(ctx context.Context, in *RespondActivityTaskCompletedByIdRequest, opts ...grpc.CallOption) (*RespondActivityTaskCompletedByIdResponse, error)
 	// RespondActivityTaskFailed is called by workers when processing an activity task fails.
 	//
@@ -300,7 +308,8 @@ type WorkflowServiceClient interface {
 	// namespace/workflow id/activity id instead of task token.
 	//
 	// (-- api-linter: core::0136::prepositions=disabled
-	//     aip.dev/not-precedent: "By" is used to indicate request type. --)
+	//
+	//	aip.dev/not-precedent: "By" is used to indicate request type. --)
 	RespondActivityTaskFailedById(ctx context.Context, in *RespondActivityTaskFailedByIdRequest, opts ...grpc.CallOption) (*RespondActivityTaskFailedByIdResponse, error)
 	// RespondActivityTaskFailed is called by workers when processing an activity task fails.
 	//
@@ -312,7 +321,8 @@ type WorkflowServiceClient interface {
 	// namespace/workflow id/activity id instead of task token.
 	//
 	// (-- api-linter: core::0136::prepositions=disabled
-	//     aip.dev/not-precedent: "By" is used to indicate request type. --)
+	//
+	//	aip.dev/not-precedent: "By" is used to indicate request type. --)
 	RespondActivityTaskCanceledById(ctx context.Context, in *RespondActivityTaskCanceledByIdRequest, opts ...grpc.CallOption) (*RespondActivityTaskCanceledByIdResponse, error)
 	// RequestCancelWorkflowExecution is called by workers when they want to request cancellation of
 	// a workflow execution.
@@ -337,7 +347,8 @@ type WorkflowServiceClient interface {
 	// workflow task is generated.
 	//
 	// (-- api-linter: core::0136::prepositions=disabled
-	//     aip.dev/not-precedent: "With" is used to indicate combined operation. --)
+	//
+	//	aip.dev/not-precedent: "With" is used to indicate combined operation. --)
 	SignalWithStartWorkflowExecution(ctx context.Context, in *SignalWithStartWorkflowExecutionRequest, opts ...grpc.CallOption) (*SignalWithStartWorkflowExecutionResponse, error)
 	// ResetWorkflowExecution will reset an existing workflow execution to a specified
 	// `WORKFLOW_TASK_COMPLETED` event (exclusive). It will immediately terminate the current
@@ -355,17 +366,20 @@ type WorkflowServiceClient interface {
 	// terminated before deletion.
 	//
 	// (-- api-linter: core::0127::http-annotation=disabled
-	//     aip.dev/not-precedent: Workflow deletion not exposed to HTTP, users should use cancel or terminate. --)
+	//
+	//	aip.dev/not-precedent: Workflow deletion not exposed to HTTP, users should use cancel or terminate. --)
 	DeleteWorkflowExecution(ctx context.Context, in *DeleteWorkflowExecutionRequest, opts ...grpc.CallOption) (*DeleteWorkflowExecutionResponse, error)
 	// ListOpenWorkflowExecutions is a visibility API to list the open executions in a specific namespace.
 	//
 	// (-- api-linter: core::0127::http-annotation=disabled
-	//     aip.dev/not-precedent: HTTP users should use ListWorkflowExecutions instead. --)
+	//
+	//	aip.dev/not-precedent: HTTP users should use ListWorkflowExecutions instead. --)
 	ListOpenWorkflowExecutions(ctx context.Context, in *ListOpenWorkflowExecutionsRequest, opts ...grpc.CallOption) (*ListOpenWorkflowExecutionsResponse, error)
 	// ListClosedWorkflowExecutions is a visibility API to list the closed executions in a specific namespace.
 	//
 	// (-- api-linter: core::0127::http-annotation=disabled
-	//     aip.dev/not-precedent: HTTP users should use ListWorkflowExecutions instead. --)
+	//
+	//	aip.dev/not-precedent: HTTP users should use ListWorkflowExecutions instead. --)
 	ListClosedWorkflowExecutions(ctx context.Context, in *ListClosedWorkflowExecutionsRequest, opts ...grpc.CallOption) (*ListClosedWorkflowExecutionsResponse, error)
 	// ListWorkflowExecutions is a visibility API to list workflow executions in a specific namespace.
 	ListWorkflowExecutions(ctx context.Context, in *ListWorkflowExecutionsRequest, opts ...grpc.CallOption) (*ListWorkflowExecutionsResponse, error)
@@ -376,14 +390,16 @@ type WorkflowServiceClient interface {
 	//
 	// Deprecated: Replaced with `ListWorkflowExecutions`.
 	// (-- api-linter: core::0127::http-annotation=disabled
-	//     aip.dev/not-precedent: HTTP users should use ListWorkflowExecutions instead. --)
+	//
+	//	aip.dev/not-precedent: HTTP users should use ListWorkflowExecutions instead. --)
 	ScanWorkflowExecutions(ctx context.Context, in *ScanWorkflowExecutionsRequest, opts ...grpc.CallOption) (*ScanWorkflowExecutionsResponse, error)
 	// CountWorkflowExecutions is a visibility API to count of workflow executions in a specific namespace.
 	CountWorkflowExecutions(ctx context.Context, in *CountWorkflowExecutionsRequest, opts ...grpc.CallOption) (*CountWorkflowExecutionsResponse, error)
 	// GetSearchAttributes is a visibility API to get all legal keys that could be used in list APIs
 	//
 	// (-- api-linter: core::0127::http-annotation=disabled
-	//     aip.dev/not-precedent: We do not expose this search attribute API to HTTP (but may expose on OperatorService). --)
+	//
+	//	aip.dev/not-precedent: We do not expose this search attribute API to HTTP (but may expose on OperatorService). --)
 	GetSearchAttributes(ctx context.Context, in *GetSearchAttributesRequest, opts ...grpc.CallOption) (*GetSearchAttributesResponse, error)
 	// RespondQueryTaskCompleted is called by workers to complete queries which were delivered on
 	// the `query` (not `queries`) field of a `PollWorkflowTaskQueueResponse`.
@@ -392,7 +408,8 @@ type WorkflowServiceClient interface {
 	// the query result a response.
 	//
 	// (-- api-linter: core::0127::http-annotation=disabled
-	//     aip.dev/not-precedent: We do not expose worker API to HTTP. --)
+	//
+	//	aip.dev/not-precedent: We do not expose worker API to HTTP. --)
 	RespondQueryTaskCompleted(ctx context.Context, in *RespondQueryTaskCompletedRequest, opts ...grpc.CallOption) (*RespondQueryTaskCompletedResponse, error)
 	// ResetStickyTaskQueue resets the sticky task queue related information in the mutable state of
 	// a given workflow. This is prudent for workers to perform if a workflow has been paged out of
@@ -407,7 +424,8 @@ type WorkflowServiceClient interface {
 	// cycling).
 	//
 	// (-- api-linter: core::0127::http-annotation=disabled
-	//     aip.dev/not-precedent: We do not expose worker API to HTTP. --)
+	//
+	//	aip.dev/not-precedent: We do not expose worker API to HTTP. --)
 	ResetStickyTaskQueue(ctx context.Context, in *ResetStickyTaskQueueRequest, opts ...grpc.CallOption) (*ResetStickyTaskQueueResponse, error)
 	// ShutdownWorker is used to indicate that the given sticky task
 	// queue is no longer being polled by its worker. Following the completion of
@@ -421,7 +439,8 @@ type WorkflowServiceClient interface {
 	// As of Temporal Server v1.25.0, ShutdownWorker hasn't yet been implemented.
 	//
 	// (-- api-linter: core::0127::http-annotation=disabled
-	//     aip.dev/not-precedent: We do not expose worker API to HTTP. --)
+	//
+	//	aip.dev/not-precedent: We do not expose worker API to HTTP. --)
 	ShutdownWorker(ctx context.Context, in *ShutdownWorkerRequest, opts ...grpc.CallOption) (*ShutdownWorkerResponse, error)
 	// QueryWorkflow requests a query be executed for a specified workflow execution.
 	QueryWorkflow(ctx context.Context, in *QueryWorkflowRequest, opts ...grpc.CallOption) (*QueryWorkflowResponse, error)
@@ -437,7 +456,8 @@ type WorkflowServiceClient interface {
 	// GetSystemInfo returns information about the system.
 	GetSystemInfo(ctx context.Context, in *GetSystemInfoRequest, opts ...grpc.CallOption) (*GetSystemInfoResponse, error)
 	// (-- api-linter: core::0127::http-annotation=disabled
-	//     aip.dev/not-precedent: We do not expose this low-level API to HTTP. --)
+	//
+	//	aip.dev/not-precedent: We do not expose this low-level API to HTTP. --)
 	ListTaskQueuePartitions(ctx context.Context, in *ListTaskQueuePartitionsRequest, opts ...grpc.CallOption) (*ListTaskQueuePartitionsResponse, error)
 	// Creates a new schedule.
 	CreateSchedule(ctx context.Context, in *CreateScheduleRequest, opts ...grpc.CallOption) (*CreateScheduleResponse, error)
@@ -472,7 +492,8 @@ type WorkflowServiceClient interface {
 	// (default is 20), if this limit is exceeded this API will error with a FailedPrecondition.
 	//
 	// (-- api-linter: core::0127::http-annotation=disabled
-	//     aip.dev/not-precedent: We do yet expose versioning API to HTTP. --)
+	//
+	//	aip.dev/not-precedent: We do yet expose versioning API to HTTP. --)
 	UpdateWorkerBuildIdCompatibility(ctx context.Context, in *UpdateWorkerBuildIdCompatibilityRequest, opts ...grpc.CallOption) (*UpdateWorkerBuildIdCompatibilityResponse, error)
 	// Deprecated. Use `GetWorkerVersioningRules`.
 	// Will be removed in server version v1.32.0.
@@ -501,7 +522,8 @@ type WorkflowServiceClient interface {
 	//
 	// Will be removed in server version v1.32.0.
 	// (-- api-linter: core::0127::http-annotation=disabled
-	//     aip.dev/not-precedent: We do yet expose versioning API to HTTP. --)
+	//
+	//	aip.dev/not-precedent: We do yet expose versioning API to HTTP. --)
 	UpdateWorkerVersioningRules(ctx context.Context, in *UpdateWorkerVersioningRulesRequest, opts ...grpc.CallOption) (*UpdateWorkerVersioningRulesResponse, error)
 	// Fetches the Build ID assignment and redirect rules for a Task Queue.
 	// Will be removed in server version v1.32.0.
@@ -556,10 +578,10 @@ type WorkflowServiceClient interface {
 	DeleteWorkerDeployment(ctx context.Context, in *DeleteWorkerDeploymentRequest, opts ...grpc.CallOption) (*DeleteWorkerDeploymentResponse, error)
 	// Used for manual deletion of Versions. User can delete a Version only when all the
 	// following conditions are met:
-	//  - It is not the Current or Ramping Version of its Deployment.
-	//  - It has no active pollers (none of the task queues in the Version have pollers)
-	//  - It is not draining (see WorkerDeploymentVersionInfo.drainage_info). This condition
-	//    can be skipped by passing `skip-drainage=true`.
+	//   - It is not the Current or Ramping Version of its Deployment.
+	//   - It has no active pollers (none of the task queues in the Version have pollers)
+	//   - It is not draining (see WorkerDeploymentVersionInfo.drainage_info). This condition
+	//     can be skipped by passing `skip-drainage=true`.
 	DeleteWorkerDeploymentVersion(ctx context.Context, in *DeleteWorkerDeploymentVersionRequest, opts ...grpc.CallOption) (*DeleteWorkerDeploymentVersionResponse, error)
 	// Set/unset the Ramping Version of a Worker Deployment and its ramp percentage. Can be used for
 	// gradual ramp to unversioned workers too.
@@ -595,7 +617,8 @@ type WorkflowServiceClient interface {
 	// timeout and the server's configured long-poll timeout.
 	//
 	// (-- api-linter: core::0127::http-annotation=disabled
-	//     aip.dev/not-precedent: We don't expose update polling API to HTTP in favor of a potential future non-blocking form. --)
+	//
+	//	aip.dev/not-precedent: We don't expose update polling API to HTTP in favor of a potential future non-blocking form. --)
 	PollWorkflowExecutionUpdate(ctx context.Context, in *PollWorkflowExecutionUpdateRequest, opts ...grpc.CallOption) (*PollWorkflowExecutionUpdateResponse, error)
 	// StartBatchOperation starts a new batch operation
 	StartBatchOperation(ctx context.Context, in *StartBatchOperationRequest, opts ...grpc.CallOption) (*StartBatchOperationResponse, error)
@@ -607,15 +630,18 @@ type WorkflowServiceClient interface {
 	ListBatchOperations(ctx context.Context, in *ListBatchOperationsRequest, opts ...grpc.CallOption) (*ListBatchOperationsResponse, error)
 	// PollNexusTaskQueue is a long poll call used by workers to receive Nexus tasks.
 	// (-- api-linter: core::0127::http-annotation=disabled
-	//     aip.dev/not-precedent: We do not expose worker API to HTTP. --)
+	//
+	//	aip.dev/not-precedent: We do not expose worker API to HTTP. --)
 	PollNexusTaskQueue(ctx context.Context, in *PollNexusTaskQueueRequest, opts ...grpc.CallOption) (*PollNexusTaskQueueResponse, error)
 	// RespondNexusTaskCompleted is called by workers to respond to Nexus tasks received via PollNexusTaskQueue.
 	// (-- api-linter: core::0127::http-annotation=disabled
-	//     aip.dev/not-precedent: We do not expose worker API to HTTP. --)
+	//
+	//	aip.dev/not-precedent: We do not expose worker API to HTTP. --)
 	RespondNexusTaskCompleted(ctx context.Context, in *RespondNexusTaskCompletedRequest, opts ...grpc.CallOption) (*RespondNexusTaskCompletedResponse, error)
 	// RespondNexusTaskFailed is called by workers to fail Nexus tasks received via PollNexusTaskQueue.
 	// (-- api-linter: core::0127::http-annotation=disabled
-	//     aip.dev/not-precedent: We do not expose worker API to HTTP. --)
+	//
+	//	aip.dev/not-precedent: We do not expose worker API to HTTP. --)
 	RespondNexusTaskFailed(ctx context.Context, in *RespondNexusTaskFailedRequest, opts ...grpc.CallOption) (*RespondNexusTaskFailedResponse, error)
 	// UpdateActivityOptions is called by the client to update the options of an activity by its ID or type.
 	// If there are multiple pending activities of the provided type - all of them will be updated.
@@ -628,13 +654,14 @@ type WorkflowServiceClient interface {
 	// If there are multiple pending activities of the provided type - all of them will be paused
 	//
 	// Pausing an activity means:
-	// - If the activity is currently waiting for a retry or is running and subsequently fails,
-	//   it will not be rescheduled until it is unpaused.
-	// - If the activity is already paused, calling this method will have no effect.
-	// - If the activity is running and finishes successfully, the activity will be completed.
-	// - If the activity is running and finishes with failure:
-	//   * if there is no retry left - the activity will be completed.
-	//   * if there are more retries left - the activity will be paused.
+	//   - If the activity is currently waiting for a retry or is running and subsequently fails,
+	//     it will not be rescheduled until it is unpaused.
+	//   - If the activity is already paused, calling this method will have no effect.
+	//   - If the activity is running and finishes successfully, the activity will be completed.
+	//   - If the activity is running and finishes with failure:
+	//   - if there is no retry left - the activity will be completed.
+	//   - if there are more retries left - the activity will be paused.
+	//
 	// For long-running activities:
 	// - activities in paused state will send a cancellation with "activity_paused" set to 'true' in response to 'RecordActivityTaskHeartbeat'.
 	// - The activity should respond to the cancellation accordingly.
@@ -663,10 +690,10 @@ type WorkflowServiceClient interface {
 	// If there are multiple pending activities of the provided type - all of them will be reset.
 	//
 	// Resetting an activity means:
-	// * number of attempts will be reset to 0.
-	// * activity timeouts will be reset.
-	// * if the activity is waiting for retry, and it is not paused or 'keep_paused' is not provided:
-	//    it will be scheduled immediately (* see 'jitter' flag),
+	//   - number of attempts will be reset to 0.
+	//   - activity timeouts will be reset.
+	//   - if the activity is waiting for retry, and it is not paused or 'keep_paused' is not provided:
+	//     it will be scheduled immediately (* see 'jitter' flag),
 	//
 	// Flags:
 	//
@@ -693,8 +720,9 @@ type WorkflowServiceClient interface {
 	// Return all namespace workflow rules
 	ListWorkflowRules(ctx context.Context, in *ListWorkflowRulesRequest, opts ...grpc.CallOption) (*ListWorkflowRulesResponse, error)
 	// TriggerWorkflowRule allows to:
-	//  * trigger existing rule for a specific workflow execution;
-	//  * trigger rule for a specific workflow execution without creating a rule;
+	//   - trigger existing rule for a specific workflow execution;
+	//   - trigger rule for a specific workflow execution without creating a rule;
+	//
 	// This is useful for one-off operations.
 	TriggerWorkflowRule(ctx context.Context, in *TriggerWorkflowRuleRequest, opts ...grpc.CallOption) (*TriggerWorkflowRuleResponse, error)
 	// WorkerHeartbeat receive heartbeat request from the worker.
@@ -722,6 +750,7 @@ type WorkflowServiceClient interface {
 	// - No new workflow tasks or activity tasks are dispatched.
 	//   - Any workflow task currently executing on the worker will be allowed to complete.
 	//   - Any activity task currently executing will be paused.
+	//
 	// - All server-side events will continue to be processed by the server.
 	// - Queries & Updates on a paused workflow will be rejected.
 	PauseWorkflowExecution(ctx context.Context, in *PauseWorkflowExecutionRequest, opts ...grpc.CallOption) (*PauseWorkflowExecutionResponse, error)
@@ -791,19 +820,21 @@ type WorkflowServiceClient interface {
 	// terminated before deletion.
 	//
 	// (-- api-linter: core::0127::http-annotation=disabled
-	//     aip.dev/not-precedent: Activity deletion not exposed to HTTP, users should use cancel or terminate. --)
+	//
+	//	aip.dev/not-precedent: Activity deletion not exposed to HTTP, users should use cancel or terminate. --)
 	DeleteActivityExecution(ctx context.Context, in *DeleteActivityExecutionRequest, opts ...grpc.CallOption) (*DeleteActivityExecutionResponse, error)
 	// PauseActivityExecution pauses the execution of an activity specified by its ID.
 	// This API can be used to target a workflow activity or a standalone activity
 	//
 	// Pausing an activity means:
-	// - If the activity is currently waiting for a retry or is running and subsequently fails,
-	//   it will not be rescheduled until it is unpaused.
-	// - If the activity is already paused, calling this method will have no effect.
-	// - If the activity is running and finishes successfully, the activity will be completed.
-	// - If the activity is running and finishes with failure:
-	//   * if there is no retry left - the activity will be completed.
-	//   * if there are more retries left - the activity will be paused.
+	//   - If the activity is currently waiting for a retry or is running and subsequently fails,
+	//     it will not be rescheduled until it is unpaused.
+	//   - If the activity is already paused, calling this method will have no effect.
+	//   - If the activity is running and finishes successfully, the activity will be completed.
+	//   - If the activity is running and finishes with failure:
+	//   - if there is no retry left - the activity will be completed.
+	//   - if there are more retries left - the activity will be paused.
+	//
 	// For long-running activities:
 	// - activities in paused state will send a cancellation with "activity_paused" set to 'true' in response to 'RecordActivityTaskHeartbeat'.
 	//
@@ -813,10 +844,10 @@ type WorkflowServiceClient interface {
 	// This API can be used to target a workflow activity or a standalone activity.
 	//
 	// Resetting an activity means:
-	// * number of attempts will be reset to 0.
-	// * activity timeouts will be reset.
-	// * if the activity is waiting for retry, and it is not paused or 'keep_paused' is not provided:
-	//    it will be scheduled immediately (* see 'jitter' flag)
+	//   - number of attempts will be reset to 0.
+	//   - activity timeouts will be reset.
+	//   - if the activity is waiting for retry, and it is not paused or 'keep_paused' is not provided:
+	//     it will be scheduled immediately (* see 'jitter' flag)
 	//
 	// Returns a `NotFound` error if there is no pending activity with the provided ID or type.
 	ResetActivityExecution(ctx context.Context, in *ResetActivityExecutionRequest, opts ...grpc.CallOption) (*ResetActivityExecutionResponse, error)
@@ -842,7 +873,8 @@ type WorkflowServiceClient interface {
 	// is running, it will be terminated before deletion.
 	//
 	// (-- api-linter: core::0127::http-annotation=disabled
-	//     aip.dev/not-precedent: Nexus operation deletion not exposed to HTTP, users should use cancel or terminate. --)
+	//
+	//	aip.dev/not-precedent: Nexus operation deletion not exposed to HTTP, users should use cancel or terminate. --)
 	DeleteNexusOperationExecution(ctx context.Context, in *DeleteNexusOperationExecutionRequest, opts ...grpc.CallOption) (*DeleteNexusOperationExecutionResponse, error)
 	// PollWorkflowExecutionTimeSkipping waits for a fast-forward outcome for a workflow execution.
 	//
@@ -2125,7 +2157,8 @@ type WorkflowServiceServer interface {
 	// Deprecated.
 	//
 	// (-- api-linter: core::0127::http-annotation=disabled
-	//     aip.dev/not-precedent: Deprecated --)
+	//
+	//	aip.dev/not-precedent: Deprecated --)
 	DeprecateNamespace(context.Context, *DeprecateNamespaceRequest) (*DeprecateNamespaceResponse, error)
 	// StartWorkflowExecution starts a new workflow execution.
 	//
@@ -2142,7 +2175,8 @@ type WorkflowServiceServer interface {
 	// equals the status code of the *first* operation that failed to be started.
 	//
 	// (-- api-linter: core::0127::http-annotation=disabled
-	//     aip.dev/not-precedent: To be exposed over HTTP in the future. --)
+	//
+	//	aip.dev/not-precedent: To be exposed over HTTP in the future. --)
 	ExecuteMultiOperation(context.Context, *ExecuteMultiOperationRequest) (*ExecuteMultiOperationResponse, error)
 	// GetWorkflowExecutionHistory returns the history of specified workflow execution. Fails with
 	// `NotFound` if the specified workflow execution is unknown to the service.
@@ -2159,7 +2193,8 @@ type WorkflowServiceServer interface {
 	// this task before handing it to the worker.
 	//
 	// (-- api-linter: core::0127::http-annotation=disabled
-	//     aip.dev/not-precedent: We do not expose worker API to HTTP. --)
+	//
+	//	aip.dev/not-precedent: We do not expose worker API to HTTP. --)
 	PollWorkflowTaskQueue(context.Context, *PollWorkflowTaskQueueRequest) (*PollWorkflowTaskQueueResponse, error)
 	// RespondWorkflowTaskCompleted is called by workers to successfully complete workflow tasks
 	// they received from `PollWorkflowTaskQueue`.
@@ -2169,7 +2204,8 @@ type WorkflowServiceServer interface {
 	// executing the task (ex timer started, activity task scheduled, etc).
 	//
 	// (-- api-linter: core::0127::http-annotation=disabled
-	//     aip.dev/not-precedent: We do not expose worker API to HTTP. --)
+	//
+	//	aip.dev/not-precedent: We do not expose worker API to HTTP. --)
 	RespondWorkflowTaskCompleted(context.Context, *RespondWorkflowTaskCompletedRequest) (*RespondWorkflowTaskCompletedResponse, error)
 	// RespondWorkflowTaskFailed is called by workers to indicate the processing of a workflow task
 	// failed.
@@ -2182,7 +2218,8 @@ type WorkflowServiceServer interface {
 	// for consecutive failures.
 	//
 	// (-- api-linter: core::0127::http-annotation=disabled
-	//     aip.dev/not-precedent: We do not expose worker API to HTTP. --)
+	//
+	//	aip.dev/not-precedent: We do not expose worker API to HTTP. --)
 	RespondWorkflowTaskFailed(context.Context, *RespondWorkflowTaskFailedRequest) (*RespondWorkflowTaskFailedResponse, error)
 	// PollActivityTaskQueue is called by workers to process activity tasks from a specific task
 	// queue.
@@ -2198,7 +2235,8 @@ type WorkflowServiceServer interface {
 	// avoid writing many events in the case of a failure/retry loop.
 	//
 	// (-- api-linter: core::0127::http-annotation=disabled
-	//     aip.dev/not-precedent: We do not expose worker API to HTTP. --)
+	//
+	//	aip.dev/not-precedent: We do not expose worker API to HTTP. --)
 	PollActivityTaskQueue(context.Context, *PollActivityTaskQueueRequest) (*PollActivityTaskQueueResponse, error)
 	// RecordActivityTaskHeartbeat is optionally called by workers while they execute activities.
 	//
@@ -2218,7 +2256,8 @@ type WorkflowServiceServer interface {
 	// namespace/workflow id/activity id instead of task token.
 	//
 	// (-- api-linter: core::0136::prepositions=disabled
-	//     aip.dev/not-precedent: "By" is used to indicate request type. --)
+	//
+	//	aip.dev/not-precedent: "By" is used to indicate request type. --)
 	RecordActivityTaskHeartbeatById(context.Context, *RecordActivityTaskHeartbeatByIdRequest) (*RecordActivityTaskHeartbeatByIdResponse, error)
 	// RespondActivityTaskCompleted is called by workers when they successfully complete an activity
 	// task.
@@ -2231,7 +2270,8 @@ type WorkflowServiceServer interface {
 	// namespace/workflow id/activity id instead of task token.
 	//
 	// (-- api-linter: core::0136::prepositions=disabled
-	//     aip.dev/not-precedent: "By" is used to indicate request type. --)
+	//
+	//	aip.dev/not-precedent: "By" is used to indicate request type. --)
 	RespondActivityTaskCompletedById(context.Context, *RespondActivityTaskCompletedByIdRequest) (*RespondActivityTaskCompletedByIdResponse, error)
 	// RespondActivityTaskFailed is called by workers when processing an activity task fails.
 	//
@@ -2243,7 +2283,8 @@ type WorkflowServiceServer interface {
 	// namespace/workflow id/activity id instead of task token.
 	//
 	// (-- api-linter: core::0136::prepositions=disabled
-	//     aip.dev/not-precedent: "By" is used to indicate request type. --)
+	//
+	//	aip.dev/not-precedent: "By" is used to indicate request type. --)
 	RespondActivityTaskFailedById(context.Context, *RespondActivityTaskFailedByIdRequest) (*RespondActivityTaskFailedByIdResponse, error)
 	// RespondActivityTaskFailed is called by workers when processing an activity task fails.
 	//
@@ -2255,7 +2296,8 @@ type WorkflowServiceServer interface {
 	// namespace/workflow id/activity id instead of task token.
 	//
 	// (-- api-linter: core::0136::prepositions=disabled
-	//     aip.dev/not-precedent: "By" is used to indicate request type. --)
+	//
+	//	aip.dev/not-precedent: "By" is used to indicate request type. --)
 	RespondActivityTaskCanceledById(context.Context, *RespondActivityTaskCanceledByIdRequest) (*RespondActivityTaskCanceledByIdResponse, error)
 	// RequestCancelWorkflowExecution is called by workers when they want to request cancellation of
 	// a workflow execution.
@@ -2280,7 +2322,8 @@ type WorkflowServiceServer interface {
 	// workflow task is generated.
 	//
 	// (-- api-linter: core::0136::prepositions=disabled
-	//     aip.dev/not-precedent: "With" is used to indicate combined operation. --)
+	//
+	//	aip.dev/not-precedent: "With" is used to indicate combined operation. --)
 	SignalWithStartWorkflowExecution(context.Context, *SignalWithStartWorkflowExecutionRequest) (*SignalWithStartWorkflowExecutionResponse, error)
 	// ResetWorkflowExecution will reset an existing workflow execution to a specified
 	// `WORKFLOW_TASK_COMPLETED` event (exclusive). It will immediately terminate the current
@@ -2298,17 +2341,20 @@ type WorkflowServiceServer interface {
 	// terminated before deletion.
 	//
 	// (-- api-linter: core::0127::http-annotation=disabled
-	//     aip.dev/not-precedent: Workflow deletion not exposed to HTTP, users should use cancel or terminate. --)
+	//
+	//	aip.dev/not-precedent: Workflow deletion not exposed to HTTP, users should use cancel or terminate. --)
 	DeleteWorkflowExecution(context.Context, *DeleteWorkflowExecutionRequest) (*DeleteWorkflowExecutionResponse, error)
 	// ListOpenWorkflowExecutions is a visibility API to list the open executions in a specific namespace.
 	//
 	// (-- api-linter: core::0127::http-annotation=disabled
-	//     aip.dev/not-precedent: HTTP users should use ListWorkflowExecutions instead. --)
+	//
+	//	aip.dev/not-precedent: HTTP users should use ListWorkflowExecutions instead. --)
 	ListOpenWorkflowExecutions(context.Context, *ListOpenWorkflowExecutionsRequest) (*ListOpenWorkflowExecutionsResponse, error)
 	// ListClosedWorkflowExecutions is a visibility API to list the closed executions in a specific namespace.
 	//
 	// (-- api-linter: core::0127::http-annotation=disabled
-	//     aip.dev/not-precedent: HTTP users should use ListWorkflowExecutions instead. --)
+	//
+	//	aip.dev/not-precedent: HTTP users should use ListWorkflowExecutions instead. --)
 	ListClosedWorkflowExecutions(context.Context, *ListClosedWorkflowExecutionsRequest) (*ListClosedWorkflowExecutionsResponse, error)
 	// ListWorkflowExecutions is a visibility API to list workflow executions in a specific namespace.
 	ListWorkflowExecutions(context.Context, *ListWorkflowExecutionsRequest) (*ListWorkflowExecutionsResponse, error)
@@ -2319,14 +2365,16 @@ type WorkflowServiceServer interface {
 	//
 	// Deprecated: Replaced with `ListWorkflowExecutions`.
 	// (-- api-linter: core::0127::http-annotation=disabled
-	//     aip.dev/not-precedent: HTTP users should use ListWorkflowExecutions instead. --)
+	//
+	//	aip.dev/not-precedent: HTTP users should use ListWorkflowExecutions instead. --)
 	ScanWorkflowExecutions(context.Context, *ScanWorkflowExecutionsRequest) (*ScanWorkflowExecutionsResponse, error)
 	// CountWorkflowExecutions is a visibility API to count of workflow executions in a specific namespace.
 	CountWorkflowExecutions(context.Context, *CountWorkflowExecutionsRequest) (*CountWorkflowExecutionsResponse, error)
 	// GetSearchAttributes is a visibility API to get all legal keys that could be used in list APIs
 	//
 	// (-- api-linter: core::0127::http-annotation=disabled
-	//     aip.dev/not-precedent: We do not expose this search attribute API to HTTP (but may expose on OperatorService). --)
+	//
+	//	aip.dev/not-precedent: We do not expose this search attribute API to HTTP (but may expose on OperatorService). --)
 	GetSearchAttributes(context.Context, *GetSearchAttributesRequest) (*GetSearchAttributesResponse, error)
 	// RespondQueryTaskCompleted is called by workers to complete queries which were delivered on
 	// the `query` (not `queries`) field of a `PollWorkflowTaskQueueResponse`.
@@ -2335,7 +2383,8 @@ type WorkflowServiceServer interface {
 	// the query result a response.
 	//
 	// (-- api-linter: core::0127::http-annotation=disabled
-	//     aip.dev/not-precedent: We do not expose worker API to HTTP. --)
+	//
+	//	aip.dev/not-precedent: We do not expose worker API to HTTP. --)
 	RespondQueryTaskCompleted(context.Context, *RespondQueryTaskCompletedRequest) (*RespondQueryTaskCompletedResponse, error)
 	// ResetStickyTaskQueue resets the sticky task queue related information in the mutable state of
 	// a given workflow. This is prudent for workers to perform if a workflow has been paged out of
@@ -2350,7 +2399,8 @@ type WorkflowServiceServer interface {
 	// cycling).
 	//
 	// (-- api-linter: core::0127::http-annotation=disabled
-	//     aip.dev/not-precedent: We do not expose worker API to HTTP. --)
+	//
+	//	aip.dev/not-precedent: We do not expose worker API to HTTP. --)
 	ResetStickyTaskQueue(context.Context, *ResetStickyTaskQueueRequest) (*ResetStickyTaskQueueResponse, error)
 	// ShutdownWorker is used to indicate that the given sticky task
 	// queue is no longer being polled by its worker. Following the completion of
@@ -2364,7 +2414,8 @@ type WorkflowServiceServer interface {
 	// As of Temporal Server v1.25.0, ShutdownWorker hasn't yet been implemented.
 	//
 	// (-- api-linter: core::0127::http-annotation=disabled
-	//     aip.dev/not-precedent: We do not expose worker API to HTTP. --)
+	//
+	//	aip.dev/not-precedent: We do not expose worker API to HTTP. --)
 	ShutdownWorker(context.Context, *ShutdownWorkerRequest) (*ShutdownWorkerResponse, error)
 	// QueryWorkflow requests a query be executed for a specified workflow execution.
 	QueryWorkflow(context.Context, *QueryWorkflowRequest) (*QueryWorkflowResponse, error)
@@ -2380,7 +2431,8 @@ type WorkflowServiceServer interface {
 	// GetSystemInfo returns information about the system.
 	GetSystemInfo(context.Context, *GetSystemInfoRequest) (*GetSystemInfoResponse, error)
 	// (-- api-linter: core::0127::http-annotation=disabled
-	//     aip.dev/not-precedent: We do not expose this low-level API to HTTP. --)
+	//
+	//	aip.dev/not-precedent: We do not expose this low-level API to HTTP. --)
 	ListTaskQueuePartitions(context.Context, *ListTaskQueuePartitionsRequest) (*ListTaskQueuePartitionsResponse, error)
 	// Creates a new schedule.
 	CreateSchedule(context.Context, *CreateScheduleRequest) (*CreateScheduleResponse, error)
@@ -2415,7 +2467,8 @@ type WorkflowServiceServer interface {
 	// (default is 20), if this limit is exceeded this API will error with a FailedPrecondition.
 	//
 	// (-- api-linter: core::0127::http-annotation=disabled
-	//     aip.dev/not-precedent: We do yet expose versioning API to HTTP. --)
+	//
+	//	aip.dev/not-precedent: We do yet expose versioning API to HTTP. --)
 	UpdateWorkerBuildIdCompatibility(context.Context, *UpdateWorkerBuildIdCompatibilityRequest) (*UpdateWorkerBuildIdCompatibilityResponse, error)
 	// Deprecated. Use `GetWorkerVersioningRules`.
 	// Will be removed in server version v1.32.0.
@@ -2444,7 +2497,8 @@ type WorkflowServiceServer interface {
 	//
 	// Will be removed in server version v1.32.0.
 	// (-- api-linter: core::0127::http-annotation=disabled
-	//     aip.dev/not-precedent: We do yet expose versioning API to HTTP. --)
+	//
+	//	aip.dev/not-precedent: We do yet expose versioning API to HTTP. --)
 	UpdateWorkerVersioningRules(context.Context, *UpdateWorkerVersioningRulesRequest) (*UpdateWorkerVersioningRulesResponse, error)
 	// Fetches the Build ID assignment and redirect rules for a Task Queue.
 	// Will be removed in server version v1.32.0.
@@ -2499,10 +2553,10 @@ type WorkflowServiceServer interface {
 	DeleteWorkerDeployment(context.Context, *DeleteWorkerDeploymentRequest) (*DeleteWorkerDeploymentResponse, error)
 	// Used for manual deletion of Versions. User can delete a Version only when all the
 	// following conditions are met:
-	//  - It is not the Current or Ramping Version of its Deployment.
-	//  - It has no active pollers (none of the task queues in the Version have pollers)
-	//  - It is not draining (see WorkerDeploymentVersionInfo.drainage_info). This condition
-	//    can be skipped by passing `skip-drainage=true`.
+	//   - It is not the Current or Ramping Version of its Deployment.
+	//   - It has no active pollers (none of the task queues in the Version have pollers)
+	//   - It is not draining (see WorkerDeploymentVersionInfo.drainage_info). This condition
+	//     can be skipped by passing `skip-drainage=true`.
 	DeleteWorkerDeploymentVersion(context.Context, *DeleteWorkerDeploymentVersionRequest) (*DeleteWorkerDeploymentVersionResponse, error)
 	// Set/unset the Ramping Version of a Worker Deployment and its ramp percentage. Can be used for
 	// gradual ramp to unversioned workers too.
@@ -2538,7 +2592,8 @@ type WorkflowServiceServer interface {
 	// timeout and the server's configured long-poll timeout.
 	//
 	// (-- api-linter: core::0127::http-annotation=disabled
-	//     aip.dev/not-precedent: We don't expose update polling API to HTTP in favor of a potential future non-blocking form. --)
+	//
+	//	aip.dev/not-precedent: We don't expose update polling API to HTTP in favor of a potential future non-blocking form. --)
 	PollWorkflowExecutionUpdate(context.Context, *PollWorkflowExecutionUpdateRequest) (*PollWorkflowExecutionUpdateResponse, error)
 	// StartBatchOperation starts a new batch operation
 	StartBatchOperation(context.Context, *StartBatchOperationRequest) (*StartBatchOperationResponse, error)
@@ -2550,15 +2605,18 @@ type WorkflowServiceServer interface {
 	ListBatchOperations(context.Context, *ListBatchOperationsRequest) (*ListBatchOperationsResponse, error)
 	// PollNexusTaskQueue is a long poll call used by workers to receive Nexus tasks.
 	// (-- api-linter: core::0127::http-annotation=disabled
-	//     aip.dev/not-precedent: We do not expose worker API to HTTP. --)
+	//
+	//	aip.dev/not-precedent: We do not expose worker API to HTTP. --)
 	PollNexusTaskQueue(context.Context, *PollNexusTaskQueueRequest) (*PollNexusTaskQueueResponse, error)
 	// RespondNexusTaskCompleted is called by workers to respond to Nexus tasks received via PollNexusTaskQueue.
 	// (-- api-linter: core::0127::http-annotation=disabled
-	//     aip.dev/not-precedent: We do not expose worker API to HTTP. --)
+	//
+	//	aip.dev/not-precedent: We do not expose worker API to HTTP. --)
 	RespondNexusTaskCompleted(context.Context, *RespondNexusTaskCompletedRequest) (*RespondNexusTaskCompletedResponse, error)
 	// RespondNexusTaskFailed is called by workers to fail Nexus tasks received via PollNexusTaskQueue.
 	// (-- api-linter: core::0127::http-annotation=disabled
-	//     aip.dev/not-precedent: We do not expose worker API to HTTP. --)
+	//
+	//	aip.dev/not-precedent: We do not expose worker API to HTTP. --)
 	RespondNexusTaskFailed(context.Context, *RespondNexusTaskFailedRequest) (*RespondNexusTaskFailedResponse, error)
 	// UpdateActivityOptions is called by the client to update the options of an activity by its ID or type.
 	// If there are multiple pending activities of the provided type - all of them will be updated.
@@ -2571,13 +2629,14 @@ type WorkflowServiceServer interface {
 	// If there are multiple pending activities of the provided type - all of them will be paused
 	//
 	// Pausing an activity means:
-	// - If the activity is currently waiting for a retry or is running and subsequently fails,
-	//   it will not be rescheduled until it is unpaused.
-	// - If the activity is already paused, calling this method will have no effect.
-	// - If the activity is running and finishes successfully, the activity will be completed.
-	// - If the activity is running and finishes with failure:
-	//   * if there is no retry left - the activity will be completed.
-	//   * if there are more retries left - the activity will be paused.
+	//   - If the activity is currently waiting for a retry or is running and subsequently fails,
+	//     it will not be rescheduled until it is unpaused.
+	//   - If the activity is already paused, calling this method will have no effect.
+	//   - If the activity is running and finishes successfully, the activity will be completed.
+	//   - If the activity is running and finishes with failure:
+	//   - if there is no retry left - the activity will be completed.
+	//   - if there are more retries left - the activity will be paused.
+	//
 	// For long-running activities:
 	// - activities in paused state will send a cancellation with "activity_paused" set to 'true' in response to 'RecordActivityTaskHeartbeat'.
 	// - The activity should respond to the cancellation accordingly.
@@ -2606,10 +2665,10 @@ type WorkflowServiceServer interface {
 	// If there are multiple pending activities of the provided type - all of them will be reset.
 	//
 	// Resetting an activity means:
-	// * number of attempts will be reset to 0.
-	// * activity timeouts will be reset.
-	// * if the activity is waiting for retry, and it is not paused or 'keep_paused' is not provided:
-	//    it will be scheduled immediately (* see 'jitter' flag),
+	//   - number of attempts will be reset to 0.
+	//   - activity timeouts will be reset.
+	//   - if the activity is waiting for retry, and it is not paused or 'keep_paused' is not provided:
+	//     it will be scheduled immediately (* see 'jitter' flag),
 	//
 	// Flags:
 	//
@@ -2636,8 +2695,9 @@ type WorkflowServiceServer interface {
 	// Return all namespace workflow rules
 	ListWorkflowRules(context.Context, *ListWorkflowRulesRequest) (*ListWorkflowRulesResponse, error)
 	// TriggerWorkflowRule allows to:
-	//  * trigger existing rule for a specific workflow execution;
-	//  * trigger rule for a specific workflow execution without creating a rule;
+	//   - trigger existing rule for a specific workflow execution;
+	//   - trigger rule for a specific workflow execution without creating a rule;
+	//
 	// This is useful for one-off operations.
 	TriggerWorkflowRule(context.Context, *TriggerWorkflowRuleRequest) (*TriggerWorkflowRuleResponse, error)
 	// WorkerHeartbeat receive heartbeat request from the worker.
@@ -2665,6 +2725,7 @@ type WorkflowServiceServer interface {
 	// - No new workflow tasks or activity tasks are dispatched.
 	//   - Any workflow task currently executing on the worker will be allowed to complete.
 	//   - Any activity task currently executing will be paused.
+	//
 	// - All server-side events will continue to be processed by the server.
 	// - Queries & Updates on a paused workflow will be rejected.
 	PauseWorkflowExecution(context.Context, *PauseWorkflowExecutionRequest) (*PauseWorkflowExecutionResponse, error)
@@ -2734,19 +2795,21 @@ type WorkflowServiceServer interface {
 	// terminated before deletion.
 	//
 	// (-- api-linter: core::0127::http-annotation=disabled
-	//     aip.dev/not-precedent: Activity deletion not exposed to HTTP, users should use cancel or terminate. --)
+	//
+	//	aip.dev/not-precedent: Activity deletion not exposed to HTTP, users should use cancel or terminate. --)
 	DeleteActivityExecution(context.Context, *DeleteActivityExecutionRequest) (*DeleteActivityExecutionResponse, error)
 	// PauseActivityExecution pauses the execution of an activity specified by its ID.
 	// This API can be used to target a workflow activity or a standalone activity
 	//
 	// Pausing an activity means:
-	// - If the activity is currently waiting for a retry or is running and subsequently fails,
-	//   it will not be rescheduled until it is unpaused.
-	// - If the activity is already paused, calling this method will have no effect.
-	// - If the activity is running and finishes successfully, the activity will be completed.
-	// - If the activity is running and finishes with failure:
-	//   * if there is no retry left - the activity will be completed.
-	//   * if there are more retries left - the activity will be paused.
+	//   - If the activity is currently waiting for a retry or is running and subsequently fails,
+	//     it will not be rescheduled until it is unpaused.
+	//   - If the activity is already paused, calling this method will have no effect.
+	//   - If the activity is running and finishes successfully, the activity will be completed.
+	//   - If the activity is running and finishes with failure:
+	//   - if there is no retry left - the activity will be completed.
+	//   - if there are more retries left - the activity will be paused.
+	//
 	// For long-running activities:
 	// - activities in paused state will send a cancellation with "activity_paused" set to 'true' in response to 'RecordActivityTaskHeartbeat'.
 	//
@@ -2756,10 +2819,10 @@ type WorkflowServiceServer interface {
 	// This API can be used to target a workflow activity or a standalone activity.
 	//
 	// Resetting an activity means:
-	// * number of attempts will be reset to 0.
-	// * activity timeouts will be reset.
-	// * if the activity is waiting for retry, and it is not paused or 'keep_paused' is not provided:
-	//    it will be scheduled immediately (* see 'jitter' flag)
+	//   - number of attempts will be reset to 0.
+	//   - activity timeouts will be reset.
+	//   - if the activity is waiting for retry, and it is not paused or 'keep_paused' is not provided:
+	//     it will be scheduled immediately (* see 'jitter' flag)
 	//
 	// Returns a `NotFound` error if there is no pending activity with the provided ID or type.
 	ResetActivityExecution(context.Context, *ResetActivityExecutionRequest) (*ResetActivityExecutionResponse, error)
@@ -2785,7 +2848,8 @@ type WorkflowServiceServer interface {
 	// is running, it will be terminated before deletion.
 	//
 	// (-- api-linter: core::0127::http-annotation=disabled
-	//     aip.dev/not-precedent: Nexus operation deletion not exposed to HTTP, users should use cancel or terminate. --)
+	//
+	//	aip.dev/not-precedent: Nexus operation deletion not exposed to HTTP, users should use cancel or terminate. --)
 	DeleteNexusOperationExecution(context.Context, *DeleteNexusOperationExecutionRequest) (*DeleteNexusOperationExecutionResponse, error)
 	// PollWorkflowExecutionTimeSkipping waits for a fast-forward outcome for a workflow execution.
 	//
