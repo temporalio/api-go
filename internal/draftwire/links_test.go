@@ -1,0 +1,38 @@
+package draftwire
+
+// Link every api_next proto package, so the registry holds the whole api_next tree;
+// TestAllFilesLinked keeps this list complete.
+import (
+	_ "go.temporal.io/api/activity/v1"
+	_ "go.temporal.io/api/batch/v1"
+	_ "go.temporal.io/api/callback/v1"
+	_ "go.temporal.io/api/command/v1"
+	_ "go.temporal.io/api/common/v1"
+	_ "go.temporal.io/api/compute/v1"
+	_ "go.temporal.io/api/deployment/v1"
+	_ "go.temporal.io/api/enums/v1"
+	_ "go.temporal.io/api/errordetails/v1"
+	_ "go.temporal.io/api/export/v1"
+	_ "go.temporal.io/api/failure/v1"
+	_ "go.temporal.io/api/filter/v1"
+	_ "go.temporal.io/api/history/v1"
+	_ "go.temporal.io/api/namespace/v1"
+	_ "go.temporal.io/api/nexus/v1"
+	_ "go.temporal.io/api/nexusoperation/v1"
+	_ "go.temporal.io/api/nexusservices/workerservice/v1"
+	_ "go.temporal.io/api/notificationservice/v1"
+	_ "go.temporal.io/api/operatorservice/v1"
+	_ "go.temporal.io/api/protocol/v1"
+	_ "go.temporal.io/api/protometa/v1"
+	_ "go.temporal.io/api/query/v1"
+	_ "go.temporal.io/api/replication/v1"
+	_ "go.temporal.io/api/rules/v1"
+	_ "go.temporal.io/api/schedule/v1"
+	_ "go.temporal.io/api/sdk/v1"
+	_ "go.temporal.io/api/taskqueue/v1"
+	_ "go.temporal.io/api/update/v1"
+	_ "go.temporal.io/api/version/v1"
+	_ "go.temporal.io/api/worker/v1"
+	_ "go.temporal.io/api/workflow/v1"
+	_ "go.temporal.io/api/workflowservice/v1"
+)
