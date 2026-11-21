@@ -148,12 +148,7 @@ func (m *DraftReferences) OmitDraftFields(enabled func(string) bool) {
 			}
 		}
 	}
-	if !enabled("feature-b") || !enabled("feature-a") {
-		m.Gated = nil
-	} else {
-		m.Gated.OmitDraftFields(enabled)
-	}
-	if !enabled("feature-b") || !enabled("feature-a") {
+	if !enabled("feature-a") {
 		m.Inner = nil
 	} else {
 		m.Inner.OmitDraftFields(enabled)
@@ -172,9 +167,26 @@ func (m *DraftReferences) OmitDraftFields(enabled func(string) bool) {
 	} else {
 		m.Empty.OmitDraftFields(enabled)
 	}
-	if !enabled("feature-c") || !enabled("feature-b") || !enabled("feature-a") {
-		m.GatedInner = nil
-	} else {
-		m.GatedInner.OmitDraftFields(enabled)
+	if !enabled("feature-a") {
+		m.Mode = 0
+	}
+	if v, ok := m.PreviewChoice.(*DraftReferences_Preview); ok {
+		if !enabled("feature-a") {
+			m.PreviewChoice = nil
+		} else {
+			if v != nil {
+				v.Preview.OmitDraftFields(enabled)
+			}
+		}
+	}
+	if _, ok := m.PreviewChoice.(*DraftReferences_Label); ok {
+		if !enabled("feature-a") {
+			m.PreviewChoice = nil
+		}
+	}
+	if _, ok := m.PreviewChoice.(*DraftReferences_PreviewLevel); ok {
+		if !enabled("feature-a") {
+			m.PreviewChoice = nil
+		}
 	}
 }

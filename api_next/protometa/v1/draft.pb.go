@@ -56,6 +56,14 @@ var file_temporal_api_next_protometa_v1_draft_proto_extTypes = []protoimpl.Exten
 		Filename:      "temporal/api_next/protometa/v1/draft.proto",
 	},
 	{
+		ExtendedType:  (*descriptorpb.OneofOptions)(nil),
+		ExtensionType: (*string)(nil),
+		Field:         98009,
+		Name:          "temporal.api.protometa.v1.draft_oneof",
+		Tag:           "bytes,98009,opt,name=draft_oneof",
+		Filename:      "temporal/api_next/protometa/v1/draft.proto",
+	},
+	{
 		ExtendedType:  (*descriptorpb.ServiceOptions)(nil),
 		ExtensionType: (*string)(nil),
 		Field:         98008,
@@ -97,16 +105,22 @@ var (
 	E_DraftEnumValue = &file_temporal_api_next_protometa_v1_draft_proto_extTypes[3]
 )
 
+// Extension fields to descriptorpb.OneofOptions.
+var (
+	// optional string draft_oneof = 98009;
+	E_DraftOneof = &file_temporal_api_next_protometa_v1_draft_proto_extTypes[4]
+)
+
 // Extension fields to descriptorpb.ServiceOptions.
 var (
 	// optional string draft_service = 98008;
-	E_DraftService = &file_temporal_api_next_protometa_v1_draft_proto_extTypes[4]
+	E_DraftService = &file_temporal_api_next_protometa_v1_draft_proto_extTypes[5]
 )
 
 // Extension fields to descriptorpb.MethodOptions.
 var (
 	// optional string draft_method = 98008;
-	E_DraftMethod = &file_temporal_api_next_protometa_v1_draft_proto_extTypes[5]
+	E_DraftMethod = &file_temporal_api_next_protometa_v1_draft_proto_extTypes[6]
 )
 
 var File_temporal_api_next_protometa_v1_draft_proto protoreflect.FileDescriptor
@@ -118,7 +132,9 @@ const file_temporal_api_next_protometa_v1_draft_proto_rawDesc = "" +
 	"\rdraft_message\x12\x1f.google.protobuf.MessageOptions\x18\xd8\xfd\x05 \x01(\tR\fdraftMessage:=\n" +
 	"\n" +
 	"draft_enum\x12\x1c.google.protobuf.EnumOptions\x18\xd8\xfd\x05 \x01(\tR\tdraftEnum:M\n" +
-	"\x10draft_enum_value\x12!.google.protobuf.EnumValueOptions\x18\xd8\xfd\x05 \x01(\tR\x0edraftEnumValue:F\n" +
+	"\x10draft_enum_value\x12!.google.protobuf.EnumValueOptions\x18\xd8\xfd\x05 \x01(\tR\x0edraftEnumValue:@\n" +
+	"\vdraft_oneof\x12\x1d.google.protobuf.OneofOptions\x18\xd9\xfd\x05 \x01(\tR\n" +
+	"draftOneof:F\n" +
 	"\rdraft_service\x12\x1f.google.protobuf.ServiceOptions\x18\xd8\xfd\x05 \x01(\tR\fdraftService:C\n" +
 	"\fdraft_method\x12\x1e.google.protobuf.MethodOptions\x18\xd8\xfd\x05 \x01(\tR\vdraftMethodB\x96\x01\n" +
 	"\x1cio.temporal.api.protometa.v1B\n" +
@@ -129,20 +145,22 @@ var file_temporal_api_next_protometa_v1_draft_proto_goTypes = []any{
 	(*descriptorpb.MessageOptions)(nil),   // 1: google.protobuf.MessageOptions
 	(*descriptorpb.EnumOptions)(nil),      // 2: google.protobuf.EnumOptions
 	(*descriptorpb.EnumValueOptions)(nil), // 3: google.protobuf.EnumValueOptions
-	(*descriptorpb.ServiceOptions)(nil),   // 4: google.protobuf.ServiceOptions
-	(*descriptorpb.MethodOptions)(nil),    // 5: google.protobuf.MethodOptions
+	(*descriptorpb.OneofOptions)(nil),     // 4: google.protobuf.OneofOptions
+	(*descriptorpb.ServiceOptions)(nil),   // 5: google.protobuf.ServiceOptions
+	(*descriptorpb.MethodOptions)(nil),    // 6: google.protobuf.MethodOptions
 }
 var file_temporal_api_next_protometa_v1_draft_proto_depIdxs = []int32{
 	0, // 0: temporal.api.protometa.v1.draft:extendee -> google.protobuf.FieldOptions
 	1, // 1: temporal.api.protometa.v1.draft_message:extendee -> google.protobuf.MessageOptions
 	2, // 2: temporal.api.protometa.v1.draft_enum:extendee -> google.protobuf.EnumOptions
 	3, // 3: temporal.api.protometa.v1.draft_enum_value:extendee -> google.protobuf.EnumValueOptions
-	4, // 4: temporal.api.protometa.v1.draft_service:extendee -> google.protobuf.ServiceOptions
-	5, // 5: temporal.api.protometa.v1.draft_method:extendee -> google.protobuf.MethodOptions
-	6, // [6:6] is the sub-list for method output_type
-	6, // [6:6] is the sub-list for method input_type
-	6, // [6:6] is the sub-list for extension type_name
-	0, // [0:6] is the sub-list for extension extendee
+	4, // 4: temporal.api.protometa.v1.draft_oneof:extendee -> google.protobuf.OneofOptions
+	5, // 5: temporal.api.protometa.v1.draft_service:extendee -> google.protobuf.ServiceOptions
+	6, // 6: temporal.api.protometa.v1.draft_method:extendee -> google.protobuf.MethodOptions
+	7, // [7:7] is the sub-list for method output_type
+	7, // [7:7] is the sub-list for method input_type
+	7, // [7:7] is the sub-list for extension type_name
+	0, // [0:7] is the sub-list for extension extendee
 	0, // [0:0] is the sub-list for field type_name
 }
 
@@ -158,7 +176,7 @@ func file_temporal_api_next_protometa_v1_draft_proto_init() {
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_temporal_api_next_protometa_v1_draft_proto_rawDesc), len(file_temporal_api_next_protometa_v1_draft_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   0,
-			NumExtensions: 6,
+			NumExtensions: 7,
 			NumServices:   0,
 		},
 		GoTypes:           file_temporal_api_next_protometa_v1_draft_proto_goTypes,

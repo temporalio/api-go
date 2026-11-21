@@ -14,13 +14,13 @@ import (
 
 const draftPrefix = "temporal.api.protometa.v1."
 
-// The typed traversal and direct clears adapt the SaaS protoc-gen-go-codegen
-// sanitizer emitter, without its version policy, Merge, or private dependencies.
+// omissionPlan drives the typed traversal and direct clears adapted from the SaaS
+// protoc-gen-go-codegen sanitizer emitter independently of its version policy,
+// Merge, and private dependencies.
 type omissionPlan struct {
-	features        map[protoreflect.FullName]string
-	messageFeatures map[protoreflect.FullName]string
-	affected        map[protoreflect.FullName]bool
-	messages        []*protogen.Message
+	features map[protoreflect.FullName]string
+	affected map[protoreflect.FullName]bool
+	messages []*protogen.Message
 }
 
 func fieldValue(f *protogen.Field) *protogen.Field {
@@ -30,42 +30,20 @@ func fieldValue(f *protogen.Field) *protogen.Field {
 	return f
 }
 
-func (p *omissionPlan) typeFeatures(d protoreflect.Descriptor) []string {
-	var features []string
+func (p *omissionPlan) feature(d protoreflect.Descriptor) string {
 	for current := d; current != nil; current = current.Parent() {
-		if feature := p.messageFeatures[current.FullName()]; feature != "" {
-			features = append(features, feature)
+		if feature := p.features[current.FullName()]; feature != "" {
+			return feature
+		}
+		if field, ok := current.(protoreflect.FieldDescriptor); ok {
+			if oneof := field.ContainingOneof(); oneof != nil && !oneof.IsSynthetic() {
+				if feature := p.features[oneof.FullName()]; feature != "" {
+					return feature
+				}
+			}
 		}
 	}
-	return features
-}
-
-func (p *omissionPlan) fieldFeatures(f *protogen.Field) []string {
-	var features []string
-	if feature := p.features[f.Desc.FullName()]; feature != "" {
-		features = append(features, feature)
-	}
-	if f.Desc.IsMap() {
-		f = f.Message.Fields[1]
-	}
-	if f.Message != nil {
-		features = append(features, p.typeFeatures(f.Message.Desc)...)
-	} else if f.Enum != nil {
-		features = append(features, p.typeFeatures(f.Enum.Desc)...)
-	}
-	return features
-}
-
-func disabledCondition(features []string) string {
-	seen := map[string]bool{}
-	var conditions []string
-	for _, feature := range features {
-		if !seen[feature] {
-			conditions = append(conditions, "!enabled("+strconv.Quote(feature)+")")
-			seen[feature] = true
-		}
-	}
-	return strings.Join(conditions, " || ")
+	return ""
 }
 
 func draftPlan(gen *protogen.Plugin) (*omissionPlan, error) {
@@ -76,11 +54,9 @@ func draftPlan(gen *protogen.Plugin) (*omissionPlan, error) {
 		"draft_enum_value": "google.protobuf.EnumValueOptions",
 		"draft_service":    "google.protobuf.ServiceOptions",
 		"draft_method":     "google.protobuf.MethodOptions",
-		"draft_file":       "google.protobuf.FileOptions",
 		"draft_oneof":      "google.protobuf.OneofOptions",
-		"draft_extension":  "google.protobuf.FieldOptions",
 	}
-	schema := map[protoreflect.FullName]map[protowire.Number]string{}
+	schema := map[protoreflect.FullName]map[protowire.Number]bool{}
 	found := false
 	for _, f := range gen.Files {
 		if err := visit(f.Desc, func(d protoreflect.Descriptor) error {
@@ -101,9 +77,9 @@ func draftPlan(gen *protogen.Plugin) (*omissionPlan, error) {
 			}
 			key := e.ContainingMessage().FullName()
 			if schema[key] == nil {
-				schema[key] = map[protowire.Number]string{}
+				schema[key] = map[protowire.Number]bool{}
 			}
-			schema[key][protowire.Number(e.Number())] = name
+			schema[key][protowire.Number(e.Number())] = true
 			return nil
 		}); err != nil {
 			return nil, err
@@ -113,10 +89,10 @@ func draftPlan(gen *protogen.Plugin) (*omissionPlan, error) {
 		return nil, fmt.Errorf("draft_omission requires the temporal.api.protometa.v1.draft field option schema")
 	}
 	p := &omissionPlan{
-		features: map[protoreflect.FullName]string{}, messageFeatures: map[protoreflect.FullName]string{},
+		features: map[protoreflect.FullName]string{},
 		affected: map[protoreflect.FullName]bool{},
 	}
-	validate := func(d protoreflect.Descriptor) error {
+	classify := func(d protoreflect.Descriptor) error {
 		options := d.Options()
 		if options == nil {
 			return nil
@@ -131,8 +107,7 @@ func draftPlan(gen *protogen.Plugin) (*omissionPlan, error) {
 				return protowire.ParseError(k)
 			}
 			raw = raw[k:]
-			option, recognized := schema[options.ProtoReflect().Descriptor().FullName()][n]
-			if recognized {
+			if schema[options.ProtoReflect().Descriptor().FullName()][n] {
 				if t != protowire.BytesType {
 					return fmt.Errorf("%s: malformed draft option value", d.FullName())
 				}
@@ -140,16 +115,7 @@ func draftPlan(gen *protogen.Plugin) (*omissionPlan, error) {
 				if k < 0 {
 					return protowire.ParseError(k)
 				}
-				f, isField := d.(protoreflect.FieldDescriptor)
-				_, isMessage := d.(protoreflect.MessageDescriptor)
-				if !(option == "draft" && isField && !f.IsExtension()) && !(option == "draft_message" && isMessage) {
-					return fmt.Errorf("%s: unsupported draft annotation on %s", d.FullName(), annotationPlacement(d))
-				}
-				if isMessage {
-					p.messageFeatures[d.FullName()] = value
-				} else {
-					p.features[d.FullName()] = value
-				}
+				p.features[d.FullName()] = value
 			}
 			k = protowire.ConsumeFieldValue(n, t, raw)
 			if k < 0 {
@@ -170,7 +136,7 @@ func draftPlan(gen *protogen.Plugin) (*omissionPlan, error) {
 	}
 	generated := map[string]bool{}
 	for _, f := range gen.Files {
-		if err := visit(f.Desc, validate); err != nil {
+		if err := visit(f.Desc, classify); err != nil {
 			return nil, err
 		}
 		collect(f.Messages)
@@ -182,14 +148,14 @@ func draftPlan(gen *protogen.Plugin) (*omissionPlan, error) {
 			if p.affected[m.Desc.FullName()] {
 				continue
 			}
-			if len(p.typeFeatures(m.Desc)) > 0 {
+			if p.feature(m.Desc) != "" {
 				p.affected[m.Desc.FullName()] = true
 				changed = true
 				continue
 			}
 			for _, f := range m.Fields {
 				child := fieldValue(f).Message
-				if len(p.fieldFeatures(f)) > 0 || child != nil && p.affected[child.Desc.FullName()] {
+				if p.feature(f.Desc) != "" || child != nil && p.affected[child.Desc.FullName()] {
 					p.affected[m.Desc.FullName()] = true
 					changed = true
 					break
@@ -250,32 +216,6 @@ func add[T protoreflect.Descriptor](out []protoreflect.Descriptor, list interfac
 	return out
 }
 
-func annotationPlacement(d protoreflect.Descriptor) string {
-	switch d := d.(type) {
-	case protoreflect.FileDescriptor:
-		return "file"
-	case protoreflect.MessageDescriptor:
-		return "message"
-	case protoreflect.EnumDescriptor:
-		return "enum"
-	case protoreflect.EnumValueDescriptor:
-		return "enum value"
-	case protoreflect.OneofDescriptor:
-		return "oneof"
-	case protoreflect.ServiceDescriptor:
-		return "service"
-	case protoreflect.MethodDescriptor:
-		return "method"
-	case protoreflect.FieldDescriptor:
-		if d.IsExtension() {
-			return "extension"
-		}
-		return "field"
-	default:
-		return "unknown declaration"
-	}
-}
-
 func generateDraft(gen *protogen.Plugin) error {
 	p, err := draftPlan(gen)
 	if err != nil {
@@ -305,23 +245,27 @@ func generateDraft(gen *protogen.Plugin) error {
 func (p *omissionPlan) generateOmitter(g *protogen.GeneratedFile, m *protogen.Message) {
 	g.P("func (m *", m.GoIdent, ") OmitDraftFields(enabled func(string) bool) {")
 	g.P("if m == nil { return }")
-	if condition := disabledCondition(p.typeFeatures(m.Desc)); condition != "" {
-		g.P("if ", condition, " {")
+	rootFeature := p.feature(m.Desc)
+	if rootFeature != "" {
+		g.P("if !enabled(", strconv.Quote(rootFeature), ") {")
 		g.P(g.QualifiedGoIdent(protogen.GoIdent{GoName: "Reset", GoImportPath: "google.golang.org/protobuf/proto"}), "(m)")
 		g.P("return")
 		g.P("}")
 	}
 	for _, f := range m.Fields {
-		p.generateFieldOmission(g, f)
+		p.generateFieldOmission(g, f, rootFeature)
 	}
 	g.P("}")
 }
 
-func (p *omissionPlan) generateFieldOmission(g *protogen.GeneratedFile, f *protogen.Field) {
+func (p *omissionPlan) generateFieldOmission(g *protogen.GeneratedFile, f *protogen.Field, rootFeature string) {
 	child := fieldValue(f).Message
 	traverse := child != nil && p.affected[child.Desc.FullName()]
-	condition := disabledCondition(p.fieldFeatures(f))
-	if condition == "" && !traverse {
+	feature := p.feature(f.Desc)
+	if feature == rootFeature {
+		feature = ""
+	}
+	if feature == "" && !traverse {
 		return
 	}
 
@@ -338,8 +282,8 @@ func (p *omissionPlan) generateFieldOmission(g *protogen.GeneratedFile, f *proto
 		field = "v." + f.GoName
 		clear = wrapper + " = nil"
 	}
-	if condition != "" {
-		g.P("if ", condition, " {")
+	if feature != "" {
+		g.P("if !enabled(", strconv.Quote(feature), ") {")
 		g.P(clear)
 		if traverse {
 			g.P("} else {")
@@ -355,7 +299,7 @@ func (p *omissionPlan) generateFieldOmission(g *protogen.GeneratedFile, f *proto
 		if oneof {
 			g.P("}")
 		}
-		if condition != "" {
+		if feature != "" {
 			g.P("}")
 		}
 	}

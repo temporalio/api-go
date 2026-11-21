@@ -545,14 +545,19 @@ type DraftReferences struct {
 	//
 	//	*DraftReferences_Draft
 	//	*DraftReferences_StableChoice
-	Choice        isDraftReferences_Choice     `protobuf_oneof:"choice"`
-	Gated         *child.Draft                 `protobuf:"bytes,7,opt,name=gated,proto3" json:"gated,omitempty"`
-	Inner         *child.Draft_Inner           `protobuf:"bytes,8,opt,name=inner,proto3" json:"inner,omitempty"`
-	State         child.Draft_State            `protobuf:"varint,9,opt,name=state,proto3,enum=omission.child.Draft_State" json:"state,omitempty"`
-	States        []child.Draft_State          `protobuf:"varint,10,rep,packed,name=states,proto3,enum=omission.child.Draft_State" json:"states,omitempty"`
-	StateByName   map[string]child.Draft_State `protobuf:"bytes,11,rep,name=state_by_name,json=stateByName,proto3" json:"state_by_name,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"varint,2,opt,name=value,enum=omission.child.Draft_State"`
-	Empty         *child.Draft_Empty           `protobuf:"bytes,12,opt,name=empty,proto3" json:"empty,omitempty"`
-	GatedInner    *child.Draft_Inner           `protobuf:"bytes,13,opt,name=gated_inner,json=gatedInner,proto3" json:"gated_inner,omitempty"`
+	Choice      isDraftReferences_Choice     `protobuf_oneof:"choice"`
+	Inner       *child.Draft_Inner           `protobuf:"bytes,8,opt,name=inner,proto3" json:"inner,omitempty"`
+	State       child.Draft_State            `protobuf:"varint,9,opt,name=state,proto3,enum=omission.child.Draft_State" json:"state,omitempty"`
+	States      []child.Draft_State          `protobuf:"varint,10,rep,packed,name=states,proto3,enum=omission.child.Draft_State" json:"states,omitempty"`
+	StateByName map[string]child.Draft_State `protobuf:"bytes,11,rep,name=state_by_name,json=stateByName,proto3" json:"state_by_name,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"varint,2,opt,name=value,enum=omission.child.Draft_State"`
+	Empty       *child.Draft_Empty           `protobuf:"bytes,12,opt,name=empty,proto3" json:"empty,omitempty"`
+	Mode        child.Mode                   `protobuf:"varint,13,opt,name=mode,proto3,enum=omission.child.Mode" json:"mode,omitempty"`
+	// Types that are valid to be assigned to PreviewChoice:
+	//
+	//	*DraftReferences_Preview
+	//	*DraftReferences_Label
+	//	*DraftReferences_PreviewLevel
+	PreviewChoice isDraftReferences_PreviewChoice `protobuf_oneof:"preview_choice"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -640,13 +645,6 @@ func (x *DraftReferences) GetStableChoice() string {
 	return ""
 }
 
-func (x *DraftReferences) GetGated() *child.Draft {
-	if x != nil {
-		return x.Gated
-	}
-	return nil
-}
-
 func (x *DraftReferences) GetInner() *child.Draft_Inner {
 	if x != nil {
 		return x.Inner
@@ -682,11 +680,45 @@ func (x *DraftReferences) GetEmpty() *child.Draft_Empty {
 	return nil
 }
 
-func (x *DraftReferences) GetGatedInner() *child.Draft_Inner {
+func (x *DraftReferences) GetMode() child.Mode {
 	if x != nil {
-		return x.GatedInner
+		return x.Mode
+	}
+	return child.Mode(0)
+}
+
+func (x *DraftReferences) GetPreviewChoice() isDraftReferences_PreviewChoice {
+	if x != nil {
+		return x.PreviewChoice
 	}
 	return nil
+}
+
+func (x *DraftReferences) GetPreview() *child.Draft {
+	if x != nil {
+		if x, ok := x.PreviewChoice.(*DraftReferences_Preview); ok {
+			return x.Preview
+		}
+	}
+	return nil
+}
+
+func (x *DraftReferences) GetLabel() string {
+	if x != nil {
+		if x, ok := x.PreviewChoice.(*DraftReferences_Label); ok {
+			return x.Label
+		}
+	}
+	return ""
+}
+
+func (x *DraftReferences) GetPreviewLevel() child.Level {
+	if x != nil {
+		if x, ok := x.PreviewChoice.(*DraftReferences_PreviewLevel); ok {
+			return x.PreviewLevel
+		}
+	}
+	return child.Level(0)
 }
 
 type isDraftReferences_Choice interface {
@@ -704,6 +736,28 @@ type DraftReferences_StableChoice struct {
 func (*DraftReferences_Draft) isDraftReferences_Choice() {}
 
 func (*DraftReferences_StableChoice) isDraftReferences_Choice() {}
+
+type isDraftReferences_PreviewChoice interface {
+	isDraftReferences_PreviewChoice()
+}
+
+type DraftReferences_Preview struct {
+	Preview *child.Draft `protobuf:"bytes,14,opt,name=preview,proto3,oneof"`
+}
+
+type DraftReferences_Label struct {
+	Label string `protobuf:"bytes,15,opt,name=label,proto3,oneof"`
+}
+
+type DraftReferences_PreviewLevel struct {
+	PreviewLevel child.Level `protobuf:"varint,16,opt,name=preview_level,json=previewLevel,proto3,enum=omission.child.Level,oneof"`
+}
+
+func (*DraftReferences_Preview) isDraftReferences_PreviewChoice() {}
+
+func (*DraftReferences_Label) isDraftReferences_PreviewChoice() {}
+
+func (*DraftReferences_PreviewLevel) isDraftReferences_PreviewChoice() {}
 
 type Root_Nested struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
@@ -804,30 +858,32 @@ const file_parent_message_proto_rawDesc = "" +
 	"\x04enum\x18\x10 \x01(\x0e2\x1e.omission.parent.Scalars.StateB\r\xc2\xed/\tfeature-aR\x04enum\"\x1a\n" +
 	"\x05State\x12\b\n" +
 	"\x04ZERO\x10\x00\x12\a\n" +
-	"\x03ONE\x10\x01\"\x87\a\n" +
+	"\x03ONE\x10\x01\"\xe8\b\n" +
 	"\x0fDraftReferences\x12\x16\n" +
-	"\x06stable\x18\x01 \x01(\tR\x06stable\x12-\n" +
-	"\x06single\x18\x02 \x01(\v2\x15.omission.child.DraftR\x06single\x12)\n" +
-	"\x04list\x18\x03 \x03(\v2\x15.omission.child.DraftR\x04list\x12E\n" +
-	"\aby_name\x18\x04 \x03(\v2,.omission.parent.DraftReferences.ByNameEntryR\x06byName\x12-\n" +
-	"\x05draft\x18\x05 \x01(\v2\x15.omission.child.DraftH\x00R\x05draft\x12%\n" +
-	"\rstable_choice\x18\x06 \x01(\tH\x00R\fstableChoice\x12:\n" +
-	"\x05gated\x18\a \x01(\v2\x15.omission.child.DraftB\r\xc2\xed/\tfeature-bR\x05gated\x121\n" +
-	"\x05inner\x18\b \x01(\v2\x1b.omission.child.Draft.InnerR\x05inner\x121\n" +
-	"\x05state\x18\t \x01(\x0e2\x1b.omission.child.Draft.StateR\x05state\x123\n" +
+	"\x06stable\x18\x01 \x01(\tR\x06stable\x12<\n" +
+	"\x06single\x18\x02 \x01(\v2\x15.omission.child.DraftB\r\xc2\xed/\tfeature-aR\x06single\x128\n" +
+	"\x04list\x18\x03 \x03(\v2\x15.omission.child.DraftB\r\xc2\xed/\tfeature-aR\x04list\x12T\n" +
+	"\aby_name\x18\x04 \x03(\v2,.omission.parent.DraftReferences.ByNameEntryB\r\xc2\xed/\tfeature-aR\x06byName\x12<\n" +
+	"\x05draft\x18\x05 \x01(\v2\x15.omission.child.DraftB\r\xc2\xed/\tfeature-aH\x00R\x05draft\x12%\n" +
+	"\rstable_choice\x18\x06 \x01(\tH\x00R\fstableChoice\x12@\n" +
+	"\x05inner\x18\b \x01(\v2\x1b.omission.child.Draft.InnerB\r\xc2\xed/\tfeature-aR\x05inner\x12@\n" +
+	"\x05state\x18\t \x01(\x0e2\x1b.omission.child.Draft.StateB\r\xc2\xed/\tfeature-aR\x05state\x12B\n" +
 	"\x06states\x18\n" +
-	" \x03(\x0e2\x1b.omission.child.Draft.StateR\x06states\x12U\n" +
-	"\rstate_by_name\x18\v \x03(\v21.omission.parent.DraftReferences.StateByNameEntryR\vstateByName\x121\n" +
-	"\x05empty\x18\f \x01(\v2\x1b.omission.child.Draft.EmptyR\x05empty\x12K\n" +
-	"\vgated_inner\x18\r \x01(\v2\x1b.omission.child.Draft.InnerB\r\xc2\xed/\tfeature-cR\n" +
-	"gatedInner\x1aP\n" +
+	" \x03(\x0e2\x1b.omission.child.Draft.StateB\r\xc2\xed/\tfeature-aR\x06states\x12d\n" +
+	"\rstate_by_name\x18\v \x03(\v21.omission.parent.DraftReferences.StateByNameEntryB\r\xc2\xed/\tfeature-aR\vstateByName\x12@\n" +
+	"\x05empty\x18\f \x01(\v2\x1b.omission.child.Draft.EmptyB\r\xc2\xed/\tfeature-aR\x05empty\x127\n" +
+	"\x04mode\x18\r \x01(\x0e2\x14.omission.child.ModeB\r\xc2\xed/\tfeature-aR\x04mode\x121\n" +
+	"\apreview\x18\x0e \x01(\v2\x15.omission.child.DraftH\x01R\apreview\x12\x16\n" +
+	"\x05label\x18\x0f \x01(\tH\x01R\x05label\x12<\n" +
+	"\rpreview_level\x18\x10 \x01(\x0e2\x15.omission.child.LevelH\x01R\fpreviewLevel\x1aP\n" +
 	"\vByNameEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12+\n" +
 	"\x05value\x18\x02 \x01(\v2\x15.omission.child.DraftR\x05value:\x028\x01\x1a[\n" +
 	"\x10StateByNameEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x121\n" +
 	"\x05value\x18\x02 \x01(\x0e2\x1b.omission.child.Draft.StateR\x05value:\x028\x01B\b\n" +
-	"\x06choiceBMZKgo.temporal.io/api/cmd/protoc-gen-go-helpers/testprotos/draft/parent;parentb\x06proto3"
+	"\x06choiceB\x1f\n" +
+	"\x0epreview_choice\x12\r\xca\xed/\tfeature-aBMZKgo.temporal.io/api/cmd/protoc-gen-go-helpers/testprotos/draft/parent;parentb\x06proto3"
 
 var (
 	file_parent_message_proto_rawDescOnce sync.Once
@@ -861,6 +917,8 @@ var file_parent_message_proto_goTypes = []any{
 	(*child.Draft_Inner)(nil), // 14: omission.child.Draft.Inner
 	(child.Draft_State)(0),    // 15: omission.child.Draft.State
 	(*child.Draft_Empty)(nil), // 16: omission.child.Draft.Empty
+	(child.Mode)(0),           // 17: omission.child.Mode
+	(child.Level)(0),          // 18: omission.child.Level
 }
 var file_parent_message_proto_depIdxs = []int32{
 	12, // 0: omission.parent.Root.gated:type_name -> omission.child.Leaf
@@ -878,22 +936,23 @@ var file_parent_message_proto_depIdxs = []int32{
 	13, // 12: omission.parent.DraftReferences.list:type_name -> omission.child.Draft
 	10, // 13: omission.parent.DraftReferences.by_name:type_name -> omission.parent.DraftReferences.ByNameEntry
 	13, // 14: omission.parent.DraftReferences.draft:type_name -> omission.child.Draft
-	13, // 15: omission.parent.DraftReferences.gated:type_name -> omission.child.Draft
-	14, // 16: omission.parent.DraftReferences.inner:type_name -> omission.child.Draft.Inner
-	15, // 17: omission.parent.DraftReferences.state:type_name -> omission.child.Draft.State
-	15, // 18: omission.parent.DraftReferences.states:type_name -> omission.child.Draft.State
-	11, // 19: omission.parent.DraftReferences.state_by_name:type_name -> omission.parent.DraftReferences.StateByNameEntry
-	16, // 20: omission.parent.DraftReferences.empty:type_name -> omission.child.Draft.Empty
-	14, // 21: omission.parent.DraftReferences.gated_inner:type_name -> omission.child.Draft.Inner
-	12, // 22: omission.parent.Root.MapEntry.value:type_name -> omission.child.Leaf
-	12, // 23: omission.parent.Root.Nested.leaf:type_name -> omission.child.Leaf
-	13, // 24: omission.parent.DraftReferences.ByNameEntry.value:type_name -> omission.child.Draft
-	15, // 25: omission.parent.DraftReferences.StateByNameEntry.value:type_name -> omission.child.Draft.State
-	26, // [26:26] is the sub-list for method output_type
-	26, // [26:26] is the sub-list for method input_type
-	26, // [26:26] is the sub-list for extension type_name
-	26, // [26:26] is the sub-list for extension extendee
-	0,  // [0:26] is the sub-list for field type_name
+	14, // 15: omission.parent.DraftReferences.inner:type_name -> omission.child.Draft.Inner
+	15, // 16: omission.parent.DraftReferences.state:type_name -> omission.child.Draft.State
+	15, // 17: omission.parent.DraftReferences.states:type_name -> omission.child.Draft.State
+	11, // 18: omission.parent.DraftReferences.state_by_name:type_name -> omission.parent.DraftReferences.StateByNameEntry
+	16, // 19: omission.parent.DraftReferences.empty:type_name -> omission.child.Draft.Empty
+	17, // 20: omission.parent.DraftReferences.mode:type_name -> omission.child.Mode
+	13, // 21: omission.parent.DraftReferences.preview:type_name -> omission.child.Draft
+	18, // 22: omission.parent.DraftReferences.preview_level:type_name -> omission.child.Level
+	12, // 23: omission.parent.Root.MapEntry.value:type_name -> omission.child.Leaf
+	12, // 24: omission.parent.Root.Nested.leaf:type_name -> omission.child.Leaf
+	13, // 25: omission.parent.DraftReferences.ByNameEntry.value:type_name -> omission.child.Draft
+	15, // 26: omission.parent.DraftReferences.StateByNameEntry.value:type_name -> omission.child.Draft.State
+	27, // [27:27] is the sub-list for method output_type
+	27, // [27:27] is the sub-list for method input_type
+	27, // [27:27] is the sub-list for extension type_name
+	27, // [27:27] is the sub-list for extension extendee
+	0,  // [0:27] is the sub-list for field type_name
 }
 
 func init() { file_parent_message_proto_init() }
@@ -909,6 +968,9 @@ func file_parent_message_proto_init() {
 	file_parent_message_proto_msgTypes[5].OneofWrappers = []any{
 		(*DraftReferences_Draft)(nil),
 		(*DraftReferences_StableChoice)(nil),
+		(*DraftReferences_Preview)(nil),
+		(*DraftReferences_Label)(nil),
+		(*DraftReferences_PreviewLevel)(nil),
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{

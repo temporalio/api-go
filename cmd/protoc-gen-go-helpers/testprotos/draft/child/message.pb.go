@@ -68,6 +68,52 @@ func (Level) EnumDescriptor() ([]byte, []int) {
 	return file_child_message_proto_rawDescGZIP(), []int{0}
 }
 
+type Mode int32
+
+const (
+	Mode_MODE_UNSPECIFIED Mode = 0
+	Mode_MODE_PREVIEW     Mode = 1
+)
+
+// Enum value maps for Mode.
+var (
+	Mode_name = map[int32]string{
+		0: "MODE_UNSPECIFIED",
+		1: "MODE_PREVIEW",
+	}
+	Mode_value = map[string]int32{
+		"MODE_UNSPECIFIED": 0,
+		"MODE_PREVIEW":     1,
+	}
+)
+
+func (x Mode) Enum() *Mode {
+	p := new(Mode)
+	*p = x
+	return p
+}
+
+func (x Mode) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (Mode) Descriptor() protoreflect.EnumDescriptor {
+	return file_child_message_proto_enumTypes[1].Descriptor()
+}
+
+func (Mode) Type() protoreflect.EnumType {
+	return &file_child_message_proto_enumTypes[1]
+}
+
+func (x Mode) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use Mode.Descriptor instead.
+func (Mode) EnumDescriptor() ([]byte, []int) {
+	return file_child_message_proto_rawDescGZIP(), []int{1}
+}
+
 type Draft_State int32
 
 const (
@@ -98,11 +144,11 @@ func (x Draft_State) String() string {
 }
 
 func (Draft_State) Descriptor() protoreflect.EnumDescriptor {
-	return file_child_message_proto_enumTypes[1].Descriptor()
+	return file_child_message_proto_enumTypes[2].Descriptor()
 }
 
 func (Draft_State) Type() protoreflect.EnumType {
-	return &file_child_message_proto_enumTypes[1]
+	return &file_child_message_proto_enumTypes[2]
 }
 
 func (x Draft_State) Number() protoreflect.EnumNumber {
@@ -360,12 +406,12 @@ const file_child_message_proto_rawDesc = "" +
 	"\x01a\x18\x02 \x01(\tB\r\xc2\xed/\tfeature-aR\x01a\x12\x1b\n" +
 	"\x01b\x18\x03 \x01(\tB\r\xc2\xed/\tfeature-bR\x01b\"\x1e\n" +
 	"\x06Stable\x12\x14\n" +
-	"\x05value\x18\x01 \x01(\tR\x05value\"\xa4\x01\n" +
+	"\x05value\x18\x01 \x01(\tR\x05value\"\x86\x01\n" +
 	"\x05Draft\x12\x14\n" +
-	"\x05value\x18\x01 \x01(\tR\x05value\x12#\n" +
-	"\x05extra\x18\x02 \x01(\tB\r\xc2\xed/\tfeature-bR\x05extra\x1a,\n" +
+	"\x05value\x18\x01 \x01(\tR\x05value\x12\x14\n" +
+	"\x05extra\x18\x02 \x01(\tR\x05extra\x1a\x1d\n" +
 	"\x05Inner\x12\x14\n" +
-	"\x05value\x18\x01 \x01(\tR\x05value:\r\xc2\xed/\tfeature-b\x1a\a\n" +
+	"\x05value\x18\x01 \x01(\tR\x05value\x1a\a\n" +
 	"\x05Empty\"\x1a\n" +
 	"\x05State\x12\b\n" +
 	"\x04ZERO\x10\x00\x12\a\n" +
@@ -373,7 +419,10 @@ const file_child_message_proto_rawDesc = "" +
 	"\x05Level\x12\x15\n" +
 	"\x11LEVEL_UNSPECIFIED\x10\x00\x12\x0e\n" +
 	"\n" +
-	"LEVEL_HIGH\x10\x01BKZIgo.temporal.io/api/cmd/protoc-gen-go-helpers/testprotos/draft/child;childb\x06proto3"
+	"LEVEL_HIGH\x10\x01*=\n" +
+	"\x04Mode\x12\x14\n" +
+	"\x10MODE_UNSPECIFIED\x10\x00\x12\x10\n" +
+	"\fMODE_PREVIEW\x10\x01\x1a\r\xc2\xed/\tfeature-aBKZIgo.temporal.io/api/cmd/protoc-gen-go-helpers/testprotos/draft/child;childb\x06proto3"
 
 var (
 	file_child_message_proto_rawDescOnce sync.Once
@@ -387,16 +436,17 @@ func file_child_message_proto_rawDescGZIP() []byte {
 	return file_child_message_proto_rawDescData
 }
 
-var file_child_message_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
+var file_child_message_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
 var file_child_message_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
 var file_child_message_proto_goTypes = []any{
 	(Level)(0),          // 0: omission.child.Level
-	(Draft_State)(0),    // 1: omission.child.Draft.State
-	(*Leaf)(nil),        // 2: omission.child.Leaf
-	(*Stable)(nil),      // 3: omission.child.Stable
-	(*Draft)(nil),       // 4: omission.child.Draft
-	(*Draft_Inner)(nil), // 5: omission.child.Draft.Inner
-	(*Draft_Empty)(nil), // 6: omission.child.Draft.Empty
+	(Mode)(0),           // 1: omission.child.Mode
+	(Draft_State)(0),    // 2: omission.child.Draft.State
+	(*Leaf)(nil),        // 3: omission.child.Leaf
+	(*Stable)(nil),      // 4: omission.child.Stable
+	(*Draft)(nil),       // 5: omission.child.Draft
+	(*Draft_Inner)(nil), // 6: omission.child.Draft.Inner
+	(*Draft_Empty)(nil), // 7: omission.child.Draft.Empty
 }
 var file_child_message_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for method output_type
@@ -416,7 +466,7 @@ func file_child_message_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_child_message_proto_rawDesc), len(file_child_message_proto_rawDesc)),
-			NumEnums:      2,
+			NumEnums:      3,
 			NumMessages:   5,
 			NumExtensions: 0,
 			NumServices:   0,

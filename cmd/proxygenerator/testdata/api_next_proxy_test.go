@@ -12,7 +12,7 @@ import (
 )
 
 func TestDraftPayloadVisitors(t *testing.T) {
-	for _, features := range [][]string{nil, {"field-feature"}, {"message-feature"}, {"field-feature", "message-feature"}} {
+	for _, enabled := range []bool{false, true} {
 		p := &common.Payload{ExternalPayloads: []*common.Payload_ExternalPayloadDetails{{SizeBytes: 11}}}
 		request := &update.Request{
 			Input: &update.Input{Args: &common.Payloads{Payloads: []*common.Payload{p}}},
@@ -23,14 +23,7 @@ func TestDraftPayloadVisitors(t *testing.T) {
 				Nested:  &update.DraftPayloadSubtype_Nested{Payload: p},
 			},
 		}
-		request.OmitDraftFields(func(feature string) bool {
-			for _, enabled := range features {
-				if enabled == feature {
-					return true
-				}
-			}
-			return false
-		})
+		request.OmitDraftFields(func(feature string) bool { return enabled && feature == "payload-preview" })
 		event := &history.HistoryEvent{Attributes: &history.HistoryEvent_WorkflowExecutionUpdateAcceptedEventAttributes{
 			WorkflowExecutionUpdateAcceptedEventAttributes: &history.WorkflowExecutionUpdateAcceptedEventAttributes{AcceptedRequest: request},
 		}}
@@ -49,11 +42,11 @@ func TestDraftPayloadVisitors(t *testing.T) {
 			t.Fatal(err)
 		}
 		want := 1
-		if len(features) == 2 {
+		if enabled {
 			want = 6
 		}
 		if count != want || size != int64(want)*11 {
-			t.Fatalf("features %v: history payload count/size = %d/%d, want %d/%d", features, count, size, want, want*11)
+			t.Fatalf("preview enabled %t: history payload count/size = %d/%d, want %d/%d", enabled, count, size, want, want*11)
 		}
 		failures := 0
 		if err := proxy.VisitFailures(context.Background(), event, proxy.VisitFailuresOptions{
@@ -65,11 +58,11 @@ func TestDraftPayloadVisitors(t *testing.T) {
 			t.Fatal(err)
 		}
 		wantFailures := 0
-		if len(features) == 2 {
+		if enabled {
 			wantFailures = 1
 		}
 		if failures != wantFailures {
-			t.Fatalf("features %v: failures = %d, want %d", features, failures, wantFailures)
+			t.Fatalf("preview enabled %t: failures = %d, want %d", enabled, failures, wantFailures)
 		}
 	}
 }
