@@ -947,6 +947,42 @@ type EnumAncestor_Member struct {
 
 func (*EnumAncestor_Member) isEnumAncestor_Choice() {}
 
+type Plain struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Plain) Reset() {
+	*x = Plain{}
+	mi := &file_parent_message_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Plain) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Plain) ProtoMessage() {}
+
+func (x *Plain) ProtoReflect() protoreflect.Message {
+	mi := &file_parent_message_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Plain.ProtoReflect.Descriptor instead.
+func (*Plain) Descriptor() ([]byte, []int) {
+	return file_parent_message_proto_rawDescGZIP(), []int{8}
+}
+
 type Root_Nested struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Leaf          *child.Leaf            `protobuf:"bytes,1,opt,name=leaf,proto3" json:"leaf,omitempty"`
@@ -956,7 +992,7 @@ type Root_Nested struct {
 
 func (x *Root_Nested) Reset() {
 	*x = Root_Nested{}
-	mi := &file_parent_message_proto_msgTypes[10]
+	mi := &file_parent_message_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -968,7 +1004,7 @@ func (x *Root_Nested) String() string {
 func (*Root_Nested) ProtoMessage() {}
 
 func (x *Root_Nested) ProtoReflect() protoreflect.Message {
-	mi := &file_parent_message_proto_msgTypes[10]
+	mi := &file_parent_message_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1087,7 +1123,14 @@ const file_parent_message_proto_rawDesc = "" +
 	"\fEnumAncestor\x123\n" +
 	"\x06single\x18\x01 \x01(\v2\x1b.omission.parent.EnumFieldsR\x06single\x125\n" +
 	"\x06member\x18\x04 \x01(\v2\x1b.omission.parent.EnumFieldsH\x00R\x06memberB\b\n" +
-	"\x06choiceBMZKgo.temporal.io/api/cmd/protoc-gen-go-helpers/testprotos/draft/parent;parentb\x06proto3"
+	"\x06choice\"\a\n" +
+	"\x05Plain2\xc4\x01\n" +
+	"\x05Mixed\x128\n" +
+	"\x06Stable\x12\x16.omission.parent.Plain\x1a\x16.omission.parent.Plain\x129\n" +
+	"\bFiltered\x12\x16.omission.parent.Plain\x1a\x15.omission.parent.Root\x12F\n" +
+	"\aPreview\x12\x15.omission.child.Draft\x1a\x15.omission.child.Draft\"\r\xc2\xed/\tfeature-a2N\n" +
+	"\aPreview\x124\n" +
+	"\x04Call\x12\x15.omission.child.Draft\x1a\x15.omission.child.Draft\x1a\r\xc2\xed/\tfeature-aBMZKgo.temporal.io/api/cmd/protoc-gen-go-helpers/testprotos/draft/parent;parentb\x06proto3"
 
 var (
 	file_parent_message_proto_rawDescOnce sync.Once
@@ -1102,7 +1145,7 @@ func file_parent_message_proto_rawDescGZIP() []byte {
 }
 
 var file_parent_message_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_parent_message_proto_msgTypes = make([]protoimpl.MessageInfo, 13)
+var file_parent_message_proto_msgTypes = make([]protoimpl.MessageInfo, 14)
 var file_parent_message_proto_goTypes = []any{
 	(Scalars_State)(0),        // 0: omission.parent.Scalars.State
 	(*Root)(nil),              // 1: omission.parent.Root
@@ -1113,56 +1156,65 @@ var file_parent_message_proto_goTypes = []any{
 	(*DraftReferences)(nil),   // 6: omission.parent.DraftReferences
 	(*EnumFields)(nil),        // 7: omission.parent.EnumFields
 	(*EnumAncestor)(nil),      // 8: omission.parent.EnumAncestor
-	nil,                       // 9: omission.parent.Root.MapEntry
-	nil,                       // 10: omission.parent.Root.CountsEntry
-	(*Root_Nested)(nil),       // 11: omission.parent.Root.Nested
-	nil,                       // 12: omission.parent.DraftReferences.ByNameEntry
-	nil,                       // 13: omission.parent.DraftReferences.StateByNameEntry
-	(*child.Leaf)(nil),        // 14: omission.child.Leaf
-	(*child.Draft)(nil),       // 15: omission.child.Draft
-	(*child.Draft_Inner)(nil), // 16: omission.child.Draft.Inner
-	(child.Draft_State)(0),    // 17: omission.child.Draft.State
-	(*child.Draft_Empty)(nil), // 18: omission.child.Draft.Empty
-	(child.Mode)(0),           // 19: omission.child.Mode
-	(child.Level)(0),          // 20: omission.child.Level
+	(*Plain)(nil),             // 9: omission.parent.Plain
+	nil,                       // 10: omission.parent.Root.MapEntry
+	nil,                       // 11: omission.parent.Root.CountsEntry
+	(*Root_Nested)(nil),       // 12: omission.parent.Root.Nested
+	nil,                       // 13: omission.parent.DraftReferences.ByNameEntry
+	nil,                       // 14: omission.parent.DraftReferences.StateByNameEntry
+	(*child.Leaf)(nil),        // 15: omission.child.Leaf
+	(*child.Draft)(nil),       // 16: omission.child.Draft
+	(*child.Draft_Inner)(nil), // 17: omission.child.Draft.Inner
+	(child.Draft_State)(0),    // 18: omission.child.Draft.State
+	(*child.Draft_Empty)(nil), // 19: omission.child.Draft.Empty
+	(child.Mode)(0),           // 20: omission.child.Mode
+	(child.Level)(0),          // 21: omission.child.Level
 }
 var file_parent_message_proto_depIdxs = []int32{
-	14, // 0: omission.parent.Root.gated:type_name -> omission.child.Leaf
-	14, // 1: omission.parent.Root.list:type_name -> omission.child.Leaf
-	9,  // 2: omission.parent.Root.map:type_name -> omission.parent.Root.MapEntry
-	14, // 3: omission.parent.Root.leaf:type_name -> omission.child.Leaf
-	11, // 4: omission.parent.Root.nested:type_name -> omission.parent.Root.Nested
-	10, // 5: omission.parent.Root.counts:type_name -> omission.parent.Root.CountsEntry
+	15, // 0: omission.parent.Root.gated:type_name -> omission.child.Leaf
+	15, // 1: omission.parent.Root.list:type_name -> omission.child.Leaf
+	10, // 2: omission.parent.Root.map:type_name -> omission.parent.Root.MapEntry
+	15, // 3: omission.parent.Root.leaf:type_name -> omission.child.Leaf
+	12, // 4: omission.parent.Root.nested:type_name -> omission.parent.Root.Nested
+	11, // 5: omission.parent.Root.counts:type_name -> omission.parent.Root.CountsEntry
 	3,  // 6: omission.parent.CycleA.b:type_name -> omission.parent.CycleB
 	2,  // 7: omission.parent.CycleB.a:type_name -> omission.parent.CycleA
-	14, // 8: omission.parent.CycleB.leaf:type_name -> omission.child.Leaf
+	15, // 8: omission.parent.CycleB.leaf:type_name -> omission.child.Leaf
 	2,  // 9: omission.parent.Ancestor.child:type_name -> omission.parent.CycleA
 	0,  // 10: omission.parent.Scalars.enum:type_name -> omission.parent.Scalars.State
-	15, // 11: omission.parent.DraftReferences.single:type_name -> omission.child.Draft
-	15, // 12: omission.parent.DraftReferences.list:type_name -> omission.child.Draft
-	12, // 13: omission.parent.DraftReferences.by_name:type_name -> omission.parent.DraftReferences.ByNameEntry
-	15, // 14: omission.parent.DraftReferences.draft:type_name -> omission.child.Draft
-	16, // 15: omission.parent.DraftReferences.inner:type_name -> omission.child.Draft.Inner
-	17, // 16: omission.parent.DraftReferences.state:type_name -> omission.child.Draft.State
-	17, // 17: omission.parent.DraftReferences.states:type_name -> omission.child.Draft.State
-	13, // 18: omission.parent.DraftReferences.state_by_name:type_name -> omission.parent.DraftReferences.StateByNameEntry
-	18, // 19: omission.parent.DraftReferences.empty:type_name -> omission.child.Draft.Empty
-	19, // 20: omission.parent.DraftReferences.mode:type_name -> omission.child.Mode
-	15, // 21: omission.parent.DraftReferences.preview:type_name -> omission.child.Draft
-	20, // 22: omission.parent.DraftReferences.preview_level:type_name -> omission.child.Level
-	20, // 23: omission.parent.DraftReferences.gated_level:type_name -> omission.child.Level
+	16, // 11: omission.parent.DraftReferences.single:type_name -> omission.child.Draft
+	16, // 12: omission.parent.DraftReferences.list:type_name -> omission.child.Draft
+	13, // 13: omission.parent.DraftReferences.by_name:type_name -> omission.parent.DraftReferences.ByNameEntry
+	16, // 14: omission.parent.DraftReferences.draft:type_name -> omission.child.Draft
+	17, // 15: omission.parent.DraftReferences.inner:type_name -> omission.child.Draft.Inner
+	18, // 16: omission.parent.DraftReferences.state:type_name -> omission.child.Draft.State
+	18, // 17: omission.parent.DraftReferences.states:type_name -> omission.child.Draft.State
+	14, // 18: omission.parent.DraftReferences.state_by_name:type_name -> omission.parent.DraftReferences.StateByNameEntry
+	19, // 19: omission.parent.DraftReferences.empty:type_name -> omission.child.Draft.Empty
+	20, // 20: omission.parent.DraftReferences.mode:type_name -> omission.child.Mode
+	16, // 21: omission.parent.DraftReferences.preview:type_name -> omission.child.Draft
+	21, // 22: omission.parent.DraftReferences.preview_level:type_name -> omission.child.Level
+	21, // 23: omission.parent.DraftReferences.gated_level:type_name -> omission.child.Level
 	7,  // 24: omission.parent.DraftReferences.gated_message:type_name -> omission.parent.EnumFields
-	20, // 25: omission.parent.EnumFields.singular:type_name -> omission.child.Level
-	20, // 26: omission.parent.EnumFields.optional:type_name -> omission.child.Level
-	20, // 27: omission.parent.EnumFields.level:type_name -> omission.child.Level
+	21, // 25: omission.parent.EnumFields.singular:type_name -> omission.child.Level
+	21, // 26: omission.parent.EnumFields.optional:type_name -> omission.child.Level
+	21, // 27: omission.parent.EnumFields.level:type_name -> omission.child.Level
 	7,  // 28: omission.parent.EnumAncestor.single:type_name -> omission.parent.EnumFields
 	7,  // 29: omission.parent.EnumAncestor.member:type_name -> omission.parent.EnumFields
-	14, // 30: omission.parent.Root.MapEntry.value:type_name -> omission.child.Leaf
-	14, // 31: omission.parent.Root.Nested.leaf:type_name -> omission.child.Leaf
-	15, // 32: omission.parent.DraftReferences.ByNameEntry.value:type_name -> omission.child.Draft
-	17, // 33: omission.parent.DraftReferences.StateByNameEntry.value:type_name -> omission.child.Draft.State
-	34, // [34:34] is the sub-list for method output_type
-	34, // [34:34] is the sub-list for method input_type
+	15, // 30: omission.parent.Root.MapEntry.value:type_name -> omission.child.Leaf
+	15, // 31: omission.parent.Root.Nested.leaf:type_name -> omission.child.Leaf
+	16, // 32: omission.parent.DraftReferences.ByNameEntry.value:type_name -> omission.child.Draft
+	18, // 33: omission.parent.DraftReferences.StateByNameEntry.value:type_name -> omission.child.Draft.State
+	9,  // 34: omission.parent.Mixed.Stable:input_type -> omission.parent.Plain
+	9,  // 35: omission.parent.Mixed.Filtered:input_type -> omission.parent.Plain
+	16, // 36: omission.parent.Mixed.Preview:input_type -> omission.child.Draft
+	16, // 37: omission.parent.Preview.Call:input_type -> omission.child.Draft
+	9,  // 38: omission.parent.Mixed.Stable:output_type -> omission.parent.Plain
+	1,  // 39: omission.parent.Mixed.Filtered:output_type -> omission.parent.Root
+	16, // 40: omission.parent.Mixed.Preview:output_type -> omission.child.Draft
+	16, // 41: omission.parent.Preview.Call:output_type -> omission.child.Draft
+	38, // [38:42] is the sub-list for method output_type
+	34, // [34:38] is the sub-list for method input_type
 	34, // [34:34] is the sub-list for extension type_name
 	34, // [34:34] is the sub-list for extension extendee
 	0,  // [0:34] is the sub-list for field type_name
@@ -1198,9 +1250,9 @@ func file_parent_message_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_parent_message_proto_rawDesc), len(file_parent_message_proto_rawDesc)),
 			NumEnums:      1,
-			NumMessages:   13,
+			NumMessages:   14,
 			NumExtensions: 0,
-			NumServices:   0,
+			NumServices:   2,
 		},
 		GoTypes:           file_parent_message_proto_goTypes,
 		DependencyIndexes: file_parent_message_proto_depIdxs,

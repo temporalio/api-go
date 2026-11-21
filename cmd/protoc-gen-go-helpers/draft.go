@@ -281,8 +281,43 @@ func generateDraft(gen *protogen.Plugin) error {
 			}
 			p.generateOmitter(output(), m)
 		}
+		for _, service := range file.Services {
+			p.generateMethodLookup(output(), service)
+		}
 	}
 	return nil
+}
+
+// generateMethodLookup emits a switch from a full gRPC method name to how draft annotations
+// affect that RPC, so a server can gate and filter calls without reading descriptors.
+func (p *omissionPlan) generateMethodLookup(g *protogen.GeneratedFile, service *protogen.Service) {
+	name := service.GoName + "DraftMethod"
+	g.P()
+	g.P("// ", name, " describes how draft annotations affect the ", service.GoName, " RPC with the")
+	g.P("// given full gRPC method name. feature is the RPC's draft feature, or \"\" for a stable")
+	g.P("// RPC. request and response report whether the request and response types have")
+	g.P("// OmitDraftFields methods. RPCs that draft annotations do not affect return zero values.")
+	g.P("func ", name, "(fullMethod string) (feature string, request, response bool) {")
+	var cases []string
+	for _, method := range service.Methods {
+		feature := p.feature(method.Desc)
+		request := p.affected[method.Input.Desc.FullName()]
+		response := p.affected[method.Output.Desc.FullName()]
+		if feature == "" && !request && !response {
+			continue
+		}
+		cases = append(cases, fmt.Sprintf("case %q:\nreturn %q, %t, %t",
+			"/"+string(service.Desc.FullName())+"/"+string(method.Desc.Name()), feature, request, response))
+	}
+	if len(cases) > 0 {
+		g.P("switch fullMethod {")
+		for _, c := range cases {
+			g.P(c)
+		}
+		g.P("}")
+	}
+	g.P(`return "", false, false`)
+	g.P("}")
 }
 
 func (p *omissionPlan) generateOmitter(g *protogen.GeneratedFile, m *protogen.Message) {
