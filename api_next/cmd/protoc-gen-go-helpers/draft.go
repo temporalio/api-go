@@ -23,11 +23,11 @@ type omissionPlan struct {
 	messages        []*protogen.Message
 }
 
-func childMessage(f *protogen.Field) *protogen.Message {
+func fieldValue(f *protogen.Field) *protogen.Field {
 	if f.Desc.IsMap() {
-		return f.Message.Fields[1].Message
+		return f.Message.Fields[1]
 	}
-	return f.Message
+	return f
 }
 
 func (p *omissionPlan) typeFeatures(d protoreflect.Descriptor) []string {
@@ -188,7 +188,7 @@ func draftPlan(gen *protogen.Plugin) (*omissionPlan, error) {
 				continue
 			}
 			for _, f := range m.Fields {
-				child := childMessage(f)
+				child := fieldValue(f).Message
 				if len(p.fieldFeatures(f)) > 0 || child != nil && p.affected[child.Desc.FullName()] {
 					p.affected[m.Desc.FullName()] = true
 					changed = true
@@ -296,64 +296,80 @@ func generateDraft(gen *protogen.Plugin) error {
 				g.P()
 				g.P("package ", file.GoPackageName)
 			}
-			g.P("func (m *", m.GoIdent, ") OmitDraftFields(enabled func(string) bool) {")
-			g.P("if m == nil { return }")
-			if condition := disabledCondition(p.typeFeatures(m.Desc)); condition != "" {
-				g.P("if ", condition, " {")
-				g.P(g.QualifiedGoIdent(protogen.GoIdent{GoName: "Reset", GoImportPath: "google.golang.org/protobuf/proto"}), "(m)")
-				g.P("return")
-				g.P("}")
-			}
-			for _, f := range m.Fields {
-				child := childMessage(f)
-				traverse := child != nil && p.affected[child.Desc.FullName()]
-				condition := disabledCondition(p.fieldFeatures(f))
-				if condition == "" && !traverse {
-					continue
-				}
-				oneof := f.Oneof != nil && !f.Oneof.Desc.IsSynthetic()
-				if oneof {
-					binding := "_"
-					if traverse {
-						binding = "v"
-					}
-					g.P("if ", binding, ", ok := m.", f.Oneof.GoName, ".(*", f.GoIdent, "); ok {")
-				}
-				if condition != "" {
-					g.P("if ", condition, " {")
-					if oneof {
-						g.P("m.", f.Oneof.GoName, " = nil")
-					} else {
-						g.P("m.", f.GoName, " = ", clearValue(f))
-					}
-					if traverse {
-						g.P("} else {")
-					} else {
-						g.P("}")
-					}
-				}
-				if traverse {
-					if oneof {
-						g.P("if v != nil {")
-						g.P("v.", f.GoName, ".OmitDraftFields(enabled)")
-						g.P("}")
-					} else if f.Desc.IsMap() || f.Desc.IsList() {
-						g.P("for _, v := range m.", f.GoName, " { v.OmitDraftFields(enabled) }")
-					} else {
-						g.P("m.", f.GoName, ".OmitDraftFields(enabled)")
-					}
-					if condition != "" {
-						g.P("}")
-					}
-				}
-				if oneof {
-					g.P("}")
-				}
-			}
-			g.P("}")
+			p.generateOmitter(g, m)
 		}
 	}
 	return nil
+}
+
+func (p *omissionPlan) generateOmitter(g *protogen.GeneratedFile, m *protogen.Message) {
+	g.P("func (m *", m.GoIdent, ") OmitDraftFields(enabled func(string) bool) {")
+	g.P("if m == nil { return }")
+	if condition := disabledCondition(p.typeFeatures(m.Desc)); condition != "" {
+		g.P("if ", condition, " {")
+		g.P(g.QualifiedGoIdent(protogen.GoIdent{GoName: "Reset", GoImportPath: "google.golang.org/protobuf/proto"}), "(m)")
+		g.P("return")
+		g.P("}")
+	}
+	for _, f := range m.Fields {
+		p.generateFieldOmission(g, f)
+	}
+	g.P("}")
+}
+
+func (p *omissionPlan) generateFieldOmission(g *protogen.GeneratedFile, f *protogen.Field) {
+	child := fieldValue(f).Message
+	traverse := child != nil && p.affected[child.Desc.FullName()]
+	condition := disabledCondition(p.fieldFeatures(f))
+	if condition == "" && !traverse {
+		return
+	}
+
+	field := "m." + f.GoName
+	clear := field + " = " + clearValue(f)
+	oneof := f.Oneof != nil && !f.Oneof.Desc.IsSynthetic()
+	if oneof {
+		binding := "_"
+		if traverse {
+			binding = "v"
+		}
+		wrapper := "m." + f.Oneof.GoName
+		g.P("if ", binding, ", ok := ", wrapper, ".(*", f.GoIdent, "); ok {")
+		field = "v." + f.GoName
+		clear = wrapper + " = nil"
+	}
+	if condition != "" {
+		g.P("if ", condition, " {")
+		g.P(clear)
+		if traverse {
+			g.P("} else {")
+		} else {
+			g.P("}")
+		}
+	}
+	if traverse {
+		if oneof {
+			g.P("if v != nil {")
+		}
+		generateChildOmission(g, f, field)
+		if oneof {
+			g.P("}")
+		}
+		if condition != "" {
+			g.P("}")
+		}
+	}
+	if oneof {
+		g.P("}")
+	}
+}
+
+func generateChildOmission(g *protogen.GeneratedFile, f *protogen.Field, field string) {
+	if f.Desc.IsList() || f.Desc.IsMap() {
+		g.P("for _, v := range ", field, " { v.OmitDraftFields(enabled) }")
+		return
+	}
+	g.P(field, ".OmitDraftFields(enabled)")
 }
 
 func clearValue(f *protogen.Field) string {
