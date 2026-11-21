@@ -199,10 +199,12 @@ func TestServiceMethodSets(t *testing.T) {
 }
 
 // TestOmitDraftFieldsMatchesStable checks every stable message with empty and populated payloads.
-// With no feature enabled, OmitDraftFields must leave exactly what the stable tree can hold: the stable
-// descriptors decode it without unknown fields at any depth, and decoding back gives the
-// same message. The descriptor walk on a copy of the original determines the expected
-// stable fields and whether filtering removed a draft enum value. With every feature
+//
+// With one feature disabled at a time, OmitDraftFields must match the descriptor
+// walk on a copy of the original, including whether it removed a draft enum value, and a
+// second call must change nothing. With no feature enabled, OmitDraftFields must leave
+// exactly what the stable tree can hold: the stable descriptors decode it without unknown
+// fields at any depth, and decoding back gives the same message. With every feature
 // enabled, OmitDraftFields must preserve the input and return false.
 func TestOmitDraftFieldsMatchesStable(t *testing.T) {
 	stable := stableFiles(t)
@@ -211,6 +213,10 @@ func TestOmitDraftFieldsMatchesStable(t *testing.T) {
 	discardUnknown.DiscardUnknown = true
 	messages := nextMessages()
 	expectedMethods := affectedMessages(messages)
+	features := draftFeatures(messages)
+	require.NotEmpty(t, features)
+	// A feature the schema does not declare must never matter.
+	features = append(features, "undeclared-feature")
 	for _, message := range messages {
 		name := message.FullName()
 		messageType, err := protoregistry.GlobalTypes.FindMessageByName(name)
@@ -226,6 +232,21 @@ func TestOmitDraftFieldsMatchesStable(t *testing.T) {
 
 	check := func(t *testing.T, descriptor protoreflect.MessageDescriptor, original protoreflect.Message) {
 		t.Helper()
+
+		// Compare mixed gates with the descriptor-based projection.
+		for _, disabled := range features {
+			some := proto.Clone(original.Interface())
+			omitter, ok := some.(draftOmitter)
+			if !ok {
+				break
+			}
+			enabled := func(feature string) bool { return feature != disabled }
+			want := proto.Clone(original.Interface())
+			require.Equal(t, projectDraft(want.ProtoReflect(), enabled), omitter.OmitDraftFields(enabled), "enum removal with %q disabled", disabled)
+			require.True(t, proto.Equal(want, some), "with %q disabled: got %v, want %v", disabled, some, want)
+			require.False(t, omitter.OmitDraftFields(enabled), "enum removed on the second pass with %q disabled", disabled)
+			require.True(t, proto.Equal(want, some), "second pass changed the message with %q disabled", disabled)
+		}
 
 		// All gates on should preserve the payload.
 		all := proto.Clone(original.Interface())
@@ -299,6 +320,45 @@ func TestOmitDraftFieldsMatchesStable(t *testing.T) {
 			})
 		})
 	}
+}
+
+// draftFeatures lists every feature named by a draft annotation reachable from messages.
+func draftFeatures(messages []protoreflect.MessageDescriptor) []string {
+	seen := map[string]bool{}
+	add := func(descriptor protoreflect.Descriptor, option protoreflect.ExtensionType) {
+		if feature := draftOption(descriptor, option); feature != "" {
+			seen[feature] = true
+		}
+	}
+	addEnum := func(enum protoreflect.EnumDescriptor) {
+		if enum == nil {
+			return
+		}
+		add(enum, protometapb.E_DraftEnum)
+		for i := range enum.Values().Len() {
+			add(enum.Values().Get(i), protometapb.E_DraftEnumValue)
+		}
+	}
+	for _, message := range messages {
+		add(message, protometapb.E_DraftMessage)
+		for i := range message.Oneofs().Len() {
+			add(message.Oneofs().Get(i), protometapb.E_DraftOneof)
+		}
+		for i := range message.Fields().Len() {
+			field := message.Fields().Get(i)
+			add(field, protometapb.E_Draft)
+			addEnum(field.Enum())
+			if field.IsMap() {
+				addEnum(field.MapValue().Enum())
+			}
+		}
+	}
+	features := make([]string, 0, len(seen))
+	for feature := range seen {
+		features = append(features, feature)
+	}
+	slices.Sort(features)
+	return features
 }
 
 func TestAffectedMessages(t *testing.T) {
@@ -424,8 +484,18 @@ func draftProjectionFixture(t *testing.T) protoreflect.FileDescriptor {
 
 // projectStableFields removes draft fields and enum values using api_next descriptors.
 func projectStableFields(m protoreflect.Message) (removedEnumValue bool) {
+	return projectDraft(m, func(string) bool { return false })
+}
+
+// projectDraft removes draft fields and enum values whose features are disabled, using
+// api_next descriptors. It skips the contents of removed fields.
+func projectDraft(m protoreflect.Message, enabled func(string) bool) (removedEnumValue bool) {
+	disabledValue := func(field protoreflect.FieldDescriptor, value protoreflect.Value) bool {
+		feature := draftEnumValueFeature(field, value)
+		return feature != "" && !enabled(feature)
+	}
 	m.Range(func(field protoreflect.FieldDescriptor, value protoreflect.Value) bool {
-		if draftField(field) {
+		if feature := draftFieldFeature(field); feature != "" && !enabled(feature) {
 			m.Clear(field)
 			return true
 		}
@@ -435,11 +505,11 @@ func projectStableFields(m protoreflect.Message) (removedEnumValue bool) {
 			kept := 0
 			for i := range list.Len() {
 				item := list.Get(i)
-				if draftEnumValue(field, item) {
+				if disabledValue(field, item) {
 					removedEnumValue = true
 					continue
 				}
-				if field.Message() != nil && projectStableFields(item.Message()) {
+				if field.Message() != nil && projectDraft(item.Message(), enabled) {
 					removedEnumValue = true
 				}
 				if kept != i {
@@ -453,19 +523,19 @@ func projectStableFields(m protoreflect.Message) (removedEnumValue bool) {
 		case field.IsMap():
 			entries := value.Map()
 			entries.Range(func(key protoreflect.MapKey, item protoreflect.Value) bool {
-				if draftEnumValue(field.MapValue(), item) {
+				if disabledValue(field.MapValue(), item) {
 					entries.Clear(key)
 					removedEnumValue = true
-				} else if field.MapValue().Message() != nil && projectStableFields(item.Message()) {
+				} else if field.MapValue().Message() != nil && projectDraft(item.Message(), enabled) {
 					removedEnumValue = true
 				}
 				return true
 			})
-		case draftEnumValue(field, value):
+		case disabledValue(field, value):
 			m.Clear(field)
 			removedEnumValue = true
 		case field.Message() != nil:
-			if projectStableFields(value.Message()) {
+			if projectDraft(value.Message(), enabled) {
 				removedEnumValue = true
 			}
 		}
@@ -475,22 +545,23 @@ func projectStableFields(m protoreflect.Message) (removedEnumValue bool) {
 }
 
 func draftField(field protoreflect.FieldDescriptor) bool {
-	oneof := field.ContainingOneof()
-	return hasDraftOption(field, protometapb.E_Draft) ||
-		oneof != nil && !oneof.IsSynthetic() && hasDraftOption(oneof, protometapb.E_DraftOneof)
+	return draftFieldFeature(field) != ""
 }
 
-func draftEnumValue(field protoreflect.FieldDescriptor, value protoreflect.Value) bool {
+// draftEnumValueFeature returns the feature of value if it is a draft value of field's enum, or "".
+func draftEnumValueFeature(field protoreflect.FieldDescriptor, value protoreflect.Value) string {
 	if field.Enum() == nil {
-		return false
+		return ""
 	}
 	descriptor := field.Enum().Values().ByNumber(value.Enum())
-	return descriptor != nil && hasDraftOption(descriptor, protometapb.E_DraftEnumValue)
+	if descriptor == nil {
+		return ""
+	}
+	return draftOption(descriptor, protometapb.E_DraftEnumValue)
 }
 
 func hasDraftOption(descriptor protoreflect.Descriptor, option protoreflect.ExtensionType) bool {
-	feature, _ := proto.GetExtension(descriptor.Options(), option).(string)
-	return feature != ""
+	return draftOption(descriptor, option) != ""
 }
 
 // unknownFields returns the path to the first message with unknown fields, or "".
