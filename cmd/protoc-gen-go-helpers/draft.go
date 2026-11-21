@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"strconv"
 	"strings"
-	"unicode"
 
 	"google.golang.org/protobuf/compiler/protogen"
 	"google.golang.org/protobuf/encoding/protowire"
@@ -15,58 +14,49 @@ import (
 
 const draftPrefix = "temporal.api.protometa.v1."
 
-// The typed traversal and direct clears adapt the SaaS protoc-gen-go-codegen
-// sanitizer emitter, without its version policy, Merge, or private dependencies.
+// omissionPlan drives the typed traversal and direct clears adapted from the SaaS
+// protoc-gen-go-codegen sanitizer emitter independently of its version policy,
+// Merge, and private dependencies.
 type omissionPlan struct {
-	features        map[protoreflect.FullName]string
-	messageFeatures map[protoreflect.FullName]string
-	affected        map[protoreflect.FullName]bool
-	messages        []*protogen.Message
+	features   map[protoreflect.FullName]string
+	enumValues map[protoreflect.FullName][]draftEnumValue
+	affected   map[protoreflect.FullName]bool
+	messages   []*protogen.Message
 }
 
-func childMessage(f *protogen.Field) *protogen.Message {
+type draftEnumValue struct {
+	number  protoreflect.EnumNumber
+	feature string
+}
+
+func fieldValue(f *protogen.Field) *protogen.Field {
 	if f.Desc.IsMap() {
-		return f.Message.Fields[1].Message
+		return f.Message.Fields[1]
 	}
-	return f.Message
+	return f
 }
 
-func (p *omissionPlan) typeFeatures(d protoreflect.Descriptor) []string {
-	var features []string
+func (p *omissionPlan) feature(d protoreflect.Descriptor) string {
 	for current := d; current != nil; current = current.Parent() {
-		if feature := p.messageFeatures[current.FullName()]; feature != "" {
-			features = append(features, feature)
+		if feature := p.features[current.FullName()]; feature != "" {
+			return feature
+		}
+		if field, ok := current.(protoreflect.FieldDescriptor); ok {
+			if oneof := field.ContainingOneof(); oneof != nil && !oneof.IsSynthetic() {
+				if feature := p.features[oneof.FullName()]; feature != "" {
+					return feature
+				}
+			}
 		}
 	}
-	return features
+	return ""
 }
 
-func (p *omissionPlan) fieldFeatures(f *protogen.Field) []string {
-	var features []string
-	if feature := p.features[f.Desc.FullName()]; feature != "" {
-		features = append(features, feature)
+func (p *omissionPlan) draftValues(f *protogen.Field) []draftEnumValue {
+	if enum := fieldValue(f).Enum; enum != nil {
+		return p.enumValues[enum.Desc.FullName()]
 	}
-	if f.Desc.IsMap() {
-		f = f.Message.Fields[1]
-	}
-	if f.Message != nil {
-		features = append(features, p.typeFeatures(f.Message.Desc)...)
-	} else if f.Enum != nil {
-		features = append(features, p.typeFeatures(f.Enum.Desc)...)
-	}
-	return features
-}
-
-func disabledCondition(features []string) string {
-	seen := map[string]bool{}
-	var conditions []string
-	for _, feature := range features {
-		if !seen[feature] {
-			conditions = append(conditions, "!enabled("+strconv.Quote(feature)+")")
-			seen[feature] = true
-		}
-	}
-	return strings.Join(conditions, " || ")
+	return nil
 }
 
 func draftPlan(gen *protogen.Plugin) (*omissionPlan, error) {
@@ -77,12 +67,9 @@ func draftPlan(gen *protogen.Plugin) (*omissionPlan, error) {
 		"draft_enum_value": "google.protobuf.EnumValueOptions",
 		"draft_service":    "google.protobuf.ServiceOptions",
 		"draft_method":     "google.protobuf.MethodOptions",
-		"draft_file":       "google.protobuf.FileOptions",
 		"draft_oneof":      "google.protobuf.OneofOptions",
-		"draft_extension":  "google.protobuf.FieldOptions",
 	}
-	schema := map[protoreflect.FullName]map[protowire.Number]string{}
-	schemaFiles := map[string]bool{}
+	schema := map[protoreflect.FullName]map[protowire.Number]bool{}
 	found := false
 	for _, f := range gen.Files {
 		if err := visit(f.Desc, func(d protoreflect.Descriptor) error {
@@ -95,7 +82,6 @@ func draftPlan(gen *protogen.Plugin) (*omissionPlan, error) {
 			if !known || string(e.FullName()) != draftPrefix+name {
 				return nil
 			}
-			schemaFiles[e.ParentFile().Path()] = true
 			if e.Kind() != protoreflect.StringKind || e.Cardinality() != protoreflect.Optional || string(e.ContainingMessage().FullName()) != extendee {
 				return fmt.Errorf("%s: malformed draft option schema", e.FullName())
 			}
@@ -104,29 +90,23 @@ func draftPlan(gen *protogen.Plugin) (*omissionPlan, error) {
 			}
 			key := e.ContainingMessage().FullName()
 			if schema[key] == nil {
-				schema[key] = map[protowire.Number]string{}
+				schema[key] = map[protowire.Number]bool{}
 			}
-			schema[key][protowire.Number(e.Number())] = name
+			schema[key][protowire.Number(e.Number())] = true
 			return nil
 		}); err != nil {
 			return nil, err
-		}
-	}
-	for _, f := range gen.Files {
-		for i := range f.Desc.Imports().Len() {
-			if imp := f.Desc.Imports().Get(i); imp.IsPublic && schemaFiles[imp.Path()] {
-				return nil, fmt.Errorf("%s: public import of %s is not supported; import it directly", f.Desc.Path(), imp.Path())
-			}
 		}
 	}
 	if !found {
 		return nil, fmt.Errorf("draft_omission requires the temporal.api.protometa.v1.draft field option schema")
 	}
 	p := &omissionPlan{
-		features: map[protoreflect.FullName]string{}, messageFeatures: map[protoreflect.FullName]string{},
-		affected: map[protoreflect.FullName]bool{},
+		features:   map[protoreflect.FullName]string{},
+		enumValues: map[protoreflect.FullName][]draftEnumValue{},
+		affected:   map[protoreflect.FullName]bool{},
 	}
-	validate := func(d protoreflect.Descriptor) error {
+	classify := func(d protoreflect.Descriptor) error {
 		options := d.Options()
 		if options == nil {
 			return nil
@@ -141,8 +121,7 @@ func draftPlan(gen *protogen.Plugin) (*omissionPlan, error) {
 				return protowire.ParseError(k)
 			}
 			raw = raw[k:]
-			option, recognized := schema[options.ProtoReflect().Descriptor().FullName()][n]
-			if recognized {
+			if schema[options.ProtoReflect().Descriptor().FullName()][n] {
 				if t != protowire.BytesType {
 					return fmt.Errorf("%s: malformed draft option value", d.FullName())
 				}
@@ -150,19 +129,7 @@ func draftPlan(gen *protogen.Plugin) (*omissionPlan, error) {
 				if k < 0 {
 					return protowire.ParseError(k)
 				}
-				f, isField := d.(protoreflect.FieldDescriptor)
-				_, isMessage := d.(protoreflect.MessageDescriptor)
-				if !(option == "draft" && isField && !f.IsExtension()) && !(option == "draft_message" && isMessage) {
-					return fmt.Errorf("%s: unsupported draft annotation on %s", d.FullName(), annotationPlacement(d))
-				}
-				if value == "" || strings.ContainsFunc(value, unicode.IsSpace) {
-					return fmt.Errorf("%s: draft feature must be nonempty and contain no whitespace", d.FullName())
-				}
-				if isMessage {
-					p.messageFeatures[d.FullName()] = value
-				} else {
-					p.features[d.FullName()] = value
-				}
+				p.features[d.FullName()] = value
 			}
 			k = protowire.ConsumeFieldValue(n, t, raw)
 			if k < 0 {
@@ -183,23 +150,30 @@ func draftPlan(gen *protogen.Plugin) (*omissionPlan, error) {
 	}
 	generated := map[string]bool{}
 	for _, f := range gen.Files {
-		if err := visit(f.Desc, validate); err != nil {
-			return nil, err
-		}
-		collect(f.Messages)
-		generated[f.Desc.Path()] = f.Generate
-	}
-	for _, file := range gen.Files {
-		if err := visit(file.Desc, func(d protoreflect.Descriptor) error {
-			extension, ok := d.(protoreflect.ExtensionDescriptor)
-			if ok && extension.IsExtension() && (len(p.typeFeatures(extension.Message())) > 0 || len(p.typeFeatures(extension.Enum())) > 0 ||
-				len(p.typeFeatures(extension.ContainingMessage())) > 0 || len(p.typeFeatures(extension.Parent())) > 0) {
-				return fmt.Errorf("%s: extension references draft type", extension.FullName())
+		if err := visit(f.Desc, func(d protoreflect.Descriptor) error {
+			if err := classify(d); err != nil {
+				return err
+			}
+			value, ok := d.(protoreflect.EnumValueDescriptor)
+			if feature := p.features[d.FullName()]; ok && feature != "" {
+				enum := value.Parent().(protoreflect.EnumDescriptor)
+				if value.Number() == 0 {
+					return fmt.Errorf("%s: draft enum value cannot have number zero", value.FullName())
+				}
+				for i := range enum.Values().Len() {
+					other := enum.Values().Get(i)
+					if other.Number() == value.Number() && other.FullName() != value.FullName() {
+						return fmt.Errorf("%s: aliases involving draft enum values are not allowed (also used by %s)", value.FullName(), other.FullName())
+					}
+				}
+				p.enumValues[enum.FullName()] = append(p.enumValues[enum.FullName()], draftEnumValue{value.Number(), feature})
 			}
 			return nil
 		}); err != nil {
 			return nil, err
 		}
+		collect(f.Messages)
+		generated[f.Desc.Path()] = f.Generate
 	}
 	for changed := true; changed; {
 		changed = false
@@ -207,26 +181,17 @@ func draftPlan(gen *protogen.Plugin) (*omissionPlan, error) {
 			if p.affected[m.Desc.FullName()] {
 				continue
 			}
-			if len(p.typeFeatures(m.Desc)) > 0 {
+			if p.feature(m.Desc) != "" {
 				p.affected[m.Desc.FullName()] = true
 				changed = true
 				continue
 			}
 			for _, f := range m.Fields {
-				child := childMessage(f)
-				if len(p.fieldFeatures(f)) > 0 || child != nil && p.affected[child.Desc.FullName()] {
+				child := fieldValue(f).Message
+				if p.feature(f.Desc) != "" || len(p.draftValues(f)) != 0 || child != nil && p.affected[child.Desc.FullName()] {
 					p.affected[m.Desc.FullName()] = true
 					changed = true
 					break
-				}
-			}
-		}
-	}
-	for _, file := range gen.Files {
-		for _, service := range file.Services {
-			for _, method := range service.Methods {
-				if len(p.typeFeatures(method.Input.Desc)) > 0 || len(p.typeFeatures(method.Output.Desc)) > 0 {
-					return nil, fmt.Errorf("%s: RPC references draft type", method.Desc.FullName())
 				}
 			}
 		}
@@ -284,32 +249,6 @@ func add[T protoreflect.Descriptor](out []protoreflect.Descriptor, list interfac
 	return out
 }
 
-func annotationPlacement(d protoreflect.Descriptor) string {
-	switch d := d.(type) {
-	case protoreflect.FileDescriptor:
-		return "file"
-	case protoreflect.MessageDescriptor:
-		return "message"
-	case protoreflect.EnumDescriptor:
-		return "enum"
-	case protoreflect.EnumValueDescriptor:
-		return "enum value"
-	case protoreflect.OneofDescriptor:
-		return "oneof"
-	case protoreflect.ServiceDescriptor:
-		return "service"
-	case protoreflect.MethodDescriptor:
-		return "method"
-	case protoreflect.FieldDescriptor:
-		if d.IsExtension() {
-			return "extension"
-		}
-		return "field"
-	default:
-		return "unknown declaration"
-	}
-}
-
 func generateDraft(gen *protogen.Plugin) error {
 	p, err := draftPlan(gen)
 	if err != nil {
@@ -330,64 +269,142 @@ func generateDraft(gen *protogen.Plugin) error {
 				g.P()
 				g.P("package ", file.GoPackageName)
 			}
-			g.P("func (m *", m.GoIdent, ") OmitDraftFields(enabled func(string) bool) {")
-			g.P("if m == nil { return }")
-			if condition := disabledCondition(p.typeFeatures(m.Desc)); condition != "" {
-				g.P("if ", condition, " {")
-				g.P(g.QualifiedGoIdent(protogen.GoIdent{GoName: "Reset", GoImportPath: "google.golang.org/protobuf/proto"}), "(m)")
-				g.P("return")
-				g.P("}")
-			}
-			for _, f := range m.Fields {
-				child := childMessage(f)
-				traverse := child != nil && p.affected[child.Desc.FullName()]
-				condition := disabledCondition(p.fieldFeatures(f))
-				if condition == "" && !traverse {
-					continue
-				}
-				oneof := f.Oneof != nil && !f.Oneof.Desc.IsSynthetic()
-				if oneof {
-					binding := "_"
-					if traverse {
-						binding = "v"
-					}
-					g.P("if ", binding, ", ok := m.", f.Oneof.GoName, ".(*", f.GoIdent, "); ok {")
-				}
-				if condition != "" {
-					g.P("if ", condition, " {")
-					if oneof {
-						g.P("m.", f.Oneof.GoName, " = nil")
-					} else {
-						g.P("m.", f.GoName, " = ", clearValue(f))
-					}
-					if traverse {
-						g.P("} else {")
-					} else {
-						g.P("}")
-					}
-				}
-				if traverse {
-					if oneof {
-						g.P("if v != nil {")
-						g.P("v.", f.GoName, ".OmitDraftFields(enabled)")
-						g.P("}")
-					} else if f.Desc.IsMap() || f.Desc.IsList() {
-						g.P("for _, v := range m.", f.GoName, " { v.OmitDraftFields(enabled) }")
-					} else {
-						g.P("m.", f.GoName, ".OmitDraftFields(enabled)")
-					}
-					if condition != "" {
-						g.P("}")
-					}
-				}
-				if oneof {
-					g.P("}")
-				}
-			}
-			g.P("}")
+			p.generateOmitter(g, m)
 		}
 	}
 	return nil
+}
+
+func (p *omissionPlan) generateOmitter(g *protogen.GeneratedFile, m *protogen.Message) {
+	g.P("// OmitDraftFields clears disabled draft fields and enum values.")
+	g.P("// It reports whether it removed a draft enum value from a retained field.")
+	g.P("func (m *", m.GoIdent, ") OmitDraftFields(enabled func(string) bool) (removedEnumValue bool) {")
+	g.P("if m == nil { return false }")
+	rootFeature := p.feature(m.Desc)
+	if rootFeature != "" {
+		g.P("if !enabled(", strconv.Quote(rootFeature), ") {")
+		g.P(g.QualifiedGoIdent(protogen.GoIdent{GoName: "Reset", GoImportPath: "google.golang.org/protobuf/proto"}), "(m)")
+		g.P("return false")
+		g.P("}")
+	}
+	for _, f := range m.Fields {
+		p.generateFieldOmission(g, f, rootFeature)
+	}
+	g.P("return removedEnumValue")
+	g.P("}")
+}
+
+func (p *omissionPlan) generateFieldOmission(g *protogen.GeneratedFile, f *protogen.Field, rootFeature string) {
+	child := fieldValue(f).Message
+	traverse := child != nil && p.affected[child.Desc.FullName()]
+	values := p.draftValues(f)
+	filter := traverse || len(values) != 0
+	feature := p.feature(f.Desc)
+	if feature == rootFeature {
+		feature = ""
+	}
+	if feature == "" && !filter {
+		return
+	}
+
+	field := "m." + f.GoName
+	clear := field + " = " + clearValue(f)
+	oneof := f.Oneof != nil && !f.Oneof.Desc.IsSynthetic()
+	if oneof {
+		binding := "_"
+		if filter {
+			binding = "v"
+		}
+		wrapper := "m." + f.Oneof.GoName
+		g.P("if ", binding, ", ok := ", wrapper, ".(*", f.GoIdent, "); ok {")
+		field = "v." + f.GoName
+		clear = wrapper + " = nil"
+	}
+	if feature != "" {
+		g.P("if !enabled(", strconv.Quote(feature), ") {")
+		g.P(clear)
+		if filter {
+			g.P("} else {")
+		} else {
+			g.P("}")
+		}
+	}
+	if filter {
+		if oneof {
+			g.P("if v != nil {")
+		}
+		if traverse {
+			generateChildOmission(g, f, field)
+		} else {
+			generateEnumOmission(g, f, field, clear, values)
+		}
+		if oneof {
+			g.P("}")
+		}
+		if feature != "" {
+			g.P("}")
+		}
+	}
+	if oneof {
+		g.P("}")
+	}
+}
+
+func generateChildOmission(g *protogen.GeneratedFile, f *protogen.Field, field string) {
+	if f.Desc.IsList() || f.Desc.IsMap() {
+		g.P("for _, child := range ", field, " {")
+		field = "child"
+	}
+	g.P("if ", field, ".OmitDraftFields(enabled) {")
+	g.P("removedEnumValue = true")
+	g.P("}")
+	if f.Desc.IsList() || f.Desc.IsMap() {
+		g.P("}")
+	}
+}
+
+func generateEnumOmission(g *protogen.GeneratedFile, f *protogen.Field, field, clear string, values []draftEnumValue) {
+	switch {
+	case f.Desc.IsList():
+		disabled := disabledEnumValue("value", values)
+		g.P("for i, value := range ", field, " {")
+		g.P("if !(", disabled, ") { continue }")
+		// Limit capacity before growing the slice to avoid writing through an alias.
+		grow := protogen.GoIdent{GoName: "Grow", GoImportPath: "slices"}
+		g.P("kept := ", grow, "(", field, "[:0:0], len(", field, ") - 1)")
+		g.P("kept = append(kept, ", field, "[:i]...)")
+		g.P("for _, value := range ", field, "[i+1:] {")
+		g.P("if !(", disabled, ") { kept = append(kept, value) }")
+		g.P("}")
+		g.P(field, " = kept")
+		g.P("removedEnumValue = true")
+		g.P("break")
+		g.P("}")
+	case f.Desc.IsMap():
+		g.P("for key, value := range ", field, " {")
+		g.P("if ", disabledEnumValue("value", values), " {")
+		g.P("delete(", field, ", key)")
+		g.P("removedEnumValue = true")
+		g.P("}")
+		g.P("}")
+	default:
+		condition := disabledEnumValue(field, values)
+		if f.Desc.HasPresence() && (f.Oneof == nil || f.Oneof.Desc.IsSynthetic()) {
+			condition = field + " != nil && (" + disabledEnumValue("*"+field, values) + ")"
+		}
+		g.P("if ", condition, " {")
+		g.P(clear)
+		g.P("removedEnumValue = true")
+		g.P("}")
+	}
+}
+
+func disabledEnumValue(value string, options []draftEnumValue) string {
+	var conditions []string
+	for _, option := range options {
+		conditions = append(conditions, fmt.Sprintf("(%s == %d && !enabled(%q))", value, option.number, option.feature))
+	}
+	return strings.Join(conditions, " || ")
 }
 
 func clearValue(f *protogen.Field) string {

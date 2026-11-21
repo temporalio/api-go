@@ -1,0 +1,64 @@
+syntax = "proto3";
+
+package draftwire.fixture;
+
+import "temporal/api_next/protometa/v1/draft.proto";
+
+enum Mode {
+  MODE_UNSPECIFIED = 0;
+  MODE_STABLE = 1;
+  MODE_PREVIEW = 2 [(temporal.api.protometa.v1.draft_enum_value) = "preview"];
+}
+
+message Values {
+  Mode singular = 1;
+  optional Mode optional_mode = 2;
+  repeated Mode list = 3;
+  map<string, Mode> by_name = 4;
+  oneof choice {
+    Mode selected = 5;
+    string label = 6;
+  }
+}
+
+message Envelope {
+  Values retained = 1;
+  Values hidden = 2 [(temporal.api.protometa.v1.draft) = "preview"];
+  oneof gated {
+    option (temporal.api.protometa.v1.draft_oneof) = "preview";
+    Values hidden_oneof = 3;
+  }
+}
+
+message List {
+  repeated Values values = 1;
+}
+
+message Map {
+  map<string, Values> values = 1;
+}
+
+message Choice {
+  oneof choice {
+    Values values = 1;
+  }
+}
+
+message CycleA {
+  CycleB next = 1;
+}
+
+message CycleB {
+  CycleA next = 1;
+  Values values = 2;
+}
+
+message Stable {
+  Stable next = 1;
+}
+
+message DraftRoot {
+  option (temporal.api.protometa.v1.draft_message) = "preview";
+
+  message Nested {}
+}

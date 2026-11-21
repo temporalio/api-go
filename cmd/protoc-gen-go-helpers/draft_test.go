@@ -5,7 +5,6 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
-	"slices"
 	"strings"
 	"testing"
 
@@ -23,7 +22,7 @@ import (
 	"go.temporal.io/api/cmd/protoc-gen-go-helpers/testprotos/draft/parent"
 )
 
-type omitter interface{ OmitDraftFields(func(string) bool) }
+type omitter interface{ OmitDraftFields(func(string) bool) bool }
 
 func TestOmitFixtures(t *testing.T) {
 	leaf := func() *child.Leaf { return &child.Leaf{Stable: "stable", A: "a", B: "b"} }
@@ -96,76 +95,185 @@ func TestOmitEveryScalar(t *testing.T) {
 }
 
 func TestOmitDraftMessageReferences(t *testing.T) {
-	for _, features := range [][]string{nil, {"feature-a"}, {"feature-b"}, {"feature-a", "feature-b"}} {
-		t.Run(strings.Join(features, "+"), func(t *testing.T) {
-			enabled := func(feature string) bool { return slices.Contains(features, feature) }
-			value := func() *child.Draft { return &child.Draft{Value: "value", Extra: "extra"} }
-			m := &parent.DraftReferences{
-				Stable: "stable", Single: value(), List: []*child.Draft{nil, value()},
-				ByName: map[string]*child.Draft{"nil": nil, "value": value()},
-				Choice: &parent.DraftReferences_Draft{Draft: value()}, Gated: value(),
-				Inner: &child.Draft_Inner{Value: "inner"}, State: child.Draft_ONE,
-				States: []child.Draft_State{child.Draft_ONE}, StateByName: map[string]child.Draft_State{"value": child.Draft_ONE},
-				Empty: &child.Draft_Empty{},
-			}
-			expected := &parent.DraftReferences{Stable: "stable"}
-			if enabled("feature-a") {
-				kept := &child.Draft{Value: "value"}
-				if enabled("feature-b") {
-					kept.Extra = "extra"
-					expected.Gated = proto.Clone(kept).(*child.Draft)
-					expected.Inner = &child.Draft_Inner{Value: "inner"}
-				}
-				expected.Single = proto.Clone(kept).(*child.Draft)
-				expected.List = []*child.Draft{nil, proto.Clone(kept).(*child.Draft)}
-				expected.ByName = map[string]*child.Draft{"nil": nil, "value": proto.Clone(kept).(*child.Draft)}
-				expected.Choice = &parent.DraftReferences_Draft{Draft: proto.Clone(kept).(*child.Draft)}
-				expected.State, expected.States = child.Draft_ONE, []child.Draft_State{child.Draft_ONE}
-				expected.StateByName, expected.Empty = map[string]child.Draft_State{"value": child.Draft_ONE}, &child.Draft_Empty{}
-			}
-			m.OmitDraftFields(enabled)
-			require.True(t, proto.Equal(expected, m), "expected %v, got %v", expected, m)
-			m.Choice = &parent.DraftReferences_StableChoice{StableChoice: "stable"}
-			m.OmitDraftFields(enabled)
-			require.Equal(t, "stable", m.GetStableChoice())
-			m.Choice = (*parent.DraftReferences_Draft)(nil)
-			require.NotPanics(t, func() { m.OmitDraftFields(enabled) })
-		})
+	value := func() *child.Draft { return &child.Draft{Value: "value", Extra: "extra"} }
+	m := &parent.DraftReferences{
+		Stable: "stable", Single: value(), List: []*child.Draft{nil, value()},
+		ByName: map[string]*child.Draft{"nil": nil, "value": value()},
+		Choice: &parent.DraftReferences_Draft{Draft: value()},
+		Inner:  &child.Draft_Inner{Value: "inner"}, State: child.Draft_ONE,
+		States: []child.Draft_State{child.Draft_ONE}, StateByName: map[string]child.Draft_State{"value": child.Draft_ONE},
+		Empty: &child.Draft_Empty{}, Mode: child.Mode_MODE_PREVIEW,
+		PreviewChoice: &parent.DraftReferences_Preview{Preview: value()},
 	}
+	original := proto.Clone(m)
+	require.False(t, m.OmitDraftFields(func(feature string) bool { return feature == "feature-a" }))
+	require.True(t, proto.Equal(original, m))
+	disabled := func(string) bool { return false }
+	require.False(t, m.OmitDraftFields(disabled))
+	require.True(t, proto.Equal(&parent.DraftReferences{Stable: "stable"}, m))
+	m.Choice = &parent.DraftReferences_StableChoice{StableChoice: "stable"}
+	require.False(t, m.OmitDraftFields(disabled))
+	require.Equal(t, "stable", m.GetStableChoice())
+	m.Choice = (*parent.DraftReferences_Draft)(nil)
+	require.False(t, m.OmitDraftFields(disabled))
+	require.Nil(t, m.Choice)
 }
 
 func TestOmitDirectDraftMessage(t *testing.T) {
 	m := &child.Draft{Value: "value", Extra: "extra"}
 	m.ProtoReflect().SetUnknown([]byte{0x98, 0x06, 0x01})
-	m.OmitDraftFields(func(feature string) bool { return feature == "feature-a" })
-	require.Equal(t, "value", m.Value)
-	require.Empty(t, m.Extra)
-	require.NotEmpty(t, m.ProtoReflect().GetUnknown())
-	m.OmitDraftFields(func(string) bool { return false })
+	original := proto.Clone(m)
+	require.False(t, m.OmitDraftFields(func(feature string) bool { return feature == "feature-a" }))
+	require.True(t, proto.Equal(original, m))
+	disabled := func(string) bool { return false }
+	require.False(t, m.OmitDraftFields(disabled))
 	require.True(t, proto.Equal(&child.Draft{}, m))
 	inner := &child.Draft_Inner{Value: "inner"}
-	inner.OmitDraftFields(func(feature string) bool { return feature == "feature-b" })
+	require.False(t, inner.OmitDraftFields(disabled))
 	require.Empty(t, inner.Value)
 	var nilDraft *child.Draft
-	require.NotPanics(t, func() { nilDraft.OmitDraftFields(func(string) bool { return false }) })
+	require.False(t, nilDraft.OmitDraftFields(nil))
 	empty := &child.Draft_Empty{}
 	empty.ProtoReflect().SetUnknown([]byte{0x98, 0x06, 0x01})
-	empty.OmitDraftFields(func(feature string) bool { return feature == "feature-a" })
-	require.NotEmpty(t, empty.ProtoReflect().GetUnknown())
-	empty.OmitDraftFields(func(string) bool { return false })
+	require.False(t, empty.OmitDraftFields(disabled))
 	require.Empty(t, empty.ProtoReflect().GetUnknown())
 }
 
-func TestOmitConjunctiveMessageGates(t *testing.T) {
-	for _, missing := range []string{"", "feature-a", "feature-b", "feature-c"} {
-		t.Run("missing="+missing, func(t *testing.T) {
-			m := &parent.DraftReferences{GatedInner: &child.Draft_Inner{Value: "inner"}}
-			m.OmitDraftFields(func(feature string) bool { return feature != missing })
-			if missing == "" {
-				require.Equal(t, "inner", m.GatedInner.Value)
-			} else {
-				require.Nil(t, m.GatedInner)
+func TestOmitDraftEnumValues(t *testing.T) {
+	const (
+		preview      = child.Level_LEVEL_PREVIEW
+		experimental = child.Level_LEVEL_EXPERIMENTAL
+		stable       = child.Level_LEVEL_HIGH
+		unknown      = child.Level(99)
+	)
+	optional := preview
+	for _, tt := range []struct {
+		name        string
+		input, want *parent.EnumFields
+	}{
+		{"singular", &parent.EnumFields{Singular: preview}, &parent.EnumFields{}},
+		{"optional", &parent.EnumFields{Optional: &optional}, &parent.EnumFields{}},
+		{"list", &parent.EnumFields{List: []child.Level{preview, stable, preview, unknown, experimental, preview}}, &parent.EnumFields{List: []child.Level{stable, unknown, experimental}}},
+		{"map", &parent.EnumFields{ByName: map[string]child.Level{"preview": preview, "stable": stable, "unknown": unknown, "experimental": experimental}}, &parent.EnumFields{ByName: map[string]child.Level{"stable": stable, "unknown": unknown, "experimental": experimental}}},
+		{"oneof", &parent.EnumFields{Choice: &parent.EnumFields_Level{Level: preview}}, &parent.EnumFields{}},
+	} {
+		t.Run(tt.name, func(t *testing.T) {
+			tt.input.ProtoReflect().SetUnknown([]byte{0x98, 0x06, 0x01})
+			tt.want.ProtoReflect().SetUnknown(tt.input.ProtoReflect().GetUnknown())
+			original := proto.Clone(tt.input)
+			require.False(t, tt.input.OmitDraftFields(func(string) bool { return true }))
+			require.True(t, proto.Equal(original, tt.input))
+			enabled := func(feature string) bool { return feature != "feature-b" }
+			require.True(t, tt.input.OmitDraftFields(enabled))
+			require.True(t, proto.Equal(tt.want, tt.input), "expected %v, got %v", tt.want, tt.input)
+			require.False(t, tt.input.OmitDraftFields(enabled))
+			require.True(t, proto.Equal(tt.want, tt.input))
+		})
+	}
+
+	var nilRoot *parent.EnumFields
+	require.False(t, nilRoot.OmitDraftFields(nil))
+	typedNil := &parent.EnumFields{Choice: (*parent.EnumFields_Level)(nil)}
+	require.False(t, typedNil.OmitDraftFields(func(string) bool { return false }))
+}
+
+func TestOmitDraftEnumPreservesSingularValues(t *testing.T) {
+	for _, shape := range []struct {
+		name  string
+		build func(child.Level) *parent.EnumFields
+	}{
+		{"singular", func(value child.Level) *parent.EnumFields { return &parent.EnumFields{Singular: value} }},
+		{"optional", func(value child.Level) *parent.EnumFields { return &parent.EnumFields{Optional: &value} }},
+		{"oneof", func(value child.Level) *parent.EnumFields {
+			return &parent.EnumFields{Choice: &parent.EnumFields_Level{Level: value}}
+		}},
+	} {
+		t.Run(shape.name, func(t *testing.T) {
+			for _, value := range []struct {
+				name  string
+				level child.Level
+			}{
+				{"stable", child.Level_LEVEL_HIGH},
+				{"unknown", child.Level(99)},
+				{"enabled draft", child.Level_LEVEL_EXPERIMENTAL},
+			} {
+				t.Run(value.name, func(t *testing.T) {
+					m := shape.build(value.level)
+					require.False(t, m.OmitDraftFields(func(feature string) bool { return feature != "feature-b" }))
+					require.True(t, proto.Equal(shape.build(value.level), m))
+				})
 			}
+		})
+	}
+}
+
+func TestOmitDraftEnumValuesInOverlappingLists(t *testing.T) {
+	const (
+		preview = child.Level_LEVEL_PREVIEW
+		stable  = child.Level_LEVEL_HIGH
+		unknown = child.Level(99)
+	)
+	backing := []child.Level{stable, preview, unknown}
+	m := &parent.EnumFields{List: backing[:], OtherList: backing[2:]}
+	require.True(t, m.OmitDraftFields(func(feature string) bool { return feature != "feature-b" }))
+	require.Equal(t, []child.Level{stable, unknown}, m.List)
+	require.Equal(t, []child.Level{unknown}, m.OtherList)
+	require.Equal(t, []child.Level{stable, preview, unknown}, backing)
+}
+
+func TestOmitDraftEnumValuesInGatedMessage(t *testing.T) {
+	m := &parent.DraftReferences{GatedMessage: &parent.EnumFields{Singular: child.Level_LEVEL_PREVIEW}}
+	retained := proto.CloneOf(m)
+	require.False(t, m.OmitDraftFields(func(string) bool { return false }))
+	require.True(t, proto.Equal(&parent.DraftReferences{}, m))
+	require.True(t, retained.OmitDraftFields(func(feature string) bool { return feature == "feature-a" }))
+	require.True(t, proto.Equal(&parent.DraftReferences{GatedMessage: &parent.EnumFields{}}, retained))
+}
+
+func TestOmitDraftEnumValuesInDraftField(t *testing.T) {
+	m := &parent.DraftReferences{GatedLevel: child.Level_LEVEL_PREVIEW}
+	retained := proto.CloneOf(m)
+	require.False(t, m.OmitDraftFields(func(string) bool { return false }))
+	require.True(t, proto.Equal(&parent.DraftReferences{}, m))
+	require.True(t, retained.OmitDraftFields(func(feature string) bool { return feature == "feature-a" }))
+	require.True(t, proto.Equal(&parent.DraftReferences{}, retained))
+}
+
+func TestOmitDraftEnumValuesInOneof(t *testing.T) {
+	m := &parent.DraftReferences{PreviewChoice: &parent.DraftReferences_PreviewLevel{PreviewLevel: child.Level_LEVEL_PREVIEW}}
+	retained := proto.CloneOf(m)
+	require.False(t, m.OmitDraftFields(func(string) bool { return false }))
+	require.Nil(t, m.PreviewChoice)
+	require.True(t, retained.OmitDraftFields(func(feature string) bool { return feature == "feature-a" }))
+	require.Nil(t, retained.PreviewChoice)
+	m.PreviewChoice = &parent.DraftReferences_Label{Label: "preview"}
+	require.False(t, m.OmitDraftFields(func(string) bool { return false }))
+	require.Nil(t, m.PreviewChoice)
+}
+
+func TestOmitNestedDraftEnumValues(t *testing.T) {
+	newFields := func() *parent.EnumFields { return &parent.EnumFields{Singular: child.Level_LEVEL_EXPERIMENTAL} }
+	for _, tt := range []struct {
+		name  string
+		build func(*parent.EnumFields) *parent.EnumAncestor
+	}{
+		{"singular", func(f *parent.EnumFields) *parent.EnumAncestor { return &parent.EnumAncestor{Single: f} }},
+		{"list", func(f *parent.EnumFields) *parent.EnumAncestor {
+			return &parent.EnumAncestor{List: []*parent.EnumFields{nil, f}}
+		}},
+		{"map", func(f *parent.EnumFields) *parent.EnumAncestor {
+			return &parent.EnumAncestor{ByName: map[string]*parent.EnumFields{"nil": nil, "value": f}}
+		}},
+		{"oneof", func(f *parent.EnumFields) *parent.EnumAncestor {
+			return &parent.EnumAncestor{Choice: &parent.EnumAncestor_Member{Member: f}}
+		}},
+	} {
+		t.Run(tt.name, func(t *testing.T) {
+			m := tt.build(newFields())
+			disabled := func(string) bool { return false }
+			require.True(t, m.OmitDraftFields(disabled))
+			require.True(t, proto.Equal(tt.build(&parent.EnumFields{}), m))
+			require.False(t, m.OmitDraftFields(disabled))
 		})
 	}
 }
@@ -186,6 +294,49 @@ func fixtureRequest() *pluginpb.CodeGeneratorRequest {
 	}
 	visit(parent.File_parent_message_proto)
 	return &pluginpb.CodeGeneratorRequest{ProtoFile: files, FileToGenerate: []string{"annotations/draft.proto", "child/message.proto", "parent/message.proto"}, Parameter: proto.String("paths=source_relative")}
+}
+
+func TestDraftOmissionWithImportNamedM(t *testing.T) {
+	dir := t.TempDir()
+	goMod, err := os.ReadFile("../../go.mod")
+	require.NoError(t, err)
+	goSum, err := os.ReadFile("../../go.sum")
+	require.NoError(t, err)
+	goMod = []byte(strings.Replace(string(goMod), "module go.temporal.io/api", "module example.com", 1))
+	require.NoError(t, os.WriteFile(filepath.Join(dir, "go.mod"), goMod, 0600))
+	require.NoError(t, os.WriteFile(filepath.Join(dir, "go.sum"), goSum, 0600))
+
+	run := func(workdir, command string, args ...string) {
+		t.Helper()
+		cmd := exec.Command(command, args...)
+		cmd.Dir = workdir
+		output, err := cmd.CombinedOutput()
+		require.NoError(t, err, "%s", output)
+	}
+	goPlugin := filepath.Join(dir, "protoc-gen-go")
+	run(".", "go", "build", "-o", goPlugin, "google.golang.org/protobuf/cmd/protoc-gen-go")
+	descriptor := filepath.Join(dir, "fixture.pb")
+	run(".", "protoc", "-Itestprotos/import-shadow", "-Itestprotos/draft",
+		"--include_imports", "--descriptor_set_out="+descriptor,
+		"--plugin=protoc-gen-go="+goPlugin, "--go_out=paths=source_relative:"+dir,
+		"--go_opt=Mannotations/draft.proto=example.com/annotations",
+		"annotations/draft.proto", "m/level.proto", "parent/message.proto")
+
+	raw, err := os.ReadFile(descriptor)
+	require.NoError(t, err)
+	var set descriptorpb.FileDescriptorSet
+	require.NoError(t, proto.Unmarshal(raw, &set))
+	gen, err := (protogen.Options{}).New(&pluginpb.CodeGeneratorRequest{
+		ProtoFile: set.File, FileToGenerate: []string{"parent/message.proto"}, Parameter: proto.String("paths=source_relative"),
+	})
+	require.NoError(t, err)
+	require.NoError(t, generateDraft(gen))
+	response := gen.Response()
+	require.Empty(t, response.GetError())
+	require.Len(t, response.File, 1)
+	file := response.File[0]
+	require.NoError(t, os.WriteFile(filepath.Join(dir, file.GetName()), []byte(file.GetContent()), 0600))
+	run(dir, "go", "build", "./...")
 }
 
 func TestDraftGenerationModes(t *testing.T) {
@@ -289,8 +440,21 @@ func TestDraftPlannerFailures(t *testing.T) {
 	require.ErrorContains(t, err, "malformed")
 }
 
+// TestDraftSharedClassification compares explicit annotations with the api repo's
+// classification fixtures in the proto/api submodule. The api generator owns schema
+// validation. We also reject zero and aliased draft enum numbers because clearing an
+// enum must leave a stable default and each number must identify a single value.
+// TestDraftPlannerFailures covers the other local rejections: a missing or malformed
+// option schema, malformed option wire data, affected dependencies outside generation,
+// non-open Go messages, and OmitDraftFields name collisions.
 func TestDraftSharedClassification(t *testing.T) {
-	corpus := "testdata/classification"
+	corpus := "../../proto/api/cmd/generate-stable-protos/testdata/classification"
+	reject := map[string]string{
+		"enum-value-zero":               "cannot have number zero",
+		"enum-value-alias-both-draft":   "aliases involving draft enum values",
+		"enum-value-alias-draft-first":  "aliases involving draft enum values",
+		"enum-value-alias-stable-first": "aliases involving draft enum values",
+	}
 	entries, err := os.ReadDir(corpus)
 	require.NoError(t, err)
 	for _, entry := range entries {
@@ -300,13 +464,17 @@ func TestDraftSharedClassification(t *testing.T) {
 		t.Run(entry.Name(), func(t *testing.T) {
 			dir := filepath.Join(corpus, entry.Name())
 			var expected struct {
-				Error    string            `json:"error"`
-				Fields   map[string]string `json:"fields"`
-				Messages map[string]string `json:"messages"`
+				Error string `json:"error"`
+				// Annotations maps each explicitly draft declaration to its feature.
+				Annotations map[string]string `json:"annotations"`
 			}
 			raw, err := os.ReadFile(filepath.Join(dir, "expected.json"))
 			require.NoError(t, err)
 			require.NoError(t, json.Unmarshal(raw, &expected))
+			wantError := reject[entry.Name()]
+			if expected.Error != "" && wantError == "" {
+				t.Skip("validated by the api generator")
+			}
 			var inputs []string
 			require.NoError(t, filepath.WalkDir(filepath.Join(dir, "input"), func(path string, d os.DirEntry, err error) error {
 				if err != nil {
@@ -339,8 +507,9 @@ func TestDraftSharedClassification(t *testing.T) {
 			gen, err := (protogen.Options{}).New(req)
 			require.NoError(t, err)
 			plan, err := draftPlan(gen)
-			if expected.Error != "" {
-				require.ErrorContains(t, err, expected.Error)
+			if wantError != "" {
+				require.NotEmpty(t, expected.Error)
+				require.ErrorContains(t, err, wantError)
 				return
 			}
 			require.NoError(t, err)
@@ -348,18 +517,10 @@ func TestDraftSharedClassification(t *testing.T) {
 			for name, feature := range plan.features {
 				actual[string(name)] = feature
 			}
-			if expected.Fields == nil {
-				expected.Fields = map[string]string{}
+			if expected.Annotations == nil {
+				expected.Annotations = map[string]string{}
 			}
-			require.Equal(t, expected.Fields, actual)
-			if expected.Messages == nil {
-				expected.Messages = map[string]string{}
-			}
-			actual = map[string]string{}
-			for name, feature := range plan.messageFeatures {
-				actual[string(name)] = feature
-			}
-			require.Equal(t, expected.Messages, actual)
+			require.Equal(t, expected.Annotations, actual)
 		})
 	}
 }

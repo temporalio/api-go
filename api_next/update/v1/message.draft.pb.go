@@ -2,31 +2,50 @@
 
 package update
 
-func (m *Request) OmitDraftFields(enabled func(string) bool) {
+// OmitDraftFields clears disabled draft fields and enum values.
+// It reports whether it removed a draft enum value from a retained field.
+func (m *Request) OmitDraftFields(enabled func(string) bool) (removedEnumValue bool) {
 	if m == nil {
-		return
+		return false
 	}
 	if !enabled("update-user-tagging") {
 		m.User = ""
 	}
+	return removedEnumValue
 }
-func (m *Rejection) OmitDraftFields(enabled func(string) bool) {
+
+// OmitDraftFields clears disabled draft fields and enum values.
+// It reports whether it removed a draft enum value from a retained field.
+func (m *Rejection) OmitDraftFields(enabled func(string) bool) (removedEnumValue bool) {
 	if m == nil {
-		return
+		return false
 	}
-	m.RejectedRequest.OmitDraftFields(enabled)
-}
-func (m *Acceptance) OmitDraftFields(enabled func(string) bool) {
-	if m == nil {
-		return
+	if m.RejectedRequest.OmitDraftFields(enabled) {
+		removedEnumValue = true
 	}
-	m.AcceptedRequest.OmitDraftFields(enabled)
+	return removedEnumValue
 }
-func (m *Response) OmitDraftFields(enabled func(string) bool) {
+
+// OmitDraftFields clears disabled draft fields and enum values.
+// It reports whether it removed a draft enum value from a retained field.
+func (m *Acceptance) OmitDraftFields(enabled func(string) bool) (removedEnumValue bool) {
 	if m == nil {
-		return
+		return false
+	}
+	if m.AcceptedRequest.OmitDraftFields(enabled) {
+		removedEnumValue = true
+	}
+	return removedEnumValue
+}
+
+// OmitDraftFields clears disabled draft fields and enum values.
+// It reports whether it removed a draft enum value from a retained field.
+func (m *Response) OmitDraftFields(enabled func(string) bool) (removedEnumValue bool) {
+	if m == nil {
+		return false
 	}
 	if !enabled("update-user-tagging") {
 		m.User = ""
 	}
+	return removedEnumValue
 }

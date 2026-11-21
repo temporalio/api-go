@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -17,8 +18,16 @@ func TestAPINextProxy(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
+	apiNext := filepath.Join(root, "api_next")
+	raw, err := os.ReadFile(filepath.Join(apiNext, "descriptor_set.pb"))
+	if errors.Is(err, os.ErrNotExist) {
+		t.Skip("api_next/descriptor_set.pb is missing. Run make api-next before this test.")
+	}
+	if err != nil {
+		t.Fatal(err)
+	}
 	stage := t.TempDir()
-	if err := os.CopyFS(stage, os.DirFS(filepath.Join(root, "api_next"))); err != nil {
+	if err := os.CopyFS(stage, os.DirFS(apiNext)); err != nil {
 		t.Fatal(err)
 	}
 	run := func(dir, name string, args ...string) {
@@ -30,10 +39,6 @@ func TestAPINextProxy(t *testing.T) {
 		}
 	}
 	descriptorPath := filepath.Join(stage, "descriptor_set.pb")
-	raw, err := os.ReadFile(descriptorPath)
-	if err != nil {
-		t.Fatalf("run make api-next before this test: %v", err)
-	}
 	var set descriptorpb.FileDescriptorSet
 	if err := proto.Unmarshal(raw, &set); err != nil {
 		t.Fatal(err)
@@ -67,15 +72,18 @@ func TestAPINextProxy(t *testing.T) {
 				Name: proto.String("Nested"), Field: []*descriptorpb.FieldDescriptorProto{field("payload", 1, ".temporal.api.common.v1.Payload")},
 			}},
 		}
-		subtype.Options.ProtoReflect().SetUnknown(feature("message-feature"))
+		subtype.Options.ProtoReflect().SetUnknown(feature("payload-preview"))
+		back := field("back", 1, ".temporal.api.update.v1.DraftPayloadSubtype")
+		back.Options = &descriptorpb.FieldOptions{}
+		back.Options.ProtoReflect().SetUnknown(feature("payload-preview"))
 		file.MessageType = append(file.MessageType, subtype, &descriptorpb.DescriptorProto{
-			Name: proto.String("DraftPayloadCycle"), Field: []*descriptorpb.FieldDescriptorProto{field("back", 1, ".temporal.api.update.v1.DraftPayloadSubtype")},
+			Name: proto.String("DraftPayloadCycle"), Field: []*descriptorpb.FieldDescriptorProto{back},
 		})
 		for _, message := range file.MessageType {
 			if message.GetName() == "Request" {
 				f := field("draft_payload", 100, ".temporal.api.update.v1.DraftPayloadSubtype")
 				f.Options = &descriptorpb.FieldOptions{}
-				f.Options.ProtoReflect().SetUnknown(feature("field-feature"))
+				f.Options.ProtoReflect().SetUnknown(feature("payload-preview"))
 				message.Field = append(message.Field, f)
 			}
 		}

@@ -150,7 +150,8 @@ type StackTraceFileSlice struct {
 	// Only used (possibly) to trim the file without breaking syntax highlighting. This is not optional, unlike
 	// the `line` property of a `StackTraceFileLocation`.
 	// (-- api-linter: core::0141::forbidden-types=disabled
-	//     aip.dev/not-precedent: These really shouldn't have negative values. --)
+	//
+	//	aip.dev/not-precedent: These really shouldn't have negative values. --)
 	LineOffset uint32 `protobuf:"varint,1,opt,name=line_offset,json=lineOffset,proto3" json:"line_offset,omitempty"`
 	// Slice of a file with the respective OS-specific line terminator.
 	Content       string `protobuf:"bytes,2,opt,name=content,proto3" json:"content,omitempty"`
