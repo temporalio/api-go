@@ -289,8 +289,11 @@ func TestDraftPlannerFailures(t *testing.T) {
 	require.ErrorContains(t, err, "malformed")
 }
 
+// TestDraftSharedClassification runs the api repo's classification fixtures, read from
+// the proto/api submodule, so this planner and generate-stable-protos agree on which
+// declarations are draft and which annotations are rejected.
 func TestDraftSharedClassification(t *testing.T) {
-	corpus := "testdata/classification"
+	corpus := "../../proto/api/cmd/generate-stable-protos/testdata/classification"
 	entries, err := os.ReadDir(corpus)
 	require.NoError(t, err)
 	for _, entry := range entries {
@@ -300,9 +303,9 @@ func TestDraftSharedClassification(t *testing.T) {
 		t.Run(entry.Name(), func(t *testing.T) {
 			dir := filepath.Join(corpus, entry.Name())
 			var expected struct {
-				Error    string            `json:"error"`
-				Fields   map[string]string `json:"fields"`
-				Messages map[string]string `json:"messages"`
+				Error string `json:"error"`
+				// Annotations maps each draft-annotated field or message to its feature.
+				Annotations map[string]string `json:"annotations"`
 			}
 			raw, err := os.ReadFile(filepath.Join(dir, "expected.json"))
 			require.NoError(t, err)
@@ -348,18 +351,13 @@ func TestDraftSharedClassification(t *testing.T) {
 			for name, feature := range plan.features {
 				actual[string(name)] = feature
 			}
-			if expected.Fields == nil {
-				expected.Fields = map[string]string{}
-			}
-			require.Equal(t, expected.Fields, actual)
-			if expected.Messages == nil {
-				expected.Messages = map[string]string{}
-			}
-			actual = map[string]string{}
 			for name, feature := range plan.messageFeatures {
 				actual[string(name)] = feature
 			}
-			require.Equal(t, expected.Messages, actual)
+			if expected.Annotations == nil {
+				expected.Annotations = map[string]string{}
+			}
+			require.Equal(t, expected.Annotations, actual)
 		})
 	}
 }
