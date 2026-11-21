@@ -289,6 +289,11 @@ func TestDraftPlannerFailures(t *testing.T) {
 	require.ErrorContains(t, err, "malformed")
 }
 
+// TestDraftSharedClassification compares explicit annotations with the api repo's
+// classification fixtures in the proto/api submodule. The api generator owns schema
+// validation. TestDraftPlannerFailures covers the local rejections: a missing or malformed
+// option schema, malformed option wire data, affected dependencies outside generation,
+// non-open Go messages, and OmitDraftFields name collisions.
 func TestDraftSharedClassification(t *testing.T) {
 	corpus := "../../proto/api/cmd/generate-stable-protos/testdata/classification"
 	entries, err := os.ReadDir(corpus)
@@ -307,9 +312,7 @@ func TestDraftSharedClassification(t *testing.T) {
 			raw, err := os.ReadFile(filepath.Join(dir, "expected.json"))
 			require.NoError(t, err)
 			require.NoError(t, json.Unmarshal(raw, &expected))
-			// The api generator owns schema validation. This generator only rejects
-			// annotations on placements it cannot emit omission code for.
-			if expected.Error != "" && !strings.HasPrefix(expected.Error, "unsupported draft annotation") {
+			if expected.Error != "" {
 				t.Skip("validated by the api generator")
 			}
 			var inputs []string
@@ -344,16 +347,9 @@ func TestDraftSharedClassification(t *testing.T) {
 			gen, err := (protogen.Options{}).New(req)
 			require.NoError(t, err)
 			plan, err := draftPlan(gen)
-			if expected.Error != "" {
-				require.ErrorContains(t, err, expected.Error)
-				return
-			}
 			require.NoError(t, err)
 			actual := map[string]string{}
 			for name, feature := range plan.features {
-				actual[string(name)] = feature
-			}
-			for name, feature := range plan.messageFeatures {
 				actual[string(name)] = feature
 			}
 			if expected.Annotations == nil {

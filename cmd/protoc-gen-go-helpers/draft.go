@@ -17,10 +17,9 @@ const draftPrefix = "temporal.api.protometa.v1."
 // The typed traversal and direct clears adapt the SaaS protoc-gen-go-codegen
 // sanitizer emitter, without its version policy, Merge, or private dependencies.
 type omissionPlan struct {
-	features        map[protoreflect.FullName]string
-	messageFeatures map[protoreflect.FullName]string
-	affected        map[protoreflect.FullName]bool
-	messages        []*protogen.Message
+	features map[protoreflect.FullName]string
+	affected map[protoreflect.FullName]bool
+	messages []*protogen.Message
 }
 
 func fieldValue(f *protogen.Field) *protogen.Field {
@@ -33,7 +32,10 @@ func fieldValue(f *protogen.Field) *protogen.Field {
 func (p *omissionPlan) typeFeatures(d protoreflect.Descriptor) []string {
 	var features []string
 	for current := d; current != nil; current = current.Parent() {
-		if feature := p.messageFeatures[current.FullName()]; feature != "" {
+		if _, ok := current.(protoreflect.MessageDescriptor); !ok {
+			continue
+		}
+		if feature := p.features[current.FullName()]; feature != "" {
 			features = append(features, feature)
 		}
 	}
@@ -76,11 +78,9 @@ func draftPlan(gen *protogen.Plugin) (*omissionPlan, error) {
 		"draft_enum_value": "google.protobuf.EnumValueOptions",
 		"draft_service":    "google.protobuf.ServiceOptions",
 		"draft_method":     "google.protobuf.MethodOptions",
-		"draft_file":       "google.protobuf.FileOptions",
 		"draft_oneof":      "google.protobuf.OneofOptions",
-		"draft_extension":  "google.protobuf.FieldOptions",
 	}
-	schema := map[protoreflect.FullName]map[protowire.Number]string{}
+	schema := map[protoreflect.FullName]map[protowire.Number]bool{}
 	found := false
 	for _, f := range gen.Files {
 		if err := visit(f.Desc, func(d protoreflect.Descriptor) error {
@@ -101,9 +101,9 @@ func draftPlan(gen *protogen.Plugin) (*omissionPlan, error) {
 			}
 			key := e.ContainingMessage().FullName()
 			if schema[key] == nil {
-				schema[key] = map[protowire.Number]string{}
+				schema[key] = map[protowire.Number]bool{}
 			}
-			schema[key][protowire.Number(e.Number())] = name
+			schema[key][protowire.Number(e.Number())] = true
 			return nil
 		}); err != nil {
 			return nil, err
@@ -113,10 +113,10 @@ func draftPlan(gen *protogen.Plugin) (*omissionPlan, error) {
 		return nil, fmt.Errorf("draft_omission requires the temporal.api.protometa.v1.draft field option schema")
 	}
 	p := &omissionPlan{
-		features: map[protoreflect.FullName]string{}, messageFeatures: map[protoreflect.FullName]string{},
+		features: map[protoreflect.FullName]string{},
 		affected: map[protoreflect.FullName]bool{},
 	}
-	validate := func(d protoreflect.Descriptor) error {
+	classify := func(d protoreflect.Descriptor) error {
 		options := d.Options()
 		if options == nil {
 			return nil
@@ -131,8 +131,7 @@ func draftPlan(gen *protogen.Plugin) (*omissionPlan, error) {
 				return protowire.ParseError(k)
 			}
 			raw = raw[k:]
-			option, recognized := schema[options.ProtoReflect().Descriptor().FullName()][n]
-			if recognized {
+			if schema[options.ProtoReflect().Descriptor().FullName()][n] {
 				if t != protowire.BytesType {
 					return fmt.Errorf("%s: malformed draft option value", d.FullName())
 				}
@@ -140,16 +139,7 @@ func draftPlan(gen *protogen.Plugin) (*omissionPlan, error) {
 				if k < 0 {
 					return protowire.ParseError(k)
 				}
-				f, isField := d.(protoreflect.FieldDescriptor)
-				_, isMessage := d.(protoreflect.MessageDescriptor)
-				if !(option == "draft" && isField && !f.IsExtension()) && !(option == "draft_message" && isMessage) {
-					return fmt.Errorf("%s: unsupported draft annotation on %s", d.FullName(), annotationPlacement(d))
-				}
-				if isMessage {
-					p.messageFeatures[d.FullName()] = value
-				} else {
-					p.features[d.FullName()] = value
-				}
+				p.features[d.FullName()] = value
 			}
 			k = protowire.ConsumeFieldValue(n, t, raw)
 			if k < 0 {
@@ -170,7 +160,7 @@ func draftPlan(gen *protogen.Plugin) (*omissionPlan, error) {
 	}
 	generated := map[string]bool{}
 	for _, f := range gen.Files {
-		if err := visit(f.Desc, validate); err != nil {
+		if err := visit(f.Desc, classify); err != nil {
 			return nil, err
 		}
 		collect(f.Messages)
@@ -248,32 +238,6 @@ func add[T protoreflect.Descriptor](out []protoreflect.Descriptor, list interfac
 		out = append(out, list.Get(i))
 	}
 	return out
-}
-
-func annotationPlacement(d protoreflect.Descriptor) string {
-	switch d := d.(type) {
-	case protoreflect.FileDescriptor:
-		return "file"
-	case protoreflect.MessageDescriptor:
-		return "message"
-	case protoreflect.EnumDescriptor:
-		return "enum"
-	case protoreflect.EnumValueDescriptor:
-		return "enum value"
-	case protoreflect.OneofDescriptor:
-		return "oneof"
-	case protoreflect.ServiceDescriptor:
-		return "service"
-	case protoreflect.MethodDescriptor:
-		return "method"
-	case protoreflect.FieldDescriptor:
-		if d.IsExtension() {
-			return "extension"
-		}
-		return "field"
-	default:
-		return "unknown declaration"
-	}
 }
 
 func generateDraft(gen *protogen.Plugin) error {
