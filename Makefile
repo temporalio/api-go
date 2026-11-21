@@ -45,7 +45,11 @@ NEXUS_PROTO_OUT := workflowservice/v1/workflowservicenexus
 NEXUS_WIT_OUT := systemnexus
 
 ##### Compile proto files for go #####
-grpc: http-api-docs go-grpc copy-helpers nexus-gen system-nexus
+grpc: http-api-docs go-grpc copy-helpers nexus-gen system-nexus nexus-annotations
+
+.PHONY: nexus-annotations
+nexus-annotations:
+	go run ./cmd/gen-nexus-annotations nexusannotations/v1/options.go
 
 nexus-gen:
 	printf $(COLOR) "Generate nexus service definitions..."
@@ -98,7 +102,7 @@ API_NEXT_SNAPSHOT_EXCLUDES := --exclude=.git --exclude=$(API_NEXT_OUT) --exclude
 	--exclude=cmd/protoc-gen-go-helpers/testprotos --exclude=internal/draftcompat
 
 .PHONY: api-next
-api-next: .go-helpers-installed mockgen-install
+api-next: .go-helpers-installed mockgen-install nexus-annotations
 	printf $(COLOR) "Compile api_next (draft) proto tree..."
 	rm -rf $(API_NEXT_OUT)
 	mkdir -p $(API_NEXT_OUT)
