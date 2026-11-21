@@ -189,6 +189,13 @@ gen-proto-desc:
 		--output-descriptor=$(PROTO_OUT)/descriptor_set.pb
 
 ##### Plugins & tools #####
+.PHONY: api-next-tools
+api-next-tools:
+	go install google.golang.org/protobuf/cmd/protoc-gen-go
+	go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.6.2
+	go install github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-grpc-gateway@v2.30.0
+	go install "golang.org/x/tools/cmd/goimports@$$(go list -modfile=build/go.mod -m -f '{{.Version}}' golang.org/x/tools)"
+
 grpc-install: nexus-rpc-gen-install
 	@printf $(COLOR) "Install/update grpc and plugins..."
 	@go install google.golang.org/protobuf/cmd/protoc-gen-go@latest

@@ -35,10 +35,7 @@ jobs:
           # Pinned tools: protoc-gen-go from go.mod; the gRPC and gateway plugins at the
           # versions that generated the committed api_next tree. make api-next installs
           # the helper and mockgen itself.
-          go install google.golang.org/protobuf/cmd/protoc-gen-go
-          go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.6.2
-          go install github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-grpc-gateway@v2.30.0
-          go install golang.org/x/tools/cmd/goimports@$(go list -modfile=build/go.mod -m -f '{{.Version}}' golang.org/x/tools)
+          make api-next-tools
           make api-next
           go -C api_next/cmd/proxygenerator run ./ -verifyOnly
           git diff --exit-code -- ':(glob)api_next/**/*.draft.pb.go' api_next/proxy/interceptor.go api_next/proxy/service.go api_next/proxy/request_header.go api_next/cmd/protoc-gen-go-helpers/
