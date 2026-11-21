@@ -76,7 +76,14 @@ jobs:
             git config --local submodule.proto/api.branch "$PROTO_BRANCH"
             git -C proto/api remote set-branches --add origin "$PROTO_BRANCH"
           fi
-          make install update-proto test
+          make install update-proto
+          if [ "$(make draft-inputs)" = true ]; then
+            make api-next-tools
+            make helper-test-protos api-next
+            make test
+          else
+            make test-stable
+          fi
 
       - name: Commit update
         env:

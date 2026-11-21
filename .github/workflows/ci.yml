@@ -32,6 +32,10 @@ jobs:
           test -z "$(git ls-files --others --exclude-standard -- cmd/protoc-gen-go-helpers/testprotos/)"
       - name: Check and test API bindings
         run: |
+          if [ "$(make draft-inputs)" != true ]; then
+            make test-stable
+            exit 0
+          fi
           # Pinned tools: protoc-gen-go from go.mod; the gRPC and gateway plugins at the
           # versions that generated the committed api_next tree. make api-next installs
           # the helper and mockgen itself.
