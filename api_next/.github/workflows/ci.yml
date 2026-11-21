@@ -30,7 +30,7 @@ jobs:
           make helper-test-protos
           git diff --exit-code -- cmd/protoc-gen-go-helpers/testprotos/
           test -z "$(git ls-files --others --exclude-standard -- cmd/protoc-gen-go-helpers/testprotos/)"
-      - name: Check draft omission freshness
+      - name: Check api_next snapshot freshness
         run: |
           # Pinned tools: protoc-gen-go from go.mod; the gRPC and gateway plugins at the
           # versions that generated the committed api_next tree. make api-next installs
@@ -38,8 +38,12 @@ jobs:
           make api-next-tools
           make api-next
           go -C api_next/cmd/proxygenerator run ./ -verifyOnly
-          git diff --exit-code -- ':(glob)api_next/**/*.draft.pb.go' api_next/proxy/interceptor.go api_next/proxy/service.go api_next/proxy/request_header.go api_next/cmd/protoc-gen-go-helpers/
-          test -z "$(git ls-files --others --exclude-standard -- ':(glob)api_next/**/*.draft.pb.go' api_next/proxy/interceptor.go api_next/proxy/service.go api_next/proxy/request_header.go api_next/cmd/protoc-gen-go-helpers/)"
+          git diff --exit-code HEAD -- api_next/
+          untracked=$(git ls-files --others --exclude-standard -- api_next/)
+          if [ -n "$untracked" ]; then
+            printf 'Untracked api_next files:\n%s\n' "$untracked"
+            exit 1
+          fi
           go -C cmd/proxygenerator test ./...
           go -C internal/draftwire test ./...
           test -z "$(find . -name '*.draft.pb.go' -not -path './api_next/*' -not -path './cmd/protoc-gen-go-helpers/testprotos/*')"
