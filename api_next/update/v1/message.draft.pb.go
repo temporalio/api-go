@@ -8,7 +8,7 @@ func (m *Request) OmitDraftFields(enabled func(string) bool) (removedEnumValue b
 	if m == nil {
 		return false
 	}
-	if !enabled("update-user-tagging") {
+	if m.User != "" && !enabled("update-user-tagging") {
 		m.User = ""
 	}
 	return removedEnumValue
@@ -44,7 +44,7 @@ func (m *Response) OmitDraftFields(enabled func(string) bool) (removedEnumValue 
 	if m == nil {
 		return false
 	}
-	if !enabled("update-user-tagging") {
+	if m.User != "" && !enabled("update-user-tagging") {
 		m.User = ""
 	}
 	return removedEnumValue

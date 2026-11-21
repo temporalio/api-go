@@ -328,7 +328,14 @@ func (p *omissionPlan) generateFieldOmission(g *protogen.GeneratedFile, f *proto
 		clear = wrapper + " = nil"
 	}
 	if feature != "" {
-		g.P("if !enabled(", strconv.Quote(feature), ") {")
+		// Ask about the feature only when the field is set, so callers can tell from
+		// the predicate's calls whether omission would change anything. A oneof
+		// member is set when its wrapper matched above.
+		condition := "!enabled(" + strconv.Quote(feature) + ")"
+		if !oneof {
+			condition = presence(g, f, field) + " && " + condition
+		}
+		g.P("if ", condition, " {")
 		g.P(clear)
 		if filter {
 			g.P("} else {")
@@ -387,6 +394,33 @@ func disabledEnumValue(value string, options []draftEnumValue) string {
 		conditions = append(conditions, fmt.Sprintf("(%s == %d && !enabled(%q))", value, option.number, option.feature))
 	}
 	return strings.Join(conditions, " || ")
+}
+
+// presence returns a Go condition that holds when the field is set to a non-default value.
+func presence(g *protogen.GeneratedFile, f *protogen.Field, field string) string {
+	if f.Desc.IsList() || f.Desc.IsMap() {
+		return "len(" + field + ") > 0"
+	}
+	if f.Desc.HasPresence() {
+		return field + " != nil"
+	}
+	switch f.Desc.Kind() {
+	case protoreflect.BoolKind:
+		return field
+	// Compare bits: protobuf serializes -0.0, which equals 0.
+	case protoreflect.FloatKind:
+		return g.QualifiedGoIdent(protogen.GoIdent{GoName: "Float32bits", GoImportPath: "math"}) + "(" + field + ") != 0"
+	case protoreflect.DoubleKind:
+		return g.QualifiedGoIdent(protogen.GoIdent{GoName: "Float64bits", GoImportPath: "math"}) + "(" + field + ") != 0"
+	case protoreflect.StringKind:
+		return field + ` != ""`
+	case protoreflect.BytesKind:
+		return "len(" + field + ") > 0"
+	case protoreflect.MessageKind, protoreflect.GroupKind:
+		return field + " != nil"
+	default:
+		return field + " != 0"
+	}
 }
 
 func clearValue(f *protogen.Field) string {
