@@ -185,6 +185,13 @@ gen-proto-desc:
 		--output-descriptor=$(PROTO_OUT)/descriptor_set.pb
 
 ##### Plugins & tools #####
+.PHONY: api-next-tools
+api-next-tools:
+	go install google.golang.org/protobuf/cmd/protoc-gen-go
+	go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.6.2
+	go install github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-grpc-gateway@v2.30.0
+	go install "golang.org/x/tools/cmd/goimports@$$(go list -modfile=build/go.mod -m -f '{{.Version}}' golang.org/x/tools)"
+
 grpc-install: nexus-rpc-gen-install
 	@printf $(COLOR) "Install/update grpc and plugins..."
 	@go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
@@ -221,6 +228,15 @@ gomodtidy:
 
 ##### Test #####
 
+.PHONY: draft-inputs
+draft-inputs:
+	@if [ -d "$(PROTO_ROOT)/temporal/api_next" ] && \
+	    [ -d "$(PROTO_ROOT)/cmd/generate-stable-protos/testdata/classification" ]; then \
+		echo true; \
+	else \
+		echo false; \
+	fi
+
 .PHONY: helper-test-protos
 helper-test-protos:
 	@set -eu; tools_dir=$$(mktemp -d); trap 'rm -rf "$$tools_dir"' EXIT; \
@@ -235,10 +251,15 @@ helper-test-protos:
 		-p go-helpers_out=paths=source_relative,draft_omission=true:cmd/protoc-gen-go-helpers/testprotos/draft
 
 # We need to ensure protos are up to date to test our UTF-8 post-processing
+.PHONY: test test-stable
 test: copy-helpers
 	go test -race -tags protolegacy ./...
 	go -C cmd/proxygenerator test ./...
 	if [ -f internal/draftwire/go.mod ]; then go -C internal/draftwire test ./...; fi
+
+test-stable: copy-helpers
+	go test -race -tags protolegacy -skip '^TestDraftSharedClassification$$' ./...
+	go -C cmd/proxygenerator test -skip '^TestAPINextProxy$$' ./...
 
 ##### Check #####
 
