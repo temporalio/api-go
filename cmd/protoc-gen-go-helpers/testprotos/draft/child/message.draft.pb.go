@@ -12,10 +12,10 @@ func (m *Leaf) OmitDraftFields(enabled func(string) bool) (removedEnumValue bool
 	if m == nil {
 		return false
 	}
-	if !enabled("feature-a") {
+	if m.A != "" && !enabled("feature-a") {
 		m.A = ""
 	}
-	if !enabled("feature-b") {
+	if m.B != "" && !enabled("feature-b") {
 		m.B = ""
 	}
 	return removedEnumValue

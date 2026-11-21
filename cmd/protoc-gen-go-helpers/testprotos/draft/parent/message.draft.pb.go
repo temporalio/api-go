@@ -3,6 +3,7 @@
 package parent
 
 import (
+	math "math"
 	slices "slices"
 )
 
@@ -12,7 +13,7 @@ func (m *Root) OmitDraftFields(enabled func(string) bool) (removedEnumValue bool
 	if m == nil {
 		return false
 	}
-	if !enabled("feature-a") {
+	if m.Gated != nil && !enabled("feature-a") {
 		m.Gated = nil
 	} else {
 		if m.Gated.OmitDraftFields(enabled) {
@@ -29,7 +30,7 @@ func (m *Root) OmitDraftFields(enabled func(string) bool) (removedEnumValue bool
 			removedEnumValue = true
 		}
 	}
-	if !enabled("feature-a") {
+	if m.Optional != nil && !enabled("feature-a") {
 		m.Optional = nil
 	}
 	if _, ok := m.Choice.(*Root_A); ok {
@@ -47,10 +48,10 @@ func (m *Root) OmitDraftFields(enabled func(string) bool) (removedEnumValue bool
 	if m.Nested.OmitDraftFields(enabled) {
 		removedEnumValue = true
 	}
-	if !enabled("feature-b") {
+	if len(m.Names) > 0 && !enabled("feature-b") {
 		m.Names = nil
 	}
-	if !enabled("feature-b") {
+	if len(m.Counts) > 0 && !enabled("feature-b") {
 		m.Counts = nil
 	}
 	return removedEnumValue
@@ -113,52 +114,52 @@ func (m *Scalars) OmitDraftFields(enabled func(string) bool) (removedEnumValue b
 	if m == nil {
 		return false
 	}
-	if !enabled("feature-a") {
+	if math.Float64bits(m.Double) != 0 && !enabled("feature-a") {
 		m.Double = 0
 	}
-	if !enabled("feature-a") {
+	if math.Float32bits(m.Float) != 0 && !enabled("feature-a") {
 		m.Float = 0
 	}
-	if !enabled("feature-a") {
+	if m.Int32 != 0 && !enabled("feature-a") {
 		m.Int32 = 0
 	}
-	if !enabled("feature-a") {
+	if m.Int64 != 0 && !enabled("feature-a") {
 		m.Int64 = 0
 	}
-	if !enabled("feature-a") {
+	if m.Uint32 != 0 && !enabled("feature-a") {
 		m.Uint32 = 0
 	}
-	if !enabled("feature-a") {
+	if m.Uint64 != 0 && !enabled("feature-a") {
 		m.Uint64 = 0
 	}
-	if !enabled("feature-a") {
+	if m.Sint32 != 0 && !enabled("feature-a") {
 		m.Sint32 = 0
 	}
-	if !enabled("feature-a") {
+	if m.Sint64 != 0 && !enabled("feature-a") {
 		m.Sint64 = 0
 	}
-	if !enabled("feature-a") {
+	if m.Fixed32 != 0 && !enabled("feature-a") {
 		m.Fixed32 = 0
 	}
-	if !enabled("feature-a") {
+	if m.Fixed64 != 0 && !enabled("feature-a") {
 		m.Fixed64 = 0
 	}
-	if !enabled("feature-a") {
+	if m.Sfixed32 != 0 && !enabled("feature-a") {
 		m.Sfixed32 = 0
 	}
-	if !enabled("feature-a") {
+	if m.Sfixed64 != 0 && !enabled("feature-a") {
 		m.Sfixed64 = 0
 	}
-	if !enabled("feature-a") {
+	if m.Bool && !enabled("feature-a") {
 		m.Bool = false
 	}
-	if !enabled("feature-a") {
+	if m.String_ != "" && !enabled("feature-a") {
 		m.String_ = ""
 	}
-	if !enabled("feature-a") {
+	if len(m.Bytes) > 0 && !enabled("feature-a") {
 		m.Bytes = nil
 	}
-	if !enabled("feature-a") {
+	if m.Enum != 0 && !enabled("feature-a") {
 		m.Enum = 0
 	}
 	return removedEnumValue
@@ -170,14 +171,14 @@ func (m *DraftReferences) OmitDraftFields(enabled func(string) bool) (removedEnu
 	if m == nil {
 		return false
 	}
-	if !enabled("feature-a") {
+	if m.Single != nil && !enabled("feature-a") {
 		m.Single = nil
 	} else {
 		if m.Single.OmitDraftFields(enabled) {
 			removedEnumValue = true
 		}
 	}
-	if !enabled("feature-a") {
+	if len(m.List) > 0 && !enabled("feature-a") {
 		m.List = nil
 	} else {
 		for _, child := range m.List {
@@ -186,7 +187,7 @@ func (m *DraftReferences) OmitDraftFields(enabled func(string) bool) (removedEnu
 			}
 		}
 	}
-	if !enabled("feature-a") {
+	if len(m.ByName) > 0 && !enabled("feature-a") {
 		m.ByName = nil
 	} else {
 		for _, child := range m.ByName {
@@ -206,30 +207,30 @@ func (m *DraftReferences) OmitDraftFields(enabled func(string) bool) (removedEnu
 			}
 		}
 	}
-	if !enabled("feature-a") {
+	if m.Inner != nil && !enabled("feature-a") {
 		m.Inner = nil
 	} else {
 		if m.Inner.OmitDraftFields(enabled) {
 			removedEnumValue = true
 		}
 	}
-	if !enabled("feature-a") {
+	if m.State != 0 && !enabled("feature-a") {
 		m.State = 0
 	}
-	if !enabled("feature-a") {
+	if len(m.States) > 0 && !enabled("feature-a") {
 		m.States = nil
 	}
-	if !enabled("feature-a") {
+	if len(m.StateByName) > 0 && !enabled("feature-a") {
 		m.StateByName = nil
 	}
-	if !enabled("feature-a") {
+	if m.Empty != nil && !enabled("feature-a") {
 		m.Empty = nil
 	} else {
 		if m.Empty.OmitDraftFields(enabled) {
 			removedEnumValue = true
 		}
 	}
-	if !enabled("feature-a") {
+	if m.Mode != 0 && !enabled("feature-a") {
 		m.Mode = 0
 	}
 	if v, ok := m.PreviewChoice.(*DraftReferences_Preview); ok {
@@ -260,7 +261,7 @@ func (m *DraftReferences) OmitDraftFields(enabled func(string) bool) (removedEnu
 			}
 		}
 	}
-	if !enabled("feature-a") {
+	if m.GatedLevel != 0 && !enabled("feature-a") {
 		m.GatedLevel = 0
 	} else {
 		if (m.GatedLevel == 2 && !enabled("feature-b")) || (m.GatedLevel == -1 && !enabled("feature-c")) {
@@ -268,7 +269,7 @@ func (m *DraftReferences) OmitDraftFields(enabled func(string) bool) (removedEnu
 			removedEnumValue = true
 		}
 	}
-	if !enabled("feature-a") {
+	if m.GatedMessage != nil && !enabled("feature-a") {
 		m.GatedMessage = nil
 	} else {
 		if m.GatedMessage.OmitDraftFields(enabled) {
