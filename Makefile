@@ -73,6 +73,8 @@ HELPER_FILES = $(shell find ./cmd/protoc-gen-go-helpers)
 
 go-grpc: clean .go-helpers-installed $(PROTO_OUT)
 	printf $(COLOR) "Compile for go-gRPC..."
+	# Post-processing walks every .pb.go under $(PROTO_OUT). Exclude the
+	# separately generated api_next module and the helper test fixtures.
 	go run ./cmd/protogen \
 		--root=$(PROTO_ROOT)/temporal/api \
 		-I=$(PROTO_ROOT) \
@@ -80,6 +82,8 @@ go-grpc: clean .go-helpers-installed $(PROTO_OUT)
 		--exclude=internal \
 		--exclude=proto/api/google \
 		--exclude=$(PROTO_ROOT)/temporal/api_next \
+		--exclude=$(API_NEXT_OUT) \
+		--exclude=cmd/protoc-gen-go-helpers/testprotos \
 		-p go-grpc_out=$(PROTO_PATHS) \
 		-p grpc-gateway_out=allow_patch_feature=false,$(PROTO_PATHS) \
 		-p go-helpers_out=$(PROTO_PATHS)
