@@ -10,6 +10,8 @@ import (
 	"google.golang.org/protobuf/encoding/protowire"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/reflect/protoreflect"
+	"google.golang.org/protobuf/reflect/protoregistry"
+	"google.golang.org/protobuf/types/dynamicpb"
 	"google.golang.org/protobuf/types/gofeaturespb"
 )
 
@@ -83,12 +85,19 @@ func draftPlan(gen *protogen.Plugin) (*omissionPlan, error) {
 	}
 	schema := map[protoreflect.FullName]map[protowire.Number]string{}
 	schemaFiles := map[string]bool{}
+	var methodOptions protoregistry.Types
 	found := false
 	for _, f := range gen.Files {
 		if err := visit(f.Desc, func(d protoreflect.Descriptor) error {
 			e, ok := d.(protoreflect.ExtensionDescriptor)
 			if !ok || !e.IsExtension() {
 				return nil
+			}
+			if e.FullName() == httpRuleOption || e.FullName() == requestHeaderOption {
+				if !validRPCOption(e) {
+					return fmt.Errorf("%s: malformed RPC option schema", e.FullName())
+				}
+				return methodOptions.RegisterExtension(dynamicpb.NewExtensionType(e))
 			}
 			name := strings.TrimPrefix(string(e.FullName()), draftPrefix)
 			extendee, known := expected[name]
@@ -227,6 +236,9 @@ func draftPlan(gen *protogen.Plugin) (*omissionPlan, error) {
 			for _, method := range service.Methods {
 				if len(p.typeFeatures(method.Input.Desc)) > 0 || len(p.typeFeatures(method.Output.Desc)) > 0 {
 					return nil, fmt.Errorf("%s: RPC references draft type", method.Desc.FullName())
+				}
+				if err := p.validateMethodFieldReferences(method, &methodOptions); err != nil {
+					return nil, err
 				}
 			}
 		}
