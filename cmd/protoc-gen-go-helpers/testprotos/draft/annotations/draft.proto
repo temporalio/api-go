@@ -11,7 +11,7 @@ option csharp_namespace = "Temporalio.Api.Protometa.V1";
 
 import "google/protobuf/descriptor.proto";
 
-// Tags for draft/draft declarations.
+// These options mark draft declarations.
 
 extend google.protobuf.FieldOptions {
   string draft = 98008;
@@ -27,6 +27,10 @@ extend google.protobuf.EnumOptions {
 
 extend google.protobuf.EnumValueOptions {
   string draft_enum_value = 98008;
+}
+
+extend google.protobuf.OneofOptions {
+  string draft_oneof = 98009;
 }
 
 extend google.protobuf.ServiceOptions {

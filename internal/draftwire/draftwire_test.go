@@ -20,9 +20,9 @@ import (
 	"pgregory.net/rapid"
 )
 
-// draftOmitter is implemented by api_next messages that can reach a draft field.
+// draftOmitter is implemented by api_next messages that can reach a draft field or enum value.
 type draftOmitter interface {
-	OmitDraftFields(enabled func(string) bool)
+	OmitDraftFields(enabled func(string) bool) (removedEnumValue bool)
 }
 
 // TestAllFilesLinked requires every proto file of the api_next tree to be linked, so the
