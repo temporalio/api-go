@@ -164,7 +164,8 @@ type WorkerConfig_AutoscalingPollerBehavior struct {
 	// At most this many poll calls will ever be open at once. Must be >= `minimum`.
 	MaxPollers int32 `protobuf:"varint,2,opt,name=max_pollers,json=maxPollers,proto3" json:"max_pollers,omitempty"`
 	// This many polls will be attempted initially before scaling kicks in. Must be between
-	//  `minimum` and `maximum`.
+	//
+	//	`minimum` and `maximum`.
 	InitialPollers int32 `protobuf:"varint,3,opt,name=initial_pollers,json=initialPollers,proto3" json:"initial_pollers,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache

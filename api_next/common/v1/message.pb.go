@@ -627,7 +627,8 @@ type MeteringMetadata struct {
 	// purposes, and does not affect workflow state.
 	//
 	// (-- api-linter: core::0141::forbidden-types=disabled
-	//     aip.dev/not-precedent: Negative values make no sense to represent. --)
+	//
+	//	aip.dev/not-precedent: Negative values make no sense to represent. --)
 	NonfirstLocalActivityExecutionAttempts uint32 `protobuf:"varint,13,opt,name=nonfirst_local_activity_execution_attempts,json=nonfirstLocalActivityExecutionAttempts,proto3" json:"nonfirst_local_activity_execution_attempts,omitempty"`
 	unknownFields                          protoimpl.UnknownFields
 	sizeCache                              protoimpl.SizeCache
@@ -1279,9 +1280,12 @@ type ResolvedPrincipal struct {
 	// Identifier within that category (e.g., sub JWT claim, email address).
 	//
 	// (-- api-linter: core::0140::prepositions=disabled
-	//     aip.dev/not-precedent: Identifies the principal name snapshot used for this response. --)
+	//
+	//	aip.dev/not-precedent: Identifies the principal name snapshot used for this response. --)
+	//
 	// (-- api-linter: core::0142::time-field-type=disabled
-	//     aip.dev/not-precedent: This string is a principal name snapshot, not a timestamp. --)
+	//
+	//	aip.dev/not-precedent: This string is a principal name snapshot, not a timestamp. --)
 	NameAtWriteTime string `protobuf:"bytes,2,opt,name=name_at_write_time,json=nameAtWriteTime,proto3" json:"name_at_write_time,omitempty"`
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
@@ -1404,10 +1408,10 @@ type Priority struct {
 	FairnessKey string `protobuf:"bytes,2,opt,name=fairness_key,json=fairnessKey,proto3" json:"fairness_key,omitempty"`
 	// Fairness weight for a task can come from multiple sources for
 	// flexibility. From highest to lowest precedence:
-	// 1. Weights for a small set of keys can be overridden in task queue
-	//    configuration with an API.
-	// 2. It can be attached to the workflow/activity in this field.
-	// 3. The default weight of 1.0 will be used.
+	//  1. Weights for a small set of keys can be overridden in task queue
+	//     configuration with an API.
+	//  2. It can be attached to the workflow/activity in this field.
+	//  3. The default weight of 1.0 will be used.
 	//
 	// Weight values are clamped to the range [0.001, 1000].
 	FairnessWeight float32 `protobuf:"fixed32,3,opt,name=fairness_weight,json=fairnessWeight,proto3" json:"fairness_weight,omitempty"`
@@ -1472,10 +1476,11 @@ func (x *Priority) GetFairnessWeight() float32 {
 type WorkerSelector struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Options are:
-	// - query (will be used as query to ListWorkers, same format as in ListWorkersRequest.query)
-	// - task queue (just a shortcut. Same as query=' "TaskQueue"="my-task-queue" ')
-	// - etc.
-	//   All but 'query' are shortcuts, can be replaced with a query, but it is not convenient.
+	//   - query (will be used as query to ListWorkers, same format as in ListWorkersRequest.query)
+	//   - task queue (just a shortcut. Same as query=' "TaskQueue"="my-task-queue" ')
+	//   - etc.
+	//     All but 'query' are shortcuts, can be replaced with a query, but it is not convenient.
+	//
 	// string query = 5;
 	// string task_queue = 6;
 	// ...

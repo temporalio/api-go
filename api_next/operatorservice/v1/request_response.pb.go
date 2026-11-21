@@ -762,7 +762,8 @@ type AddOrUpdateRemoteClusterRequest struct {
 	// Flag to enable / disable the cross cluster connection.
 	EnableRemoteClusterConnection bool `protobuf:"varint,2,opt,name=enable_remote_cluster_connection,json=enableRemoteClusterConnection,proto3" json:"enable_remote_cluster_connection,omitempty"`
 	// Frontend HTTP Address is a cross cluster accessible address for HTTP traffic. This field is optional. If not provided
-	//  on update, the existing HTTP address will be removed.
+	//
+	//	on update, the existing HTTP address will be removed.
 	FrontendHttpAddress string `protobuf:"bytes,3,opt,name=frontend_http_address,json=frontendHttpAddress,proto3" json:"frontend_http_address,omitempty"`
 	// Controls whether replication streams are active.
 	EnableReplication bool `protobuf:"varint,4,opt,name=enable_replication,json=enableReplication,proto3" json:"enable_replication,omitempty"`
@@ -1543,7 +1544,8 @@ type ListNexusEndpointsRequest struct {
 	NextPageToken []byte `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
 	// Name of the incoming endpoint to filter on - optional. Specifying this will result in zero or one results.
 	// (-- api-linter: core::203::field-behavior-required=disabled
-	//     aip.dev/not-precedent: Not following linter rules. --)
+	//
+	//	aip.dev/not-precedent: Not following linter rules. --)
 	Name          string `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
