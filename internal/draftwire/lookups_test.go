@@ -54,3 +54,13 @@ func TestDraftMethodLookups(t *testing.T) {
 		require.True(t, services[name], "methodLookups lists %s, which api_next does not declare", name)
 	}
 }
+
+// TestHasOmitDraftFields checks the generated type lookup against descriptor reachability.
+func TestHasOmitDraftFields(t *testing.T) {
+	messages := nextMessages()
+	affected := affectedMessages(messages)
+	for _, message := range messages {
+		require.Equal(t, affected[message.FullName()], protometapb.HasOmitDraftFields(string(message.FullName())), message.FullName())
+	}
+	require.False(t, protometapb.HasOmitDraftFields("google.protobuf.Any"))
+}

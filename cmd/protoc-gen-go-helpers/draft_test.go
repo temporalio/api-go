@@ -15,10 +15,12 @@ import (
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/reflect/protodesc"
 	"google.golang.org/protobuf/reflect/protoreflect"
+	"google.golang.org/protobuf/reflect/protoregistry"
 	"google.golang.org/protobuf/types/descriptorpb"
 	"google.golang.org/protobuf/types/gofeaturespb"
 	"google.golang.org/protobuf/types/pluginpb"
 
+	"go.temporal.io/api/cmd/protoc-gen-go-helpers/testprotos/draft/annotations"
 	"go.temporal.io/api/cmd/protoc-gen-go-helpers/testprotos/draft/child"
 	"go.temporal.io/api/cmd/protoc-gen-go-helpers/testprotos/draft/parent"
 )
@@ -138,6 +140,28 @@ func TestDraftMethodLookup(t *testing.T) {
 		got.feature, got.request, got.response = lookup(method)
 		require.Equal(t, want, got, method)
 	}
+}
+
+// HasOmitDraftFields must name exactly the messages that have OmitDraftFields methods.
+func TestHasOmitDraftFields(t *testing.T) {
+	for _, file := range []protoreflect.FileDescriptor{child.File_child_message_proto, parent.File_parent_message_proto} {
+		var visit func(protoreflect.MessageDescriptors)
+		visit = func(messages protoreflect.MessageDescriptors) {
+			for i := range messages.Len() {
+				message := messages.Get(i)
+				if message.IsMapEntry() {
+					continue
+				}
+				messageType, err := protoregistry.GlobalTypes.FindMessageByName(message.FullName())
+				require.NoError(t, err)
+				_, hasMethod := messageType.New().Interface().(omitter)
+				require.Equal(t, hasMethod, annotations.HasOmitDraftFields(string(message.FullName())), message.FullName())
+				visit(message.Messages())
+			}
+		}
+		visit(file.Messages())
+	}
+	require.False(t, annotations.HasOmitDraftFields("omission.parent.Unknown"))
 }
 
 // Protobuf serializes -0.0 for implicit-presence floats, so it is a set value.
@@ -419,9 +443,11 @@ func TestDraftGenerationModes(t *testing.T) {
 		require.NotContains(t, helpers.String(), "func Draft_StateFromString(")
 		require.Contains(t, helpers.String(), "func LevelFromString(")
 		if enabled {
-			require.Equal(t, 2, count)
+			// child and parent omission methods, plus the type lookup next to the options.
+			require.Equal(t, 3, count)
 			require.Contains(t, omissions.String(), "func (m *Root_Nested) OmitDraftFields(")
 			require.Contains(t, omissions.String(), "func MixedDraftMethod(")
+			require.Contains(t, omissions.String(), "func HasOmitDraftFields(")
 		} else {
 			require.Zero(t, count)
 		}
