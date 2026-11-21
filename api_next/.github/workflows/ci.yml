@@ -24,7 +24,13 @@ jobs:
         with:
           go-version-file: go.mod
       - name: Check
-        run: make check test
+        run: |
+          make check
+          if [ "$(make draft-inputs)" = true ]; then
+            make test
+          else
+            make test-stable
+          fi
       - name: Check helper fixture freshness
         run: |
           make helper-test-protos
@@ -32,6 +38,9 @@ jobs:
           test -z "$(git ls-files --others --exclude-standard -- cmd/protoc-gen-go-helpers/testprotos/)"
       - name: Check api_next snapshot freshness
         run: |
+          if [ "$(make draft-inputs)" != true ]; then
+            exit 0
+          fi
           # Pinned tools: protoc-gen-go from go.mod; the gRPC and gateway plugins at the
           # versions that generated the committed api_next tree. make api-next installs
           # the helper and mockgen itself.

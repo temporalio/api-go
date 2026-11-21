@@ -232,6 +232,15 @@ gomodtidy:
 
 ##### Test #####
 
+.PHONY: draft-inputs
+draft-inputs:
+	@if [ -d "$(PROTO_ROOT)/temporal/api_next" ] && \
+	    [ -d "$(PROTO_ROOT)/cmd/generate-stable-protos/testdata/classification" ]; then \
+		echo true; \
+	else \
+		echo false; \
+	fi
+
 .PHONY: helper-test-protos
 helper-test-protos:
 	@set -eu; tools_dir=$$(mktemp -d); trap 'rm -rf "$$tools_dir"' EXIT; \
@@ -246,10 +255,15 @@ helper-test-protos:
 		-p go-helpers_out=paths=source_relative,draft_omission=true:cmd/protoc-gen-go-helpers/testprotos/draft
 
 # We need to ensure protos are up to date to test our UTF-8 post-processing
+.PHONY: test test-stable
 test: copy-helpers
 	go test -race -tags protolegacy ./...
 	go -C cmd/proxygenerator test ./...
 	if [ -f internal/draftwire/go.mod ]; then go -C internal/draftwire test ./...; fi
+
+test-stable: copy-helpers
+	go test -race -tags protolegacy -skip '^TestDraftSharedClassification$$' ./...
+	go -C cmd/proxygenerator test -skip '^TestAPINextProxy$$' ./...
 
 ##### Check #####
 
