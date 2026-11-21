@@ -23,7 +23,9 @@ func TestDraftPayloadVisitors(t *testing.T) {
 				Nested:  &update.DraftPayloadSubtype_Nested{Payload: p},
 			},
 		}
-		request.OmitDraftFields(func(feature string) bool { return enabled && feature == "payload-preview" })
+		if request.OmitDraftFields(func(feature string) bool { return enabled && feature == "payload-preview" }) {
+			t.Fatal("unexpected draft enum removal")
+		}
 		event := &history.HistoryEvent{Attributes: &history.HistoryEvent_WorkflowExecutionUpdateAcceptedEventAttributes{
 			WorkflowExecutionUpdateAcceptedEventAttributes: &history.WorkflowExecutionUpdateAcceptedEventAttributes{AcceptedRequest: request},
 		}}

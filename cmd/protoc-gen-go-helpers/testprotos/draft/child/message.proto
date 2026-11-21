@@ -8,7 +8,12 @@ message Leaf {
  string b = 3 [(temporal.api.protometa.v1.draft) = "feature-b"];
 }
 message Stable { string value = 1; }
-enum Level { LEVEL_UNSPECIFIED = 0; LEVEL_HIGH = 1; }
+enum Level {
+ LEVEL_UNSPECIFIED = 0;
+ LEVEL_HIGH = 1;
+ LEVEL_PREVIEW = 2 [(temporal.api.protometa.v1.draft_enum_value) = "feature-b"];
+ LEVEL_EXPERIMENTAL = -1 [(temporal.api.protometa.v1.draft_enum_value) = "feature-c"];
+}
 
 enum Mode {
  option (temporal.api.protometa.v1.draft_enum) = "feature-a";

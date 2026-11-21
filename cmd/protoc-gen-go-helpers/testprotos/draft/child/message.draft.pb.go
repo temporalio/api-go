@@ -6,9 +6,11 @@ import (
 	proto "google.golang.org/protobuf/proto"
 )
 
-func (m *Leaf) OmitDraftFields(enabled func(string) bool) {
+// OmitDraftFields clears disabled draft fields and enum values.
+// It reports whether it removed a draft enum value from a retained field.
+func (m *Leaf) OmitDraftFields(enabled func(string) bool) (removedEnumValue bool) {
 	if m == nil {
-		return
+		return false
 	}
 	if !enabled("feature-a") {
 		m.A = ""
@@ -16,31 +18,44 @@ func (m *Leaf) OmitDraftFields(enabled func(string) bool) {
 	if !enabled("feature-b") {
 		m.B = ""
 	}
+	return removedEnumValue
 }
-func (m *Draft) OmitDraftFields(enabled func(string) bool) {
+
+// OmitDraftFields clears disabled draft fields and enum values.
+// It reports whether it removed a draft enum value from a retained field.
+func (m *Draft) OmitDraftFields(enabled func(string) bool) (removedEnumValue bool) {
 	if m == nil {
-		return
+		return false
 	}
 	if !enabled("feature-a") {
 		proto.Reset(m)
-		return
+		return false
 	}
+	return removedEnumValue
 }
-func (m *Draft_Inner) OmitDraftFields(enabled func(string) bool) {
+
+// OmitDraftFields clears disabled draft fields and enum values.
+// It reports whether it removed a draft enum value from a retained field.
+func (m *Draft_Inner) OmitDraftFields(enabled func(string) bool) (removedEnumValue bool) {
 	if m == nil {
-		return
+		return false
 	}
 	if !enabled("feature-a") {
 		proto.Reset(m)
-		return
+		return false
 	}
+	return removedEnumValue
 }
-func (m *Draft_Empty) OmitDraftFields(enabled func(string) bool) {
+
+// OmitDraftFields clears disabled draft fields and enum values.
+// It reports whether it removed a draft enum value from a retained field.
+func (m *Draft_Empty) OmitDraftFields(enabled func(string) bool) (removedEnumValue bool) {
 	if m == nil {
-		return
+		return false
 	}
 	if !enabled("feature-a") {
 		proto.Reset(m)
-		return
+		return false
 	}
+	return removedEnumValue
 }
