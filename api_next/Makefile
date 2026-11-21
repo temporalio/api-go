@@ -95,7 +95,7 @@ API_NEXT_OUT := api_next
 
 API_NEXT_SNAPSHOT_EXCLUDES := --exclude=.git --exclude=$(API_NEXT_OUT) --exclude=proto \
 	--exclude=.gobincache --exclude=.go-helpers-installed --exclude=descriptor_set.pb \
-	--exclude=cmd/protoc-gen-go-helpers/testprotos
+	--exclude=cmd/protoc-gen-go-helpers/testprotos --exclude=internal/draftcompat
 
 .PHONY: api-next
 api-next: .go-helpers-installed mockgen-install
@@ -238,6 +238,7 @@ helper-test-protos:
 test: copy-helpers
 	go test -race -tags protolegacy ./...
 	go -C cmd/proxygenerator test ./...
+	if [ -f internal/draftcompat/go.mod ]; then go -C internal/draftcompat test ./...; fi
 
 ##### Check #####
 
