@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"flag"
 	"fmt"
 	"go/format"
 	"io"
@@ -9,6 +10,7 @@ import (
 	"text/template"
 
 	"google.golang.org/protobuf/compiler/protogen"
+	"google.golang.org/protobuf/types/pluginpb"
 
 	"go.temporal.io/api/internal/strcase"
 )
@@ -106,77 +108,87 @@ func {{.Type}}FromString(s string) ({{.Type}}, error) {
 // NOTE: If our implementation of Equal is too slow (its reflection-based) it doesn't look too
 // hard to generate unrolled versions...
 func main() {
-	opts := protogen.Options{}
-	opts.Run(func(plugin *protogen.Plugin) error {
-		header, err := template.New("header").Parse(headerTmpl)
+	var flags flag.FlagSet
+	draft := flags.Bool("draft_omission", false, "generate draft field omission methods")
+	opts := protogen.Options{ParamFunc: flags.Set}
+	opts.Run(func(plugin *protogen.Plugin) error { return generate(plugin, *draft) })
+}
+
+func generate(plugin *protogen.Plugin, draft bool) error {
+	plugin.SupportedFeatures = uint64(pluginpb.CodeGeneratorResponse_FEATURE_PROTO3_OPTIONAL)
+	if draft {
+		if err := generateDraft(plugin); err != nil {
+			return err
+		}
+	}
+	header, err := template.New("header").Parse(headerTmpl)
+	if err != nil {
+		return fmt.Errorf("failed to parse header template: %w", err)
+	}
+	msgTmpl, err := template.New("message").Parse(msgTmplStr)
+	if err != nil {
+		return fmt.Errorf("failed to parse message template: %w", err)
+	}
+
+	enumTmpl, err := template.New("enum").Parse(enumTmplStr)
+	if err != nil {
+		return fmt.Errorf("failed to parse enum template: %w", err)
+	}
+
+	for _, file := range plugin.Files {
+		if !file.Generate || !strings.Contains(string(file.GoImportPath), "go.temporal.io") || (len(file.Proto.MessageType) == 0 && len(file.Proto.EnumType) == 0) {
+			continue
+		}
+		hi := headerInput{
+			Pkg: string(file.GoPackageName),
+		}
+
+		var body bytes.Buffer
+
+		if len(file.Proto.MessageType) > 0 {
+			hi.Imports = append(hi.Imports, msgImport)
+		}
+		for _, msg := range file.Proto.MessageType {
+			if err := msgTmpl.Execute(&body, msgInput{Type: *msg.Name}); err != nil {
+				return fmt.Errorf("failed to execute message template on type %s: %w", *msg.Name, err)
+			}
+		}
+
+		if len(file.Proto.EnumType) > 0 {
+			hi.Imports = append(hi.Imports, enumImport)
+		}
+		for _, enum := range file.Proto.EnumType {
+			// Preprocess enum to create the mapping
+			input := enumInput{
+				Type: *enum.Name,
+			}
+			pfx := strcase.ToScreamingSnake(*enum.Name)
+			for _, val := range enum.Value {
+				input.ShortValues = append(input.ShortValues, shortValue{
+					Num: *val.Number,
+					Str: strcase.ToCamel(strings.TrimPrefix(val.GetName(), pfx)),
+				})
+			}
+			if err := enumTmpl.Execute(&body, input); err != nil {
+				return fmt.Errorf("failed to execute enum template on type %s: %w", *enum.Name, err)
+			}
+		}
+
+		// Prepend header
+		var src bytes.Buffer
+		if err := header.Execute(&src, hi); err != nil {
+			return fmt.Errorf("failed to execute header template: %w", err)
+		}
+
+		io.Copy(&src, &body)
+		fmtd, err := format.Source(src.Bytes())
 		if err != nil {
-			return fmt.Errorf("failed to parse header template: %w", err)
-		}
-		msgTmpl, err := template.New("message").Parse(msgTmplStr)
-		if err != nil {
-			return fmt.Errorf("failed to parse message template: %w", err)
+			return fmt.Errorf("failed to format generated source: \n%s\n%w", src.String(), err)
 		}
 
-		enumTmpl, err := template.New("enum").Parse(enumTmplStr)
-		if err != nil {
-			return fmt.Errorf("failed to parse enum template: %w", err)
-		}
+		gf := plugin.NewGeneratedFile(fmt.Sprintf("%s.go-helpers.pb.go", file.GeneratedFilenamePrefix), ".")
+		gf.Write(fmtd)
+	}
 
-		for _, file := range plugin.Files {
-			if !file.Generate || !strings.Contains(string(file.GoImportPath), "go.temporal.io") || (len(file.Proto.MessageType) == 0 && len(file.Proto.EnumType) == 0) {
-				continue
-			}
-			hi := headerInput{
-				Pkg: string(file.GoPackageName),
-			}
-
-			var body bytes.Buffer
-
-			if len(file.Proto.MessageType) > 0 {
-				hi.Imports = append(hi.Imports, msgImport)
-			}
-			for _, msg := range file.Proto.MessageType {
-				if err := msgTmpl.Execute(&body, msgInput{Type: *msg.Name}); err != nil {
-					return fmt.Errorf("failed to execute message template on type %s: %w", *msg.Name, err)
-				}
-			}
-
-			if len(file.Proto.EnumType) > 0 {
-				hi.Imports = append(hi.Imports, enumImport)
-			}
-			for _, enum := range file.Proto.EnumType {
-				// Preprocess enum to create the mapping
-				input := enumInput{
-					Type: *enum.Name,
-				}
-				pfx := strcase.ToScreamingSnake(*enum.Name)
-				for _, val := range enum.Value {
-					input.ShortValues = append(input.ShortValues, shortValue{
-						Num: *val.Number,
-						Str: strcase.ToCamel(strings.TrimPrefix(val.GetName(), pfx)),
-					})
-				}
-				if err := enumTmpl.Execute(&body, input); err != nil {
-					return fmt.Errorf("failed to execute enum template on type %s: %w", *enum.Name, err)
-				}
-			}
-
-			// Prepend header
-			var src bytes.Buffer
-			if err := header.Execute(&src, hi); err != nil {
-				return fmt.Errorf("failed to execute header template: %w", err)
-			}
-
-			io.Copy(&src, &body)
-			fmtd, err := format.Source(src.Bytes())
-			if err != nil {
-				return fmt.Errorf("failed to format generated source: \n%s\n%w", src.String(), err)
-			}
-
-			gf := plugin.NewGeneratedFile(fmt.Sprintf("%s.go-helpers.pb.go", file.GeneratedFilenamePrefix), ".")
-			gf.Write(fmtd)
-		}
-
-		return nil
-	})
+	return nil
 }

@@ -65,13 +65,30 @@ func walkExtension(ctx context.Context, root string, extension string, exclusion
 		}
 		if err != nil {
 			return err
-		} else if !strings.HasSuffix(path, extension) {
+		}
+
+		for i := 0; i < len(exclusions); i++ {
+			relPath, err := filepath.Rel(root, path)
+			isMatch := false
+			if err == nil && (strings.HasPrefix(relPath, exclusions[i]+string(filepath.Separator)) || relPath == exclusions[i]) {
+				isMatch = true
+			}
+			if strings.HasPrefix(path, exclusions[i]+string(filepath.Separator)) || path == exclusions[i] {
+				isMatch = true
+			}
+			if isMatch {
+				if d.IsDir() {
+					return fs.SkipDir
+				}
+				return nil
+			}
+		}
+
+		if d.IsDir() {
 			return nil
 		}
-		for i := 0; i < len(exclusions); i++ {
-			if strings.HasPrefix(path, exclusions[i]) {
-				return fs.SkipDir
-			}
+		if !strings.HasSuffix(path, extension) {
+			return nil
 		}
 		return fn(path)
 	})
