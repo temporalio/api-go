@@ -5,12 +5,14 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"reflect"
 	"slices"
 	"strings"
 	"testing"
 
 	"github.com/stretchr/testify/require"
 	protometapb "go.temporal.io/api/protometa/v1"
+	"google.golang.org/protobuf/encoding/prototext"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/reflect/protodesc"
 	"google.golang.org/protobuf/reflect/protoreflect"
@@ -35,52 +37,198 @@ func TestAllFilesLinked(t *testing.T) {
 	}
 }
 
-// TestMessageSets requires the stable tree to hold every api_next message except draft
-// ones, and nothing else.
+// TestMessageSets requires the stable tree to contain exactly the non-draft
+// messages, fields, enums, enum values, and real oneofs in api_next.
 func TestMessageSets(t *testing.T) {
-	stable := stableFiles(t)
-	next := map[protoreflect.FullName]bool{}
-	for _, message := range nextMessages() {
-		next[message.FullName()] = true
-		_, err := stable.FindDescriptorByName(message.FullName())
-		switch draft := draftMessage(message); {
-		case draft && err == nil:
-			t.Errorf("draft message %s is in the stable tree", message.FullName())
-		case !draft && err != nil:
-			t.Errorf("message %s is missing from the stable tree", message.FullName())
+	want := collectMessageSets(protoregistry.GlobalFiles, true)
+	got := collectMessageSets(stableFiles(t), false)
+	require.Len(t, got.messages, len(want.messages), "messages")
+	for name, wantFields := range want.messages {
+		gotFields, ok := got.messages[name]
+		require.True(t, ok, "missing message %s", name)
+		require.Equal(t, wantFields, gotFields, "fields of %s", name)
+	}
+	require.Equal(t, want.enums, got.enums, "enums and enum values")
+	require.Equal(t, want.oneofs, got.oneofs, "oneofs and their members")
+}
+
+type messageSets struct {
+	messages map[protoreflect.FullName]map[protoreflect.Name]protoreflect.FieldNumber
+	enums    map[protoreflect.FullName]map[protoreflect.Name]protoreflect.EnumNumber
+	oneofs   map[protoreflect.FullName]map[protoreflect.Name]protoreflect.FieldNumber
+}
+
+func collectMessageSets(files *protoregistry.Files, project bool) messageSets {
+	result := messageSets{
+		messages: map[protoreflect.FullName]map[protoreflect.Name]protoreflect.FieldNumber{},
+		enums:    map[protoreflect.FullName]map[protoreflect.Name]protoreflect.EnumNumber{},
+		oneofs:   map[protoreflect.FullName]map[protoreflect.Name]protoreflect.FieldNumber{},
+	}
+	addEnums := func(enums protoreflect.EnumDescriptors) {
+		for i := range enums.Len() {
+			enum := enums.Get(i)
+			if project && hasDraftOption(enum, protometapb.E_DraftEnum) {
+				continue
+			}
+			values := map[protoreflect.Name]protoreflect.EnumNumber{}
+			for j := range enum.Values().Len() {
+				value := enum.Values().Get(j)
+				if !project || !hasDraftOption(value, protometapb.E_DraftEnumValue) {
+					values[value.Name()] = value.Number()
+				}
+			}
+			result.enums[enum.FullName()] = values
 		}
 	}
-	stable.RangeFiles(func(file protoreflect.FileDescriptor) bool {
-		if strings.HasPrefix(string(file.Package()), "temporal.api.") {
-			eachMessage(file.Messages(), func(message protoreflect.MessageDescriptor) {
-				if !next[message.FullName()] {
-					t.Errorf("stable message %s is not in api_next", message.FullName())
+
+	rangeAPIFiles(files, func(file protoreflect.FileDescriptor) {
+		addEnums(file.Enums())
+		eachMessage(file.Messages(), func(message protoreflect.MessageDescriptor) {
+			if project && draftMessage(message) {
+				return
+			}
+			result.messages[message.FullName()] = collectFields(message.Fields(), project)
+			addEnums(message.Enums())
+			for i := range message.Oneofs().Len() {
+				oneof := message.Oneofs().Get(i)
+				if oneof.IsSynthetic() || project && hasDraftOption(oneof, protometapb.E_DraftOneof) {
+					continue
 				}
-			})
-		}
-		return true
+				result.oneofs[oneof.FullName()] = collectFields(oneof.Fields(), project)
+			}
+		})
 	})
+	return result
+}
+
+func collectFields(fields protoreflect.FieldDescriptors, project bool) map[protoreflect.Name]protoreflect.FieldNumber {
+	result := map[protoreflect.Name]protoreflect.FieldNumber{}
+	for i := range fields.Len() {
+		field := fields.Get(i)
+		if !project || !draftField(field) {
+			result[field.Name()] = field.Number()
+		}
+	}
+	return result
+}
+
+func TestMessageSetsDetectsFieldDrift(t *testing.T) {
+	field := func(name string, number int32) *descriptorpb.FieldDescriptorProto {
+		return &descriptorpb.FieldDescriptorProto{
+			Name: proto.String(name), Number: proto.Int32(number),
+			Label: descriptorpb.FieldDescriptorProto_LABEL_OPTIONAL.Enum(),
+			Type:  descriptorpb.FieldDescriptorProto_TYPE_STRING.Enum(),
+		}
+	}
+	stable := &descriptorpb.FileDescriptorProto{
+		Name: proto.String("field_check.proto"), Package: proto.String("temporal.api.fieldcheck.v1"), Syntax: proto.String("proto3"),
+		MessageType: []*descriptorpb.DescriptorProto{{Name: proto.String("Message"), Field: []*descriptorpb.FieldDescriptorProto{field("stable", 1)}}},
+	}
+	next := proto.CloneOf(stable)
+	next.Dependency = []string{protometapb.File_temporal_api_next_protometa_v1_draft_proto.Path()}
+	msg := next.MessageType[0]
+	draft := field("draft", 2)
+	draft.Options = &descriptorpb.FieldOptions{}
+	proto.SetExtension(draft.Options, protometapb.E_Draft, "preview")
+	optional := proto.CloneOf(draft)
+	optional.Name, optional.Number = proto.String("preview_optional"), proto.Int32(3)
+	optional.Proto3Optional, optional.OneofIndex = proto.Bool(true), proto.Int32(1)
+	member := field("preview_member", 4)
+	member.OneofIndex = proto.Int32(0)
+	oneof := &descriptorpb.OneofDescriptorProto{Name: proto.String("preview"), Options: &descriptorpb.OneofOptions{}}
+	proto.SetExtension(oneof.Options, protometapb.E_DraftOneof, "preview")
+	msg.OneofDecl = []*descriptorpb.OneofDescriptorProto{oneof, {Name: proto.String("_preview_optional")}}
+	msg.Field = append(msg.Field, draft, optional, member)
+
+	collect := func(t *testing.T, file *descriptorpb.FileDescriptorProto, project bool) messageSets {
+		t.Helper()
+		descriptor, err := protodesc.NewFile(file, protoregistry.GlobalFiles)
+		require.NoError(t, err)
+		var files protoregistry.Files
+		require.NoError(t, files.RegisterFile(descriptor))
+		return collectMessageSets(&files, project)
+	}
+	want := collect(t, next, true)
+	require.Equal(t, want, collect(t, stable, false))
+	for _, tt := range []struct {
+		name   string
+		mutate func(*descriptorpb.DescriptorProto)
+	}{
+		{"ordinary draft field leaked", func(m *descriptorpb.DescriptorProto) { m.Field = append(m.Field, field("draft", 2)) }},
+		{"optional draft field leaked", func(m *descriptorpb.DescriptorProto) {
+			m.OneofDecl = []*descriptorpb.OneofDescriptorProto{{Name: proto.String("_preview_optional")}}
+			leak := field("preview_optional", 3)
+			leak.Proto3Optional, leak.OneofIndex = proto.Bool(true), proto.Int32(0)
+			m.Field = append(m.Field, leak)
+		}},
+		{"draft oneof member leaked as ordinary field", func(m *descriptorpb.DescriptorProto) { m.Field = append(m.Field, field("preview_member", 4)) }},
+		{"stable field missing", func(m *descriptorpb.DescriptorProto) { m.Field = nil }},
+		{"stable field renumbered", func(m *descriptorpb.DescriptorProto) { m.Field[0].Number = proto.Int32(5) }},
+	} {
+		t.Run(tt.name, func(t *testing.T) {
+			broken := proto.CloneOf(stable)
+			tt.mutate(broken.MessageType[0])
+			require.NotEqual(t, want, collect(t, broken, false))
+		})
+	}
+}
+
+// TestServiceMethodSets requires the stable tree to contain exactly the non-draft
+// services and methods in api_next.
+func TestServiceMethodSets(t *testing.T) {
+	collect := func(files *protoregistry.Files, project bool) map[protoreflect.FullName]map[protoreflect.Name]bool {
+		result := map[protoreflect.FullName]map[protoreflect.Name]bool{}
+		rangeAPIFiles(files, func(file protoreflect.FileDescriptor) {
+			for i := range file.Services().Len() {
+				service := file.Services().Get(i)
+				if project && hasDraftOption(service, protometapb.E_DraftService) {
+					continue
+				}
+				methods := map[protoreflect.Name]bool{}
+				for j := range service.Methods().Len() {
+					method := service.Methods().Get(j)
+					if !project || !hasDraftOption(method, protometapb.E_DraftMethod) {
+						methods[method.Name()] = true
+					}
+				}
+				result[service.FullName()] = methods
+			}
+		})
+		return result
+	}
+	require.Equal(t, collect(protoregistry.GlobalFiles, true), collect(stableFiles(t), false))
 }
 
 // TestOmitDraftFieldsMatchesStable fills random api_next messages. With no feature
 // enabled, OmitDraftFields must leave exactly what the stable tree can hold: the stable
 // descriptors decode it without unknown fields at any depth, and decoding back gives the
-// same message. Decoding the original while discarding unknown fields must recover the
-// same stable fields. With every feature enabled, OmitDraftFields must change nothing.
+// same message. The descriptor walk on a copy of the original determines the expected
+// stable fields and whether filtering removed a draft enum value. With every feature
+// enabled, OmitDraftFields must preserve the input and return false.
 func TestOmitDraftFieldsMatchesStable(t *testing.T) {
 	stable := stableFiles(t)
 	unmarshal := proto.UnmarshalOptions{Resolver: dynamicpb.NewTypes(stable)}
 	discardUnknown := unmarshal
 	discardUnknown.DiscardUnknown = true
-	// Few messages reach a draft field, so draw from those half of the time.
+	// Few messages reach a draft field or enum value, so draw from those half of the time.
 	var affected, unaffected []protoreflect.MessageDescriptor
-	for _, message := range nextMessages() {
+	messages := nextMessages()
+	expectedMethods := affectedMessages(messages)
+	for _, message := range messages {
+		name := message.FullName()
+		messageType, err := protoregistry.GlobalTypes.FindMessageByName(name)
+		require.NoError(t, err)
+		value := messageType.New().Interface()
+		_, hasMethod := reflect.TypeOf(value).MethodByName("OmitDraftFields")
+		wantMethod := expectedMethods[name]
+		require.Equal(t, wantMethod, hasMethod, "%s OmitDraftFields method presence", name)
+		if wantMethod {
+			require.Implements(t, (*draftOmitter)(nil), value, "%s OmitDraftFields signature", name)
+		}
 		if draftMessage(message) {
 			continue
 		}
-		messageType, err := protoregistry.GlobalTypes.FindMessageByName(message.FullName())
-		require.NoError(t, err)
-		if _, ok := messageType.New().Interface().(draftOmitter); ok {
+		if wantMethod {
 			affected = append(affected, message)
 		} else {
 			unaffected = append(unaffected, message)
@@ -102,16 +250,20 @@ func TestOmitDraftFieldsMatchesStable(t *testing.T) {
 		fill(rt, original, 0)
 
 		all := proto.Clone(original.Interface())
-		if omitter, ok := all.(draftOmitter); ok {
-			omitter.OmitDraftFields(func(string) bool { return true })
+		if omitter, ok := all.(draftOmitter); ok && omitter.OmitDraftFields(func(string) bool { return true }) {
+			rt.Fatalf("OmitDraftFields with every feature enabled reported removing a draft enum value from %s", descriptor.FullName())
 		}
 		if !proto.Equal(original.Interface(), all) {
 			rt.Fatalf("OmitDraftFields with every feature enabled changed %s", descriptor.FullName())
 		}
 
 		none := proto.Clone(original.Interface())
-		if omitter, ok := none.(draftOmitter); ok {
-			omitter.OmitDraftFields(func(string) bool { return false })
+		omitter, ok := none.(draftOmitter)
+		removedEnumValue := ok && omitter.OmitDraftFields(func(string) bool { return false })
+		projected := proto.Clone(original.Interface())
+		wantRemovedEnumValue := projectStableFields(projected.ProtoReflect())
+		if removedEnumValue != wantRemovedEnumValue {
+			rt.Fatalf("OmitDraftFields for %s reported enum removal %t, want %t", descriptor.FullName(), removedEnumValue, wantRemovedEnumValue)
 		}
 		data, err := proto.MarshalOptions{Deterministic: true}.Marshal(none)
 		if err != nil {
@@ -129,12 +281,12 @@ func TestOmitDraftFieldsMatchesStable(t *testing.T) {
 		if path := unknownFields(decoded, string(descriptor.FullName())); path != "" {
 			rt.Fatalf("stable %s has unknown fields at %s after omitting every draft feature", descriptor.FullName(), path)
 		}
-		originalData, err := proto.Marshal(original.Interface())
+		projectedData, err := proto.Marshal(projected)
 		if err != nil {
 			rt.Fatal(err)
 		}
 		expected := dynamicpb.NewMessage(stableMessage)
-		if err := discardUnknown.Unmarshal(originalData, expected); err != nil {
+		if err := discardUnknown.Unmarshal(projectedData, expected); err != nil {
 			rt.Fatal(err)
 		}
 		if !proto.Equal(expected, decoded) {
@@ -152,6 +304,198 @@ func TestOmitDraftFieldsMatchesStable(t *testing.T) {
 			rt.Fatalf("%s changed on its way through the stable descriptors", descriptor.FullName())
 		}
 	})
+}
+
+func TestAffectedMessages(t *testing.T) {
+	var messages []protoreflect.MessageDescriptor
+	eachMessage(draftProjectionFixture(t).Messages(), func(message protoreflect.MessageDescriptor) {
+		messages = append(messages, message)
+	})
+	require.Equal(t, map[protoreflect.FullName]bool{
+		"draftwire.fixture.Values":           true,
+		"draftwire.fixture.Envelope":         true,
+		"draftwire.fixture.List":             true,
+		"draftwire.fixture.Map":              true,
+		"draftwire.fixture.Choice":           true,
+		"draftwire.fixture.CycleA":           true,
+		"draftwire.fixture.CycleB":           true,
+		"draftwire.fixture.DraftRoot":        true,
+		"draftwire.fixture.DraftRoot.Nested": true,
+	}, affectedMessages(messages))
+}
+
+// affectedMessages follows descriptor references backward from messages with draft contents.
+func affectedMessages(messages []protoreflect.MessageDescriptor) map[protoreflect.FullName]bool {
+	seen := map[protoreflect.FullName]bool{}
+	parents := map[protoreflect.FullName][]protoreflect.FullName{}
+	affected := map[protoreflect.FullName]bool{}
+	var pending []protoreflect.FullName
+	markAffected := func(name protoreflect.FullName) {
+		if !affected[name] {
+			affected[name] = true
+			pending = append(pending, name)
+		}
+	}
+
+	var index func(protoreflect.MessageDescriptor)
+	index = func(message protoreflect.MessageDescriptor) {
+		name := message.FullName()
+		if seen[name] {
+			return
+		}
+		seen[name] = true
+		if draftMessage(message) {
+			markAffected(name)
+		}
+		fields := message.Fields()
+		for i := range fields.Len() {
+			field := fields.Get(i)
+			value := field
+			if field.IsMap() {
+				value = field.MapValue()
+			}
+			if draftField(field) || hasDraftEnumValues(value.Enum()) {
+				markAffected(name)
+			}
+			if child := value.Message(); child != nil {
+				parents[child.FullName()] = append(parents[child.FullName()], name)
+				index(child)
+			}
+		}
+	}
+	for _, message := range messages {
+		index(message)
+	}
+	for i := 0; i < len(pending); i++ {
+		for _, parent := range parents[pending[i]] {
+			markAffected(parent)
+		}
+	}
+	return affected
+}
+
+func hasDraftEnumValues(enum protoreflect.EnumDescriptor) bool {
+	if enum == nil {
+		return false
+	}
+	values := enum.Values()
+	for i := range values.Len() {
+		if hasDraftOption(values.Get(i), protometapb.E_DraftEnumValue) {
+			return true
+		}
+	}
+	return false
+}
+
+func TestProjectStableFieldsRemovesDraftEnumValues(t *testing.T) {
+	file := draftProjectionFixture(t)
+	for _, tt := range []struct {
+		name         string
+		message      protoreflect.Name
+		input, want  string
+		removedValue bool
+	}{
+		{"singular", "Values", "singular: MODE_PREVIEW", "", true},
+		{"optional", "Values", "optional_mode: MODE_PREVIEW", "", true},
+		{"oneof", "Values", "selected: MODE_PREVIEW", "", true},
+		{"list", "Values", "list: [MODE_PREVIEW, MODE_STABLE, 99, MODE_PREVIEW]", "list: [MODE_STABLE, 99]", true},
+		{"map", "Values", `by_name: [{key: "preview", value: MODE_PREVIEW}, {key: "stable", value: MODE_STABLE}, {key: "unknown", value: 99}]`,
+			`by_name: [{key: "stable", value: MODE_STABLE}, {key: "unknown", value: 99}]`, true},
+		{"retained message", "Envelope", "retained: {singular: MODE_PREVIEW}", "retained: {}", true},
+		{"disabled field", "Envelope", "hidden: {singular: MODE_PREVIEW}", "", false},
+		{"disabled oneof", "Envelope", "hidden_oneof: {singular: MODE_PREVIEW}", "", false},
+		{"retained numbers", "Values", "singular: MODE_STABLE optional_mode: 99", "singular: MODE_STABLE optional_mode: 99", false},
+	} {
+		t.Run(tt.name, func(t *testing.T) {
+			message := file.Messages().ByName(tt.message)
+			got := dynamicpb.NewMessage(message)
+			want := dynamicpb.NewMessage(message)
+			require.NoError(t, prototext.Unmarshal([]byte(tt.input), got))
+			require.NoError(t, prototext.Unmarshal([]byte(tt.want), want))
+			require.Equal(t, tt.removedValue, projectStableFields(got))
+			require.True(t, proto.Equal(want, got), "projected %v, want %v", got, want)
+		})
+	}
+}
+
+func draftProjectionFixture(t *testing.T) protoreflect.FileDescriptor {
+	t.Helper()
+	const name = "draft_projection.proto"
+	files := compileFiles(t, []string{"-I" + protoRoot, "-Itestdata"}, []string{name})
+	file, err := files.FindFileByPath(name)
+	require.NoError(t, err)
+	return file
+}
+
+// projectStableFields removes draft fields and enum values using api_next descriptors.
+func projectStableFields(m protoreflect.Message) (removedEnumValue bool) {
+	m.Range(func(field protoreflect.FieldDescriptor, value protoreflect.Value) bool {
+		if draftField(field) {
+			m.Clear(field)
+			return true
+		}
+		switch {
+		case field.IsList():
+			list := value.List()
+			kept := 0
+			for i := range list.Len() {
+				item := list.Get(i)
+				if draftEnumValue(field, item) {
+					removedEnumValue = true
+					continue
+				}
+				if field.Message() != nil && projectStableFields(item.Message()) {
+					removedEnumValue = true
+				}
+				if kept != i {
+					list.Set(kept, item)
+				}
+				kept++
+			}
+			if kept != list.Len() {
+				list.Truncate(kept)
+			}
+		case field.IsMap():
+			entries := value.Map()
+			entries.Range(func(key protoreflect.MapKey, item protoreflect.Value) bool {
+				if draftEnumValue(field.MapValue(), item) {
+					entries.Clear(key)
+					removedEnumValue = true
+				} else if field.MapValue().Message() != nil && projectStableFields(item.Message()) {
+					removedEnumValue = true
+				}
+				return true
+			})
+		case draftEnumValue(field, value):
+			m.Clear(field)
+			removedEnumValue = true
+		case field.Message() != nil:
+			if projectStableFields(value.Message()) {
+				removedEnumValue = true
+			}
+		}
+		return true
+	})
+	return removedEnumValue
+}
+
+func draftField(field protoreflect.FieldDescriptor) bool {
+	oneof := field.ContainingOneof()
+	return hasDraftOption(field, protometapb.E_Draft) ||
+		oneof != nil && !oneof.IsSynthetic() && hasDraftOption(oneof, protometapb.E_DraftOneof)
+}
+
+func draftEnumValue(field protoreflect.FieldDescriptor, value protoreflect.Value) bool {
+	if field.Enum() == nil {
+		return false
+	}
+	descriptor := field.Enum().Values().ByNumber(value.Enum())
+	return descriptor != nil && hasDraftOption(descriptor, protometapb.E_DraftEnumValue)
+}
+
+func hasDraftOption(descriptor protoreflect.Descriptor, option protoreflect.ExtensionType) bool {
+	feature, _ := proto.GetExtension(descriptor.Options(), option).(string)
+	return feature != ""
 }
 
 // fill sets a random selection of m's fields, nesting at most three messages deep.
@@ -192,6 +536,13 @@ func value(rt *rapid.T, newMessage func() protoreflect.Value, field protoreflect
 		return protoreflect.ValueOfBool(rapid.Bool().Draw(rt, "bool"))
 	case protoreflect.EnumKind:
 		values := field.Enum().Values()
+		if !field.Enum().IsClosed() && rapid.Bool().Draw(rt, "unrecognized enum number") {
+			for number := protoreflect.EnumNumber(-1); ; number-- {
+				if values.ByNumber(number) == nil {
+					return protoreflect.ValueOfEnum(number)
+				}
+			}
+		}
 		return protoreflect.ValueOfEnum(values.Get(rapid.IntRange(0, values.Len()-1).Draw(rt, "enum")).Number())
 	case protoreflect.Int32Kind, protoreflect.Sint32Kind, protoreflect.Sfixed32Kind:
 		return protoreflect.ValueOfInt32(rapid.Int32().Draw(rt, "int32"))
@@ -247,10 +598,8 @@ func unknownFields(m protoreflect.Message, path string) string {
 // draftMessage reports whether message or a message it is nested in is draft.
 func draftMessage(message protoreflect.MessageDescriptor) bool {
 	for descriptor := protoreflect.Descriptor(message); descriptor != nil; descriptor = descriptor.Parent() {
-		if m, ok := descriptor.(protoreflect.MessageDescriptor); ok {
-			if feature, _ := proto.GetExtension(m.Options(), protometapb.E_DraftMessage).(string); feature != "" {
-				return true
-			}
+		if m, ok := descriptor.(protoreflect.MessageDescriptor); ok && hasDraftOption(m, protometapb.E_DraftMessage) {
+			return true
 		}
 	}
 	return false
@@ -259,18 +608,24 @@ func draftMessage(message protoreflect.MessageDescriptor) bool {
 // nextMessages returns every temporal.api message linked from the api_next Go types.
 func nextMessages() []protoreflect.MessageDescriptor {
 	var messages []protoreflect.MessageDescriptor
-	protoregistry.GlobalFiles.RangeFiles(func(file protoreflect.FileDescriptor) bool {
-		if strings.HasPrefix(string(file.Package()), "temporal.api.") {
-			eachMessage(file.Messages(), func(message protoreflect.MessageDescriptor) {
-				messages = append(messages, message)
-			})
-		}
-		return true
+	rangeAPIFiles(protoregistry.GlobalFiles, func(file protoreflect.FileDescriptor) {
+		eachMessage(file.Messages(), func(message protoreflect.MessageDescriptor) {
+			messages = append(messages, message)
+		})
 	})
 	slices.SortFunc(messages, func(a, b protoreflect.MessageDescriptor) int {
 		return strings.Compare(string(a.FullName()), string(b.FullName()))
 	})
 	return messages
+}
+
+func rangeAPIFiles(files *protoregistry.Files, visit func(protoreflect.FileDescriptor)) {
+	files.RangeFiles(func(file protoreflect.FileDescriptor) bool {
+		if strings.HasPrefix(string(file.Package()), "temporal.api.") {
+			visit(file)
+		}
+		return true
+	})
 }
 
 func eachMessage(messages protoreflect.MessageDescriptors, visit func(protoreflect.MessageDescriptor)) {
@@ -303,10 +658,14 @@ func protoFiles(t *testing.T, dir string) []string {
 // stableFiles compiles the stable proto tree of the proto/api submodule with protoc.
 func stableFiles(t *testing.T) *protoregistry.Files {
 	t.Helper()
-	root := protoRoot
-	inputs := protoFiles(t, "temporal/api")
-	out := filepath.Join(t.TempDir(), "stable.binpb")
-	output, err := exec.Command("protoc", append([]string{"-I" + root, "--include_imports", "--descriptor_set_out=" + out}, inputs...)...).CombinedOutput()
+	return compileFiles(t, []string{"-I" + protoRoot}, protoFiles(t, "temporal/api"))
+}
+
+func compileFiles(t *testing.T, includes, inputs []string) *protoregistry.Files {
+	t.Helper()
+	out := filepath.Join(t.TempDir(), "schema.binpb")
+	args := append(includes, "--include_imports", "--descriptor_set_out="+out)
+	output, err := exec.Command("protoc", append(args, inputs...)...).CombinedOutput()
 	require.NoError(t, err, "%s", output)
 	data, err := os.ReadFile(out)
 	require.NoError(t, err)
