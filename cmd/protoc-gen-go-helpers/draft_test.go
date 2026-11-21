@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"math"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -92,6 +93,40 @@ func TestOmitEveryScalar(t *testing.T) {
 	require.True(t, proto.Equal(expected, m))
 	m.OmitDraftFields(func(string) bool { return false })
 	require.True(t, proto.Equal(&parent.Scalars{}, m))
+}
+
+// The generated methods ask about a field's feature only when the field is set, so a
+// caller can tell from the predicate's calls whether omission would change anything.
+func TestOmitAsksOnlyAboutSetFields(t *testing.T) {
+	never := func(feature string) bool {
+		t.Errorf("asked about %q for a message without draft values", feature)
+		return false
+	}
+	for _, m := range []omitter{
+		&parent.Root{},
+		&parent.Root{Stable: "root", List: []*child.Leaf{nil, {Stable: "stable"}}, Map: map[string]*child.Leaf{"leaf": {Stable: "stable"}}, Nested: &parent.Root_Nested{Leaf: &child.Leaf{Stable: "stable"}}},
+		&parent.Scalars{},
+		&parent.DraftReferences{},
+	} {
+		require.False(t, m.OmitDraftFields(never))
+	}
+
+	var asked []string
+	m := &parent.Scalars{Int32: 1}
+	m.OmitDraftFields(func(feature string) bool { asked = append(asked, feature); return false })
+	require.Equal(t, []string{"feature-a"}, asked)
+}
+
+// Protobuf serializes -0.0 for implicit-presence floats, so it is a set value.
+func TestOmitNegativeZero(t *testing.T) {
+	m := &parent.Scalars{Double: math.Copysign(0, -1), Float: float32(math.Copysign(0, -1))}
+	data, err := proto.Marshal(m)
+	require.NoError(t, err)
+	require.NotEmpty(t, data, "-0.0 must be on the wire for this test to mean anything")
+	m.OmitDraftFields(func(string) bool { return false })
+	data, err = proto.Marshal(m)
+	require.NoError(t, err)
+	require.Empty(t, data)
 }
 
 func TestOmitDraftMessageReferences(t *testing.T) {
