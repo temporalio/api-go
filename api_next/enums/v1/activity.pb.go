@@ -56,10 +56,10 @@ const (
 	// The activity was terminated. Immediate; does not wait for worker acknowledgment.
 	ACTIVITY_EXECUTION_STATUS_TERMINATED ActivityExecutionStatus = 5
 	// The activity timed out. See TimeoutType for the specific timeout.
-	// - SCHEDULE_TO_START and SCHEDULE_TO_CLOSE timeouts always result in TIMED_OUT.
-	// - START_TO_CLOSE and HEARTBEAT may retry if RetryPolicy permits; TIMED_OUT is
-	//   reached when retry is blocked (RetryPolicy.maximum_attempts exhausted,
-	//   SCHEDULE_TO_CLOSE would be exceeded, or cancellation has been requested).
+	//   - SCHEDULE_TO_START and SCHEDULE_TO_CLOSE timeouts always result in TIMED_OUT.
+	//   - START_TO_CLOSE and HEARTBEAT may retry if RetryPolicy permits; TIMED_OUT is
+	//     reached when retry is blocked (RetryPolicy.maximum_attempts exhausted,
+	//     SCHEDULE_TO_CLOSE would be exceeded, or cancellation has been requested).
 	ACTIVITY_EXECUTION_STATUS_TIMED_OUT ActivityExecutionStatus = 6
 	// The activity is paused. Paused state is only reachable after calling
 	// PauseActivityExecution on a standalone activity.
