@@ -369,8 +369,9 @@ func generateEnumOmission(g *protogen.GeneratedFile, f *protogen.Field, field, c
 		disabled := disabledEnumValue("value", values)
 		g.P("for i, value := range ", field, " {")
 		g.P("if !(", disabled, ") { continue }")
-		// Copy instead of filtering in place so that slices sharing a backing array are unaffected.
-		g.P("kept := make([]", fieldValue(f).Enum.GoIdent, ", 0, len(", field, ") - 1)")
+		// Limit capacity before growing the slice to avoid writing through an alias.
+		grow := protogen.GoIdent{GoName: "Grow", GoImportPath: "slices"}
+		g.P("kept := ", grow, "(", field, "[:0:0], len(", field, ") - 1)")
 		g.P("kept = append(kept, ", field, "[:i]...)")
 		g.P("for _, value := range ", field, "[i+1:] {")
 		g.P("if !(", disabled, ") { kept = append(kept, value) }")

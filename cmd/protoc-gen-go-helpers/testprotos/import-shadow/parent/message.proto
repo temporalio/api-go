@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package shadow.parent;
+
+option go_package = "example.com/parent";
+
+import "m/level.proto";
+
+message Message {
+  repeated shadow.level.Level levels = 1;
+}

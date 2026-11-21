@@ -296,6 +296,49 @@ func fixtureRequest() *pluginpb.CodeGeneratorRequest {
 	return &pluginpb.CodeGeneratorRequest{ProtoFile: files, FileToGenerate: []string{"annotations/draft.proto", "child/message.proto", "parent/message.proto"}, Parameter: proto.String("paths=source_relative")}
 }
 
+func TestDraftOmissionWithImportNamedM(t *testing.T) {
+	dir := t.TempDir()
+	goMod, err := os.ReadFile("../../go.mod")
+	require.NoError(t, err)
+	goSum, err := os.ReadFile("../../go.sum")
+	require.NoError(t, err)
+	goMod = []byte(strings.Replace(string(goMod), "module go.temporal.io/api", "module example.com", 1))
+	require.NoError(t, os.WriteFile(filepath.Join(dir, "go.mod"), goMod, 0600))
+	require.NoError(t, os.WriteFile(filepath.Join(dir, "go.sum"), goSum, 0600))
+
+	run := func(workdir, command string, args ...string) {
+		t.Helper()
+		cmd := exec.Command(command, args...)
+		cmd.Dir = workdir
+		output, err := cmd.CombinedOutput()
+		require.NoError(t, err, "%s", output)
+	}
+	goPlugin := filepath.Join(dir, "protoc-gen-go")
+	run(".", "go", "build", "-o", goPlugin, "google.golang.org/protobuf/cmd/protoc-gen-go")
+	descriptor := filepath.Join(dir, "fixture.pb")
+	run(".", "protoc", "-Itestprotos/import-shadow", "-Itestprotos/draft",
+		"--include_imports", "--descriptor_set_out="+descriptor,
+		"--plugin=protoc-gen-go="+goPlugin, "--go_out=paths=source_relative:"+dir,
+		"--go_opt=Mannotations/draft.proto=example.com/annotations",
+		"annotations/draft.proto", "m/level.proto", "parent/message.proto")
+
+	raw, err := os.ReadFile(descriptor)
+	require.NoError(t, err)
+	var set descriptorpb.FileDescriptorSet
+	require.NoError(t, proto.Unmarshal(raw, &set))
+	gen, err := (protogen.Options{}).New(&pluginpb.CodeGeneratorRequest{
+		ProtoFile: set.File, FileToGenerate: []string{"parent/message.proto"}, Parameter: proto.String("paths=source_relative"),
+	})
+	require.NoError(t, err)
+	require.NoError(t, generateDraft(gen))
+	response := gen.Response()
+	require.Empty(t, response.GetError())
+	require.Len(t, response.File, 1)
+	file := response.File[0]
+	require.NoError(t, os.WriteFile(filepath.Join(dir, file.GetName()), []byte(file.GetContent()), 0600))
+	run(dir, "go", "build", "./...")
+}
+
 func TestDraftGenerationModes(t *testing.T) {
 	for _, enabled := range []bool{false, true} {
 		gen, err := (protogen.Options{}).New(fixtureRequest())

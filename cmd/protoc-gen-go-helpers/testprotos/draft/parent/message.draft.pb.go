@@ -3,7 +3,7 @@
 package parent
 
 import (
-	child "go.temporal.io/api/cmd/protoc-gen-go-helpers/testprotos/draft/child"
+	slices "slices"
 )
 
 // OmitDraftFields clears disabled draft fields and enum values.
@@ -296,7 +296,7 @@ func (m *EnumFields) OmitDraftFields(enabled func(string) bool) (removedEnumValu
 		if !((value == 2 && !enabled("feature-b")) || (value == -1 && !enabled("feature-c"))) {
 			continue
 		}
-		kept := make([]child.Level, 0, len(m.List)-1)
+		kept := slices.Grow(m.List[:0:0], len(m.List)-1)
 		kept = append(kept, m.List[:i]...)
 		for _, value := range m.List[i+1:] {
 			if !((value == 2 && !enabled("feature-b")) || (value == -1 && !enabled("feature-c"))) {
@@ -325,7 +325,7 @@ func (m *EnumFields) OmitDraftFields(enabled func(string) bool) (removedEnumValu
 		if !((value == 2 && !enabled("feature-b")) || (value == -1 && !enabled("feature-c"))) {
 			continue
 		}
-		kept := make([]child.Level, 0, len(m.OtherList)-1)
+		kept := slices.Grow(m.OtherList[:0:0], len(m.OtherList)-1)
 		kept = append(kept, m.OtherList[:i]...)
 		for _, value := range m.OtherList[i+1:] {
 			if !((value == 2 && !enabled("feature-b")) || (value == -1 && !enabled("feature-c"))) {
