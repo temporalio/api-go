@@ -37,8 +37,12 @@ jobs:
           # the helper and mockgen itself.
           make api-next-tools
           make api-next
-          git diff --exit-code -- ':(glob)api_next/**/*.draft.pb.go' api_next/proxy/interceptor.go api_next/proxy/service.go api_next/proxy/request_header.go api_next/cmd/protoc-gen-go-helpers/
-          test -z "$(git ls-files --others --exclude-standard -- ':(glob)api_next/**/*.draft.pb.go' api_next/proxy/interceptor.go api_next/proxy/service.go api_next/proxy/request_header.go api_next/cmd/protoc-gen-go-helpers/)"
+          git diff --exit-code HEAD -- api_next/
+          untracked=$(git ls-files --others --exclude-standard -- api_next/)
+          if [ -n "$untracked" ]; then
+            printf 'Untracked api_next files:\n%s\n' "$untracked"
+            exit 1
+          fi
           test -z "$(find . -name '*.draft.pb.go' -not -path './api_next/*' -not -path './cmd/protoc-gen-go-helpers/testprotos/*')"
           go -C api_next build -tags protolegacy ./...
           make test
