@@ -25,15 +25,12 @@ func (m *Draft) OmitDraftFields(enabled func(string) bool) {
 		proto.Reset(m)
 		return
 	}
-	if !enabled("feature-b") {
-		m.Extra = ""
-	}
 }
 func (m *Draft_Inner) OmitDraftFields(enabled func(string) bool) {
 	if m == nil {
 		return
 	}
-	if !enabled("feature-b") || !enabled("feature-a") {
+	if !enabled("feature-a") {
 		proto.Reset(m)
 		return
 	}

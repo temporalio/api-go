@@ -10,12 +10,17 @@ message Leaf {
 message Stable { string value = 1; }
 enum Level { LEVEL_UNSPECIFIED = 0; LEVEL_HIGH = 1; }
 
+enum Mode {
+ option (temporal.api.protometa.v1.draft_enum) = "feature-a";
+ MODE_UNSPECIFIED = 0;
+ MODE_PREVIEW = 1;
+}
+
 message Draft {
  option (temporal.api.protometa.v1.draft_message) = "feature-a";
  string value = 1;
- string extra = 2 [(temporal.api.protometa.v1.draft) = "feature-b"];
+ string extra = 2;
  message Inner {
-  option (temporal.api.protometa.v1.draft_message) = "feature-b";
   string value = 1;
  }
  enum State { ZERO = 0; ONE = 1; }
