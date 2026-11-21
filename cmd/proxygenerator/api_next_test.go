@@ -72,15 +72,18 @@ func TestAPINextProxy(t *testing.T) {
 				Name: proto.String("Nested"), Field: []*descriptorpb.FieldDescriptorProto{field("payload", 1, ".temporal.api.common.v1.Payload")},
 			}},
 		}
-		subtype.Options.ProtoReflect().SetUnknown(feature("message-feature"))
+		subtype.Options.ProtoReflect().SetUnknown(feature("payload-preview"))
+		back := field("back", 1, ".temporal.api.update.v1.DraftPayloadSubtype")
+		back.Options = &descriptorpb.FieldOptions{}
+		back.Options.ProtoReflect().SetUnknown(feature("payload-preview"))
 		file.MessageType = append(file.MessageType, subtype, &descriptorpb.DescriptorProto{
-			Name: proto.String("DraftPayloadCycle"), Field: []*descriptorpb.FieldDescriptorProto{field("back", 1, ".temporal.api.update.v1.DraftPayloadSubtype")},
+			Name: proto.String("DraftPayloadCycle"), Field: []*descriptorpb.FieldDescriptorProto{back},
 		})
 		for _, message := range file.MessageType {
 			if message.GetName() == "Request" {
 				f := field("draft_payload", 100, ".temporal.api.update.v1.DraftPayloadSubtype")
 				f.Options = &descriptorpb.FieldOptions{}
-				f.Options.ProtoReflect().SetUnknown(feature("field-feature"))
+				f.Options.ProtoReflect().SetUnknown(feature("payload-preview"))
 				message.Field = append(message.Field, f)
 			}
 		}
