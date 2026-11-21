@@ -87,3 +87,15 @@ message EnumAncestor {
   EnumFields member = 4;
  }
 }
+message Plain {}
+service Mixed {
+ rpc Stable(Plain) returns (Plain);
+ rpc Filtered(Plain) returns (Root);
+ rpc Preview(omission.child.Draft) returns (omission.child.Draft) {
+  option (temporal.api.protometa.v1.draft_method) = "feature-a";
+ }
+}
+service Preview {
+ option (temporal.api.protometa.v1.draft_service) = "feature-a";
+ rpc Call(omission.child.Draft) returns (omission.child.Draft);
+}

@@ -368,3 +368,29 @@ func (m *EnumAncestor) OmitDraftFields(enabled func(string) bool) (removedEnumVa
 	}
 	return removedEnumValue
 }
+
+// MixedDraftMethod describes how draft annotations affect the Mixed RPC with the
+// given full gRPC method name. feature is the RPC's draft feature, or "" for a stable
+// RPC. request and response report whether the request and response types have
+// OmitDraftFields methods. RPCs that draft annotations do not affect return zero values.
+func MixedDraftMethod(fullMethod string) (feature string, request, response bool) {
+	switch fullMethod {
+	case "/omission.parent.Mixed/Filtered":
+		return "", false, true
+	case "/omission.parent.Mixed/Preview":
+		return "feature-a", true, true
+	}
+	return "", false, false
+}
+
+// PreviewDraftMethod describes how draft annotations affect the Preview RPC with the
+// given full gRPC method name. feature is the RPC's draft feature, or "" for a stable
+// RPC. request and response report whether the request and response types have
+// OmitDraftFields methods. RPCs that draft annotations do not affect return zero values.
+func PreviewDraftMethod(fullMethod string) (feature string, request, response bool) {
+	switch fullMethod {
+	case "/omission.parent.Preview/Call":
+		return "feature-a", true, true
+	}
+	return "", false, false
+}

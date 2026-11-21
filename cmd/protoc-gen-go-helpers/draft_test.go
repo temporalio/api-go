@@ -117,6 +117,29 @@ func TestOmitAsksOnlyAboutSetFields(t *testing.T) {
 	require.Equal(t, []string{"feature-a"}, asked)
 }
 
+func TestDraftMethodLookup(t *testing.T) {
+	type result struct {
+		feature           string
+		request, response bool
+	}
+	for method, want := range map[string]result{
+		"/omission.parent.Mixed/Stable":   {},
+		"/omission.parent.Mixed/Filtered": {response: true},
+		"/omission.parent.Mixed/Preview":  {"feature-a", true, true},
+		"/omission.parent.Mixed/Unknown":  {},
+		"/omission.parent.Preview/Call":   {"feature-a", true, true},
+		"/omission.parent.Preview/Stable": {},
+	} {
+		lookup := parent.MixedDraftMethod
+		if strings.HasPrefix(method, "/omission.parent.Preview/") {
+			lookup = parent.PreviewDraftMethod
+		}
+		var got result
+		got.feature, got.request, got.response = lookup(method)
+		require.Equal(t, want, got, method)
+	}
+}
+
 // Protobuf serializes -0.0 for implicit-presence floats, so it is a set value.
 func TestOmitNegativeZero(t *testing.T) {
 	m := &parent.Scalars{Double: math.Copysign(0, -1), Float: float32(math.Copysign(0, -1))}
@@ -398,6 +421,7 @@ func TestDraftGenerationModes(t *testing.T) {
 		if enabled {
 			require.Equal(t, 2, count)
 			require.Contains(t, omissions.String(), "func (m *Root_Nested) OmitDraftFields(")
+			require.Contains(t, omissions.String(), "func MixedDraftMethod(")
 		} else {
 			require.Zero(t, count)
 		}
