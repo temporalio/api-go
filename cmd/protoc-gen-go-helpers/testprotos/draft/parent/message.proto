@@ -63,4 +63,27 @@ message DraftReferences {
   string label = 15;
   omission.child.Level preview_level = 16;
  }
+ omission.child.Level gated_level = 17 [(temporal.api.protometa.v1.draft) = "feature-a"];
+ EnumFields gated_message = 18 [(temporal.api.protometa.v1.draft) = "feature-a"];
+}
+
+message EnumFields {
+ omission.child.Level singular = 1;
+ optional omission.child.Level optional = 2;
+ repeated omission.child.Level list = 3;
+ map<string, omission.child.Level> by_name = 4;
+ oneof choice {
+  omission.child.Level level = 5;
+  string label = 6;
+ }
+ repeated omission.child.Level other_list = 7;
+}
+
+message EnumAncestor {
+ EnumFields single = 1;
+ repeated EnumFields list = 2;
+ map<string, EnumFields> by_name = 3;
+ oneof choice {
+  EnumFields member = 4;
+ }
 }

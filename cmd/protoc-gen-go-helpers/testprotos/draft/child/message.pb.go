@@ -25,19 +25,25 @@ const (
 type Level int32
 
 const (
-	Level_LEVEL_UNSPECIFIED Level = 0
-	Level_LEVEL_HIGH        Level = 1
+	Level_LEVEL_UNSPECIFIED  Level = 0
+	Level_LEVEL_HIGH         Level = 1
+	Level_LEVEL_PREVIEW      Level = 2
+	Level_LEVEL_EXPERIMENTAL Level = -1
 )
 
 // Enum value maps for Level.
 var (
 	Level_name = map[int32]string{
-		0: "LEVEL_UNSPECIFIED",
-		1: "LEVEL_HIGH",
+		0:  "LEVEL_UNSPECIFIED",
+		1:  "LEVEL_HIGH",
+		2:  "LEVEL_PREVIEW",
+		-1: "LEVEL_EXPERIMENTAL",
 	}
 	Level_value = map[string]int32{
-		"LEVEL_UNSPECIFIED": 0,
-		"LEVEL_HIGH":        1,
+		"LEVEL_UNSPECIFIED":  0,
+		"LEVEL_HIGH":         1,
+		"LEVEL_PREVIEW":      2,
+		"LEVEL_EXPERIMENTAL": -1,
 	}
 )
 
@@ -415,11 +421,13 @@ const file_child_message_proto_rawDesc = "" +
 	"\x05Empty\"\x1a\n" +
 	"\x05State\x12\b\n" +
 	"\x04ZERO\x10\x00\x12\a\n" +
-	"\x03ONE\x10\x01:\r\xc2\xed/\tfeature-a*.\n" +
+	"\x03ONE\x10\x01:\r\xc2\xed/\tfeature-a*\x80\x01\n" +
 	"\x05Level\x12\x15\n" +
 	"\x11LEVEL_UNSPECIFIED\x10\x00\x12\x0e\n" +
 	"\n" +
-	"LEVEL_HIGH\x10\x01*=\n" +
+	"LEVEL_HIGH\x10\x01\x12 \n" +
+	"\rLEVEL_PREVIEW\x10\x02\x1a\r\xc2\xed/\tfeature-b\x12.\n" +
+	"\x12LEVEL_EXPERIMENTAL\x10\xff\xff\xff\xff\xff\xff\xff\xff\xff\x01\x1a\r\xc2\xed/\tfeature-c*=\n" +
 	"\x04Mode\x12\x14\n" +
 	"\x10MODE_UNSPECIFIED\x10\x00\x12\x10\n" +
 	"\fMODE_PREVIEW\x10\x01\x1a\r\xc2\xed/\tfeature-aBKZIgo.temporal.io/api/cmd/protoc-gen-go-helpers/testprotos/draft/child;childb\x06proto3"

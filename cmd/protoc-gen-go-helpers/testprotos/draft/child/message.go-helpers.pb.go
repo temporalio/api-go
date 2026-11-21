@@ -119,8 +119,10 @@ func (this *Draft) Equal(that interface{}) bool {
 
 var (
 	Level_shorthandValue = map[string]int32{
-		"Unspecified": 0,
-		"High":        1,
+		"Unspecified":  0,
+		"High":         1,
+		"Preview":      2,
+		"Experimental": -1,
 	}
 )
 

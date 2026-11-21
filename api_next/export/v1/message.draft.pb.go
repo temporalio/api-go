@@ -2,25 +2,42 @@
 
 package export
 
-func (m *WorkflowExecution) OmitDraftFields(enabled func(string) bool) {
+// OmitDraftFields clears disabled draft fields and enum values.
+// It reports whether it removed a draft enum value from a retained field.
+func (m *WorkflowExecution) OmitDraftFields(enabled func(string) bool) (removedEnumValue bool) {
 	if m == nil {
-		return
+		return false
 	}
-	m.History.OmitDraftFields(enabled)
+	if m.History.OmitDraftFields(enabled) {
+		removedEnumValue = true
+	}
+	return removedEnumValue
 }
-func (m *WorkflowExecutions) OmitDraftFields(enabled func(string) bool) {
+
+// OmitDraftFields clears disabled draft fields and enum values.
+// It reports whether it removed a draft enum value from a retained field.
+func (m *WorkflowExecutions) OmitDraftFields(enabled func(string) bool) (removedEnumValue bool) {
 	if m == nil {
-		return
+		return false
 	}
-	for _, v := range m.Items {
-		v.OmitDraftFields(enabled)
+	for _, child := range m.Items {
+		if child.OmitDraftFields(enabled) {
+			removedEnumValue = true
+		}
 	}
+	return removedEnumValue
 }
-func (m *ExportedExecutions) OmitDraftFields(enabled func(string) bool) {
+
+// OmitDraftFields clears disabled draft fields and enum values.
+// It reports whether it removed a draft enum value from a retained field.
+func (m *ExportedExecutions) OmitDraftFields(enabled func(string) bool) (removedEnumValue bool) {
 	if m == nil {
-		return
+		return false
 	}
-	for _, v := range m.Workflows {
-		v.OmitDraftFields(enabled)
+	for _, child := range m.Workflows {
+		if child.OmitDraftFields(enabled) {
+			removedEnumValue = true
+		}
 	}
+	return removedEnumValue
 }
