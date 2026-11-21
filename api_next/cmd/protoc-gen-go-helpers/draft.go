@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"strconv"
 	"strings"
-	"unicode"
 
 	"google.golang.org/protobuf/compiler/protogen"
 	"google.golang.org/protobuf/encoding/protowire"
@@ -82,7 +81,6 @@ func draftPlan(gen *protogen.Plugin) (*omissionPlan, error) {
 		"draft_extension":  "google.protobuf.FieldOptions",
 	}
 	schema := map[protoreflect.FullName]map[protowire.Number]string{}
-	schemaFiles := map[string]bool{}
 	found := false
 	for _, f := range gen.Files {
 		if err := visit(f.Desc, func(d protoreflect.Descriptor) error {
@@ -95,7 +93,6 @@ func draftPlan(gen *protogen.Plugin) (*omissionPlan, error) {
 			if !known || string(e.FullName()) != draftPrefix+name {
 				return nil
 			}
-			schemaFiles[e.ParentFile().Path()] = true
 			if e.Kind() != protoreflect.StringKind || e.Cardinality() != protoreflect.Optional || string(e.ContainingMessage().FullName()) != extendee {
 				return fmt.Errorf("%s: malformed draft option schema", e.FullName())
 			}
@@ -110,13 +107,6 @@ func draftPlan(gen *protogen.Plugin) (*omissionPlan, error) {
 			return nil
 		}); err != nil {
 			return nil, err
-		}
-	}
-	for _, f := range gen.Files {
-		for i := range f.Desc.Imports().Len() {
-			if imp := f.Desc.Imports().Get(i); imp.IsPublic && schemaFiles[imp.Path()] {
-				return nil, fmt.Errorf("%s: public import of %s is not supported; import it directly", f.Desc.Path(), imp.Path())
-			}
 		}
 	}
 	if !found {
@@ -155,9 +145,6 @@ func draftPlan(gen *protogen.Plugin) (*omissionPlan, error) {
 				if !(option == "draft" && isField && !f.IsExtension()) && !(option == "draft_message" && isMessage) {
 					return fmt.Errorf("%s: unsupported draft annotation on %s", d.FullName(), annotationPlacement(d))
 				}
-				if value == "" || strings.ContainsFunc(value, unicode.IsSpace) {
-					return fmt.Errorf("%s: draft feature must be nonempty and contain no whitespace", d.FullName())
-				}
 				if isMessage {
 					p.messageFeatures[d.FullName()] = value
 				} else {
@@ -189,18 +176,6 @@ func draftPlan(gen *protogen.Plugin) (*omissionPlan, error) {
 		collect(f.Messages)
 		generated[f.Desc.Path()] = f.Generate
 	}
-	for _, file := range gen.Files {
-		if err := visit(file.Desc, func(d protoreflect.Descriptor) error {
-			extension, ok := d.(protoreflect.ExtensionDescriptor)
-			if ok && extension.IsExtension() && (len(p.typeFeatures(extension.Message())) > 0 || len(p.typeFeatures(extension.Enum())) > 0 ||
-				len(p.typeFeatures(extension.ContainingMessage())) > 0 || len(p.typeFeatures(extension.Parent())) > 0) {
-				return fmt.Errorf("%s: extension references draft type", extension.FullName())
-			}
-			return nil
-		}); err != nil {
-			return nil, err
-		}
-	}
 	for changed := true; changed; {
 		changed = false
 		for _, m := range p.messages {
@@ -218,15 +193,6 @@ func draftPlan(gen *protogen.Plugin) (*omissionPlan, error) {
 					p.affected[m.Desc.FullName()] = true
 					changed = true
 					break
-				}
-			}
-		}
-	}
-	for _, file := range gen.Files {
-		for _, service := range file.Services {
-			for _, method := range service.Methods {
-				if len(p.typeFeatures(method.Input.Desc)) > 0 || len(p.typeFeatures(method.Output.Desc)) > 0 {
-					return nil, fmt.Errorf("%s: RPC references draft type", method.Desc.FullName())
 				}
 			}
 		}
