@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"errors"
 	"os"
 	"os/exec"
@@ -8,7 +9,6 @@ import (
 	"strings"
 	"testing"
 
-	"google.golang.org/protobuf/encoding/protowire"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/types/descriptorpb"
 )
@@ -50,9 +50,6 @@ func TestAPINextProxy(t *testing.T) {
 			Type:  descriptorpb.FieldDescriptorProto_TYPE_MESSAGE.Enum(), TypeName: proto.String(typ),
 		}
 	}
-	feature := func(value string) []byte {
-		return protowire.AppendString(protowire.AppendTag(nil, 98008, protowire.BytesType), value)
-	}
 	var input string
 	for _, file := range set.File {
 		if file.GetPackage() != "temporal.api.update.v1" {
@@ -60,7 +57,7 @@ func TestAPINextProxy(t *testing.T) {
 		}
 		input = file.GetName()
 		subtype := &descriptorpb.DescriptorProto{
-			Name: proto.String("DraftPayloadSubtype"), Options: &descriptorpb.MessageOptions{},
+			Name: proto.String("DraftPayloadSubtype"),
 			Field: []*descriptorpb.FieldDescriptorProto{
 				field("payload", 1, ".temporal.api.common.v1.Payload"),
 				field("payloads", 2, ".temporal.api.common.v1.Payloads"),
@@ -72,18 +69,13 @@ func TestAPINextProxy(t *testing.T) {
 				Name: proto.String("Nested"), Field: []*descriptorpb.FieldDescriptorProto{field("payload", 1, ".temporal.api.common.v1.Payload")},
 			}},
 		}
-		subtype.Options.ProtoReflect().SetUnknown(feature("payload-preview"))
 		back := field("back", 1, ".temporal.api.update.v1.DraftPayloadSubtype")
-		back.Options = &descriptorpb.FieldOptions{}
-		back.Options.ProtoReflect().SetUnknown(feature("payload-preview"))
 		file.MessageType = append(file.MessageType, subtype, &descriptorpb.DescriptorProto{
 			Name: proto.String("DraftPayloadCycle"), Field: []*descriptorpb.FieldDescriptorProto{back},
 		})
 		for _, message := range file.MessageType {
 			if message.GetName() == "Request" {
 				f := field("draft_payload", 100, ".temporal.api.update.v1.DraftPayloadSubtype")
-				f.Options = &descriptorpb.FieldOptions{}
-				f.Options.ProtoReflect().SetUnknown(feature("payload-preview"))
 				message.Field = append(message.Field, f)
 			}
 		}
@@ -98,12 +90,51 @@ func TestAPINextProxy(t *testing.T) {
 	if err := os.WriteFile(descriptorPath, raw, 0600); err != nil {
 		t.Fatal(err)
 	}
+	var manifest struct {
+		Version int               `json:"version"`
+		Gates   map[string]string `json:"gates"`
+	}
+	raw, err = os.ReadFile(filepath.Join(root, "proto/api/temporal/api/draft-manifest.json"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	if err := json.Unmarshal(raw, &manifest); err != nil {
+		t.Fatal(err)
+	}
+	const updatePackage = "temporal.api.update.v1."
+	for name := range manifest.Gates {
+		if !strings.HasPrefix(name, updatePackage) {
+			delete(manifest.Gates, name)
+		}
+	}
+	for _, name := range []string{
+		"DraftPayloadSubtype",
+		"DraftPayloadSubtype.payload",
+		"DraftPayloadSubtype.payloads",
+		"DraftPayloadSubtype.failure",
+		"DraftPayloadSubtype.cycle",
+		"DraftPayloadSubtype.nested",
+		"DraftPayloadSubtype.Nested",
+		"DraftPayloadSubtype.Nested.payload",
+		"DraftPayloadCycle.back",
+		"Request.draft_payload",
+	} {
+		manifest.Gates[updatePackage+name] = "payload-preview"
+	}
+	raw, err = json.Marshal(manifest)
+	if err != nil {
+		t.Fatal(err)
+	}
+	manifestPath := filepath.Join(stage, "draft-manifest.json")
+	if err := os.WriteFile(manifestPath, raw, 0600); err != nil {
+		t.Fatal(err)
+	}
 	helper := filepath.Join(t.TempDir(), "protoc-gen-go-helpers")
 	run(root, "go", "build", "-o", helper, "./cmd/protoc-gen-go-helpers")
 	generated := t.TempDir()
 	run(stage, "protoc", "--descriptor_set_in="+descriptorPath,
 		"--plugin=protoc-gen-go-helpers="+helper, "--go_out=paths=source_relative:"+generated,
-		"--go-helpers_out=paths=source_relative,draft_omission=true:"+generated, input)
+		"--go-helpers_out=paths=source_relative,draft_omission=true,draft_manifest="+manifestPath+":"+generated, input)
 	entries, err := os.ReadDir(filepath.Join(generated, filepath.Dir(input)))
 	if err != nil {
 		t.Fatal(err)

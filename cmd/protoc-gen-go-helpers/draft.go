@@ -1,14 +1,16 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
+	"maps"
+	"os"
 	"slices"
 	"strconv"
 	"strings"
+	"unicode"
 
 	"google.golang.org/protobuf/compiler/protogen"
-	"google.golang.org/protobuf/encoding/protowire"
-	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/reflect/protoreflect"
 	"google.golang.org/protobuf/types/gofeaturespb"
 )
@@ -38,19 +40,7 @@ func fieldValue(f *protogen.Field) *protogen.Field {
 }
 
 func (p *omissionPlan) feature(d protoreflect.Descriptor) string {
-	for current := d; current != nil; current = current.Parent() {
-		if feature := p.features[current.FullName()]; feature != "" {
-			return feature
-		}
-		if field, ok := current.(protoreflect.FieldDescriptor); ok {
-			if oneof := field.ContainingOneof(); oneof != nil && !oneof.IsSynthetic() {
-				if feature := p.features[oneof.FullName()]; feature != "" {
-					return feature
-				}
-			}
-		}
-	}
-	return ""
+	return p.features[d.FullName()]
 }
 
 func (p *omissionPlan) draftEnumValues(f *protogen.Field) []draftEnumValue {
@@ -60,86 +50,39 @@ func (p *omissionPlan) draftEnumValues(f *protogen.Field) []draftEnumValue {
 	return nil
 }
 
-func draftPlan(gen *protogen.Plugin) (*omissionPlan, error) {
-	expected := map[string]string{
-		"draft":            "google.protobuf.FieldOptions",
-		"draft_message":    "google.protobuf.MessageOptions",
-		"draft_enum":       "google.protobuf.EnumOptions",
-		"draft_enum_value": "google.protobuf.EnumValueOptions",
-		"draft_service":    "google.protobuf.ServiceOptions",
-		"draft_method":     "google.protobuf.MethodOptions",
-		"draft_oneof":      "google.protobuf.OneofOptions",
+func loadDraftManifest(path string) (map[protoreflect.FullName]string, error) {
+	if path == "" {
+		return nil, fmt.Errorf("draft_omission requires draft_manifest")
 	}
-	schema := map[protoreflect.FullName]map[protowire.Number]bool{}
-	found := false
-	for _, f := range gen.Files {
-		if err := visit(f.Desc, func(d protoreflect.Descriptor) error {
-			e, ok := d.(protoreflect.ExtensionDescriptor)
-			if !ok || !e.IsExtension() {
-				return nil
-			}
-			name := strings.TrimPrefix(string(e.FullName()), draftPrefix)
-			extendee, known := expected[name]
-			if !known || string(e.FullName()) != draftPrefix+name {
-				return nil
-			}
-			if e.Kind() != protoreflect.StringKind || e.Cardinality() != protoreflect.Optional || string(e.ContainingMessage().FullName()) != extendee {
-				return fmt.Errorf("%s: malformed draft option schema", e.FullName())
-			}
-			if name == "draft" {
-				found = true
-			}
-			key := e.ContainingMessage().FullName()
-			if schema[key] == nil {
-				schema[key] = map[protowire.Number]bool{}
-			}
-			schema[key][protowire.Number(e.Number())] = true
-			return nil
-		}); err != nil {
-			return nil, err
+	data, err := os.ReadFile(path)
+	if err != nil {
+		return nil, fmt.Errorf("read draft manifest: %w", err)
+	}
+	var manifest struct {
+		Version int                              `json:"version"`
+		Gates   map[protoreflect.FullName]string `json:"gates"`
+	}
+	if err := json.Unmarshal(data, &manifest); err != nil {
+		return nil, fmt.Errorf("parse draft manifest: %w", err)
+	}
+	if manifest.Version != 1 || manifest.Gates == nil {
+		return nil, fmt.Errorf("draft manifest requires version 1 and a gates object")
+	}
+	for _, name := range slices.Sorted(maps.Keys(manifest.Gates)) {
+		if gate := manifest.Gates[name]; !name.IsValid() || gate == "" || strings.ContainsFunc(gate, unicode.IsSpace) {
+			return nil, fmt.Errorf("invalid draft manifest entry for %q", name)
 		}
 	}
-	if !found {
-		return nil, fmt.Errorf("draft_omission requires the temporal.api.protometa.v1.draft field option schema")
-	}
+	return manifest.Gates, nil
+}
+
+func draftPlan(gen *protogen.Plugin, gates map[protoreflect.FullName]string) (*omissionPlan, error) {
 	p := &omissionPlan{
-		features:   map[protoreflect.FullName]string{},
+		features:   gates,
 		enumValues: map[protoreflect.FullName][]draftEnumValue{},
 		affected:   map[protoreflect.FullName]bool{},
 	}
-	classify := func(d protoreflect.Descriptor) error {
-		options := d.Options()
-		if options == nil {
-			return nil
-		}
-		raw, err := proto.Marshal(options)
-		if err != nil {
-			return err
-		}
-		for len(raw) > 0 {
-			n, t, k := protowire.ConsumeTag(raw)
-			if k < 0 {
-				return protowire.ParseError(k)
-			}
-			raw = raw[k:]
-			if schema[options.ProtoReflect().Descriptor().FullName()][n] {
-				if t != protowire.BytesType {
-					return fmt.Errorf("%s: malformed draft option value", d.FullName())
-				}
-				value, k := protowire.ConsumeString(raw)
-				if k < 0 {
-					return protowire.ParseError(k)
-				}
-				p.features[d.FullName()] = value
-			}
-			k = protowire.ConsumeFieldValue(n, t, raw)
-			if k < 0 {
-				return protowire.ParseError(k)
-			}
-			raw = raw[k:]
-		}
-		return nil
-	}
+	unmatched := maps.Clone(gates)
 	var collect func([]*protogen.Message)
 	collect = func(ms []*protogen.Message) {
 		for _, m := range ms {
@@ -152,22 +95,13 @@ func draftPlan(gen *protogen.Plugin) (*omissionPlan, error) {
 	generated := map[string]bool{}
 	for _, f := range gen.Files {
 		if err := visit(f.Desc, func(d protoreflect.Descriptor) error {
-			if err := classify(d); err != nil {
-				return err
+			if _, isFile := d.(protoreflect.FileDescriptor); !isFile {
+				delete(unmatched, d.FullName())
 			}
 			value, ok := d.(protoreflect.EnumValueDescriptor)
-			if feature := p.features[d.FullName()]; ok && feature != "" {
-				enum := value.Parent().(protoreflect.EnumDescriptor)
-				if value.Number() == 0 {
-					return fmt.Errorf("%s: draft enum value cannot have number zero", value.FullName())
-				}
-				for i := range enum.Values().Len() {
-					other := enum.Values().Get(i)
-					if other.Number() == value.Number() && other.FullName() != value.FullName() {
-						return fmt.Errorf("%s: aliases involving draft enum values are not allowed (also used by %s)", value.FullName(), other.FullName())
-					}
-				}
-				p.enumValues[enum.FullName()] = append(p.enumValues[enum.FullName()], draftEnumValue{value.Number(), feature})
+			if feature := p.feature(d); ok && feature != "" && p.feature(value.Parent()) == "" {
+				enum := value.Parent().FullName()
+				p.enumValues[enum] = append(p.enumValues[enum], draftEnumValue{value.Number(), feature})
 			}
 			return nil
 		}); err != nil {
@@ -175,6 +109,10 @@ func draftPlan(gen *protogen.Plugin) (*omissionPlan, error) {
 		}
 		collect(f.Messages)
 		generated[f.Desc.Path()] = f.Generate
+	}
+	if len(unmatched) > 0 {
+		name := slices.Sorted(maps.Keys(unmatched))[0]
+		return nil, fmt.Errorf("draft manifest references unknown declaration %s", name)
 	}
 	for changed := true; changed; {
 		changed = false
@@ -250,8 +188,8 @@ func add[T protoreflect.Descriptor](out []protoreflect.Descriptor, list interfac
 	return out
 }
 
-func generateDraft(gen *protogen.Plugin) error {
-	p, err := draftPlan(gen)
+func generateDraft(gen *protogen.Plugin, gates map[protoreflect.FullName]string) error {
+	p, err := draftPlan(gen, gates)
 	if err != nil {
 		return err
 	}

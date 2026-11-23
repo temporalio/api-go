@@ -1,17 +1,14 @@
 package main
 
 import (
-	"encoding/json"
 	"math"
 	"os"
-	"os/exec"
 	"path/filepath"
 	"strings"
 	"testing"
 
 	"github.com/stretchr/testify/require"
 	"google.golang.org/protobuf/compiler/protogen"
-	"google.golang.org/protobuf/encoding/protowire"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/reflect/protodesc"
 	"google.golang.org/protobuf/reflect/protoreflect"
@@ -345,7 +342,7 @@ func TestDraftEnumCollectionsRejected(t *testing.T) {
 	})
 	gen, err := (protogen.Options{}).New(req)
 	require.NoError(t, err)
-	require.ErrorContains(t, generateDraft(gen), "draft enum values in collections are unsupported")
+	require.ErrorContains(t, generateDraft(gen, fixtureGates(t)), "draft enum values in collections are unsupported")
 }
 
 func fixtureRequest() *pluginpb.CodeGeneratorRequest {
@@ -366,11 +363,22 @@ func fixtureRequest() *pluginpb.CodeGeneratorRequest {
 	return &pluginpb.CodeGeneratorRequest{ProtoFile: files, FileToGenerate: []string{"annotations/draft.proto", "child/message.proto", "parent/message.proto"}, Parameter: proto.String("paths=source_relative")}
 }
 
+func fixtureGates(t *testing.T) map[protoreflect.FullName]string {
+	t.Helper()
+	gates, err := loadDraftManifest("testprotos/draft/draft-manifest.json")
+	require.NoError(t, err)
+	return gates
+}
+
 func TestDraftGenerationModes(t *testing.T) {
 	for _, enabled := range []bool{false, true} {
 		gen, err := (protogen.Options{}).New(fixtureRequest())
 		require.NoError(t, err)
-		require.NoError(t, generate(gen, enabled))
+		var gates map[protoreflect.FullName]string
+		if enabled {
+			gates = fixtureGates(t)
+		}
+		require.NoError(t, generate(gen, gates))
 		response := gen.Response()
 		require.Empty(t, response.GetError())
 		count := 0
@@ -403,8 +411,9 @@ func TestDraftGenerationModes(t *testing.T) {
 	req.FileToGenerate = []string{req.ProtoFile[0].GetName()}
 	gen, err := (protogen.Options{}).New(req)
 	require.NoError(t, err)
-	require.NoError(t, generate(gen, false))
-	require.ErrorContains(t, generateDraft(gen), "requires")
+	require.NoError(t, generate(gen, nil))
+	_, err = loadDraftManifest("")
+	require.ErrorContains(t, err, "requires draft_manifest")
 }
 
 func TestDraftPlannerFailures(t *testing.T) {
@@ -413,12 +422,6 @@ func TestDraftPlannerFailures(t *testing.T) {
 		mutate     func(*pluginpb.CodeGeneratorRequest)
 		mutateGen  func(*protogen.Plugin)
 	}{
-		{name: "schema type", want: "malformed", mutate: func(r *pluginpb.CodeGeneratorRequest) {
-			r.ProtoFile[1].Extension[0].Type = descriptorpb.FieldDescriptorProto_TYPE_BOOL.Enum()
-		}},
-		{name: "schema extendee", want: "malformed", mutate: func(r *pluginpb.CodeGeneratorRequest) {
-			r.ProtoFile[1].Extension[0].Extendee = proto.String(".google.protobuf.FileOptions")
-		}},
 		{name: "dependency", want: "affected dependency", mutate: func(r *pluginpb.CodeGeneratorRequest) { r.FileToGenerate = []string{"parent/message.proto"} }},
 		{name: "collision", want: "name collision", mutate: func(r *pluginpb.CodeGeneratorRequest) {
 			r.ProtoFile[len(r.ProtoFile)-1].MessageType[0].Field[0].Name = proto.String("omit_draft_fields")
@@ -438,119 +441,40 @@ func TestDraftPlannerFailures(t *testing.T) {
 			if tc.mutateGen != nil {
 				tc.mutateGen(gen)
 			}
-			_, err = draftPlan(gen)
+			_, err = draftPlan(gen, fixtureGates(t))
 			require.ErrorContains(t, err, tc.want)
 		})
 	}
-	req := fixtureRequest()
-	for _, file := range req.ProtoFile {
-		for _, m := range file.MessageType {
-			for _, f := range m.Field {
-				if f.Options != nil {
-					raw, err := proto.Marshal(f.Options)
-					require.NoError(t, err)
-					f.Options = &descriptorpb.FieldOptions{}
-					f.Options.ProtoReflect().SetUnknown(raw)
-				}
-			}
-		}
-	}
-	gen, err := (protogen.Options{}).New(req)
-	require.NoError(t, err)
-	plan, err := draftPlan(gen)
-	require.NoError(t, err)
-	require.Equal(t, "feature-a", plan.features["omission.child.Leaf.a"])
-	req = fixtureRequest()
-	f := req.ProtoFile[len(req.ProtoFile)-1].MessageType[0].Field[0]
-	f.Options = &descriptorpb.FieldOptions{}
-	f.Options.ProtoReflect().SetUnknown(protowire.AppendVarint(protowire.AppendTag(nil, 98008, protowire.VarintType), 1))
-	gen, err = (protogen.Options{}).New(req)
-	require.NoError(t, err)
-	_, err = draftPlan(gen)
-	require.ErrorContains(t, err, "malformed")
 }
 
-// TestDraftSharedClassification compares explicit annotations with the api repo's
-// classification fixtures in the proto/api submodule. The api generator owns schema
-// validation. We also reject zero and aliased draft enum numbers because clearing an
-// enum must leave a stable default and each number must identify a single value.
-// TestDraftPlannerFailures covers the other local rejections: a missing or malformed
-// option schema, malformed option wire data, affected dependencies outside generation,
-// non-open Go messages, and OmitDraftFields name collisions.
-func TestDraftSharedClassification(t *testing.T) {
-	corpus := "../../proto/api/cmd/generate-stable-protos/testdata/classification"
-	reject := map[string]string{
-		"enum-value-zero":               "cannot have number zero",
-		"enum-value-alias-both-draft":   "aliases involving draft enum values",
-		"enum-value-alias-draft-first":  "aliases involving draft enum values",
-		"enum-value-alias-stable-first": "aliases involving draft enum values",
-	}
-	entries, err := os.ReadDir(corpus)
-	require.NoError(t, err)
-	for _, entry := range entries {
-		if !entry.IsDir() {
-			continue
-		}
-		t.Run(entry.Name(), func(t *testing.T) {
-			dir := filepath.Join(corpus, entry.Name())
-			var expected struct {
-				Error string `json:"error"`
-				// Annotations maps each explicitly draft declaration to its feature.
-				Annotations map[string]string `json:"annotations"`
-			}
-			raw, err := os.ReadFile(filepath.Join(dir, "expected.json"))
-			require.NoError(t, err)
-			require.NoError(t, json.Unmarshal(raw, &expected))
-			wantError := reject[entry.Name()]
-			if expected.Error != "" && wantError == "" {
-				t.Skip("validated by the api generator")
-			}
-			var inputs []string
-			require.NoError(t, filepath.WalkDir(filepath.Join(dir, "input"), func(path string, d os.DirEntry, err error) error {
-				if err != nil {
-					return err
-				}
-				if !d.IsDir() && strings.HasSuffix(path, ".proto") {
-					inputs = append(inputs, path)
-				}
-				return nil
-			}))
-			output := filepath.Join(t.TempDir(), "schema.pb")
-			args := []string{"-I" + filepath.Join(dir, "input"), "--include_imports", "--descriptor_set_out=" + output}
-			args = append(args, inputs...)
-			out, err := exec.Command("protoc", args...).CombinedOutput()
-			require.NoError(t, err, "%s", out)
-			raw, err = os.ReadFile(output)
-			require.NoError(t, err)
-			var set descriptorpb.FileDescriptorSet
-			require.NoError(t, proto.Unmarshal(raw, &set))
-			req := &pluginpb.CodeGeneratorRequest{ProtoFile: set.File}
-			for _, f := range set.File {
-				if f.GetName() != "google/protobuf/descriptor.proto" {
-					if f.Options == nil {
-						f.Options = &descriptorpb.FileOptions{}
-					}
-					f.Options.GoPackage = proto.String("go.temporal.io/api/testclassification/" + strings.ReplaceAll(f.GetPackage(), ".", "/"))
-					req.FileToGenerate = append(req.FileToGenerate, f.GetName())
-				}
-			}
-			gen, err := (protogen.Options{}).New(req)
-			require.NoError(t, err)
-			plan, err := draftPlan(gen)
-			if wantError != "" {
-				require.NotEmpty(t, expected.Error)
-				require.ErrorContains(t, err, wantError)
-				return
-			}
-			require.NoError(t, err)
-			actual := map[string]string{}
-			for name, feature := range plan.features {
-				actual[string(name)] = feature
-			}
-			if expected.Annotations == nil {
-				expected.Annotations = map[string]string{}
-			}
-			require.Equal(t, expected.Annotations, actual)
+// TestDraftManifest checks the manifest contract. The API generator owns schema validation.
+func TestDraftManifest(t *testing.T) {
+	for _, tc := range []struct {
+		name string
+		data string
+		want string
+	}{
+		{"malformed JSON", "{", "parse draft manifest"},
+		{"wrong version", `{"version":2,"gates":{}}`, "requires version 1"},
+		{"missing gates", `{"version":1}`, "requires version 1 and a gates object"},
+		{"invalid name", `{"version":1,"gates":{"bad-name":"preview"}}`, "invalid draft manifest entry"},
+		{"empty feature", `{"version":1,"gates":{"omission.child.Leaf.a":""}}`, "invalid draft manifest entry"},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			path := filepath.Join(t.TempDir(), "manifest.json")
+			require.NoError(t, os.WriteFile(path, []byte(tc.data), 0600))
+			_, err := loadDraftManifest(path)
+			require.ErrorContains(t, err, tc.want)
 		})
 	}
+
+	gen, err := (protogen.Options{}).New(fixtureRequest())
+	require.NoError(t, err)
+	gates := fixtureGates(t)
+	plan, err := draftPlan(gen, gates)
+	require.NoError(t, err)
+	require.Equal(t, "feature-a", plan.feature(gen.FilesByPath["parent/message.proto"].Services[1].Methods[0].Desc))
+	gates["omission.parent.Unknown"] = "preview"
+	_, err = draftPlan(gen, gates)
+	require.ErrorContains(t, err, "draft manifest references unknown declaration omission.parent.Unknown")
 }

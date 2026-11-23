@@ -96,6 +96,7 @@ go-grpc: clean .go-helpers-installed $(PROTO_OUT)
 	cp -rf $(PROTO_OUT)/temporal/api/* $(PROTO_OUT) && rm -rf $(PROTO_OUT)/temporal
 
 API_NEXT_OUT := api_next
+DRAFT_MANIFEST := $(PROTO_ROOT)/temporal/api/draft-manifest.json
 API_NEXT_PROTO_PATHS := paths=source_relative:$(API_NEXT_OUT)
 
 # workflowservicenexus is produced by nexus-gen, outside protogen.
@@ -119,7 +120,7 @@ api-next: .go-helpers-installed mockgen-install nexus-annotations
 		--output=$(API_NEXT_OUT) \
 		-p go-grpc_out=$(API_NEXT_PROTO_PATHS) \
 		-p grpc-gateway_out=allow_patch_feature=false,$(API_NEXT_PROTO_PATHS) \
-		-p go-helpers_out=draft_omission=true,$(API_NEXT_PROTO_PATHS)
+		-p go-helpers_out=draft_omission=true,draft_manifest=$(DRAFT_MANIFEST),$(API_NEXT_PROTO_PATHS)
 	cp -rf $(API_NEXT_OUT)/temporal/api_next/* $(API_NEXT_OUT) && rm -rf $(API_NEXT_OUT)/temporal
 
 	go run ./cmd/protogen \
@@ -235,7 +236,7 @@ gomodtidy:
 .PHONY: draft-inputs
 draft-inputs:
 	@if [ -d "$(PROTO_ROOT)/temporal/api_next" ] && \
-	    [ -d "$(PROTO_ROOT)/cmd/generate-stable-protos/testdata/classification" ]; then \
+	    [ -f "$(PROTO_ROOT)/temporal/api_next/protometa/v1/draft.proto" ]; then \
 		echo true; \
 	else \
 		echo false; \
@@ -252,7 +253,7 @@ helper-test-protos:
 		--output=cmd/protoc-gen-go-helpers/testprotos/draft \
 		--no-rewrite-enum-const \
 		--no-rewrite-enum-string \
-		-p go-helpers_out=paths=source_relative,draft_omission=true:cmd/protoc-gen-go-helpers/testprotos/draft
+		-p go-helpers_out=paths=source_relative,draft_omission=true,draft_manifest=cmd/protoc-gen-go-helpers/testprotos/draft/draft-manifest.json:cmd/protoc-gen-go-helpers/testprotos/draft
 
 # We need to ensure protos are up to date to test our UTF-8 post-processing
 .PHONY: test test-stable
@@ -262,7 +263,7 @@ test: copy-helpers
 	if [ -f internal/draftcompat/go.mod ]; then go -C internal/draftcompat test ./...; fi
 
 test-stable: copy-helpers
-	go test -race -tags protolegacy -skip '^TestDraftSharedClassification$$' ./...
+	go test -race -tags protolegacy ./...
 	go -C cmd/proxygenerator test -skip '^TestAPINextProxy$$' ./...
 
 ##### Check #####
