@@ -43,6 +43,10 @@ update-proto-submodule:
 NEXUS_SCHEMA_ROOT := $(PROTO_ROOT)/nexus
 NEXUS_PROTO_OUT := workflowservice/v1/workflowservicenexus
 NEXUS_WIT_OUT := systemnexus
+# Entries are source WIT filename:destination directory.
+NEXUS_WIT_FILES := \
+	workflow-service.wit:workflowservice/v1 \
+	notification-service.wit:notificationservice/v1
 
 ##### Compile proto files for go #####
 grpc: http-api-docs go-grpc copy-helpers nexus-gen system-nexus
@@ -60,8 +64,12 @@ nexus-gen:
 system-nexus:
 	printf $(COLOR) "Update system-nexus WIT files..."
 	rm -rf $(NEXUS_WIT_OUT)
-	mkdir -p $(NEXUS_WIT_OUT)/workflowservice/v1
-	cp $(NEXUS_SCHEMA_ROOT)/workflow-service.wit $(NEXUS_WIT_OUT)/workflowservice/v1/
+	set -e; for entry in $(NEXUS_WIT_FILES); do \
+		src="$${entry%%:*}"; \
+		dst="$(NEXUS_WIT_OUT)/$${entry#*:}"; \
+		mkdir -p "$$dst"; \
+		cp "$(NEXUS_SCHEMA_ROOT)/$$src" "$$dst/"; \
+	done
 	cp -R $(NEXUS_SCHEMA_ROOT)/deps $(NEXUS_WIT_OUT)/
 
 # Only install helpers when their source has changed
