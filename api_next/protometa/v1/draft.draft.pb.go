@@ -6,28 +6,7 @@ package protometa
 // OmitDraftFields method.
 func HasOmitDraftFields(messageFullName string) bool {
 	switch messageFullName {
-	case "temporal.api.export.v1.ExportedExecutions",
-		"temporal.api.export.v1.WorkflowExecution",
-		"temporal.api.export.v1.WorkflowExecutions",
-		"temporal.api.history.v1.History",
-		"temporal.api.history.v1.HistoryEvent",
-		"temporal.api.history.v1.WorkflowExecutionUpdateAcceptedEventAttributes",
-		"temporal.api.history.v1.WorkflowExecutionUpdateAdmittedEventAttributes",
-		"temporal.api.history.v1.WorkflowExecutionUpdateRejectedEventAttributes",
-		"temporal.api.update.v1.Acceptance",
-		"temporal.api.update.v1.Rejection",
-		"temporal.api.update.v1.Request",
-		"temporal.api.update.v1.Response",
-		"temporal.api.workflowservice.v1.ExecuteMultiOperationRequest",
-		"temporal.api.workflowservice.v1.ExecuteMultiOperationRequest.Operation",
-		"temporal.api.workflowservice.v1.ExecuteMultiOperationResponse",
-		"temporal.api.workflowservice.v1.ExecuteMultiOperationResponse.Response",
-		"temporal.api.workflowservice.v1.GetWorkflowExecutionHistoryResponse",
-		"temporal.api.workflowservice.v1.GetWorkflowExecutionHistoryReverseResponse",
-		"temporal.api.workflowservice.v1.PollWorkflowTaskQueueResponse",
-		"temporal.api.workflowservice.v1.RespondWorkflowTaskCompletedResponse",
-		"temporal.api.workflowservice.v1.StartWorkflowExecutionResponse",
-		"temporal.api.workflowservice.v1.UpdateWorkflowExecutionRequest":
+	case "temporal.api.workflowservice.v1.DescribeNamespaceRequest":
 		return true
 	}
 	return false

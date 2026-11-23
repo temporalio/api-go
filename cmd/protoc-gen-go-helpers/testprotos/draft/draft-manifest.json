@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "gates": {
     "omission.child.Draft": "feature-a",
     "omission.child.Draft.Empty": "feature-a",

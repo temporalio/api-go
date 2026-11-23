@@ -36,7 +36,7 @@ func TestOmitFixtures(t *testing.T) {
 				}
 				return false
 			}
-			m := &parent.Root{Stable: "root", Gated: leaf(), List: []*child.Leaf{nil, leaf()}, Map: map[string]*child.Leaf{"nil": nil, "leaf": leaf()}, Optional: proto.Int32(0), Choice: &parent.Root_A{A: 0}, Nested: &parent.Root_Nested{Leaf: leaf()}, Names: []string{"name"}, Counts: map[string]int32{"count": 1}}
+			m := &parent.Root{Stable: "root", Gated: leaf(), List: []*child.Stable{nil, {Value: "list"}}, Map: map[string]*child.Stable{"nil": nil, "entry": {Value: "map"}}, Optional: proto.Int32(0), Choice: &parent.Root_A{A: 0}, Nested: &parent.Root_Nested{Leaf: leaf()}, Names: []string{"name"}, Counts: map[string]int32{"count": 1}}
 			expectedLeaf := &child.Leaf{Stable: "stable"}
 			if enabled("feature-a") {
 				expectedLeaf.A = "a"
@@ -44,7 +44,7 @@ func TestOmitFixtures(t *testing.T) {
 			if enabled("feature-b") {
 				expectedLeaf.B = "b"
 			}
-			expected := &parent.Root{Stable: "root", List: []*child.Leaf{nil, proto.Clone(expectedLeaf).(*child.Leaf)}, Map: map[string]*child.Leaf{"nil": nil, "leaf": proto.Clone(expectedLeaf).(*child.Leaf)}, Nested: &parent.Root_Nested{Leaf: proto.Clone(expectedLeaf).(*child.Leaf)}}
+			expected := &parent.Root{Stable: "root", List: []*child.Stable{nil, {Value: "list"}}, Map: map[string]*child.Stable{"nil": nil, "entry": {Value: "map"}}, Nested: &parent.Root_Nested{Leaf: proto.Clone(expectedLeaf).(*child.Leaf)}}
 			if enabled("feature-a") {
 				expected.Gated = proto.Clone(expectedLeaf).(*child.Leaf)
 				expected.Optional = proto.Int32(0)
@@ -103,7 +103,7 @@ func TestOmitAsksOnlyAboutSetFields(t *testing.T) {
 	}
 	for _, m := range []omitter{
 		&parent.Root{},
-		&parent.Root{Stable: "root", List: []*child.Leaf{nil, {Stable: "stable"}}, Map: map[string]*child.Leaf{"leaf": {Stable: "stable"}}, Nested: &parent.Root_Nested{Leaf: &child.Leaf{Stable: "stable"}}},
+		&parent.Root{Stable: "root", List: []*child.Stable{nil, {Value: "stable"}}, Map: map[string]*child.Stable{"leaf": {Value: "stable"}}, Nested: &parent.Root_Nested{Leaf: &child.Leaf{Stable: "stable"}}},
 		&parent.Scalars{},
 		&parent.DraftReferences{},
 	} {
@@ -196,6 +196,27 @@ func TestOmitDraftMessageReferences(t *testing.T) {
 	m.Choice = (*parent.DraftReferences_Draft)(nil)
 	require.False(t, m.OmitDraftFields(disabled))
 	require.Nil(t, m.Choice)
+}
+
+func TestOmitDraftCollectionsWithoutVisitingEntries(t *testing.T) {
+	message := &child.Draft{Value: "preview"}
+	request := &parent.DraftReferences{
+		List:   []*child.Draft{message},
+		ByName: map[string]*child.Draft{"preview": message},
+	}
+	original := proto.Clone(request)
+
+	var checked []string
+	require.False(t, request.OmitDraftFields(func(feature string) bool {
+		checked = append(checked, feature)
+		return true
+	}))
+	require.Equal(t, []string{"feature-a", "feature-a"}, checked)
+	require.True(t, proto.Equal(original, request))
+
+	require.False(t, request.OmitDraftFields(func(string) bool { return false }))
+	require.True(t, proto.Equal(&parent.DraftReferences{}, request))
+	require.Equal(t, "preview", message.Value)
 }
 
 func TestOmitDirectDraftMessage(t *testing.T) {
@@ -330,21 +351,6 @@ func TestOmitNestedDraftEnumValues(t *testing.T) {
 	}
 }
 
-func TestDraftEnumCollectionsRejected(t *testing.T) {
-	req := fixtureRequest()
-	file := req.ProtoFile[len(req.ProtoFile)-1]
-	message := file.MessageType[0]
-	message.Field = append(message.Field, &descriptorpb.FieldDescriptorProto{
-		Name: proto.String("levels"), Number: proto.Int32(100),
-		Label:    descriptorpb.FieldDescriptorProto_LABEL_REPEATED.Enum(),
-		Type:     descriptorpb.FieldDescriptorProto_TYPE_ENUM.Enum(),
-		TypeName: proto.String(".omission.child.Level"),
-	})
-	gen, err := (protogen.Options{}).New(req)
-	require.NoError(t, err)
-	require.ErrorContains(t, generateDraft(gen, fixtureGates(t)), "draft enum values in collections are unsupported")
-}
-
 func fixtureRequest() *pluginpb.CodeGeneratorRequest {
 	var files []*descriptorpb.FileDescriptorProto
 	seen := map[string]bool{}
@@ -455,10 +461,10 @@ func TestDraftManifest(t *testing.T) {
 		want string
 	}{
 		{"malformed JSON", "{", "parse draft manifest"},
-		{"wrong version", `{"version":2,"gates":{}}`, "requires version 1"},
-		{"missing gates", `{"version":1}`, "requires version 1 and a gates object"},
-		{"invalid name", `{"version":1,"gates":{"bad-name":"preview"}}`, "invalid draft manifest entry"},
-		{"empty feature", `{"version":1,"gates":{"omission.child.Leaf.a":""}}`, "invalid draft manifest entry"},
+		{"wrong version", `{"version":1,"gates":{}}`, "requires version 2"},
+		{"missing gates", `{"version":2}`, "requires version 2 and a gates object"},
+		{"invalid name", `{"version":2,"gates":{"bad-name":"preview"}}`, "invalid draft manifest entry"},
+		{"empty feature", `{"version":2,"gates":{"omission.child.Leaf.a":""}}`, "invalid draft manifest entry"},
 	} {
 		t.Run(tc.name, func(t *testing.T) {
 			path := filepath.Join(t.TempDir(), "manifest.json")

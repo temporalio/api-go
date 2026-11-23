@@ -19,16 +19,6 @@ func (m *Root) OmitDraftFields(enabled func(string) bool) (removedEnumValue bool
 			removedEnumValue = true
 		}
 	}
-	for _, child := range m.List {
-		if child.OmitDraftFields(enabled) {
-			removedEnumValue = true
-		}
-	}
-	for _, child := range m.Map {
-		if child.OmitDraftFields(enabled) {
-			removedEnumValue = true
-		}
-	}
 	if m.Optional != nil && !enabled("feature-a") {
 		m.Optional = nil
 	}
@@ -179,21 +169,9 @@ func (m *DraftReferences) OmitDraftFields(enabled func(string) bool) (removedEnu
 	}
 	if len(m.List) > 0 && !enabled("feature-a") {
 		m.List = nil
-	} else {
-		for _, child := range m.List {
-			if child.OmitDraftFields(enabled) {
-				removedEnumValue = true
-			}
-		}
 	}
 	if len(m.ByName) > 0 && !enabled("feature-a") {
 		m.ByName = nil
-	} else {
-		for _, child := range m.ByName {
-			if child.OmitDraftFields(enabled) {
-				removedEnumValue = true
-			}
-		}
 	}
 	if v, ok := m.Choice.(*DraftReferences_Draft); ok {
 		if !enabled("feature-a") {

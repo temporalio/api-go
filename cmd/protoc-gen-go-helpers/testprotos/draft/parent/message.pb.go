@@ -70,12 +70,12 @@ func (Scalars_State) EnumDescriptor() ([]byte, []int) {
 }
 
 type Root struct {
-	state    protoimpl.MessageState `protogen:"open.v1"`
-	Stable   string                 `protobuf:"bytes,1,opt,name=stable,proto3" json:"stable,omitempty"`
-	Gated    *child.Leaf            `protobuf:"bytes,2,opt,name=gated,proto3" json:"gated,omitempty"`
-	List     []*child.Leaf          `protobuf:"bytes,3,rep,name=list,proto3" json:"list,omitempty"`
-	Map      map[string]*child.Leaf `protobuf:"bytes,4,rep,name=map,proto3" json:"map,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
-	Optional *int32                 `protobuf:"varint,5,opt,name=optional,proto3,oneof" json:"optional,omitempty"`
+	state    protoimpl.MessageState   `protogen:"open.v1"`
+	Stable   string                   `protobuf:"bytes,1,opt,name=stable,proto3" json:"stable,omitempty"`
+	Gated    *child.Leaf              `protobuf:"bytes,2,opt,name=gated,proto3" json:"gated,omitempty"`
+	List     []*child.Stable          `protobuf:"bytes,3,rep,name=list,proto3" json:"list,omitempty"`
+	Map      map[string]*child.Stable `protobuf:"bytes,4,rep,name=map,proto3" json:"map,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	Optional *int32                   `protobuf:"varint,5,opt,name=optional,proto3,oneof" json:"optional,omitempty"`
 	// Types that are valid to be assigned to Choice:
 	//
 	//	*Root_A
@@ -133,14 +133,14 @@ func (x *Root) GetGated() *child.Leaf {
 	return nil
 }
 
-func (x *Root) GetList() []*child.Leaf {
+func (x *Root) GetList() []*child.Stable {
 	if x != nil {
 		return x.List
 	}
 	return nil
 }
 
-func (x *Root) GetMap() map[string]*child.Leaf {
+func (x *Root) GetMap() map[string]*child.Stable {
 	if x != nil {
 		return x.Map
 	}
@@ -1031,11 +1031,11 @@ var File_parent_message_proto protoreflect.FileDescriptor
 
 const file_parent_message_proto_rawDesc = "" +
 	"\n" +
-	"\x14parent/message.proto\x12\x0fomission.parent\x1a\x17annotations/draft.proto\x1a\x13child/message.proto\"\xd0\x05\n" +
+	"\x14parent/message.proto\x12\x0fomission.parent\x1a\x17annotations/draft.proto\x1a\x13child/message.proto\"\xd4\x05\n" +
 	"\x04Root\x12\x16\n" +
 	"\x06stable\x18\x01 \x01(\tR\x06stable\x129\n" +
-	"\x05gated\x18\x02 \x01(\v2\x14.omission.child.LeafB\r\xc2\xed/\tfeature-aR\x05gated\x12(\n" +
-	"\x04list\x18\x03 \x03(\v2\x14.omission.child.LeafR\x04list\x120\n" +
+	"\x05gated\x18\x02 \x01(\v2\x14.omission.child.LeafB\r\xc2\xed/\tfeature-aR\x05gated\x12*\n" +
+	"\x04list\x18\x03 \x03(\v2\x16.omission.child.StableR\x04list\x120\n" +
 	"\x03map\x18\x04 \x03(\v2\x1e.omission.parent.Root.MapEntryR\x03map\x12.\n" +
 	"\boptional\x18\x05 \x01(\x05B\r\xc2\xed/\tfeature-aH\x01R\boptional\x88\x01\x01\x12\x1d\n" +
 	"\x01a\x18\x06 \x01(\x05B\r\xc2\xed/\tfeature-aH\x00R\x01a\x12*\n" +
@@ -1044,10 +1044,10 @@ const file_parent_message_proto_rawDesc = "" +
 	"\x06nested\x18\t \x01(\v2\x1c.omission.parent.Root.NestedR\x06nested\x12#\n" +
 	"\x05names\x18\n" +
 	" \x03(\tB\r\xc2\xed/\tfeature-bR\x05names\x12H\n" +
-	"\x06counts\x18\v \x03(\v2!.omission.parent.Root.CountsEntryB\r\xc2\xed/\tfeature-bR\x06counts\x1aL\n" +
+	"\x06counts\x18\v \x03(\v2!.omission.parent.Root.CountsEntryB\r\xc2\xed/\tfeature-bR\x06counts\x1aN\n" +
 	"\bMapEntry\x12\x10\n" +
-	"\x03key\x18\x01 \x01(\tR\x03key\x12*\n" +
-	"\x05value\x18\x02 \x01(\v2\x14.omission.child.LeafR\x05value:\x028\x01\x1a9\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12,\n" +
+	"\x05value\x18\x02 \x01(\v2\x16.omission.child.StableR\x05value:\x028\x01\x1a9\n" +
 	"\vCountsEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\x05R\x05value:\x028\x01\x1a2\n" +
@@ -1163,16 +1163,17 @@ var file_parent_message_proto_goTypes = []any{
 	nil,                       // 13: omission.parent.DraftReferences.ByNameEntry
 	nil,                       // 14: omission.parent.DraftReferences.StateByNameEntry
 	(*child.Leaf)(nil),        // 15: omission.child.Leaf
-	(*child.Draft)(nil),       // 16: omission.child.Draft
-	(*child.Draft_Inner)(nil), // 17: omission.child.Draft.Inner
-	(child.Draft_State)(0),    // 18: omission.child.Draft.State
-	(*child.Draft_Empty)(nil), // 19: omission.child.Draft.Empty
-	(child.Mode)(0),           // 20: omission.child.Mode
-	(child.Level)(0),          // 21: omission.child.Level
+	(*child.Stable)(nil),      // 16: omission.child.Stable
+	(*child.Draft)(nil),       // 17: omission.child.Draft
+	(*child.Draft_Inner)(nil), // 18: omission.child.Draft.Inner
+	(child.Draft_State)(0),    // 19: omission.child.Draft.State
+	(*child.Draft_Empty)(nil), // 20: omission.child.Draft.Empty
+	(child.Mode)(0),           // 21: omission.child.Mode
+	(child.Level)(0),          // 22: omission.child.Level
 }
 var file_parent_message_proto_depIdxs = []int32{
 	15, // 0: omission.parent.Root.gated:type_name -> omission.child.Leaf
-	15, // 1: omission.parent.Root.list:type_name -> omission.child.Leaf
+	16, // 1: omission.parent.Root.list:type_name -> omission.child.Stable
 	10, // 2: omission.parent.Root.map:type_name -> omission.parent.Root.MapEntry
 	15, // 3: omission.parent.Root.leaf:type_name -> omission.child.Leaf
 	12, // 4: omission.parent.Root.nested:type_name -> omission.parent.Root.Nested
@@ -1182,37 +1183,37 @@ var file_parent_message_proto_depIdxs = []int32{
 	15, // 8: omission.parent.CycleB.leaf:type_name -> omission.child.Leaf
 	2,  // 9: omission.parent.Ancestor.child:type_name -> omission.parent.CycleA
 	0,  // 10: omission.parent.Scalars.enum:type_name -> omission.parent.Scalars.State
-	16, // 11: omission.parent.DraftReferences.single:type_name -> omission.child.Draft
-	16, // 12: omission.parent.DraftReferences.list:type_name -> omission.child.Draft
+	17, // 11: omission.parent.DraftReferences.single:type_name -> omission.child.Draft
+	17, // 12: omission.parent.DraftReferences.list:type_name -> omission.child.Draft
 	13, // 13: omission.parent.DraftReferences.by_name:type_name -> omission.parent.DraftReferences.ByNameEntry
-	16, // 14: omission.parent.DraftReferences.draft:type_name -> omission.child.Draft
-	17, // 15: omission.parent.DraftReferences.inner:type_name -> omission.child.Draft.Inner
-	18, // 16: omission.parent.DraftReferences.state:type_name -> omission.child.Draft.State
-	18, // 17: omission.parent.DraftReferences.states:type_name -> omission.child.Draft.State
+	17, // 14: omission.parent.DraftReferences.draft:type_name -> omission.child.Draft
+	18, // 15: omission.parent.DraftReferences.inner:type_name -> omission.child.Draft.Inner
+	19, // 16: omission.parent.DraftReferences.state:type_name -> omission.child.Draft.State
+	19, // 17: omission.parent.DraftReferences.states:type_name -> omission.child.Draft.State
 	14, // 18: omission.parent.DraftReferences.state_by_name:type_name -> omission.parent.DraftReferences.StateByNameEntry
-	19, // 19: omission.parent.DraftReferences.empty:type_name -> omission.child.Draft.Empty
-	20, // 20: omission.parent.DraftReferences.mode:type_name -> omission.child.Mode
-	16, // 21: omission.parent.DraftReferences.preview:type_name -> omission.child.Draft
-	21, // 22: omission.parent.DraftReferences.preview_level:type_name -> omission.child.Level
-	21, // 23: omission.parent.DraftReferences.gated_level:type_name -> omission.child.Level
+	20, // 19: omission.parent.DraftReferences.empty:type_name -> omission.child.Draft.Empty
+	21, // 20: omission.parent.DraftReferences.mode:type_name -> omission.child.Mode
+	17, // 21: omission.parent.DraftReferences.preview:type_name -> omission.child.Draft
+	22, // 22: omission.parent.DraftReferences.preview_level:type_name -> omission.child.Level
+	22, // 23: omission.parent.DraftReferences.gated_level:type_name -> omission.child.Level
 	7,  // 24: omission.parent.DraftReferences.gated_message:type_name -> omission.parent.EnumFields
-	21, // 25: omission.parent.EnumFields.singular:type_name -> omission.child.Level
-	21, // 26: omission.parent.EnumFields.optional:type_name -> omission.child.Level
-	21, // 27: omission.parent.EnumFields.level:type_name -> omission.child.Level
+	22, // 25: omission.parent.EnumFields.singular:type_name -> omission.child.Level
+	22, // 26: omission.parent.EnumFields.optional:type_name -> omission.child.Level
+	22, // 27: omission.parent.EnumFields.level:type_name -> omission.child.Level
 	7,  // 28: omission.parent.EnumAncestor.single:type_name -> omission.parent.EnumFields
 	7,  // 29: omission.parent.EnumAncestor.member:type_name -> omission.parent.EnumFields
-	15, // 30: omission.parent.Root.MapEntry.value:type_name -> omission.child.Leaf
+	16, // 30: omission.parent.Root.MapEntry.value:type_name -> omission.child.Stable
 	15, // 31: omission.parent.Root.Nested.leaf:type_name -> omission.child.Leaf
-	16, // 32: omission.parent.DraftReferences.ByNameEntry.value:type_name -> omission.child.Draft
-	18, // 33: omission.parent.DraftReferences.StateByNameEntry.value:type_name -> omission.child.Draft.State
+	17, // 32: omission.parent.DraftReferences.ByNameEntry.value:type_name -> omission.child.Draft
+	19, // 33: omission.parent.DraftReferences.StateByNameEntry.value:type_name -> omission.child.Draft.State
 	9,  // 34: omission.parent.Mixed.Stable:input_type -> omission.parent.Plain
 	9,  // 35: omission.parent.Mixed.Filtered:input_type -> omission.parent.Plain
-	16, // 36: omission.parent.Mixed.Preview:input_type -> omission.child.Draft
-	16, // 37: omission.parent.Preview.Call:input_type -> omission.child.Draft
+	17, // 36: omission.parent.Mixed.Preview:input_type -> omission.child.Draft
+	17, // 37: omission.parent.Preview.Call:input_type -> omission.child.Draft
 	9,  // 38: omission.parent.Mixed.Stable:output_type -> omission.parent.Plain
 	1,  // 39: omission.parent.Mixed.Filtered:output_type -> omission.parent.Root
-	16, // 40: omission.parent.Mixed.Preview:output_type -> omission.child.Draft
-	16, // 41: omission.parent.Preview.Call:output_type -> omission.child.Draft
+	17, // 40: omission.parent.Mixed.Preview:output_type -> omission.child.Draft
+	17, // 41: omission.parent.Preview.Call:output_type -> omission.child.Draft
 	38, // [38:42] is the sub-list for method output_type
 	34, // [34:38] is the sub-list for method input_type
 	34, // [34:34] is the sub-list for extension type_name

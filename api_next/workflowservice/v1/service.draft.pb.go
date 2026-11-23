@@ -8,19 +8,7 @@ package workflowservice
 // OmitDraftFields methods. RPCs that draft annotations do not affect return zero values.
 func WorkflowServiceDraftMethod(fullMethod string) (feature string, request, response bool) {
 	switch fullMethod {
-	case "/temporal.api.workflowservice.v1.WorkflowService/StartWorkflowExecution":
-		return "", false, true
-	case "/temporal.api.workflowservice.v1.WorkflowService/ExecuteMultiOperation":
-		return "", true, true
-	case "/temporal.api.workflowservice.v1.WorkflowService/GetWorkflowExecutionHistory":
-		return "", false, true
-	case "/temporal.api.workflowservice.v1.WorkflowService/GetWorkflowExecutionHistoryReverse":
-		return "", false, true
-	case "/temporal.api.workflowservice.v1.WorkflowService/PollWorkflowTaskQueue":
-		return "", false, true
-	case "/temporal.api.workflowservice.v1.WorkflowService/RespondWorkflowTaskCompleted":
-		return "", false, true
-	case "/temporal.api.workflowservice.v1.WorkflowService/UpdateWorkflowExecution":
+	case "/temporal.api.workflowservice.v1.WorkflowService/DescribeNamespace":
 		return "", true, false
 	}
 	return "", false, false

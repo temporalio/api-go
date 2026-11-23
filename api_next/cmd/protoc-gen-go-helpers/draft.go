@@ -32,22 +32,22 @@ type draftEnumValue struct {
 	feature string
 }
 
-func fieldValue(f *protogen.Field) *protogen.Field {
-	if f.Desc.IsMap() {
-		return f.Message.Fields[1]
-	}
-	return f
-}
-
 func (p *omissionPlan) feature(d protoreflect.Descriptor) string {
 	return p.features[d.FullName()]
 }
 
 func (p *omissionPlan) draftEnumValues(f *protogen.Field) []draftEnumValue {
-	if enum := fieldValue(f).Enum; enum != nil {
+	if enum := f.Enum; enum != nil {
 		return p.enumValues[enum.Desc.FullName()]
 	}
 	return nil
+}
+
+func (p *omissionPlan) retainedFieldOmission(f *protogen.Field) (bool, []draftEnumValue) {
+	if f.Desc.IsList() || f.Desc.IsMap() {
+		return false, nil
+	}
+	return f.Message != nil && p.affected[f.Message.Desc.FullName()], p.draftEnumValues(f)
 }
 
 func loadDraftManifest(path string) (map[protoreflect.FullName]string, error) {
@@ -65,8 +65,8 @@ func loadDraftManifest(path string) (map[protoreflect.FullName]string, error) {
 	if err := json.Unmarshal(data, &manifest); err != nil {
 		return nil, fmt.Errorf("parse draft manifest: %w", err)
 	}
-	if manifest.Version != 1 || manifest.Gates == nil {
-		return nil, fmt.Errorf("draft manifest requires version 1 and a gates object")
+	if manifest.Version != 2 || manifest.Gates == nil {
+		return nil, fmt.Errorf("draft manifest requires version 2 and a gates object")
 	}
 	for _, name := range slices.Sorted(maps.Keys(manifest.Gates)) {
 		if gate := manifest.Gates[name]; !name.IsValid() || gate == "" || strings.ContainsFunc(gate, unicode.IsSpace) {
@@ -126,8 +126,8 @@ func draftPlan(gen *protogen.Plugin, gates map[protoreflect.FullName]string) (*o
 				continue
 			}
 			for _, f := range m.Fields {
-				child := fieldValue(f).Message
-				if p.feature(f.Desc) != "" || len(p.draftEnumValues(f)) != 0 || child != nil && p.affected[child.Desc.FullName()] {
+				traverse, enumValues := p.retainedFieldOmission(f)
+				if p.feature(f.Desc) != "" || traverse || len(enumValues) != 0 {
 					p.affected[m.Desc.FullName()] = true
 					changed = true
 					break
@@ -192,13 +192,6 @@ func generateDraft(gen *protogen.Plugin, gates map[protoreflect.FullName]string)
 	p, err := draftPlan(gen, gates)
 	if err != nil {
 		return err
-	}
-	for _, m := range p.messages {
-		for _, field := range m.Fields {
-			if (field.Desc.IsList() || field.Desc.IsMap()) && len(p.draftEnumValues(field)) != 0 {
-				return fmt.Errorf("%s: draft enum values in collections are unsupported", field.Desc.FullName())
-			}
-		}
 	}
 	for _, file := range gen.Files {
 		if !file.Generate {
@@ -315,9 +308,7 @@ func (p *omissionPlan) generateOmitter(g *protogen.GeneratedFile, m *protogen.Me
 }
 
 func (p *omissionPlan) generateFieldOmission(g *protogen.GeneratedFile, f *protogen.Field, rootFeature string) {
-	child := fieldValue(f).Message
-	traverse := child != nil && p.affected[child.Desc.FullName()]
-	values := p.draftEnumValues(f)
+	traverse, values := p.retainedFieldOmission(f)
 	filter := traverse || len(values) != 0
 	feature := p.feature(f.Desc)
 	if feature == rootFeature {
@@ -361,7 +352,7 @@ func (p *omissionPlan) generateFieldOmission(g *protogen.GeneratedFile, f *proto
 			g.P("if v != nil {")
 		}
 		if traverse {
-			generateChildOmission(g, f, field)
+			generateChildOmission(g, field)
 		} else {
 			generateEnumOmission(g, f, field, clear, values)
 		}
@@ -377,17 +368,10 @@ func (p *omissionPlan) generateFieldOmission(g *protogen.GeneratedFile, f *proto
 	}
 }
 
-func generateChildOmission(g *protogen.GeneratedFile, f *protogen.Field, field string) {
-	if f.Desc.IsList() || f.Desc.IsMap() {
-		g.P("for _, child := range ", field, " {")
-		field = "child"
-	}
+func generateChildOmission(g *protogen.GeneratedFile, field string) {
 	g.P("if ", field, ".OmitDraftFields(enabled) {")
 	g.P("removedEnumValue = true")
 	g.P("}")
-	if f.Desc.IsList() || f.Desc.IsMap() {
-		g.P("}")
-	}
 }
 
 func generateEnumOmission(g *protogen.GeneratedFile, f *protogen.Field, field, clear string, values []draftEnumValue) {

@@ -15,7 +15,6 @@ import (
 	v1 "go.temporal.io/api/enums/v1"
 	v12 "go.temporal.io/api/failure/v1"
 	v13 "go.temporal.io/api/nexus/v1"
-	_ "go.temporal.io/api/protometa/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 )
@@ -345,10 +344,8 @@ type Request struct {
 	Links []*v11.Link `protobuf:"bytes,5,rep,name=links,proto3" json:"links,omitempty"`
 	// Serialization context propagated from the Nexus caller that started this update.
 	PropagatedNexusSerializationContext *v13.PropagatedSerializationContext `protobuf:"bytes,6,opt,name=propagated_nexus_serialization_context,json=propagatedNexusSerializationContext,proto3" json:"propagated_nexus_serialization_context,omitempty"`
-	// User that triggered the update.
-	User          string `protobuf:"bytes,7,opt,name=user,proto3" json:"user,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	unknownFields                       protoimpl.UnknownFields
+	sizeCache                           protoimpl.SizeCache
 }
 
 func (x *Request) Reset() {
@@ -421,13 +418,6 @@ func (x *Request) GetPropagatedNexusSerializationContext() *v13.PropagatedSerial
 		return x.PropagatedNexusSerializationContext
 	}
 	return nil
-}
-
-func (x *Request) GetUser() string {
-	if x != nil {
-		return x.User
-	}
-	return ""
 }
 
 // An Update protocol message indicating that a Workflow Update has been rejected.
@@ -564,11 +554,9 @@ func (x *Acceptance) GetAcceptedRequest() *Request {
 // An Update protocol message indicating that a Workflow Update has
 // completed with the contained outcome.
 type Response struct {
-	state   protoimpl.MessageState `protogen:"open.v1"`
-	Meta    *Meta                  `protobuf:"bytes,1,opt,name=meta,proto3" json:"meta,omitempty"`
-	Outcome *Outcome               `protobuf:"bytes,2,opt,name=outcome,proto3" json:"outcome,omitempty"`
-	// User that triggered the update.
-	User          string `protobuf:"bytes,3,opt,name=user,proto3" json:"user,omitempty"`
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Meta          *Meta                  `protobuf:"bytes,1,opt,name=meta,proto3" json:"meta,omitempty"`
+	Outcome       *Outcome               `protobuf:"bytes,2,opt,name=outcome,proto3" json:"outcome,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -617,18 +605,11 @@ func (x *Response) GetOutcome() *Outcome {
 	return nil
 }
 
-func (x *Response) GetUser() string {
-	if x != nil {
-		return x.User
-	}
-	return ""
-}
-
 var File_temporal_api_next_update_v1_message_proto protoreflect.FileDescriptor
 
 const file_temporal_api_next_update_v1_message_proto_rawDesc = "" +
 	"\n" +
-	")temporal/api_next/update/v1/message.proto\x12\x16temporal.api.update.v1\x1a)temporal/api_next/common/v1/message.proto\x1a'temporal/api_next/enums/v1/update.proto\x1a*temporal/api_next/failure/v1/message.proto\x1a(temporal/api_next/nexus/v1/message.proto\x1a*temporal/api_next/protometa/v1/draft.proto\"s\n" +
+	")temporal/api_next/update/v1/message.proto\x12\x16temporal.api.update.v1\x1a)temporal/api_next/common/v1/message.proto\x1a'temporal/api_next/enums/v1/update.proto\x1a*temporal/api_next/failure/v1/message.proto\x1a(temporal/api_next/nexus/v1/message.proto\"s\n" +
 	"\n" +
 	"WaitPolicy\x12e\n" +
 	"\x0flifecycle_stage\x18\x01 \x01(\x0e2<.temporal.api.enums.v1.UpdateWorkflowExecutionLifecycleStageR\x0elifecycleStage\"\x82\x01\n" +
@@ -645,7 +626,7 @@ const file_temporal_api_next_update_v1_message_proto_rawDesc = "" +
 	"\x05Input\x126\n" +
 	"\x06header\x18\x01 \x01(\v2\x1e.temporal.api.common.v1.HeaderR\x06header\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x124\n" +
-	"\x04args\x18\x03 \x01(\v2 .temporal.api.common.v1.PayloadsR\x04args\"\xd2\x03\n" +
+	"\x04args\x18\x03 \x01(\v2 .temporal.api.common.v1.PayloadsR\x04args\"\xa5\x03\n" +
 	"\aRequest\x120\n" +
 	"\x04meta\x18\x01 \x01(\v2\x1c.temporal.api.update.v1.MetaR\x04meta\x123\n" +
 	"\x05input\x18\x02 \x01(\v2\x1d.temporal.api.update.v1.InputR\x05input\x12\x1d\n" +
@@ -653,8 +634,7 @@ const file_temporal_api_next_update_v1_message_proto_rawDesc = "" +
 	"request_id\x18\x03 \x01(\tR\trequestId\x12S\n" +
 	"\x14completion_callbacks\x18\x04 \x03(\v2 .temporal.api.common.v1.CallbackR\x13completionCallbacks\x122\n" +
 	"\x05links\x18\x05 \x03(\v2\x1c.temporal.api.common.v1.LinkR\x05links\x12\x8a\x01\n" +
-	"&propagated_nexus_serialization_context\x18\x06 \x01(\v25.temporal.api.nexus.v1.PropagatedSerializationContextR#propagatedNexusSerializationContext\x12+\n" +
-	"\x04user\x18\a \x01(\tB\x17\xc2\xed/\x13update-user-taggingR\x04user\"\xa2\x02\n" +
+	"&propagated_nexus_serialization_context\x18\x06 \x01(\v25.temporal.api.nexus.v1.PropagatedSerializationContextR#propagatedNexusSerializationContext\"\xa2\x02\n" +
 	"\tRejection\x12=\n" +
 	"\x1brejected_request_message_id\x18\x01 \x01(\tR\x18rejectedRequestMessageId\x12N\n" +
 	"$rejected_request_sequencing_event_id\x18\x02 \x01(\x03R rejectedRequestSequencingEventId\x12J\n" +
@@ -664,11 +644,10 @@ const file_temporal_api_next_update_v1_message_proto_rawDesc = "" +
 	"Acceptance\x12=\n" +
 	"\x1baccepted_request_message_id\x18\x01 \x01(\tR\x18acceptedRequestMessageId\x12N\n" +
 	"$accepted_request_sequencing_event_id\x18\x02 \x01(\x03R acceptedRequestSequencingEventId\x12J\n" +
-	"\x10accepted_request\x18\x03 \x01(\v2\x1f.temporal.api.update.v1.RequestR\x0facceptedRequest\"\xa4\x01\n" +
+	"\x10accepted_request\x18\x03 \x01(\v2\x1f.temporal.api.update.v1.RequestR\x0facceptedRequest\"w\n" +
 	"\bResponse\x120\n" +
 	"\x04meta\x18\x01 \x01(\v2\x1c.temporal.api.update.v1.MetaR\x04meta\x129\n" +
-	"\aoutcome\x18\x02 \x01(\v2\x1f.temporal.api.update.v1.OutcomeR\aoutcome\x12+\n" +
-	"\x04user\x18\x03 \x01(\tB\x17\xc2\xed/\x13update-user-taggingR\x04userB\x89\x01\n" +
+	"\aoutcome\x18\x02 \x01(\v2\x1f.temporal.api.update.v1.OutcomeR\aoutcomeB\x89\x01\n" +
 	"\x19io.temporal.api.update.v1B\fMessageProtoP\x01Z#go.temporal.io/api/update/v1;update\xaa\x02\x18Temporalio.Api.Update.V1\xea\x02\x1bTemporalio::Api::Update::V1b\x06proto3"
 
 var (

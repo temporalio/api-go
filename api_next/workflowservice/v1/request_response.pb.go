@@ -25,6 +25,7 @@ import (
 	v19 "go.temporal.io/api/nexus/v1"
 	v123 "go.temporal.io/api/nexusoperation/v1"
 	v112 "go.temporal.io/api/protocol/v1"
+	_ "go.temporal.io/api/protometa/v1"
 	v111 "go.temporal.io/api/query/v1"
 	v1 "go.temporal.io/api/replication/v1"
 	v122 "go.temporal.io/api/rules/v1"
@@ -349,8 +350,10 @@ type DescribeNamespaceRequest struct {
 	// which preserves read-after-write consistency. SDKs should set this when
 	// fetching namespace capabilities on worker/client startup.
 	WeakConsistency bool `protobuf:"varint,3,opt,name=weak_consistency,json=weakConsistency,proto3" json:"weak_consistency,omitempty"`
-	unknownFields   protoimpl.UnknownFields
-	sizeCache       protoimpl.SizeCache
+	// Example field for exercising draft API filtering.
+	PreviewNote   string `protobuf:"bytes,4,opt,name=preview_note,json=previewNote,proto3" json:"preview_note,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *DescribeNamespaceRequest) Reset() {
@@ -402,6 +405,13 @@ func (x *DescribeNamespaceRequest) GetWeakConsistency() bool {
 		return x.WeakConsistency
 	}
 	return false
+}
+
+func (x *DescribeNamespaceRequest) GetPreviewNote() string {
+	if x != nil {
+		return x.PreviewNote
+	}
+	return ""
 }
 
 type DescribeNamespaceResponse struct {
@@ -20919,7 +20929,7 @@ var File_temporal_api_next_workflowservice_v1_request_response_proto protoreflec
 
 const file_temporal_api_next_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\n" +
-	";temporal/api_next/workflowservice/v1/request_response.proto\x12\x1ftemporal.api.workflowservice.v1\x1a0temporal/api_next/enums/v1/batch_operation.proto\x1a'temporal/api_next/enums/v1/common.proto\x1a)temporal/api_next/enums/v1/workflow.proto\x1a*temporal/api_next/enums/v1/namespace.proto\x1a-temporal/api_next/enums/v1/failed_cause.proto\x1a&temporal/api_next/enums/v1/query.proto\x1a&temporal/api_next/enums/v1/reset.proto\x1a+temporal/api_next/enums/v1/task_queue.proto\x1a+temporal/api_next/enums/v1/deployment.proto\x1a'temporal/api_next/enums/v1/update.proto\x1a.temporal/api_next/enums/v1/time_skipping.proto\x1a)temporal/api_next/enums/v1/activity.proto\x1a&temporal/api_next/enums/v1/nexus.proto\x1a+temporal/api_next/activity/v1/message.proto\x1a)temporal/api_next/common/v1/message.proto\x1a*temporal/api_next/history/v1/message.proto\x1a+temporal/api_next/workflow/v1/message.proto\x1a*temporal/api_next/command/v1/message.proto\x1a)temporal/api_next/compute/v1/config.proto\x1a-temporal/api_next/deployment/v1/message.proto\x1a*temporal/api_next/failure/v1/message.proto\x1a)temporal/api_next/filter/v1/message.proto\x1a+temporal/api_next/protocol/v1/message.proto\x1a,temporal/api_next/namespace/v1/message.proto\x1a(temporal/api_next/query/v1/message.proto\x1a.temporal/api_next/replication/v1/message.proto\x1a(temporal/api_next/rules/v1/message.proto\x1a,temporal/api_next/sdk/v1/worker_config.proto\x1a+temporal/api_next/schedule/v1/message.proto\x1a,temporal/api_next/taskqueue/v1/message.proto\x1a)temporal/api_next/update/v1/message.proto\x1a*temporal/api_next/version/v1/message.proto\x1a(temporal/api_next/batch/v1/message.proto\x1a5temporal/api_next/sdk/v1/task_complete_metadata.proto\x1a,temporal/api_next/sdk/v1/user_metadata.proto\x1a(temporal/api_next/nexus/v1/message.proto\x1a1temporal/api_next/nexusoperation/v1/message.proto\x1a)temporal/api_next/worker/v1/message.proto\x1a\x1egoogle/protobuf/duration.proto\x1a google/protobuf/field_mask.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xf9\x06\n" +
+	";temporal/api_next/workflowservice/v1/request_response.proto\x12\x1ftemporal.api.workflowservice.v1\x1a0temporal/api_next/enums/v1/batch_operation.proto\x1a'temporal/api_next/enums/v1/common.proto\x1a)temporal/api_next/enums/v1/workflow.proto\x1a*temporal/api_next/enums/v1/namespace.proto\x1a-temporal/api_next/enums/v1/failed_cause.proto\x1a&temporal/api_next/enums/v1/query.proto\x1a&temporal/api_next/enums/v1/reset.proto\x1a+temporal/api_next/enums/v1/task_queue.proto\x1a+temporal/api_next/enums/v1/deployment.proto\x1a'temporal/api_next/enums/v1/update.proto\x1a.temporal/api_next/enums/v1/time_skipping.proto\x1a)temporal/api_next/enums/v1/activity.proto\x1a&temporal/api_next/enums/v1/nexus.proto\x1a+temporal/api_next/activity/v1/message.proto\x1a)temporal/api_next/common/v1/message.proto\x1a*temporal/api_next/history/v1/message.proto\x1a+temporal/api_next/workflow/v1/message.proto\x1a*temporal/api_next/command/v1/message.proto\x1a)temporal/api_next/compute/v1/config.proto\x1a-temporal/api_next/deployment/v1/message.proto\x1a*temporal/api_next/failure/v1/message.proto\x1a)temporal/api_next/filter/v1/message.proto\x1a+temporal/api_next/protocol/v1/message.proto\x1a,temporal/api_next/namespace/v1/message.proto\x1a(temporal/api_next/query/v1/message.proto\x1a*temporal/api_next/protometa/v1/draft.proto\x1a.temporal/api_next/replication/v1/message.proto\x1a(temporal/api_next/rules/v1/message.proto\x1a,temporal/api_next/sdk/v1/worker_config.proto\x1a+temporal/api_next/schedule/v1/message.proto\x1a,temporal/api_next/taskqueue/v1/message.proto\x1a)temporal/api_next/update/v1/message.proto\x1a*temporal/api_next/version/v1/message.proto\x1a(temporal/api_next/batch/v1/message.proto\x1a5temporal/api_next/sdk/v1/task_complete_metadata.proto\x1a,temporal/api_next/sdk/v1/user_metadata.proto\x1a(temporal/api_next/nexus/v1/message.proto\x1a1temporal/api_next/nexusoperation/v1/message.proto\x1a)temporal/api_next/worker/v1/message.proto\x1a\x1egoogle/protobuf/duration.proto\x1a google/protobuf/field_mask.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xf9\x06\n" +
 	"\x18RegisterNamespaceRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12 \n" +
 	"\vdescription\x18\x02 \x01(\tR\vdescription\x12\x1f\n" +
@@ -20948,11 +20958,12 @@ const file_temporal_api_next_workflowservice_v1_request_response_proto_rawDesc =
 	"\n" +
 	"namespaces\x18\x01 \x03(\v2:.temporal.api.workflowservice.v1.DescribeNamespaceResponseR\n" +
 	"namespaces\x12&\n" +
-	"\x0fnext_page_token\x18\x02 \x01(\fR\rnextPageToken\"s\n" +
+	"\x0fnext_page_token\x18\x02 \x01(\fR\rnextPageToken\"\xad\x01\n" +
 	"\x18DescribeNamespaceRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12\x0e\n" +
 	"\x02id\x18\x02 \x01(\tR\x02id\x12)\n" +
-	"\x10weak_consistency\x18\x03 \x01(\bR\x0fweakConsistency\"\x84\x05\n" +
+	"\x10weak_consistency\x18\x03 \x01(\bR\x0fweakConsistency\x128\n" +
+	"\fpreview_note\x18\x04 \x01(\tB\x15\xc2\xed/\x11draft-api-exampleR\vpreviewNote\"\x84\x05\n" +
 	"\x19DescribeNamespaceResponse\x12O\n" +
 	"\x0enamespace_info\x18\x01 \x01(\v2(.temporal.api.namespace.v1.NamespaceInfoR\rnamespaceInfo\x12B\n" +
 	"\x06config\x18\x02 \x01(\v2*.temporal.api.namespace.v1.NamespaceConfigR\x06config\x12f\n" +

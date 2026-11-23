@@ -6,8 +6,8 @@ import "child/message.proto";
 message Root {
  string stable = 1;
  omission.child.Leaf gated = 2 [(temporal.api.protometa.v1.draft) = "feature-a"];
- repeated omission.child.Leaf list = 3;
- map<string, omission.child.Leaf> map = 4;
+ repeated omission.child.Stable list = 3;
+ map<string, omission.child.Stable> map = 4;
  optional int32 optional = 5 [(temporal.api.protometa.v1.draft) = "feature-a"];
  oneof choice {
   int32 a = 6 [(temporal.api.protometa.v1.draft) = "feature-a"];
