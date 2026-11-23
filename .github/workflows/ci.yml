@@ -20,8 +20,29 @@ jobs:
           # TODO: Upgrade proto once https://github.com/arduino/setup-protoc/issues/99 is fixed
           version: '23.x'
           repo-token: ${{ secrets.GITHUB_TOKEN }}
-      - uses: actions/setup-go@bfdd3570ce990073878bf10f6b2d79082de49492 # v2.2.0
+      - uses: actions/setup-go@4a3601121dd01d1626a1e23e37211e3254c1c06c # v6.4.0
         with:
-          go-version: "1.22"
+          go-version-file: go.mod
       - name: Check
         run: make check test
+      - name: Check helper fixture freshness
+        run: |
+          make helper-test-protos
+          git diff --exit-code -- cmd/protoc-gen-go-helpers/testprotos/
+          test -z "$(git ls-files --others --exclude-standard -- cmd/protoc-gen-go-helpers/testprotos/)"
+      - name: Check draft omission freshness
+        run: |
+          # Pinned tools: protoc-gen-go from go.mod; the gRPC and gateway plugins at the
+          # versions that generated the committed api_next tree. make api-next installs
+          # the helper and mockgen itself.
+          go install google.golang.org/protobuf/cmd/protoc-gen-go
+          go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.6.2
+          go install github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-grpc-gateway@v2.30.0
+          go install golang.org/x/tools/cmd/goimports@$(go list -modfile=build/go.mod -m -f '{{.Version}}' golang.org/x/tools)
+          make api-next
+          go -C api_next/cmd/proxygenerator run ./ -verifyOnly
+          git diff --exit-code -- ':(glob)api_next/**/*.draft.pb.go' api_next/proxy/interceptor.go api_next/proxy/service.go api_next/proxy/request_header.go api_next/cmd/protoc-gen-go-helpers/
+          test -z "$(git ls-files --others --exclude-standard -- ':(glob)api_next/**/*.draft.pb.go' api_next/proxy/interceptor.go api_next/proxy/service.go api_next/proxy/request_header.go api_next/cmd/protoc-gen-go-helpers/)"
+          go -C cmd/proxygenerator test ./...
+          test -z "$(find . -name '*.draft.pb.go' -not -path './api_next/*' -not -path './cmd/protoc-gen-go-helpers/testprotos/*')"
+          go -C api_next build -tags protolegacy ./...
