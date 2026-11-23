@@ -124,10 +124,9 @@ func TestAPINextProxy(t *testing.T) {
 	if err := os.WriteFile(filepath.Join(stage, "update/v1/proxy_regression_test.go"), regression, 0600); err != nil {
 		t.Fatal(err)
 	}
-	generatorDir := filepath.Join(stage, "cmd/proxygenerator")
-	run(generatorDir, "go", "run", "./")
+	run(".", "go", "run", "./", "-apiRoot", stage)
 	run(stage, "go", "test", "./update/v1", "-run", "TestDraftPayloadVisitors", "-count=1")
-	run(generatorDir, "go", "run", "./", "-verifyOnly")
+	run(".", "go", "run", "./", "-apiRoot", stage, "-verifyOnly")
 	for _, artifact := range []string{"interceptor.go", "service.go", "request_header.go"} {
 		t.Run(artifact, func(t *testing.T) {
 			path := filepath.Join(stage, "proxy", artifact)
@@ -143,9 +142,8 @@ func TestAPINextProxy(t *testing.T) {
 					t.Error(err)
 				}
 			}()
-			cmd := exec.Command("go", "run", "./", "-verifyOnly")
-			cmd.Dir = generatorDir
-			if output, err := cmd.CombinedOutput(); err == nil || !strings.Contains(string(output), "generated file does not match existing file: ../../proxy/"+artifact) {
+			cmd := exec.Command("go", "run", "./", "-apiRoot", stage, "-verifyOnly")
+			if output, err := cmd.CombinedOutput(); err == nil || !strings.Contains(string(output), "generated file does not match existing file: "+filepath.Join("proxy", artifact)) {
 				t.Fatalf("stale %s verification: %v\n%s", artifact, err, output)
 			}
 		})
