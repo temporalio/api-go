@@ -2,75 +2,134 @@
 
 package workflowservice
 
-func (m *StartWorkflowExecutionResponse) OmitDraftFields(enabled func(string) bool) {
+// OmitDraftFields clears disabled draft fields and enum values.
+// It reports whether it removed a draft enum value from a retained field.
+func (m *StartWorkflowExecutionResponse) OmitDraftFields(enabled func(string) bool) (removedEnumValue bool) {
 	if m == nil {
-		return
+		return false
 	}
-	m.EagerWorkflowTask.OmitDraftFields(enabled)
+	if m.EagerWorkflowTask.OmitDraftFields(enabled) {
+		removedEnumValue = true
+	}
+	return removedEnumValue
 }
-func (m *GetWorkflowExecutionHistoryResponse) OmitDraftFields(enabled func(string) bool) {
+
+// OmitDraftFields clears disabled draft fields and enum values.
+// It reports whether it removed a draft enum value from a retained field.
+func (m *GetWorkflowExecutionHistoryResponse) OmitDraftFields(enabled func(string) bool) (removedEnumValue bool) {
 	if m == nil {
-		return
+		return false
 	}
-	m.History.OmitDraftFields(enabled)
+	if m.History.OmitDraftFields(enabled) {
+		removedEnumValue = true
+	}
+	return removedEnumValue
 }
-func (m *GetWorkflowExecutionHistoryReverseResponse) OmitDraftFields(enabled func(string) bool) {
+
+// OmitDraftFields clears disabled draft fields and enum values.
+// It reports whether it removed a draft enum value from a retained field.
+func (m *GetWorkflowExecutionHistoryReverseResponse) OmitDraftFields(enabled func(string) bool) (removedEnumValue bool) {
 	if m == nil {
-		return
+		return false
 	}
-	m.History.OmitDraftFields(enabled)
+	if m.History.OmitDraftFields(enabled) {
+		removedEnumValue = true
+	}
+	return removedEnumValue
 }
-func (m *PollWorkflowTaskQueueResponse) OmitDraftFields(enabled func(string) bool) {
+
+// OmitDraftFields clears disabled draft fields and enum values.
+// It reports whether it removed a draft enum value from a retained field.
+func (m *PollWorkflowTaskQueueResponse) OmitDraftFields(enabled func(string) bool) (removedEnumValue bool) {
 	if m == nil {
-		return
+		return false
 	}
-	m.History.OmitDraftFields(enabled)
+	if m.History.OmitDraftFields(enabled) {
+		removedEnumValue = true
+	}
+	return removedEnumValue
 }
-func (m *RespondWorkflowTaskCompletedResponse) OmitDraftFields(enabled func(string) bool) {
+
+// OmitDraftFields clears disabled draft fields and enum values.
+// It reports whether it removed a draft enum value from a retained field.
+func (m *RespondWorkflowTaskCompletedResponse) OmitDraftFields(enabled func(string) bool) (removedEnumValue bool) {
 	if m == nil {
-		return
+		return false
 	}
-	m.WorkflowTask.OmitDraftFields(enabled)
+	if m.WorkflowTask.OmitDraftFields(enabled) {
+		removedEnumValue = true
+	}
+	return removedEnumValue
 }
-func (m *UpdateWorkflowExecutionRequest) OmitDraftFields(enabled func(string) bool) {
+
+// OmitDraftFields clears disabled draft fields and enum values.
+// It reports whether it removed a draft enum value from a retained field.
+func (m *UpdateWorkflowExecutionRequest) OmitDraftFields(enabled func(string) bool) (removedEnumValue bool) {
 	if m == nil {
-		return
+		return false
 	}
-	m.Request.OmitDraftFields(enabled)
+	if m.Request.OmitDraftFields(enabled) {
+		removedEnumValue = true
+	}
+	return removedEnumValue
 }
-func (m *ExecuteMultiOperationRequest) OmitDraftFields(enabled func(string) bool) {
+
+// OmitDraftFields clears disabled draft fields and enum values.
+// It reports whether it removed a draft enum value from a retained field.
+func (m *ExecuteMultiOperationRequest) OmitDraftFields(enabled func(string) bool) (removedEnumValue bool) {
 	if m == nil {
-		return
+		return false
 	}
-	for _, v := range m.Operations {
-		v.OmitDraftFields(enabled)
+	for _, child := range m.Operations {
+		if child.OmitDraftFields(enabled) {
+			removedEnumValue = true
+		}
 	}
+	return removedEnumValue
 }
-func (m *ExecuteMultiOperationRequest_Operation) OmitDraftFields(enabled func(string) bool) {
+
+// OmitDraftFields clears disabled draft fields and enum values.
+// It reports whether it removed a draft enum value from a retained field.
+func (m *ExecuteMultiOperationRequest_Operation) OmitDraftFields(enabled func(string) bool) (removedEnumValue bool) {
 	if m == nil {
-		return
+		return false
 	}
 	if v, ok := m.Operation.(*ExecuteMultiOperationRequest_Operation_UpdateWorkflow); ok {
 		if v != nil {
-			v.UpdateWorkflow.OmitDraftFields(enabled)
+			if v.UpdateWorkflow.OmitDraftFields(enabled) {
+				removedEnumValue = true
+			}
 		}
 	}
+	return removedEnumValue
 }
-func (m *ExecuteMultiOperationResponse) OmitDraftFields(enabled func(string) bool) {
+
+// OmitDraftFields clears disabled draft fields and enum values.
+// It reports whether it removed a draft enum value from a retained field.
+func (m *ExecuteMultiOperationResponse) OmitDraftFields(enabled func(string) bool) (removedEnumValue bool) {
 	if m == nil {
-		return
+		return false
 	}
-	for _, v := range m.Responses {
-		v.OmitDraftFields(enabled)
+	for _, child := range m.Responses {
+		if child.OmitDraftFields(enabled) {
+			removedEnumValue = true
+		}
 	}
+	return removedEnumValue
 }
-func (m *ExecuteMultiOperationResponse_Response) OmitDraftFields(enabled func(string) bool) {
+
+// OmitDraftFields clears disabled draft fields and enum values.
+// It reports whether it removed a draft enum value from a retained field.
+func (m *ExecuteMultiOperationResponse_Response) OmitDraftFields(enabled func(string) bool) (removedEnumValue bool) {
 	if m == nil {
-		return
+		return false
 	}
 	if v, ok := m.Response.(*ExecuteMultiOperationResponse_Response_StartWorkflow); ok {
 		if v != nil {
-			v.StartWorkflow.OmitDraftFields(enabled)
+			if v.StartWorkflow.OmitDraftFields(enabled) {
+				removedEnumValue = true
+			}
 		}
 	}
+	return removedEnumValue
 }

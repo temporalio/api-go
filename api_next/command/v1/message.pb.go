@@ -42,7 +42,8 @@ type ScheduleActivityTaskCommandAttributes struct {
 	// specified. When not specified, defaults to the workflow execution timeout.
 	//
 	// (-- api-linter: core::0140::prepositions=disabled
-	//     aip.dev/not-precedent: "to" is used to indicate interval. --)
+	//
+	//	aip.dev/not-precedent: "to" is used to indicate interval. --)
 	ScheduleToCloseTimeout *durationpb.Duration `protobuf:"bytes,7,opt,name=schedule_to_close_timeout,json=scheduleToCloseTimeout,proto3" json:"schedule_to_close_timeout,omitempty"`
 	// Limits the time an activity task can stay in a task queue before a worker picks it up. The
 	// "schedule" time is when the most recent retry is scheduled. This timeout should usually not
@@ -53,13 +54,15 @@ type ScheduleActivityTaskCommandAttributes struct {
 	// https://docs.temporal.io/docs/content/what-is-a-schedule-to-start-timeout/
 	//
 	// (-- api-linter: core::0140::prepositions=disabled
-	//     aip.dev/not-precedent: "to" is used to indicate interval. --)
+	//
+	//	aip.dev/not-precedent: "to" is used to indicate interval. --)
 	ScheduleToStartTimeout *durationpb.Duration `protobuf:"bytes,8,opt,name=schedule_to_start_timeout,json=scheduleToStartTimeout,proto3" json:"schedule_to_start_timeout,omitempty"`
 	// Maximum time an activity is allowed to execute after being picked up by a worker. This
 	// timeout is always retryable. Either this or `schedule_to_close_timeout` must be specified.
 	//
 	// (-- api-linter: core::0140::prepositions=disabled
-	//     aip.dev/not-precedent: "to" is used to indicate interval. --)
+	//
+	//	aip.dev/not-precedent: "to" is used to indicate interval. --)
 	StartToCloseTimeout *durationpb.Duration `protobuf:"bytes,9,opt,name=start_to_close_timeout,json=startToCloseTimeout,proto3" json:"start_to_close_timeout,omitempty"`
 	// Maximum permitted time between successful worker heartbeats.
 	HeartbeatTimeout *durationpb.Duration `protobuf:"bytes,10,opt,name=heartbeat_timeout,json=heartbeatTimeout,proto3" json:"heartbeat_timeout,omitempty"`
@@ -254,7 +257,8 @@ type StartTimerCommandAttributes struct {
 	// How long until the timer fires, producing a `TIMER_FIRED` event.
 	//
 	// (-- api-linter: core::0140::prepositions=disabled
-	//     aip.dev/not-precedent: "to" is used to indicate interval. --)
+	//
+	//	aip.dev/not-precedent: "to" is used to indicate interval. --)
 	StartToFireTimeout *durationpb.Duration `protobuf:"bytes,2,opt,name=start_to_fire_timeout,json=startToFireTimeout,proto3" json:"start_to_fire_timeout,omitempty"`
 	unknownFields      protoimpl.UnknownFields
 	sizeCache          protoimpl.SizeCache
@@ -1292,7 +1296,8 @@ type ScheduleNexusOperationCommandAttributes struct {
 	// Indicates how long the caller is willing to wait for operation completion.
 	// Calls are retried internally by the server.
 	// (-- api-linter: core::0140::prepositions=disabled
-	//     aip.dev/not-precedent: "to" is used to indicate interval. --)
+	//
+	//	aip.dev/not-precedent: "to" is used to indicate interval. --)
 	ScheduleToCloseTimeout *durationpb.Duration `protobuf:"bytes,5,opt,name=schedule_to_close_timeout,json=scheduleToCloseTimeout,proto3" json:"schedule_to_close_timeout,omitempty"`
 	// Header to attach to the Nexus request.
 	// Users are responsible for encrypting sensitive data in this header as it is stored in workflow history and
@@ -1307,7 +1312,9 @@ type ScheduleNexusOperationCommandAttributes struct {
 	// TIMEOUT_TYPE_SCHEDULE_TO_START.
 	// If not set or zero, no schedule-to-start timeout is enforced.
 	// (-- api-linter: core::0140::prepositions=disabled
-	//     aip.dev/not-precedent: "to" is used to indicate interval. --)
+	//
+	//	aip.dev/not-precedent: "to" is used to indicate interval. --)
+	//
 	// Requires server version 1.31.0 or later.
 	ScheduleToStartTimeout *durationpb.Duration `protobuf:"bytes,7,opt,name=schedule_to_start_timeout,json=scheduleToStartTimeout,proto3" json:"schedule_to_start_timeout,omitempty"`
 	// Start-to-close timeout for this operation.
@@ -1317,7 +1324,9 @@ type ScheduleNexusOperationCommandAttributes struct {
 	// Only applies to asynchronous operations. Synchronous operations ignore this timeout.
 	// If not set or zero, no start-to-close timeout is enforced.
 	// (-- api-linter: core::0140::prepositions=disabled
-	//     aip.dev/not-precedent: "to" is used to indicate interval. --)
+	//
+	//	aip.dev/not-precedent: "to" is used to indicate interval. --)
+	//
 	// Requires server version 1.31.0 or later.
 	StartToCloseTimeout *durationpb.Duration `protobuf:"bytes,8,opt,name=start_to_close_timeout,json=startToCloseTimeout,proto3" json:"start_to_close_timeout,omitempty"`
 	unknownFields       protoimpl.UnknownFields
@@ -1464,11 +1473,11 @@ type Command struct {
 	// information is used is dependent upon the interface that reads it.
 	//
 	// Current well-known uses:
-	//  * start_child_workflow_execution_command_attributes - populates
-	//    temporal.api.workflow.v1.WorkflowExecutionInfo.user_metadata where the summary and details
-	//    are used by user interfaces to show fixed as-of-start workflow summary and details.
-	//  * start_timer_command_attributes - populates temporal.api.history.v1.HistoryEvent for timer
-	//    started where the summary is used to identify the timer.
+	//   - start_child_workflow_execution_command_attributes - populates
+	//     temporal.api.workflow.v1.WorkflowExecutionInfo.user_metadata where the summary and details
+	//     are used by user interfaces to show fixed as-of-start workflow summary and details.
+	//   - start_timer_command_attributes - populates temporal.api.history.v1.HistoryEvent for timer
+	//     started where the summary is used to identify the timer.
 	UserMetadata *v15.UserMetadata `protobuf:"bytes,301,opt,name=user_metadata,json=userMetadata,proto3" json:"user_metadata,omitempty"`
 	// Event Group Markers attached to the command by the workflow author.
 	EventGroupMarkers []*v15.EventGroupMarker `protobuf:"bytes,302,rep,name=event_group_markers,json=eventGroupMarkers,proto3" json:"event_group_markers,omitempty"`

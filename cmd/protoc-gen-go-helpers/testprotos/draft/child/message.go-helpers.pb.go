@@ -119,8 +119,10 @@ func (this *Draft) Equal(that interface{}) bool {
 
 var (
 	Level_shorthandValue = map[string]int32{
-		"Unspecified": 0,
-		"High":        1,
+		"Unspecified":  0,
+		"High":         1,
+		"Preview":      2,
+		"Experimental": -1,
 	}
 )
 
@@ -133,4 +135,22 @@ func LevelFromString(s string) (Level, error) {
 		return Level(v), nil
 	}
 	return Level(0), fmt.Errorf("%s is not a valid Level", s)
+}
+
+var (
+	Mode_shorthandValue = map[string]int32{
+		"Unspecified": 0,
+		"Preview":     1,
+	}
+)
+
+// ModeFromString parses a Mode value from  either the protojson
+// canonical SCREAMING_CASE enum or the traditional temporal PascalCase enum to Mode
+func ModeFromString(s string) (Mode, error) {
+	if v, ok := Mode_value[s]; ok {
+		return Mode(v), nil
+	} else if v, ok := Mode_shorthandValue[s]; ok {
+		return Mode(v), nil
+	}
+	return Mode(0), fmt.Errorf("%s is not a valid Mode", s)
 }

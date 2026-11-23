@@ -6,44 +6,56 @@ import (
 	proto "google.golang.org/protobuf/proto"
 )
 
-func (m *Leaf) OmitDraftFields(enabled func(string) bool) {
+// OmitDraftFields clears disabled draft fields and enum values.
+// It reports whether it removed a draft enum value from a retained field.
+func (m *Leaf) OmitDraftFields(enabled func(string) bool) (removedEnumValue bool) {
 	if m == nil {
-		return
+		return false
 	}
-	if !enabled("feature-a") {
+	if m.A != "" && !enabled("feature-a") {
 		m.A = ""
 	}
-	if !enabled("feature-b") {
+	if m.B != "" && !enabled("feature-b") {
 		m.B = ""
 	}
+	return removedEnumValue
 }
-func (m *Draft) OmitDraftFields(enabled func(string) bool) {
+
+// OmitDraftFields clears disabled draft fields and enum values.
+// It reports whether it removed a draft enum value from a retained field.
+func (m *Draft) OmitDraftFields(enabled func(string) bool) (removedEnumValue bool) {
 	if m == nil {
-		return
+		return false
 	}
 	if !enabled("feature-a") {
 		proto.Reset(m)
-		return
+		return false
 	}
-	if !enabled("feature-b") {
-		m.Extra = ""
-	}
+	return removedEnumValue
 }
-func (m *Draft_Inner) OmitDraftFields(enabled func(string) bool) {
+
+// OmitDraftFields clears disabled draft fields and enum values.
+// It reports whether it removed a draft enum value from a retained field.
+func (m *Draft_Inner) OmitDraftFields(enabled func(string) bool) (removedEnumValue bool) {
 	if m == nil {
-		return
-	}
-	if !enabled("feature-b") || !enabled("feature-a") {
-		proto.Reset(m)
-		return
-	}
-}
-func (m *Draft_Empty) OmitDraftFields(enabled func(string) bool) {
-	if m == nil {
-		return
+		return false
 	}
 	if !enabled("feature-a") {
 		proto.Reset(m)
-		return
+		return false
 	}
+	return removedEnumValue
+}
+
+// OmitDraftFields clears disabled draft fields and enum values.
+// It reports whether it removed a draft enum value from a retained field.
+func (m *Draft_Empty) OmitDraftFields(enabled func(string) bool) (removedEnumValue bool) {
+	if m == nil {
+		return false
+	}
+	if !enabled("feature-a") {
+		proto.Reset(m)
+		return false
+	}
+	return removedEnumValue
 }

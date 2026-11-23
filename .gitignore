@@ -2,3 +2,4 @@
 .gobincache
 .go-helpers-installed
 /descriptor_set.pb
+/api_next/descriptor_set.pb

@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"path/filepath"
 	"strings"
 )
 
@@ -16,10 +17,23 @@ type config struct {
 
 func main() {
 	var cfg config
-	flag.StringVar(&cfg.descriptorPath, "descriptorPath", "../../descriptor_set.pb", "path to the proto descriptor set")
+	apiRoot := flag.String("apiRoot", "../..", "API module to load and update")
+	flag.StringVar(&cfg.descriptorPath, "descriptorPath", "", "path to the proto descriptor set (defaults to descriptor_set.pb under apiRoot)")
 	flag.BoolVar(&cfg.verifyOnly, "verifyOnly", false,
 		"don't write to the filesystem, just verify output has not changed")
 	flag.Parse()
+	if cfg.descriptorPath == "" {
+		cfg.descriptorPath = "descriptor_set.pb"
+	} else {
+		path, err := filepath.Abs(cfg.descriptorPath)
+		if err != nil {
+			log.Fatal(err)
+		}
+		cfg.descriptorPath = path
+	}
+	if err := os.Chdir(*apiRoot); err != nil {
+		log.Fatalf("enter API module: %v", err)
+	}
 
 	serviceErr := generateService(cfg)
 	if serviceErr != nil {
