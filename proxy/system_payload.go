@@ -28,9 +28,6 @@ const (
 	SystemPayloadErrorUnsupportedEncoding
 	// SystemPayloadErrorMissingMessageType means that the messageType metadata is empty or not set.
 	SystemPayloadErrorMissingMessageType
-	// SystemPayloadErrorInvalidMessageType means that the messageType metadata is not a valid protobuf full name.
-	// No API version can know the type.
-	SystemPayloadErrorInvalidMessageType
 	// SystemPayloadErrorUnknownMessageType means that the global protobuf registry does not contain the
 	// messageType. A process with a newer API version can know the type.
 	SystemPayloadErrorUnknownMessageType
@@ -87,14 +84,6 @@ func visitSystemPayload(
 		return true, &SystemPayloadError{
 			Reason: SystemPayloadErrorMissingMessageType,
 			msg:    "system payload is missing the messageType metadata",
-		}
-	}
-
-	if !protoreflect.FullName(messageType).IsValid() {
-		return true, &SystemPayloadError{
-			Reason:      SystemPayloadErrorInvalidMessageType,
-			MessageType: messageType,
-			msg:         fmt.Sprintf("system payload has invalid message type %q", messageType),
 		}
 	}
 

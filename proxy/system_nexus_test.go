@@ -154,24 +154,14 @@ func TestSystemPayloadRejectsNonProtoBinaryEncoding(t *testing.T) {
 	requireSystemPayloadError(t, err, SystemPayloadErrorUnsupportedEncoding, signalWithStartType)
 }
 
-func TestSystemPayloadRejectsInvalidMessageType(t *testing.T) {
+func TestSystemPayloadRejectsUnknownMessageType(t *testing.T) {
 	cmd := buildSystemPayloadCommand(t, "binary/protobuf", "this isn't a valid message type")
 
 	err := VisitPayloads(context.Background(), cmd, VisitPayloadsOptions{
 		Visitor: trivialVisitor,
 	})
-	require.ErrorContains(t, err, "invalid message type")
-	requireSystemPayloadError(t, err, SystemPayloadErrorInvalidMessageType, "this isn't a valid message type")
-}
-
-func TestSystemPayloadRejectsUnknownMessageType(t *testing.T) {
-	cmd := buildSystemPayloadCommand(t, "binary/protobuf", "temporal.api.workflowservice.v1.UnknownRequest")
-
-	err := VisitPayloads(context.Background(), cmd, VisitPayloadsOptions{
-		Visitor: trivialVisitor,
-	})
 	require.ErrorContains(t, err, "unknown message type")
-	requireSystemPayloadError(t, err, SystemPayloadErrorUnknownMessageType, "temporal.api.workflowservice.v1.UnknownRequest")
+	requireSystemPayloadError(t, err, SystemPayloadErrorUnknownMessageType, "this isn't a valid message type")
 }
 
 func TestSystemPayloadRejectsMissingMessageType(t *testing.T) {
