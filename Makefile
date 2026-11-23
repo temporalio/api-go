@@ -43,10 +43,6 @@ update-proto-submodule:
 NEXUS_SCHEMA_ROOT := $(PROTO_ROOT)/nexus
 NEXUS_PROTO_OUT := workflowservice/v1/workflowservicenexus
 NEXUS_WIT_OUT := systemnexus
-# Entries are source WIT filename:destination directory.
-NEXUS_WIT_FILES := \
-	workflow-service.wit:workflowservice/v1 \
-	notification-service.wit:notificationservice/v1
 
 ##### Compile proto files for go #####
 grpc: http-api-docs go-grpc copy-helpers nexus-gen system-nexus
