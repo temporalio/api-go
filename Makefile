@@ -64,12 +64,10 @@ nexus-gen:
 system-nexus:
 	printf $(COLOR) "Update system-nexus WIT files..."
 	rm -rf $(NEXUS_WIT_OUT)
-	set -e; for entry in $(NEXUS_WIT_FILES); do \
-		src="$${entry%%:*}"; \
-		dst="$(NEXUS_WIT_OUT)/$${entry#*:}"; \
-		mkdir -p "$$dst"; \
-		cp "$(NEXUS_SCHEMA_ROOT)/$$src" "$$dst/"; \
-	done
+	mkdir -p "$(NEXUS_WIT_OUT)/workflowservice/v1"
+	cp "$(NEXUS_SCHEMA_ROOT)/workflow-service.wit" "$(NEXUS_WIT_OUT)/workflowservice/v1/"
+	mkdir -p "$(NEXUS_WIT_OUT)/notificationservice/v1"
+	cp "$(NEXUS_SCHEMA_ROOT)/notification-service.wit" "$(NEXUS_WIT_OUT)/notificationservice/v1/"
 	cp -R $(NEXUS_SCHEMA_ROOT)/deps $(NEXUS_WIT_OUT)/
 
 # Only install helpers when their source has changed
