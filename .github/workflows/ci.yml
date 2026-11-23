@@ -46,7 +46,7 @@ jobs:
           # the helper and mockgen itself.
           make api-next-tools
           make api-next
-          go -C api_next/cmd/proxygenerator run ./ -verifyOnly
+          go -C cmd/proxygenerator run ./ -apiRoot "$PWD/api_next" -verifyOnly
           git diff --exit-code HEAD -- api_next/
           untracked=$(git ls-files --others --exclude-standard -- api_next/)
           if [ -n "$untracked" ]; then

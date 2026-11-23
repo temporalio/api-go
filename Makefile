@@ -96,29 +96,30 @@ go-grpc: clean .go-helpers-installed $(PROTO_OUT)
 	cp -rf $(PROTO_OUT)/temporal/api/* $(PROTO_OUT) && rm -rf $(PROTO_OUT)/temporal
 
 API_NEXT_OUT := api_next
+API_NEXT_PROTO_PATHS := paths=source_relative:$(API_NEXT_OUT)
 
-API_NEXT_SNAPSHOT_EXCLUDES := --exclude=.git --exclude=$(API_NEXT_OUT) --exclude=proto \
-	--exclude=.gobincache --exclude=.go-helpers-installed --exclude=descriptor_set.pb \
-	--exclude=cmd/protoc-gen-go-helpers/testprotos --exclude=internal/draftwire
+# workflowservicenexus is produced by nexus-gen, outside protogen.
+API_NEXT_INPUTS := LICENSE go.mod go.sum \
+	cmd/protoc-gen-go-helpers cmd/protogen \
+	internal/protojson internal/strcase nexusannotations/v1/options.go \
+	proxy/service_util.go proxy/system_payload.go serviceerror systemnexus temporalnexus temporalproto \
+	$(NEXUS_PROTO_OUT)/service_nexus.pb.go
 
 .PHONY: api-next
 api-next: .go-helpers-installed mockgen-install nexus-annotations
 	printf $(COLOR) "Compile api_next (draft) proto tree..."
 	rm -rf $(API_NEXT_OUT)
-	mkdir -p $(API_NEXT_OUT)
-	rsync -a $(API_NEXT_SNAPSHOT_EXCLUDES) ./ $(API_NEXT_OUT)/
-	# Clear out stale generated code before regenerating below, but leave
-	# workflowservicenexus alone: it's produced by nexus-rpc-gen (the `nexus-gen`
-	# target), not by protogen, so nothing here would regenerate it.
-	find $(API_NEXT_OUT) \( -name "*.pb.go" -o -name "*.pb.gw.go" -o -name "*.go-helpers.go" -o -name "*_test.go" \) -not -path "*/workflowservicenexus/*" -delete
+	mkdir -p $(API_NEXT_OUT)/common/v1
+	rsync -aR --exclude='*_test.go' --exclude=testprotos/ $(API_NEXT_INPUTS) $(API_NEXT_OUT)/
+	cp internal/temporalcommonv1/payload_json.go $(API_NEXT_OUT)/common/v1/
 
 	go run ./cmd/protogen \
 		--root=$(PROTO_ROOT)/temporal/api_next \
 		-I=$(PROTO_ROOT) \
 		--output=$(API_NEXT_OUT) \
-		-p go-grpc_out=paths=source_relative:$(API_NEXT_OUT) \
-		-p grpc-gateway_out=allow_patch_feature=false,paths=source_relative:$(API_NEXT_OUT) \
-		-p go-helpers_out=paths=source_relative,draft_omission=true:$(API_NEXT_OUT)
+		-p go-grpc_out=$(API_NEXT_PROTO_PATHS) \
+		-p grpc-gateway_out=allow_patch_feature=false,$(API_NEXT_PROTO_PATHS) \
+		-p go-helpers_out=draft_omission=true,$(API_NEXT_PROTO_PATHS)
 	cp -rf $(API_NEXT_OUT)/temporal/api_next/* $(API_NEXT_OUT) && rm -rf $(API_NEXT_OUT)/temporal
 
 	go run ./cmd/protogen \
@@ -129,8 +130,7 @@ api-next: .go-helpers-installed mockgen-install nexus-annotations
 		--no-rewrite-enum-string \
 		--no-strip-version \
 		--output-descriptor=$(API_NEXT_OUT)/descriptor_set.pb
-	# Run the copied module so its replace and output paths both resolve api_next.
-	(cd $(API_NEXT_OUT)/cmd/proxygenerator && go run ./)
+	go -C cmd/proxygenerator run ./ -apiRoot "$(abspath $(API_NEXT_OUT))"
 
 	# The service mocks embed the concrete request/response types generated
 	# above, so they have to be regenerated rather than copied from the snapshot.
