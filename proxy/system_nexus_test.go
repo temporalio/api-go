@@ -2,6 +2,7 @@ package proxy
 
 import (
 	"context"
+	"errors"
 	"testing"
 
 	"github.com/stretchr/testify/require"
@@ -149,8 +150,8 @@ func TestSystemPayloadRejectsNonProtoBinaryEncoding(t *testing.T) {
 	err := VisitPayloads(context.Background(), cmd, VisitPayloadsOptions{
 		Visitor: trivialVisitor,
 	})
-	require.Error(t, err)
 	require.ErrorContains(t, err, "binary/protobuf")
+	requireSystemPayloadError(t, err, SystemPayloadErrorUnsupportedEncoding, signalWithStartType)
 }
 
 func TestSystemPayloadRejectsUnknownMessageType(t *testing.T) {
@@ -159,8 +160,8 @@ func TestSystemPayloadRejectsUnknownMessageType(t *testing.T) {
 	err := VisitPayloads(context.Background(), cmd, VisitPayloadsOptions{
 		Visitor: trivialVisitor,
 	})
-	require.Error(t, err)
 	require.ErrorContains(t, err, "unknown message type")
+	requireSystemPayloadError(t, err, SystemPayloadErrorUnknownMessageType, "this isn't a valid message type")
 }
 
 func TestSystemPayloadRejectsMissingMessageType(t *testing.T) {
@@ -169,8 +170,47 @@ func TestSystemPayloadRejectsMissingMessageType(t *testing.T) {
 	err := VisitPayloads(context.Background(), cmd, VisitPayloadsOptions{
 		Visitor: trivialVisitor,
 	})
-	require.Error(t, err)
 	require.ErrorContains(t, err, "missing")
+	requireSystemPayloadError(t, err, SystemPayloadErrorMissingMessageType, "")
+}
+
+func TestSystemPayloadRejectsMalformedData(t *testing.T) {
+	for _, concurrencyLimit := range []int{0, 4} {
+		cmd := buildSystemPayloadCommand(t, "binary/protobuf", signalWithStartType)
+		cmd.GetScheduleNexusOperationCommandAttributes().Input.Data = []byte{0xff}
+
+		err := VisitPayloads(context.Background(), cmd, VisitPayloadsOptions{
+			ConcurrencyLimit: concurrencyLimit,
+			Visitor:          trivialVisitor,
+		})
+		require.ErrorContains(t, err, "failed to unmarshal system payload")
+		requireSystemPayloadError(t, err, SystemPayloadErrorMalformedData, signalWithStartType)
+	}
+}
+
+func TestSystemPayloadDoesNotWrapInnerVisitorErrors(t *testing.T) {
+	visitorErr := errors.New("visitor failed")
+	for _, concurrencyLimit := range []int{0, 4} {
+		cmd := buildSystemPayloadCommand(t, "binary/protobuf", signalWithStartType)
+
+		err := VisitPayloads(context.Background(), cmd, VisitPayloadsOptions{
+			ConcurrencyLimit: concurrencyLimit,
+			Visitor: func(*VisitPayloadsContext, []*common.Payload) ([]*common.Payload, error) {
+				return nil, visitorErr
+			},
+		})
+		require.ErrorIs(t, err, visitorErr)
+		var systemPayloadErr *SystemPayloadError
+		require.False(t, errors.As(err, &systemPayloadErr))
+	}
+}
+
+func requireSystemPayloadError(t *testing.T, err error, reason SystemPayloadErrorReason, messageType string) {
+	t.Helper()
+	var systemPayloadErr *SystemPayloadError
+	require.ErrorAs(t, err, &systemPayloadErr)
+	require.Equal(t, reason, systemPayloadErr.Reason)
+	require.Equal(t, messageType, systemPayloadErr.MessageType)
 }
 
 func TestUnmarkedPayloadRetainsExistingBehavior(t *testing.T) {
