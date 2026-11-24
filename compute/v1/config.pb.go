@@ -159,12 +159,12 @@ type ComputeConfigScalingGroupUpdate struct {
 	state        protoimpl.MessageState     `protogen:"open.v1"`
 	ScalingGroup *ComputeConfigScalingGroup `protobuf:"bytes,1,opt,name=scaling_group,json=scalingGroup,proto3" json:"scaling_group,omitempty"`
 	// Controls which fields from `scaling_group` will be applied. Semantics:
-	//   - Mask is ignored for new scaling groups (only applicable when scaling group already exists).
-	//   - Empty mask for an existing scaling group is no-op: no change.
-	//   - Non-empty mask for an existing scaling group will update/unset only to the fields
-	//     mentioned in the mask.
-	//   - Accepted paths: "task_queue_types", "region_ids", "provider", "provider.type", "provider.details",
-	//     "provider.nexus_endpoint", "scaler", "scaler.type", "scaler.details"
+	// - Mask is ignored for new scaling groups (only applicable when scaling group already exists).
+	// - Empty mask for an existing scaling group is no-op: no change.
+	// - Non-empty mask for an existing scaling group will update/unset only to the fields
+	//   mentioned in the mask.
+	// - Accepted paths: "task_queue_types", "region_ids", "provider", "provider.type", "provider.details",
+	//   "provider.nexus_endpoint", "scaler", "scaler.type", "scaler.details"
 	UpdateMask    *fieldmaskpb.FieldMask `protobuf:"bytes,2,opt,name=update_mask,json=updateMask,proto3" json:"update_mask,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache

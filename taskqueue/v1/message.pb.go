@@ -501,11 +501,11 @@ type TaskQueueStats struct {
 	//
 	// Note: the actual tasks delivered to the workers may significantly be higher than the numbers reported by
 	// tasks_add_rate, because:
-	//   - Tasks can be sent to workers without going to the task queue. This is called Eager dispatch. Eager dispatch is
-	//     enable for activities by default in the latest SDKs.
-	//   - Tasks going to Sticky queue are not accounted for. Note that, typically, only the first workflow task of each
-	//     workflow goes to a normal queue, and the rest workflow tasks go to the Sticky queue associated with a specific
-	//     worker instance.
+	// - Tasks can be sent to workers without going to the task queue. This is called Eager dispatch. Eager dispatch is
+	//   enable for activities by default in the latest SDKs.
+	// - Tasks going to Sticky queue are not accounted for. Note that, typically, only the first workflow task of each
+	//   workflow goes to a normal queue, and the rest workflow tasks go to the Sticky queue associated with a specific
+	//   worker instance.
 	TasksAddRate float32 `protobuf:"fixed32,3,opt,name=tasks_add_rate,json=tasksAddRate,proto3" json:"tasks_add_rate,omitempty"`
 	// The approximate tasks per second dispatched from the task queue, averaging the last 30 seconds. These includes
 	// tasks whether or not they were added to/dispatched from the backlog or they were dispatched immediately without
@@ -516,11 +516,11 @@ type TaskQueueStats struct {
 	//
 	// Note: the actual tasks delivered to the workers may significantly be higher than the numbers reported by
 	// tasks_dispatch_rate, because:
-	//   - Tasks can be sent to workers without going to the task queue. This is called Eager dispatch. Eager dispatch is
-	//     enable for activities by default in the latest SDKs.
-	//   - Tasks going to Sticky queue are not accounted for. Note that, typically, only the first workflow task of each
-	//     workflow goes to a normal queue, and the rest workflow tasks go to the Sticky queue associated with a specific
-	//     worker instance.
+	// - Tasks can be sent to workers without going to the task queue. This is called Eager dispatch. Eager dispatch is
+	//   enable for activities by default in the latest SDKs.
+	// - Tasks going to Sticky queue are not accounted for. Note that, typically, only the first workflow task of each
+	//   workflow goes to a normal queue, and the rest workflow tasks go to the Sticky queue associated with a specific
+	//   worker instance.
 	TasksDispatchRate float32 `protobuf:"fixed32,4,opt,name=tasks_dispatch_rate,json=tasksDispatchRate,proto3" json:"tasks_dispatch_rate,omitempty"`
 	// Whether rate limiting blocked any dispatches within the recent observation window (approximately
 	// 30 seconds). When true, adding more workers will not increase throughput — the bottleneck is the
@@ -864,8 +864,7 @@ type StickyExecutionAttributes struct {
 	state           protoimpl.MessageState `protogen:"open.v1"`
 	WorkerTaskQueue *TaskQueue             `protobuf:"bytes,1,opt,name=worker_task_queue,json=workerTaskQueue,proto3" json:"worker_task_queue,omitempty"`
 	// (-- api-linter: core::0140::prepositions=disabled
-	//
-	//	aip.dev/not-precedent: "to" is used to indicate interval. --)
+	//     aip.dev/not-precedent: "to" is used to indicate interval. --)
 	ScheduleToStartTimeout *durationpb.Duration `protobuf:"bytes,2,opt,name=schedule_to_start_timeout,json=scheduleToStartTimeout,proto3" json:"schedule_to_start_timeout,omitempty"`
 	unknownFields          protoimpl.UnknownFields
 	sizeCache              protoimpl.SizeCache

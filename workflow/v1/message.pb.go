@@ -125,17 +125,16 @@ type WorkflowExecutionInfo struct {
 	// Note: workflows continued as new or reseted may or may not have parents, check examples below.
 	//
 	// Examples:
-	//
-	//	Scenario 1: Workflow W1 starts child workflow W2, and W2 starts child workflow W3.
-	//	  - The root workflow of all three workflows is W1.
-	//	Scenario 2: Workflow W1 starts child workflow W2, and W2 continued as new W3.
-	//	  - The root workflow of all three workflows is W1.
-	//	Scenario 3: Workflow W1 continued as new W2.
-	//	  - The root workflow of W1 is W1 and the root workflow of W2 is W2.
-	//	Scenario 4: Workflow W1 starts child workflow W2, and W2 is reseted, creating W3
-	//	  - The root workflow of all three workflows is W1.
-	//	Scenario 5: Workflow W1 is reseted, creating W2.
-	//	  - The root workflow of W1 is W1 and the root workflow of W2 is W2.
+	//   Scenario 1: Workflow W1 starts child workflow W2, and W2 starts child workflow W3.
+	//     - The root workflow of all three workflows is W1.
+	//   Scenario 2: Workflow W1 starts child workflow W2, and W2 continued as new W3.
+	//     - The root workflow of all three workflows is W1.
+	//   Scenario 3: Workflow W1 continued as new W2.
+	//     - The root workflow of W1 is W1 and the root workflow of W2 is W2.
+	//   Scenario 4: Workflow W1 starts child workflow W2, and W2 is reseted, creating W3
+	//     - The root workflow of all three workflows is W1.
+	//   Scenario 5: Workflow W1 is reseted, creating W2.
+	//     - The root workflow of W1 is W1 and the root workflow of W2 is W2.
 	RootExecution *v1.WorkflowExecution `protobuf:"bytes,18,opt,name=root_execution,json=rootExecution,proto3" json:"root_execution,omitempty"`
 	// The currently assigned build ID for this execution. Presence of this value means worker versioning is used
 	// for this execution. Assigned build ID is selected based on Worker Versioning Assignment Rules
@@ -1454,9 +1453,7 @@ type ResetPointInfo struct {
 	FirstWorkflowTaskCompletedId int64                  `protobuf:"varint,3,opt,name=first_workflow_task_completed_id,json=firstWorkflowTaskCompletedId,proto3" json:"first_workflow_task_completed_id,omitempty"`
 	CreateTime                   *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=create_time,json=createTime,proto3" json:"create_time,omitempty"`
 	// (-- api-linter: core::0214::resource-expiry=disabled
-	//
-	//	aip.dev/not-precedent: TTL is not defined for ResetPointInfo. --)
-	//
+	//     aip.dev/not-precedent: TTL is not defined for ResetPointInfo. --)
 	// The time that the run is deleted due to retention.
 	ExpireTime *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=expire_time,json=expireTime,proto3" json:"expire_time,omitempty"`
 	// false if the reset point has pending childWFs/reqCancels/signalExternals.
@@ -1871,8 +1868,7 @@ type PendingNexusOperationInfo struct {
 	// Schedule-to-close timeout for this operation.
 	// This is the only timeout settable by a workflow.
 	// (-- api-linter: core::0140::prepositions=disabled
-	//
-	//	aip.dev/not-precedent: "to" is used to indicate interval. --)
+	//     aip.dev/not-precedent: "to" is used to indicate interval. --)
 	ScheduleToCloseTimeout *durationpb.Duration `protobuf:"bytes,5,opt,name=schedule_to_close_timeout,json=scheduleToCloseTimeout,proto3" json:"schedule_to_close_timeout,omitempty"`
 	// The time when the operation was scheduled.
 	ScheduledTime *timestamppb.Timestamp         `protobuf:"bytes,6,opt,name=scheduled_time,json=scheduledTime,proto3" json:"scheduled_time,omitempty"`
@@ -1898,13 +1894,11 @@ type PendingNexusOperationInfo struct {
 	OperationToken string `protobuf:"bytes,15,opt,name=operation_token,json=operationToken,proto3" json:"operation_token,omitempty"`
 	// Schedule-to-start timeout for this operation.
 	// (-- api-linter: core::0140::prepositions=disabled
-	//
-	//	aip.dev/not-precedent: "to" is used to indicate interval. --)
+	//     aip.dev/not-precedent: "to" is used to indicate interval. --)
 	ScheduleToStartTimeout *durationpb.Duration `protobuf:"bytes,16,opt,name=schedule_to_start_timeout,json=scheduleToStartTimeout,proto3" json:"schedule_to_start_timeout,omitempty"`
 	// Start-to-close timeout for this operation.
 	// (-- api-linter: core::0140::prepositions=disabled
-	//
-	//	aip.dev/not-precedent: "to" is used to indicate interval. --)
+	//     aip.dev/not-precedent: "to" is used to indicate interval. --)
 	StartToCloseTimeout *durationpb.Duration `protobuf:"bytes,17,opt,name=start_to_close_timeout,json=startToCloseTimeout,proto3" json:"start_to_close_timeout,omitempty"`
 	unknownFields       protoimpl.UnknownFields
 	sizeCache           protoimpl.SizeCache
@@ -2383,8 +2377,7 @@ type VersioningOverride_OneTime struct {
 	// Versioning Behavior and Deployment Version come from the worker's completion
 	// response.
 	// (-- api-linter: core::0142::time-field-type=disabled
-	//
-	//	aip.dev/not-precedent: one_time describes one-time routing semantics, not a timestamp or duration. --)
+	//     aip.dev/not-precedent: one_time describes one-time routing semantics, not a timestamp or duration. --)
 	OneTime *VersioningOverride_OneTimeOverride `protobuf:"bytes,5,opt,name=one_time,json=oneTime,proto3,oneof"`
 }
 

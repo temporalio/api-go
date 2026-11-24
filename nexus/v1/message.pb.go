@@ -522,8 +522,7 @@ type Request struct {
 	Header map[string]string `protobuf:"bytes,1,rep,name=header,proto3" json:"header,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	// The timestamp when the request was scheduled in the frontend.
 	// (-- api-linter: core::0142::time-field-names=disabled
-	//
-	//	aip.dev/not-precedent: Not following linter rules. --)
+	//     aip.dev/not-precedent: Not following linter rules. --)
 	ScheduledTime *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=scheduled_time,json=scheduledTime,proto3" json:"scheduled_time,omitempty"`
 	Capabilities  *Request_Capabilities  `protobuf:"bytes,100,opt,name=capabilities,proto3" json:"capabilities,omitempty"`
 	// Types that are valid to be assigned to Variant:
@@ -892,14 +891,12 @@ type Endpoint struct {
 	Spec *EndpointSpec `protobuf:"bytes,3,opt,name=spec,proto3" json:"spec,omitempty"`
 	// The date and time when the endpoint was created.
 	// (-- api-linter: core::0142::time-field-names=disabled
-	//
-	//	aip.dev/not-precedent: Not following linter rules. --)
+	//     aip.dev/not-precedent: Not following linter rules. --)
 	CreatedTime *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=created_time,json=createdTime,proto3" json:"created_time,omitempty"`
 	// The date and time when the endpoint was last modified.
 	// Will not be set if the endpoint has never been modified.
 	// (-- api-linter: core::0142::time-field-names=disabled
-	//
-	//	aip.dev/not-precedent: Not following linter rules. --)
+	//     aip.dev/not-precedent: Not following linter rules. --)
 	LastModifiedTime *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=last_modified_time,json=lastModifiedTime,proto3" json:"last_modified_time,omitempty"`
 	// Server exposed URL prefix for invocation of operations on this endpoint.
 	// This doesn't include the protocol, hostname or port as the server does not know how it should be accessed
@@ -1259,18 +1256,15 @@ type NexusOperationExecutionInfo struct {
 	State v1.PendingNexusOperationState `protobuf:"varint,7,opt,name=state,proto3,enum=temporal.api.enums.v1.PendingNexusOperationState" json:"state,omitempty"`
 	// Schedule-to-close timeout for this operation.
 	// (-- api-linter: core::0140::prepositions=disabled
-	//
-	//	aip.dev/not-precedent: "to" is used to indicate interval. --)
+	//     aip.dev/not-precedent: "to" is used to indicate interval. --)
 	ScheduleToCloseTimeout *durationpb.Duration `protobuf:"bytes,8,opt,name=schedule_to_close_timeout,json=scheduleToCloseTimeout,proto3" json:"schedule_to_close_timeout,omitempty"`
 	// Schedule-to-start timeout for this operation.
 	// (-- api-linter: core::0140::prepositions=disabled
-	//
-	//	aip.dev/not-precedent: "to" is used to indicate interval. --)
+	//     aip.dev/not-precedent: "to" is used to indicate interval. --)
 	ScheduleToStartTimeout *durationpb.Duration `protobuf:"bytes,9,opt,name=schedule_to_start_timeout,json=scheduleToStartTimeout,proto3" json:"schedule_to_start_timeout,omitempty"`
 	// Start-to-close timeout for this operation.
 	// (-- api-linter: core::0140::prepositions=disabled
-	//
-	//	aip.dev/not-precedent: "to" is used to indicate interval. --)
+	//     aip.dev/not-precedent: "to" is used to indicate interval. --)
 	StartToCloseTimeout *durationpb.Duration `protobuf:"bytes,10,opt,name=start_to_close_timeout,json=startToCloseTimeout,proto3" json:"start_to_close_timeout,omitempty"`
 	// The number of attempts made to deliver the start operation request.
 	// This number is approximate, it is incremented when a task is added to the history queue.
