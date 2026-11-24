@@ -1,6 +1,0 @@
-[settings]
-idiomatic_version_file_enable_tools = ["go"]
-
-[tools]
-# Keep the protobuf compiler aligned with Temporal when upgrading.
-protoc = "23.4"

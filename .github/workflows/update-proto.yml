@@ -47,21 +47,7 @@ jobs:
           go-version-file: 'go.mod'
           check-latest: true
 
-      - name: Load CI tool configuration
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          mkdir -p "$RUNNER_TEMP/api-go-ci-tools"
-          gh api -H 'Accept: application/vnd.github.raw+json' \
-            "repos/$GITHUB_REPOSITORY/contents/.github/mise.toml?ref=$GITHUB_WORKFLOW_SHA" \
-            > "$RUNNER_TEMP/api-go-ci-tools/mise.toml"
-
-      - uses: jdx/mise-action@2d8d4cafcbd33be2ea37d2b6f5ad595363d1f1ca # v5.1.1
-        env:
-          MISE_TRUSTED_CONFIG_PATHS: ${{ runner.temp }}/api-go-ci-tools
-        with:
-          working_directory: ${{ runner.temp }}/api-go-ci-tools
-          cache: false
+      - uses: $/.github/actions/setup-protoc
 
       # Needed for pnpm
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
