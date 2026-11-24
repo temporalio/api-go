@@ -10,6 +10,7 @@ import (
 	"google.golang.org/protobuf/types/descriptorpb"
 )
 
+// TestContainsMessageRecursive checks that a recursive search can find a payload through a previously visited type.
 func TestContainsMessageRecursive(t *testing.T) {
 	field := func(name, typ string, number int32) *descriptorpb.FieldDescriptorProto {
 		return &descriptorpb.FieldDescriptorProto{
@@ -39,6 +40,7 @@ func TestContainsMessageRecursive(t *testing.T) {
 	}
 }
 
+// TestGatherMatchesKeepsRecursivePayloadGetter checks that the generator retains a recursive getter that can lead to a payload.
 func TestGatherMatchesKeepsRecursivePayloadGetter(t *testing.T) {
 	payloads, err := lookupTypes("go.temporal.io/api/cmd/proxygenerator/testdata/recursive", []string{"Payload"})
 	if err != nil {
