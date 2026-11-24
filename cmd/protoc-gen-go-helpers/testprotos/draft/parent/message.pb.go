@@ -70,12 +70,12 @@ func (Scalars_State) EnumDescriptor() ([]byte, []int) {
 }
 
 type Root struct {
-	state    protoimpl.MessageState `protogen:"open.v1"`
-	Stable   string                 `protobuf:"bytes,1,opt,name=stable,proto3" json:"stable,omitempty"`
-	Gated    *child.Leaf            `protobuf:"bytes,2,opt,name=gated,proto3" json:"gated,omitempty"`
-	List     []*child.Leaf          `protobuf:"bytes,3,rep,name=list,proto3" json:"list,omitempty"`
-	Map      map[string]*child.Leaf `protobuf:"bytes,4,rep,name=map,proto3" json:"map,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
-	Optional *int32                 `protobuf:"varint,5,opt,name=optional,proto3,oneof" json:"optional,omitempty"`
+	state    protoimpl.MessageState   `protogen:"open.v1"`
+	Stable   string                   `protobuf:"bytes,1,opt,name=stable,proto3" json:"stable,omitempty"`
+	Gated    *child.Leaf              `protobuf:"bytes,2,opt,name=gated,proto3" json:"gated,omitempty"`
+	List     []*child.Stable          `protobuf:"bytes,3,rep,name=list,proto3" json:"list,omitempty"`
+	Map      map[string]*child.Stable `protobuf:"bytes,4,rep,name=map,proto3" json:"map,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	Optional *int32                   `protobuf:"varint,5,opt,name=optional,proto3,oneof" json:"optional,omitempty"`
 	// Types that are valid to be assigned to Choice:
 	//
 	//	*Root_A
@@ -133,14 +133,14 @@ func (x *Root) GetGated() *child.Leaf {
 	return nil
 }
 
-func (x *Root) GetList() []*child.Leaf {
+func (x *Root) GetList() []*child.Stable {
 	if x != nil {
 		return x.List
 	}
 	return nil
 }
 
-func (x *Root) GetMap() map[string]*child.Leaf {
+func (x *Root) GetMap() map[string]*child.Stable {
 	if x != nil {
 		return x.Map
 	}
@@ -545,14 +545,21 @@ type DraftReferences struct {
 	//
 	//	*DraftReferences_Draft
 	//	*DraftReferences_StableChoice
-	Choice        isDraftReferences_Choice     `protobuf_oneof:"choice"`
-	Gated         *child.Draft                 `protobuf:"bytes,7,opt,name=gated,proto3" json:"gated,omitempty"`
-	Inner         *child.Draft_Inner           `protobuf:"bytes,8,opt,name=inner,proto3" json:"inner,omitempty"`
-	State         child.Draft_State            `protobuf:"varint,9,opt,name=state,proto3,enum=omission.child.Draft_State" json:"state,omitempty"`
-	States        []child.Draft_State          `protobuf:"varint,10,rep,packed,name=states,proto3,enum=omission.child.Draft_State" json:"states,omitempty"`
-	StateByName   map[string]child.Draft_State `protobuf:"bytes,11,rep,name=state_by_name,json=stateByName,proto3" json:"state_by_name,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"varint,2,opt,name=value,enum=omission.child.Draft_State"`
-	Empty         *child.Draft_Empty           `protobuf:"bytes,12,opt,name=empty,proto3" json:"empty,omitempty"`
-	GatedInner    *child.Draft_Inner           `protobuf:"bytes,13,opt,name=gated_inner,json=gatedInner,proto3" json:"gated_inner,omitempty"`
+	Choice      isDraftReferences_Choice     `protobuf_oneof:"choice"`
+	Inner       *child.Draft_Inner           `protobuf:"bytes,8,opt,name=inner,proto3" json:"inner,omitempty"`
+	State       child.Draft_State            `protobuf:"varint,9,opt,name=state,proto3,enum=omission.child.Draft_State" json:"state,omitempty"`
+	States      []child.Draft_State          `protobuf:"varint,10,rep,packed,name=states,proto3,enum=omission.child.Draft_State" json:"states,omitempty"`
+	StateByName map[string]child.Draft_State `protobuf:"bytes,11,rep,name=state_by_name,json=stateByName,proto3" json:"state_by_name,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"varint,2,opt,name=value,enum=omission.child.Draft_State"`
+	Empty       *child.Draft_Empty           `protobuf:"bytes,12,opt,name=empty,proto3" json:"empty,omitempty"`
+	Mode        child.Mode                   `protobuf:"varint,13,opt,name=mode,proto3,enum=omission.child.Mode" json:"mode,omitempty"`
+	// Types that are valid to be assigned to PreviewChoice:
+	//
+	//	*DraftReferences_Preview
+	//	*DraftReferences_Label
+	//	*DraftReferences_PreviewLevel
+	PreviewChoice isDraftReferences_PreviewChoice `protobuf_oneof:"preview_choice"`
+	GatedLevel    child.Level                     `protobuf:"varint,17,opt,name=gated_level,json=gatedLevel,proto3,enum=omission.child.Level" json:"gated_level,omitempty"`
+	GatedMessage  *EnumFields                     `protobuf:"bytes,18,opt,name=gated_message,json=gatedMessage,proto3" json:"gated_message,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -640,13 +647,6 @@ func (x *DraftReferences) GetStableChoice() string {
 	return ""
 }
 
-func (x *DraftReferences) GetGated() *child.Draft {
-	if x != nil {
-		return x.Gated
-	}
-	return nil
-}
-
 func (x *DraftReferences) GetInner() *child.Draft_Inner {
 	if x != nil {
 		return x.Inner
@@ -682,9 +682,57 @@ func (x *DraftReferences) GetEmpty() *child.Draft_Empty {
 	return nil
 }
 
-func (x *DraftReferences) GetGatedInner() *child.Draft_Inner {
+func (x *DraftReferences) GetMode() child.Mode {
 	if x != nil {
-		return x.GatedInner
+		return x.Mode
+	}
+	return child.Mode(0)
+}
+
+func (x *DraftReferences) GetPreviewChoice() isDraftReferences_PreviewChoice {
+	if x != nil {
+		return x.PreviewChoice
+	}
+	return nil
+}
+
+func (x *DraftReferences) GetPreview() *child.Draft {
+	if x != nil {
+		if x, ok := x.PreviewChoice.(*DraftReferences_Preview); ok {
+			return x.Preview
+		}
+	}
+	return nil
+}
+
+func (x *DraftReferences) GetLabel() string {
+	if x != nil {
+		if x, ok := x.PreviewChoice.(*DraftReferences_Label); ok {
+			return x.Label
+		}
+	}
+	return ""
+}
+
+func (x *DraftReferences) GetPreviewLevel() child.Level {
+	if x != nil {
+		if x, ok := x.PreviewChoice.(*DraftReferences_PreviewLevel); ok {
+			return x.PreviewLevel
+		}
+	}
+	return child.Level(0)
+}
+
+func (x *DraftReferences) GetGatedLevel() child.Level {
+	if x != nil {
+		return x.GatedLevel
+	}
+	return child.Level(0)
+}
+
+func (x *DraftReferences) GetGatedMessage() *EnumFields {
+	if x != nil {
+		return x.GatedMessage
 	}
 	return nil
 }
@@ -705,6 +753,236 @@ func (*DraftReferences_Draft) isDraftReferences_Choice() {}
 
 func (*DraftReferences_StableChoice) isDraftReferences_Choice() {}
 
+type isDraftReferences_PreviewChoice interface {
+	isDraftReferences_PreviewChoice()
+}
+
+type DraftReferences_Preview struct {
+	Preview *child.Draft `protobuf:"bytes,14,opt,name=preview,proto3,oneof"`
+}
+
+type DraftReferences_Label struct {
+	Label string `protobuf:"bytes,15,opt,name=label,proto3,oneof"`
+}
+
+type DraftReferences_PreviewLevel struct {
+	PreviewLevel child.Level `protobuf:"varint,16,opt,name=preview_level,json=previewLevel,proto3,enum=omission.child.Level,oneof"`
+}
+
+func (*DraftReferences_Preview) isDraftReferences_PreviewChoice() {}
+
+func (*DraftReferences_Label) isDraftReferences_PreviewChoice() {}
+
+func (*DraftReferences_PreviewLevel) isDraftReferences_PreviewChoice() {}
+
+type EnumFields struct {
+	state    protoimpl.MessageState `protogen:"open.v1"`
+	Singular child.Level            `protobuf:"varint,1,opt,name=singular,proto3,enum=omission.child.Level" json:"singular,omitempty"`
+	Optional *child.Level           `protobuf:"varint,2,opt,name=optional,proto3,enum=omission.child.Level,oneof" json:"optional,omitempty"`
+	// Types that are valid to be assigned to Choice:
+	//
+	//	*EnumFields_Level
+	//	*EnumFields_Label
+	Choice        isEnumFields_Choice `protobuf_oneof:"choice"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *EnumFields) Reset() {
+	*x = EnumFields{}
+	mi := &file_parent_message_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *EnumFields) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*EnumFields) ProtoMessage() {}
+
+func (x *EnumFields) ProtoReflect() protoreflect.Message {
+	mi := &file_parent_message_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use EnumFields.ProtoReflect.Descriptor instead.
+func (*EnumFields) Descriptor() ([]byte, []int) {
+	return file_parent_message_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *EnumFields) GetSingular() child.Level {
+	if x != nil {
+		return x.Singular
+	}
+	return child.Level(0)
+}
+
+func (x *EnumFields) GetOptional() child.Level {
+	if x != nil && x.Optional != nil {
+		return *x.Optional
+	}
+	return child.Level(0)
+}
+
+func (x *EnumFields) GetChoice() isEnumFields_Choice {
+	if x != nil {
+		return x.Choice
+	}
+	return nil
+}
+
+func (x *EnumFields) GetLevel() child.Level {
+	if x != nil {
+		if x, ok := x.Choice.(*EnumFields_Level); ok {
+			return x.Level
+		}
+	}
+	return child.Level(0)
+}
+
+func (x *EnumFields) GetLabel() string {
+	if x != nil {
+		if x, ok := x.Choice.(*EnumFields_Label); ok {
+			return x.Label
+		}
+	}
+	return ""
+}
+
+type isEnumFields_Choice interface {
+	isEnumFields_Choice()
+}
+
+type EnumFields_Level struct {
+	Level child.Level `protobuf:"varint,5,opt,name=level,proto3,enum=omission.child.Level,oneof"`
+}
+
+type EnumFields_Label struct {
+	Label string `protobuf:"bytes,6,opt,name=label,proto3,oneof"`
+}
+
+func (*EnumFields_Level) isEnumFields_Choice() {}
+
+func (*EnumFields_Label) isEnumFields_Choice() {}
+
+type EnumAncestor struct {
+	state  protoimpl.MessageState `protogen:"open.v1"`
+	Single *EnumFields            `protobuf:"bytes,1,opt,name=single,proto3" json:"single,omitempty"`
+	// Types that are valid to be assigned to Choice:
+	//
+	//	*EnumAncestor_Member
+	Choice        isEnumAncestor_Choice `protobuf_oneof:"choice"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *EnumAncestor) Reset() {
+	*x = EnumAncestor{}
+	mi := &file_parent_message_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *EnumAncestor) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*EnumAncestor) ProtoMessage() {}
+
+func (x *EnumAncestor) ProtoReflect() protoreflect.Message {
+	mi := &file_parent_message_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use EnumAncestor.ProtoReflect.Descriptor instead.
+func (*EnumAncestor) Descriptor() ([]byte, []int) {
+	return file_parent_message_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *EnumAncestor) GetSingle() *EnumFields {
+	if x != nil {
+		return x.Single
+	}
+	return nil
+}
+
+func (x *EnumAncestor) GetChoice() isEnumAncestor_Choice {
+	if x != nil {
+		return x.Choice
+	}
+	return nil
+}
+
+func (x *EnumAncestor) GetMember() *EnumFields {
+	if x != nil {
+		if x, ok := x.Choice.(*EnumAncestor_Member); ok {
+			return x.Member
+		}
+	}
+	return nil
+}
+
+type isEnumAncestor_Choice interface {
+	isEnumAncestor_Choice()
+}
+
+type EnumAncestor_Member struct {
+	Member *EnumFields `protobuf:"bytes,4,opt,name=member,proto3,oneof"`
+}
+
+func (*EnumAncestor_Member) isEnumAncestor_Choice() {}
+
+type Plain struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Plain) Reset() {
+	*x = Plain{}
+	mi := &file_parent_message_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Plain) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Plain) ProtoMessage() {}
+
+func (x *Plain) ProtoReflect() protoreflect.Message {
+	mi := &file_parent_message_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Plain.ProtoReflect.Descriptor instead.
+func (*Plain) Descriptor() ([]byte, []int) {
+	return file_parent_message_proto_rawDescGZIP(), []int{8}
+}
+
 type Root_Nested struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Leaf          *child.Leaf            `protobuf:"bytes,1,opt,name=leaf,proto3" json:"leaf,omitempty"`
@@ -714,7 +992,7 @@ type Root_Nested struct {
 
 func (x *Root_Nested) Reset() {
 	*x = Root_Nested{}
-	mi := &file_parent_message_proto_msgTypes[8]
+	mi := &file_parent_message_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -726,7 +1004,7 @@ func (x *Root_Nested) String() string {
 func (*Root_Nested) ProtoMessage() {}
 
 func (x *Root_Nested) ProtoReflect() protoreflect.Message {
-	mi := &file_parent_message_proto_msgTypes[8]
+	mi := &file_parent_message_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -753,11 +1031,11 @@ var File_parent_message_proto protoreflect.FileDescriptor
 
 const file_parent_message_proto_rawDesc = "" +
 	"\n" +
-	"\x14parent/message.proto\x12\x0fomission.parent\x1a\x17annotations/draft.proto\x1a\x13child/message.proto\"\xd0\x05\n" +
+	"\x14parent/message.proto\x12\x0fomission.parent\x1a\x17annotations/draft.proto\x1a\x13child/message.proto\"\xd4\x05\n" +
 	"\x04Root\x12\x16\n" +
 	"\x06stable\x18\x01 \x01(\tR\x06stable\x129\n" +
-	"\x05gated\x18\x02 \x01(\v2\x14.omission.child.LeafB\r\xc2\xed/\tfeature-aR\x05gated\x12(\n" +
-	"\x04list\x18\x03 \x03(\v2\x14.omission.child.LeafR\x04list\x120\n" +
+	"\x05gated\x18\x02 \x01(\v2\x14.omission.child.LeafB\r\xc2\xed/\tfeature-aR\x05gated\x12*\n" +
+	"\x04list\x18\x03 \x03(\v2\x16.omission.child.StableR\x04list\x120\n" +
 	"\x03map\x18\x04 \x03(\v2\x1e.omission.parent.Root.MapEntryR\x03map\x12.\n" +
 	"\boptional\x18\x05 \x01(\x05B\r\xc2\xed/\tfeature-aH\x01R\boptional\x88\x01\x01\x12\x1d\n" +
 	"\x01a\x18\x06 \x01(\x05B\r\xc2\xed/\tfeature-aH\x00R\x01a\x12*\n" +
@@ -766,10 +1044,10 @@ const file_parent_message_proto_rawDesc = "" +
 	"\x06nested\x18\t \x01(\v2\x1c.omission.parent.Root.NestedR\x06nested\x12#\n" +
 	"\x05names\x18\n" +
 	" \x03(\tB\r\xc2\xed/\tfeature-bR\x05names\x12H\n" +
-	"\x06counts\x18\v \x03(\v2!.omission.parent.Root.CountsEntryB\r\xc2\xed/\tfeature-bR\x06counts\x1aL\n" +
+	"\x06counts\x18\v \x03(\v2!.omission.parent.Root.CountsEntryB\r\xc2\xed/\tfeature-bR\x06counts\x1aN\n" +
 	"\bMapEntry\x12\x10\n" +
-	"\x03key\x18\x01 \x01(\tR\x03key\x12*\n" +
-	"\x05value\x18\x02 \x01(\v2\x14.omission.child.LeafR\x05value:\x028\x01\x1a9\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12,\n" +
+	"\x05value\x18\x02 \x01(\v2\x16.omission.child.StableR\x05value:\x028\x01\x1a9\n" +
 	"\vCountsEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\x05R\x05value:\x028\x01\x1a2\n" +
@@ -804,30 +1082,55 @@ const file_parent_message_proto_rawDesc = "" +
 	"\x04enum\x18\x10 \x01(\x0e2\x1e.omission.parent.Scalars.StateB\r\xc2\xed/\tfeature-aR\x04enum\"\x1a\n" +
 	"\x05State\x12\b\n" +
 	"\x04ZERO\x10\x00\x12\a\n" +
-	"\x03ONE\x10\x01\"\x87\a\n" +
+	"\x03ONE\x10\x01\"\x80\n" +
+	"\n" +
 	"\x0fDraftReferences\x12\x16\n" +
-	"\x06stable\x18\x01 \x01(\tR\x06stable\x12-\n" +
-	"\x06single\x18\x02 \x01(\v2\x15.omission.child.DraftR\x06single\x12)\n" +
-	"\x04list\x18\x03 \x03(\v2\x15.omission.child.DraftR\x04list\x12E\n" +
-	"\aby_name\x18\x04 \x03(\v2,.omission.parent.DraftReferences.ByNameEntryR\x06byName\x12-\n" +
-	"\x05draft\x18\x05 \x01(\v2\x15.omission.child.DraftH\x00R\x05draft\x12%\n" +
-	"\rstable_choice\x18\x06 \x01(\tH\x00R\fstableChoice\x12:\n" +
-	"\x05gated\x18\a \x01(\v2\x15.omission.child.DraftB\r\xc2\xed/\tfeature-bR\x05gated\x121\n" +
-	"\x05inner\x18\b \x01(\v2\x1b.omission.child.Draft.InnerR\x05inner\x121\n" +
-	"\x05state\x18\t \x01(\x0e2\x1b.omission.child.Draft.StateR\x05state\x123\n" +
+	"\x06stable\x18\x01 \x01(\tR\x06stable\x12<\n" +
+	"\x06single\x18\x02 \x01(\v2\x15.omission.child.DraftB\r\xc2\xed/\tfeature-aR\x06single\x128\n" +
+	"\x04list\x18\x03 \x03(\v2\x15.omission.child.DraftB\r\xc2\xed/\tfeature-aR\x04list\x12T\n" +
+	"\aby_name\x18\x04 \x03(\v2,.omission.parent.DraftReferences.ByNameEntryB\r\xc2\xed/\tfeature-aR\x06byName\x12<\n" +
+	"\x05draft\x18\x05 \x01(\v2\x15.omission.child.DraftB\r\xc2\xed/\tfeature-aH\x00R\x05draft\x12%\n" +
+	"\rstable_choice\x18\x06 \x01(\tH\x00R\fstableChoice\x12@\n" +
+	"\x05inner\x18\b \x01(\v2\x1b.omission.child.Draft.InnerB\r\xc2\xed/\tfeature-aR\x05inner\x12@\n" +
+	"\x05state\x18\t \x01(\x0e2\x1b.omission.child.Draft.StateB\r\xc2\xed/\tfeature-aR\x05state\x12B\n" +
 	"\x06states\x18\n" +
-	" \x03(\x0e2\x1b.omission.child.Draft.StateR\x06states\x12U\n" +
-	"\rstate_by_name\x18\v \x03(\v21.omission.parent.DraftReferences.StateByNameEntryR\vstateByName\x121\n" +
-	"\x05empty\x18\f \x01(\v2\x1b.omission.child.Draft.EmptyR\x05empty\x12K\n" +
-	"\vgated_inner\x18\r \x01(\v2\x1b.omission.child.Draft.InnerB\r\xc2\xed/\tfeature-cR\n" +
-	"gatedInner\x1aP\n" +
+	" \x03(\x0e2\x1b.omission.child.Draft.StateB\r\xc2\xed/\tfeature-aR\x06states\x12d\n" +
+	"\rstate_by_name\x18\v \x03(\v21.omission.parent.DraftReferences.StateByNameEntryB\r\xc2\xed/\tfeature-aR\vstateByName\x12@\n" +
+	"\x05empty\x18\f \x01(\v2\x1b.omission.child.Draft.EmptyB\r\xc2\xed/\tfeature-aR\x05empty\x127\n" +
+	"\x04mode\x18\r \x01(\x0e2\x14.omission.child.ModeB\r\xc2\xed/\tfeature-aR\x04mode\x121\n" +
+	"\apreview\x18\x0e \x01(\v2\x15.omission.child.DraftH\x01R\apreview\x12\x16\n" +
+	"\x05label\x18\x0f \x01(\tH\x01R\x05label\x12<\n" +
+	"\rpreview_level\x18\x10 \x01(\x0e2\x15.omission.child.LevelH\x01R\fpreviewLevel\x12E\n" +
+	"\vgated_level\x18\x11 \x01(\x0e2\x15.omission.child.LevelB\r\xc2\xed/\tfeature-aR\n" +
+	"gatedLevel\x12O\n" +
+	"\rgated_message\x18\x12 \x01(\v2\x1b.omission.parent.EnumFieldsB\r\xc2\xed/\tfeature-aR\fgatedMessage\x1aP\n" +
 	"\vByNameEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12+\n" +
 	"\x05value\x18\x02 \x01(\v2\x15.omission.child.DraftR\x05value:\x028\x01\x1a[\n" +
 	"\x10StateByNameEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x121\n" +
 	"\x05value\x18\x02 \x01(\x0e2\x1b.omission.child.Draft.StateR\x05value:\x028\x01B\b\n" +
-	"\x06choiceBMZKgo.temporal.io/api/cmd/protoc-gen-go-helpers/testprotos/draft/parent;parentb\x06proto3"
+	"\x06choiceB\x1f\n" +
+	"\x0epreview_choice\x12\r\xca\xed/\tfeature-a\"\xd5\x01\n" +
+	"\n" +
+	"EnumFields\x121\n" +
+	"\bsingular\x18\x01 \x01(\x0e2\x15.omission.child.LevelR\bsingular\x126\n" +
+	"\boptional\x18\x02 \x01(\x0e2\x15.omission.child.LevelH\x01R\boptional\x88\x01\x01\x12-\n" +
+	"\x05level\x18\x05 \x01(\x0e2\x15.omission.child.LevelH\x00R\x05level\x12\x16\n" +
+	"\x05label\x18\x06 \x01(\tH\x00R\x05labelB\b\n" +
+	"\x06choiceB\v\n" +
+	"\t_optional\"\x84\x01\n" +
+	"\fEnumAncestor\x123\n" +
+	"\x06single\x18\x01 \x01(\v2\x1b.omission.parent.EnumFieldsR\x06single\x125\n" +
+	"\x06member\x18\x04 \x01(\v2\x1b.omission.parent.EnumFieldsH\x00R\x06memberB\b\n" +
+	"\x06choice\"\a\n" +
+	"\x05Plain2\xc4\x01\n" +
+	"\x05Mixed\x128\n" +
+	"\x06Stable\x12\x16.omission.parent.Plain\x1a\x16.omission.parent.Plain\x129\n" +
+	"\bFiltered\x12\x16.omission.parent.Plain\x1a\x15.omission.parent.Root\x12F\n" +
+	"\aPreview\x12\x15.omission.child.Draft\x1a\x15.omission.child.Draft\"\r\xc2\xed/\tfeature-a2N\n" +
+	"\aPreview\x124\n" +
+	"\x04Call\x12\x15.omission.child.Draft\x1a\x15.omission.child.Draft\x1a\r\xc2\xed/\tfeature-aBMZKgo.temporal.io/api/cmd/protoc-gen-go-helpers/testprotos/draft/parent;parentb\x06proto3"
 
 var (
 	file_parent_message_proto_rawDescOnce sync.Once
@@ -842,7 +1145,7 @@ func file_parent_message_proto_rawDescGZIP() []byte {
 }
 
 var file_parent_message_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_parent_message_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
+var file_parent_message_proto_msgTypes = make([]protoimpl.MessageInfo, 14)
 var file_parent_message_proto_goTypes = []any{
 	(Scalars_State)(0),        // 0: omission.parent.Scalars.State
 	(*Root)(nil),              // 1: omission.parent.Root
@@ -851,49 +1154,71 @@ var file_parent_message_proto_goTypes = []any{
 	(*Ancestor)(nil),          // 4: omission.parent.Ancestor
 	(*Scalars)(nil),           // 5: omission.parent.Scalars
 	(*DraftReferences)(nil),   // 6: omission.parent.DraftReferences
-	nil,                       // 7: omission.parent.Root.MapEntry
-	nil,                       // 8: omission.parent.Root.CountsEntry
-	(*Root_Nested)(nil),       // 9: omission.parent.Root.Nested
-	nil,                       // 10: omission.parent.DraftReferences.ByNameEntry
-	nil,                       // 11: omission.parent.DraftReferences.StateByNameEntry
-	(*child.Leaf)(nil),        // 12: omission.child.Leaf
-	(*child.Draft)(nil),       // 13: omission.child.Draft
-	(*child.Draft_Inner)(nil), // 14: omission.child.Draft.Inner
-	(child.Draft_State)(0),    // 15: omission.child.Draft.State
-	(*child.Draft_Empty)(nil), // 16: omission.child.Draft.Empty
+	(*EnumFields)(nil),        // 7: omission.parent.EnumFields
+	(*EnumAncestor)(nil),      // 8: omission.parent.EnumAncestor
+	(*Plain)(nil),             // 9: omission.parent.Plain
+	nil,                       // 10: omission.parent.Root.MapEntry
+	nil,                       // 11: omission.parent.Root.CountsEntry
+	(*Root_Nested)(nil),       // 12: omission.parent.Root.Nested
+	nil,                       // 13: omission.parent.DraftReferences.ByNameEntry
+	nil,                       // 14: omission.parent.DraftReferences.StateByNameEntry
+	(*child.Leaf)(nil),        // 15: omission.child.Leaf
+	(*child.Stable)(nil),      // 16: omission.child.Stable
+	(*child.Draft)(nil),       // 17: omission.child.Draft
+	(*child.Draft_Inner)(nil), // 18: omission.child.Draft.Inner
+	(child.Draft_State)(0),    // 19: omission.child.Draft.State
+	(*child.Draft_Empty)(nil), // 20: omission.child.Draft.Empty
+	(child.Mode)(0),           // 21: omission.child.Mode
+	(child.Level)(0),          // 22: omission.child.Level
 }
 var file_parent_message_proto_depIdxs = []int32{
-	12, // 0: omission.parent.Root.gated:type_name -> omission.child.Leaf
-	12, // 1: omission.parent.Root.list:type_name -> omission.child.Leaf
-	7,  // 2: omission.parent.Root.map:type_name -> omission.parent.Root.MapEntry
-	12, // 3: omission.parent.Root.leaf:type_name -> omission.child.Leaf
-	9,  // 4: omission.parent.Root.nested:type_name -> omission.parent.Root.Nested
-	8,  // 5: omission.parent.Root.counts:type_name -> omission.parent.Root.CountsEntry
+	15, // 0: omission.parent.Root.gated:type_name -> omission.child.Leaf
+	16, // 1: omission.parent.Root.list:type_name -> omission.child.Stable
+	10, // 2: omission.parent.Root.map:type_name -> omission.parent.Root.MapEntry
+	15, // 3: omission.parent.Root.leaf:type_name -> omission.child.Leaf
+	12, // 4: omission.parent.Root.nested:type_name -> omission.parent.Root.Nested
+	11, // 5: omission.parent.Root.counts:type_name -> omission.parent.Root.CountsEntry
 	3,  // 6: omission.parent.CycleA.b:type_name -> omission.parent.CycleB
 	2,  // 7: omission.parent.CycleB.a:type_name -> omission.parent.CycleA
-	12, // 8: omission.parent.CycleB.leaf:type_name -> omission.child.Leaf
+	15, // 8: omission.parent.CycleB.leaf:type_name -> omission.child.Leaf
 	2,  // 9: omission.parent.Ancestor.child:type_name -> omission.parent.CycleA
 	0,  // 10: omission.parent.Scalars.enum:type_name -> omission.parent.Scalars.State
-	13, // 11: omission.parent.DraftReferences.single:type_name -> omission.child.Draft
-	13, // 12: omission.parent.DraftReferences.list:type_name -> omission.child.Draft
-	10, // 13: omission.parent.DraftReferences.by_name:type_name -> omission.parent.DraftReferences.ByNameEntry
-	13, // 14: omission.parent.DraftReferences.draft:type_name -> omission.child.Draft
-	13, // 15: omission.parent.DraftReferences.gated:type_name -> omission.child.Draft
-	14, // 16: omission.parent.DraftReferences.inner:type_name -> omission.child.Draft.Inner
-	15, // 17: omission.parent.DraftReferences.state:type_name -> omission.child.Draft.State
-	15, // 18: omission.parent.DraftReferences.states:type_name -> omission.child.Draft.State
-	11, // 19: omission.parent.DraftReferences.state_by_name:type_name -> omission.parent.DraftReferences.StateByNameEntry
-	16, // 20: omission.parent.DraftReferences.empty:type_name -> omission.child.Draft.Empty
-	14, // 21: omission.parent.DraftReferences.gated_inner:type_name -> omission.child.Draft.Inner
-	12, // 22: omission.parent.Root.MapEntry.value:type_name -> omission.child.Leaf
-	12, // 23: omission.parent.Root.Nested.leaf:type_name -> omission.child.Leaf
-	13, // 24: omission.parent.DraftReferences.ByNameEntry.value:type_name -> omission.child.Draft
-	15, // 25: omission.parent.DraftReferences.StateByNameEntry.value:type_name -> omission.child.Draft.State
-	26, // [26:26] is the sub-list for method output_type
-	26, // [26:26] is the sub-list for method input_type
-	26, // [26:26] is the sub-list for extension type_name
-	26, // [26:26] is the sub-list for extension extendee
-	0,  // [0:26] is the sub-list for field type_name
+	17, // 11: omission.parent.DraftReferences.single:type_name -> omission.child.Draft
+	17, // 12: omission.parent.DraftReferences.list:type_name -> omission.child.Draft
+	13, // 13: omission.parent.DraftReferences.by_name:type_name -> omission.parent.DraftReferences.ByNameEntry
+	17, // 14: omission.parent.DraftReferences.draft:type_name -> omission.child.Draft
+	18, // 15: omission.parent.DraftReferences.inner:type_name -> omission.child.Draft.Inner
+	19, // 16: omission.parent.DraftReferences.state:type_name -> omission.child.Draft.State
+	19, // 17: omission.parent.DraftReferences.states:type_name -> omission.child.Draft.State
+	14, // 18: omission.parent.DraftReferences.state_by_name:type_name -> omission.parent.DraftReferences.StateByNameEntry
+	20, // 19: omission.parent.DraftReferences.empty:type_name -> omission.child.Draft.Empty
+	21, // 20: omission.parent.DraftReferences.mode:type_name -> omission.child.Mode
+	17, // 21: omission.parent.DraftReferences.preview:type_name -> omission.child.Draft
+	22, // 22: omission.parent.DraftReferences.preview_level:type_name -> omission.child.Level
+	22, // 23: omission.parent.DraftReferences.gated_level:type_name -> omission.child.Level
+	7,  // 24: omission.parent.DraftReferences.gated_message:type_name -> omission.parent.EnumFields
+	22, // 25: omission.parent.EnumFields.singular:type_name -> omission.child.Level
+	22, // 26: omission.parent.EnumFields.optional:type_name -> omission.child.Level
+	22, // 27: omission.parent.EnumFields.level:type_name -> omission.child.Level
+	7,  // 28: omission.parent.EnumAncestor.single:type_name -> omission.parent.EnumFields
+	7,  // 29: omission.parent.EnumAncestor.member:type_name -> omission.parent.EnumFields
+	16, // 30: omission.parent.Root.MapEntry.value:type_name -> omission.child.Stable
+	15, // 31: omission.parent.Root.Nested.leaf:type_name -> omission.child.Leaf
+	17, // 32: omission.parent.DraftReferences.ByNameEntry.value:type_name -> omission.child.Draft
+	19, // 33: omission.parent.DraftReferences.StateByNameEntry.value:type_name -> omission.child.Draft.State
+	9,  // 34: omission.parent.Mixed.Stable:input_type -> omission.parent.Plain
+	9,  // 35: omission.parent.Mixed.Filtered:input_type -> omission.parent.Plain
+	17, // 36: omission.parent.Mixed.Preview:input_type -> omission.child.Draft
+	17, // 37: omission.parent.Preview.Call:input_type -> omission.child.Draft
+	9,  // 38: omission.parent.Mixed.Stable:output_type -> omission.parent.Plain
+	1,  // 39: omission.parent.Mixed.Filtered:output_type -> omission.parent.Root
+	17, // 40: omission.parent.Mixed.Preview:output_type -> omission.child.Draft
+	17, // 41: omission.parent.Preview.Call:output_type -> omission.child.Draft
+	38, // [38:42] is the sub-list for method output_type
+	34, // [34:38] is the sub-list for method input_type
+	34, // [34:34] is the sub-list for extension type_name
+	34, // [34:34] is the sub-list for extension extendee
+	0,  // [0:34] is the sub-list for field type_name
 }
 
 func init() { file_parent_message_proto_init() }
@@ -909,6 +1234,16 @@ func file_parent_message_proto_init() {
 	file_parent_message_proto_msgTypes[5].OneofWrappers = []any{
 		(*DraftReferences_Draft)(nil),
 		(*DraftReferences_StableChoice)(nil),
+		(*DraftReferences_Preview)(nil),
+		(*DraftReferences_Label)(nil),
+		(*DraftReferences_PreviewLevel)(nil),
+	}
+	file_parent_message_proto_msgTypes[6].OneofWrappers = []any{
+		(*EnumFields_Level)(nil),
+		(*EnumFields_Label)(nil),
+	}
+	file_parent_message_proto_msgTypes[7].OneofWrappers = []any{
+		(*EnumAncestor_Member)(nil),
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -916,9 +1251,9 @@ func file_parent_message_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_parent_message_proto_rawDesc), len(file_parent_message_proto_rawDesc)),
 			NumEnums:      1,
-			NumMessages:   11,
+			NumMessages:   14,
 			NumExtensions: 0,
-			NumServices:   0,
+			NumServices:   2,
 		},
 		GoTypes:           file_parent_message_proto_goTypes,
 		DependencyIndexes: file_parent_message_proto_depIdxs,

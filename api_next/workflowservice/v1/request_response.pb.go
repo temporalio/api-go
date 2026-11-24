@@ -25,6 +25,7 @@ import (
 	v19 "go.temporal.io/api/nexus/v1"
 	v123 "go.temporal.io/api/nexusoperation/v1"
 	v112 "go.temporal.io/api/protocol/v1"
+	_ "go.temporal.io/api/protometa/v1"
 	v111 "go.temporal.io/api/query/v1"
 	v1 "go.temporal.io/api/replication/v1"
 	v122 "go.temporal.io/api/rules/v1"
@@ -349,8 +350,10 @@ type DescribeNamespaceRequest struct {
 	// which preserves read-after-write consistency. SDKs should set this when
 	// fetching namespace capabilities on worker/client startup.
 	WeakConsistency bool `protobuf:"varint,3,opt,name=weak_consistency,json=weakConsistency,proto3" json:"weak_consistency,omitempty"`
-	unknownFields   protoimpl.UnknownFields
-	sizeCache       protoimpl.SizeCache
+	// Example field for exercising draft API filtering.
+	PreviewNote   string `protobuf:"bytes,4,opt,name=preview_note,json=previewNote,proto3" json:"preview_note,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *DescribeNamespaceRequest) Reset() {
@@ -402,6 +405,13 @@ func (x *DescribeNamespaceRequest) GetWeakConsistency() bool {
 		return x.WeakConsistency
 	}
 	return false
+}
+
+func (x *DescribeNamespaceRequest) GetPreviewNote() string {
+	if x != nil {
+		return x.PreviewNote
+	}
+	return ""
 }
 
 type DescribeNamespaceResponse struct {
@@ -1731,9 +1741,9 @@ type PollWorkflowTaskQueueResponse struct {
 	// ignore stale updates.
 	// The weighted list of poller groups IDs that client should use for future polls to this task
 	// queue. Client is expected to:
-	//   1. Maintain minimum number of pollers no less than the number of groups.
-	//   2. Try to assign the next poll to a group without any pending polls,
-	//   3. If every group has some pending polls, assign the next poll to a group randomly
+	//  1. Maintain minimum number of pollers no less than the number of groups.
+	//  2. Try to assign the next poll to a group without any pending polls,
+	//  3. If every group has some pending polls, assign the next poll to a group randomly
 	//     according to the weights.
 	//
 	// Deprecated: Marked as deprecated in temporal/api_next/workflowservice/v1/request_response.proto.
@@ -1741,9 +1751,9 @@ type PollWorkflowTaskQueueResponse struct {
 	// The weighted, versioned list of poller groups IDs that client should use for future polls to
 	// this task queue. Client should ignore this if it has already applied a snapshot with a
 	// version greater than or equal to `poller_groups_info.version`. Client is expected to:
-	//   1. Maintain minimum number of pollers no less than the number of groups.
-	//   2. Try to assign the next poll to a group without any pending polls,
-	//   3. If every group has some pending polls, assign the next poll to a group randomly
+	//  1. Maintain minimum number of pollers no less than the number of groups.
+	//  2. Try to assign the next poll to a group without any pending polls,
+	//  3. If every group has some pending polls, assign the next poll to a group randomly
 	//     according to the weights.
 	PollerGroupsInfo *v13.PollerGroupsInfo `protobuf:"bytes,19,opt,name=poller_groups_info,json=pollerGroupsInfo,proto3" json:"poller_groups_info,omitempty"`
 	unknownFields    protoimpl.UnknownFields
@@ -2596,12 +2606,14 @@ type PollActivityTaskQueueResponse struct {
 	// First scheduled -> final result reported timeout
 	//
 	// (-- api-linter: core::0140::prepositions=disabled
-	//     aip.dev/not-precedent: "to" is used to indicate interval. --)
+	//
+	//	aip.dev/not-precedent: "to" is used to indicate interval. --)
 	ScheduleToCloseTimeout *durationpb.Duration `protobuf:"bytes,14,opt,name=schedule_to_close_timeout,json=scheduleToCloseTimeout,proto3" json:"schedule_to_close_timeout,omitempty"`
 	// Current attempt start -> final result reported timeout
 	//
 	// (-- api-linter: core::0140::prepositions=disabled
-	//     aip.dev/not-precedent: "to" is used to indicate interval. --)
+	//
+	//	aip.dev/not-precedent: "to" is used to indicate interval. --)
 	StartToCloseTimeout *durationpb.Duration `protobuf:"bytes,15,opt,name=start_to_close_timeout,json=startToCloseTimeout,proto3" json:"start_to_close_timeout,omitempty"`
 	// Window within which the activity must report a heartbeat, or be timed out.
 	HeartbeatTimeout *durationpb.Duration `protobuf:"bytes,16,opt,name=heartbeat_timeout,json=heartbeatTimeout,proto3" json:"heartbeat_timeout,omitempty"`
@@ -2617,9 +2629,9 @@ type PollActivityTaskQueueResponse struct {
 	ActivityRunId string `protobuf:"bytes,20,opt,name=activity_run_id,json=activityRunId,proto3" json:"activity_run_id,omitempty"`
 	// The weighted list of poller groups IDs that client should use for future polls to this task
 	// queue. Client is expected to:
-	//   1. Maintain minimum number of pollers no less than the number of groups.
-	//   2. Try to assign the next poll to a group without any pending polls,
-	//   3. If every group has some pending polls, assign the next poll to a group randomly
+	//  1. Maintain minimum number of pollers no less than the number of groups.
+	//  2. Try to assign the next poll to a group without any pending polls,
+	//  3. If every group has some pending polls, assign the next poll to a group randomly
 	//     according to the weights.
 	//
 	// Deprecated: Marked as deprecated in temporal/api_next/workflowservice/v1/request_response.proto.
@@ -2627,9 +2639,9 @@ type PollActivityTaskQueueResponse struct {
 	// The weighted, versioned list of poller groups IDs that client should use for future polls to
 	// this task queue. Client should ignore this if it has already applied a snapshot with a
 	// version greater than or equal to `poller_groups_info.version`. Client is expected to:
-	//   1. Maintain minimum number of pollers no less than the number of groups.
-	//   2. Try to assign the next poll to a group without any pending polls,
-	//   3. If every group has some pending polls, assign the next poll to a group randomly
+	//  1. Maintain minimum number of pollers no less than the number of groups.
+	//  2. Try to assign the next poll to a group without any pending polls,
+	//  3. If every group has some pending polls, assign the next poll to a group randomly
 	//     according to the weights.
 	PollerGroupsInfo *v13.PollerGroupsInfo `protobuf:"bytes,22,opt,name=poller_groups_info,json=pollerGroupsInfo,proto3" json:"poller_groups_info,omitempty"`
 	// Serialization context propagated from the Nexus caller that started this activity.
@@ -6879,7 +6891,8 @@ type DescribeTaskQueueResponse struct {
 	// Task queue stats breakdown by priority key. Only contains actively used priority keys.
 	// Only set if `report_stats` is set on the request.
 	// (-- api-linter: core::0140::prepositions=disabled
-	//     aip.dev/not-precedent: "by" is used to clarify the keys and values. --)
+	//
+	//	aip.dev/not-precedent: "by" is used to clarify the keys and values. --)
 	StatsByPriorityKey map[int32]*v13.TaskQueueStats `protobuf:"bytes,8,rep,name=stats_by_priority_key,json=statsByPriorityKey,proto3" json:"stats_by_priority_key,omitempty" protobuf_key:"varint,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	// Specifies which Worker Deployment Version(s) Server routes this Task Queue's tasks to.
 	// When not present, it means the tasks are routed to Unversioned workers (workers with
@@ -7558,11 +7571,11 @@ type DescribeScheduleResponse struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// The complete current schedule details. This may not match the schedule as
 	// created because:
-	// - some types of schedule specs may get compiled into others (e.g.
-	//   CronString into StructuredCalendarSpec)
-	// - some unspecified fields may be replaced by defaults
-	// - some fields in the state are modified automatically
-	// - the schedule may have been modified by UpdateSchedule or PatchSchedule
+	//   - some types of schedule specs may get compiled into others (e.g.
+	//     CronString into StructuredCalendarSpec)
+	//   - some unspecified fields may be replaced by defaults
+	//   - some fields in the state are modified automatically
+	//   - the schedule may have been modified by UpdateSchedule or PatchSchedule
 	Schedule *v117.Schedule `protobuf:"bytes,1,opt,name=schedule,proto3" json:"schedule,omitempty"`
 	// Extra schedule state info.
 	Info *v117.ScheduleInfo `protobuf:"bytes,2,opt,name=info,proto3" json:"info,omitempty"`
@@ -8488,7 +8501,8 @@ type UpdateWorkerBuildIdCompatibilityRequest_AddNewBuildIdInNewDefaultSet struct
 	// incompatible with all previous sets/versions.
 	//
 	// (-- api-linter: core::0140::prepositions=disabled
-	//     aip.dev/not-precedent: In makes perfect sense here. --)
+	//
+	//	aip.dev/not-precedent: In makes perfect sense here. --)
 	AddNewBuildIdInNewDefaultSet string `protobuf:"bytes,3,opt,name=add_new_build_id_in_new_default_set,json=addNewBuildIdInNewDefaultSet,proto3,oneof"`
 }
 
@@ -8502,7 +8516,8 @@ type UpdateWorkerBuildIdCompatibilityRequest_PromoteSetByBuildId struct {
 	// an existing build id within it. This field's value is the extant build id.
 	//
 	// (-- api-linter: core::0140::prepositions=disabled
-	//     aip.dev/not-precedent: Names are hard. --)
+	//
+	//	aip.dev/not-precedent: Names are hard. --)
 	PromoteSetByBuildId string `protobuf:"bytes,5,opt,name=promote_set_by_build_id,json=promoteSetByBuildId,proto3,oneof"`
 }
 
@@ -8510,7 +8525,8 @@ type UpdateWorkerBuildIdCompatibilityRequest_PromoteBuildIdWithinSet struct {
 	// Promote an existing build id within some set to be the current default for that set.
 	//
 	// (-- api-linter: core::0140::prepositions=disabled
-	//     aip.dev/not-precedent: Within makes perfect sense here. --)
+	//
+	//	aip.dev/not-precedent: Within makes perfect sense here. --)
 	PromoteBuildIdWithinSet string `protobuf:"bytes,6,opt,name=promote_build_id_within_set,json=promoteBuildIdWithinSet,proto3,oneof"`
 }
 
@@ -9226,7 +9242,8 @@ type UpdateWorkflowExecutionRequest struct {
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// The target Workflow Id and (optionally) a specific Run Id thereof.
 	// (-- api-linter: core::0203::optional=disabled
-	//     aip.dev/not-precedent: false positive triggered by the word "optional" --)
+	//
+	//	aip.dev/not-precedent: false positive triggered by the word "optional" --)
 	WorkflowExecution *v14.WorkflowExecution `protobuf:"bytes,2,opt,name=workflow_execution,json=workflowExecution,proto3" json:"workflow_execution,omitempty"`
 	// If set, this call will error if the most recent (if no Run Id is set on
 	// `workflow_execution`), or specified (if it is) Workflow Execution is not
@@ -10484,9 +10501,9 @@ type PollNexusTaskQueueResponse struct {
 	PollerGroupId string `protobuf:"bytes,4,opt,name=poller_group_id,json=pollerGroupId,proto3" json:"poller_group_id,omitempty"`
 	// The weighted list of poller groups IDs that client should use for future polls to this task
 	// queue. Client is expected to:
-	//   1. Maintain minimum number of pollers no less than the number of groups.
-	//   2. Try to assign the next poll to a group without any pending polls,
-	//   3. If every group has some pending polls, assign the next poll to a group randomly
+	//  1. Maintain minimum number of pollers no less than the number of groups.
+	//  2. Try to assign the next poll to a group without any pending polls,
+	//  3. If every group has some pending polls, assign the next poll to a group randomly
 	//     according to the weights.
 	//
 	// Deprecated: Marked as deprecated in temporal/api_next/workflowservice/v1/request_response.proto.
@@ -10494,9 +10511,9 @@ type PollNexusTaskQueueResponse struct {
 	// The weighted, versioned list of poller groups IDs that client should use for future polls to
 	// this task queue. Client should ignore this if it has already applied a snapshot with a
 	// version greater than or equal to `poller_groups_info.version`. Client is expected to:
-	//   1. Maintain minimum number of pollers no less than the number of groups.
-	//   2. Try to assign the next poll to a group without any pending polls,
-	//   3. If every group has some pending polls, assign the next poll to a group randomly
+	//  1. Maintain minimum number of pollers no less than the number of groups.
+	//  2. Try to assign the next poll to a group without any pending polls,
+	//  3. If every group has some pending polls, assign the next poll to a group randomly
 	//     according to the weights.
 	PollerGroupsInfo *v13.PollerGroupsInfo `protobuf:"bytes,6,opt,name=poller_groups_info,json=pollerGroupsInfo,proto3" json:"poller_groups_info,omitempty"`
 	unknownFields    protoimpl.UnknownFields
@@ -12386,7 +12403,8 @@ type UpdateWorkflowExecutionOptionsRequest struct {
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// The target Workflow Id and (optionally) a specific Run Id thereof.
 	// (-- api-linter: core::0203::optional=disabled
-	//     aip.dev/not-precedent: false positive triggered by the word "optional" --)
+	//
+	//	aip.dev/not-precedent: false positive triggered by the word "optional" --)
 	WorkflowExecution *v14.WorkflowExecution `protobuf:"bytes,2,opt,name=workflow_execution,json=workflowExecution,proto3" json:"workflow_execution,omitempty"`
 	// Workflow Execution options. Partial updates are accepted and controlled by update_mask.
 	WorkflowExecutionOptions *v17.WorkflowExecutionOptions `protobuf:"bytes,3,opt,name=workflow_execution_options,json=workflowExecutionOptions,proto3" json:"workflow_execution_options,omitempty"`
@@ -13133,6 +13151,7 @@ type SetWorkerDeploymentCurrentVersionRequest struct {
 	//     add_rate of 0.)
 	//   - Task Queues that are moved to another Worker Deployment (inferred by the Task Queue
 	//     having a different Current Version than the Current Version of this deployment.)
+	//
 	// WARNING: Do not set this flag unless you are sure that the missing task queue pollers are not
 	// needed. If the request is unexpectedly rejected due to missing pollers, then that means the
 	// pollers have not reached to the server yet. Only set this if you expect those pollers to
@@ -13339,6 +13358,7 @@ type SetWorkerDeploymentRampingVersionRequest struct {
 	//     add_rate of 0.)
 	//   - Task Queues that are moved to another Worker Deployment (inferred by the Task Queue
 	//     having a different Current Version than the Current Version of this deployment.)
+	//
 	// WARNING: Do not set this flag unless you are sure that the missing task queue poller are not
 	// needed. If the request is unexpectedly rejected due to missing pollers, then that means the
 	// pollers have not reached to the server yet. Only set this if you expect those pollers to
@@ -15611,16 +15631,16 @@ type ListWorkersRequest struct {
 	NextPageToken []byte                 `protobuf:"bytes,3,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
 	// `query` in ListWorkers is used to filter workers based on worker attributes.
 	// Supported attributes:
-	//* WorkerInstanceKey
-	//* WorkerIdentity
-	//* HostName
-	//* TaskQueue
-	//* DeploymentName
-	//* BuildId
-	//* SdkName
-	//* SdkVersion
-	//* StartTime
-	//* Status
+	// * WorkerInstanceKey
+	// * WorkerIdentity
+	// * HostName
+	// * TaskQueue
+	// * DeploymentName
+	// * BuildId
+	// * SdkName
+	// * SdkVersion
+	// * StartTime
+	// * Status
 	Query string `protobuf:"bytes,4,opt,name=query,proto3" json:"query,omitempty"`
 	// When true, the response will include system workers that are created implicitly
 	// by the server and not by the user. By default, system workers are excluded.
@@ -16704,21 +16724,24 @@ type StartActivityExecutionRequest struct {
 	// retries will be attempted. Either this or `start_to_close_timeout` must be specified.
 	//
 	// (-- api-linter: core::0140::prepositions=disabled
-	//     aip.dev/not-precedent: "to" is used to indicate interval. --)
+	//
+	//	aip.dev/not-precedent: "to" is used to indicate interval. --)
 	ScheduleToCloseTimeout *durationpb.Duration `protobuf:"bytes,7,opt,name=schedule_to_close_timeout,json=scheduleToCloseTimeout,proto3" json:"schedule_to_close_timeout,omitempty"`
 	// Limits time an activity task can stay in a task queue before a worker picks it up. This
 	// timeout is always non retryable, as all a retry would achieve is to put it back into the same
 	// queue. Defaults to `schedule_to_close_timeout` if not specified.
 	//
 	// (-- api-linter: core::0140::prepositions=disabled
-	//     aip.dev/not-precedent: "to" is used to indicate interval. --)
+	//
+	//	aip.dev/not-precedent: "to" is used to indicate interval. --)
 	ScheduleToStartTimeout *durationpb.Duration `protobuf:"bytes,8,opt,name=schedule_to_start_timeout,json=scheduleToStartTimeout,proto3" json:"schedule_to_start_timeout,omitempty"`
 	// Maximum time an activity is allowed to execute after being picked up by a worker. This
 	// timeout is always retryable. Either this or `schedule_to_close_timeout` must be
 	// specified.
 	//
 	// (-- api-linter: core::0140::prepositions=disabled
-	//     aip.dev/not-precedent: "to" is used to indicate interval. --)
+	//
+	//	aip.dev/not-precedent: "to" is used to indicate interval. --)
 	StartToCloseTimeout *durationpb.Duration `protobuf:"bytes,9,opt,name=start_to_close_timeout,json=startToCloseTimeout,proto3" json:"start_to_close_timeout,omitempty"`
 	// Maximum permitted time between successful worker heartbeats.
 	HeartbeatTimeout *durationpb.Duration `protobuf:"bytes,10,opt,name=heartbeat_timeout,json=heartbeatTimeout,proto3" json:"heartbeat_timeout,omitempty"`
@@ -17504,21 +17527,24 @@ type StartNexusOperationExecutionRequest struct {
 	// Indicates how long the caller is willing to wait for operation completion.
 	// Calls are retried internally by the server.
 	// (-- api-linter: core::0140::prepositions=disabled
-	//     aip.dev/not-precedent: "to" is used to indicate interval. --)
+	//
+	//	aip.dev/not-precedent: "to" is used to indicate interval. --)
 	ScheduleToCloseTimeout *durationpb.Duration `protobuf:"bytes,8,opt,name=schedule_to_close_timeout,json=scheduleToCloseTimeout,proto3" json:"schedule_to_close_timeout,omitempty"`
 	// Schedule-to-start timeout for this operation.
 	// Indicates how long the caller is willing to wait for the operation to be started (or completed if synchronous)
 	// by the handler.
 	// If not set or zero, no schedule-to-start timeout is enforced.
 	// (-- api-linter: core::0140::prepositions=disabled
-	//     aip.dev/not-precedent: "to" is used to indicate interval. --)
+	//
+	//	aip.dev/not-precedent: "to" is used to indicate interval. --)
 	ScheduleToStartTimeout *durationpb.Duration `protobuf:"bytes,9,opt,name=schedule_to_start_timeout,json=scheduleToStartTimeout,proto3" json:"schedule_to_start_timeout,omitempty"`
 	// Start-to-close timeout for this operation.
 	// Indicates how long the caller is willing to wait for an asynchronous operation to complete after it has been
 	// started. Synchronous operations ignore this timeout.
 	// If not set or zero, no start-to-close timeout is enforced.
 	// (-- api-linter: core::0140::prepositions=disabled
-	//     aip.dev/not-precedent: "to" is used to indicate interval. --)
+	//
+	//	aip.dev/not-precedent: "to" is used to indicate interval. --)
 	StartToCloseTimeout *durationpb.Duration `protobuf:"bytes,10,opt,name=start_to_close_timeout,json=startToCloseTimeout,proto3" json:"start_to_close_timeout,omitempty"`
 	// Serialized input to the operation. Passed as the request payload.
 	Input *v14.Payload `protobuf:"bytes,11,opt,name=input,proto3" json:"input,omitempty"`
@@ -19474,7 +19500,8 @@ type RespondWorkflowTaskCompletedRequest_Capabilities struct {
 	// speculative task included command events the SDK had not previously processed.
 	//
 	// (-- api-linter: core::0140::prepositions=disabled
-	//     aip.dev/not-precedent: "with" used to describe the workflow task. --)
+	//
+	//	aip.dev/not-precedent: "with" used to describe the workflow task. --)
 	DiscardSpeculativeWorkflowTaskWithEvents bool `protobuf:"varint,1,opt,name=discard_speculative_workflow_task_with_events,json=discardSpeculativeWorkflowTaskWithEvents,proto3" json:"discard_speculative_workflow_task_with_events,omitempty"`
 	unknownFields                            protoimpl.UnknownFields
 	sizeCache                                protoimpl.SizeCache
@@ -20532,7 +20559,8 @@ type DescribeWorkerDeploymentVersionResponse_VersionTaskQueue struct {
 	// Task queue stats breakdown by priority key. Only contains actively used priority keys.
 	// Only set if `report_task_queue_stats` is set to true in the request.
 	// (-- api-linter: core::0140::prepositions=disabled
-	//     aip.dev/not-precedent: "by" is used to clarify the key. --)
+	//
+	//	aip.dev/not-precedent: "by" is used to clarify the key. --)
 	StatsByPriorityKey map[int32]*v13.TaskQueueStats `protobuf:"bytes,4,rep,name=stats_by_priority_key,json=statsByPriorityKey,proto3" json:"stats_by_priority_key,omitempty" protobuf_key:"varint,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	unknownFields      protoimpl.UnknownFields
 	sizeCache          protoimpl.SizeCache
@@ -20901,7 +20929,7 @@ var File_temporal_api_next_workflowservice_v1_request_response_proto protoreflec
 
 const file_temporal_api_next_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\n" +
-	";temporal/api_next/workflowservice/v1/request_response.proto\x12\x1ftemporal.api.workflowservice.v1\x1a0temporal/api_next/enums/v1/batch_operation.proto\x1a'temporal/api_next/enums/v1/common.proto\x1a)temporal/api_next/enums/v1/workflow.proto\x1a*temporal/api_next/enums/v1/namespace.proto\x1a-temporal/api_next/enums/v1/failed_cause.proto\x1a&temporal/api_next/enums/v1/query.proto\x1a&temporal/api_next/enums/v1/reset.proto\x1a+temporal/api_next/enums/v1/task_queue.proto\x1a+temporal/api_next/enums/v1/deployment.proto\x1a'temporal/api_next/enums/v1/update.proto\x1a.temporal/api_next/enums/v1/time_skipping.proto\x1a)temporal/api_next/enums/v1/activity.proto\x1a&temporal/api_next/enums/v1/nexus.proto\x1a+temporal/api_next/activity/v1/message.proto\x1a)temporal/api_next/common/v1/message.proto\x1a*temporal/api_next/history/v1/message.proto\x1a+temporal/api_next/workflow/v1/message.proto\x1a*temporal/api_next/command/v1/message.proto\x1a)temporal/api_next/compute/v1/config.proto\x1a-temporal/api_next/deployment/v1/message.proto\x1a*temporal/api_next/failure/v1/message.proto\x1a)temporal/api_next/filter/v1/message.proto\x1a+temporal/api_next/protocol/v1/message.proto\x1a,temporal/api_next/namespace/v1/message.proto\x1a(temporal/api_next/query/v1/message.proto\x1a.temporal/api_next/replication/v1/message.proto\x1a(temporal/api_next/rules/v1/message.proto\x1a,temporal/api_next/sdk/v1/worker_config.proto\x1a+temporal/api_next/schedule/v1/message.proto\x1a,temporal/api_next/taskqueue/v1/message.proto\x1a)temporal/api_next/update/v1/message.proto\x1a*temporal/api_next/version/v1/message.proto\x1a(temporal/api_next/batch/v1/message.proto\x1a5temporal/api_next/sdk/v1/task_complete_metadata.proto\x1a,temporal/api_next/sdk/v1/user_metadata.proto\x1a(temporal/api_next/nexus/v1/message.proto\x1a1temporal/api_next/nexusoperation/v1/message.proto\x1a)temporal/api_next/worker/v1/message.proto\x1a\x1egoogle/protobuf/duration.proto\x1a google/protobuf/field_mask.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xf9\x06\n" +
+	";temporal/api_next/workflowservice/v1/request_response.proto\x12\x1ftemporal.api.workflowservice.v1\x1a0temporal/api_next/enums/v1/batch_operation.proto\x1a'temporal/api_next/enums/v1/common.proto\x1a)temporal/api_next/enums/v1/workflow.proto\x1a*temporal/api_next/enums/v1/namespace.proto\x1a-temporal/api_next/enums/v1/failed_cause.proto\x1a&temporal/api_next/enums/v1/query.proto\x1a&temporal/api_next/enums/v1/reset.proto\x1a+temporal/api_next/enums/v1/task_queue.proto\x1a+temporal/api_next/enums/v1/deployment.proto\x1a'temporal/api_next/enums/v1/update.proto\x1a.temporal/api_next/enums/v1/time_skipping.proto\x1a)temporal/api_next/enums/v1/activity.proto\x1a&temporal/api_next/enums/v1/nexus.proto\x1a+temporal/api_next/activity/v1/message.proto\x1a)temporal/api_next/common/v1/message.proto\x1a*temporal/api_next/history/v1/message.proto\x1a+temporal/api_next/workflow/v1/message.proto\x1a*temporal/api_next/command/v1/message.proto\x1a)temporal/api_next/compute/v1/config.proto\x1a-temporal/api_next/deployment/v1/message.proto\x1a*temporal/api_next/failure/v1/message.proto\x1a)temporal/api_next/filter/v1/message.proto\x1a+temporal/api_next/protocol/v1/message.proto\x1a,temporal/api_next/namespace/v1/message.proto\x1a(temporal/api_next/query/v1/message.proto\x1a*temporal/api_next/protometa/v1/draft.proto\x1a.temporal/api_next/replication/v1/message.proto\x1a(temporal/api_next/rules/v1/message.proto\x1a,temporal/api_next/sdk/v1/worker_config.proto\x1a+temporal/api_next/schedule/v1/message.proto\x1a,temporal/api_next/taskqueue/v1/message.proto\x1a)temporal/api_next/update/v1/message.proto\x1a*temporal/api_next/version/v1/message.proto\x1a(temporal/api_next/batch/v1/message.proto\x1a5temporal/api_next/sdk/v1/task_complete_metadata.proto\x1a,temporal/api_next/sdk/v1/user_metadata.proto\x1a(temporal/api_next/nexus/v1/message.proto\x1a1temporal/api_next/nexusoperation/v1/message.proto\x1a)temporal/api_next/worker/v1/message.proto\x1a\x1egoogle/protobuf/duration.proto\x1a google/protobuf/field_mask.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xf9\x06\n" +
 	"\x18RegisterNamespaceRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12 \n" +
 	"\vdescription\x18\x02 \x01(\tR\vdescription\x12\x1f\n" +
@@ -20930,11 +20958,12 @@ const file_temporal_api_next_workflowservice_v1_request_response_proto_rawDesc =
 	"\n" +
 	"namespaces\x18\x01 \x03(\v2:.temporal.api.workflowservice.v1.DescribeNamespaceResponseR\n" +
 	"namespaces\x12&\n" +
-	"\x0fnext_page_token\x18\x02 \x01(\fR\rnextPageToken\"s\n" +
+	"\x0fnext_page_token\x18\x02 \x01(\fR\rnextPageToken\"\xad\x01\n" +
 	"\x18DescribeNamespaceRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12\x0e\n" +
 	"\x02id\x18\x02 \x01(\tR\x02id\x12)\n" +
-	"\x10weak_consistency\x18\x03 \x01(\bR\x0fweakConsistency\"\x84\x05\n" +
+	"\x10weak_consistency\x18\x03 \x01(\bR\x0fweakConsistency\x128\n" +
+	"\fpreview_note\x18\x04 \x01(\tB\x15\xc2\xed/\x11draft-api-exampleR\vpreviewNote\"\x84\x05\n" +
 	"\x19DescribeNamespaceResponse\x12O\n" +
 	"\x0enamespace_info\x18\x01 \x01(\v2(.temporal.api.namespace.v1.NamespaceInfoR\rnamespaceInfo\x12B\n" +
 	"\x06config\x18\x02 \x01(\v2*.temporal.api.namespace.v1.NamespaceConfigR\x06config\x12f\n" +

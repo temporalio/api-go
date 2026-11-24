@@ -6,8 +6,8 @@ import "child/message.proto";
 message Root {
  string stable = 1;
  omission.child.Leaf gated = 2 [(temporal.api.protometa.v1.draft) = "feature-a"];
- repeated omission.child.Leaf list = 3;
- map<string, omission.child.Leaf> map = 4;
+ repeated omission.child.Stable list = 3;
+ map<string, omission.child.Stable> map = 4;
  optional int32 optional = 5 [(temporal.api.protometa.v1.draft) = "feature-a"];
  oneof choice {
   int32 a = 6 [(temporal.api.protometa.v1.draft) = "feature-a"];
@@ -44,18 +44,53 @@ message Scalars {
 
 message DraftReferences {
  string stable = 1;
- omission.child.Draft single = 2;
- repeated omission.child.Draft list = 3;
- map<string, omission.child.Draft> by_name = 4;
+ omission.child.Draft single = 2 [(temporal.api.protometa.v1.draft) = "feature-a"];
+ repeated omission.child.Draft list = 3 [(temporal.api.protometa.v1.draft) = "feature-a"];
+ map<string, omission.child.Draft> by_name = 4 [(temporal.api.protometa.v1.draft) = "feature-a"];
  oneof choice {
-  omission.child.Draft draft = 5;
+  omission.child.Draft draft = 5 [(temporal.api.protometa.v1.draft) = "feature-a"];
   string stable_choice = 6;
  }
- omission.child.Draft gated = 7 [(temporal.api.protometa.v1.draft) = "feature-b"];
- omission.child.Draft.Inner inner = 8;
- omission.child.Draft.State state = 9;
- repeated omission.child.Draft.State states = 10;
- map<string, omission.child.Draft.State> state_by_name = 11;
- omission.child.Draft.Empty empty = 12;
- omission.child.Draft.Inner gated_inner = 13 [(temporal.api.protometa.v1.draft) = "feature-c"];
+ omission.child.Draft.Inner inner = 8 [(temporal.api.protometa.v1.draft) = "feature-a"];
+ omission.child.Draft.State state = 9 [(temporal.api.protometa.v1.draft) = "feature-a"];
+ repeated omission.child.Draft.State states = 10 [(temporal.api.protometa.v1.draft) = "feature-a"];
+ map<string, omission.child.Draft.State> state_by_name = 11 [(temporal.api.protometa.v1.draft) = "feature-a"];
+ omission.child.Draft.Empty empty = 12 [(temporal.api.protometa.v1.draft) = "feature-a"];
+ omission.child.Mode mode = 13 [(temporal.api.protometa.v1.draft) = "feature-a"];
+ oneof preview_choice {
+  option (temporal.api.protometa.v1.draft_oneof) = "feature-a";
+  omission.child.Draft preview = 14;
+  string label = 15;
+  omission.child.Level preview_level = 16;
+ }
+ omission.child.Level gated_level = 17 [(temporal.api.protometa.v1.draft) = "feature-a"];
+ EnumFields gated_message = 18 [(temporal.api.protometa.v1.draft) = "feature-a"];
+}
+
+message EnumFields {
+ omission.child.Level singular = 1;
+ optional omission.child.Level optional = 2;
+ oneof choice {
+  omission.child.Level level = 5;
+  string label = 6;
+ }
+}
+
+message EnumAncestor {
+ EnumFields single = 1;
+ oneof choice {
+  EnumFields member = 4;
+ }
+}
+message Plain {}
+service Mixed {
+ rpc Stable(Plain) returns (Plain);
+ rpc Filtered(Plain) returns (Root);
+ rpc Preview(omission.child.Draft) returns (omission.child.Draft) {
+  option (temporal.api.protometa.v1.draft_method) = "feature-a";
+ }
+}
+service Preview {
+ option (temporal.api.protometa.v1.draft_service) = "feature-a";
+ rpc Call(omission.child.Draft) returns (omission.child.Draft);
 }

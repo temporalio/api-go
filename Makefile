@@ -45,7 +45,11 @@ NEXUS_PROTO_OUT := workflowservice/v1/workflowservicenexus
 NEXUS_WIT_OUT := systemnexus
 
 ##### Compile proto files for go #####
-grpc: http-api-docs go-grpc copy-helpers nexus-gen system-nexus
+grpc: http-api-docs go-grpc copy-helpers nexus-gen system-nexus nexus-annotations
+
+.PHONY: nexus-annotations
+nexus-annotations:
+	go run ./cmd/gen-nexus-annotations nexusannotations/v1/options.go
 
 nexus-gen:
 	printf $(COLOR) "Generate nexus service definitions..."
@@ -92,29 +96,31 @@ go-grpc: clean .go-helpers-installed $(PROTO_OUT)
 	cp -rf $(PROTO_OUT)/temporal/api/* $(PROTO_OUT) && rm -rf $(PROTO_OUT)/temporal
 
 API_NEXT_OUT := api_next
+DRAFT_MANIFEST := $(PROTO_ROOT)/temporal/api/draft-manifest.json
+API_NEXT_PROTO_PATHS := paths=source_relative:$(API_NEXT_OUT)
 
-API_NEXT_SNAPSHOT_EXCLUDES := --exclude=.git --exclude=$(API_NEXT_OUT) --exclude=proto \
-	--exclude=.gobincache --exclude=.go-helpers-installed --exclude=descriptor_set.pb \
-	--exclude=cmd/protoc-gen-go-helpers/testprotos
+# workflowservicenexus is produced by nexus-gen, outside protogen.
+API_NEXT_INPUTS := LICENSE go.mod go.sum \
+	cmd/protoc-gen-go-helpers cmd/protogen \
+	internal/protojson internal/strcase nexusannotations/v1/options.go \
+	proxy/service_util.go proxy/system_payload.go serviceerror systemnexus temporalnexus temporalproto \
+	$(NEXUS_PROTO_OUT)/service_nexus.pb.go
 
 .PHONY: api-next
-api-next: .go-helpers-installed mockgen-install
+api-next: .go-helpers-installed mockgen-install nexus-annotations
 	printf $(COLOR) "Compile api_next (draft) proto tree..."
 	rm -rf $(API_NEXT_OUT)
-	mkdir -p $(API_NEXT_OUT)
-	rsync -a $(API_NEXT_SNAPSHOT_EXCLUDES) ./ $(API_NEXT_OUT)/
-	# Clear out stale generated code before regenerating below, but leave
-	# workflowservicenexus alone: it's produced by nexus-rpc-gen (the `nexus-gen`
-	# target), not by protogen, so nothing here would regenerate it.
-	find $(API_NEXT_OUT) \( -name "*.pb.go" -o -name "*.pb.gw.go" -o -name "*.go-helpers.go" -o -name "*_test.go" \) -not -path "*/workflowservicenexus/*" -delete
+	mkdir -p $(API_NEXT_OUT)/common/v1
+	rsync -aR --exclude='*_test.go' --exclude=testprotos/ $(API_NEXT_INPUTS) $(API_NEXT_OUT)/
+	cp internal/temporalcommonv1/payload_json.go $(API_NEXT_OUT)/common/v1/
 
 	go run ./cmd/protogen \
 		--root=$(PROTO_ROOT)/temporal/api_next \
 		-I=$(PROTO_ROOT) \
 		--output=$(API_NEXT_OUT) \
-		-p go-grpc_out=paths=source_relative:$(API_NEXT_OUT) \
-		-p grpc-gateway_out=allow_patch_feature=false,paths=source_relative:$(API_NEXT_OUT) \
-		-p go-helpers_out=paths=source_relative,draft_omission=true:$(API_NEXT_OUT)
+		-p go-grpc_out=$(API_NEXT_PROTO_PATHS) \
+		-p grpc-gateway_out=allow_patch_feature=false,$(API_NEXT_PROTO_PATHS) \
+		-p go-helpers_out=draft_omission=true,draft_manifest=$(DRAFT_MANIFEST),$(API_NEXT_PROTO_PATHS)
 	cp -rf $(API_NEXT_OUT)/temporal/api_next/* $(API_NEXT_OUT) && rm -rf $(API_NEXT_OUT)/temporal
 
 	go run ./cmd/protogen \
@@ -125,8 +131,7 @@ api-next: .go-helpers-installed mockgen-install
 		--no-rewrite-enum-string \
 		--no-strip-version \
 		--output-descriptor=$(API_NEXT_OUT)/descriptor_set.pb
-	# Run the copied module so its replace and output paths both resolve api_next.
-	(cd $(API_NEXT_OUT)/cmd/proxygenerator && go run ./)
+	go -C cmd/proxygenerator run ./ -apiRoot "$(abspath $(API_NEXT_OUT))"
 
 	# The service mocks embed the concrete request/response types generated
 	# above, so they have to be regenerated rather than copied from the snapshot.
@@ -185,6 +190,13 @@ gen-proto-desc:
 		--output-descriptor=$(PROTO_OUT)/descriptor_set.pb
 
 ##### Plugins & tools #####
+.PHONY: api-next-tools
+api-next-tools:
+	go install google.golang.org/protobuf/cmd/protoc-gen-go
+	go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.6.2
+	go install github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-grpc-gateway@v2.30.0
+	go install "golang.org/x/tools/cmd/goimports@$$(go list -modfile=build/go.mod -m -f '{{.Version}}' golang.org/x/tools)"
+
 grpc-install: nexus-rpc-gen-install
 	@printf $(COLOR) "Install/update grpc and plugins..."
 	@go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
@@ -221,6 +233,15 @@ gomodtidy:
 
 ##### Test #####
 
+.PHONY: draft-inputs
+draft-inputs:
+	@if [ -d "$(PROTO_ROOT)/temporal/api_next" ] && \
+	    [ -f "$(PROTO_ROOT)/temporal/api_next/protometa/v1/draft.proto" ]; then \
+		echo true; \
+	else \
+		echo false; \
+	fi
+
 .PHONY: helper-test-protos
 helper-test-protos:
 	@set -eu; tools_dir=$$(mktemp -d); trap 'rm -rf "$$tools_dir"' EXIT; \
@@ -232,12 +253,18 @@ helper-test-protos:
 		--output=cmd/protoc-gen-go-helpers/testprotos/draft \
 		--no-rewrite-enum-const \
 		--no-rewrite-enum-string \
-		-p go-helpers_out=paths=source_relative,draft_omission=true:cmd/protoc-gen-go-helpers/testprotos/draft
+		-p go-helpers_out=paths=source_relative,draft_omission=true,draft_manifest=cmd/protoc-gen-go-helpers/testprotos/draft/draft-manifest.json:cmd/protoc-gen-go-helpers/testprotos/draft
 
 # We need to ensure protos are up to date to test our UTF-8 post-processing
+.PHONY: test test-stable
 test: copy-helpers
 	go test -race -tags protolegacy ./...
 	go -C cmd/proxygenerator test ./...
+	if [ -f internal/draftcompat/go.mod ]; then go -C internal/draftcompat test ./...; fi
+
+test-stable: copy-helpers
+	go test -race -tags protolegacy ./...
+	go -C cmd/proxygenerator test -skip '^TestAPINextProxy$$' ./...
 
 ##### Check #####
 

@@ -10,6 +10,7 @@ import (
 	"text/template"
 
 	"google.golang.org/protobuf/compiler/protogen"
+	"google.golang.org/protobuf/reflect/protoreflect"
 	"google.golang.org/protobuf/types/pluginpb"
 
 	"go.temporal.io/api/internal/strcase"
@@ -110,14 +111,24 @@ func {{.Type}}FromString(s string) ({{.Type}}, error) {
 func main() {
 	var flags flag.FlagSet
 	draft := flags.Bool("draft_omission", false, "generate draft field omission methods")
+	manifest := flags.String("draft_manifest", "", "path to the resolved draft gates from the API generator")
 	opts := protogen.Options{ParamFunc: flags.Set}
-	opts.Run(func(plugin *protogen.Plugin) error { return generate(plugin, *draft) })
+	opts.Run(func(plugin *protogen.Plugin) error {
+		if !*draft {
+			return generate(plugin, nil)
+		}
+		gates, err := loadDraftManifest(*manifest)
+		if err != nil {
+			return err
+		}
+		return generate(plugin, gates)
+	})
 }
 
-func generate(plugin *protogen.Plugin, draft bool) error {
+func generate(plugin *protogen.Plugin, gates map[protoreflect.FullName]string) error {
 	plugin.SupportedFeatures = uint64(pluginpb.CodeGeneratorResponse_FEATURE_PROTO3_OPTIONAL)
-	if draft {
-		if err := generateDraft(plugin); err != nil {
+	if gates != nil {
+		if err := generateDraft(plugin, gates); err != nil {
 			return err
 		}
 	}

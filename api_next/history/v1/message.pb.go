@@ -100,30 +100,32 @@ type WorkflowExecutionStartedEventAttributes struct {
 	CompletionCallbacks []*v1.Callback `protobuf:"bytes,30,rep,name=completion_callbacks,json=completionCallbacks,proto3" json:"completion_callbacks,omitempty"`
 	// Contains information about the root workflow execution.
 	// The root workflow execution is defined as follows:
-	//   1. A workflow without parent workflow is its own root workflow.
-	//   2. A workflow that has a parent workflow has the same root workflow as its parent workflow.
+	//  1. A workflow without parent workflow is its own root workflow.
+	//  2. A workflow that has a parent workflow has the same root workflow as its parent workflow.
+	//
 	// When the workflow is its own root workflow, then root_workflow_execution is nil.
 	// Note: workflows continued as new or reseted may or may not have parents, check examples below.
 	//
 	// Examples:
-	//   Scenario 1: Workflow W1 starts child workflow W2, and W2 starts child workflow W3.
-	//     - The root workflow of all three workflows is W1.
-	//     - W1 has root_workflow_execution set to nil.
-	//     - W2 and W3 have root_workflow_execution set to W1.
-	//   Scenario 2: Workflow W1 starts child workflow W2, and W2 continued as new W3.
-	//     - The root workflow of all three workflows is W1.
-	//     - W1 has root_workflow_execution set to nil.
-	//     - W2 and W3 have root_workflow_execution set to W1.
-	//   Scenario 3: Workflow W1 continued as new W2.
-	//     - The root workflow of W1 is W1 and the root workflow of W2 is W2.
-	//     - W1 and W2 have root_workflow_execution set to nil.
-	//   Scenario 4: Workflow W1 starts child workflow W2, and W2 is reseted, creating W3
-	//     - The root workflow of all three workflows is W1.
-	//     - W1 has root_workflow_execution set to nil.
-	//     - W2 and W3 have root_workflow_execution set to W1.
-	//   Scenario 5: Workflow W1 is reseted, creating W2.
-	//     - The root workflow of W1 is W1 and the root workflow of W2 is W2.
-	//     - W1 and W2 have root_workflow_execution set to nil.
+	//
+	//	Scenario 1: Workflow W1 starts child workflow W2, and W2 starts child workflow W3.
+	//	  - The root workflow of all three workflows is W1.
+	//	  - W1 has root_workflow_execution set to nil.
+	//	  - W2 and W3 have root_workflow_execution set to W1.
+	//	Scenario 2: Workflow W1 starts child workflow W2, and W2 continued as new W3.
+	//	  - The root workflow of all three workflows is W1.
+	//	  - W1 has root_workflow_execution set to nil.
+	//	  - W2 and W3 have root_workflow_execution set to W1.
+	//	Scenario 3: Workflow W1 continued as new W2.
+	//	  - The root workflow of W1 is W1 and the root workflow of W2 is W2.
+	//	  - W1 and W2 have root_workflow_execution set to nil.
+	//	Scenario 4: Workflow W1 starts child workflow W2, and W2 is reseted, creating W3
+	//	  - The root workflow of all three workflows is W1.
+	//	  - W1 has root_workflow_execution set to nil.
+	//	  - W2 and W3 have root_workflow_execution set to W1.
+	//	Scenario 5: Workflow W1 is reseted, creating W2.
+	//	  - The root workflow of W1 is W1 and the root workflow of W2 is W2.
+	//	  - W1 and W2 have root_workflow_execution set to nil.
 	RootWorkflowExecution *v1.WorkflowExecution `protobuf:"bytes,31,opt,name=root_workflow_execution,json=rootWorkflowExecution,proto3" json:"root_workflow_execution,omitempty"`
 	// When present, this execution is assigned to the build ID of its parent or previous execution.
 	// Deprecated. This field should be cleaned up when versioning-2 API is removed. [cleanup-experimental-wv]
@@ -180,10 +182,10 @@ type WorkflowExecutionStartedEventAttributes struct {
 	//     deployment as the parent/previous run)
 	//
 	// Additional notes:
-	// - This field is mutually exclusive with `inherited_pinned_version`.
-	// - `versioning_override`, if present, overrides this field during routing decisions.
-	// - SDK implementations do not interact with this field and is only used internally by
-	//   the server to ensure task routing correctness.
+	//   - This field is mutually exclusive with `inherited_pinned_version`.
+	//   - `versioning_override`, if present, overrides this field during routing decisions.
+	//   - SDK implementations do not interact with this field and is only used internally by
+	//     the server to ensure task routing correctness.
 	InheritedAutoUpgradeInfo *v15.InheritedAutoUpgradeInfo `protobuf:"bytes,39,opt,name=inherited_auto_upgrade_info,json=inheritedAutoUpgradeInfo,proto3" json:"inherited_auto_upgrade_info,omitempty"`
 	// A boolean indicating whether the SDK has asked to eagerly execute the first workflow task for this workflow and
 	// eager execution was accepted by the server.
@@ -985,7 +987,8 @@ type WorkflowTaskScheduledEventAttributes struct {
 	// How long the worker has to process this task once receiving it before it times out
 	//
 	// (-- api-linter: core::0140::prepositions=disabled
-	//     aip.dev/not-precedent: "to" is used to indicate interval. --)
+	//
+	//	aip.dev/not-precedent: "to" is used to indicate interval. --)
 	StartToCloseTimeout *durationpb.Duration `protobuf:"bytes,2,opt,name=start_to_close_timeout,json=startToCloseTimeout,proto3" json:"start_to_close_timeout,omitempty"`
 	// Starting at 1, how many attempts there have been to complete this task
 	Attempt       int32 `protobuf:"varint,3,opt,name=attempt,proto3" json:"attempt,omitempty"`
@@ -1561,7 +1564,8 @@ type ActivityTaskScheduledEventAttributes struct {
 	// retries will be attempted. Either this or `start_to_close_timeout` must be specified.
 	//
 	// (-- api-linter: core::0140::prepositions=disabled
-	//     aip.dev/not-precedent: "to" is used to indicate interval. --)
+	//
+	//	aip.dev/not-precedent: "to" is used to indicate interval. --)
 	ScheduleToCloseTimeout *durationpb.Duration `protobuf:"bytes,7,opt,name=schedule_to_close_timeout,json=scheduleToCloseTimeout,proto3" json:"schedule_to_close_timeout,omitempty"`
 	// Limits time an activity task can stay in a task queue before a worker picks it up. This
 	// timeout is always non retryable, as all a retry would achieve is to put it back into the same
@@ -1569,14 +1573,16 @@ type ActivityTaskScheduledEventAttributes struct {
 	// specified.
 	//
 	// (-- api-linter: core::0140::prepositions=disabled
-	//     aip.dev/not-precedent: "to" is used to indicate interval. --)
+	//
+	//	aip.dev/not-precedent: "to" is used to indicate interval. --)
 	ScheduleToStartTimeout *durationpb.Duration `protobuf:"bytes,8,opt,name=schedule_to_start_timeout,json=scheduleToStartTimeout,proto3" json:"schedule_to_start_timeout,omitempty"`
 	// Maximum time an activity is allowed to execute after being picked up by a worker. This
 	// timeout is always retryable. Either this or `schedule_to_close_timeout` must be
 	// specified.
 	//
 	// (-- api-linter: core::0140::prepositions=disabled
-	//     aip.dev/not-precedent: "to" is used to indicate interval. --)
+	//
+	//	aip.dev/not-precedent: "to" is used to indicate interval. --)
 	StartToCloseTimeout *durationpb.Duration `protobuf:"bytes,9,opt,name=start_to_close_timeout,json=startToCloseTimeout,proto3" json:"start_to_close_timeout,omitempty"`
 	// Maximum permitted time between successful worker heartbeats.
 	HeartbeatTimeout *durationpb.Duration `protobuf:"bytes,10,opt,name=heartbeat_timeout,json=heartbeatTimeout,proto3" json:"heartbeat_timeout,omitempty"`
@@ -2250,7 +2256,8 @@ type TimerStartedEventAttributes struct {
 	// How long until this timer fires
 	//
 	// (-- api-linter: core::0140::prepositions=disabled
-	//     aip.dev/not-precedent: "to" is used to indicate interval. --)
+	//
+	//	aip.dev/not-precedent: "to" is used to indicate interval. --)
 	StartToFireTimeout *durationpb.Duration `protobuf:"bytes,2,opt,name=start_to_fire_timeout,json=startToFireTimeout,proto3" json:"start_to_fire_timeout,omitempty"`
 	// The `WORKFLOW_TASK_COMPLETED` event which this command was reported with
 	WorkflowTaskCompletedEventId int64 `protobuf:"varint,3,opt,name=workflow_task_completed_event_id,json=workflowTaskCompletedEventId,proto3" json:"workflow_task_completed_event_id,omitempty"`
@@ -5087,7 +5094,8 @@ type WorkflowExecutionTimeSkippingTransitionedEventAttributes struct {
 	TargetTime *timestamppb.Timestamp `protobuf:"bytes,1,opt,name=target_time,json=targetTime,proto3" json:"target_time,omitempty"`
 	// When true, time skipping has been stopped automatically due to a call to fast_forward completing.
 	// (-- api-linter: core::0140::prepositions=disabled
-	//     aip.dev/not-precedent: "after" is used to indicate temporal ordering. --)
+	//
+	//	aip.dev/not-precedent: "after" is used to indicate temporal ordering. --)
 	DisabledAfterFastForward bool `protobuf:"varint,2,opt,name=disabled_after_fast_forward,json=disabledAfterFastForward,proto3" json:"disabled_after_fast_forward,omitempty"`
 	// The wall-clock time when the time-skipping state changed event was generated.
 	WallClockTime *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=wall_clock_time,json=wallClockTime,proto3" json:"wall_clock_time,omitempty"`
@@ -5163,9 +5171,12 @@ type NexusOperationScheduledEventAttributes struct {
 	// Indicates how long the caller is willing to wait for operation completion.
 	// Calls are retried internally by the server.
 	// (-- api-linter: core::0140::prepositions=disabled
-	//     aip.dev/not-precedent: "to" is used to indicate interval. --)
+	//
+	//	aip.dev/not-precedent: "to" is used to indicate interval. --)
+	//
 	// (-- api-linter: core::0142::time-field-names=disabled
-	//     aip.dev/not-precedent: "timeout" is an acceptable suffix for duration fields in this API. --)
+	//
+	//	aip.dev/not-precedent: "timeout" is an acceptable suffix for duration fields in this API. --)
 	ScheduleToCloseTimeout *durationpb.Duration `protobuf:"bytes,5,opt,name=schedule_to_close_timeout,json=scheduleToCloseTimeout,proto3" json:"schedule_to_close_timeout,omitempty"`
 	// Header to attach to the Nexus request. Note these headers are not the same as Temporal headers on internal
 	// activities and child workflows, these are transmitted to Nexus operations that may be external and are not
@@ -5183,12 +5194,14 @@ type NexusOperationScheduledEventAttributes struct {
 	// Schedule-to-start timeout for this operation.
 	// See ScheduleNexusOperationCommandAttributes.schedule_to_start_timeout for details.
 	// (-- api-linter: core::0140::prepositions=disabled
-	//     aip.dev/not-precedent: "to" is used to indicate interval. --)
+	//
+	//	aip.dev/not-precedent: "to" is used to indicate interval. --)
 	ScheduleToStartTimeout *durationpb.Duration `protobuf:"bytes,10,opt,name=schedule_to_start_timeout,json=scheduleToStartTimeout,proto3" json:"schedule_to_start_timeout,omitempty"`
 	// Start-to-close timeout for this operation.
 	// See ScheduleNexusOperationCommandAttributes.start_to_close_timeout for details.
 	// (-- api-linter: core::0140::prepositions=disabled
-	//     aip.dev/not-precedent: "to" is used to indicate interval. --)
+	//
+	//	aip.dev/not-precedent: "to" is used to indicate interval. --)
 	StartToCloseTimeout *durationpb.Duration `protobuf:"bytes,11,opt,name=start_to_close_timeout,json=startToCloseTimeout,proto3" json:"start_to_close_timeout,omitempty"`
 	unknownFields       protoimpl.UnknownFields
 	sizeCache           protoimpl.SizeCache
@@ -5857,9 +5870,9 @@ type HistoryEvent struct {
 	// that reads it.
 	//
 	// Current well-known uses:
-	//  * workflow_execution_started_event_attributes - summary and details from start workflow.
-	//  * timer_started_event_attributes - summary represents an identifier for the timer for use by
-	//    user interfaces.
+	//   - workflow_execution_started_event_attributes - summary and details from start workflow.
+	//   - timer_started_event_attributes - summary represents an identifier for the timer for use by
+	//     user interfaces.
 	UserMetadata *v17.UserMetadata `protobuf:"bytes,301,opt,name=user_metadata,json=userMetadata,proto3" json:"user_metadata,omitempty"`
 	// Links to related entities, such as the entity that started this event's workflow.
 	Links []*v1.Link `protobuf:"bytes,302,rep,name=links,proto3" json:"links,omitempty"`
