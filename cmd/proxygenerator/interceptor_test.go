@@ -1,6 +1,7 @@
 package main
 
 import (
+	"slices"
 	"testing"
 
 	"google.golang.org/protobuf/proto"
@@ -35,5 +36,33 @@ func TestContainsMessageRecursive(t *testing.T) {
 		if !containsMessage(file.Messages().ByName(name), []string{"recursive.Payload"}, memo) {
 			t.Fatalf("%s should reach Payload through the recursive graph", name)
 		}
+	}
+}
+
+func TestGatherMatchesKeepsRecursivePayloadGetter(t *testing.T) {
+	payloads, err := lookupTypes("go.temporal.io/api/cmd/proxygenerator/testdata/recursive", []string{"Payload"})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	file, err := protodesc.NewFile(&descriptorpb.FileDescriptorProto{
+		Name:    proto.String("recursive.proto"),
+		Package: proto.String("temporal.api.cmd.proxygenerator.testdata.recursive"),
+		MessageType: []*descriptorpb.DescriptorProto{
+			{Name: proto.String("Node")},
+		},
+	}, nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	records, err := gatherMatchesToTypeRecords([]protoreflect.MessageDescriptor{file.Messages().ByName("Node")}, payloads, payloads)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	record := records["*recursive.Node"]
+	if record == nil || !slices.Contains(record.Methods, "GetChild") {
+		t.Fatal("Node.GetChild should be visited because the child can contain a Payload")
 	}
 }
