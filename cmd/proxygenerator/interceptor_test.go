@@ -11,7 +11,7 @@ import (
 	"google.golang.org/protobuf/types/descriptorpb"
 )
 
-// TestGatherMessagesContainingTargetsRecursive checks that cyclic references can lead to a payload.
+// TestGatherMessagesContainingTargetsRecursive checks that the descriptor scan finds B's path to the target Payload message through A.
 func TestGatherMessagesContainingTargetsRecursive(t *testing.T) {
 	field := func(name, typ string, number int32) *descriptorpb.FieldDescriptorProto {
 		return &descriptorpb.FieldDescriptorProto{
@@ -25,17 +25,26 @@ func TestGatherMessagesContainingTargetsRecursive(t *testing.T) {
 	file, err := protodesc.NewFile(&descriptorpb.FileDescriptorProto{
 		Name: proto.String("recursive.proto"), Package: proto.String("recursive"), Syntax: proto.String("proto3"),
 		MessageType: []*descriptorpb.DescriptorProto{
-			{Name: proto.String("A"), Field: []*descriptorpb.FieldDescriptorProto{
-				field("b", ".recursive.B", 1),
-				field("payload", ".recursive.Payload", 2),
-			}},
-			{Name: proto.String("B"), Field: []*descriptorpb.FieldDescriptorProto{
-				field("a", ".recursive.A", 1),
-			}},
-			{Name: proto.String("NoPayload"), Field: []*descriptorpb.FieldDescriptorProto{
-				field("first", ".recursive.Leaf", 1),
-				field("second", ".recursive.Leaf", 2),
-			}},
+			{
+				Name: proto.String("A"),
+				Field: []*descriptorpb.FieldDescriptorProto{
+					field("b", ".recursive.B", 1),
+					field("payload", ".recursive.Payload", 2),
+				},
+			},
+			{
+				Name: proto.String("B"),
+				Field: []*descriptorpb.FieldDescriptorProto{
+					field("a", ".recursive.A", 1),
+				},
+			},
+			{
+				Name: proto.String("NoPayload"),
+				Field: []*descriptorpb.FieldDescriptorProto{
+					field("first", ".recursive.Leaf", 1),
+					field("second", ".recursive.Leaf", 2),
+				},
+			},
 			{Name: proto.String("Leaf")},
 			{Name: proto.String("Payload")},
 		},
