@@ -63,6 +63,9 @@ const (
 	BATCH_OPERATION_TYPE_TERMINATE_ACTIVITY                BatchOperationType = 10
 	BATCH_OPERATION_TYPE_CANCEL_ACTIVITY                   BatchOperationType = 11
 	BATCH_OPERATION_TYPE_DELETE_ACTIVITY                   BatchOperationType = 12
+	BATCH_OPERATION_TYPE_TERMINATE_NEXUS_OPERATION         BatchOperationType = 19
+	BATCH_OPERATION_TYPE_CANCEL_NEXUS_OPERATION            BatchOperationType = 20
+	BATCH_OPERATION_TYPE_DELETE_NEXUS_OPERATION            BatchOperationType = 21
 )
 
 // Enum value maps for BatchOperationType.
@@ -87,6 +90,9 @@ var (
 		10: "BATCH_OPERATION_TYPE_TERMINATE_ACTIVITY",
 		11: "BATCH_OPERATION_TYPE_CANCEL_ACTIVITY",
 		12: "BATCH_OPERATION_TYPE_DELETE_ACTIVITY",
+		19: "BATCH_OPERATION_TYPE_TERMINATE_NEXUS_OPERATION",
+		20: "BATCH_OPERATION_TYPE_CANCEL_NEXUS_OPERATION",
+		21: "BATCH_OPERATION_TYPE_DELETE_NEXUS_OPERATION",
 	}
 	BatchOperationType_value = map[string]int32{
 		"BATCH_OPERATION_TYPE_UNSPECIFIED":                       0,
@@ -108,6 +114,9 @@ var (
 		"BATCH_OPERATION_TYPE_TERMINATE_ACTIVITY":                10,
 		"BATCH_OPERATION_TYPE_CANCEL_ACTIVITY":                   11,
 		"BATCH_OPERATION_TYPE_DELETE_ACTIVITY":                   12,
+		"BATCH_OPERATION_TYPE_TERMINATE_NEXUS_OPERATION":         19,
+		"BATCH_OPERATION_TYPE_CANCEL_NEXUS_OPERATION":            20,
+		"BATCH_OPERATION_TYPE_DELETE_NEXUS_OPERATION":            21,
 	}
 )
 
@@ -161,6 +170,12 @@ func (x BatchOperationType) String() string {
 		return "CancelActivity"
 	case BATCH_OPERATION_TYPE_DELETE_ACTIVITY:
 		return "DeleteActivity"
+	case BATCH_OPERATION_TYPE_TERMINATE_NEXUS_OPERATION:
+		return "TerminateNexusOperation"
+	case BATCH_OPERATION_TYPE_CANCEL_NEXUS_OPERATION:
+		return "CancelNexusOperation"
+	case BATCH_OPERATION_TYPE_DELETE_NEXUS_OPERATION:
+		return "DeleteNexusOperation"
 	default:
 		return strconv.Itoa(int(x))
 	}
@@ -250,7 +265,7 @@ var File_temporal_api_enums_v1_batch_operation_proto protoreflect.FileDescriptor
 
 const file_temporal_api_enums_v1_batch_operation_proto_rawDesc = "" +
 	"\n" +
-	"+temporal/api/enums/v1/batch_operation.proto\x12\x15temporal.api.enums.v1*\xc3\x06\n" +
+	"+temporal/api/enums/v1/batch_operation.proto\x12\x15temporal.api.enums.v1*\xd9\a\n" +
 	"\x12BatchOperationType\x12$\n" +
 	" BATCH_OPERATION_TYPE_UNSPECIFIED\x10\x00\x12&\n" +
 	"\x1eBATCH_OPERATION_TYPE_TERMINATE\x10\x01\x1a\x02\b\x01\x12+\n" +
@@ -271,7 +286,10 @@ const file_temporal_api_enums_v1_batch_operation_proto_rawDesc = "" +
 	"'BATCH_OPERATION_TYPE_TERMINATE_ACTIVITY\x10\n" +
 	"\x12(\n" +
 	"$BATCH_OPERATION_TYPE_CANCEL_ACTIVITY\x10\v\x12(\n" +
-	"$BATCH_OPERATION_TYPE_DELETE_ACTIVITY\x10\f*\xa6\x01\n" +
+	"$BATCH_OPERATION_TYPE_DELETE_ACTIVITY\x10\f\x122\n" +
+	".BATCH_OPERATION_TYPE_TERMINATE_NEXUS_OPERATION\x10\x13\x12/\n" +
+	"+BATCH_OPERATION_TYPE_CANCEL_NEXUS_OPERATION\x10\x14\x12/\n" +
+	"+BATCH_OPERATION_TYPE_DELETE_NEXUS_OPERATION\x10\x15*\xa6\x01\n" +
 	"\x13BatchOperationState\x12%\n" +
 	"!BATCH_OPERATION_STATE_UNSPECIFIED\x10\x00\x12!\n" +
 	"\x1dBATCH_OPERATION_STATE_RUNNING\x10\x01\x12#\n" +

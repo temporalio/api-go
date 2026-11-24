@@ -26,6 +26,9 @@ var (
 		"TerminateActivity":              10,
 		"CancelActivity":                 11,
 		"DeleteActivity":                 12,
+		"TerminateNexusOperation":        19,
+		"CancelNexusOperation":           20,
+		"DeleteNexusOperation":           21,
 	}
 )
 

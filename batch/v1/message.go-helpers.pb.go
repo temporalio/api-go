@@ -116,6 +116,43 @@ func (this *BatchOperationTerminateActivities) Equal(that interface{}) bool {
 	return proto.Equal(this, that1)
 }
 
+// Marshal an object of type BatchOperationTerminateNexusOperations to the protobuf v3 wire format
+func (val *BatchOperationTerminateNexusOperations) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type BatchOperationTerminateNexusOperations from the protobuf v3 wire format
+func (val *BatchOperationTerminateNexusOperations) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *BatchOperationTerminateNexusOperations) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two BatchOperationTerminateNexusOperations values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *BatchOperationTerminateNexusOperations) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *BatchOperationTerminateNexusOperations
+	switch t := that.(type) {
+	case *BatchOperationTerminateNexusOperations:
+		that1 = t
+	case BatchOperationTerminateNexusOperations:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
 // Marshal an object of type BatchOperationSignal to the protobuf v3 wire format
 func (val *BatchOperationSignal) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
@@ -227,6 +264,43 @@ func (this *BatchOperationCancelActivities) Equal(that interface{}) bool {
 	return proto.Equal(this, that1)
 }
 
+// Marshal an object of type BatchOperationCancelNexusOperations to the protobuf v3 wire format
+func (val *BatchOperationCancelNexusOperations) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type BatchOperationCancelNexusOperations from the protobuf v3 wire format
+func (val *BatchOperationCancelNexusOperations) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *BatchOperationCancelNexusOperations) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two BatchOperationCancelNexusOperations values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *BatchOperationCancelNexusOperations) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *BatchOperationCancelNexusOperations
+	switch t := that.(type) {
+	case *BatchOperationCancelNexusOperations:
+		that1 = t
+	case BatchOperationCancelNexusOperations:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
 // Marshal an object of type BatchOperationDeletion to the protobuf v3 wire format
 func (val *BatchOperationDeletion) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
@@ -293,6 +367,43 @@ func (this *BatchOperationDeleteActivities) Equal(that interface{}) bool {
 	case *BatchOperationDeleteActivities:
 		that1 = t
 	case BatchOperationDeleteActivities:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type BatchOperationDeleteNexusOperations to the protobuf v3 wire format
+func (val *BatchOperationDeleteNexusOperations) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type BatchOperationDeleteNexusOperations from the protobuf v3 wire format
+func (val *BatchOperationDeleteNexusOperations) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *BatchOperationDeleteNexusOperations) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two BatchOperationDeleteNexusOperations values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *BatchOperationDeleteNexusOperations) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *BatchOperationDeleteNexusOperations
+	switch t := that.(type) {
+	case *BatchOperationDeleteNexusOperations:
+		that1 = t
+	case BatchOperationDeleteNexusOperations:
 		that1 = &t
 	default:
 		return false
