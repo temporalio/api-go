@@ -14,6 +14,7 @@ import (
 
 	v1 "go.temporal.io/api/deployment/v1"
 	v11 "go.temporal.io/api/enums/v1"
+	v12 "go.temporal.io/api/session/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	durationpb "google.golang.org/protobuf/types/known/durationpb"
@@ -755,9 +756,12 @@ type WorkerHeartbeat struct {
 	// Storage drivers in use by this SDK.
 	Drivers []*StorageDriverInfo `protobuf:"bytes,24,rep,name=drivers,proto3" json:"drivers,omitempty"`
 	// Information about the environment this SDK is running in.
-	Environment   *EnvironmentInfo `protobuf:"bytes,25,opt,name=environment,proto3" json:"environment,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Environment *EnvironmentInfo `protobuf:"bytes,25,opt,name=environment,proto3" json:"environment,omitempty"`
+	// The worker's session options, as sent on its polls. Lets the server recognize a multi-session worker that has
+	// stopped, so it can move the workflows bound to it to other workers. Unset for a worker without sessions.
+	SessionOptions *v12.WorkerSessionOptions `protobuf:"bytes,26,opt,name=session_options,json=sessionOptions,proto3" json:"session_options,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *WorkerHeartbeat) Reset() {
@@ -961,6 +965,13 @@ func (x *WorkerHeartbeat) GetDrivers() []*StorageDriverInfo {
 func (x *WorkerHeartbeat) GetEnvironment() *EnvironmentInfo {
 	if x != nil {
 		return x.Environment
+	}
+	return nil
+}
+
+func (x *WorkerHeartbeat) GetSessionOptions() *v12.WorkerSessionOptions {
+	if x != nil {
+		return x.SessionOptions
 	}
 	return nil
 }
@@ -1937,7 +1948,7 @@ var File_temporal_api_worker_v1_message_proto protoreflect.FileDescriptor
 
 const file_temporal_api_worker_v1_message_proto_rawDesc = "" +
 	"\n" +
-	"$temporal/api/worker/v1/message.proto\x12\x16temporal.api.worker.v1\x1a\x1egoogle/protobuf/duration.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a(temporal/api/deployment/v1/message.proto\x1a\"temporal/api/enums/v1/common.proto\"\xe0\x01\n" +
+	"$temporal/api/worker/v1/message.proto\x12\x16temporal.api.worker.v1\x1a\x1egoogle/protobuf/duration.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a(temporal/api/deployment/v1/message.proto\x1a\"temporal/api/enums/v1/common.proto\x1a%temporal/api/session/v1/message.proto\"\xe0\x01\n" +
 	"\x10WorkerPollerInfo\x12'\n" +
 	"\x0fcurrent_pollers\x18\x01 \x01(\x05R\x0ecurrentPollers\x12U\n" +
 	"\x19last_successful_poll_time\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\x16lastSuccessfulPollTime\x12%\n" +
@@ -1957,7 +1968,7 @@ const file_temporal_api_worker_v1_message_proto_rawDesc = "" +
 	"\n" +
 	"process_id\x18\x02 \x01(\tR\tprocessId\x123\n" +
 	"\x16current_host_cpu_usage\x18\x03 \x01(\x02R\x13currentHostCpuUsage\x123\n" +
-	"\x16current_host_mem_usage\x18\x04 \x01(\x02R\x13currentHostMemUsage\"\xf5\r\n" +
+	"\x16current_host_mem_usage\x18\x04 \x01(\x02R\x13currentHostMemUsage\"\xcd\x0e\n" +
 	"\x0fWorkerHeartbeat\x12.\n" +
 	"\x13worker_instance_key\x18\x01 \x01(\tR\x11workerInstanceKey\x12'\n" +
 	"\x0fworker_identity\x18\x02 \x01(\tR\x0eworkerIdentity\x12C\n" +
@@ -1987,7 +1998,8 @@ const file_temporal_api_worker_v1_message_proto_rawDesc = "" +
 	"\x19current_sticky_cache_size\x18\x16 \x01(\x05R\x16currentStickyCacheSize\x12<\n" +
 	"\aplugins\x18\x17 \x03(\v2\".temporal.api.worker.v1.PluginInfoR\aplugins\x12C\n" +
 	"\adrivers\x18\x18 \x03(\v2).temporal.api.worker.v1.StorageDriverInfoR\adrivers\x12I\n" +
-	"\venvironment\x18\x19 \x01(\v2'.temporal.api.worker.v1.EnvironmentInfoR\venvironment\"`\n" +
+	"\venvironment\x18\x19 \x01(\v2'.temporal.api.worker.v1.EnvironmentInfoR\venvironment\x12V\n" +
+	"\x0fsession_options\x18\x1a \x01(\v2-.temporal.api.session.v1.WorkerSessionOptionsR\x0esessionOptions\"`\n" +
 	"\n" +
 	"WorkerInfo\x12R\n" +
 	"\x10worker_heartbeat\x18\x01 \x01(\v2'.temporal.api.worker.v1.WorkerHeartbeatR\x0fworkerHeartbeat\"\x8f\x05\n" +
@@ -2141,6 +2153,7 @@ var file_temporal_api_worker_v1_message_proto_goTypes = []any{
 	(*v1.WorkerDeploymentVersion)(nil),                             // 25: temporal.api.deployment.v1.WorkerDeploymentVersion
 	(v11.WorkerStatus)(0),                                          // 26: temporal.api.enums.v1.WorkerStatus
 	(*durationpb.Duration)(nil),                                    // 27: google.protobuf.Duration
+	(*v12.WorkerSessionOptions)(nil),                               // 28: temporal.api.session.v1.WorkerSessionOptions
 }
 var file_temporal_api_worker_v1_message_proto_depIdxs = []int32{
 	24, // 0: temporal.api.worker.v1.WorkerPollerInfo.last_successful_poll_time:type_name -> google.protobuf.Timestamp
@@ -2161,32 +2174,33 @@ var file_temporal_api_worker_v1_message_proto_depIdxs = []int32{
 	11, // 15: temporal.api.worker.v1.WorkerHeartbeat.plugins:type_name -> temporal.api.worker.v1.PluginInfo
 	12, // 16: temporal.api.worker.v1.WorkerHeartbeat.drivers:type_name -> temporal.api.worker.v1.StorageDriverInfo
 	13, // 17: temporal.api.worker.v1.WorkerHeartbeat.environment:type_name -> temporal.api.worker.v1.EnvironmentInfo
-	8,  // 18: temporal.api.worker.v1.WorkerInfo.worker_heartbeat:type_name -> temporal.api.worker.v1.WorkerHeartbeat
-	25, // 19: temporal.api.worker.v1.WorkerListInfo.deployment_version:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersion
-	26, // 20: temporal.api.worker.v1.WorkerListInfo.status:type_name -> temporal.api.enums.v1.WorkerStatus
-	24, // 21: temporal.api.worker.v1.WorkerListInfo.start_time:type_name -> google.protobuf.Timestamp
-	11, // 22: temporal.api.worker.v1.WorkerListInfo.plugins:type_name -> temporal.api.worker.v1.PluginInfo
-	12, // 23: temporal.api.worker.v1.WorkerListInfo.drivers:type_name -> temporal.api.worker.v1.StorageDriverInfo
-	18, // 24: temporal.api.worker.v1.EnvironmentInfo.runtimes:type_name -> temporal.api.worker.v1.EnvironmentInfo.Runtime
-	19, // 25: temporal.api.worker.v1.EnvironmentInfo.hosting_environments:type_name -> temporal.api.worker.v1.EnvironmentInfo.HostingEnvironment
-	20, // 26: temporal.api.worker.v1.EnvironmentInfo.platform:type_name -> temporal.api.worker.v1.EnvironmentInfo.Platform
-	15, // 27: temporal.api.worker.v1.WorkerCommand.cancel_activity:type_name -> temporal.api.worker.v1.CancelActivityCommand
-	17, // 28: temporal.api.worker.v1.WorkerCommandResult.cancel_activity:type_name -> temporal.api.worker.v1.CancelActivityResult
-	1,  // 29: temporal.api.worker.v1.EnvironmentInfo.Runtime.type:type_name -> temporal.api.worker.v1.EnvironmentInfo.Runtime.RuntimeType
-	2,  // 30: temporal.api.worker.v1.EnvironmentInfo.HostingEnvironment.type:type_name -> temporal.api.worker.v1.EnvironmentInfo.HostingEnvironment.HostingEnvironmentType
-	21, // 31: temporal.api.worker.v1.EnvironmentInfo.Platform.linux:type_name -> temporal.api.worker.v1.EnvironmentInfo.LinuxPlatform
-	22, // 32: temporal.api.worker.v1.EnvironmentInfo.Platform.macos:type_name -> temporal.api.worker.v1.EnvironmentInfo.MacOSPlatform
-	23, // 33: temporal.api.worker.v1.EnvironmentInfo.Platform.windows:type_name -> temporal.api.worker.v1.EnvironmentInfo.WindowsPlatform
-	0,  // 34: temporal.api.worker.v1.EnvironmentInfo.LinuxPlatform.architecture:type_name -> temporal.api.worker.v1.EnvironmentInfo.Architecture
-	3,  // 35: temporal.api.worker.v1.EnvironmentInfo.LinuxPlatform.libc:type_name -> temporal.api.worker.v1.EnvironmentInfo.LinuxPlatform.Libc
-	0,  // 36: temporal.api.worker.v1.EnvironmentInfo.MacOSPlatform.architecture:type_name -> temporal.api.worker.v1.EnvironmentInfo.Architecture
-	0,  // 37: temporal.api.worker.v1.EnvironmentInfo.WindowsPlatform.architecture:type_name -> temporal.api.worker.v1.EnvironmentInfo.Architecture
-	4,  // 38: temporal.api.worker.v1.EnvironmentInfo.WindowsPlatform.crt:type_name -> temporal.api.worker.v1.EnvironmentInfo.WindowsPlatform.Crt
-	39, // [39:39] is the sub-list for method output_type
-	39, // [39:39] is the sub-list for method input_type
-	39, // [39:39] is the sub-list for extension type_name
-	39, // [39:39] is the sub-list for extension extendee
-	0,  // [0:39] is the sub-list for field type_name
+	28, // 18: temporal.api.worker.v1.WorkerHeartbeat.session_options:type_name -> temporal.api.session.v1.WorkerSessionOptions
+	8,  // 19: temporal.api.worker.v1.WorkerInfo.worker_heartbeat:type_name -> temporal.api.worker.v1.WorkerHeartbeat
+	25, // 20: temporal.api.worker.v1.WorkerListInfo.deployment_version:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersion
+	26, // 21: temporal.api.worker.v1.WorkerListInfo.status:type_name -> temporal.api.enums.v1.WorkerStatus
+	24, // 22: temporal.api.worker.v1.WorkerListInfo.start_time:type_name -> google.protobuf.Timestamp
+	11, // 23: temporal.api.worker.v1.WorkerListInfo.plugins:type_name -> temporal.api.worker.v1.PluginInfo
+	12, // 24: temporal.api.worker.v1.WorkerListInfo.drivers:type_name -> temporal.api.worker.v1.StorageDriverInfo
+	18, // 25: temporal.api.worker.v1.EnvironmentInfo.runtimes:type_name -> temporal.api.worker.v1.EnvironmentInfo.Runtime
+	19, // 26: temporal.api.worker.v1.EnvironmentInfo.hosting_environments:type_name -> temporal.api.worker.v1.EnvironmentInfo.HostingEnvironment
+	20, // 27: temporal.api.worker.v1.EnvironmentInfo.platform:type_name -> temporal.api.worker.v1.EnvironmentInfo.Platform
+	15, // 28: temporal.api.worker.v1.WorkerCommand.cancel_activity:type_name -> temporal.api.worker.v1.CancelActivityCommand
+	17, // 29: temporal.api.worker.v1.WorkerCommandResult.cancel_activity:type_name -> temporal.api.worker.v1.CancelActivityResult
+	1,  // 30: temporal.api.worker.v1.EnvironmentInfo.Runtime.type:type_name -> temporal.api.worker.v1.EnvironmentInfo.Runtime.RuntimeType
+	2,  // 31: temporal.api.worker.v1.EnvironmentInfo.HostingEnvironment.type:type_name -> temporal.api.worker.v1.EnvironmentInfo.HostingEnvironment.HostingEnvironmentType
+	21, // 32: temporal.api.worker.v1.EnvironmentInfo.Platform.linux:type_name -> temporal.api.worker.v1.EnvironmentInfo.LinuxPlatform
+	22, // 33: temporal.api.worker.v1.EnvironmentInfo.Platform.macos:type_name -> temporal.api.worker.v1.EnvironmentInfo.MacOSPlatform
+	23, // 34: temporal.api.worker.v1.EnvironmentInfo.Platform.windows:type_name -> temporal.api.worker.v1.EnvironmentInfo.WindowsPlatform
+	0,  // 35: temporal.api.worker.v1.EnvironmentInfo.LinuxPlatform.architecture:type_name -> temporal.api.worker.v1.EnvironmentInfo.Architecture
+	3,  // 36: temporal.api.worker.v1.EnvironmentInfo.LinuxPlatform.libc:type_name -> temporal.api.worker.v1.EnvironmentInfo.LinuxPlatform.Libc
+	0,  // 37: temporal.api.worker.v1.EnvironmentInfo.MacOSPlatform.architecture:type_name -> temporal.api.worker.v1.EnvironmentInfo.Architecture
+	0,  // 38: temporal.api.worker.v1.EnvironmentInfo.WindowsPlatform.architecture:type_name -> temporal.api.worker.v1.EnvironmentInfo.Architecture
+	4,  // 39: temporal.api.worker.v1.EnvironmentInfo.WindowsPlatform.crt:type_name -> temporal.api.worker.v1.EnvironmentInfo.WindowsPlatform.Crt
+	40, // [40:40] is the sub-list for method output_type
+	40, // [40:40] is the sub-list for method input_type
+	40, // [40:40] is the sub-list for extension type_name
+	40, // [40:40] is the sub-list for extension extendee
+	0,  // [0:40] is the sub-list for field type_name
 }
 
 func init() { file_temporal_api_worker_v1_message_proto_init() }
