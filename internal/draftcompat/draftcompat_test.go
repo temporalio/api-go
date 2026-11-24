@@ -41,12 +41,14 @@ func TestAllFilesLinked(t *testing.T) {
 func TestMessageSets(t *testing.T) {
 	want := collectMessageSets(protoregistry.GlobalFiles, true)
 	got := collectMessageSets(stableFiles(t), false)
+
 	require.Len(t, got.messages, len(want.messages), "messages")
 	for name, wantFields := range want.messages {
 		gotFields, ok := got.messages[name]
 		require.True(t, ok, "missing message %s", name)
 		require.Equal(t, wantFields, gotFields, "fields of %s", name)
 	}
+
 	require.Equal(t, want.enums, got.enums, "enums and enum values")
 	require.Equal(t, want.oneofs, got.oneofs, "oneofs and their members")
 }
@@ -63,6 +65,7 @@ func collectMessageSets(files *protoregistry.Files, project bool) messageSets {
 		enums:    map[protoreflect.FullName]map[protoreflect.Name]protoreflect.EnumNumber{},
 		oneofs:   map[protoreflect.FullName]map[protoreflect.Name]protoreflect.FieldNumber{},
 	}
+
 	addEnums := func(enums protoreflect.EnumDescriptors) {
 		for i := range enums.Len() {
 			enum := enums.Get(i)
@@ -88,6 +91,7 @@ func collectMessageSets(files *protoregistry.Files, project bool) messageSets {
 			}
 			result.messages[message.FullName()] = collectFields(message.Fields(), project)
 			addEnums(message.Enums())
+
 			for i := range message.Oneofs().Len() {
 				oneof := message.Oneofs().Get(i)
 				if oneof.IsSynthetic() || project && hasDraftOption(oneof, protometapb.E_DraftOneof) {
@@ -129,9 +133,11 @@ func TestMessageSetsDetectsFieldDrift(t *testing.T) {
 	draft := field("draft", 2)
 	draft.Options = &descriptorpb.FieldOptions{}
 	proto.SetExtension(draft.Options, protometapb.E_Draft, "preview")
+
 	optional := proto.CloneOf(draft)
 	optional.Name, optional.Number = proto.String("preview_optional"), proto.Int32(3)
 	optional.Proto3Optional, optional.OneofIndex = proto.Bool(true), proto.Int32(1)
+
 	member := field("preview_member", 4)
 	member.OneofIndex = proto.Int32(0)
 	oneof := &descriptorpb.OneofDescriptorProto{Name: proto.String("preview"), Options: &descriptorpb.OneofOptions{}}
@@ -149,6 +155,7 @@ func TestMessageSetsDetectsFieldDrift(t *testing.T) {
 	}
 	want := collect(t, next, true)
 	require.Equal(t, want, collect(t, stable, false))
+
 	for _, tt := range []struct {
 		name   string
 		mutate func(*descriptorpb.DescriptorProto)
@@ -211,12 +218,14 @@ func TestOmitDraftFieldsMatchesStable(t *testing.T) {
 	unmarshal := proto.UnmarshalOptions{Resolver: dynamicpb.NewTypes(stable)}
 	discardUnknown := unmarshal
 	discardUnknown.DiscardUnknown = true
+
 	messages := nextMessages()
 	expectedMethods := affectedMessages(messages)
 	features := draftFeatures(messages)
 	require.NotEmpty(t, features)
 	// A feature the schema does not declare must never matter.
 	features = append(features, "undeclared-feature")
+
 	for _, message := range messages {
 		name := message.FullName()
 		messageType, err := protoregistry.GlobalTypes.FindMessageByName(name)
@@ -266,10 +275,12 @@ func TestOmitDraftFieldsMatchesStable(t *testing.T) {
 		if removedEnumValue != wantRemovedEnumValue {
 			t.Fatalf("OmitDraftFields for %s reported enum removal %t, want %t", descriptor.FullName(), removedEnumValue, wantRemovedEnumValue)
 		}
+
 		data, err := proto.MarshalOptions{Deterministic: true}.Marshal(none)
 		if err != nil {
 			t.Fatal(err)
 		}
+
 		decoded := dynamicpb.NewMessage(descriptor)
 		if err := unmarshal.Unmarshal(data, decoded); err != nil {
 			t.Fatal(err)
@@ -353,6 +364,7 @@ func draftFeatures(messages []protoreflect.MessageDescriptor) []string {
 			}
 		}
 	}
+
 	features := make([]string, 0, len(seen))
 	for feature := range seen {
 		features = append(features, feature)
@@ -421,6 +433,7 @@ func affectedMessages(messages []protoreflect.MessageDescriptor) map[protoreflec
 	for _, message := range messages {
 		index(message)
 	}
+
 	for i := 0; i < len(pending); i++ {
 		for _, parent := range parents[pending[i]] {
 			markAffected(parent)
@@ -467,6 +480,7 @@ func TestProjectStableFieldsRemovesDraftEnumValues(t *testing.T) {
 			want := dynamicpb.NewMessage(message)
 			require.NoError(t, prototext.Unmarshal([]byte(tt.input), got))
 			require.NoError(t, prototext.Unmarshal([]byte(tt.want), want))
+
 			require.Equal(t, tt.removedValue, projectStableFields(got))
 			require.True(t, proto.Equal(want, got), "projected %v, want %v", got, want)
 		})
@@ -494,6 +508,7 @@ func projectDraft(m protoreflect.Message, enabled func(string) bool) (removedEnu
 		feature := draftEnumValueFeature(field, value)
 		return feature != "" && !enabled(feature)
 	}
+
 	m.Range(func(field protoreflect.FieldDescriptor, value protoreflect.Value) bool {
 		if feature := draftFieldFeature(field); feature != "" && !enabled(feature) {
 			m.Clear(field)
@@ -569,6 +584,7 @@ func unknownFields(m protoreflect.Message, path string) string {
 	if len(m.GetUnknown()) > 0 {
 		return path
 	}
+
 	found := ""
 	m.Range(func(field protoreflect.FieldDescriptor, v protoreflect.Value) bool {
 		at := path + "." + string(field.Name())
