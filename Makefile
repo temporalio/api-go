@@ -80,6 +80,7 @@ go-grpc: clean .go-helpers-installed $(PROTO_OUT)
 		--output=$(PROTO_OUT) \
 		--exclude=internal \
 		--exclude=proto/api/google \
+		--exclude=$(PROTO_ROOT)/nexusannotations \
 		-p go-grpc_out=$(PROTO_PATHS) \
 		-p grpc-gateway_out=allow_patch_feature=false,$(PROTO_PATHS) \
 		-p go-helpers_out=$(PROTO_PATHS)
