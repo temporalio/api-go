@@ -12,8 +12,11 @@ import (
 func TestContainsMessageRecursive(t *testing.T) {
 	field := func(name, typ string, number int32) *descriptorpb.FieldDescriptorProto {
 		return &descriptorpb.FieldDescriptorProto{
-			Name: proto.String(name), Number: proto.Int32(number), TypeName: proto.String(typ),
-			Type: descriptorpb.FieldDescriptorProto_TYPE_MESSAGE.Enum(), Label: descriptorpb.FieldDescriptorProto_LABEL_OPTIONAL.Enum(),
+			Name:     proto.String(name),
+			Number:   proto.Int32(number),
+			TypeName: proto.String(typ),
+			Type:     descriptorpb.FieldDescriptorProto_TYPE_MESSAGE.Enum(),
+			Label:    descriptorpb.FieldDescriptorProto_LABEL_OPTIONAL.Enum(),
 		}
 	}
 	file, err := protodesc.NewFile(&descriptorpb.FileDescriptorProto{
