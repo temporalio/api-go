@@ -53,7 +53,7 @@ type genConfig struct {
 }
 
 // walkExtension walks the directory starting from root and calls the provided callback on all files that
-// have the specified extension. `exclusions` specifies a list of paths we won't search
+// have the specified extension. `exclusions` specifies a list of directories we won't search
 func walkExtension(ctx context.Context, root string, extension string, exclusions []string, fn func(string) error) error {
 	return filepath.WalkDir(root, func(path string, d fs.DirEntry, err error) error {
 		select {
@@ -67,16 +67,15 @@ func walkExtension(ctx context.Context, root string, extension string, exclusion
 			return err
 		}
 
-		for i := 0; i < len(exclusions); i++ {
-			relPath, err := filepath.Rel(root, path)
-			isMatch := false
-			if err == nil && (strings.HasPrefix(relPath, exclusions[i]+string(filepath.Separator)) || relPath == exclusions[i]) {
-				isMatch = true
+		relPath, relErr := filepath.Rel(root, path)
+		for _, exclusion := range exclusions {
+			exact := path == exclusion || relErr == nil && relPath == exclusion
+			if exact && !d.IsDir() {
+				return fmt.Errorf("--exclude %q must name a directory", exclusion)
 			}
-			if strings.HasPrefix(path, exclusions[i]+string(filepath.Separator)) || path == exclusions[i] {
-				isMatch = true
-			}
-			if isMatch {
+
+			prefix := exclusion + string(filepath.Separator)
+			if exact || strings.HasPrefix(path, prefix) || relErr == nil && strings.HasPrefix(relPath, prefix) {
 				if d.IsDir() {
 					return fs.SkipDir
 				}
@@ -263,7 +262,7 @@ func main() {
 	flag.Var(&protoIncludes, "I", "Directory to include when compiling protos")
 	flag.Var(&descriptorSetIn, "descriptor_set_in", "Files containing binary FileDescriptorSet messages as inputs")
 	flag.Var(&protoPlugins, "p", "Plugin=Options pairs of protobuf plugins, like grpc-gateway_out=allow_patch_feature=false")
-	flag.Var(&excludeDirs, "exclude", "File or directory to exclude when compiling protos or post-processing generated Go code")
+	flag.Var(&excludeDirs, "exclude", "Directory to exclude when compiling protos or post-processing generated Go code")
 	flag.StringVar(&enumPrefixPairs, "rewrite-enum", "",
 		"Comma-separated list of additional EnumType:CodePrefix pairs to remove when rewriting golang enums. Example: BuildId_State:BuildId")
 	flag.IntVar(&concurrency, "concurrency", 0, "Maximum number of goroutines to run. Defaults to 0, meaning unlimited")

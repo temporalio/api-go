@@ -18,10 +18,10 @@ func TestWalkExtensionExclusions(t *testing.T) {
 		want      []string
 	}{
 		{
-			name:      "exact file match",
-			exclusion: "temporal/api_next/message.proto",
-			files:     []string{"temporal/api_next/message.proto", "temporal/api_next/service.proto"},
-			want:      []string{"temporal/api_next/service.proto"},
+			name:      "missing directory",
+			exclusion: "temporal/api_next",
+			files:     []string{"temporal/api/message.proto"},
+			want:      []string{"temporal/api/message.proto"},
 		},
 		{
 			name:      "prefix within a component",
@@ -66,26 +66,42 @@ func TestWalkExtensionExclusions(t *testing.T) {
 	}
 }
 
-func TestCompileProtosExcludesFileAlongsideSibling(t *testing.T) {
+func TestCompileProtosExcludesDirectory(t *testing.T) {
 	root := t.TempDir()
-	for _, name := range []string{"excluded.proto", "included.proto"} {
-		require.NoError(t, os.WriteFile(filepath.Join(root, name), []byte("syntax = \"proto3\";\n"), 0644))
+	for _, name := range []string{"excluded/skip.proto", "excluded_other/keep.proto"} {
+		path := filepath.Join(root, filepath.FromSlash(name))
+		require.NoError(t, os.MkdirAll(filepath.Dir(path), 0755))
+		require.NoError(t, os.WriteFile(path, []byte("syntax = \"proto3\";\n"), 0644))
 	}
+
 	descriptorPath := filepath.Join(t.TempDir(), "descriptor.pb")
 	require.NoError(t, compileProtos(t.Context(), genConfig{
 		protocPath:           "protoc",
 		rootDirs:             []string{root},
-		excludeDirs:          []string{"excluded.proto"},
+		excludeDirs:          []string{"excluded"},
 		includes:             []string{root},
 		outputDescriptorPath: descriptorPath,
 	}))
+
 	data, err := os.ReadFile(descriptorPath)
 	require.NoError(t, err)
 	var descriptors descriptorpb.FileDescriptorSet
 	require.NoError(t, proto.Unmarshal(data, &descriptors))
+
 	var names []string
 	for _, file := range descriptors.GetFile() {
 		names = append(names, file.GetName())
 	}
-	require.Equal(t, []string{"included.proto"}, names)
+	require.Equal(t, []string{"excluded_other/keep.proto"}, names)
+}
+
+func TestWalkExtensionRejectsFileExclusion(t *testing.T) {
+	root := t.TempDir()
+	require.NoError(t, os.WriteFile(filepath.Join(root, "options.proto"), nil, 0644))
+
+	err := walkExtension(t.Context(), root, ".proto", []string{"options.proto"}, func(string) error {
+		return nil
+	})
+
+	require.ErrorContains(t, err, `--exclude "options.proto" must name a directory`)
 }
