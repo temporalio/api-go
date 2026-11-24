@@ -17,8 +17,5 @@ jobs:
       - uses: jdx/mise-action@2d8d4cafcbd33be2ea37d2b6f5ad595363d1f1ca # v5.1.1
         with:
           working_directory: .github
-      - uses: actions/setup-go@bfdd3570ce990073878bf10f6b2d79082de49492 # v2.2.0
-        with:
-          go-version: "1.22"
       - name: Check
         run: make check test
