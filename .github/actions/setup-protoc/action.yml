@@ -1,0 +1,10 @@
+name: Install protoc
+description: Install the protoc version used to generate API-Go bindings
+runs:
+  using: composite
+  steps:
+    - uses: arduino/setup-protoc@c65c819552d16ad3c9b72d9dfd5ba5237b9c906b # v3.0.0
+      with:
+        # TODO: Upgrade proto once https://github.com/arduino/setup-protoc/issues/99 is fixed
+        version: '23.x'
+        repo-token: ${{ github.token }}
