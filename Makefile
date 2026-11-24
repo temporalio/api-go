@@ -130,28 +130,31 @@ gen-proto-desc:
 ##### Plugins & tools #####
 grpc-install: nexus-rpc-gen-install
 	@printf $(COLOR) "Install/update grpc and plugins..."
-	@go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
-	@go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
-	@go install github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-grpc-gateway@latest
+	@go -C build install google.golang.org/protobuf/cmd/protoc-gen-go
+	@go -C build install google.golang.org/grpc/cmd/protoc-gen-go-grpc
+	@go -C build install github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-grpc-gateway
 
 NEXUS_RPC_GEN_CACHE := $(HOME)/.cache/nexus-rpc-gen
+NEXUS_RPC_GEN_REV := 37bcab26af122d2b79b0efaae4d7857c67282157
 
 .PHONY: nexus-rpc-gen-install
 nexus-rpc-gen-install:
-	@printf $(COLOR) "Install nexus-rpc-gen from main..."
-	@rm -rf $(NEXUS_RPC_GEN_CACHE)
-	@git clone --depth 1 https://github.com/nexus-rpc/nexus-rpc-gen.git $(NEXUS_RPC_GEN_CACHE)
-	@cd $(NEXUS_RPC_GEN_CACHE)/src && pnpm install --ignore-scripts && pnpm run build
-	@chmod +x $(NEXUS_RPC_GEN_CACHE)/src/packages/nexus-rpc-gen/dist/index.js
-	@cd $(NEXUS_RPC_GEN_CACHE)/src/packages/nexus-rpc-gen && pnpm add --global .
+	@printf $(COLOR) "Install nexus-rpc-gen..."
+	@rm -rf "$(NEXUS_RPC_GEN_CACHE)"
+	@git init --quiet "$(NEXUS_RPC_GEN_CACHE)"
+	@git -C "$(NEXUS_RPC_GEN_CACHE)" fetch --depth 1 https://github.com/nexus-rpc/nexus-rpc-gen.git $(NEXUS_RPC_GEN_REV)
+	@git -C "$(NEXUS_RPC_GEN_CACHE)" checkout --detach FETCH_HEAD
+	@cd "$(NEXUS_RPC_GEN_CACHE)/src" && pnpm install --frozen-lockfile --ignore-scripts && pnpm run build
+	@chmod +x "$(NEXUS_RPC_GEN_CACHE)/src/packages/nexus-rpc-gen/dist/index.js"
+	@cd "$(NEXUS_RPC_GEN_CACHE)/src/packages/nexus-rpc-gen" && pnpm add --global .
 
 mockgen-install:
 	printf $(COLOR) "Install/update mockgen..."
-	go install -modfile=build/go.mod github.com/golang/mock/mockgen
+	go -C build install github.com/golang/mock/mockgen
 
 goimports-install:
 	printf $(COLOR) "Install/update goimports..."
-	go install golang.org/x/tools/cmd/goimports@latest
+	go -C build install golang.org/x/tools/cmd/goimports
 
 ##### go.mod #####
 update-dependencies:
