@@ -16,6 +16,7 @@ import (
 	"os/signal"
 	"path/filepath"
 	"regexp"
+	"slices"
 	"strings"
 )
 
@@ -217,6 +218,14 @@ func postProcess(ctx context.Context, cfg genConfig) error {
 }
 
 func compileProtos(ctx context.Context, cfg genConfig) error {
+	cfg.excludeDirs = slices.Clone(cfg.excludeDirs)
+	for i, exclusion := range cfg.excludeDirs {
+		if exclusion == "" {
+			return errors.New("--exclude must name a directory")
+		}
+		cfg.excludeDirs[i] = filepath.Clean(exclusion)
+	}
+
 	enums, files, err := findProtos(ctx, cfg)
 	if err != nil {
 		return err
@@ -262,7 +271,7 @@ func main() {
 	flag.Var(&protoIncludes, "I", "Directory to include when compiling protos")
 	flag.Var(&descriptorSetIn, "descriptor_set_in", "Files containing binary FileDescriptorSet messages as inputs")
 	flag.Var(&protoPlugins, "p", "Plugin=Options pairs of protobuf plugins, like grpc-gateway_out=allow_patch_feature=false")
-	flag.Var(&excludeDirs, "exclude", "Directory to exclude when compiling protos or post-processing generated Go code")
+	flag.Var(&excludeDirs, "exclude", "Directory to skip")
 	flag.StringVar(&enumPrefixPairs, "rewrite-enum", "",
 		"Comma-separated list of additional EnumType:CodePrefix pairs to remove when rewriting golang enums. Example: BuildId_State:BuildId")
 	flag.IntVar(&concurrency, "concurrency", 0, "Maximum number of goroutines to run. Defaults to 0, meaning unlimited")

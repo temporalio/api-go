@@ -78,7 +78,7 @@ func TestCompileProtosExcludesDirectory(t *testing.T) {
 	require.NoError(t, compileProtos(t.Context(), genConfig{
 		protocPath:           "protoc",
 		rootDirs:             []string{root},
-		excludeDirs:          []string{"excluded"},
+		excludeDirs:          []string{filepath.FromSlash("./excluded/")},
 		includes:             []string{root},
 		outputDescriptorPath: descriptorPath,
 	}))
