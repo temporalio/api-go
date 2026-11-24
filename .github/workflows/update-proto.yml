@@ -81,7 +81,7 @@ jobs:
 
             git check-ref-format "refs/heads/$PROTO_BRANCH"
             git config --local submodule.proto/api.branch "$PROTO_BRANCH"
-            git -C proto/api config --add remote.origin.fetch "+refs/heads/$PROTO_BRANCH:refs/remotes/origin/$PROTO_BRANCH"
+            git -C proto/api remote set-branches --add -- origin "$PROTO_BRANCH"
           fi
 
           make install update-proto test
