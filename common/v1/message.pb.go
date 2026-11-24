@@ -1732,9 +1732,15 @@ type FastForwardConfig struct {
 	//
 	// If this duration exceeds the remaining execution timeout, time will not pass beyond the end
 	// of the execution, and the fast-forward won't have a chance to complete.
-	Duration      *durationpb.Duration `protobuf:"bytes,2,opt,name=duration,proto3" json:"duration,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Duration *durationpb.Duration `protobuf:"bytes,2,opt,name=duration,proto3" json:"duration,omitempty"`
+	// By default, a fast-forward is confined to the current execution (including its chain of runs) and is not
+	// propagated to other transitively related executions (e.g. child workflows, or workflows started by a schedule).
+	// Set this to true to make the fast-forward target time apply to those related executions as well.
+	// Note that different executions may complete the fast-forward at different physical times, so poll the
+	// specific execution you are waiting on.
+	EnableFastForwardPropagation bool `protobuf:"varint,3,opt,name=enable_fast_forward_propagation,json=enableFastForwardPropagation,proto3" json:"enable_fast_forward_propagation,omitempty"`
+	unknownFields                protoimpl.UnknownFields
+	sizeCache                    protoimpl.SizeCache
 }
 
 func (x *FastForwardConfig) Reset() {
@@ -1779,6 +1785,13 @@ func (x *FastForwardConfig) GetDuration() *durationpb.Duration {
 		return x.Duration
 	}
 	return nil
+}
+
+func (x *FastForwardConfig) GetEnableFastForwardPropagation() bool {
+	if x != nil {
+		return x.EnableFastForwardPropagation
+	}
+	return false
 }
 
 // The time-skipping state that needs to be propagated from one execution to another, or through a chain of runs
@@ -2934,10 +2947,11 @@ const file_temporal_api_common_v1_message_proto_rawDesc = "" +
 	"\aenabled\x18\x01 \x01(\bR\aenabled\x12Y\n" +
 	"\x13fast_forward_config\x18\x02 \x01(\v2).temporal.api.common.v1.FastForwardConfigR\x11fastForwardConfig\x12/\n" +
 	"\x13disable_propagation\x18\x03 \x01(\bR\x12disablePropagation\x123\n" +
-	"\x16max_session_skip_count\x18\x04 \x01(\x05R\x13maxSessionSkipCount\"Z\n" +
+	"\x16max_session_skip_count\x18\x04 \x01(\x05R\x13maxSessionSkipCount\"\xa1\x01\n" +
 	"\x11FastForwardConfig\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x125\n" +
-	"\bduration\x18\x02 \x01(\v2\x19.google.protobuf.DurationR\bduration\"\xf6\x01\n" +
+	"\bduration\x18\x02 \x01(\v2\x19.google.protobuf.DurationR\bduration\x12E\n" +
+	"\x1fenable_fast_forward_propagation\x18\x03 \x01(\bR\x1cenableFastForwardPropagation\"\xf6\x01\n" +
 	"\x1cTimeSkippingStatePropagation\x12S\n" +
 	"\x18initial_skipped_duration\x18\x01 \x01(\v2\x19.google.protobuf.DurationR\x16initialSkippedDuration\x12S\n" +
 	"\x18fast_forward_target_time\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\x15fastForwardTargetTime\x12,\n" +
