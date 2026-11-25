@@ -2192,7 +2192,7 @@ type Callback_NexusHandler struct {
 	//
 	// There are restrictions on the maxium payload size a single callback can carry, as well as the
 	// total sum of all source context payloads attached to an execution. See dynamic configuration:
-	// "callback.nexusHandler.sourceContext.maxSize", "callback.nexusHandler.sourceContext.aggregateMaxSize".
+	// "callback.nexusHandler.sourceContext.maxSize", "callback.totalMaxSizePerExecution".
 	SourceContext *Payload `protobuf:"bytes,4,opt,name=source_context,json=sourceContext,proto3" json:"source_context,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
