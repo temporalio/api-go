@@ -757,6 +757,28 @@ func pruneRecords(input map[string]*TypeRecord) map[string]*TypeRecord {
 }
 
 // isMatchingMessage returns true if the message descriptor is one of the target types
+// excludedPayloadMessagePrefixes lists proto message prefixes whose Payload fields hold
+// server/control-plane configuration rather than user workflow data and must not be
+// visited or transformed by payload codecs (see https://github.com/temporalio/temporal/issues/12970).
+var excludedPayloadMessagePrefixes = []string{
+	"temporal.api.compute.v1.",
+}
+
+func isExcludedPayloadMessage(md protoreflect.MessageDescriptor) bool {
+	fullName := string(md.FullName())
+	for _, prefix := range excludedPayloadMessagePrefixes {
+		if strings.HasPrefix(fullName, prefix) {
+			return true
+		}
+	}
+	return false
+}
+
+func isExcludedPayloadGoType(t types.Type) bool {
+	resolved := resolveType(t).String()
+	return strings.HasPrefix(resolved, "go.temporal.io/api/compute/v1.")
+}
+
 func isMatchingMessage(md protoreflect.MessageDescriptor, targetNames []string) bool {
 	fullName := string(md.FullName())
 	for _, targetName := range targetNames {
@@ -774,6 +796,9 @@ func containsMessage(
 	targetMessages []string,
 	memo map[protoreflect.FullName]bool,
 ) bool {
+	if isExcludedPayloadMessage(md) {
+		return false
+	}
 	fullName := md.FullName()
 	// If we've already computed for this message, return the cached result.
 	if res, ok := memo[fullName]; ok {
@@ -922,6 +947,9 @@ func gatherMatchesToTypeRecords(
 // desired type(s). The return type for each method on this type is walked recursively to decide
 // which methods can lead to the desired type.
 func walk(desired []types.Type, directMatchTypes []types.Type, typ types.Type, records *map[string]*TypeRecord) bool {
+	if isExcludedPayloadGoType(typ) {
+		return false
+	}
 	typeName := typeName(typ)
 
 	// If this type is a slice then walk the underlying type and then make a note we need to encode slices of this type
