@@ -142,7 +142,7 @@ func (x *TaskQueueMetadata) GetMaxTasksPerSecond() *wrapperspb.DoubleValue {
 type PollerPoolInfo struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Number of pollers this worker is targeting for this task queue and task type.
-	// 0 if unknown, such as a poller pool of fixed size.
+	// 0 if the SDK does not report a target.
 	TargetPollers int32 `protobuf:"varint,1,opt,name=target_pollers,json=targetPollers,proto3" json:"target_pollers,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache

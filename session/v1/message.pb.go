@@ -24,14 +24,23 @@ const (
 )
 
 // EXPERIMENTAL. Subject to redesign or removal.
-// Sent on workflow and activity polls. Presence means this worker can serve
+// Sent on workflow and activity polls. Presence means this worker can service
 // sessions. Currently, the only supported Session type is Workflow Session
-// (aka Workflow-as-Session). A Workflow Session can receive both workflow
-// tasks and activity tasks of an execution.
+// (aka Workflow-as-Session). A Workflow that is bound to a worker servicing sessions
+// can receive both workflow tasks and activity tasks of an execution.
+//
+// The server routes a session's work to the worker's sticky queue, so the
+// sticky queue name depends on the admission mode:
+//   - single_session: the worker polls only its sticky queue, named after
+//     SingleSessionOptions.stable_identity.
+//   - multi_session: the worker polls the normal queue and its sticky queue,
+//     named after the poll's worker_instance_key.
+//
+// The server rejects sticky polls whose name does not follow this rule.
 type WorkerSessionOptions struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// Admission control, if unset the worker accepts an arbitrary number of
-	// sessions (bounded by session slots in the future)
+	// Admission control. Required: exactly one mode must be set, and the
+	// server rejects session options with neither.
 	//
 	// Types that are valid to be assigned to Admission:
 	//
@@ -107,7 +116,7 @@ type WorkerSessionOptions_SingleSession struct {
 }
 
 type WorkerSessionOptions_MultiSession struct {
-	// If specified, the worker can serve multiple sessions at once.
+	// If specified, the worker can service multiple sessions at once.
 	MultiSession *MultiSessionOptions `protobuf:"bytes,2,opt,name=multi_session,json=multiSession,proto3,oneof"`
 }
 
@@ -116,10 +125,10 @@ func (*WorkerSessionOptions_SingleSession) isWorkerSessionOptions_Admission() {}
 func (*WorkerSessionOptions_MultiSession) isWorkerSessionOptions_Admission() {}
 
 // EXPERIMENTAL. Subject to redesign or removal.
-// Serve exactly one session for the worker's lifetime, including across
-// process restarts with the same stable_identity. The server binds the worker
-// to the first session that needs a worker, and dispatches no other work here,
-// even after that session completes.
+// Service exactly one session for the worker's lifetime, including across
+// process restarts with the same stable_identity. The first workflow this
+// worker picks up is bound to it, and from then on the worker only receives
+// that workflow's tasks, even after the workflow completes.
 type SingleSessionOptions struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Identity the binding is stored under. Required; must be non-empty.
@@ -128,7 +137,7 @@ type SingleSessionOptions struct {
 	// concurrently, the server treats them as pollers of a single worker and
 	// process affinity is lost.
 	//
-	// Note: this effectively acts as a configurable sticky queue.
+	// Note: this is the name of the worker's sticky queue, specified by the user.
 	// Note: we are currently unsure how this will evolve. May be deprecated as
 	// the session model develops.
 	StableIdentity string `protobuf:"bytes,1,opt,name=stable_identity,json=stableIdentity,proto3" json:"stable_identity,omitempty"`
@@ -174,14 +183,10 @@ func (x *SingleSessionOptions) GetStableIdentity() string {
 }
 
 // EXPERIMENTAL. Subject to redesign or removal.
-// Serve any number of sessions concurrently. Future admission knobs (e.g.
+// Service any number of sessions concurrently. Future admission knobs (e.g.
 // session slots) belong here.
 type MultiSessionOptions struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// Where the server routes session work bound to this worker.
-	// Currently set by the SDK to the worker's sticky queue name, and not
-	// user-configurable. May become configurable in the future.
-	WorkerAddress string `protobuf:"bytes,1,opt,name=worker_address,json=workerAddress,proto3" json:"worker_address,omitempty"`
+	state         protoimpl.MessageState `protogen:"open.v1"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -214,13 +219,6 @@ func (x *MultiSessionOptions) ProtoReflect() protoreflect.Message {
 // Deprecated: Use MultiSessionOptions.ProtoReflect.Descriptor instead.
 func (*MultiSessionOptions) Descriptor() ([]byte, []int) {
 	return file_temporal_api_session_v1_message_proto_rawDescGZIP(), []int{2}
-}
-
-func (x *MultiSessionOptions) GetWorkerAddress() string {
-	if x != nil {
-		return x.WorkerAddress
-	}
-	return ""
 }
 
 // EXPERIMENTAL. Subject to redesign or removal.
@@ -288,28 +286,27 @@ type isActivitySessionOptions_Placement interface {
 type ActivitySessionOptions_WorkflowSession struct {
 	// Run in the workflow's current session (on its sticky queue).
 	// Currently requires the activity's task queue to be the workflow's,
-	// and the workflow's worker to serve sessions.
+	// and the workflow's worker to service sessions.
 	WorkflowSession *emptypb.Empty `protobuf:"bytes,1,opt,name=workflow_session,json=workflowSession,proto3,oneof"`
 }
 
 func (*ActivitySessionOptions_WorkflowSession) isActivitySessionOptions_Placement() {}
 
 // EXPERIMENTAL. Subject to redesign or removal.
-// Which worker a workflow (which is the session) is bound to. The server records it on history events
-// so it can rebuild the binding from history (for example on reset). See
-// session_info on WorkflowTaskStartedEventAttributes and inherited_session_info
-// on WorkflowExecutionStartedEventAttributes. Not a worker or user option; SDKs
-// should not read or interpret it.
+// How a workflow is bound to a worker.
 type SessionInfo struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// True when the workflow is bound to a single-session worker. Such a
-	// binding never moves to another worker. False for a multi-session worker,
-	// whose binding moves with the worker that starts the workflow's tasks.
+	// binding never moves to another worker.
 	ExclusiveWorker bool `protobuf:"varint,1,opt,name=exclusive_worker,json=exclusiveWorker,proto3" json:"exclusive_worker,omitempty"`
-	// The worker the workflow is bound to. Always set.
-	BoundWorkerInfo *BoundWorkerInfo `protobuf:"bytes,2,opt,name=bound_worker_info,json=boundWorkerInfo,proto3" json:"bound_worker_info,omitempty"`
-	unknownFields   protoimpl.UnknownFields
-	sizeCache       protoimpl.SizeCache
+	// The sticky queue of the worker the workflow is bound to: the stable
+	// identity of a single-session worker, or the worker instance key of a
+	// multi-session worker. History has no other record of it, so the server
+	// needs it to restore the binding when it rebuilds the workflow from
+	// history. Always set.
+	WorkerQueue   string `protobuf:"bytes,2,opt,name=worker_queue,json=workerQueue,proto3" json:"worker_queue,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *SessionInfo) Reset() {
@@ -349,56 +346,7 @@ func (x *SessionInfo) GetExclusiveWorker() bool {
 	return false
 }
 
-func (x *SessionInfo) GetBoundWorkerInfo() *BoundWorkerInfo {
-	if x != nil {
-		return x.BoundWorkerInfo
-	}
-	return nil
-}
-
-// EXPERIMENTAL. Subject to redesign or removal.
-// The worker a workflow is bound to. Recorded by the server.
-type BoundWorkerInfo struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// The worker's queue: the stable identity of a single-session worker, or
-	// the worker address of a multi-session worker. The workflow's tasks are
-	// routed here.
-	WorkerQueue   string `protobuf:"bytes,1,opt,name=worker_queue,json=workerQueue,proto3" json:"worker_queue,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *BoundWorkerInfo) Reset() {
-	*x = BoundWorkerInfo{}
-	mi := &file_temporal_api_session_v1_message_proto_msgTypes[5]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *BoundWorkerInfo) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*BoundWorkerInfo) ProtoMessage() {}
-
-func (x *BoundWorkerInfo) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_session_v1_message_proto_msgTypes[5]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use BoundWorkerInfo.ProtoReflect.Descriptor instead.
-func (*BoundWorkerInfo) Descriptor() ([]byte, []int) {
-	return file_temporal_api_session_v1_message_proto_rawDescGZIP(), []int{5}
-}
-
-func (x *BoundWorkerInfo) GetWorkerQueue() string {
+func (x *SessionInfo) GetWorkerQueue() string {
 	if x != nil {
 		return x.WorkerQueue
 	}
@@ -415,17 +363,14 @@ const file_temporal_api_session_v1_message_proto_rawDesc = "" +
 	"\rmulti_session\x18\x02 \x01(\v2,.temporal.api.session.v1.MultiSessionOptionsH\x00R\fmultiSessionB\v\n" +
 	"\tadmission\"?\n" +
 	"\x14SingleSessionOptions\x12'\n" +
-	"\x0fstable_identity\x18\x01 \x01(\tR\x0estableIdentity\"<\n" +
-	"\x13MultiSessionOptions\x12%\n" +
-	"\x0eworker_address\x18\x01 \x01(\tR\rworkerAddress\"j\n" +
+	"\x0fstable_identity\x18\x01 \x01(\tR\x0estableIdentity\"\x15\n" +
+	"\x13MultiSessionOptions\"j\n" +
 	"\x16ActivitySessionOptions\x12C\n" +
 	"\x10workflow_session\x18\x01 \x01(\v2\x16.google.protobuf.EmptyH\x00R\x0fworkflowSessionB\v\n" +
-	"\tplacement\"\x8e\x01\n" +
+	"\tplacement\"[\n" +
 	"\vSessionInfo\x12)\n" +
-	"\x10exclusive_worker\x18\x01 \x01(\bR\x0fexclusiveWorker\x12T\n" +
-	"\x11bound_worker_info\x18\x02 \x01(\v2(.temporal.api.session.v1.BoundWorkerInfoR\x0fboundWorkerInfo\"4\n" +
-	"\x0fBoundWorkerInfo\x12!\n" +
-	"\fworker_queue\x18\x01 \x01(\tR\vworkerQueueB\x8e\x01\n" +
+	"\x10exclusive_worker\x18\x01 \x01(\bR\x0fexclusiveWorker\x12!\n" +
+	"\fworker_queue\x18\x02 \x01(\tR\vworkerQueueB\x8e\x01\n" +
 	"\x1aio.temporal.api.session.v1B\fMessageProtoP\x01Z%go.temporal.io/api/session/v1;session\xaa\x02\x19Temporalio.Api.Session.V1\xea\x02\x1cTemporalio::Api::Session::V1b\x06proto3"
 
 var (
@@ -440,26 +385,24 @@ func file_temporal_api_session_v1_message_proto_rawDescGZIP() []byte {
 	return file_temporal_api_session_v1_message_proto_rawDescData
 }
 
-var file_temporal_api_session_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
+var file_temporal_api_session_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
 var file_temporal_api_session_v1_message_proto_goTypes = []any{
 	(*WorkerSessionOptions)(nil),   // 0: temporal.api.session.v1.WorkerSessionOptions
 	(*SingleSessionOptions)(nil),   // 1: temporal.api.session.v1.SingleSessionOptions
 	(*MultiSessionOptions)(nil),    // 2: temporal.api.session.v1.MultiSessionOptions
 	(*ActivitySessionOptions)(nil), // 3: temporal.api.session.v1.ActivitySessionOptions
 	(*SessionInfo)(nil),            // 4: temporal.api.session.v1.SessionInfo
-	(*BoundWorkerInfo)(nil),        // 5: temporal.api.session.v1.BoundWorkerInfo
-	(*emptypb.Empty)(nil),          // 6: google.protobuf.Empty
+	(*emptypb.Empty)(nil),          // 5: google.protobuf.Empty
 }
 var file_temporal_api_session_v1_message_proto_depIdxs = []int32{
 	1, // 0: temporal.api.session.v1.WorkerSessionOptions.single_session:type_name -> temporal.api.session.v1.SingleSessionOptions
 	2, // 1: temporal.api.session.v1.WorkerSessionOptions.multi_session:type_name -> temporal.api.session.v1.MultiSessionOptions
-	6, // 2: temporal.api.session.v1.ActivitySessionOptions.workflow_session:type_name -> google.protobuf.Empty
-	5, // 3: temporal.api.session.v1.SessionInfo.bound_worker_info:type_name -> temporal.api.session.v1.BoundWorkerInfo
-	4, // [4:4] is the sub-list for method output_type
-	4, // [4:4] is the sub-list for method input_type
-	4, // [4:4] is the sub-list for extension type_name
-	4, // [4:4] is the sub-list for extension extendee
-	0, // [0:4] is the sub-list for field type_name
+	5, // 2: temporal.api.session.v1.ActivitySessionOptions.workflow_session:type_name -> google.protobuf.Empty
+	3, // [3:3] is the sub-list for method output_type
+	3, // [3:3] is the sub-list for method input_type
+	3, // [3:3] is the sub-list for extension type_name
+	3, // [3:3] is the sub-list for extension extendee
+	0, // [0:3] is the sub-list for field type_name
 }
 
 func init() { file_temporal_api_session_v1_message_proto_init() }
@@ -480,7 +423,7 @@ func file_temporal_api_session_v1_message_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_temporal_api_session_v1_message_proto_rawDesc), len(file_temporal_api_session_v1_message_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   6,
+			NumMessages:   5,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

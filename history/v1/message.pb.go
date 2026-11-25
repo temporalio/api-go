@@ -217,7 +217,7 @@ type WorkflowExecutionStartedEventAttributes struct {
 	TimeSkippingStatePropagation *v1.TimeSkippingStatePropagation `protobuf:"bytes,43,opt,name=time_skipping_state_propagation,json=timeSkippingStatePropagation,proto3" json:"time_skipping_state_propagation,omitempty"`
 	// Serialization context propagated from the Nexus caller that started this workflow.
 	PropagatedNexusSerializationContext *v16.PropagatedSerializationContext `protobuf:"bytes,44,opt,name=propagated_nexus_serialization_context,json=propagatedNexusSerializationContext,proto3" json:"propagated_nexus_serialization_context,omitempty"`
-	// Session info this run inherited from the previous run (continue-as-new, retry or cron), so the server
+	// Session info this run inherited from the previous run (continue-as-new or retry), so the server
 	// can rebuild it from history. Nil when the previous run was not bound or this run is on a different
 	// task queue. Child workflows never inherit it.
 	// Used internally by the server; SDKs should not read or interpret this field.

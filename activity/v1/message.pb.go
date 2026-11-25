@@ -299,7 +299,7 @@ type ActivityExecutionInfo struct {
 	HeartbeatDetails *v11.Payloads `protobuf:"bytes,12,opt,name=heartbeat_details,json=heartbeatDetails,proto3" json:"heartbeat_details,omitempty"`
 	// Time the last heartbeat was recorded.
 	LastHeartbeatTime *timestamppb.Timestamp `protobuf:"bytes,13,opt,name=last_heartbeat_time,json=lastHeartbeatTime,proto3" json:"last_heartbeat_time,omitempty"`
-	// Time the last attempt was started.
+	// Time the current attempt started, or the final attempt if the activity has closed; unset while waiting for a retry.
 	LastStartedTime *timestamppb.Timestamp `protobuf:"bytes,14,opt,name=last_started_time,json=lastStartedTime,proto3" json:"last_started_time,omitempty"`
 	// The attempt this activity is currently on. Incremented each time a new attempt is scheduled.
 	Attempt int32 `protobuf:"varint,15,opt,name=attempt,proto3" json:"attempt,omitempty"`
