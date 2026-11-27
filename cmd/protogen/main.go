@@ -16,6 +16,7 @@ import (
 	"os/signal"
 	"path/filepath"
 	"regexp"
+	"slices"
 	"strings"
 )
 
@@ -53,7 +54,7 @@ type genConfig struct {
 }
 
 // walkExtension walks the directory starting from root and calls the provided callback on all files that
-// have the specified extension. `exclusions` specifies a list of paths we won't search
+// have the specified extension. `exclusions` specifies a list of directories we won't search
 func walkExtension(ctx context.Context, root string, extension string, exclusions []string, fn func(string) error) error {
 	return filepath.WalkDir(root, func(path string, d fs.DirEntry, err error) error {
 		select {
@@ -65,31 +66,47 @@ func walkExtension(ctx context.Context, root string, extension string, exclusion
 		}
 		if err != nil {
 			return err
-		} else if !strings.HasSuffix(path, extension) {
+		}
+
+		relPath, relErr := filepath.Rel(root, path)
+		for _, exclusion := range exclusions {
+			exact := path == exclusion || relErr == nil && relPath == exclusion
+			if exact && !d.IsDir() {
+				return fmt.Errorf("--exclude %q must name a directory", exclusion)
+			}
+
+			prefix := exclusion + string(filepath.Separator)
+			if exact || strings.HasPrefix(path, prefix) || relErr == nil && strings.HasPrefix(relPath, prefix) {
+				if d.IsDir() {
+					return fs.SkipDir
+				}
+				return nil
+			}
+		}
+
+		if d.IsDir() {
 			return nil
 		}
-		for i := 0; i < len(exclusions); i++ {
-			if strings.HasPrefix(path, exclusions[i]) {
-				return fs.SkipDir
-			}
+		if !strings.HasSuffix(path, extension) {
+			return nil
 		}
 		return fn(path)
 	})
 }
 
-// Walk the file tree and collect all enum definitions we find
-// so we can post-process the go code we're generating
-func findEnums(ctx context.Context, cfg genConfig) ([]string, []string, error) {
+// Walk the file tree and collect proto files and their enum definitions
+// so we can post-process the go code we're generating.
+func findProtos(ctx context.Context, cfg genConfig) ([]string, []string, error) {
 	seen := map[string]struct{}{}
 	var enums []string
-	var dirs []string
+	var files []string
 	walkFunc := func(path string) error {
-		// Emit unique directories containing proto files
-		dir := filepath.Dir(path)
-		if _, ok := seen[dir]; !ok {
-			seen[dir] = struct{}{}
-			dirs = append(dirs, dir)
+		// Emit each proto file once, even if the roots overlap.
+		if _, ok := seen[path]; ok {
+			return nil
 		}
+		seen[path] = struct{}{}
+		files = append(files, path)
 
 		// There isn't a good way to iteratively find matches using an io.Reader
 		// so we need to pull the whole thing into memory. We could do it line by line
@@ -109,12 +126,11 @@ func findEnums(ctx context.Context, cfg genConfig) ([]string, []string, error) {
 			return nil, nil, err
 		}
 	}
-	return enums, dirs, nil
+	return enums, files, nil
 }
 
-// Run protoc on all proto dirs we discover under the root directory
-func runProtoc(ctx context.Context, cfg genConfig, protoDirs []string) error {
-	// Run protoc on each directory individually
+// Run protoc on the proto files discovered under the roots.
+func runProtoc(ctx context.Context, cfg genConfig, protoFiles []string) error {
 	args := []string{
 		"--fatal_warnings",
 	}
@@ -137,14 +153,7 @@ func runProtoc(ctx context.Context, cfg genConfig, protoDirs []string) error {
 		args = append(args, fmt.Sprintf("--%s", plugin))
 	}
 
-	for i := 0; i < len(protoDirs); i++ {
-		dir := protoDirs[i]
-		files, err := filepath.Glob(filepath.Join(dir, "*.proto"))
-		if err != nil {
-			return err
-		}
-		args = append(args, files...)
-	}
+	args = append(args, protoFiles...)
 
 	var stderr bytes.Buffer
 	protoc := exec.CommandContext(ctx, cfg.protocPath, args...)
@@ -209,12 +218,20 @@ func postProcess(ctx context.Context, cfg genConfig) error {
 }
 
 func compileProtos(ctx context.Context, cfg genConfig) error {
-	enums, dirs, err := findEnums(ctx, cfg)
+	cfg.excludeDirs = slices.Clone(cfg.excludeDirs)
+	for i, exclusion := range cfg.excludeDirs {
+		if exclusion == "" {
+			return errors.New("--exclude must name a directory")
+		}
+		cfg.excludeDirs[i] = filepath.Clean(exclusion)
+	}
+
+	enums, files, err := findProtos(ctx, cfg)
 	if err != nil {
 		return err
 	}
 
-	if err := runProtoc(ctx, cfg, dirs); err != nil {
+	if err := runProtoc(ctx, cfg, files); err != nil {
 		return err
 	}
 
@@ -254,7 +271,7 @@ func main() {
 	flag.Var(&protoIncludes, "I", "Directory to include when compiling protos")
 	flag.Var(&descriptorSetIn, "descriptor_set_in", "Files containing binary FileDescriptorSet messages as inputs")
 	flag.Var(&protoPlugins, "p", "Plugin=Options pairs of protobuf plugins, like grpc-gateway_out=allow_patch_feature=false")
-	flag.Var(&excludeDirs, "exclude", "Directory to exclude when compiling post-processing protos")
+	flag.Var(&excludeDirs, "exclude", "Directory to skip")
 	flag.StringVar(&enumPrefixPairs, "rewrite-enum", "",
 		"Comma-separated list of additional EnumType:CodePrefix pairs to remove when rewriting golang enums. Example: BuildId_State:BuildId")
 	flag.IntVar(&concurrency, "concurrency", 0, "Maximum number of goroutines to run. Defaults to 0, meaning unlimited")
