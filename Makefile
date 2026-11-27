@@ -2,7 +2,7 @@ $(VERBOSE).SILENT:
 all: install test
 ############################# Main targets #############################
 # Install everything, update submodule, and compile proto files.
-install: grpc-install mockgen-install goimports-install update-proto
+install: grpc-install mockgen-install goimports-install onelint-install update-proto
 
 # Compile proto files.
 proto: http-api-docs grpc goimports proxy grpc-mock
@@ -20,6 +20,7 @@ GOBIN := $(if $(shell go env GOBIN),$(shell go env GOBIN),$(GOPATH)/bin)
 PATH := $(GOBIN):$(PATH)
 
 COLOR := "\e[1;36m%s\e[0m\n"
+ONELINT ?= onelint
 
 PINNED_DEPENDENCIES := \
 
@@ -153,6 +154,12 @@ goimports-install:
 	printf $(COLOR) "Install/update goimports..."
 	go install golang.org/x/tools/cmd/goimports@latest
 
+onelint-install:
+	printf $(COLOR) "Install/update onelint, golangci-lint and actionlint..."
+	go install github.com/temporalio/onelint@v0.10.0
+	go install github.com/golangci/golangci-lint/v2/cmd/golangci-lint@v2.14.0
+	go install github.com/rhysd/actionlint/cmd/actionlint@v1.7.7
+
 ##### go.mod #####
 update-dependencies:
 	printf $(COLOR) "Update go dependencies..."
@@ -169,6 +176,19 @@ test: copy-helpers
 	go test -race -tags protolegacy ./...
 
 ##### Check #####
+
+.PHONY: lint fix fmt
+lint:
+	printf $(COLOR) "Run linters..."
+	$(ONELINT) check
+
+fix:
+	printf $(COLOR) "Apply safe fixes..."
+	$(ONELINT) fix
+
+fmt:
+	printf $(COLOR) "Format files..."
+	$(ONELINT) fmt
 
 generatorcheck: gen-proto-desc
 	printf $(COLOR) "Check generated code is not stale..."
