@@ -140,10 +140,9 @@ func deepValueEqual(v1, v2 reflect.Value, visited map[visit]bool) bool {
 		if v1.UnsafePointer() == v2.UnsafePointer() {
 			return true
 		}
-		for _, k := range v1.MapKeys() {
-			val1 := v1.MapIndex(k)
-			val2 := v2.MapIndex(k)
-			if !val1.IsValid() || !val2.IsValid() || !deepValueEqual(val1, val2, visited) {
+		for iter := v1.MapRange(); iter.Next(); {
+			val2 := v2.MapIndex(iter.Key())
+			if !val2.IsValid() || !deepValueEqual(iter.Value(), val2, visited) {
 				return false
 			}
 		}
