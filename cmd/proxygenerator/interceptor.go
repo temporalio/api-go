@@ -6,6 +6,7 @@ import (
 	"go/format"
 	"go/types"
 	"os"
+	"slices"
 	"strings"
 	"text/template"
 
@@ -677,6 +678,7 @@ type TypeRecord struct {
 	Slice    bool     // The API refers to slices of this type
 	Map      bool     // The API refers to maps with this type as the value
 	Matches  bool     // We found methods on this type that can eventually lead to Payload(s)
+	children map[string]string
 }
 
 // isSlice returns true if a type is slice, false otherwise
@@ -756,87 +758,80 @@ func pruneRecords(input map[string]*TypeRecord) map[string]*TypeRecord {
 	return result
 }
 
-// isMatchingMessage returns true if the message descriptor is one of the target types
-func isMatchingMessage(md protoreflect.MessageDescriptor, targetNames []string) bool {
-	fullName := string(md.FullName())
-	for _, targetName := range targetNames {
-		if fullName == targetName {
-			return true
-		}
-	}
-	return false
-}
-
-// containsMessage recursively checks whether the given message descriptor (or any of its fields)
-// contains (transitively) a target message.
-func containsMessage(
-	md protoreflect.MessageDescriptor,
-	targetMessages []string,
-	memo map[protoreflect.FullName]bool,
-) bool {
-	fullName := md.FullName()
-	// If we've already computed for this message, return the cached result.
-	if res, ok := memo[fullName]; ok {
-		return res
-	}
-	// Mark this message as not containing a payload to break cycles.
-	memo[fullName] = false
-
-	// Check every field of this message.
-	for i := 0; i < md.Fields().Len(); i++ {
-		field := md.Fields().Get(i)
-		// Only care about message-type fields.
-		if field.Kind() == protoreflect.MessageKind && field.Message() != nil {
-			child := field.Message()
-			// If the field is directly a payload (or Any) then mark and return true.
-			if isMatchingMessage(child, targetMessages) {
-				memo[fullName] = true
-				return true
-			}
-			// Otherwise, recursively check if the field's message type contains a payload.
-			if containsMessage(child, targetMessages, memo) {
-				memo[fullName] = true
-				return true
-			}
-		}
-	}
-	return false
-}
-
-// checkMessage examines the given message descriptor md and, if it (transitively) contains a
-// payload, appends its result slice.
-func checkMessage(md protoreflect.MessageDescriptor,
-	targetMessages []string,
-	memo map[protoreflect.FullName]bool,
-	result *[]protoreflect.MessageDescriptor,
-) {
-	// Avoid reporting the target types directly
-	if !isMatchingMessage(md, targetMessages) && containsMessage(md, targetMessages, memo) {
-		*result = append(*result, md)
-	}
-	nested := md.Messages()
-	for i := 0; i < nested.Len(); i++ {
-		checkMessage(nested.Get(i), targetMessages, memo, result)
-	}
-}
-
-// gatherMessagesContainingTargets walks all proto file descriptors in the registry,
-// and returns a slice of full message names that (transitively) contain the target message types.
-// The excludedPathPrefixes are used to skip files that match the given prefixes.
+// gatherMessagesContainingTargets walks all proto file descriptors in the registry
+// and returns messages that transitively contain a target type, excluding the targets themselves.
 func gatherMessagesContainingTargets(
 	protoFiles *protoregistry.Files,
 	targetMessages []string,
 ) ([]protoreflect.MessageDescriptor, error) {
-	messagesWithPayload := make([]protoreflect.MessageDescriptor, 0)
-	memo := make(map[protoreflect.FullName]bool)
-	protoFiles.RangeFiles(func(fd protoreflect.FileDescriptor) bool {
-		msgs := fd.Messages()
-		for i := 0; i < msgs.Len(); i++ {
-			checkMessage(msgs.Get(i), targetMessages, memo, &messagesWithPayload)
+	referrers := make(map[protoreflect.FullName][]protoreflect.FullName)
+	indexed := make(map[protoreflect.FullName]bool)
+	var indexReferences func(protoreflect.MessageDescriptor)
+	indexReferences = func(message protoreflect.MessageDescriptor) {
+		name := message.FullName()
+		if indexed[name] {
+			return
 		}
+		indexed[name] = true
+
+		fields := message.Fields()
+		for i := 0; i < fields.Len(); i++ {
+			field := fields.Get(i)
+			// Only care about message-type fields.
+			if child := field.Message(); field.Kind() == protoreflect.MessageKind && child != nil {
+				referrers[child.FullName()] = append(referrers[child.FullName()], name)
+				indexReferences(child)
+			}
+		}
+	}
+
+	var candidates []protoreflect.MessageDescriptor
+	var collectMessages func(protoreflect.MessageDescriptors)
+	collectMessages = func(messages protoreflect.MessageDescriptors) {
+		for i := 0; i < messages.Len(); i++ {
+			message := messages.Get(i)
+			candidates = append(candidates, message)
+			indexReferences(message)
+			collectMessages(message.Messages())
+		}
+	}
+	protoFiles.RangeFiles(func(file protoreflect.FileDescriptor) bool {
+		collectMessages(file.Messages())
 		return true
 	})
-	return messagesWithPayload, nil
+
+	// Walk from the targets to every message that references them, marking each message once.
+	matches := make(map[protoreflect.FullName]bool)
+	pending := make([]protoreflect.FullName, 0, len(targetMessages))
+	for _, target := range targetMessages {
+		name := protoreflect.FullName(target)
+		if !matches[name] {
+			matches[name] = true
+			pending = append(pending, name)
+		}
+	}
+	for len(pending) > 0 {
+		name := pending[len(pending)-1]
+		pending = pending[:len(pending)-1]
+		for _, parent := range referrers[name] {
+			if !matches[parent] {
+				matches[parent] = true
+				pending = append(pending, parent)
+			}
+		}
+	}
+
+	// Avoid reporting the target types directly.
+	for _, target := range targetMessages {
+		delete(matches, protoreflect.FullName(target))
+	}
+	result := make([]protoreflect.MessageDescriptor, 0, len(matches))
+	for _, message := range candidates {
+		if matches[message.FullName()] {
+			result = append(result, message)
+		}
+	}
+	return result, nil
 }
 
 // getProtoRegistryFromDescriptor reads a file descriptor set from the given path and returns a proto registry.
@@ -914,6 +909,22 @@ func gatherMatchesToTypeRecords(
 			walk(targetTypes, directMatchTypes, types.NewPointer(t), &matchingRecords)
 		}
 	}
+	// Recursive getters may have been visited before their target was marked.
+	for changed := true; changed; {
+		changed = false
+		for _, record := range matchingRecords {
+			for method, child := range record.children {
+				if target := matchingRecords[child]; target != nil && target.Matches && !slices.Contains(record.Methods, method) {
+					record.Matches = true
+					record.Methods = append(record.Methods, method)
+					changed = true
+				}
+			}
+		}
+	}
+	for _, record := range matchingRecords {
+		slices.Sort(record.Methods)
+	}
 	matchingRecords = pruneRecords(matchingRecords)
 	return matchingRecords, nil
 }
@@ -922,13 +933,12 @@ func gatherMatchesToTypeRecords(
 // desired type(s). The return type for each method on this type is walked recursively to decide
 // which methods can lead to the desired type.
 func walk(desired []types.Type, directMatchTypes []types.Type, typ types.Type, records *map[string]*TypeRecord) bool {
-	typeName := typeName(typ)
+	name := typeName(typ)
 
 	// If this type is a slice then walk the underlying type and then make a note we need to encode slices of this type
 	if isSlice(typ) {
 		result := walk(desired, directMatchTypes, elemType(typ), records)
-		if result {
-			record := (*records)[typeName]
+		if record := (*records)[name]; record != nil {
 			record.Slice = true
 		}
 		return result
@@ -937,20 +947,19 @@ func walk(desired []types.Type, directMatchTypes []types.Type, typ types.Type, r
 	// If this type is a map then walk the underlying type and then make a note we need to encode maps with values of this type
 	if isMap(typ) {
 		result := walk(desired, directMatchTypes, elemType(typ), records)
-		if result {
-			record := (*records)[typeName]
+		if record := (*records)[name]; record != nil {
 			record.Map = true
 		}
 		return result
 	}
 
 	// If we've walked this type before, return the previous result
-	if record, ok := (*records)[typeName]; ok {
+	if record, ok := (*records)[name]; ok {
 		return record.Matches
 	}
 
-	record := TypeRecord{}
-	(*records)[typeName] = &record
+	record := TypeRecord{children: map[string]string{}}
+	(*records)[name] = &record
 
 	// Look for all functions with this `typ` type
 	for _, meth := range typeutil.IntuitiveMethodSet(elemType(typ), nil) {
@@ -992,6 +1001,9 @@ func walk(desired []types.Type, directMatchTypes []types.Type, typ types.Type, r
 		if typeMatches(resultType, desired...) || walk(desired, directMatchTypes, resultType, records) {
 			record.Matches = true
 			record.Methods = append(record.Methods, methodName)
+		}
+		if !typeMatches(resultType, desired...) {
+			record.children[methodName] = typeName(resultType)
 		}
 	}
 

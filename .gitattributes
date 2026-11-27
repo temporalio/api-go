@@ -7,5 +7,6 @@
 # for more info.
 *.pb.go linguist-generated
 *.mock.go linguist-generated
+cmd/proxygenerator/interceptor.go -linguist-generated
 internal/protojson/** linguist-vendored
 internal/strcase/** linguist-vendored
