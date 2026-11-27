@@ -1,20 +1,25 @@
-version: 1
+version: 0.14.0
 
 profiles:
   testx: off
 
+go-modules:
+  build: off
+  cmd/proxygenerator: off
+
 format:
-  gci: on
-  gofmt: off
-  gofumpt: on
+  go:
+    formatter: gofumpt
+    gci: on
 
 lint:
   actionlint: on
-  gofix: on
-  golangci-lint:
-    analyzers:
-      errortype:
-        version: v0.0.7
-      nilaway: off
-      workflowcheck: off
-  gomodtidy: on
+  go:
+    gofix: on
+    golangci-lint:
+      analyzers:
+        errortype:
+          version: v0.0.7
+        nilaway: off
+        workflowcheck: off
+    gomodtidy: on

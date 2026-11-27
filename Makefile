@@ -156,7 +156,7 @@ goimports-install:
 
 onelint-install:
 	printf $(COLOR) "Install/update onelint, golangci-lint and actionlint..."
-	go install github.com/temporalio/onelint@v0.12.0
+	go install github.com/temporalio/onelint@v0.14.0
 	go install github.com/golangci/golangci-lint/v2/cmd/golangci-lint@v2.14.0
 	go install github.com/rhysd/actionlint/cmd/actionlint@v1.7.7
 
